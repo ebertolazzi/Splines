@@ -2,7 +2,9 @@
 /wiki
 /doc/*
 /bin/*
-/lib/*
+/lib/*.dylib
+/lib/*.so
+/lib/*.dll
 /Documentation
 /no_git
 *.xcodeproj
