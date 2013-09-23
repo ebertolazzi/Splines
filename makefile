@@ -7,10 +7,11 @@ srcs/SplineHermite.cc \
 srcs/SplinePchip.cc \
 srcs/SplineQuintic.cc \
 srcs/SplineQuinticBase.cc \
-srcs/Splines.cc
+srcs/Splines.cc \
+srcs/SplinesCinterface.cc
 
 OBJS = $(SRCS:.cc=.o)
-DEPS = srcs/Splines.hh
+DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
 
 #CC     = llvm-gcc
 #CXX    = llvm-g++
@@ -36,6 +37,12 @@ srcs/%.o: srcs/%.c $(DEPS)
 
 libSplines.a: $(OBJS)
 	$(AR) lib/libSplines.a $(OBJS) 
+
+libSplines.dylib: $(OBJS)
+	$(CXX) -shared -o lib/libSplines.dylib $(OBJS) 
+
+libSplines.so: $(OBJS)
+	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 run:
 	cd bin ; ./test1

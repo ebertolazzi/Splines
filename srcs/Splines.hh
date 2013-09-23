@@ -299,7 +299,20 @@ namespace Splines {
     //! Drop a support point to the spline.
     void dropBack() ;
 
+    virtual
+    void
+    build (void) = 0 ;
+
+    virtual
+    void
+    build ( valueType const x[], valueType const y[], sizeType n ) = 0 ;
+
+    virtual
+    void
+    build ( VectorOfValues const & x, VectorOfValues const & y ) = 0 ;
+
     //! Cancel the support points, empty the spline.
+    virtual
     void
     clear (void) {
       X . clear() ;
@@ -336,6 +349,9 @@ namespace Splines {
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const = 0 ;
+
+    //! Return spline typename
+    virtual char const * type_name() const = 0 ;
 
   } ;
 
@@ -429,6 +445,7 @@ namespace Splines {
     {}
 
     //! Build an Akima spline from previously inserted points
+    virtual
     void
     build (void) ;
 
@@ -438,6 +455,7 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
+    virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
     { allocate( x, y, n ) ; build() ; }
@@ -447,9 +465,13 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "akima" ; }
 
   } ;
 
@@ -476,7 +498,9 @@ namespace Splines {
     {}
 
     //! Build a Bessel spline from previously inserted points
-    void build (void) ;
+    virtual
+    void
+    build (void) ;
 
     //! Build a Bessel spline.
     /*!
@@ -484,6 +508,7 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
+    virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
     { allocate( x, y, n ) ; build() ; }
@@ -493,9 +518,13 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "bessel" ; }
 
   } ;
 
@@ -554,7 +583,9 @@ namespace Splines {
     }
 
     //! Build a spline from previously inserted points
-    void build (void) ;
+    virtual
+    void
+    build (void) ;
 
     //! Build a cubic spline.
     /*!
@@ -562,6 +593,7 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
+    virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
     { allocate( x, y, n ) ; build() ; }
@@ -571,9 +603,13 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "cubic" ; }
 
   } ;
 
@@ -600,7 +636,9 @@ namespace Splines {
     {}
 
     //! Build a Monotone spline from previously inserted points
-    void build (void) ;
+    virtual
+    void
+    build (void) ;
 
     //! Build a Monotone spline.
     /*!
@@ -608,6 +646,7 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
+    virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
     { allocate( x, y, n ) ; build() ; }
@@ -617,9 +656,13 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "pchip" ; }
 
   } ;
 
@@ -644,6 +687,7 @@ namespace Splines {
     {}
 
     //! given x and y vectors build a linear spline
+    virtual
     void
     build( valueType const x[], valueType const y[], sizeType n ) {
       SPLINE_ASSERT( n > 1,
@@ -657,11 +701,13 @@ namespace Splines {
     }
 
     //! given x and y vectors build a linear spline
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
 
     //! added for compatibility with cubic splines
+    virtual
     void
     build()
     {}
@@ -696,6 +742,9 @@ namespace Splines {
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const ;
 
+    //! Return spline typename
+    virtual char const * type_name() const { return "linear" ; }
+
   } ;
 
   /*  
@@ -719,6 +768,7 @@ namespace Splines {
     {}
 
     //! Cancel the support points, empty the spline. `x0` is the initial abscissa of empty spline
+    virtual
     void
     clear( valueType x0 ) {
       X . clear() ; X . push_back( x0 ) ;
@@ -727,6 +777,7 @@ namespace Splines {
     }
 
     //! given x and y vectors build a piecewise constants spline
+    virtual
     void
     build( valueType const x[], valueType const y[], sizeType n ) {
       SPLINE_ASSERT( n > 1,
@@ -744,11 +795,19 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), x.size() ) ; }
 
+    //! added for compatibility with cubic splines
+    virtual
+    void
+    build()
+    {}
+
     //! Evalute spline value at `x`
+    virtual
     valueType
     operator () ( valueType x ) const {
       if ( x < X.front() ) return Y . front() ;
@@ -768,6 +827,9 @@ namespace Splines {
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "constant" ; }
 
   } ;
 
@@ -833,6 +895,9 @@ namespace Splines {
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const { return "quintic" ; }
   } ;
  
   /*
