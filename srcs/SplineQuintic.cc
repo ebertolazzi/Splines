@@ -55,7 +55,7 @@ namespace Splines {
     indexType ierr = 0 ;
     Yp  . resize(npts) ;
     Ypp . resize(npts) ;
-    indexType n = indexType(npts - 1) ;
+    sizeType n = sizeType(npts - 1) ;
 
     // function definition is ok, go on.
     valueType h1    = X[1] - X[0] ;
@@ -87,7 +87,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( indexType i = 1 ; i < n ; ++i ) {
+    for ( sizeType i = 1 ; i < n ; ++i ) {
       if ( i > 1 ) {
         h1   = h2 ;
         h2   = X[i+1] - X[i] ;
@@ -135,7 +135,7 @@ namespace Splines {
     // calcolo Ypp (per il momento tutto a 0!)
     Ypp[0] = 0 ;
     h1 = X[1] - X[0] ;
-    for ( indexType i = 1 ; i < n ; ++i, h1 = h2 ) {
+    for ( sizeType i = 1 ; i < n ; ++i, h1 = h2 ) {
       h2 = X[i+1] - X[i] ;
       Ypp[i] = 0*2*(h2*Y[i-1]+h1*Y[i+1]-(h1+h2)*Y[i])/((h1+h2)*h1*h2) ;
     }

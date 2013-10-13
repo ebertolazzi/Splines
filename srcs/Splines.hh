@@ -193,9 +193,9 @@ namespace Splines {
 
   using namespace ::std ; // load standard namspace
 
-  typedef double   valueType ;
-  typedef int      indexType ;
-  typedef long int sizeType ;
+  typedef double            valueType ;
+  typedef unsigned          sizeType ;
+  typedef int               indexType ;
   typedef vector<valueType> VectorOfValues ;
 
   /*       _               _    _   _       _   _
@@ -259,12 +259,12 @@ namespace Splines {
     VectorOfValues X, Y ;
     indexType      lastInterval ;
 
-    indexType
+    sizeType
     search( valueType x ) const {
       VectorOfValues::difference_type i ;
       i = lower_bound( X.begin(), X.end(), x ) - X.begin() ;
       if ( i > 0 ) --i ;
-      return indexType(i) ;
+      return sizeType(i) ;
     }
 
     void allocate( valueType const x[], valueType const y[], sizeType n ) ;
@@ -468,7 +468,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "akima" ; }
@@ -521,7 +521,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "bessel" ; }
@@ -606,7 +606,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "cubic" ; }
@@ -659,7 +659,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "pchip" ; }
@@ -704,7 +704,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! added for compatibility with cubic splines
     virtual
@@ -718,7 +718,7 @@ namespace Splines {
     operator () ( valueType x ) const {
       if ( x < X.front() ) return Y . front() ;
       if ( x > X.back()  ) return Y . back() ;
-      indexType i = search(x) ;
+      sizeType i = search(x) ;
       valueType s = (x-X[i])/(X[i+1] - X[i]) ;
       return (1-s)*Y[i] + s * Y[i+1] ;
     }
@@ -729,15 +729,15 @@ namespace Splines {
     D( valueType x ) const {
       if ( x < X.front() ) return 0 ;
       if ( x > X.back()  ) return 0 ;
-      indexType i = search(x) ;
+      sizeType i = search(x) ;
       return ( Y[i+1] - Y[i] ) / ( X[i+1] - X[i] ) ;
     }
     
     //! Second derivative
-    virtual valueType DD( valueType x ) const { return 0 ; }
+    virtual valueType DD( valueType ) const { return 0 ; }
 
     //! Third derivative
-    virtual valueType DDD( valueType x ) const { return 0 ; }
+    virtual valueType DDD( valueType ) const { return 0 ; }
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const ;
@@ -798,7 +798,7 @@ namespace Splines {
     virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! added for compatibility with cubic splines
     virtual
@@ -812,21 +812,20 @@ namespace Splines {
     operator () ( valueType x ) const {
       if ( x < X.front() ) return Y . front() ;
       if ( x > X.back()  ) return Y . back() ;
-      indexType i = search(x) ;
-      return Y[i] ;
+      return Y[search(x)] ;
     }
 
     //! First derivative
-    virtual valueType D( valueType x ) const { return 0 ; }
+    virtual valueType D( valueType ) const { return 0 ; }
     
     //! Second derivative
-    virtual valueType DD( valueType x ) const { return 0 ; }
+    virtual valueType DD( valueType ) const { return 0 ; }
 
     //! Third derivative
-    virtual valueType DDD( valueType x ) const { return 0 ; }
+    virtual valueType DDD( valueType ) const { return 0 ; }
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & s ) const ;
+    virtual void writeToStream( ostream & ) const ;
 
     //! Return spline typename
     virtual char const * type_name() const { return "constant" ; }
@@ -943,7 +942,7 @@ namespace Splines {
      */
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), x.size() ) ; }
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
   } ;
 }
 

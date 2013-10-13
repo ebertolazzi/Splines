@@ -62,7 +62,7 @@ namespace Splines {
   }
 
   void
-  Hermite3_DDD( valueType const x, valueType const H, valueType base_DDD[4] ) {
+  Hermite3_DDD( valueType const, valueType const H, valueType base_DDD[4] ) {
     base_DDD[0] = 12/(H*H*H) ;
     base_DDD[1] = -base_DDD[0] ;
     base_DDD[2] = 6/(H*H) ;
@@ -173,7 +173,7 @@ namespace Splines {
   }
 
   void
-  Hermite5_DDDDD( valueType const t, valueType const h, valueType base_DDDDD[6] ) {
+  Hermite5_DDDDD( valueType const, valueType const h, valueType base_DDDDD[6] ) {
     valueType t1 = 1 / h ;
     valueType t2 = t1 * t1 ;
     valueType t3 = t2 * t2 ;

@@ -24,6 +24,7 @@ using namespace SplinesLoad ;
 using namespace std ;
 using Splines::valueType ;
 using Splines::indexType ;
+using Splines::sizeType ;
 
 // Test problem for Akima interpolation
 // Ref. : Hiroshi Akima, Journal of the ACM, Vol. 17, No. 4, October 1970, pages 589-602.
@@ -49,7 +50,7 @@ valueType yy4[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.91
 valueType xx5[] = { 0.11, 0.12, 0.15, 0.16 } ;
 valueType yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 } ;
 
-indexType n[]   = { 11, 11, 11, 9, 12, 4 } ;
+sizeType  n[]   = { 11, 11, 11, 9, 12, 4 } ;
 
 int
 main() {

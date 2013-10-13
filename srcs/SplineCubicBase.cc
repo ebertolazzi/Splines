@@ -34,7 +34,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0, "CubicSplineBase(" << x << ") empty spline");
     if ( x < X.front() ) return Y.front() + ( x - X.front() ) * Yp.front() ;
     if ( x > X.back()  ) return Y.back()  + ( x - X.back() )  * Yp.back()  ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite3( x-X[i], X[i+1]-X[i], base ) ;
     return base[0] * Y[i]   +
            base[1] * Y[i+1] +
@@ -47,7 +47,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "CubicSplineBase.D(" << x << ") empty spline");
     if ( x < X.front() ) return Yp.front() ;
     if ( x > X.back()  ) return Yp.back()  ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite3_D( x-X[i], X[i+1]-X[i], base_D ) ;
     return base_D[0] * Y[i]   +
            base_D[1] * Y[i+1] +
@@ -60,7 +60,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "CubicSplineBase.DD(" << x << ") empty spline");
     if ( x < X.front() ) return 0 ;
     if ( x > X.back()  ) return 0 ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite3_DD( x-X[i], X[i+1]-X[i], base_DD ) ;
     return base_DD[0] * Y[i]   +
            base_DD[1] * Y[i+1] +
@@ -73,7 +73,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "CubicSplineBase.DDD(" << x << ") empty spline");
     if ( x < X.front() ) return 0 ;
     if ( x > X.back()  ) return 0 ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite3_DDD( x-X[i], X[i+1]-X[i], base_DDD ) ;
     return base_DDD[0] * Y[i]   +
            base_DDD[1] * Y[i+1] +
@@ -104,8 +104,8 @@ namespace Splines {
 
   void
   CubicSplineBase::writeToStream( ostream & s ) const {
-    indexType nseg = indexType(Y.size()-1) ;
-    for ( indexType i = 0 ; i < nseg ; ++i )
+    sizeType nseg = sizeType(Y.size()-1) ;
+    for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[" << X[i] << ", " << X[i+1]
         << "] Y:[" << Y[i] << ", " << Y[i+1] 

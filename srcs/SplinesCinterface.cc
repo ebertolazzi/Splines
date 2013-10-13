@@ -162,7 +162,7 @@ EXTERN_C
 int
 SPLINE_build2( double const x[], double const y[], int const n ) {
   if ( head != nullptr ) {
-    head -> build( x, y, n ) ;
+    head -> build( x, y, Splines::sizeType(n) ) ;
     return 0 ;
   } else {
     return -1 ;

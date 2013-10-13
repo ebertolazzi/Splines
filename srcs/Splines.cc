@@ -115,8 +115,8 @@ namespace Splines {
 
   void
   ConstantsSpline::writeToStream( ostream & s ) const {
-    indexType nseg = indexType(Y.size()) ;
-    for ( indexType i = 0 ; i < nseg ; ++i )
+    sizeType nseg = sizeType(Y.size()) ;
+    for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:" << Y[i]
         << '\n' ; 
@@ -124,8 +124,8 @@ namespace Splines {
 
   void
   LinearSpline::writeToStream( ostream & s ) const {
-    indexType nseg = indexType(Y.size()-1) ;
-    for ( indexType i = 0 ; i < nseg ; ++i )
+    sizeType nseg = sizeType(Y.size()-1) ;
+    for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:[ " << Y[i] << ", " << Y[i+1] 
         << " ] slope: " << (Y[i+1]-Y[i])/(X[i+1]-X[i])

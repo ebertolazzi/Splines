@@ -33,7 +33,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase(" << x << ") empty spline") ;
     if ( x < X.front() ) return Y.front() + ( x - X.front() ) * ( Yp.front() + ( x - X.front() ) * Ypp.front()/2 ) ;
     if ( x > X.back()  ) return Y.back()  + ( x - X.back() )  * ( Yp.back()  + ( x - X.back()  ) * Ypp.back()/2  ) ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5( x-X[i], X[i+1]-X[i], base ) ;
     return base[0] * Y[i]    +
            base[1] * Y[i+1]  +
@@ -48,7 +48,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.D(" << x << ") empty spline");
     if ( x < X.front() ) return Yp.front() + ( x - X.front() ) * Ypp.front() ;
     if ( x > X.back()  ) return Yp.back()  + ( x - X.back()  ) * Ypp.back()  ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5_D( x-X[i], X[i+1]-X[i], base_D ) ;
     return base_D[0] * Y[i]    +
            base_D[1] * Y[i+1]  +
@@ -63,7 +63,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DD(" << x << ") empty spline");
     if ( x < X.front() ) return Ypp.front() ;
     if ( x > X.back()  ) return Ypp.back()  ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5_DD( x-X[i], X[i+1]-X[i], base_DD ) ;
     return base_DD[0] * Y[i]    +
            base_DD[1] * Y[i+1]  +
@@ -78,7 +78,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDD(" << x << ") empty spline");
     if ( x < X.front() ) return 0 ;
     if ( x > X.back()  ) return 0 ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5_DDD( x-X[i], X[i+1]-X[i], base_DDD ) ;
     return base_DDD[0] * Y[i]    +
            base_DDD[1] * Y[i+1]  +
@@ -93,7 +93,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDDD(" << x << ") empty spline");
     if ( x < X.front() ) return 0 ;
     if ( x > X.back()  ) return 0 ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5_DDDD( x-X[i], X[i+1]-X[i], base_DDDD ) ;
     return base_DDDD[0] * Y[i]    +
            base_DDDD[1] * Y[i+1]  +
@@ -108,7 +108,7 @@ namespace Splines {
     SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDDDD(" << x << ") empty spline");
     if ( x < X.front() ) return 0 ;
     if ( x > X.back()  ) return 0 ;
-    indexType i = Spline::search( x ) ;
+    sizeType i = Spline::search( x ) ;
     Hermite5_DDDDD( x-X[i], X[i+1]-X[i], base_DDDDD ) ;
     return base_DDDDD[0] * Y[i]    +
            base_DDDDD[1] * Y[i+1]  +
@@ -143,8 +143,8 @@ namespace Splines {
 
   void
   QuinticSplineBase::writeToStream( ostream & s ) const {
-    indexType nseg = indexType(Y.size()-1) ;
-    for ( indexType i = 0 ; i < nseg ; ++i )
+    sizeType nseg = sizeType(Y.size()-1) ;
+    for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[" << X[i] << ", " << X[i+1]
         << "] Y:[" << Y[i] << ", " << Y[i+1] 
