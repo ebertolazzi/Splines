@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 //
 // file: Splines
