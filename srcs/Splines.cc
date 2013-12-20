@@ -50,7 +50,7 @@ namespace Splines {
   checkNaN( valueType const pv[],
             char      const v_name[],
             sizeType  const DIM ) {
-    for ( indexType i = 0 ; i < DIM ; ++i ) {
+    for ( sizeType i = 0 ; i < DIM ; ++i ) {
       if ( isnan(pv[i]) ) {
         std::ostringstream ost ;
         ost << "\nfound NaN at " << v_name << "[" << i << "]" ;
