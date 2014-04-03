@@ -349,7 +349,7 @@ namespace Splines {
     virtual valueType DDD( valueType x ) const = 0 ;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & s ) const = 0 ;
+    virtual void writeToStream( std::basic_ostream<char> & s ) const = 0 ;
 
     //! Return spline typename
     virtual char const * type_name() const = 0 ;
@@ -408,7 +408,7 @@ namespace Splines {
     virtual valueType DDD( valueType x ) const ;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & s ) const ;
+    virtual void writeToStream( std::basic_ostream<char> & s ) const ;
 
   } ;
 
@@ -741,7 +741,7 @@ namespace Splines {
     virtual valueType DDD( valueType ) const { return 0 ; }
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & s ) const ;
+    virtual void writeToStream( std::basic_ostream<char> & s ) const ;
 
     //! Return spline typename
     virtual char const * type_name() const { return "linear" ; }
@@ -826,7 +826,7 @@ namespace Splines {
     virtual valueType DDD( valueType ) const { return 0 ; }
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & ) const ;
+    virtual void writeToStream( std::basic_ostream<char> & ) const ;
 
     //! Return spline typename
     virtual char const * type_name() const { return "constant" ; }
@@ -894,7 +894,7 @@ namespace Splines {
     virtual valueType DDDDD( valueType x ) const ;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream & s ) const ;
+    virtual void writeToStream( std::basic_ostream<char> & s ) const ;
 
     //! Return spline typename
     virtual char const * type_name() const { return "quintic" ; }

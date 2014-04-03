@@ -142,7 +142,7 @@ namespace Splines {
   }
 
   void
-  QuinticSplineBase::writeToStream( ostream & s ) const {
+  QuinticSplineBase::writeToStream( std::basic_ostream<char> & s ) const {
     sizeType nseg = sizeType(Y.size()-1) ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
