@@ -95,11 +95,11 @@
 
  CubicSpline spline ;
 
- spline . pushBack( 1, 3 ) ;
- spline . pushBack( 2, 1 ) ;
- spline . pushBack( 3, 1 ) ;
- spline . pushBack( 4, 3 ) ;
- spline . build() ;
+ spline.pushBack( 1, 3 ) ;
+ spline.pushBack( 2, 1 ) ;
+ spline.pushBack( 3, 1 ) ;
+ spline.pushBack( 4, 3 ) ;
+ spline.build() ;
 
  cout << spline(1.1) << '\n';     // spline at x = 1.1
  cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
@@ -167,7 +167,7 @@
       std::ostringstream ost ;              \
       ost << "On line: " << __LINE__        \
           << " file: " << __FILE__          \
-          << MSG << '\n' ;                  \
+          << '\n' << MSG << '\n' ;          \
       throw std::runtime_error(ost.str()) ; \
     }
 #endif
@@ -230,6 +230,18 @@ namespace Splines {
   void Hermite5_DDDDD( valueType const x, valueType const H, valueType base_DDDDD[6] ) ;
 
   /*
+  //   ____  _ _ _
+  //  | __ )(_) (_)_ __   ___  __ _ _ __
+  //  |  _ \| | | | '_ \ / _ \/ _` | '__|
+  //  | |_) | | | | | | |  __/ (_| | |
+  //  |____/|_|_|_|_| |_|\___|\__,_|_|
+  */
+  valueType
+  bilinear( valueType const p[4],
+            valueType const M[4][4],
+            valueType const q[4] ) ;
+
+  /*
   //   ____        _ _            
   //  / ___| _ __ | (_)_ __   ___ 
   //  \___ \| '_ \| | | '_ \ / _ \
@@ -258,17 +270,14 @@ namespace Splines {
 
     sizeType       npts ;
     VectorOfValues X, Y ;
-    indexType      lastInterval ;
 
-    sizeType
-    search( valueType x ) const {
-      VectorOfValues::difference_type i ;
-      i = lower_bound( X.begin(), X.end(), x ) - X.begin() ;
-      if ( i > 0 ) --i ;
-      return sizeType(i) ;
-    }
+    sizeType search( valueType x ) const ;
+    mutable sizeType lastInterval ;
 
-    void allocate( valueType const x[], valueType const y[], sizeType n ) ;
+    void
+    allocate( valueType const x[], sizeType incx,
+              valueType const y[], sizeType incy,
+              sizeType n ) ;
 
   public:
 
@@ -310,23 +319,29 @@ namespace Splines {
 
     virtual
     void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) = 0 ;
+
+    virtual
+    void
     build ( VectorOfValues const & x, VectorOfValues const & y ) = 0 ;
 
     //! Cancel the support points, empty the spline.
     virtual
     void
     clear (void) {
-      X . clear() ;
-      Y . clear() ;
+      X.clear() ;
+      Y.clear() ;
       lastInterval = 0 ;
       npts         = 0 ;
     }
 
     //! return x-minumum spline value
-    valueType xMin() const { return X . front() ; }
+    valueType xMin() const { return X.front() ; }
 
     //! return x-maximum spline value
-    valueType xMax() const { return X . back()  ; }
+    valueType xMax() const { return X.back()  ; }
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline
@@ -386,7 +401,10 @@ namespace Splines {
     {}
 
     void copySpline( CubicSplineBase const & S ) ;
-    void allocate( valueType const x[], valueType const y[], sizeType n ) ;
+    void
+    allocate( valueType const x[], sizeType incx,
+              valueType const y[], sizeType incy,
+              sizeType n ) ;
 
     //! return the i-th node of the spline (y' component).
     valueType ypNode( sizeType i ) const { return Yp[i] ; }
@@ -452,6 +470,21 @@ namespace Splines {
 
     //! Build an Akima spline.
     /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
+
+    //! Build an Akima spline.
+    /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      * \param n total number of points
@@ -459,7 +492,7 @@ namespace Splines {
     virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, y, n ) ; build() ; }
+    { allocate( x, 1, y, 1, n ) ; build() ; }
 
     //! Build an Akima spline.
     /*!
@@ -505,6 +538,21 @@ namespace Splines {
 
     //! Build a Bessel spline.
     /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
+
+    //! Build a Bessel spline.
+    /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      * \param n total number of points
@@ -512,7 +560,7 @@ namespace Splines {
     virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, y, n ) ; build() ; }
+    { allocate( x, 1, y, 1, n ) ; build() ; }
 
     //! Build a Bessel spline.
     /*!
@@ -590,6 +638,21 @@ namespace Splines {
 
     //! Build a cubic spline.
     /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
+
+    //! Build a cubic spline.
+    /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      * \param n total number of points
@@ -597,7 +660,7 @@ namespace Splines {
     virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, y, n ) ; build() ; }
+    { allocate( x, 1, y, 1, n ) ; build() ; }
 
     //! Build a cubic spline.
     /*!
@@ -643,6 +706,21 @@ namespace Splines {
 
     //! Build a Monotone spline.
     /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
+
+    //! Build a Monotone spline.
+    /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      * \param n total number of points
@@ -650,7 +728,7 @@ namespace Splines {
     virtual
     void
     build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, y, n ) ; build() ; }
+    { allocate( x, 1, y, 1, n ) ; build() ; }
 
     //! Build a Monotone spline.
     /*!
@@ -688,6 +766,29 @@ namespace Splines {
     {}
 
     //! given x and y vectors build a linear spline
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) {
+      SPLINE_ASSERT( n > 1,
+                     "LinearSpline::build, n =" << n <<
+                     " not enought point to define a spline\n") ;
+      npts = n ;
+      X.resize(n) ;
+      Y.resize(n) ;
+      for ( sizeType i = 0 ; i < n ; ++i )
+        { X[i] = x[i*incx] ; Y[i] = y[i*incy] ; }
+    }
+
+    //! given x and y vectors build a linear spline
     virtual
     void
     build( valueType const x[], valueType const y[], sizeType n ) {
@@ -695,10 +796,10 @@ namespace Splines {
                      "LinearSpline::build, n =" << n <<
                      " not enought point to define a spline\n") ;
       npts = n ;
-      X . resize(n) ;
-      Y . resize(n) ;
-      std::copy( x, x+n, X . begin() ) ;
-      std::copy( y, y+n, Y . begin() ) ;
+      X.resize(n) ;
+      Y.resize(n) ;
+      std::copy( x, x+n, X.begin() ) ;
+      std::copy( y, y+n, Y.begin() ) ;
     }
 
     //! given x and y vectors build a linear spline
@@ -717,8 +818,8 @@ namespace Splines {
     virtual
     valueType
     operator () ( valueType x ) const {
-      if ( x < X.front() ) return Y . front() ;
-      if ( x > X.back()  ) return Y . back() ;
+      if ( x < X.front() ) return Y.front() ;
+      if ( x > X.back()  ) return Y.back() ;
       sizeType i = search(x) ;
       valueType s = (x-X[i])/(X[i+1] - X[i]) ;
       return (1-s)*Y[i] + s * Y[i+1] ;
@@ -772,9 +873,31 @@ namespace Splines {
     virtual
     void
     clear( valueType x0 ) {
-      X . clear() ; X . push_back( x0 ) ;
-      Y . clear() ;
+      X.clear() ; X.push_back( x0 ) ;
+      Y.clear() ;
       npts = 1 ;
+    }
+
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) {
+      SPLINE_ASSERT( n > 1,
+                     "ConstantsSpline::build, n =" << n <<
+                     " not enought point to define a spline\n") ;
+      npts = n ;
+      X.resize(n) ;
+      Y.resize(n-1) ;
+      for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i*incx] ;
+      for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i*incy] ;
     }
 
     //! given x and y vectors build a piecewise constants spline
@@ -785,10 +908,10 @@ namespace Splines {
                      "ConstantsSpline::build, n =" << n <<
                      " not enought point to define a spline\n") ;
       npts = n ;
-      X . resize(n) ;
-      Y . resize(n-1) ;
-      std::copy( x, x+n,   X . begin() ) ;
-      std::copy( y, y+n-1, Y . begin() ) ;
+      X.resize(n) ;
+      Y.resize(n-1) ;
+      std::copy( x, x+n,   X.begin() ) ;
+      std::copy( y, y+n-1, Y.begin() ) ;
     }
 
     //! Build a piecewise constants spline
@@ -811,8 +934,8 @@ namespace Splines {
     virtual
     valueType
     operator () ( valueType x ) const {
-      if ( x < X.front() ) return Y . front() ;
-      if ( x > X.back()  ) return Y . back() ;
+      if ( x < X.front() ) return Y.front() ;
+      if ( x > X.back()  ) return Y.back() ;
       return Y[search(x)] ;
     }
 
@@ -866,7 +989,9 @@ namespace Splines {
     {}
 
     void copySpline( QuinticSplineBase const & S ) ;
-    void allocate( valueType const x[], valueType const y[], sizeType n ) ;
+    void allocate( valueType const x[], sizeType incx,
+                   valueType const y[], sizeType incy,
+                   sizeType n ) ;
 
     //! return the i-th node of the spline (y' component).
     valueType ypNode( sizeType i ) const { return Yp[i] ; }
@@ -928,13 +1053,28 @@ namespace Splines {
 
     //! Build a Monotone spline.
     /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
+
+    //! Build a Monotone spline.
+    /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      * \param n total number of points
      */
     void
     build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, y, n ) ; build() ; }
+    { allocate( x, 1, y, 1, n ) ; build() ; }
 
     //! Build a Monotone spline.
     /*!
@@ -945,6 +1085,278 @@ namespace Splines {
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
   } ;
+
+  /*
+  //   ____        _ _            ____              __
+  //  / ___| _ __ | (_)_ __   ___/ ___| _   _ _ __ / _|
+  //  \___ \| '_ \| | | '_ \ / _ \___ \| | | | '__| |_
+  //   ___) | |_) | | | | | |  __/___) | |_| | |  |  _|
+  //  |____/| .__/|_|_|_| |_|\___|____/ \__,_|_|  |_|
+  //        |_|
+  */
+  //! Spline Management Class
+  class SplineSurf {
+  protected:
+
+    VectorOfValues X, Y, Z ;
+
+    mutable sizeType lastInterval_x ;
+    sizeType search_x( valueType x ) const ;
+
+    mutable sizeType lastInterval_y ;
+    sizeType search_y( valueType y ) const ;
+
+    sizeType ipos( sizeType i, sizeType j ) const { return i+sizeType(X.size())*j ; }
+
+  public:
+
+    //! spline constructor
+    SplineSurf()
+    : X()
+    , Y()
+    , Z()
+    , lastInterval_x(0)
+    , lastInterval_y(0)
+    {}
+
+    //! spline destructor
+    virtual 
+    ~SplineSurf()
+    {}
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear (void) {
+      X.clear() ;
+      Y.clear() ;
+      Z.clear() ;
+      lastInterval_x = 0 ;
+      lastInterval_y = 0 ;
+    }
+
+    //! return the number of support points of the spline along x direction
+    sizeType numPointX(void) const { return sizeType(X.size()) ; }
+
+    //! return the number of support points of the spline along y direction
+    sizeType numPointY(void) const { return sizeType(Y.size()) ; }
+
+    //! return the i-th node of the spline (x component).
+    valueType xNode( sizeType i ) const { return X[i] ; }
+
+    //! return the i-th node of the spline (y component).
+    valueType yNode( sizeType i ) const { return Y[i] ; }
+
+    //! return the i-th node of the spline (y component).
+    valueType zNode( sizeType i, sizeType j ) const { return Z[ipos(i,j)] ; }
+
+    //! return x-minumum spline value
+    valueType xMin() const { return X.front() ; }
+
+    //! return x-maximum spline value
+    valueType xMax() const { return X.back()  ; }
+
+    //! return x-minumum spline value
+    valueType yMin() const { return Y.front() ; }
+
+    //! return x-maximum spline value
+    valueType yMax() const { return Y.back()  ; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            valueType const z[], sizeType incz,
+            sizeType nx, sizeType ny ) = 0 ;
+
+    virtual
+    void
+    build ( VectorOfValues const & x,
+            VectorOfValues const & y,
+            VectorOfValues const & z ) = 0 ;
+
+    virtual
+    void
+    build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny ) = 0 ;
+
+    virtual
+    void
+    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) = 0 ;
+
+    //! Evalute spline value
+    virtual valueType operator () ( valueType x, valueType y ) const = 0 ;
+
+    //! First derivative
+    virtual void D( valueType x, valueType y, valueType d[3] ) const = 0 ;
+    virtual valueType Dx( valueType x, valueType y ) const = 0 ;
+    virtual valueType Dy( valueType x, valueType y ) const = 0 ;
+
+    //! Second derivative
+    virtual void DD( valueType x, valueType y, valueType dd[6] ) const = 0 ;
+    virtual valueType Dxx( valueType x, valueType y ) const = 0 ;
+    virtual valueType Dxy( valueType x, valueType y ) const = 0 ;
+    virtual valueType Dyy( valueType x, valueType y ) const = 0 ;
+
+    //! Print spline coefficients
+    virtual void writeToStream( ostream & s ) const = 0 ;
+
+    //! Return spline typename
+    virtual char const * type_name() const = 0 ;
+
+  } ;
+
+  /*
+  //   ____  _ _ _                       ____        _ _
+  //  | __ )(_) (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
+  //  |  _ \| | | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
+  //  | |_) | | | | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
+  //  |____/|_|_|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
+  //                                          |_|
+  */
+  //! bilinear spline base class
+  class BilinearSpline : public SplineSurf {
+  public:
+  
+    //! spline constructor
+    BilinearSpline()
+    : SplineSurf()
+    {}
+    
+    virtual
+    ~BilinearSpline()
+    {}
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            valueType const z[], sizeType incz,
+            sizeType nx, sizeType ny ) ;
+
+    virtual
+    void
+    build ( VectorOfValues const & x,
+            VectorOfValues const & y,
+            VectorOfValues const & z ) ;
+
+    virtual
+    void
+    build ( valueType const z[],  sizeType incz, sizeType nx, sizeType ny ) ;
+
+    virtual
+    void
+    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) ;
+
+    //! Evalute spline value
+    virtual valueType operator () ( valueType x, valueType y ) const ;
+
+    //! First derivative
+    virtual void D( valueType x, valueType y, valueType d[3] ) const ;
+    virtual valueType Dx( valueType x, valueType y ) const ;
+    virtual valueType Dy( valueType x, valueType y ) const ;
+
+    //! Second derivative
+    virtual void DD( valueType x, valueType y, valueType dd[6] ) const { D(x,y,dd) ; dd[3] = dd[4] = dd[5] = 0 ; }
+    virtual valueType Dxx( valueType , valueType ) const { return 0 ; }
+    virtual valueType Dxy( valueType , valueType ) const { return 0 ; }
+    virtual valueType Dyy( valueType , valueType ) const { return 0 ; }
+
+    //! Print spline coefficients
+    virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const ;
+
+  } ;
+
+  /*
+  //   ____  _  ____      _     _      ____        _ _            ____
+  //  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
+  //  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
+  //  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
+  //  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
+  //                                        |_|
+  */
+  //! cubic spline base class
+  class BiCubicSpline : public SplineSurf {
+
+    VectorOfValues    DX, DY ;
+    mutable valueType u[4] ;
+    mutable valueType u_D[4] ;
+    mutable valueType u_DD[4] ;
+    mutable valueType v[4] ;
+    mutable valueType v_D[4] ;
+    mutable valueType v_DD[4] ;
+    mutable valueType bili[4][4] ;
+
+    void load( sizeType i, sizeType j ) const ;
+    void makeSpline() ;
+
+  public:
+  
+    //! spline constructor
+    BiCubicSpline()
+    : SplineSurf()
+    , DX()
+    , DY()
+    {}
+    
+    virtual
+    ~BiCubicSpline()
+    {}
+
+    valueType DxNode( sizeType i, sizeType j ) const { return DX[ipos(i,j)] ; }
+    valueType DyNode( sizeType i, sizeType j ) const { return DY[ipos(i,j)] ; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            valueType const z[], sizeType incz,
+            sizeType nx, sizeType ny ) ;
+
+    virtual
+    void
+    build ( VectorOfValues const & x,
+            VectorOfValues const & y,
+            VectorOfValues const & z ) ;
+
+    virtual
+    void
+    build ( valueType const z[],  sizeType incz, sizeType nx, sizeType ny ) ;
+
+    virtual
+    void
+    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) ;
+
+    //! Evalute spline value
+    virtual valueType operator () ( valueType x, valueType y ) const ;
+
+    //! First derivative
+    virtual void D( valueType x, valueType y, valueType d[3] ) const ;
+    virtual valueType Dx( valueType x, valueType y ) const ;
+    virtual valueType Dy( valueType x, valueType y ) const ;
+
+    //! Second derivative
+    virtual void DD( valueType x, valueType y, valueType dd[6] ) const ;
+    virtual valueType Dxx( valueType x, valueType y ) const ;
+    virtual valueType Dxy( valueType x, valueType y ) const ;
+    virtual valueType Dyy( valueType x, valueType y ) const ;
+
+    //! Print spline coefficients
+    virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const ;
+
+  } ;
+
 }
 
 namespace SplinesLoad {
@@ -956,6 +1368,9 @@ namespace SplinesLoad {
   using Splines::LinearSpline ;
   using Splines::ConstantsSpline ;
   using Splines::QuinticSpline ;
+
+  using Splines::BilinearSpline ;
+  using Splines::BiCubicSpline ;
 }
 
 #endif

@@ -38,7 +38,7 @@ namespace Splines {
   void
   BesselSpline::build (void) {
     sizeType n = npts-1 ;
-    Yp . resize(npts) ;
+    Yp.resize(npts) ;
 
     VectorOfValues m(n) ;
 

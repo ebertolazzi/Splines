@@ -18,66 +18,46 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include <fstream>
 
-/**
- * 
- */
+using namespace SplinesLoad ;
+using namespace std ;
+using Splines::valueType ;
+using Splines::indexType ;
+using Splines::sizeType ;
 
-namespace Splines {
+valueType x[] = {  0,  1,  2,  3 } ;
+valueType y[] = {  0,  1,  2 } ;
+valueType z[] = {  10, 10, 10,   10,
+                   10, 10, 10.5, 11,
+                   11, 12, 13,   8 } ;
 
-  using namespace std ; // load standard namspace
+int
+main() {
 
-  /*
-  //   ####  #    # #####  #  ####  
-  //  #    # #    # #    # # #    # 
-  //  #      #    # #####  # #      
-  //  #      #    # #    # # #      
-  //  #    # #    # #    # # #    # 
-  //   ####   ####  #####  #  ####  
-  */
-  void
-  CubicSpline::build() {
-    sizeType n = npts-1 ;
-    Yp.resize(npts) ;
-
-    VectorOfValues L(npts), D(npts), U(npts), Z(npts) ;
-
-    sizeType i ;
-    for ( i = 1 ; i < n ; ++i ) {
-      L[i] = (X[i]-X[i-1])/(X[i+1]-X[i-1]) ;
-      U[i] = (X[i+1]-X[i])/(X[i+1]-X[i-1]) ;
-      D[i] = 2 ;
-      Z[i] = 6 * ( (Y[i+1]-Y[i])/(X[i+1]-X[i]) -
-                   (Y[i]-Y[i-1])/(X[i]-X[i-1]) ) / ( X[i+1] - X[i-1] ) ;
+  BiCubicSpline  bc ;
+  BilinearSpline bl ;
+  ofstream       file_bl("bilinear.txt") ;
+  ofstream       file_bc("bicubic.txt") ;
+  
+  bc.build( x, 1, y, 1, z, 1, 4, 3 ) ;
+  bl.build( x, 1, y, 1, z, 1, 4, 3 ) ;
+  
+  bl.writeToStream( cout ) ;
+  
+  for ( int i = 0 ; i <= 100 ; ++i ) {
+    valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+    for ( int j = 0 ; j <= 100 ; ++j ) {
+      valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+      file_bc << bc(x,y) << '\t' ;
+      file_bl << bl(x,y) << '\t' ;
     }
-
-    L[0] = 0 ; D[0] = 1 ; U[0] = 0 ; Z[0] = ddy0 ;
-    L[n] = 0 ; D[n] = 1 ; U[n] = 0 ; Z[n] = ddyn ;
-
-    if ( n > 2 ) {
-      i = 0 ;
-      do {
-        Z[i]   /= D[i] ;
-        U[i]   /= D[i] ;
-        D[i+1] -= L[i+1] * U[i] ;
-        Z[i+1] -= L[i+1] * Z[i] ;
-      } while ( ++i < n ) ;
-
-      Z[i] /= D[i] ;
-
-      do {
-        --i ;
-        Z[i] -= U[i] * Z[i+1] ;
-      } while ( i > 0 ) ;
-    }
-
-    for ( i = 0 ; i < n ; ++i ) {
-      valueType DX = X[i+1] - X[i] ;
-      Yp[i] = (Y[i+1]-Y[i])/DX - (Z[i]/3 + Z[i+1]/6) * DX ;
-    }
-    valueType DX = X[n] - X[n-1] ;
-    Yp[n] = Yp[n-1] + DX * 0.5*(Z[n-1] + Z[n])  ;
-    SPLINE_CHECK_NAN(&Yp.front(),"CubicSpline::cubic(): Yp",npts);
+    file_bc << '\n' ;
+    file_bl << '\n' ;
   }
-
+  
+  file_bc.close() ;
+  file_bl.close() ;
+  
+  cout << "ALL DONE!\n" ;
 }

@@ -53,8 +53,8 @@ namespace Splines {
   void
   QuinticSpline::build() {
     indexType ierr = 0 ;
-    Yp  . resize(npts) ;
-    Ypp . resize(npts) ;
+    Yp.resize(npts) ;
+    Ypp.resize(npts) ;
     sizeType n = sizeType(npts - 1) ;
 
     // function definition is ok, go on.

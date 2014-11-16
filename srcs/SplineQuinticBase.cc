@@ -121,23 +121,25 @@ namespace Splines {
   // Implementation
   void
   QuinticSplineBase::copySpline( QuinticSplineBase const & S ) {
-    npts = S . npts ;
-    X   . resize( S . X   . size() ) ;
-    Y   . resize( S . Y   . size() ) ;
-    Yp  . resize( S . Yp  . size() ) ;
-    Ypp . resize( S . Ypp . size() ) ;
-    std::copy( S . X   . begin(), S . X   . end(), X   . begin() ) ;
-    std::copy( S . Y   . begin(), S . Y   . end(), Y   . begin() ) ;
-    std::copy( S . Yp  . begin(), S . Yp  . end(), Yp  . begin() ) ;
-    std::copy( S . Ypp . begin(), S . Ypp . end(), Ypp . begin() ) ;
+    npts = S.npts ;
+    X.resize( S.X.size() ) ;
+    Y.resize( S.Y.size() ) ;
+    Yp.resize( S.Yp.size() ) ;
+    Ypp.resize( S.Ypp.size() ) ;
+    std::copy( S.X.begin(), S.X.end(), X.begin() ) ;
+    std::copy( S.Y.begin(), S.Y.end(), Y.begin() ) ;
+    std::copy( S.Yp.begin(), S.Yp.end(), Yp.begin() ) ;
+    std::copy( S.Ypp.begin(), S.Ypp.end(), Ypp.begin() ) ;
   }
 
   void
-  QuinticSplineBase::allocate( valueType const x[], valueType const y[], sizeType n ) {
-    X . clear() ; X . reserve(n) ;
-    Y . clear() ; Y . reserve(n) ;
+  QuinticSplineBase::allocate( valueType const x[], sizeType incx,
+                               valueType const y[], sizeType incy,
+                               sizeType n ) {
+    X.clear() ; X.reserve(n) ;
+    Y.clear() ; Y.reserve(n) ;
     npts = lastInterval = 0 ;
-    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i], y[i] ) ;
+    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i*incx], y[i*incy] ) ;
     SPLINE_ASSERT ( npts > 1, "QuinticSplineBase::allocate, not enought point to define a spline\n" ) ;
   }
 

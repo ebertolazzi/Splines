@@ -66,7 +66,7 @@ namespace Splines {
   void
   PchipSpline::build() {
     indexType ierr = 0 ;
-    Yp . resize(npts) ;
+    Yp.resize(npts) ;
     sizeType n = sizeType(npts - 1) ;
 
     // function definition is ok, go on.

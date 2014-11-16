@@ -63,7 +63,34 @@ namespace Splines {
       }
     }
   }
-  
+
+  sizeType
+  Spline::search( valueType x ) const {
+    if ( X[lastInterval] < x || X[lastInterval+1] > x ) {
+      lastInterval = sizeType(lower_bound( X.begin(), X.end(), x ) - X.begin()) ;
+      if ( lastInterval > 0 ) --lastInterval ;
+    }
+    return lastInterval ;
+  }
+
+  sizeType
+  SplineSurf::search_x( valueType x ) const {
+    if ( X[lastInterval_x] < x || X[lastInterval_x+1] > x ) {
+      lastInterval_x = sizeType(lower_bound( X.begin(), X.end(), x ) - X.begin()) ;
+      if ( lastInterval_x > 0 ) --lastInterval_x ;
+    }
+    return lastInterval_x ;
+  }
+
+  sizeType
+  SplineSurf::search_y( valueType y ) const {
+    if ( Y[lastInterval_y] < y || Y[lastInterval_y+1] > y ) {
+      lastInterval_y = sizeType(lower_bound( Y.begin(), Y.end(), y ) - Y.begin()) ;
+      if ( lastInterval_y > 0 ) --lastInterval_y ;
+    }
+    return lastInterval_y ;
+  }
+
   void
   Spline::pushBack( valueType x, valueType y ) {
     if ( npts > 0 ) {
@@ -74,8 +101,8 @@ namespace Splines {
                      "\nX[ " << npts-1 << "] = " << X.back() <<
                      "\nX[ " << npts   << "] = " << x ) ;
     }
-    X . push_back( x ) ;
-    Y . push_back( y ) ;
+    X.push_back( x ) ;
+    Y.push_back( y ) ;
     ++npts ;
   }
 
@@ -85,8 +112,8 @@ namespace Splines {
   Spline::dropBack() {
     if ( npts > 0 ) {
       --npts ;
-      X . pop_back() ;
-      Y . pop_back() ;
+      X.pop_back() ;
+      Y.pop_back() ;
     }
   }
 
