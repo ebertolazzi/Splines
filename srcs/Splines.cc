@@ -141,7 +141,7 @@ namespace Splines {
   }
 
   void
-  ConstantsSpline::writeToStream( ostream & s ) const {
+  ConstantsSpline::writeToStream( std::basic_ostream<char> & s ) const {
     sizeType nseg = sizeType(Y.size()) ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
@@ -150,7 +150,7 @@ namespace Splines {
   }
 
   void
-  LinearSpline::writeToStream( ostream & s ) const {
+  LinearSpline::writeToStream( std::basic_ostream<char> & s ) const {
     sizeType nseg = sizeType(Y.size()-1) ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
