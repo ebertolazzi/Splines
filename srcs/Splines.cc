@@ -158,5 +158,180 @@ namespace Splines {
         << " ] slope: " << (Y[i+1]-Y[i])/(X[i+1]-X[i])
         << '\n' ; 
   }
+  
+  // ---------------------------------------------------------------------------
+
+  void
+  BiCubicSplineBase::build ( valueType const x[], sizeType incx,
+                             valueType const y[], sizeType incy,
+                             valueType const z[], sizeType incz,
+                             sizeType nx, sizeType ny ) {
+    X.resize(nx) ;
+    Y.resize(ny) ;
+    Z.resize(nx*ny) ;
+    for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = x[i*incx] ;
+    for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = y[i*incy] ;
+    for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    makeSpline() ;
+  }
+
+  void
+  BiCubicSplineBase::build ( VectorOfValues const & x,
+                             VectorOfValues const & y,
+                             VectorOfValues const & z ) {
+    SPLINE_ASSERT( z.size() >= x.size()*y.size(),
+                   "in BiCubicSplineBase::build insufficient dimension of Z, expeced >= " << x.size()*y.size() <<
+                   " found " << z.size() ) ;
+    X.resize(x.size()) ;
+    Y.resize(y.size()) ;
+    Z.resize(x.size()*y.size()) ;
+    std::copy( x.begin(), x.end(), X.begin() ) ;
+    std::copy( y.begin(), y.end(), Y.begin() ) ;
+    std::copy( z.begin(), z.begin()+Z.size(), Z.begin() ) ;
+    makeSpline() ;
+  }
+
+  void
+  BiCubicSplineBase::build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny ) {
+    X.resize(nx) ;
+    Y.resize(ny) ;
+    Z.resize(nx*ny) ;
+    for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = i ;
+    for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = i ;
+    for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    makeSpline() ;
+  }
+
+  void
+  BiCubicSplineBase::build ( VectorOfValues const & z, sizeType nx, sizeType ny ) {
+    SPLINE_ASSERT( z.size() >= nx*ny,
+                   "in BiCubicSplineBase::build insufficient dimension of Z, expeced >= " << nx*ny <<
+                   " found " << z.size() ) ;
+    X.resize(nx) ;
+    Y.resize(ny) ;
+    Z.resize(nx*ny) ;
+    for ( sizeType i = 0 ; i < nx ; ++i ) X[i] = i ;
+    for ( sizeType i = 0 ; i < ny ; ++i ) Y[i] = i ;
+    std::copy( z.begin(), z.begin()+nx*ny, Z.begin() ) ;
+    makeSpline() ;
+  }
+
+  void
+  BiCubicSplineBase::load( sizeType i, sizeType j ) const {
+
+    bili[0][0] = Z[ipos(i,j)] ;
+    bili[0][1] = Z[ipos(i,j+1)] ;
+    bili[1][0] = Z[ipos(i+1,j)];
+    bili[1][1] = Z[ipos(i+1,j+1)];
+
+    bili[2][0] = DX[ipos(i,j)] ;
+    bili[2][1] = DX[ipos(i,j+1)] ;
+    bili[3][0] = DX[ipos(i+1,j)];
+    bili[3][1] = DX[ipos(i+1,j+1)];
+
+    bili[0][2] = DY[ipos(i,j)] ;
+    bili[0][3] = DY[ipos(i,j+1)] ;
+    bili[1][2] = DY[ipos(i+1,j)] ;
+    bili[1][3] = DY[ipos(i+1,j+1)];
+
+    bili[2][2] = DXY[ipos(i,j)] ;
+    bili[2][3] = DXY[ipos(i,j+1)] ;
+    bili[3][2] = DXY[ipos(i+1,j)] ;
+    bili[3][3] = DXY[ipos(i+1,j+1)] ;
+
+  }
+
+  valueType
+  BiCubicSplineBase::operator () ( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3( x - X[i], X[i+1] - X[i], u ) ;
+    Hermite3( y - Y[j], Y[j+1] - Y[j], v ) ;
+    load(i,j) ;
+    return bilinear( u, bili, v ) ;
+  }
+
+  valueType
+  BiCubicSplineBase::Dx( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3_D( x - X[i], X[i+1] - X[i], u_D ) ;
+    Hermite3  ( y - Y[j], Y[j+1] - Y[j], v   ) ;
+    load(i,j) ;
+    return bilinear( u_D, bili, v ) ;
+  }
+
+  valueType
+  BiCubicSplineBase::Dy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3  ( x - X[i], X[i+1] - X[i], u   ) ;
+    Hermite3_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
+    load(i,j) ;
+    return bilinear( u, bili, v_D ) ;
+  }
+
+  valueType
+  BiCubicSplineBase::Dxy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3_D( x - X[i], X[i+1] - X[i], u_D ) ;
+    Hermite3_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
+    load(i,j) ;
+    return bilinear( u_D, bili, v_D ) ;
+  }
+
+  valueType
+  BiCubicSplineBase::Dxx( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3_DD( x - X[i], X[i+1] - X[i], u_DD ) ;
+    Hermite3   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    load(i,j) ;
+    return bilinear( u_DD, bili, v ) ;
+  }
+
+  valueType
+  BiCubicSplineBase::Dyy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite3_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
+    load(i,j) ;
+    return bilinear( u, bili, v_DD ) ;
+  }
+
+  void
+  BiCubicSplineBase::D( valueType x, valueType y, valueType d[3] ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite3_D ( x - X[i], X[i+1] - X[i], u_D  ) ;
+    Hermite3   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    Hermite3_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
+    load(i,j) ;
+    d[0] = bilinear( u, bili, v ) ;
+    d[1] = bilinear( u_D, bili, v ) ;
+    d[2] = bilinear( u, bili, v_D ) ;
+  }
+
+  void
+  BiCubicSplineBase::DD( valueType x, valueType y, valueType d[6] ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite3   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite3_D ( x - X[i], X[i+1] - X[i], u_D  ) ;
+    Hermite3_DD( x - X[i], X[i+1] - X[i], u_DD ) ;
+    Hermite3   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    Hermite3_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
+    Hermite3_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
+    load(i,j) ;
+    d[0] = bilinear( u, bili, v ) ;
+    d[1] = bilinear( u_D, bili, v ) ;
+    d[2] = bilinear( u, bili, v_D ) ;
+    d[3] = bilinear( u_DD, bili, v ) ;
+    d[4] = bilinear( u_D, bili, v_D ) ;
+    d[5] = bilinear( u, bili, v_DD ) ;
+  }
 
 }

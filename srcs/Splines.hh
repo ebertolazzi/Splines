@@ -123,7 +123,7 @@
  x.push_back(2) ; y.push_back(1) ;
  x.push_back(3) ; y.push_back(1) ;
  x.push_back(4) ; y.push_back(3) ;
- spline . build(x,y) ;
+ spline.build(x,y) ;
 
  cout << spline(1.1) << '\n';     // spline at x = 1.1
  cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
@@ -1282,9 +1282,10 @@ namespace Splines {
   //                                        |_|
   */
   //! cubic spline base class
-  class BiCubicSpline : public SplineSurf {
+  class BiCubicSplineBase : public SplineSurf {
+  protected:
 
-    VectorOfValues    DX, DY ;
+    VectorOfValues    DX, DY, DXY ;
     mutable valueType u[4] ;
     mutable valueType u_D[4] ;
     mutable valueType u_DD[4] ;
@@ -1294,23 +1295,38 @@ namespace Splines {
     mutable valueType bili[4][4] ;
 
     void load( sizeType i, sizeType j ) const ;
-    void makeSpline() ;
+    virtual void makeSpline() = 0 ;
 
   public:
   
     //! spline constructor
-    BiCubicSpline()
+    BiCubicSplineBase()
     : SplineSurf()
     , DX()
     , DY()
     {}
     
     virtual
-    ~BiCubicSpline()
+    ~BiCubicSplineBase()
     {}
 
-    valueType DxNode( sizeType i, sizeType j ) const { return DX[ipos(i,j)] ; }
-    valueType DyNode( sizeType i, sizeType j ) const { return DY[ipos(i,j)] ; }
+    valueType DxNode ( sizeType i, sizeType j ) const { return DX[ipos(i,j)] ; }
+    valueType DyNode ( sizeType i, sizeType j ) const { return DY[ipos(i,j)] ; }
+    valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos(i,j)] ; }
+
+    //! Evalute spline value
+    virtual valueType operator () ( valueType x, valueType y ) const ;
+
+    //! First derivative
+    virtual void D( valueType x, valueType y, valueType d[3] ) const ;
+    virtual valueType Dx( valueType x, valueType y ) const ;
+    virtual valueType Dy( valueType x, valueType y ) const ;
+
+    //! Second derivative
+    virtual void DD( valueType x, valueType y, valueType dd[6] ) const ;
+    virtual valueType Dxx( valueType x, valueType y ) const ;
+    virtual valueType Dxy( valueType x, valueType y ) const ;
+    virtual valueType Dyy( valueType x, valueType y ) const ;
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -1335,19 +1351,63 @@ namespace Splines {
     void
     build ( VectorOfValues const & z, sizeType nx, sizeType ny ) ;
 
-    //! Evalute spline value
-    virtual valueType operator () ( valueType x, valueType y ) const ;
+  } ;
 
-    //! First derivative
-    virtual void D( valueType x, valueType y, valueType d[3] ) const ;
-    virtual valueType Dx( valueType x, valueType y ) const ;
-    virtual valueType Dy( valueType x, valueType y ) const ;
+  /*
+  //   ____  _  ____      _     _      ____        _ _            
+  //  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___
+  //  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
+  //  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
+  //  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
+  //                                        |_|
+  */
+  //! cubic spline base class
+  class BiCubicSpline : public BiCubicSplineBase {
 
-    //! Second derivative
-    virtual void DD( valueType x, valueType y, valueType dd[6] ) const ;
-    virtual valueType Dxx( valueType x, valueType y ) const ;
-    virtual valueType Dxy( valueType x, valueType y ) const ;
-    virtual valueType Dyy( valueType x, valueType y ) const ;
+    virtual void makeSpline() ;
+
+  public:
+  
+    //! spline constructor
+    BiCubicSpline()
+    : BiCubicSplineBase()
+    {}
+    
+    virtual
+    ~BiCubicSpline()
+    {}
+
+    //! Print spline coefficients
+    virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const ;
+
+  } ;
+
+  /*
+  //      _    _    _                 ____  ____            _ _
+  //     / \  | | _(_)_ __ ___   __ _|___ \|  _ \ ___ _ __ | (_)_ __   ___
+  //    / _ \ | |/ / | '_ ` _ \ / _` | __) | | | / __| '_ \| | | '_ \ / _ \
+  //   / ___ \|   <| | | | | | | (_| |/ __/| |_| \__ \ |_) | | | | | |  __/
+  //  /_/   \_\_|\_\_|_| |_| |_|\__,_|_____|____/|___/ .__/|_|_|_| |_|\___|
+  //                                                 |_|
+  */
+  //! cubic spline base class
+  class Akima2Dspline : public BiCubicSplineBase {
+
+    virtual void makeSpline() ;
+
+  public:
+  
+    //! spline constructor
+    Akima2Dspline()
+    : BiCubicSplineBase()
+    {}
+    
+    virtual
+    ~Akima2Dspline()
+    {}
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const ;
@@ -1371,6 +1431,7 @@ namespace SplinesLoad {
 
   using Splines::BilinearSpline ;
   using Splines::BiCubicSpline ;
+  using Splines::Akima2Dspline ;
 }
 
 #endif
