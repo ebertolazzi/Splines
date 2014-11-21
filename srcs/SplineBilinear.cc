@@ -38,10 +38,10 @@ namespace Splines {
     valueType v   = (y-Y[j])/DY ;
     valueType u1  = 1-u ;
     valueType v1  = 1-v ;
-    valueType Z00 = Z[ipos(i,j)] ;
-    valueType Z01 = Z[ipos(i,j+1)] ;
-    valueType Z10 = Z[ipos(i+1,j)] ;
-    valueType Z11 = Z[ipos(i+1,j+1)] ;
+    valueType Z00 = Z[ipos_C(i,j)] ;
+    valueType Z01 = Z[ipos_C(i,j+1)] ;
+    valueType Z10 = Z[ipos_C(i+1,j)] ;
+    valueType Z11 = Z[ipos_C(i+1,j+1)] ;
     return u1 * ( Z00 * v1 + Z01 * v ) +
            u  * ( Z10 * v1 + Z11 * v ) ;
   }
@@ -53,10 +53,10 @@ namespace Splines {
     valueType DX  = X[i+1] - X[i] ;
     valueType DY  = Y[j+1] - Y[j] ;
     valueType v   = (y-Y[j])/DY ;
-    valueType Z00 = Z[ipos(i,j)] ;
-    valueType Z01 = Z[ipos(i,j+1)] ;
-    valueType Z10 = Z[ipos(i+1,j)] ;
-    valueType Z11 = Z[ipos(i+1,j+1)] ;
+    valueType Z00 = Z[ipos_C(i,j)] ;
+    valueType Z01 = Z[ipos_C(i,j+1)] ;
+    valueType Z10 = Z[ipos_C(i+1,j)] ;
+    valueType Z11 = Z[ipos_C(i+1,j+1)] ;
     return ( (Z10-Z00) * (1-v) + (Z11-Z01) * v ) / DX ;
   }
   
@@ -67,10 +67,10 @@ namespace Splines {
     valueType DX  = X[i+1] - X[i] ;
     valueType DY  = Y[j+1] - Y[j] ;
     valueType u   = (x-X[i])/DX ;
-    valueType Z00 = Z[ipos(i,j)] ;
-    valueType Z01 = Z[ipos(i,j+1)] ;
-    valueType Z10 = Z[ipos(i+1,j)] ;
-    valueType Z11 = Z[ipos(i+1,j+1)] ;
+    valueType Z00 = Z[ipos_C(i,j)] ;
+    valueType Z01 = Z[ipos_C(i,j+1)] ;
+    valueType Z10 = Z[ipos_C(i+1,j)] ;
+    valueType Z11 = Z[ipos_C(i+1,j+1)] ;
     return ( ( Z01-Z00 ) * (1-u) + ( Z11-Z10 ) * u ) / DY ;
 
   }
@@ -85,10 +85,10 @@ namespace Splines {
     valueType v   = (y-Y[j])/DY ;
     valueType u1  = 1-u ;
     valueType v1  = 1-v ;
-    valueType Z00 = Z[ipos(i,j)] ;
-    valueType Z01 = Z[ipos(i,j+1)] ;
-    valueType Z10 = Z[ipos(i+1,j)] ;
-    valueType Z11 = Z[ipos(i+1,j+1)] ;
+    valueType Z00 = Z[ipos_C(i,j)] ;
+    valueType Z01 = Z[ipos_C(i,j+1)] ;
+    valueType Z10 = Z[ipos_C(i+1,j)] ;
+    valueType Z11 = Z[ipos_C(i+1,j+1)] ;
     d[0] = u1 * ( Z00 * v1 + Z01 * v ) + u * ( Z10 * v1 + Z11 * v ) ;
     d[1] = v1 * (Z10-Z00) + v * (Z11-Z01) ; d[1] /= DX ;
     d[2] = u1 * (Z01-Z00) + u * (Z11-Z10) ; d[2] /= DY ;
@@ -102,10 +102,10 @@ namespace Splines {
         s << "patch (" << setw(2) << i << "," << setw(2) << j << ")\n"
           << "DX = " << X[i]-X[i-1]
           << " DY = " << Y[j]-Y[j-1]
-          << " Z00 = " << Z[ipos(i-1,j-1)]
-          << " Z01 = " << Z[ipos(i-1,j)]
-          << " Z10 = " << Z[ipos(i,j-1)]
-          << " Z11 = " << Z[ipos(i,j)]
+          << " Z00 = " << Z[ipos_C(i-1,j-1)]
+          << " Z01 = " << Z[ipos_C(i-1,j)]
+          << " Z10 = " << Z[ipos_C(i,j-1)]
+          << " Z11 = " << Z[ipos_C(i,j)]
           << '\n' ;
       }
     }

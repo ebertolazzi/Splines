@@ -133,17 +133,6 @@ namespace Splines {
   }
 
   void
-  QuinticSplineBase::allocate( valueType const x[], sizeType incx,
-                               valueType const y[], sizeType incy,
-                               sizeType n ) {
-    X.clear() ; X.reserve(n) ;
-    Y.clear() ; Y.reserve(n) ;
-    npts = lastInterval = 0 ;
-    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i*incx], y[i*incy] ) ;
-    SPLINE_ASSERT ( npts > 1, "QuinticSplineBase::allocate, not enought point to define a spline\n" ) ;
-  }
-
-  void
   QuinticSplineBase::writeToStream( std::basic_ostream<char> & s ) const {
     sizeType nseg = sizeType(Y.size()-1) ;
     for ( sizeType i = 0 ; i < nseg ; ++i )

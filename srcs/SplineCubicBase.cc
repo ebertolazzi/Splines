@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998                                                      |
+ |  Copyright (C) 1998-2014                                                 |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -91,17 +91,6 @@ namespace Splines {
     std::copy( S.X.begin(), S.X.end(), X.begin() ) ;
     std::copy( S.Y.begin(), S.Y.end(), Y.begin() ) ;
     std::copy( S.Yp.begin(), S.Yp.end(), Yp.begin() ) ;
-  }
-
-  void
-  CubicSplineBase::allocate( valueType const x[], sizeType incx,
-                             valueType const y[], sizeType incy,
-                             sizeType n ) {
-    X.clear() ; X.reserve(n) ;
-    Y.clear() ; Y.reserve(n) ;
-    npts = lastInterval = 0 ;
-    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i*incx], y[i*incy] ) ;
-    SPLINE_ASSERT ( npts > 1, "CubicSpline::allocate, not enought point to define a spline\n" ) ;
   }
      
   void

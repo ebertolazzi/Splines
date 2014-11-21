@@ -38,12 +38,12 @@ namespace Splines {
     sizeType ny = sizeType(Y.size()) ;
     PchipSpline sp ;
     for ( sizeType j = 0 ; j < ny ; ++j ) {
-      sp.build( &X.front(), 1, &Z[ipos(0,j)], 1, nx ) ;
-      for ( sizeType i = 0 ; i < nx ; ++i ) DX[ipos(i,j)] = sp.ypNode(i) ;
+      sp.build( &X.front(), 1, &Z[ipos_C(0,j)], ny, nx ) ;
+      for ( sizeType i = 0 ; i < nx ; ++i ) DX[ipos_C(i,j)] = sp.ypNode(i) ;
     }
     for ( sizeType i = 0 ; i < nx ; ++i ) {
-      sp.build( &Y.front(), 1, &Z[ipos(i,0)], nx, ny ) ;
-      for ( sizeType j = 0 ; j < ny ; ++j ) DY[ipos(i,j)] = sp.ypNode(j) ;
+      sp.build( &Y.front(), 1, &Z[ipos_C(i,0)], 1, ny ) ;
+      for ( sizeType j = 0 ; j < ny ; ++j ) DY[ipos_C(i,j)] = sp.ypNode(j) ;
     }
     std::fill( DXY.begin(), DXY.end(), 0 ) ;
   }
@@ -55,18 +55,18 @@ namespace Splines {
       for ( sizeType j = 1 ; j < sizeType(Y.size()) ; ++j ) {
         s << "patch (" << setw(2) << i << "," << setw(2) << j
           << "): DX = " << X[i]-X[i-1] << " DY = " << Y[j]-Y[j-1]
-          << "\n Z00 = " << Z[ipos(i-1,j-1)]
-          << " Z01 = " << Z[ipos(i-1,j)]
-          << " Z10 = " << Z[ipos(i,j-1)]
-          << " Z11 = " << Z[ipos(i,j)]
-          << "\n Dx00 = " << DX[ipos(i-1,j-1)]
-          << " Dx01 = " << DX[ipos(i-1,j)]
-          << " Dx10 = " << DX[ipos(i,j-1)]
-          << " ZDx1 = " << DX[ipos(i,j)]
-          << "\n Dy00 = " << DY[ipos(i-1,j-1)]
-          << " Dy01 = " << DY[ipos(i-1,j)]
-          << " Dy10 = " << DY[ipos(i,j-1)]
-          << " Dy11 = " << DY[ipos(i,j)]
+          << "\n Z00 = " << Z[ipos_C(i-1,j-1)]
+          << " Z01 = " << Z[ipos_C(i-1,j)]
+          << " Z10 = " << Z[ipos_C(i,j-1)]
+          << " Z11 = " << Z[ipos_C(i,j)]
+          << "\n Dx00 = " << DX[ipos_C(i-1,j-1)]
+          << " Dx01 = " << DX[ipos_C(i-1,j)]
+          << " Dx10 = " << DX[ipos_C(i,j-1)]
+          << " ZDx1 = " << DX[ipos_C(i,j)]
+          << "\n Dy00 = " << DY[ipos_C(i-1,j-1)]
+          << " Dy01 = " << DY[ipos_C(i-1,j)]
+          << " Dy10 = " << DY[ipos_C(i,j-1)]
+          << " Dy11 = " << DY[ipos_C(i,j)]
           << '\n' ;
       }
     }

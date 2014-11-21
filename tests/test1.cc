@@ -77,11 +77,11 @@ main() {
       case 5: xx = xx5 ; yy = yy5 ; break ;
     }
     char fname[100] ;
-    sprintf( fname, "Akima%d.txt",    k) ; file_ak.open(fname) ;
-    sprintf( fname, "Cubic%d.txt",    k) ; file_cs.open(fname) ;
-    sprintf( fname, "Bessel%d.txt",   k) ; file_be.open(fname) ;
-    sprintf( fname, "Pchip%d.txt",    k) ; file_pc.open(fname) ;
-    sprintf( fname, "Quintic%d.txt",  k) ; file_qs.open(fname) ;
+    sprintf( fname, "Akima%d.txt",   k) ; file_ak.open(fname) ;
+    sprintf( fname, "Cubic%d.txt",   k) ; file_cs.open(fname) ;
+    sprintf( fname, "Bessel%d.txt",  k) ; file_be.open(fname) ;
+    sprintf( fname, "Pchip%d.txt",   k) ; file_pc.open(fname) ;
+    sprintf( fname, "Quintic%d.txt", k) ; file_qs.open(fname) ;
     valueType xmin = xx[0] ;
     valueType xmax = xx[n[k]-1] ;
     

@@ -279,7 +279,7 @@ namespace Splines {
 
         for ( int i = imin ; i <= imax ; ++i )
           for ( int j = jmin ; j <= jmax ; ++j )
-            z_loc[i][j] = Z[ipos(i+i0-4,j+j0-4)] ;
+            z_loc[i][j] = Z[ipos_C(i+i0-4,j+j0-4)] ;
 
         // if not enough points, extrapolate
         int iadd = 0, jadd = 0 ;
@@ -339,9 +339,9 @@ namespace Splines {
         AkimaSmooth( x_loc, imin-iadd, imax+iadd,
                      y_loc, jmin-jadd, jmax+jadd,
                      z_loc,
-                     DX[ipos(i0,j0)],
-                     DY[ipos(i0,j0)],
-                     DXY[ipos(i0,j0)] ) ;
+                     DX[ipos_C(i0,j0)],
+                     DY[ipos_C(i0,j0)],
+                     DXY[ipos_C(i0,j0)] ) ;
       }
     }
   }
@@ -353,18 +353,18 @@ namespace Splines {
       for ( sizeType j = 1 ; j < sizeType(Y.size()) ; ++j ) {
         s << "patch (" << setw(2) << i << "," << setw(2) << j
           << "): DX = " << X[i]-X[i-1] << " DY = " << Y[j]-Y[j-1]
-          << "\n Z00 = " << Z[ipos(i-1,j-1)]
-          << " Z01 = " << Z[ipos(i-1,j)]
-          << " Z10 = " << Z[ipos(i,j-1)]
-          << " Z11 = " << Z[ipos(i,j)]
-          << "\n Dx00 = " << DX[ipos(i-1,j-1)]
-          << " Dx01 = " << DX[ipos(i-1,j)]
-          << " Dx10 = " << DX[ipos(i,j-1)]
-          << " ZDx1 = " << DX[ipos(i,j)]
-          << "\n Dy00 = " << DY[ipos(i-1,j-1)]
-          << " Dy01 = " << DY[ipos(i-1,j)]
-          << " Dy10 = " << DY[ipos(i,j-1)]
-          << " Dy11 = " << DY[ipos(i,j)]
+          << "\n Z00 = " << Z[ipos_C(i-1,j-1)]
+          << " Z01 = " << Z[ipos_C(i-1,j)]
+          << " Z10 = " << Z[ipos_C(i,j-1)]
+          << " Z11 = " << Z[ipos_C(i,j)]
+          << "\n Dx00 = " << DX[ipos_C(i-1,j-1)]
+          << " Dx01 = " << DX[ipos_C(i-1,j)]
+          << " Dx10 = " << DX[ipos_C(i,j-1)]
+          << " ZDx1 = " << DX[ipos_C(i,j)]
+          << "\n Dy00 = " << DY[ipos_C(i-1,j-1)]
+          << " Dy01 = " << DY[ipos_C(i-1,j)]
+          << " Dy10 = " << DY[ipos_C(i,j-1)]
+          << " Dy11 = " << DY[ipos_C(i,j)]
           << '\n' ;
       }
     }

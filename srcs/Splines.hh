@@ -270,6 +270,10 @@ namespace Splines {
 
     sizeType       npts ;
     VectorOfValues X, Y ;
+    
+    // for bbox
+    valueType      Y_min ;
+    valueType      Y_max ;
 
     sizeType search( valueType x ) const ;
     mutable sizeType lastInterval ;
@@ -309,23 +313,43 @@ namespace Splines {
     //! Drop a support point to the spline.
     void dropBack() ;
 
+    // must be defined in derived classes
     virtual
     void
     build (void) = 0 ;
 
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) = 0 ;
-
-    virtual
+    //! Build a spline.
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
-            sizeType n ) = 0 ;
+            sizeType n )
+    { allocate( x, incx, y, incy, n ) ; build() ; }
 
-    virtual
+    //! Build a spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     * \param n total number of points
+     */
     void
-    build ( VectorOfValues const & x, VectorOfValues const & y ) = 0 ;
+    build ( valueType const x[], valueType const y[], sizeType n )
+    { allocate( x, 1, y, 1, n ) ; build() ; }
+
+    //! Build an Akima spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     */
+    void
+    build ( VectorOfValues const & x, VectorOfValues const & y )
+    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -342,6 +366,12 @@ namespace Splines {
 
     //! return x-maximum spline value
     valueType xMax() const { return X.back()  ; }
+
+    //! return y-minumum spline value
+    valueType yMin() const { return Y_min ; }
+
+    //! return y-maximum spline value
+    valueType yMax() const { return Y_max ; }
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline
@@ -390,6 +420,8 @@ namespace Splines {
 
   public:
   
+    using Spline::build ;
+  
     //! spline constructor
     CubicSplineBase()
     : Spline()
@@ -401,10 +433,6 @@ namespace Splines {
     {}
 
     void copySpline( CubicSplineBase const & S ) ;
-    void
-    allocate( valueType const x[], sizeType incx,
-              valueType const y[], sizeType incy,
-              sizeType n ) ;
 
     //! return the i-th node of the spline (y' component).
     valueType ypNode( sizeType i ) const { return Yp[i] ; }
@@ -453,6 +481,8 @@ namespace Splines {
                          valueType di_p1 ) const ;
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     AkimaSpline()
     : CubicSplineBase()
@@ -467,42 +497,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    //! Build an Akima spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
-
-    //! Build an Akima spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
-
-    //! Build an Akima spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    virtual
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "akima" ; }
@@ -521,6 +515,8 @@ namespace Splines {
   class BesselSpline : public CubicSplineBase {
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     BesselSpline()
     : CubicSplineBase()
@@ -535,42 +531,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    //! Build a Bessel spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
-
-    //! Build a Bessel spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
-
-    //! Build a Bessel spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    virtual
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "bessel" ; }
@@ -607,6 +567,8 @@ namespace Splines {
     valueType ddyn ;
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     CubicSpline()
     : CubicSplineBase()
@@ -636,42 +598,6 @@ namespace Splines {
     void
     build (void) ;
 
-    //! Build a cubic spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
-
-    //! Build a cubic spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
-
-    //! Build a cubic spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    virtual
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
-
     //! Return spline typename
     virtual char const * type_name() const { return "cubic" ; }
 
@@ -689,6 +615,8 @@ namespace Splines {
   class PchipSpline : public CubicSplineBase {
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     PchipSpline()
     : CubicSplineBase()
@@ -703,42 +631,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    virtual
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
 
     //! Return spline typename
     virtual char const * type_name() const { return "pchip" ; }
@@ -773,7 +665,6 @@ namespace Splines {
      * \param incy access elements as y[0], y[incy], x[2*incy],...
      * \param n    total number of points
      */
-    virtual
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
@@ -789,7 +680,6 @@ namespace Splines {
     }
 
     //! given x and y vectors build a linear spline
-    virtual
     void
     build( valueType const x[], valueType const y[], sizeType n ) {
       SPLINE_ASSERT( n > 1,
@@ -803,7 +693,6 @@ namespace Splines {
     }
 
     //! given x and y vectors build a linear spline
-    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
@@ -885,7 +774,6 @@ namespace Splines {
      * \param incy access elements as y[0], y[incy], x[2*incy],...
      * \param n    total number of points
      */
-    virtual
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
@@ -901,7 +789,6 @@ namespace Splines {
     }
 
     //! given x and y vectors build a piecewise constants spline
-    virtual
     void
     build( valueType const x[], valueType const y[], sizeType n ) {
       SPLINE_ASSERT( n > 1,
@@ -919,7 +806,6 @@ namespace Splines {
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
-    virtual
     void
     build ( VectorOfValues const & x, VectorOfValues const & y )
     { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
@@ -977,7 +863,9 @@ namespace Splines {
     mutable valueType base_DDDDD[6] ;
 
   public:
-  
+
+    using Spline::build ;
+
     //! spline constructor
     QuinticSplineBase()
     : Spline()
@@ -989,9 +877,6 @@ namespace Splines {
     {}
 
     void copySpline( QuinticSplineBase const & S ) ;
-    void allocate( valueType const x[], sizeType incx,
-                   valueType const y[], sizeType incy,
-                   sizeType n ) ;
 
     //! return the i-th node of the spline (y' component).
     valueType ypNode( sizeType i ) const { return Yp[i] ; }
@@ -1038,6 +923,8 @@ namespace Splines {
   class QuinticSpline : public QuinticSplineBase {
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     QuinticSpline()
     : QuinticSplineBase()
@@ -1050,40 +937,6 @@ namespace Splines {
 
     //! Build a Monotone quintic spline from previously inserted points
     void build (void) ;
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
-
-    //! Build a Monotone spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
   } ;
 
   /*
@@ -1099,6 +952,8 @@ namespace Splines {
   protected:
 
     VectorOfValues X, Y, Z ;
+    
+    valueType Z_min, Z_max ;
 
     mutable sizeType lastInterval_x ;
     sizeType search_x( valueType x ) const ;
@@ -1106,9 +961,12 @@ namespace Splines {
     mutable sizeType lastInterval_y ;
     sizeType search_y( valueType y ) const ;
 
-    sizeType ipos( sizeType i, sizeType j ) const { return i+sizeType(X.size())*j ; }
-    sizeType ipos_transpose( sizeType i, sizeType j ) const { return j+sizeType(Y.size())*i ; }
-    
+    sizeType ipos_C( sizeType i, sizeType j, sizeType ldZ ) const { return i*ldZ + j ; }
+    sizeType ipos_F( sizeType i, sizeType j, sizeType ldZ ) const { return i + ldZ*j ; }
+
+    sizeType ipos_C( sizeType i, sizeType j ) const { return ipos_C(i,j,sizeType(Y.size())) ; }
+    sizeType ipos_F( sizeType i, sizeType j ) const { return ipos_F(i,j,sizeType(X.size())) ; }
+
     virtual void makeSpline() = 0 ;
 
   public:
@@ -1118,6 +976,8 @@ namespace Splines {
     : X()
     , Y()
     , Z()
+    , Z_min(0)
+    , Z_max(0)
     , lastInterval_x(0)
     , lastInterval_y(0)
     {}
@@ -1134,6 +994,7 @@ namespace Splines {
       X.clear() ;
       Y.clear() ;
       Z.clear() ;
+      Z_min = Z_max = 0 ;
       lastInterval_x = 0 ;
       lastInterval_y = 0 ;
     }
@@ -1151,7 +1012,7 @@ namespace Splines {
     valueType yNode( sizeType i ) const { return Y[i] ; }
 
     //! return the i-th node of the spline (y component).
-    valueType zNode( sizeType i, sizeType j ) const { return Z[ipos(i,j)] ; }
+    valueType zNode( sizeType i, sizeType j ) const { return Z[ipos_C(i,j)] ; }
 
     //! return x-minumum spline value
     valueType xMin() const { return X.front() ; }
@@ -1159,31 +1020,95 @@ namespace Splines {
     //! return x-maximum spline value
     valueType xMax() const { return X.back()  ; }
 
-    //! return x-minumum spline value
+    //! return y-minumum spline value
     valueType yMin() const { return Y.front() ; }
 
-    //! return x-maximum spline value
+    //! return y-maximum spline value
     valueType yMax() const { return Y.back()  ; }
 
-    ///////////////////////////////////////////////////////////////////////////
+    //! return z-minumum spline value
+    valueType zMin() const { return Z_min ; }
 
+    //! return z-maximum spline value
+    valueType zMax() const { return Z_max ; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    /*! Build surface spline
+     * \param x       vector of x-coordinates
+     * \param incx    access elements as x[0], x[incx], x[2*incx],...
+     * \param y       vector of y-coordinates
+     * \param incy    access elements as y[0], y[incy], x[2*incy],...
+     * \param z       matrix of z-values
+     * \param ldZ     leading dimension of the matrix. Elements are stored
+     *                by row Z(i,j) = z[i*ldZ+j] as C-matrix
+     * \param nx      total number of points in direction x
+     * \param ny      total number of points in direction y
+     * \param fortran_storage if true elements are stored by column
+     *                        i.e. Z(i,j) = z[i+j*ldZ] as Fortran-matrix
+     * \param transposed      if true matrix Z is stored transposed
+     */
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
-            valueType const z[], sizeType incz,
-            sizeType nx, sizeType ny, bool transpose ) ;
+            valueType const z[], sizeType ldZ,
+            sizeType nx, sizeType ny,
+            bool fortran_storage = false,
+            bool transposed      = false ) ;
 
+    /*! Build surface spline
+     * \param x       vector of x-coordinates, nx = x.size()
+     * \param y       vector of y-coordinates, ny = y.size()
+     * \param z       matrix of z-values. Elements are stored
+     *                by row Z(i,j) = z[i*ny+j] as C-matrix
+     * \param fortran_storage if true elements are stored by column
+     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     * \param transposed      if true matrix Z is stored transposed
+     */
     void
     build ( VectorOfValues const & x,
             VectorOfValues const & y,
             VectorOfValues const & z,
-            bool transpose ) ;
+            bool fortran_storage = false,
+            bool transposed      = false ) {
+      sizeType nx = sizeType(x.size()) ;
+      sizeType ny = sizeType(y.size()) ;
+      valueType const * xx = &x.front() ;
+      valueType const * yy = &y.front() ;
+      valueType const * zz = &z.front() ;
+      if ( fortran_storage ) build ( xx, 1, yy, 1, zz, nx, nx, ny, fortran_storage, transposed ) ;
+      else                   build ( xx, 1, yy, 1, zz, ny, nx, ny, fortran_storage, transposed ) ;
+    }
 
+    /*! Build surface spline
+     * \param z               matrix of z-values. Elements are stored
+     *                        by row Z(i,j) = z[i*ny+j] as C-matrix
+     * \param ldZ             leading dimension of the matrix. Elements are stored
+     *                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
+     * \param fortran_storage if true elements are stored by column
+     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     * \param transposed      if true matrix Z is stored transposed
+     */
     void
-    build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny, bool transpose ) ;
+    build ( valueType const z[], sizeType ldZ, sizeType nx, sizeType ny,
+            bool fortran_storage = false,
+            bool transposed      = false ) ;
 
+    /*! Build surface spline
+     * \param z               matrix of z-values. Elements are stored
+     *                        by row Z(i,j) = z[i*ny+j] as C-matrix.
+     *                        ldZ leading dimension of the matrix is ny for C-storage
+     *                        and nx for Fortran storage.
+     * \param fortran_storage if true elements are stored by column
+     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     * \param transposed      if true matrix Z is stored transposed
+     */
     void
-    build ( VectorOfValues const & z, sizeType nx, sizeType ny, bool transpose ) ;
+    build ( VectorOfValues const & z, sizeType nx, sizeType ny,
+            bool fortran_storage = false,
+            bool transposed      = false ) {
+      if ( fortran_storage ) build ( &z.front(), nx, nx, ny, fortran_storage, transposed ) ;
+      else                   build ( &z.front(), ny, nx, ny, fortran_storage, transposed ) ;
+    }
 
     //! Evalute spline value
     virtual valueType operator () ( valueType x, valueType y ) const = 0 ;
@@ -1287,9 +1212,9 @@ namespace Splines {
     ~BiCubicSplineBase()
     {}
 
-    valueType DxNode ( sizeType i, sizeType j ) const { return DX[ipos(i,j)] ; }
-    valueType DyNode ( sizeType i, sizeType j ) const { return DY[ipos(i,j)] ; }
-    valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos(i,j)] ; }
+    valueType DxNode ( sizeType i, sizeType j ) const { return DX[ipos_C(i,j)] ; }
+    valueType DyNode ( sizeType i, sizeType j ) const { return DY[ipos_C(i,j)] ; }
+    valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos_C(i,j)] ; }
 
     //! Evalute spline value
     virtual valueType operator () ( valueType x, valueType y ) const ;
