@@ -1107,6 +1107,9 @@ namespace Splines {
     sizeType search_y( valueType y ) const ;
 
     sizeType ipos( sizeType i, sizeType j ) const { return i+sizeType(X.size())*j ; }
+    sizeType ipos_transpose( sizeType i, sizeType j ) const { return j+sizeType(Y.size())*i ; }
+    
+    virtual void makeSpline() = 0 ;
 
   public:
 
@@ -1164,26 +1167,23 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    virtual
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
             valueType const z[], sizeType incz,
-            sizeType nx, sizeType ny ) = 0 ;
+            sizeType nx, sizeType ny, bool transpose ) ;
 
-    virtual
     void
     build ( VectorOfValues const & x,
             VectorOfValues const & y,
-            VectorOfValues const & z ) = 0 ;
+            VectorOfValues const & z,
+            bool transpose ) ;
 
-    virtual
     void
-    build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny ) = 0 ;
+    build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny, bool transpose ) ;
 
-    virtual
     void
-    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) = 0 ;
+    build ( VectorOfValues const & z, sizeType nx, sizeType ny, bool transpose ) ;
 
     //! Evalute spline value
     virtual valueType operator () ( valueType x, valueType y ) const = 0 ;
@@ -1217,6 +1217,7 @@ namespace Splines {
   */
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
+    virtual void makeSpline() {}
   public:
   
     //! spline constructor
@@ -1227,29 +1228,6 @@ namespace Splines {
     virtual
     ~BilinearSpline()
     {}
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            valueType const z[], sizeType incz,
-            sizeType nx, sizeType ny ) ;
-
-    virtual
-    void
-    build ( VectorOfValues const & x,
-            VectorOfValues const & y,
-            VectorOfValues const & z ) ;
-
-    virtual
-    void
-    build ( valueType const z[],  sizeType incz, sizeType nx, sizeType ny ) ;
-
-    virtual
-    void
-    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) ;
 
     //! Evalute spline value
     virtual valueType operator () ( valueType x, valueType y ) const ;
@@ -1295,7 +1273,6 @@ namespace Splines {
     mutable valueType bili[4][4] ;
 
     void load( sizeType i, sizeType j ) const ;
-    virtual void makeSpline() = 0 ;
 
   public:
   
@@ -1327,30 +1304,6 @@ namespace Splines {
     virtual valueType Dxx( valueType x, valueType y ) const ;
     virtual valueType Dxy( valueType x, valueType y ) const ;
     virtual valueType Dyy( valueType x, valueType y ) const ;
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            valueType const z[], sizeType incz,
-            sizeType nx, sizeType ny ) ;
-
-    virtual
-    void
-    build ( VectorOfValues const & x,
-            VectorOfValues const & y,
-            VectorOfValues const & z ) ;
-
-    virtual
-    void
-    build ( valueType const z[],  sizeType incz, sizeType nx, sizeType ny ) ;
-
-    virtual
-    void
-    build ( VectorOfValues const & z, sizeType nx, sizeType ny ) ;
-
   } ;
 
   /*

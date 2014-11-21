@@ -28,57 +28,6 @@ namespace Splines {
 
   using namespace std ; // load standard namspace
 
-  void
-  BilinearSpline::build ( valueType const x[], sizeType incx,
-                          valueType const y[], sizeType incy,
-                          valueType const z[], sizeType incz,
-                          sizeType nx, sizeType ny ) {
-    X.resize(nx) ;
-    Y.resize(ny) ;
-    Z.resize(nx*ny) ;
-    for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = y[i*incy] ;
-    for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
-  }
-
-  void
-  BilinearSpline::build ( VectorOfValues const & x,
-                          VectorOfValues const & y,
-                          VectorOfValues const & z ) {
-    SPLINE_ASSERT( z.size() >= x.size()*y.size(),
-                   "in BilinearSpline::build insufficient dimension of Z, expeced >= " << x.size()*y.size() <<
-                   " found " << z.size() ) ;
-    X.resize(x.size()) ;
-    Y.resize(y.size()) ;
-    Z.resize(x.size()*y.size()) ;
-    std::copy( x.begin(), x.end(), X.begin() ) ;
-    std::copy( y.begin(), y.end(), Y.begin() ) ;
-    std::copy( z.begin(), z.begin()+Z.size(), Z.begin() ) ;
-  }
-
-  void
-  BilinearSpline::build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny ) {
-    X.resize(nx) ;
-    Y.resize(ny) ;
-    Z.resize(nx*ny) ;
-    for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = i ;
-    for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = i ;
-    for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
-  }
-
-  void
-  BilinearSpline::build ( VectorOfValues const & z, sizeType nx, sizeType ny ) {
-    SPLINE_ASSERT( z.size() >= nx*ny,
-                   "in BilinearSpline::build insufficient dimension of Z, expeced >= " << nx*ny <<
-                   " found " << z.size() ) ;
-    X.resize(nx) ;
-    Y.resize(ny) ;
-    Z.resize(nx*ny) ;
-    for ( sizeType i = 0 ; i < nx ; ++i ) X[i] = i ;
-    for ( sizeType i = 0 ; i < ny ; ++i ) Y[i] = i ;
-    std::copy( z.begin(), z.begin()+nx*ny, Z.begin() ) ;
-  }
-
   valueType
   BilinearSpline::operator () ( valueType x, valueType y ) const {
     sizeType  i   = search_x( x ) ;

@@ -45,9 +45,9 @@ main() {
   ofstream       file_bc("bicubic.txt") ;
   ofstream       file_ak("akima2d.txt") ;
 
-  bc.build( x, 1, y, 1, z, 1, 4, 6 ) ;
-  bl.build( x, 1, y, 1, z, 1, 4, 6 ) ;
-  ak.build( x, 1, y, 1, z, 1, 4, 6 ) ;
+  bc.build( x, 1, y, 1, z, 1, 4, 6, false ) ;
+  bl.build( x, 1, y, 1, z, 1, 4, 6, false ) ;
+  ak.build( x, 1, y, 1, z, 1, 4, 6, false ) ;
   
   bl.writeToStream( cout ) ;
   

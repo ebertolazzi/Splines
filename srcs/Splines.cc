@@ -160,59 +160,89 @@ namespace Splines {
   }
   
   // ---------------------------------------------------------------------------
-
   void
-  BiCubicSplineBase::build ( valueType const x[], sizeType incx,
-                             valueType const y[], sizeType incy,
-                             valueType const z[], sizeType incz,
-                             sizeType nx, sizeType ny ) {
+  SplineSurf::build ( valueType const x[], sizeType incx,
+                      valueType const y[], sizeType incy,
+                      valueType const z[], sizeType incz,
+                      sizeType nx, sizeType ny,
+                      bool transpose ) {
     X.resize(nx) ;
     Y.resize(ny) ;
     Z.resize(nx*ny) ;
-    for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = y[i*incy] ;
-    for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    for ( sizeType i = 0 ; i < nx ; ++i ) X[i] = x[i*incx] ;
+    for ( sizeType i = 0 ; i < ny ; ++i ) Y[i] = y[i*incy] ;
+    if ( transpose ) {
+      for ( sizeType i = 0 ; i < nx ; ++i )
+        for ( sizeType j = 0 ; j < ny ; ++j )
+          Z[ipos(i,j)] = z[ipos_transpose(i,j)*incz] ;
+    } else {
+      for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    }
     makeSpline() ;
   }
 
   void
-  BiCubicSplineBase::build ( VectorOfValues const & x,
-                             VectorOfValues const & y,
-                             VectorOfValues const & z ) {
+  SplineSurf::build ( VectorOfValues const & x,
+                      VectorOfValues const & y,
+                      VectorOfValues const & z,
+                      bool transpose ) {
     SPLINE_ASSERT( z.size() >= x.size()*y.size(),
-                   "in BiCubicSplineBase::build insufficient dimension of Z, expeced >= " << x.size()*y.size() <<
+                   "in BilinearSpline::build insufficient dimension of Z, expeced >= " << x.size()*y.size() <<
                    " found " << z.size() ) ;
     X.resize(x.size()) ;
     Y.resize(y.size()) ;
     Z.resize(x.size()*y.size()) ;
     std::copy( x.begin(), x.end(), X.begin() ) ;
     std::copy( y.begin(), y.end(), Y.begin() ) ;
-    std::copy( z.begin(), z.begin()+Z.size(), Z.begin() ) ;
+    if ( transpose ) {
+      for ( sizeType i = 0 ; i < x.size() ; ++i )
+        for ( sizeType j = 0 ; j < y.size() ; ++j )
+          Z[ipos(i,j)] = z[ipos_transpose(i,j)] ;
+    } else {
+      std::copy( z.begin(), z.begin()+Z.size(), Z.begin() ) ;
+    }
     makeSpline() ;
   }
 
   void
-  BiCubicSplineBase::build ( valueType const z[], sizeType incz, sizeType nx, sizeType ny ) {
+  SplineSurf::build ( valueType const z[], sizeType incz,
+                      sizeType nx, sizeType ny,
+                      bool transpose ) {
     X.resize(nx) ;
     Y.resize(ny) ;
     Z.resize(nx*ny) ;
     for ( sizeType i = 0 ; i < nx    ; ++i ) X[i] = i ;
     for ( sizeType i = 0 ; i < ny    ; ++i ) Y[i] = i ;
     for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    if ( transpose ) {
+      for ( sizeType i = 0 ; i < nx ; ++i )
+        for ( sizeType j = 0 ; j < ny ; ++j )
+          Z[ipos(i,j)] = z[ipos_transpose(i,j)*incz] ;
+    } else {
+      for ( sizeType i = 0 ; i < nx*ny ; ++i ) Z[i] = z[i*incz] ;
+    }
     makeSpline() ;
   }
 
   void
-  BiCubicSplineBase::build ( VectorOfValues const & z, sizeType nx, sizeType ny ) {
+  SplineSurf::build ( VectorOfValues const & z,
+                      sizeType nx, sizeType ny,
+                      bool transpose ) {
     SPLINE_ASSERT( z.size() >= nx*ny,
-                   "in BiCubicSplineBase::build insufficient dimension of Z, expeced >= " << nx*ny <<
+                   "in SplineSurf::build insufficient dimension of Z, expeced >= " << nx*ny <<
                    " found " << z.size() ) ;
     X.resize(nx) ;
     Y.resize(ny) ;
     Z.resize(nx*ny) ;
     for ( sizeType i = 0 ; i < nx ; ++i ) X[i] = i ;
     for ( sizeType i = 0 ; i < ny ; ++i ) Y[i] = i ;
-    std::copy( z.begin(), z.begin()+nx*ny, Z.begin() ) ;
+    if ( transpose ) {
+      for ( sizeType i = 0 ; i < nx ; ++i )
+        for ( sizeType j = 0 ; j < ny ; ++j )
+          Z[ipos(i,j)] = z[ipos_transpose(i,j)] ;
+    } else {
+      std::copy( z.begin(), z.begin()+nx*ny, Z.begin() ) ;
+    }
     makeSpline() ;
   }
 
