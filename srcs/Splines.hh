@@ -308,6 +308,18 @@ namespace Splines {
     //! return the i-th node of the spline (y component).
     valueType yNode( sizeType i ) const { return Y[i] ; }
 
+    //! return first node of the spline (x component).
+    valueType xBegin() const { return X.front() ; }
+
+    //! return first node of the spline (y component).
+    valueType yBegin() const { return Y.front() ; }
+
+    //! return last node of the spline (x component).
+    valueType xEnd() const { return X.back() ; }
+
+    //! return last node of the spline (y component).
+    valueType yEnd() const { return Y.back() ; }
+
     //! Add a support point (x,y) to the spline.
     void pushBack( valueType x, valueType y ) ;
 
