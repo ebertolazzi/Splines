@@ -127,6 +127,17 @@ namespace Splines {
     for ( VectorOfValues::iterator ix = X.begin() ; ix != X.end() ; ++ix ) *ix = *ix * S + Tx ;
   }
 
+  ///////////////////////////////////////////////////////////////////////////
+  void
+  Spline::dump( ostream & s, sizeType nintervals, char const header[] ) const {
+    s << header << '\n' ;
+    valueType dx = (xMax()-xMin())/nintervals ;
+    for ( int i = 0 ; i <= nintervals ; ++i ) {
+      valueType x = xMin() + i*dx ;
+      s << x << '\t' << (*this)(x) << '\n' ;
+    }
+  }
+
   //! change X-range of the spline
   void
   CubicSplineBase::setRange( valueType xmin, valueType xmax ) {

@@ -21,6 +21,7 @@
 #define SPLINES_HH
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <algorithm>
 
@@ -379,6 +380,14 @@ namespace Splines {
 
     //! change X-range of the spline
     void setRange( valueType xmin, valueType xmax ) ;
+
+    ///////////////////////////////////////////////////////////////////////////
+    //! dump a sample of the spline
+    void dump( ostream & s, sizeType nintervals, char const header[] = "x\ty" ) const ;
+
+    void
+    dump( char const fname[], sizeType nintervals, char const header[] = "x\ty" ) const
+    { ofstream file(fname) ; dump( file, nintervals, header ) ; file.close() ; }
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evalute spline value
