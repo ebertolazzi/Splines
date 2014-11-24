@@ -38,35 +38,188 @@ valueType z[] = {  10, 10, 10,   10,  10, 11,
 int
 main() {
 
-  BiCubicSpline  bc ;
-  BilinearSpline bl ;
-  Akima2Dspline  ak ;
-  ofstream       file_bl("bilinear.txt") ;
-  ofstream       file_bc("bicubic.txt") ;
-  ofstream       file_ak("akima2d.txt") ;
+  BiCubicSpline   bc ;
+  BiQuinticSpline bq ;
+  BilinearSpline  bl ;
+  Akima2Dspline   ak ;
+  
+  Splines::VectorOfValues X(4), Y(6), Z(6*6) ;
+  
+  std::copy( x, x+4,   X.begin() ) ;
+  std::copy( y, y+6,   Y.begin() ) ;
+  std::copy( z, z+6*6, Z.begin() ) ;
+  
+  //bc.build( x, 1, y, 1, z, 6, 4, 6 ) ;
+  //bl.build( x, 1, y, 1, z, 6, 4, 6 ) ;
+  //ak.build( x, 1, y, 1, z, 6, 4, 6 ) ;
+  bc.build( X, Y, Z, 6 ) ;
+  bq.build( X, Y, Z, 6 ) ;
+  bl.build( X, Y, Z, 6 ) ;
+  ak.build( X, Y, Z, 6 ) ;
+  
+  //bl.writeToStream( cout ) ;
+  
+  {
+    ofstream file_bl("bilinear.txt") ;
+    ofstream file_bc("bicubic.txt") ;
+    ofstream file_bq("biquintic.txt") ;
+    ofstream file_ak("akima2d.txt") ;
 
-  bc.build( x, 1, y, 1, z, 6, 4, 6 ) ;
-  bl.build( x, 1, y, 1, z, 6, 4, 6 ) ;
-  ak.build( x, 1, y, 1, z, 6, 4, 6 ) ;
-  
-  bl.writeToStream( cout ) ;
-  
-  for ( int i = 0 ; i <= 100 ; ++i ) {
-    valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
-    for ( int j = 0 ; j <= 100 ; ++j ) {
-      valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-      file_bc << bc(x,y) << '\t' ;
-      file_bl << bl(x,y) << '\t' ;
-      file_ak << ak(x,y) << '\t' ;
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc(x,y) << '\t' ;
+        file_bq << bq(x,y) << '\t' ;
+        file_bl << bl(x,y) << '\t' ;
+        file_ak << ak(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
     }
-    file_bc << '\n' ;
-    file_bl << '\n' ;
-    file_ak << '\n' ;
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
   }
-  
-  file_bc.close() ;
-  file_bl.close() ;
-  file_ak.close() ;
-  
+
+  {
+    ofstream file_bl("bilinear_Dx.txt") ;
+    ofstream file_bc("bicubic_Dx.txt") ;
+    ofstream file_bq("biquintic_Dx.txt") ;
+    ofstream file_ak("akima2d_Dx.txt") ;
+
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dx(x,y) << '\t' ;
+        file_bq << bq.Dx(x,y) << '\t' ;
+        file_bl << bl.Dx(x,y) << '\t' ;
+        file_ak << ak.Dx(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
+    }
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
+  }
+
+  {
+    ofstream file_bl("bilinear_Dxx.txt") ;
+    ofstream file_bc("bicubic_Dxx.txt") ;
+    ofstream file_bq("biquintic_Dxx.txt") ;
+    ofstream file_ak("akima2d_Dxx.txt") ;
+
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dxx(x,y) << '\t' ;
+        file_bq << bq.Dxx(x,y) << '\t' ;
+        file_bl << bl.Dxx(x,y) << '\t' ;
+        file_ak << ak.Dxx(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
+    }
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
+  }
+
+  {
+    ofstream file_bl("bilinear_Dy.txt") ;
+    ofstream file_bc("bicubic_Dy.txt") ;
+    ofstream file_bq("biquintic_Dy.txt") ;
+    ofstream file_ak("akima2d_Dy.txt") ;
+
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dy(x,y) << '\t' ;
+        file_bq << bq.Dy(x,y) << '\t' ;
+        file_bl << bl.Dy(x,y) << '\t' ;
+        file_ak << ak.Dy(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
+    }
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
+  }
+
+  {
+    ofstream file_bl("bilinear_Dyy.txt") ;
+    ofstream file_bc("bicubic_Dyy.txt") ;
+    ofstream file_bq("biquintic_Dyy.txt") ;
+    ofstream file_ak("akima2d_Dyy.txt") ;
+
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dyy(x,y) << '\t' ;
+        file_bq << bq.Dyy(x,y) << '\t' ;
+        file_bl << bl.Dyy(x,y) << '\t' ;
+        file_ak << ak.Dyy(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
+    }
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
+  }
+
+  {
+    ofstream file_bl("bilinear_Dxy.txt") ;
+    ofstream file_bc("bicubic_Dxy.txt") ;
+    ofstream file_bq("biquintic_Dxy.txt") ;
+    ofstream file_ak("akima2d_Dxy.txt") ;
+
+    for ( int i = 0 ; i <= 100 ; ++i ) {
+      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      for ( int j = 0 ; j <= 100 ; ++j ) {
+        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dxy(x,y) << '\t' ;
+        file_bq << bq.Dxy(x,y) << '\t' ;
+        file_bl << bl.Dxy(x,y) << '\t' ;
+        file_ak << ak.Dxy(x,y) << '\t' ;
+      }
+      file_bc << '\n' ;
+      file_bq << '\n' ;
+      file_bl << '\n' ;
+      file_ak << '\n' ;
+    }
+
+    file_bc.close() ;
+    file_bq.close() ;
+    file_bl.close() ;
+    file_ak.close() ;
+  }
+
   cout << "ALL DONE!\n" ;
 }

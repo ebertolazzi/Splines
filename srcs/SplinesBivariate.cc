@@ -107,28 +107,31 @@ namespace Splines {
     build ( &XX.front(), 1, &YY.front(), 1, z, ldZ, nx, ny, fortran_storage, transposed ) ;
   }
 
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   void
   BiCubicSplineBase::load( sizeType i, sizeType j ) const {
 
-    bili[0][0] = Z[ipos_C(i,j)] ;
-    bili[0][1] = Z[ipos_C(i,j+1)] ;
-    bili[1][0] = Z[ipos_C(i+1,j)];
-    bili[1][1] = Z[ipos_C(i+1,j+1)];
+    bili3[0][0] = Z[ipos_C(i,j)] ;
+    bili3[0][1] = Z[ipos_C(i,j+1)] ;
+    bili3[0][2] = DY[ipos_C(i,j)] ;
+    bili3[0][3] = DY[ipos_C(i,j+1)] ;
 
-    bili[2][0] = DX[ipos_C(i,j)] ;
-    bili[2][1] = DX[ipos_C(i,j+1)] ;
-    bili[3][0] = DX[ipos_C(i+1,j)];
-    bili[3][1] = DX[ipos_C(i+1,j+1)];
+    bili3[1][0] = Z[ipos_C(i+1,j)];
+    bili3[1][1] = Z[ipos_C(i+1,j+1)];
+    bili3[1][2] = DY[ipos_C(i+1,j)] ;
+    bili3[1][3] = DY[ipos_C(i+1,j+1)];
 
-    bili[0][2] = DY[ipos_C(i,j)] ;
-    bili[0][3] = DY[ipos_C(i,j+1)] ;
-    bili[1][2] = DY[ipos_C(i+1,j)] ;
-    bili[1][3] = DY[ipos_C(i+1,j+1)];
+    bili3[2][0] = DX[ipos_C(i,j)] ;
+    bili3[2][1] = DX[ipos_C(i,j+1)] ;
+    bili3[2][2] = DXY[ipos_C(i,j)] ;
+    bili3[2][3] = DXY[ipos_C(i,j+1)] ;
 
-    bili[2][2] = DXY[ipos_C(i,j)] ;
-    bili[2][3] = DXY[ipos_C(i,j+1)] ;
-    bili[3][2] = DXY[ipos_C(i+1,j)] ;
-    bili[3][3] = DXY[ipos_C(i+1,j+1)] ;
+    bili3[3][0] = DX[ipos_C(i+1,j)];
+    bili3[3][1] = DX[ipos_C(i+1,j+1)];
+    bili3[3][2] = DXY[ipos_C(i+1,j)] ;
+    bili3[3][3] = DXY[ipos_C(i+1,j+1)] ;
 
   }
 
@@ -139,7 +142,7 @@ namespace Splines {
     Hermite3( x - X[i], X[i+1] - X[i], u ) ;
     Hermite3( y - Y[j], Y[j+1] - Y[j], v ) ;
     load(i,j) ;
-    return bilinear( u, bili, v ) ;
+    return bilinear3( u, bili3, v ) ;
   }
 
   valueType
@@ -149,7 +152,7 @@ namespace Splines {
     Hermite3_D( x - X[i], X[i+1] - X[i], u_D ) ;
     Hermite3  ( y - Y[j], Y[j+1] - Y[j], v   ) ;
     load(i,j) ;
-    return bilinear( u_D, bili, v ) ;
+    return bilinear3( u_D, bili3, v ) ;
   }
 
   valueType
@@ -159,7 +162,7 @@ namespace Splines {
     Hermite3  ( x - X[i], X[i+1] - X[i], u   ) ;
     Hermite3_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
     load(i,j) ;
-    return bilinear( u, bili, v_D ) ;
+    return bilinear3( u, bili3, v_D ) ;
   }
 
   valueType
@@ -169,7 +172,7 @@ namespace Splines {
     Hermite3_D( x - X[i], X[i+1] - X[i], u_D ) ;
     Hermite3_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
     load(i,j) ;
-    return bilinear( u_D, bili, v_D ) ;
+    return bilinear3( u_D, bili3, v_D ) ;
   }
 
   valueType
@@ -179,7 +182,7 @@ namespace Splines {
     Hermite3_DD( x - X[i], X[i+1] - X[i], u_DD ) ;
     Hermite3   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
     load(i,j) ;
-    return bilinear( u_DD, bili, v ) ;
+    return bilinear3( u_DD, bili3, v ) ;
   }
 
   valueType
@@ -189,7 +192,7 @@ namespace Splines {
     Hermite3   ( x - X[i], X[i+1] - X[i], u    ) ;
     Hermite3_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
     load(i,j) ;
-    return bilinear( u, bili, v_DD ) ;
+    return bilinear3( u, bili3, v_DD ) ;
   }
 
   void
@@ -201,9 +204,9 @@ namespace Splines {
     Hermite3   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
     Hermite3_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
     load(i,j) ;
-    d[0] = bilinear( u, bili, v ) ;
-    d[1] = bilinear( u_D, bili, v ) ;
-    d[2] = bilinear( u, bili, v_D ) ;
+    d[0] = bilinear3( u, bili3, v ) ;
+    d[1] = bilinear3( u_D, bili3, v ) ;
+    d[2] = bilinear3( u, bili3, v_D ) ;
   }
 
   void
@@ -217,12 +220,164 @@ namespace Splines {
     Hermite3_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
     Hermite3_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
     load(i,j) ;
-    d[0] = bilinear( u, bili, v ) ;
-    d[1] = bilinear( u_D, bili, v ) ;
-    d[2] = bilinear( u, bili, v_D ) ;
-    d[3] = bilinear( u_DD, bili, v ) ;
-    d[4] = bilinear( u_D, bili, v_D ) ;
-    d[5] = bilinear( u, bili, v_DD ) ;
+    d[0] = bilinear3( u, bili3, v ) ;
+    d[1] = bilinear3( u_D, bili3, v ) ;
+    d[2] = bilinear3( u, bili3, v_D ) ;
+    d[3] = bilinear3( u_DD, bili3, v ) ;
+    d[4] = bilinear3( u_D, bili3, v_D ) ;
+    d[5] = bilinear3( u, bili3, v_DD ) ;
+  }
+
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  void
+  BiQuinticSplineBase::load( sizeType i, sizeType j ) const {
+  
+    // H0, H1, dH0, dH1, ddH0, ddH1
+    
+    // + + + + + +
+    // + + + + + +
+    // + + + + . .
+    // + + + + . .
+    // + + . . . .
+    // + + . . . .
+
+    bili5[0][0] = Z[ipos_C(i,j)] ;
+    bili5[0][1] = Z[ipos_C(i,j+1)] ;
+    bili5[0][2] = DY[ipos_C(i,j)] ;
+    bili5[0][3] = DY[ipos_C(i,j+1)] ;
+    bili5[0][4] = DYY[ipos_C(i,j)] ;
+    bili5[0][5] = DYY[ipos_C(i,j+1)] ;
+
+    bili5[1][0] = Z[ipos_C(i+1,j)];
+    bili5[1][1] = Z[ipos_C(i+1,j+1)];
+    bili5[1][2] = DY[ipos_C(i+1,j)] ;
+    bili5[1][3] = DY[ipos_C(i+1,j+1)];
+    bili5[1][4] = DYY[ipos_C(i+1,j)] ;
+    bili5[1][5] = DYY[ipos_C(i+1,j+1)];
+
+    bili5[2][0] = DX[ipos_C(i,j)] ;
+    bili5[2][1] = DX[ipos_C(i,j+1)] ;
+    bili5[2][2] = DXY[ipos_C(i,j)] ;
+    bili5[2][3] = DXY[ipos_C(i,j+1)] ;
+    bili5[2][4] = DXXY[ipos_C(i,j)] ;
+    bili5[2][5] = DXXY[ipos_C(i,j+1)] ;
+
+    bili5[3][0] = DX[ipos_C(i+1,j)];
+    bili5[3][1] = DX[ipos_C(i+1,j+1)];
+    bili5[3][2] = DXY[ipos_C(i+1,j)] ;
+    bili5[3][3] = DXY[ipos_C(i+1,j+1)] ;
+    bili5[3][4] = DXXY[ipos_C(i+1,j)] ;
+    bili5[3][5] = DXXY[ipos_C(i+1,j+1)] ;
+
+    bili5[4][0] = DXX[ipos_C(i,j)] ;
+    bili5[4][1] = DXX[ipos_C(i,j+1)] ;
+    bili5[4][2] = DXXY[ipos_C(i,j)] ;
+    bili5[4][3] = DXXY[ipos_C(i,j+1)] ;
+    bili5[4][4] = 0 ; // DXXXY[ipos_C(i,j)] ;
+    bili5[4][5] = 0 ; // DXXXY[ipos_C(i,j+1)] ;
+
+    bili5[5][0] = DXX[ipos_C(i+1,j)];
+    bili5[5][1] = DXX[ipos_C(i+1,j+1)];
+    bili5[5][2] = DXXY[ipos_C(i+1,j)] ;
+    bili5[5][3] = DXXY[ipos_C(i+1,j+1)] ;
+    bili5[5][4] = 0 ; // DXXXY[ipos_C(i+1,j)] ;
+    bili5[5][5] = 0 ; // DXXXY[ipos_C(i+1,j+1)] ;
+
+  }
+
+  valueType
+  BiQuinticSplineBase::operator () ( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5( x - X[i], X[i+1] - X[i], u ) ;
+    Hermite5( y - Y[j], Y[j+1] - Y[j], v ) ;
+    load(i,j) ;
+    return bilinear5( u, bili5, v ) ;
+  }
+
+  valueType
+  BiQuinticSplineBase::Dx( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5_D( x - X[i], X[i+1] - X[i], u_D ) ;
+    Hermite5  ( y - Y[j], Y[j+1] - Y[j], v   ) ;
+    load(i,j) ;
+    return bilinear5( u_D, bili5, v ) ;
+  }
+
+  valueType
+  BiQuinticSplineBase::Dy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5  ( x - X[i], X[i+1] - X[i], u   ) ;
+    Hermite5_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
+    load(i,j) ;
+    return bilinear5( u, bili5, v_D ) ;
+  }
+
+  valueType
+  BiQuinticSplineBase::Dxy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5_D( x - X[i], X[i+1] - X[i], u_D ) ;
+    Hermite5_D( y - Y[j], Y[j+1] - Y[j], v_D ) ;
+    load(i,j) ;
+    return bilinear5( u_D, bili5, v_D ) ;
+  }
+
+  valueType
+  BiQuinticSplineBase::Dxx( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5_DD( x - X[i], X[i+1] - X[i], u_DD ) ;
+    Hermite5   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    load(i,j) ;
+    return bilinear5( u_DD, bili5, v ) ;
+  }
+
+  valueType
+  BiQuinticSplineBase::Dyy( valueType x, valueType y ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite5_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
+    load(i,j) ;
+    return bilinear5( u, bili5, v_DD ) ;
+  }
+
+  void
+  BiQuinticSplineBase::D( valueType x, valueType y, valueType d[3] ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite5_D ( x - X[i], X[i+1] - X[i], u_D  ) ;
+    Hermite5   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    Hermite5_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
+    load(i,j) ;
+    d[0] = bilinear5( u, bili5, v ) ;
+    d[1] = bilinear5( u_D, bili5, v ) ;
+    d[2] = bilinear5( u, bili5, v_D ) ;
+  }
+
+  void
+  BiQuinticSplineBase::DD( valueType x, valueType y, valueType d[6] ) const {
+    sizeType i = search_x( x ) ;
+    sizeType j = search_y( y ) ;
+    Hermite5   ( x - X[i], X[i+1] - X[i], u    ) ;
+    Hermite5_D ( x - X[i], X[i+1] - X[i], u_D  ) ;
+    Hermite5_DD( x - X[i], X[i+1] - X[i], u_DD ) ;
+    Hermite5   ( y - Y[j], Y[j+1] - Y[j], v    ) ;
+    Hermite5_D ( y - Y[j], Y[j+1] - Y[j], v_D  ) ;
+    Hermite5_DD( y - Y[j], Y[j+1] - Y[j], v_DD ) ;
+    load(i,j) ;
+    d[0] = bilinear5( u, bili5, v ) ;
+    d[1] = bilinear5( u_D, bili5, v ) ;
+    d[2] = bilinear5( u, bili5, v_D ) ;
+    d[3] = bilinear5( u_DD, bili5, v ) ;
+    d[4] = bilinear5( u_D, bili5, v_D ) ;
+    d[5] = bilinear5( u, bili5, v_DD ) ;
   }
 
 }

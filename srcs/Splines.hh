@@ -238,9 +238,14 @@ namespace Splines {
   //  |____/|_|_|_|_| |_|\___|\__,_|_|
   */
   valueType
-  bilinear( valueType const p[4],
-            valueType const M[4][4],
-            valueType const q[4] ) ;
+  bilinear3( valueType const p[4],
+             valueType const M[4][4],
+             valueType const q[4] ) ;
+
+  valueType
+  bilinear5( valueType const p[6],
+             valueType const M[6][6],
+             valueType const q[6] ) ;
 
   /*
   //   ____        _ _            
@@ -632,6 +637,12 @@ namespace Splines {
   //  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
   //                    |_|        |_|                   
   */
+  void
+  pchip( valueType const X[],
+         valueType const Y[],
+         valueType       Yp[],
+         sizeType        n ) ;
+
   //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
   class PchipSpline : public CubicSplineBase {
   public:
@@ -891,6 +902,7 @@ namespace Splines {
     QuinticSplineBase()
     : Spline()
     , Yp()
+    , Ypp()
     {}
     
     virtual
@@ -901,6 +913,9 @@ namespace Splines {
 
     //! return the i-th node of the spline (y' component).
     valueType ypNode( sizeType i ) const { return Yp[i] ; }
+
+    //! return the i-th node of the spline (y'' component).
+    valueType yppNode( sizeType i ) const { return Ypp[i] ; }
 
     //! change X-range of the spline
     void setRange( valueType xmin, valueType xmax ) ;
@@ -1205,7 +1220,7 @@ namespace Splines {
   //  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
   //                                        |_|
   */
-  //! cubic spline base class
+  //! Bi-cubic spline base class
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
@@ -1216,7 +1231,7 @@ namespace Splines {
     mutable valueType v[4] ;
     mutable valueType v_D[4] ;
     mutable valueType v_DD[4] ;
-    mutable valueType bili[4][4] ;
+    mutable valueType bili3[4][4] ;
 
     void load( sizeType i, sizeType j ) const ;
 
@@ -1315,6 +1330,98 @@ namespace Splines {
     virtual char const * type_name() const ;
 
   } ;
+  
+  /*
+  //   ____  _  ___        _       _   _      ____        _ _            ____
+  //  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
+  //  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
+  //  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
+  //  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
+  //                                               |_|
+  */
+  //! Bi-quintic spline base class
+  class BiQuinticSplineBase : public SplineSurf {
+  protected:
+
+    VectorOfValues    DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY ;
+    mutable valueType u[6] ;
+    mutable valueType u_D[6] ;
+    mutable valueType u_DD[6] ;
+    mutable valueType v[6] ;
+    mutable valueType v_D[6] ;
+    mutable valueType v_DD[6] ;
+    mutable valueType bili5[6][6] ;
+
+    void load( sizeType i, sizeType j ) const ;
+
+  public:
+  
+    //! spline constructor
+    BiQuinticSplineBase()
+    : SplineSurf()
+    , DX()
+    , DY()
+    , DXX()
+    , DYY()
+    , DXY()
+    {}
+    
+    virtual
+    ~BiQuinticSplineBase()
+    {}
+
+    valueType DxNode ( sizeType i, sizeType j ) const { return DX[ipos_C(i,j)] ; }
+    valueType DyNode ( sizeType i, sizeType j ) const { return DY[ipos_C(i,j)] ; }
+    valueType DxxNode( sizeType i, sizeType j ) const { return DXX[ipos_C(i,j)] ; }
+    valueType DyyNode( sizeType i, sizeType j ) const { return DYY[ipos_C(i,j)] ; }
+    valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos_C(i,j)] ; }
+
+    //! Evalute spline value
+    virtual valueType operator () ( valueType x, valueType y ) const ;
+
+    //! First derivative
+    virtual void D( valueType x, valueType y, valueType d[3] ) const ;
+    virtual valueType Dx( valueType x, valueType y ) const ;
+    virtual valueType Dy( valueType x, valueType y ) const ;
+
+    //! Second derivative
+    virtual void DD( valueType x, valueType y, valueType dd[6] ) const ;
+    virtual valueType Dxx( valueType x, valueType y ) const ;
+    virtual valueType Dxy( valueType x, valueType y ) const ;
+    virtual valueType Dyy( valueType x, valueType y ) const ;
+  } ;
+
+  /*
+  //   ____  _  ___        _       _   _      ____        _ _
+  //  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
+  //  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \ 
+  //  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ 
+  //  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
+  //                                               |_|
+  */
+  //! cubic spline base class
+  class BiQuinticSpline : public BiQuinticSplineBase {
+
+    virtual void makeSpline() ;
+
+  public:
+  
+    //! spline constructor
+    BiQuinticSpline()
+    : BiQuinticSplineBase()
+    {}
+    
+    virtual
+    ~BiQuinticSpline()
+    {}
+
+    //! Print spline coefficients
+    virtual void writeToStream( ostream & s ) const ;
+
+    //! Return spline typename
+    virtual char const * type_name() const ;
+
+  } ;
 
 }
 
@@ -1330,6 +1437,7 @@ namespace SplinesLoad {
 
   using Splines::BilinearSpline ;
   using Splines::BiCubicSpline ;
+  using Splines::BiQuinticSpline ;
   using Splines::Akima2Dspline ;
 }
 

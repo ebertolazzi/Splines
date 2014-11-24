@@ -62,12 +62,13 @@ namespace Splines {
   //    A method for constructing local monotone piecewise cubic interpolants,
   //    SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
   */
-
   void
-  PchipSpline::build() {
+  pchip( valueType const X[],
+         valueType const Y[],
+         valueType       Yp[],
+         sizeType        n ) {
+
     indexType ierr = 0 ;
-    Yp.resize(npts) ;
-    sizeType n = sizeType(npts - 1) ;
 
     // function definition is ok, go on.
     valueType h1    = X[1] - X[0] ;
@@ -75,7 +76,7 @@ namespace Splines {
     valueType dsave = del1 ;
 
     // special case n=2 -- use linear interpolation.
-    if ( npts == 2 ) { Yp[0] = Yp[1] = del1 ; return ; }
+    if ( n == 1 ) { Yp[0] = Yp[1] = del1 ; return ; }
 
     valueType h2   = X[2] - X[1] ;
     valueType del2 = (Y[2]-Y[1])/h2 ;
@@ -139,5 +140,11 @@ namespace Splines {
       if ( abs(Yp[n]) > abs(dmax) ) Yp[n] = dmax ;
     }
     // cout << "ierr = " << ierr << '\n' ;
+  }
+
+  void
+  PchipSpline::build() {
+    Yp.resize(npts) ;
+    pchip( &X.front(), &Y.front(), &Yp.front(), npts -1 ) ;
   }
 }
