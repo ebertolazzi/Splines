@@ -166,7 +166,8 @@
   #define SPLINE_ASSERT(COND,MSG)           \
     if ( !(COND) ) {                        \
       std::ostringstream ost ;              \
-      ost << "On line: " << __LINE__        \
+      ost << "In spline: " << name()        \
+          << " line: " << __LINE__          \
           << " file: " << __FILE__          \
           << '\n' << MSG << '\n' ;          \
       throw std::runtime_error(ost.str()) ; \
@@ -178,7 +179,8 @@
   #include <sstream>
   #define SPLINE_WARNING(COND,MSG)         \
     if ( !(COND) ) {                       \
-      std::cout << "On line: " << __LINE__ \
+      std::cout << "In spline: " << name() \
+                << " line: " << __LINE__   \
                 << " file: " << __FILE__   \
                 << MSG << '\n' ;           \
     }
@@ -273,6 +275,9 @@ namespace Splines {
    */
   class Spline {
   protected:
+  
+    string         _name ;
+    bool           _check_range ;
 
     sizeType       npts ;
     VectorOfValues X, Y ;
@@ -292,8 +297,10 @@ namespace Splines {
   public:
 
     //! spline constructor
-    Spline()
-    : npts(0)
+    Spline( string const & name = "Spline", bool ck = false )
+    : _name(name)
+    , _check_range(ck)
+    , npts(0)
     , X()
     , Y()
     , lastInterval(0)
@@ -303,6 +310,11 @@ namespace Splines {
     virtual 
     ~Spline()
     {}
+    
+    string const & name() const { return _name ; }
+
+    void setCheckRange( bool ck ) { _check_range = ck ; }
+    bool getCheckRange() const { return _check_range ; }
 
     //! return the number of support points of the spline.
     sizeType numPoints(void) const { return npts ; }
@@ -449,8 +461,8 @@ namespace Splines {
     using Spline::build ;
   
     //! spline constructor
-    CubicSplineBase()
-    : Spline()
+    CubicSplineBase( string const & name = "Spline", bool ck = false )
+    : Spline(name,ck)
     , Yp()
     {}
     
@@ -510,8 +522,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    AkimaSpline()
-    : CubicSplineBase()
+    AkimaSpline( string const & name = "Spline", bool ck = false )
+    : CubicSplineBase( name, ck )
     {}
 
     //! spline destructor
@@ -544,8 +556,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    BesselSpline()
-    : CubicSplineBase()
+    BesselSpline( string const & name = "Spline", bool ck = false )
+    : CubicSplineBase( name, ck )
     {}
 
     //! spline destructor
@@ -596,8 +608,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    CubicSpline()
-    : CubicSplineBase()
+    CubicSpline( string const & name = "Spline", bool ck = false )
+    : CubicSplineBase( name, ck )
     , ddy0(0)
     , ddyn(0)
     {}
@@ -650,8 +662,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    PchipSpline()
-    : CubicSplineBase()
+    PchipSpline( string const & name = "Spline", bool ck = false )
+    : CubicSplineBase( name, ck )
     {}
 
     //! spline destructor
@@ -681,8 +693,8 @@ namespace Splines {
   class LinearSpline : public Spline {
   public:
 
-    LinearSpline()
-    : Spline()
+    LinearSpline( string const & name = "Spline", bool ck = false )
+    : Spline(name,ck)
     {}
 
     virtual
@@ -780,11 +792,10 @@ namespace Splines {
   */
   //! Picewise constants spline class
   class ConstantsSpline : public Spline {
-  private:
   public:
 
-    ConstantsSpline()
-    : Spline()
+    ConstantsSpline( string const & name = "Spline", bool ck = false )
+    : Spline(name,ck)
     {}
 
     ~ConstantsSpline()
@@ -899,8 +910,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    QuinticSplineBase()
-    : Spline()
+    QuinticSplineBase( string const & name = "Spline", bool ck = false )
+    : Spline(name,ck)
     , Yp()
     , Ypp()
     {}
@@ -962,8 +973,8 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    QuinticSpline()
-    : QuinticSplineBase()
+    QuinticSpline( string const & name = "Spline", bool ck = false )
+    : QuinticSplineBase( name, ck )
     {}
 
     //! spline destructor
@@ -986,6 +997,9 @@ namespace Splines {
   //! Spline Management Class
   class SplineSurf {
   protected:
+  
+    string const _name ;
+    bool         _check_range ;
 
     VectorOfValues X, Y, Z ;
     
@@ -1008,8 +1022,10 @@ namespace Splines {
   public:
 
     //! spline constructor
-    SplineSurf()
-    : X()
+    SplineSurf( string const & name = "Spline", bool ck = false )
+    : _name(name)
+    , _check_range(ck)
+    , X()
     , Y()
     , Z()
     , Z_min(0)
@@ -1022,6 +1038,11 @@ namespace Splines {
     virtual 
     ~SplineSurf()
     {}
+
+    string const & name() const { return _name ; }
+
+    void setCheckRange( bool ck ) { _check_range = ck ; }
+    bool getCheckRange() const { return _check_range ; }
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -1182,8 +1203,8 @@ namespace Splines {
   public:
   
     //! spline constructor
-    BilinearSpline()
-    : SplineSurf()
+    BilinearSpline( string const & name = "Spline", bool ck = false )
+    : SplineSurf(name,ck)
     {}
     
     virtual
@@ -1238,8 +1259,8 @@ namespace Splines {
   public:
   
     //! spline constructor
-    BiCubicSplineBase()
-    : SplineSurf()
+    BiCubicSplineBase( string const & name = "Spline", bool ck = false )
+    : SplineSurf( name, ck )
     , DX()
     , DY()
     {}
@@ -1277,14 +1298,13 @@ namespace Splines {
   */
   //! cubic spline base class
   class BiCubicSpline : public BiCubicSplineBase {
-
     virtual void makeSpline() ;
 
   public:
   
     //! spline constructor
-    BiCubicSpline()
-    : BiCubicSplineBase()
+    BiCubicSpline( string const & name = "Spline", bool ck = false )
+    : BiCubicSplineBase( name, ck )
     {}
     
     virtual
@@ -1309,14 +1329,13 @@ namespace Splines {
   */
   //! cubic spline base class
   class Akima2Dspline : public BiCubicSplineBase {
-
     virtual void makeSpline() ;
 
   public:
   
     //! spline constructor
-    Akima2Dspline()
-    : BiCubicSplineBase()
+    Akima2Dspline( string const & name = "Spline", bool ck = false )
+    : BiCubicSplineBase( name, ck )
     {}
     
     virtual
@@ -1357,8 +1376,8 @@ namespace Splines {
   public:
   
     //! spline constructor
-    BiQuinticSplineBase()
-    : SplineSurf()
+    BiQuinticSplineBase( string const & name = "Spline", bool ck = false )
+    : SplineSurf( name, ck )
     , DX()
     , DY()
     , DXX()
@@ -1401,14 +1420,13 @@ namespace Splines {
   */
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
-
     virtual void makeSpline() ;
 
   public:
   
     //! spline constructor
-    BiQuinticSpline()
-    : BiQuinticSplineBase()
+    BiQuinticSpline( string const & name = "Spline", bool ck = false )
+    : BiQuinticSplineBase( name, ck )
     {}
     
     virtual
