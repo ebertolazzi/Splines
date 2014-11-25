@@ -79,6 +79,7 @@ namespace Splines {
 
   sizeType
   Spline::search( valueType x ) const {
+    SPLINE_ASSERT( X.size() > 0, "\nsearch(" << x << ") empty spline");
     if ( X[lastInterval] < x || X[lastInterval+1] > x ) {
       if ( _check_range ) {
         SPLINE_ASSERT( x >= X.front() && x <= X.back(),

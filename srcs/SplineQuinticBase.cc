@@ -30,9 +30,6 @@ namespace Splines {
 
   valueType
   QuinticSplineBase::operator () ( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase(" << x << ") empty spline") ;
-    if ( x < X.front() ) return Y.front() + ( x - X.front() ) * ( Yp.front() + ( x - X.front() ) * Ypp.front()/2 ) ;
-    if ( x > X.back()  ) return Y.back()  + ( x - X.back() )  * ( Yp.back()  + ( x - X.back()  ) * Ypp.back()/2  ) ;
     sizeType i = Spline::search( x ) ;
     Hermite5( x-X[i], X[i+1]-X[i], base ) ;
     return base[0] * Y[i]    +
@@ -45,9 +42,6 @@ namespace Splines {
 
   valueType
   QuinticSplineBase::D( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.D(" << x << ") empty spline");
-    if ( x < X.front() ) return Yp.front() + ( x - X.front() ) * Ypp.front() ;
-    if ( x > X.back()  ) return Yp.back()  + ( x - X.back()  ) * Ypp.back()  ;
     sizeType i = Spline::search( x ) ;
     Hermite5_D( x-X[i], X[i+1]-X[i], base_D ) ;
     return base_D[0] * Y[i]    +
@@ -60,9 +54,6 @@ namespace Splines {
 
   valueType
   QuinticSplineBase::DD( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DD(" << x << ") empty spline");
-    if ( x < X.front() ) return Ypp.front() ;
-    if ( x > X.back()  ) return Ypp.back()  ;
     sizeType i = Spline::search( x ) ;
     Hermite5_DD( x-X[i], X[i+1]-X[i], base_DD ) ;
     return base_DD[0] * Y[i]    +
@@ -74,10 +65,7 @@ namespace Splines {
   }
 
   valueType
-  QuinticSplineBase::DDD( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDD(" << x << ") empty spline");
-    if ( x < X.front() ) return 0 ;
-    if ( x > X.back()  ) return 0 ;
+  QuinticSplineBase::DDD( valueType x ) const {
     sizeType i = Spline::search( x ) ;
     Hermite5_DDD( x-X[i], X[i+1]-X[i], base_DDD ) ;
     return base_DDD[0] * Y[i]    +
@@ -90,9 +78,6 @@ namespace Splines {
 
   valueType
   QuinticSplineBase::DDDD( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDDD(" << x << ") empty spline");
-    if ( x < X.front() ) return 0 ;
-    if ( x > X.back()  ) return 0 ;
     sizeType i = Spline::search( x ) ;
     Hermite5_DDDD( x-X[i], X[i+1]-X[i], base_DDDD ) ;
     return base_DDDD[0] * Y[i]    +
@@ -105,9 +90,6 @@ namespace Splines {
 
   valueType
   QuinticSplineBase::DDDDD( valueType x ) const { 
-    SPLINE_ASSERT( X.size() > 0 , "QuinticSplineBase.DDDDD(" << x << ") empty spline");
-    if ( x < X.front() ) return 0 ;
-    if ( x > X.back()  ) return 0 ;
     sizeType i = Spline::search( x ) ;
     Hermite5_DDDDD( x-X[i], X[i+1]-X[i], base_DDDDD ) ;
     return base_DDDDD[0] * Y[i]    +
