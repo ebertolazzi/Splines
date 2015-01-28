@@ -179,7 +179,7 @@ namespace Splines {
     mutable sizeType lastInterval ;
 
     Spline(Spline const &) ; // block copy constructor
-    Spline const & operator = (Spline &) const ; // block copy method
+    Spline const & operator = (Spline const &) ; // block copy method
 
   public:
 
@@ -1036,7 +1036,7 @@ namespace Splines {
   class SplineSet {
 
     SplineSet(SplineSet const &) ; // block copy constructor
-    SplineSet const & operator = (SplineSet &) const ; // block copy method
+    SplineSet const & operator = (SplineSet const &) ; // block copy method
 
   protected:
 
@@ -1172,7 +1172,7 @@ namespace Splines {
   class SplineSurf {
 
     SplineSurf(SplineSurf const &) ; // block copy constructor
-    SplineSurf const & operator = (SplineSurf &) const ; // block copy method
+    SplineSurf const & operator = (SplineSurf const &) ; // block copy method
 
   protected:
   

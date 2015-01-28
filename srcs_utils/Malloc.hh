@@ -56,8 +56,8 @@ private:
   size_t       numAllocated ;
   valuePointer pMalloc ;
 
-  Malloc(Malloc<T> const &) ;
-  Malloc<T> const & operator = (Malloc<T> &) const ;
+  Malloc(Malloc<T> const &) ; // block copy constructor
+  Malloc<T> const & operator = (Malloc<T> &) const ; // block copy constructor
 
 public:
 
