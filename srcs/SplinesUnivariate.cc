@@ -38,6 +38,17 @@
 #endif
 
 namespace Splines {
+  //! Associate a number for each type of splines implemented
+  
+  char const * spline_type[] = {
+    "constant",
+    "linear",
+    "Akima",
+    "Bessel",
+    "Pchip",
+    "Cubic",
+    "Quintic"
+  } ;
 
   /*       _               _    _   _       _   _
   //   ___| |__   ___  ___| | _| \ | | __ _| \ | |

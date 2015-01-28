@@ -81,13 +81,16 @@ namespace Splines {
   typedef int      indexType ; //!< Signed integer type for splines
 
   //! Associate a number for each type of splines implemented
-  typedef enum { CONSTANT,
-                 LINEAR,
-                 AKIMA,
-                 BESSEL,
-                 PCHIP,
-                 CUBIC,
-                 QUINTIC } SplineType ;
+  typedef enum { CONSTANT_TYPE,
+                 LINEAR_TYPE,
+                 AKIMA_TYPE,
+                 BESSEL_TYPE,
+                 PCHIP_TYPE,
+                 CUBIC_TYPE,
+                 QUINTIC_TYPE,
+                 SPLINE_SET_TYPE } SplineType ;
+  
+  extern char const *spline_type[] ;
 
   /*       _               _    _   _       _   _
   //   ___| |__   ___  ___| | _| \ | | __ _| \ | |
@@ -327,7 +330,10 @@ namespace Splines {
     virtual void writeToStream( std::basic_ostream<char> & s ) const = 0 ;
 
     //! Return spline typename
-    virtual char const * type_name() const = 0 ;
+    char const * type_name() const { return spline_type[type()] ; }
+
+    //! Return spline type (as number)
+    virtual unsigned type() const = 0 ;
 
   } ;
 
@@ -474,8 +480,8 @@ namespace Splines {
     ~AkimaSpline()
     {}
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "akima" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return AKIMA_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -510,8 +516,8 @@ namespace Splines {
     ~BesselSpline()
     {}
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "bessel" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return BESSEL_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -578,8 +584,8 @@ namespace Splines {
       this -> ddyn = ddyn ;    
     }
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "cubic" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return CUBIC_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -620,8 +626,8 @@ namespace Splines {
     ~PchipSpline()
     {}
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "pchip" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return PCHIP_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -691,8 +697,8 @@ namespace Splines {
     //! Print spline coefficients
     virtual void writeToStream( std::basic_ostream<char> & s ) const ;
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "linear" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return LINEAR_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -799,8 +805,8 @@ namespace Splines {
     //! Print spline coefficients
     virtual void writeToStream( std::basic_ostream<char> & ) const ;
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "constant" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return CONSTANT_TYPE ; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -935,8 +941,8 @@ namespace Splines {
     //! Print spline coefficients
     virtual void writeToStream( std::basic_ostream<char> & s ) const ;
 
-    //! Return spline typename
-    virtual char const * type_name() const { return "quintic" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return QUINTIC_TYPE ; }
 
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1155,8 +1161,8 @@ namespace Splines {
             valueType  const *Y[],
             bool       const rp_policy[] = nullptr ) ;
 
-    //! Return spline typename
-    char const * type_name() const { return "SplineSet" ; }
+    //! Return spline type (as number)
+    virtual unsigned type() const { return SPLINE_SET_TYPE ; }
 
   } ;
 
