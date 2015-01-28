@@ -44,15 +44,15 @@ namespace Splines {
     indexType mem = npts ;
     for ( indexType i = 0 ; i < nspl ; ++i ) {
       switch (stype[i]) {
-        case CONSTANT: case LINEAR:
+        case CONSTANT_TYPE: case LINEAR_TYPE:
           mem += npts ;
         break;
 
-        case AKIMA: case BESSEL: case PCHIP: case CUBIC:
+        case AKIMA_TYPE: case BESSEL_TYPE: case PCHIP_TYPE: case CUBIC_TYPE:
           mem += 2*npts ; // Y, Yp
         break;
 
-        case QUINTIC:
+        case QUINTIC_TYPE:
           mem += 3*npts ; // Y, Yp, Ypp
         break;
         
@@ -82,58 +82,58 @@ namespace Splines {
       _Ymax[i] = *std::max_element( pY,pY+npts ) ;
       pYpp = pYp = nullptr ;
       switch ( stype[i] ) {
-        case QUINTIC:
+        case QUINTIC_TYPE:
           pYpp = baseValue( _npts ) ;
           pYp = baseValue( _npts ) ;
         break ;
 
-        case AKIMA: case BESSEL: case PCHIP: case CUBIC:
+        case AKIMA_TYPE: case BESSEL_TYPE: case PCHIP_TYPE: case CUBIC_TYPE:
           pYp = baseValue( _npts ) ;
         break;
 
-        case CONSTANT: case LINEAR:
+        case CONSTANT_TYPE: case LINEAR_TYPE:
         break;
       }
       string h = headers[i] ;
       Spline * & s = splines[sizeType(i)] ;
       switch (stype[i]) {
-        case CONSTANT:
+        case CONSTANT_TYPE:
           s = new ConstantSpline(h) ;
           static_cast<ConstantSpline*>(s)->reserve_external( sizeType(npts), _X, pY ) ;
           static_cast<ConstantSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break;
 
-        case LINEAR:
+        case LINEAR_TYPE:
           s = new LinearSpline(h) ;
           static_cast<LinearSpline*>(s)->reserve_external( sizeType(npts), _X, pY ) ;
           static_cast<LinearSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break;
 
-        case AKIMA:
+        case AKIMA_TYPE:
           s = new AkimaSpline(h) ;
           static_cast<AkimaSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp ) ;
           static_cast<AkimaSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break ;
 
-        case BESSEL:
+        case BESSEL_TYPE:
           s = new BesselSpline(h) ;
           static_cast<BesselSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp ) ;
           static_cast<BesselSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break ;
 
-        case PCHIP:
+        case PCHIP_TYPE:
           s = new PchipSpline(h) ;
           static_cast<PchipSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp ) ;
           static_cast<PchipSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break ;
 
-        case CUBIC:
+        case CUBIC_TYPE:
           s = new CubicSpline(h) ;
           static_cast<CubicSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp ) ;
           static_cast<CubicSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break;
 
-        case QUINTIC:
+        case QUINTIC_TYPE:
           s = new QuinticSpline(h) ;
           static_cast<QuinticSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp, pYpp ) ;
           static_cast<QuinticSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
