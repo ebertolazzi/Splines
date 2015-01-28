@@ -28,6 +28,78 @@ namespace Splines {
 
   using namespace std ; // load standard namspace
 
+  void
+  QuinticSplineBase::reserve_external( sizeType     n,
+                                       valueType *& p_X,
+                                       valueType *& p_Y,
+                                       valueType *& p_Yp,
+                                       valueType *& p_Ypp ) {
+    if ( !_external_alloc ) baseValue.free() ;
+    npts            = 0 ;
+    npts_reserved   = n ;
+    _external_alloc = true ;
+    X   = p_X ;
+    Y   = p_Y ;
+    Yp  = p_Yp ;
+    Ypp = p_Ypp ;
+  }
+
+  void
+  QuinticSplineBase::reserve( sizeType n ) {
+    if ( _external_alloc && n <= npts_reserved ) {
+      // nothing to do!, already allocated
+    } else {
+      baseValue.allocate( 4*n ) ;
+      npts_reserved   = n ;
+      _external_alloc = false ;
+      X   = baseValue(n) ;
+      Y   = baseValue(n) ;
+      Yp  = baseValue(n) ;
+      Ypp = baseValue(n) ;
+    }
+    npts = lastInterval = 0 ;
+  }
+
+  void
+  QuinticSplineBase::build ( valueType const x[], sizeType incx,
+                             valueType const y[], sizeType incy,
+                             sizeType n ) {
+    reserve( n ) ;
+    for ( sizeType i = 0 ; i < n ; ++i ) X[i] = x[i*incx] ;
+    for ( sizeType i = 0 ; i < n ; ++i ) Y[i] = y[i*incy] ;
+    npts = n ;
+    build() ;
+  }
+
+  void
+  QuinticSplineBase::build ( valueType const x[],
+                             valueType const y[],
+                             sizeType n ) {
+    reserve( n ) ;
+    std::copy( x, x+n, X );
+    std::copy( y, y+n, Y );
+    npts = n ;
+    build() ;
+  }
+
+  void
+  QuinticSplineBase::build ( vector<valueType> const & x, vector<valueType> const & y ) {
+    sizeType n = sizeType(std::min( x.size(), y.size() )) ;
+    reserve( n ) ;
+    std::copy( x.begin(), x.begin()+n, X );
+    std::copy( y.begin(), y.begin()+n, Y );
+    npts = n ;
+    build() ;
+  }
+  
+  void
+  QuinticSplineBase::clear(void) {
+    if ( !_external_alloc ) baseValue.free() ;
+    npts = npts_reserved = 0 ;
+    _external_alloc = false ;
+    X = Y = Yp = Ypp = nullptr ;
+  }
+
   valueType
   QuinticSplineBase::operator () ( valueType x ) const { 
     sizeType i = Spline::search( x ) ;
@@ -103,20 +175,17 @@ namespace Splines {
   // Implementation
   void
   QuinticSplineBase::copySpline( QuinticSplineBase const & S ) {
+    QuinticSplineBase::reserve(S.npts) ;
     npts = S.npts ;
-    X.resize( S.X.size() ) ;
-    Y.resize( S.Y.size() ) ;
-    Yp.resize( S.Yp.size() ) ;
-    Ypp.resize( S.Ypp.size() ) ;
-    std::copy( S.X.begin(), S.X.end(), X.begin() ) ;
-    std::copy( S.Y.begin(), S.Y.end(), Y.begin() ) ;
-    std::copy( S.Yp.begin(), S.Yp.end(), Yp.begin() ) ;
-    std::copy( S.Ypp.begin(), S.Ypp.end(), Ypp.begin() ) ;
+    std::copy( S.X,   S.X+npts,   X   ) ;
+    std::copy( S.Y,   S.Y+npts,   Y   ) ;
+    std::copy( S.Yp,  S.Yp+npts,  Yp  ) ;
+    std::copy( S.Ypp, S.Ypp+npts, Ypp ) ;
   }
 
   void
   QuinticSplineBase::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = sizeType(Y.size()-1) ;
+    sizeType nseg = npts-1 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[" << X[i] << ", " << X[i+1]

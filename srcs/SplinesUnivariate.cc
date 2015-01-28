@@ -63,74 +63,99 @@ namespace Splines {
       }
     }
   }
-
-  void
-  Spline::allocate( valueType const x[], sizeType incx,
-                    valueType const y[], sizeType incy,
-                    sizeType n ) {
-    X.clear() ; X.reserve(n) ;
-    Y.clear() ; Y.reserve(n) ;
-    npts = lastInterval = 0 ;
-    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i*incx], y[i*incy] ) ;
-    SPLINE_ASSERT ( npts > 1, "Spline::allocate, not enought point to define a spline\n" ) ;
-    Y_max = *std::max_element(Y.begin(),Y.end()) ;
-    Y_min = *std::min_element(Y.begin(),Y.end()) ;
-  }
-
-  sizeType
-  Spline::search( valueType x ) const {
-    SPLINE_ASSERT( X.size() > 0, "\nsearch(" << x << ") empty spline");
-    if ( X[lastInterval] < x || X[lastInterval+1] > x ) {
-      if ( _check_range ) {
-        SPLINE_ASSERT( x >= X.front() && x <= X.back(),
-                       "method search( " << x << " ) out of range: [" <<
-                       X.front() << ", " << X.back() << "]" ) ;
-      }
-      lastInterval = sizeType(lower_bound( X.begin(), X.end(), x ) - X.begin()) ;
-      if ( lastInterval > 0 ) --lastInterval ;
-    }
-    return lastInterval ;
-  }
-
+  
   void
   Spline::pushBack( valueType x, valueType y ) {
     if ( npts > 0 ) {
       //// DA RISCRIVERE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      if ( std::abs(x-X.back()) < 1e-9 ) return ; // workaround per punti doppi
-      SPLINE_ASSERT( x > X.back(),
+      if ( std::abs(x-X[npts-1]) < 1e-9 ) return ; // workaround per punti doppi
+      SPLINE_ASSERT( x > X[npts-1],
                      "Spline::pushBack, non monotone insert at insert N. " << npts <<
-                     "\nX[ " << npts-1 << "] = " << X.back() <<
+                     "\nX[ " << npts-1 << "] = " << X[npts-1] <<
                      "\nX[ " << npts   << "] = " << x ) ;
     }
-    X.push_back( x ) ;
-    Y.push_back( y ) ;
+    if ( npts >= npts_reserved ) {
+      // riallocazione & copia
+      valueType Xsaved[npts], Ysaved[npts] ;
+      std::copy( X, X+npts, Xsaved ) ;
+      std::copy( Y, Y+npts, Ysaved ) ;
+      reserve( (npts+1) * 2 ) ;
+      std::copy( Xsaved, Xsaved+npts, X ) ;
+      std::copy( Ysaved, Ysaved+npts, Y ) ;
+    }
+    X[npts] = x ;
+    Y[npts] = y ;
     ++npts ;
   }
 
-  ///////////////////////////////////////////////////////////////////////////
+  void
+  CubicSplineBase::reserve( sizeType n ) {
+    if ( _external_alloc && n <= npts_reserved ) {
+      // nothing to do!, already allocated
+    } else {
+      npts_reserved = n ;
+      baseValue.allocate(3*n) ;
+      X  = baseValue(n) ;
+      Y  = baseValue(n) ;
+      Yp = baseValue(n) ;
+      _external_alloc = false ;
+    }
+    npts = lastInterval = 0 ;
+  }
 
   void
-  Spline::dropBack() {
-    if ( npts > 0 ) {
-      --npts ;
-      X.pop_back() ;
-      Y.pop_back() ;
-    }
+  CubicSplineBase::reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) {
+    npts_reserved = n ;
+    X    = p_x ;
+    Y    = p_y ;
+    Yp   = p_dy ;
+    npts = lastInterval = 0 ;
+    _external_alloc = true ;
   }
+
+/*
+  void
+  Spline::allocate( valueType const x[], sizeType incx,
+                    valueType const y[], sizeType incy,
+                    sizeType n ) {
+    if ( npts_reserved < n ) Spline::reserve( n ) ;
+    for ( sizeType i = 0 ; i < n ; ++i ) pushBack( x[i*incx], y[i*incy] ) ;
+    SPLINE_ASSERT ( npts > 1, "Spline::allocate, not enought point to define a spline\n" ) ;
+    Y_max = *std::max_element(Y,Y+npts) ;
+    Y_min = *std::min_element(Y,Y+npts) ;
+  }
+*/
+  sizeType
+  Spline::search( valueType x ) const {
+    SPLINE_ASSERT( npts > 0, "\nsearch(" << x << ") empty spline");
+    if ( X[lastInterval] < x || X[lastInterval+1] > x ) {
+      if ( _check_range ) {
+        SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
+                       "method search( " << x << " ) out of range: [" <<
+                       X[0] << ", " << X[npts-1] << "]" ) ;
+      }
+      lastInterval = sizeType(lower_bound( X, X+npts, x ) - X) ;
+      if ( lastInterval > 0 ) --lastInterval ;
+      if ( X[lastInterval] == X[lastInterval+1] ) ++lastInterval ; // degenerate interval for duplicated nodes
+    }
+    return lastInterval ;
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////
   void
   Spline::setOrigin( valueType x0 ) {
-    valueType Tx = x0 - X.front() ;
-    for ( VectorOfValues::iterator ix = X.begin() ; ix != X.end() ; ++ix ) *ix += Tx ;
+    valueType Tx = x0 - X[0] ;
+    valueType *ix = X ;
+    while ( ix < X+npts ) *ix++ += Tx ;
   }
 
   void
   Spline::setRange( valueType xmin, valueType xmax ) {
     SPLINE_ASSERT( xmax > xmin, "Spline::setRange( " << xmin << " , " << xmax << " ) bad range ") ;
-    valueType S  = (xmax - xmin) / ( X.back() - X.front() ) ;
-    valueType Tx = xmin - S * X.front() ;
-    for ( VectorOfValues::iterator ix = X.begin() ; ix != X.end() ; ++ix ) *ix = *ix * S + Tx ;
+    valueType S  = (xmax - xmin) / ( X[npts-1] - X[0] ) ;
+    valueType Tx = xmin - S * X[0] ;
+    for( valueType *ix = X ; ix < X+npts ; ++ix ) *ix = *ix * S + Tx ;
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -148,13 +173,14 @@ namespace Splines {
   void
   CubicSplineBase::setRange( valueType xmin, valueType xmax ) {
     Spline::setRange( xmin, xmax ) ;
-    valueType recS = ( X.back() - X.front() ) / (xmax - xmin) ;
-    for ( VectorOfValues::iterator iy = Y.begin() ; iy != Y.end() ; ++iy ) *iy *= recS ;
+    valueType recS = ( X[npts-1] - X[0] ) / (xmax - xmin) ;
+    valueType * iy = Y ;
+    while ( iy < Y + npts ) *iy++ *= recS ;
   }
 
   void
-  ConstantsSpline::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = sizeType(Y.size()) ;
+  ConstantSpline::writeToStream( std::basic_ostream<char> & s ) const {
+    sizeType nseg = npts - 1 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:" << Y[i]
@@ -163,7 +189,7 @@ namespace Splines {
 
   void
   LinearSpline::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = sizeType(Y.size()-1) ;
+    sizeType nseg = npts - 1 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:[ " << Y[i] << ", " << Y[i+1] 

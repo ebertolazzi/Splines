@@ -20,6 +20,8 @@
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
+#include "Malloc.hh"
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -28,129 +30,6 @@
 //
 // file: Splines
 //
-
-/*!
- \mainpage  Splines
- \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
- \version   1.0.0
- \date      2013
- \copyright GNU Public License.
-
- \details
-
- This library is available at
-
- - https://github.com/ebertolazzi/Splines
- - https://bitbucket.org/ebertolazzi/splines
-
- Splines
- =======
-
- `Splines` is a set of C++ classes which implements varios spline interpolation.
- The classes are the following:
-
- - ConstantsSpline, for piecewise constants functions
- - LinearSpline, for piecewise linear interpolation
- - CubicSpline, for classical cubic spline interpolation
- - AkimaSpline, for Akima "non oscillatory" spline interpolation
- - BesselSpline, for Bessel "non oscillatory" spline interpolation
- - PchipSpline,
- - QuinticSpline, Simple quintic spline based oin PCHIP with 4th
- derivative set to 0 at nodal points
-
- **References**
-
- - F.N. Fritsch and R.E. Carlson,
- Monotone Piecewise Cubic Interpolation,
- SIAM Journal of Numerical Analysis, Vol. 17, No. 2, pp. 238-246,
- April 1980.
-
- **Usage**
-
- The usage is simple:
-
- ~~~~~~~~~~~~~
- #include "Splines.hh"
- using namespace SplinesLoad ;
-
- ....
-
- CubicSpline spline ;
- double x[] = {1,2,3,4} ;
- double y[] = {3,1,1,3} ;
- spline.build(x,y,4) ; // build a cubic spline with 4 points
-
- cout << spline(1.1) << '\n';     // spline at x = 1.1
- cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
- cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
- cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
- ~~~~~~~~~~~~~
-
- splines can be built incrementally
-
- ~~~~~~~~~~~~~
- #include "Splines.hh"
- using namespace SplinesLoad ;
-
- ....
-
- CubicSpline spline ;
-
- spline.pushBack( 1, 3 ) ;
- spline.pushBack( 2, 1 ) ;
- spline.pushBack( 3, 1 ) ;
- spline.pushBack( 4, 3 ) ;
- spline.build() ;
-
- cout << spline(1.1) << '\n';     // spline at x = 1.1
- cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
- cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
- cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
- ~~~~~~~~~~~~~
-
- or by using standard vector
-
- ~~~~~~~~~~~~~
- #include "Splines.hh"
- #include <vector>
- using namespace SplinesLoad ;
- using namespace std ;
-
- ....
-
- CubicSpline spline ;
- std::vector x, y ;
- x.push_back(1) ; y.push_back(3) ;
- x.push_back(2) ; y.push_back(1) ;
- x.push_back(3) ; y.push_back(1) ;
- x.push_back(4) ; y.push_back(3) ;
- spline.build(x,y) ;
-
- cout << spline(1.1) << '\n';     // spline at x = 1.1
- cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
- cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
- cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
- ~~~~~~~~~~~~~
-
- **Compile and tests**
-
- Edit makefile file to match compiler of your OS and do:
-
- make
-
- To run the test
-
- make run
-
- To generate documentation (using DOXYGEN: http://www.stack.nl/~dimitri/doxygen/index.html)
-
- make doc
-
- **DOXYGEN documentation**
-
- Available at: http://www.ing.unitn.it/~bertolaz/4-software/Splines/index.html
-
-*/
 
 // if C++ < C++11 define nullptr
 #if __cplusplus <= 199711L
@@ -197,10 +76,18 @@ namespace Splines {
 
   using namespace ::std ; // load standard namspace
 
-  typedef double            valueType ;
-  typedef unsigned          sizeType ;
-  typedef int               indexType ;
-  typedef vector<valueType> VectorOfValues ;
+  typedef double   valueType ; //!< Floating point type for splines
+  typedef unsigned sizeType  ; //!< Unsigned integer type for splines
+  typedef int      indexType ; //!< Signed integer type for splines
+
+  //! Assiciate a number for each type of splines implemented
+  typedef enum { CONSTANT,
+                 LINEAR,
+                 AKIMA,
+                 BESSEL,
+                 PCHIP,
+                 CUBIC,
+                 QUINTIC } SplineType ;
 
   /*       _               _    _   _       _   _
   //   ___| |__   ___  ___| | _| \ | | __ _| \ | |
@@ -276,33 +163,32 @@ namespace Splines {
   class Spline {
   protected:
   
-    string         _name ;
-    bool           _check_range ;
+    string _name ;
+    bool   _check_range ;
+    bool   _repeated_points_continuity ;
 
-    sizeType       npts ;
-    VectorOfValues X, Y ;
+    sizeType  npts, npts_reserved ;
+    valueType *X ; // allocated in the derived class!
+    valueType *Y ; // allocated in the derived class!
     
     // for bbox
-    valueType      Y_min ;
-    valueType      Y_max ;
+    valueType Y_min ;
+    valueType Y_max ;
 
     sizeType search( valueType x ) const ;
     mutable sizeType lastInterval ;
 
-    void
-    allocate( valueType const x[], sizeType incx,
-              valueType const y[], sizeType incy,
-              sizeType n ) ;
-
   public:
 
     //! spline constructor
-    Spline( string const & name = "Spline", bool ck = false )
+    Spline( string const & name = "Spline", bool ck = false, bool rp = false )
     : _name(name)
     , _check_range(ck)
+    , _repeated_points_continuity(rp)
     , npts(0)
-    , X()
-    , Y()
+    , npts_reserved(0)
+    , X(nullptr)
+    , Y(nullptr)
     , lastInterval(0)
     {}
 
@@ -316,6 +202,9 @@ namespace Splines {
     void setCheckRange( bool ck ) { _check_range = ck ; }
     bool getCheckRange() const { return _check_range ; }
 
+    void setRepeatedPointsContinuity( bool rp ) { _repeated_points_continuity = rp ; }
+    bool getRepeatedPointsContinuity() const { return _repeated_points_continuity ; }
+
     //! return the number of support points of the spline.
     sizeType numPoints(void) const { return npts ; }
 
@@ -326,22 +215,27 @@ namespace Splines {
     valueType yNode( sizeType i ) const { return Y[i] ; }
 
     //! return first node of the spline (x component).
-    valueType xBegin() const { return X.front() ; }
+    valueType xBegin() const { return X[0] ; }
 
     //! return first node of the spline (y component).
-    valueType yBegin() const { return Y.front() ; }
+    valueType yBegin() const { return Y[0] ; }
 
     //! return last node of the spline (x component).
-    valueType xEnd() const { return X.back() ; }
+    valueType xEnd() const { return X[npts-1] ; }
 
     //! return last node of the spline (y component).
-    valueType yEnd() const { return Y.back() ; }
+    valueType yEnd() const { return Y[npts-1] ; }
+
+    //! Allocate memory for `npts` points
+    virtual void reserve( sizeType npts ) = 0 ;
 
     //! Add a support point (x,y) to the spline.
     void pushBack( valueType x, valueType y ) ;
 
     //! Drop a support point to the spline.
-    void dropBack() ;
+    void dropBack() {
+      if ( npts > 0 ) --npts ;
+    }
 
     // must be defined in derived classes
     virtual
@@ -356,11 +250,11 @@ namespace Splines {
      * \param incy access elements as y[0], y[incy], x[2*incy],...
      * \param n    total number of points
      */
+    virtual
     void
     build ( valueType const x[], sizeType incx,
             valueType const y[], sizeType incy,
-            sizeType n )
-    { allocate( x, incx, y, incy, n ) ; build() ; }
+            sizeType n ) = 0 ;
 
     //! Build a spline.
     /*!
@@ -368,34 +262,29 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
+    virtual
     void
-    build ( valueType const x[], valueType const y[], sizeType n )
-    { allocate( x, 1, y, 1, n ) ; build() ; }
+    build ( valueType const x[], valueType const y[], sizeType n ) = 0 ;
 
-    //! Build an Akima spline.
+    //! Build a spline.
     /*!
      * \param x vector of x-coordinates
      * \param y vector of y-coordinates
      */
+    virtual
     void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
+    build ( vector<valueType> const & x, vector<valueType> const & y ) = 0 ;
 
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear (void) {
-      X.clear() ;
-      Y.clear() ;
-      lastInterval = 0 ;
-      npts         = 0 ;
-    }
+    clear(void) = 0 ;
 
     //! return x-minumum spline value
-    valueType xMin() const { return X.front() ; }
+    valueType xMin() const { return X[0] ; }
 
     //! return x-maximum spline value
-    valueType xMax() const { return X.back()  ; }
+    valueType xMax() const { return X[npts-1] ; }
 
     //! return y-minumum spline value
     valueType yMin() const { return Y_min ; }
@@ -450,20 +339,25 @@ namespace Splines {
   //! cubic spline base class
   class CubicSplineBase : public Spline {
   protected:
-    VectorOfValues    Yp ;
+    Malloc<valueType> baseValue ;
     mutable valueType base[4] ;
     mutable valueType base_D[4] ;
     mutable valueType base_DD[4] ;
     mutable valueType base_DDD[4] ;
 
+    valueType         * Yp ;
+    bool              _external_alloc ;
+
   public:
-  
+
     using Spline::build ;
   
     //! spline constructor
     CubicSplineBase( string const & name = "Spline", bool ck = false )
     : Spline(name,ck)
-    , Yp()
+    , baseValue(name+"_memory")
+    , Yp(nullptr)
+    , _external_alloc(false)
     {}
     
     virtual
@@ -478,7 +372,11 @@ namespace Splines {
     //! change X-range of the spline
     void setRange( valueType xmin, valueType xmax ) ;
 
-    ///////////////////////////////////////////////////////////////////////////
+    //! Use externally allocated memory for `npts` points
+    void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) ;
+
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Evalute spline value
     virtual valueType operator () ( valueType x ) const ;
 
@@ -493,6 +391,54 @@ namespace Splines {
 
     //! Print spline coefficients
     virtual void writeToStream( std::basic_ostream<char> & s ) const ;
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Allocate memory for `npts` points
+    virtual void reserve( sizeType npts ) ;
+
+    // must be defined in derived classes
+    virtual
+    void
+    build (void) = 0 ;
+
+    //! Build a spline.
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     * \param n total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], valueType const y[], sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     */
+    virtual
+    void
+    build ( vector<valueType> const & x, vector<valueType> const & y ) ;
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear(void) ;
 
   } ;
 
@@ -511,12 +457,6 @@ namespace Splines {
    *  Hiroshi Akima, Journal of the ACM, Vol. 17, No. 4, October 1970, pages 589-602.
    */
   class AkimaSpline : public CubicSplineBase {
-  private:
-    valueType akima_one( valueType epsi,
-                         valueType di_m2,
-                         valueType di_m1,
-                         valueType di,
-                         valueType di_p1 ) const ;
   public:
 
     using Spline::build ;
@@ -531,13 +471,15 @@ namespace Splines {
     ~AkimaSpline()
     {}
 
+    //! Return spline typename
+    virtual char const * type_name() const { return "akima" ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Build an Akima spline from previously inserted points
     virtual
     void
     build (void) ;
-
-    //! Return spline typename
-    virtual char const * type_name() const { return "akima" ; }
 
   } ;
 
@@ -565,13 +507,15 @@ namespace Splines {
     ~BesselSpline()
     {}
 
+    //! Return spline typename
+    virtual char const * type_name() const { return "bessel" ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Build a Bessel spline from previously inserted points
     virtual
     void
     build (void) ;
-
-    //! Return spline typename
-    virtual char const * type_name() const { return "bessel" ; }
 
   } ;
 
@@ -608,7 +552,7 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    CubicSpline( string const & name = "Spline", bool ck = false )
+    CubicSpline( string const & name = "CubicSpline", bool ck = false )
     : CubicSplineBase( name, ck )
     , ddy0(0)
     , ddyn(0)
@@ -631,13 +575,15 @@ namespace Splines {
       this -> ddyn = ddyn ;    
     }
 
-    //! Build a spline from previously inserted points
+    //! Return spline typename
+    virtual char const * type_name() const { return "cubic" ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Build a Cubic spline from previously inserted points
     virtual
     void
     build (void) ;
-
-    //! Return spline typename
-    virtual char const * type_name() const { return "cubic" ; }
 
   } ;
 
@@ -662,7 +608,7 @@ namespace Splines {
     using Spline::build ;
 
     //! spline constructor
-    PchipSpline( string const & name = "Spline", bool ck = false )
+    PchipSpline( string const & name = "PchipSpline", bool ck = false )
     : CubicSplineBase( name, ck )
     {}
 
@@ -671,13 +617,15 @@ namespace Splines {
     ~PchipSpline()
     {}
 
+    //! Return spline typename
+    virtual char const * type_name() const { return "pchip" ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Build a Monotone spline from previously inserted points
     virtual
     void
     build (void) ;
-
-    //! Return spline typename
-    virtual char const * type_name() const { return "pchip" ; }
 
   } ;
 
@@ -691,68 +639,31 @@ namespace Splines {
   */
   //! Linear spline class
   class LinearSpline : public Spline {
+    Malloc<valueType> baseValue ;
+    bool              _external_alloc ;
   public:
 
-    LinearSpline( string const & name = "Spline", bool ck = false )
+    LinearSpline( string const & name = "LinearSpline", bool ck = false )
     : Spline(name,ck)
+    , baseValue( name+"_memory")
+    , _external_alloc(false)
     {}
 
     virtual
     ~LinearSpline()
     {}
 
-    //! given x and y vectors build a linear spline
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) {
-      SPLINE_ASSERT( n > 1,
-                     "LinearSpline::build, n =" << n <<
-                     " not enought point to define a spline\n") ;
-      npts = n ;
-      X.resize(n) ;
-      Y.resize(n) ;
-      for ( sizeType i = 0 ; i < n ; ++i )
-        { X[i] = x[i*incx] ; Y[i] = y[i*incy] ; }
-    }
+    //! Use externally allocated memory for `npts` points
+    void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y ) ;
 
-    //! given x and y vectors build a linear spline
-    void
-    build( valueType const x[], valueType const y[], sizeType n ) {
-      SPLINE_ASSERT( n > 1,
-                     "LinearSpline::build, n =" << n <<
-                     " not enought point to define a spline\n") ;
-      npts = n ;
-      X.resize(n) ;
-      Y.resize(n) ;
-      std::copy( x, x+n, X.begin() ) ;
-      std::copy( y, y+n, Y.begin() ) ;
-    }
-
-    //! given x and y vectors build a linear spline
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
-
-    //! added for compatibility with cubic splines
-    virtual
-    void
-    build()
-    {}
+    // --------------------------- VIRTUALS -----------------------------------
 
     //! Evalute spline value at `x`
     virtual
     valueType
     operator () ( valueType x ) const {
-      if ( x < X.front() ) return Y.front() ;
-      if ( x > X.back()  ) return Y.back() ;
+      if ( x < X[0]      ) return Y[0] ;
+      if ( x > X[npts-1] ) return Y[npts-1] ;
       sizeType i = search(x) ;
       valueType s = (x-X[i])/(X[i+1] - X[i]) ;
       return (1-s)*Y[i] + s * Y[i+1] ;
@@ -762,12 +673,12 @@ namespace Splines {
     virtual
     valueType
     D( valueType x ) const {
-      if ( x < X.front() ) return 0 ;
-      if ( x > X.back()  ) return 0 ;
+      if ( x < X[0]      ) return 0 ;
+      if ( x > X[npts-1] ) return 0 ;
       sizeType i = search(x) ;
       return ( Y[i+1] - Y[i] ) / ( X[i+1] - X[i] ) ;
     }
-    
+
     //! Second derivative
     virtual valueType DD( valueType ) const { return 0 ; }
 
@@ -780,6 +691,55 @@ namespace Splines {
     //! Return spline typename
     virtual char const * type_name() const { return "linear" ; }
 
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Allocate memory for `npts` points
+    virtual void reserve( sizeType npts ) ;
+
+    //! added for compatibility with cubic splines
+    virtual
+    void
+    build()
+    {}
+
+    //! given x and y vectors build a linear spline
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) ;
+
+    //! given x and y vectors build a linear spline
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     * \param n total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], valueType const y[], sizeType n ) ;
+
+    //! given x and y vectors build a linear spline
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     */
+    virtual
+    void
+    build ( vector<valueType> const & x, vector<valueType> const & y ) ;
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear(void) ;
+
   } ;
 
   /*  
@@ -791,82 +751,38 @@ namespace Splines {
   //                                                    |_|                   
   */
   //! Picewise constants spline class
-  class ConstantsSpline : public Spline {
+  class ConstantSpline : public Spline {
+    Malloc<valueType> baseValue ;
+    bool              _external_alloc ;
   public:
 
-    ConstantsSpline( string const & name = "Spline", bool ck = false )
+    ConstantSpline( string const & name = "ConstantSpline", bool ck = false )
     : Spline(name,ck)
+    , baseValue(name+"_memory")
+    , _external_alloc(false)
     {}
 
-    ~ConstantsSpline()
-    {}
+    ~ConstantSpline() {}
 
+    //! Use externally allocated memory for `npts` points
+    void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y ) ;
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+
+#if 0
     //! Cancel the support points, empty the spline. `x0` is the initial abscissa of empty spline
     virtual
     void
-    clear( valueType x0 ) {
-      X.clear() ; X.push_back( x0 ) ;
-      Y.clear() ;
-      npts = 1 ;
+    clear( valueType x0, sizeType n_reserved = 0 ) {
+      Spline::clear() ;
+      Spline::reserve( n_reserved ) ;
+      Spline::pushBack( x0, 0 ) ;
     }
-
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) {
-      SPLINE_ASSERT( n > 1,
-                     "ConstantsSpline::build, n =" << n <<
-                     " not enought point to define a spline\n") ;
-      npts = n ;
-      X.resize(n) ;
-      Y.resize(n-1) ;
-      for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i*incx] ;
-      for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i*incy] ;
-    }
-
-    //! given x and y vectors build a piecewise constants spline
-    void
-    build( valueType const x[], valueType const y[], sizeType n ) {
-      SPLINE_ASSERT( n > 1,
-                     "ConstantsSpline::build, n =" << n <<
-                     " not enought point to define a spline\n") ;
-      npts = n ;
-      X.resize(n) ;
-      Y.resize(n-1) ;
-      std::copy( x, x+n,   X.begin() ) ;
-      std::copy( y, y+n-1, Y.begin() ) ;
-    }
-
-    //! Build a piecewise constants spline
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
-    void
-    build ( VectorOfValues const & x, VectorOfValues const & y )
-    { build( &x.front(), &y.front(), sizeType(x.size()) ) ; }
-
-    //! added for compatibility with cubic splines
-    virtual
-    void
-    build()
-    {}
+#endif
 
     //! Evalute spline value at `x`
-    virtual
-    valueType
-    operator () ( valueType x ) const {
-      if ( x < X.front() ) return Y.front() ;
-      if ( x > X.back()  ) return Y.back() ;
-      return Y[search(x)] ;
-    }
+    virtual valueType operator () ( valueType x ) const ;
 
     //! First derivative
     virtual valueType D( valueType ) const { return 0 ; }
@@ -883,6 +799,55 @@ namespace Splines {
     //! Return spline typename
     virtual char const * type_name() const { return "constant" ; }
 
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Allocate memory for `npts` points
+    virtual void reserve( sizeType npts ) ;
+
+    //! added for compatibility with cubic splines
+    virtual
+    void
+    build()
+    {}
+
+    //! given x and y vectors build a piecewise constants spline
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) ;
+
+    //! given x and y vectors build a linear spline
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     * \param n total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], valueType const y[], sizeType n ) ;
+
+    //! given x and y vectors build a linear spline
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     */
+    virtual
+    void
+    build ( vector<valueType> const & x, vector<valueType> const & y ) ;
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear(void) ;
+
   } ;
 
   /*
@@ -897,13 +862,17 @@ namespace Splines {
   //! cubic quintic base class
   class QuinticSplineBase : public Spline {
   protected:
-    VectorOfValues    Yp, Ypp ;
+    Malloc<valueType> baseValue ;
     mutable valueType base[6] ;
     mutable valueType base_D[6] ;
     mutable valueType base_DD[6] ;
     mutable valueType base_DDD[6] ;
     mutable valueType base_DDDD[6] ;
     mutable valueType base_DDDDD[6] ;
+
+    valueType * Yp ;
+    valueType * Ypp ;
+    bool      _external_alloc ;
 
   public:
 
@@ -912,8 +881,10 @@ namespace Splines {
     //! spline constructor
     QuinticSplineBase( string const & name = "Spline", bool ck = false )
     : Spline(name,ck)
-    , Yp()
-    , Ypp()
+    , baseValue(name+"_memeory")
+    , Yp(nullptr)
+    , Ypp(nullptr)
+    , _external_alloc(false)
     {}
     
     virtual
@@ -931,7 +902,15 @@ namespace Splines {
     //! change X-range of the spline
     void setRange( valueType xmin, valueType xmax ) ;
 
-    ///////////////////////////////////////////////////////////////////////////
+    //! Use externally allocated memory for `npts` points
+    void reserve_external( sizeType     n,
+                           valueType *& p_x,
+                           valueType *& p_y,
+                           valueType *& p_Yp,
+                           valueType *& p_Ypp ) ;
+
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Evalute spline value
     virtual valueType operator () ( valueType x ) const ;
 
@@ -955,6 +934,56 @@ namespace Splines {
 
     //! Return spline typename
     virtual char const * type_name() const { return "quintic" ; }
+
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Allocate memory for `npts` points
+    virtual void reserve( sizeType npts ) ;
+
+    // must be defined in derived classes
+    virtual
+    void
+    build (void) = 0 ;
+
+    //! Build a spline.
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as x[0], x[incx], x[2*incx],...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as y[0], y[incy], x[2*incy],...
+     * \param n    total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], sizeType incx,
+            valueType const y[], sizeType incy,
+            sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     * \param n total number of points
+     */
+    virtual
+    void
+    build ( valueType const x[], valueType const y[], sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x vector of x-coordinates
+     * \param y vector of y-coordinates
+     */
+    virtual
+    void
+    build ( vector<valueType> const & x, vector<valueType> const & y ) ;
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear(void) ;
+
   } ;
  
   /*
@@ -982,8 +1011,146 @@ namespace Splines {
     ~QuinticSpline()
     {}
 
+    // --------------------------- VIRTUALS -----------------------------------
+
     //! Build a Monotone quintic spline from previously inserted points
-    void build (void) ;
+    virtual
+    void
+    build (void) ;
+
+  } ;
+
+  /*
+  //   ____        _ _            ____       _
+  //  / ___| _ __ | (_)_ __   ___/ ___|  ___| |_
+  //  \___ \| '_ \| | | '_ \ / _ \___ \ / _ \ __|
+  //   ___) | |_) | | | | | |  __/___) |  __/ |_
+  //  |____/| .__/|_|_|_| |_|\___|____/ \___|\__|
+  //        |_|
+  */
+
+  //! Splines Management Class
+  class SplineSet {
+  protected:
+
+    string const _name ;
+    
+    sizeType _npts ;
+    sizeType _nspl ;
+
+    Malloc<valueType>  baseValue ;
+    Malloc<valueType*> basePointer ;
+
+    valueType *_X ;
+    valueType **_Y ;
+    valueType **_Yp ;
+    valueType **_Ypp ;
+    valueType *_Ymin ;
+    valueType *_Ymax ;
+
+    mutable sizeType lastInterval ;
+    sizeType search( valueType x ) const ;
+    
+    vector<Spline*> splines ;
+
+  public:
+
+    //! spline constructor
+    SplineSet( string const & name = "Splines" )
+    : _name(name)
+    , baseValue(name+"_values")
+    , basePointer(name+"_pointers")
+    , lastInterval(0)
+    , _X(nullptr)
+    , _Y(nullptr)
+    , _Yp(nullptr)
+    , _Ypp(nullptr)
+    , _Ymin(nullptr)
+    , _Ymax(nullptr)
+    {}
+
+    //! spline destructor
+    virtual 
+    ~SplineSet()
+    { baseValue.free() ; basePointer.free() ; }
+
+    string const & name() const { return _name ; }
+    string const & header( sizeType const i ) const { return splines[i]->name() ; }
+
+    //! return the number of support points of the splines
+    sizeType numPoints(void) const { return _npts ; }
+
+    //! return the number splines in the spline set
+    sizeType numSplines(void) const { return _nspl ; }
+
+    //! return the vector of values of x-nodes
+    valueType const * xNodes() const { return _X ; }
+
+    //! return the vector of values of x-nodes
+    valueType const * yNodes( sizeType i ) const {
+      SPLINE_ASSERT( i >=0 && i < _nspl,
+                     "SplineSet::yNodes( " << i << ") argument out of range [0," << _nspl-1 << "]" ) ;
+      return _Y[i] ;
+    }
+
+    //! return the i-th node of the spline (x component).
+    valueType xNode( sizeType npt ) const { return _X[npt] ; }
+
+    //! return the i-th node of the spline (y component).
+    valueType yNode( sizeType npt, sizeType spl ) const { return _Y[spl][npt] ; }
+
+    //! return x-minumum spline value
+    valueType xMin() const { return _X[0] ; }
+
+    //! return x-maximum spline value
+    valueType xMax() const { return _X[_npts-1] ; }
+
+    //! return y-minumum spline value
+    valueType yMin( sizeType spl ) const { return _Ymin[spl] ; }
+
+    //! return y-maximum spline value
+    valueType yMax( sizeType spl ) const { return _Ymax[spl] ; }
+
+    //! Return pointer to the `i`-th spline
+    Spline * getSpline( sizeType i ) const {
+      SPLINE_ASSERT( i >=0 && i < _nspl,
+                     "SplineSet::getSpline( " << i << ") argument out of range [0," << _nspl-1 << "]" ) ;
+      return splines[i] ;
+    }
+
+    //! Evalute spline value
+    valueType operator () ( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
+
+    //! First derivative
+    valueType D( valueType x, sizeType spl ) const { return getSpline(spl)->D(x) ; }
+
+    //! Second derivative
+    valueType DD( valueType x, sizeType spl ) const { return getSpline(spl)->DD(x) ; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    /*! Build a set of splines
+     * \param nspl       the number of splines
+     * \param nspl       the number of splines
+     * \param headers    the names of the splines
+     * \param stype      the type of each spline
+     * \param rp_policy  treatment of repeated points of eachj splines. True = continuous,
+     *                   rp_policy = NULL all splines are discontinuous at repeated points
+     * \param X          pointer to X independent values
+     * \param Y          vector of `nspl` pointers to Y depentendent values.
+     */
+
+    void
+    build ( indexType  const nspl,
+            indexType  const npts,
+            char       const *headers[],
+            SplineType const stype[],
+            valueType  const X[],
+            valueType  const *Y[],
+            bool       const rp_policy[] = nullptr ) ;
+
+    //! Return spline typename
+    char const * type_name() const { return "SplineSet" ; }
+
   } ;
 
   /*
@@ -1001,7 +1168,7 @@ namespace Splines {
     string const _name ;
     bool         _check_range ;
 
-    VectorOfValues X, Y, Z ;
+    vector<valueType> X, Y, Z ;
     
     valueType Z_min, Z_max ;
 
@@ -1122,9 +1289,9 @@ namespace Splines {
      * \param transposed      if true matrix Z is stored transposed
      */
     void
-    build ( VectorOfValues const & x,
-            VectorOfValues const & y,
-            VectorOfValues const & z,
+    build ( vector<valueType> const & x,
+            vector<valueType> const & y,
+            vector<valueType> const & z,
             bool fortran_storage = false,
             bool transposed      = false ) {
       sizeType nx = sizeType(x.size()) ;
@@ -1160,7 +1327,7 @@ namespace Splines {
      * \param transposed      if true matrix Z is stored transposed
      */
     void
-    build ( VectorOfValues const & z, sizeType nx, sizeType ny,
+    build ( vector<valueType> const & z, sizeType nx, sizeType ny,
             bool fortran_storage = false,
             bool transposed      = false ) {
       if ( fortran_storage ) build ( &z.front(), nx, nx, ny, fortran_storage, transposed ) ;
@@ -1244,8 +1411,10 @@ namespace Splines {
   //! Bi-cubic spline base class
   class BiCubicSplineBase : public SplineSurf {
   protected:
+  
+    //! \cond PRIVATE
 
-    VectorOfValues    DX, DY, DXY ;
+    vector<valueType> DX, DY, DXY ;
     mutable valueType u[4] ;
     mutable valueType u_D[4] ;
     mutable valueType u_DD[4] ;
@@ -1255,6 +1424,8 @@ namespace Splines {
     mutable valueType bili3[4][4] ;
 
     void load( sizeType i, sizeType j ) const ;
+
+    //! \endcond
 
   public:
   
@@ -1361,8 +1532,10 @@ namespace Splines {
   //! Bi-quintic spline base class
   class BiQuinticSplineBase : public SplineSurf {
   protected:
+  
+    //! \cond PRIVATE
 
-    VectorOfValues    DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY ;
+    vector<valueType> DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY ;
     mutable valueType u[6] ;
     mutable valueType u_D[6] ;
     mutable valueType u_DD[6] ;
@@ -1372,6 +1545,8 @@ namespace Splines {
     mutable valueType bili5[6][6] ;
 
     void load( sizeType i, sizeType j ) const ;
+
+    //! \endcond
 
   public:
   
@@ -1444,19 +1619,24 @@ namespace Splines {
 }
 
 namespace SplinesLoad {
+
   using Splines::Spline ;
   using Splines::AkimaSpline ;
   using Splines::BesselSpline ;
   using Splines::PchipSpline ;
   using Splines::CubicSpline ;
   using Splines::LinearSpline ;
-  using Splines::ConstantsSpline ;
+  using Splines::ConstantSpline ;
   using Splines::QuinticSpline ;
 
   using Splines::BilinearSpline ;
   using Splines::BiCubicSpline ;
   using Splines::BiQuinticSpline ;
   using Splines::Akima2Dspline ;
+
+  using Splines::SplineSet ;
+  using Splines::SplineType ;
+
 }
 
 #endif

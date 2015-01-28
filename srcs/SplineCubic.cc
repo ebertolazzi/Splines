@@ -19,28 +19,32 @@
 
 #include "Splines.hh"
 
-/**
- * 
- */
+/*
+//   ####  #    # #####  #  ####
+//  #    # #    # #    # # #    #
+//  #      #    # #####  # #
+//  #      #    # #    # # #
+//  #    # #    # #    # # #    #
+//   ####   ####  #####  #  ####
+*/
 
 namespace Splines {
 
   using namespace std ; // load standard namspace
 
-  /*
-  //   ####  #    # #####  #  ####  
-  //  #    # #    # #    # # #    # 
-  //  #      #    # #####  # #      
-  //  #      #    # #    # # #      
-  //  #    # #    # #    # # #    # 
-  //   ####   ####  #####  #  ####  
-  */
+  static
   void
-  CubicSpline::build() {
+  CubicSpline_build( valueType const X[],
+                     valueType const Y[],
+                     valueType       Yp[],
+                     sizeType        npts,
+                     valueType       ddy0,
+                     valueType       ddyn ) {
     sizeType n = npts-1 ;
-    Yp.resize(npts) ;
-
-    VectorOfValues L(npts), D(npts), U(npts), Z(npts) ;
+    valueType L[npts] ;
+    valueType D[npts] ;
+    valueType U[npts] ;
+    valueType Z[npts] ;
 
     sizeType i ;
     for ( i = 1 ; i < n ; ++i ) {
@@ -77,7 +81,26 @@ namespace Splines {
     }
     valueType DX = X[n] - X[n-1] ;
     Yp[n] = Yp[n-1] + DX * 0.5*(Z[n-1] + Z[n])  ;
-    SPLINE_CHECK_NAN(&Yp.front(),"CubicSpline::cubic(): Yp",npts);
+
+  }
+
+  // ---------------------------------------------------------------------------
+
+  void
+  CubicSpline::build() {
+    SPLINE_ASSERT( npts > 1,"CubicSpline::build(): npts = " << npts << " not enought points" );
+    sizeType ibegin = 0 ;
+    sizeType iend   = 0 ;
+    do {
+      // cerca intervallo monotono strettamente crescente
+      while ( ++iend < npts && X[iend-1] < X[iend] ) {} ;
+      valueType d0 = ibegin == 0    ? ddy0 : 0 ;
+      valueType d1 = iend   == npts ? ddyn : 0 ;
+      CubicSpline_build( X+ibegin, Y+ibegin, Yp+ibegin, iend-ibegin, d0, d1 ) ;
+      ibegin = iend ;
+    } while ( iend < npts ) ;
+    
+    SPLINE_CHECK_NAN(Yp,"CubicSpline::build(): Yp",npts);
   }
 
 }

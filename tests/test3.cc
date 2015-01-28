@@ -55,20 +55,8 @@ sizeType  n[]   = { 11, 11, 11, 9, 12, 4 } ;
 int
 main() {
 
-  LinearSpline   li ;
-  ConstantSpline co ;
-  AkimaSpline    ak ;
-  CubicSpline    cs ;
-  BesselSpline   be ;
-  PchipSpline    pc ;
-  QuinticSpline  qs ;
-  ofstream       file_li ;
-  ofstream       file_co ;
-  ofstream       file_ak ;
-  ofstream       file_cs ;
-  ofstream       file_be ;
-  ofstream       file_pc ;
-  ofstream       file_qs ;
+  SplineSet   ss ;
+  ofstream    file ;
 
   for ( indexType k = 0 ; k < 6 ; ++ k ) {
     valueType * xx, * yy ;
@@ -81,30 +69,47 @@ main() {
       case 5: xx = xx5 ; yy = yy5 ; break ;
     }
     char fname[100] ;
-    sprintf( fname, "out/Linear%d.txt",   k) ; file_li.open(fname) ;
-    sprintf( fname, "out/Constant%d.txt", k) ; file_co.open(fname) ;
-    sprintf( fname, "out/Akima%d.txt",    k) ; file_ak.open(fname) ;
-    sprintf( fname, "out/Cubic%d.txt",    k) ; file_cs.open(fname) ;
-    sprintf( fname, "out/Bessel%d.txt",   k) ; file_be.open(fname) ;
-    sprintf( fname, "out/Pchip%d.txt",    k) ; file_pc.open(fname) ;
-    sprintf( fname, "out/Quintic%d.txt",  k) ; file_qs.open(fname) ;
+    sprintf( fname, "out/SplineSet%d.txt", k) ; file.open(fname) ;
     valueType xmin = xx[0] ;
     valueType xmax = xx[n[k]-1] ;
+
+    indexType nspl = 7 ;
+    indexType npts = n[k] ;
+    char const *headers[] = {
+      "SPLINE_CONSTANT",
+      "SPLINE_LINEAR",
+      "SPLINE_AKIMA",
+      "SPLINE_BESSEL",
+      "SPLINE_PCHIP",
+      "SPLINE_CUBIC",
+      "SPLINE_QUINTIC"
+    } ;
     
-    #define SAVE(S) \
-    S.build( xx, yy, n[k] ) ; \
-    file_##S << "x\ty\tDy\tDDy\n" ; \
-    for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) \
-      file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n' ; \
-    file_##S.close()
-    
-    SAVE(li) ;
-    SAVE(co) ;
-    SAVE(ak) ;
-    SAVE(cs) ;
-    SAVE(be) ;
-    SAVE(pc) ;
-    SAVE(qs) ;
+    SplineType const stype[] = {
+       Splines::CONSTANT,
+       Splines::LINEAR,
+       Splines::AKIMA,
+       Splines::BESSEL,
+       Splines::PCHIP,
+       Splines::CUBIC,
+       Splines::QUINTIC
+    } ;
+
+    //bool const rp_policy[] = { true, true, true, true, true, true, true } ;
+
+    valueType const *Y[] = { yy, yy, yy, yy, yy, yy, yy } ;
+
+    ss.build( nspl, npts, headers, stype, xx, Y ) ;
+
+    file << "x" ;
+    for ( indexType i = 0 ; i < nspl ; ++i ) file << '\t' << ss.header(i) ;
+    file << '\n' ;
+    for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) {
+      file << x ;
+      for ( indexType i = 0 ; i < nspl ; ++i ) file << '\t' << ss(x,i) ;
+      file << '\n' ;
+    }
+    file.close() ;
   }
   
   cout << "ALL DONE!\n" ;

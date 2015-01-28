@@ -111,7 +111,7 @@ namespace Splines {
                      sizeType nx, sizeType ny,
                      bool fortran_storage,
                      bool transposed ) {
-    VectorOfValues XX(nx), YY(ny) ; // temporary vector
+    vector<valueType> XX(nx), YY(ny) ; // temporary vector
     for ( sizeType i = 0 ; i < nx ; ++i ) XX[i] = i ;
     for ( sizeType i = 0 ; i < ny ; ++i ) YY[i] = i ;
     build ( &XX.front(), 1, &YY.front(), 1, z, ldZ, nx, ny, fortran_storage, transposed ) ;

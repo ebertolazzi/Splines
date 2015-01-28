@@ -64,7 +64,7 @@ SPLINE_new( char const id[], char const type[] ) {
   } else if ( strcmp( type, "linear") == 0 ) {
     head = spline_stored[id] = new LinearSpline ;
   } else if ( strcmp( type, "constant") == 0 ) {
-    head = spline_stored[id] = new ConstantsSpline ;
+    head = spline_stored[id] = new ConstantSpline ;
   } else if ( strcmp( type, "quintic") == 0 ) {
     head = spline_stored[id] = new QuinticSpline ;
   } else {

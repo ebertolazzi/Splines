@@ -23,26 +23,27 @@
 /**
  * 
  */
+/*
+//     #
+//    # #   #    # # #    #   ##
+//   #   #  #   #  # ##  ##  #  #
+//  #     # ####   # # ## # #    #
+//  ####### #  #   # #    # ######
+//  #     # #   #  # #    # #    #
+//  #     # #    # # #    # #    #
+*/
 
 namespace Splines {
 
   using namespace std ; // load standard namspace
 
-  /*
-  //     #                           
-  //    # #   #    # # #    #   ##   
-  //   #   #  #   #  # ##  ##  #  #  
-  //  #     # ####   # # ## # #    # 
-  //  ####### #  #   # #    # ###### 
-  //  #     # #   #  # #    # #    # 
-  //  #     # #    # # #    # #    #
-  */
+  static
   valueType
-  AkimaSpline::akima_one( valueType epsi,
-                          valueType di_m2,
-                          valueType di_m1,
-                          valueType di,
-                          valueType di_p1 ) const {
+  akima_one( valueType epsi,
+             valueType di_m2,
+             valueType di_m1,
+             valueType di,
+             valueType di_p1 ) {
     valueType wl  = std::abs(di_p1 - di) ;
     valueType wr  = std::abs(di_m1 - di_m2);
     valueType den = wl + wr ;
@@ -51,28 +52,29 @@ namespace Splines {
     return num / den ;
   }
 
+  static
   void
-  AkimaSpline::build() {
-    sizeType n = npts-1 ;
-    Yp.resize(npts) ;
-
-    VectorOfValues m(npts+4) ;
-
-    // calcolo slopes
-    for ( sizeType i = 0 ; i < n ; ++i )
-      m[i+2] = (Y[i+1]-Y[i])/(X[i+1]-X[i]) ;
+  Akima_build( valueType const X[],
+               valueType const Y[],
+               valueType       Yp[],
+               sizeType        npts ) {
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
-      Yp[0] = Yp[1] = m[2] ;
+      Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]) ;
     } else {
+      valueType m[npts+4] ;
+      // calcolo slopes
+      for ( sizeType i = 1 ; i < npts ; ++i )
+        m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]) ;
+
       // extra slope at the boundary
-      m[1]   = 2*m[2]-m[3] ;
-      m[0]   = 2*m[1]-m[2] ;
-      m[n+2] = 2*m[n+1]-m[n] ;
-      m[n+3] = 2*m[n+2]-m[n+1] ;
+      m[1]      = 2*m[2]-m[3] ;
+      m[0]      = 2*m[1]-m[2] ;
+      m[npts+1] = 2*m[npts]-m[npts-1] ;
+      m[npts+2] = 2*m[npts+1]-m[npts+2] ;
 
       valueType epsi = 0 ;
-      for ( sizeType i = 0 ; i < n+3 ; ++i ) {
+      for ( sizeType i = 0 ; i < npts+2 ; ++i ) {
         valueType dm = std::abs(m[i+1]-m[i]) ;
         if ( dm > epsi ) epsi = dm ; 
       }
@@ -81,8 +83,21 @@ namespace Splines {
       for ( sizeType i = 0 ; i < npts ; ++i )
         Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3]) ;
     }
-    SPLINE_CHECK_NAN(&Yp.front(),"AkimaSpline::build(): Yp",npts);
+  }
 
+  void
+  AkimaSpline::build() {
+    SPLINE_ASSERT( npts > 1,"AkimaSpline::build(): npts = " << npts << " not enought points" );
+    sizeType ibegin = 0 ;
+    sizeType iend   = 0 ;
+    do {
+      // cerca intervallo monotono strettamente crescente
+      while ( ++iend < npts && X[iend-1] < X[iend] ) {} ;
+      Akima_build( X+ibegin, Y+ibegin, Yp+ibegin, iend-ibegin ) ;
+      ibegin = iend ;
+    } while ( iend < npts ) ;
+    
+    SPLINE_CHECK_NAN(Yp,"AkimaSpline::build(): Yp",npts);
   }
 
 }

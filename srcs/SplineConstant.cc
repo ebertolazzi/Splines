@@ -1,0 +1,102 @@
+/*--------------------------------------------------------------------------*\
+ |                                                                          |
+ |  Copyright (C) 1998-2014                                                 |
+ |                                                                          |
+ |         , __                 , __                                        |
+ |        /|/  \               /|/  \                                       |
+ |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+ |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+ |                           /|                   /|                        |
+ |                           \|                   \|                        |
+ |                                                                          |
+ |      Enrico Bertolazzi                                                   |
+ |      Dipartimento di Ingegneria Industriale                              |
+ |      Universita` degli Studi di Trento                                   |
+ |      email: enrico.bertolazzi@unitn.it                                   |
+ |                                                                          |
+\*--------------------------------------------------------------------------*/
+
+#include "Splines.hh"
+
+#include <iomanip>
+
+/**
+ * 
+ */
+
+namespace Splines {
+
+  using namespace std ; // load standard namspace
+
+  void
+  ConstantSpline::reserve_external( sizeType n, valueType *& p_x, valueType *& p_y ) {
+    if ( !_external_alloc ) baseValue.free() ;
+    npts            = 0 ;
+    npts_reserved   = n ;
+    _external_alloc = true ;
+    X = p_x ;
+    Y = p_y ;
+  }
+
+  void
+  ConstantSpline::reserve( sizeType n ) {
+    if ( _external_alloc && n <= npts_reserved ) {
+      // nothing to do!, already allocated
+    } else {
+      baseValue.allocate( 2*n ) ;
+      npts_reserved   = n ;
+      _external_alloc = false ;
+      X = baseValue(n) ;
+      Y = baseValue(n) ;
+    }
+    npts = lastInterval = 0 ;
+  }
+
+  //! Evalute spline value at `x`
+  valueType
+  ConstantSpline::operator () ( valueType x ) const {
+    if ( x < X[0]      ) return Y[0] ;
+    if ( x > X[npts-1] ) return Y[npts-1] ;
+    return Y[search(x)] ;
+  }
+
+  void
+  ConstantSpline::build ( valueType const x[], sizeType incx,
+                          valueType const y[], sizeType incy,
+                          sizeType n ) {
+    reserve( n ) ;
+    for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i*incx] ;
+    for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i*incy] ;
+    npts = n ;
+    build() ;
+  }
+
+  void
+  ConstantSpline::build ( valueType const x[], valueType const y[], sizeType n ) {
+    reserve( n ) ;
+    for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i] ;
+    for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i] ; // ultimo y ignorato
+    npts = n ;
+    build() ;
+  }
+
+  void
+  ConstantSpline::build ( vector<valueType> const & x, vector<valueType> const & y ) {
+    sizeType n = sizeType(std::min( x.size(), y.size()-1 )) ;
+    reserve( n ) ;
+    std::copy( x.begin(), x.begin()+n,   X );
+    std::copy( y.begin(), y.begin()+n-1, Y );
+    npts = n ;
+    build() ;
+  }
+
+  void
+  ConstantSpline::clear() {
+    if ( !_external_alloc ) baseValue.free() ;
+    npts = npts_reserved = 0 ;
+    _external_alloc = false ;
+    X = Y = nullptr ;
+  }
+
+}

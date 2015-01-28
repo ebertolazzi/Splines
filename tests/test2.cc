@@ -43,7 +43,7 @@ main() {
   BilinearSpline  bl ;
   Akima2Dspline   ak ;
   
-  Splines::VectorOfValues X(4), Y(6), Z(6*6) ;
+  vector<valueType> X(4), Y(6), Z(6*6) ;
   
   std::copy( x, x+4,   X.begin() ) ;
   std::copy( y, y+6,   Y.begin() ) ;
@@ -60,10 +60,10 @@ main() {
   //bl.writeToStream( cout ) ;
   
   {
-    ofstream file_bl("bilinear.txt") ;
-    ofstream file_bc("bicubic.txt") ;
-    ofstream file_bq("biquintic.txt") ;
-    ofstream file_ak("akima2d.txt") ;
+    ofstream file_bl("out/bilinear.txt") ;
+    ofstream file_bc("out/bicubic.txt") ;
+    ofstream file_bq("out/biquintic.txt") ;
+    ofstream file_ak("out/akima2d.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
@@ -87,10 +87,10 @@ main() {
   }
 
   {
-    ofstream file_bl("bilinear_Dx.txt") ;
-    ofstream file_bc("bicubic_Dx.txt") ;
-    ofstream file_bq("biquintic_Dx.txt") ;
-    ofstream file_ak("akima2d_Dx.txt") ;
+    ofstream file_bl("out/bilinear_Dx.txt") ;
+    ofstream file_bc("out/bicubic_Dx.txt") ;
+    ofstream file_bq("out/biquintic_Dx.txt") ;
+    ofstream file_ak("out/akima2d_Dx.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
@@ -114,10 +114,10 @@ main() {
   }
 
   {
-    ofstream file_bl("bilinear_Dxx.txt") ;
-    ofstream file_bc("bicubic_Dxx.txt") ;
-    ofstream file_bq("biquintic_Dxx.txt") ;
-    ofstream file_ak("akima2d_Dxx.txt") ;
+    ofstream file_bl("out/bilinear_Dxx.txt") ;
+    ofstream file_bc("out/bicubic_Dxx.txt") ;
+    ofstream file_bq("out/biquintic_Dxx.txt") ;
+    ofstream file_ak("out/akima2d_Dxx.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
@@ -141,10 +141,10 @@ main() {
   }
 
   {
-    ofstream file_bl("bilinear_Dy.txt") ;
-    ofstream file_bc("bicubic_Dy.txt") ;
-    ofstream file_bq("biquintic_Dy.txt") ;
-    ofstream file_ak("akima2d_Dy.txt") ;
+    ofstream file_bl("out/bilinear_Dy.txt") ;
+    ofstream file_bc("out/bicubic_Dy.txt") ;
+    ofstream file_bq("out/biquintic_Dy.txt") ;
+    ofstream file_ak("out/akima2d_Dy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
@@ -168,10 +168,10 @@ main() {
   }
 
   {
-    ofstream file_bl("bilinear_Dyy.txt") ;
-    ofstream file_bc("bicubic_Dyy.txt") ;
-    ofstream file_bq("biquintic_Dyy.txt") ;
-    ofstream file_ak("akima2d_Dyy.txt") ;
+    ofstream file_bl("out/bilinear_Dyy.txt") ;
+    ofstream file_bc("out/bicubic_Dyy.txt") ;
+    ofstream file_bq("out/biquintic_Dyy.txt") ;
+    ofstream file_ak("out/akima2d_Dyy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
@@ -195,10 +195,10 @@ main() {
   }
 
   {
-    ofstream file_bl("bilinear_Dxy.txt") ;
-    ofstream file_bc("bicubic_Dxy.txt") ;
-    ofstream file_bq("biquintic_Dxy.txt") ;
-    ofstream file_ak("akima2d_Dxy.txt") ;
+    ofstream file_bl("out/bilinear_Dxy.txt") ;
+    ofstream file_bc("out/bicubic_Dxy.txt") ;
+    ofstream file_bq("out/biquintic_Dxy.txt") ;
+    ofstream file_ak("out/akima2d_Dxy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
       valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;

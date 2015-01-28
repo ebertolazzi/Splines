@@ -37,6 +37,7 @@ namespace Splines {
   //                                       |_|                   
   //  
   */
+  /*
   static
   inline
   int
@@ -49,6 +50,7 @@ namespace Splines {
     else if ( b < 0 ) sb = -1 ;    
     return sa*sb ;
   }
+  */
 
   static
   inline
@@ -59,13 +61,14 @@ namespace Splines {
     else                        return b ;
   }
 
+  static
   void
-  QuinticSpline::build() {
-    Yp.resize(npts) ;
-    Ypp.resize(npts) ;
-    pchip( &X.front(), &Y.front(), &Yp.front(), npts -1 ) ;
-
-    sizeType n = npts-1 ;
+  quintic_pchip( valueType const X[],
+                 valueType const Y[],
+                 valueType       Yp[],
+                 valueType       Ypp[],
+                 sizeType        n ) {
+    pchip( X, Y, Yp, n ) ;
     valueType h1 = X[1] - X[0] ;
     Ypp[0] = 0*(6*(X[1]-X[0])/h1-4*Yp[0]-2*Yp[1])/h1 ; // left
     for ( sizeType i = 1 ; i < n ; ++i ) {
@@ -78,4 +81,21 @@ namespace Splines {
     }
     Ypp[n] = 0*(6*(X[n-1]-X[n])/h1+4*Yp[n]+2*Yp[n-1])/h1 ;
   }
+
+  void
+  QuinticSpline::build() {
+    SPLINE_ASSERT( npts > 1,"QuinticSpline::build(): npts = " << npts << " not enought points" );
+    sizeType ibegin = 0 ;
+    sizeType iend   = 0 ;
+    do {
+      // cerca intervallo monotono strettamente crescente
+      while ( ++iend < npts && X[iend-1] < X[iend] ) {} ;
+      quintic_pchip( X+ibegin, Y+ibegin, Yp+ibegin, Ypp+ibegin, (iend-ibegin)-1 ) ;
+      ibegin = iend ;
+    } while ( iend < npts ) ;
+    
+    SPLINE_CHECK_NAN(Yp, "QuinticSpline::build(): Yp",npts);
+    SPLINE_CHECK_NAN(Ypp,"QuinticSpline::build(): Ypp",npts);
+  }
+
 }

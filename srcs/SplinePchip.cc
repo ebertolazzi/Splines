@@ -144,7 +144,17 @@ namespace Splines {
 
   void
   PchipSpline::build() {
-    Yp.resize(npts) ;
-    pchip( &X.front(), &Y.front(), &Yp.front(), npts -1 ) ;
+    SPLINE_ASSERT( npts > 1,"PchipSpline::build(): npts = " << npts << " not enought points" );
+    sizeType ibegin = 0 ;
+    sizeType iend   = 0 ;
+    do {
+      // cerca intervallo monotono strettamente crescente
+      while ( ++iend < npts && X[iend-1] < X[iend] ) {} ;
+      pchip( X+ibegin, Y+ibegin, Yp+ibegin, (iend-ibegin)-1 ) ;
+      ibegin = iend ;
+    } while ( iend < npts ) ;
+    
+    SPLINE_CHECK_NAN(Yp,"PchipSpline::build(): Yp",npts);
+    //pchip( X, Y, Yp, npts -1 ) ;
   }
 }
