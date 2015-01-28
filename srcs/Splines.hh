@@ -22,6 +22,10 @@
 
 #include "Malloc.hh"
 
+#ifdef SPLINES_USE_GENERIC_CONTAINER
+#include "GenericContainer.hh"
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -69,6 +73,10 @@
   #define SPLINE_CHECK_NAN( PTR, MSG, DIM ) Splines::checkNaN( PTR, MSG, DIM )
 #else
   #define SPLINE_CHECK_NAN( PTR, MSG, DIM )
+#endif
+
+#ifdef _MSC_VER
+  #define SPLINE_USE_ALLOCA
 #endif
 
 //! Various kind of splines
@@ -248,6 +256,10 @@ namespace Splines {
     void
     build (void) = 0 ;
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) = 0 ;
+    #endif
+
     //! Build a spline.
     /*!
      * \param x    vector of x-coordinates
@@ -411,6 +423,10 @@ namespace Splines {
     void
     build (void) = 0 ;
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) = 0 ;
+    #endif
+
     //! Build a spline.
     /*!
      * \param x    vector of x-coordinates
@@ -490,6 +506,10 @@ namespace Splines {
     void
     build (void) ;
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
+
   } ;
 
   /*
@@ -525,6 +545,10 @@ namespace Splines {
     virtual
     void
     build (void) ;
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
   } ;
 
@@ -594,6 +618,10 @@ namespace Splines {
     void
     build (void) ;
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
+
   } ;
 
   /*
@@ -635,6 +663,10 @@ namespace Splines {
     virtual
     void
     build (void) ;
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
   } ;
 
@@ -710,6 +742,10 @@ namespace Splines {
     void
     build()
     {}
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
     //! given x and y vectors build a linear spline
     /*!
@@ -818,6 +854,10 @@ namespace Splines {
     void
     build()
     {}
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
     //! given x and y vectors build a piecewise constants spline
     /*!
@@ -1027,6 +1067,10 @@ namespace Splines {
     void
     build (void) ;
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
+
   } ;
 
   /*
@@ -1126,8 +1170,7 @@ namespace Splines {
 
     //! Return pointer to the `i`-th spline
     Spline * getSpline( sizeType i ) const {
-      SPLINE_ASSERT( i >=0 && i < _nspl,
-                     "SplineSet::getSpline( " << i << ") argument out of range [0," << _nspl-1 << "]" ) ;
+      SPLINE_ASSERT( i < _nspl, "SplineSet::getSpline( " << i << ") argument out of range [0," << _nspl-1 << "]" ) ;
       return splines[i] ;
     }
 
@@ -1160,6 +1203,10 @@ namespace Splines {
             valueType  const X[],
             valueType  const *Y[],
             bool       const rp_policy[] = nullptr ) ;
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
     //! Return spline type (as number)
     virtual unsigned type() const { return SPLINE_SET_TYPE ; }

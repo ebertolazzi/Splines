@@ -93,6 +93,9 @@ namespace Splines {
 
         case CONSTANT_TYPE: case LINEAR_TYPE:
         break;
+
+        case SPLINE_SET_TYPE:
+        break;
       }
       string h = headers[i] ;
       Spline * & s = splines[sizeType(i)] ;
@@ -138,9 +141,97 @@ namespace Splines {
           static_cast<QuinticSpline*>(s)->reserve_external( sizeType(npts), _X, pY, pYp, pYpp ) ;
           static_cast<QuinticSpline*>(s)->build( _X, pY, sizeType(npts) ) ;
         break;
+
+        case SPLINE_SET_TYPE:
+          SPLINE_ASSERT( false, "SPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
+        break ;
       }
     }
     
   }
 
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  void
+  SplineSet::build( GC::GenericContainer const & gc ) {
+    /*
+    // gc["headers"]
+    // gc["spline_type"]
+    // gc["units"]
+    // gc["data"]
+    // gc["independent"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("spline_type"), "[" << _name << "] SplineSet::build, missing `spline_type` field!") ;
+    SPLINE_ASSERT( gc.exists("headers") ,    "[" << _name << "] SplineSet::build, missing `headers` field!") ;
+    SPLINE_ASSERT( gc.exists("data") ,       "[" << _name << "] SplineSet::build, missing `data` field!") ;
+  
+    GC::GenericContainer const & gc_headers     = gc("headers") ;
+    GC::GenericContainer const & gc_spline_type = gc("spline_type") ;
+    GC::GenericContainer const & gc_data        = gc("data") ;
+    
+    SPLINE_ASSERT( GC::GC_VEC_STRING == gc_headers.get_type(),
+                   "Field `headers` expected to be of type `vec_string_type` found: ` " <<
+                   gc_headers.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_VEC_STRING == gc_spline_type.get_type(),
+                   "Field `spline_type` expected to be of type `vec_string_type` found: ` " <<
+                   gc_spline_type.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_MAT_REAL == gc_data.get_type(),
+                   "Field `spline_type` expected to be of type `mat_real_type` found: ` " <<
+                   gc_data.get_type_name() << "`" ) ;
+
+    indexType independent = 0 ;
+    if ( gc.exists("independent") ) {
+      GC::GenericContainer const & gc_independent = gc("independent") ;
+      SPLINE_ASSERT( GC::GC_INTEGER == gc_independent.get_type(),
+                     "Field `independent` expected to be of type `int_type` found: ` " <<
+                     gc_independent.get_type_name() << "`" ) ;
+      independent = gc_independent.get_int() ;
+    }
+
+    GC::mat_real_type   const & data    = gc_data.get_mat_real() ;
+    GC::vec_string_type const & headers = gc_headers.get_vec_string() ;
+
+    indexType const nspl = headers.size() ;
+    #ifdef SPLINE_USE_ALLOCA
+    valueType * X0 = (valueType*)alloca( nkk*sizeof(valueType) ) ;
+	  valueType * Y0 = (valueType*)alloca( nkk*sizeof(valueType) ) ;
+    char const ** headers_strs = (char const**)alloca( nspl*sizeof(char const *) ) ;
+    valueType const ** Y       = (valueType const**)alloca( nspl*sizeof(valueType const *) ) ;
+    SplineType * stype         = (SplineType*)alloca( nspl*sizeof(SplineType) ) ;
+    #else
+    char      const * headers_strs[nspl] ;
+    valueType const * Y[nspl] ;
+    SplineType        stype[nspl] ;
+	  #endif
+
+    for ( indexType i = 0 ; i < nspl ; ++i ) {
+      headers_strs[i] = headers[i].c_str() ;
+      Y[i] = &data(0,i) ;
+      string n = gc_spline_type(i).get_string() ;
+      std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
+      SplineType & st = stype[i] ;
+      if      ( n == "constant" ) st = CONSTANT_TYPE ;
+      else if ( n == "linear"   ) st = LINEAR_TYPE ;
+      else if ( n == "akima"    ) st = AKIMA_TYPE ;
+      else if ( n == "bessel"   ) st = BESSEL_TYPE ;
+      else if ( n == "pchip"    ) st = PCHIP_TYPE ;
+      else if ( n == "cubic"    ) st = CUBIC_TYPE ;
+      else if ( n == "quintic"  ) st = QUINTIC_TYPE ;
+      else {
+        SPLINE_ASSERT( false, "[" << _name << "] SplineSet::build\ntype = " << n << " unkonwn for " << i << "-th spline" );
+      }
+    }
+
+    build( data.numCols(),
+           data.numRows(),
+           headers_strs,
+           stype,
+           Y[independent],
+           Y,
+           nullptr ) ;
+
+  }
+  #endif
 }

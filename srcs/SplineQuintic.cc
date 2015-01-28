@@ -97,5 +97,39 @@ namespace Splines {
     SPLINE_CHECK_NAN(Yp, "QuinticSpline::build(): Yp",npts);
     SPLINE_CHECK_NAN(Ypp,"QuinticSpline::build(): Ypp",npts);
   }
+  
+  /*
+  //    ____  ____   ____                               _
+  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
+  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
+  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
+  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
+  //                            |_|   |_|
+  */
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  void
+  QuinticSpline::build( GC::GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] QuinticSpline::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] QuinticSpline::build, missing `y` field!") ;
+  
+    GC::GenericContainer const & gc_x = gc("x") ;
+    GC::GenericContainer const & gc_y = gc("y") ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_x.get_type(),
+                   "Field `x` expected to be of type `vec_real_type` found: `" <<
+                   gc_x.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_y.get_type(),
+                   "Field `y` expected to be of type `vec_real_type` found: `" <<
+                   gc_y.get_type_name() << "`" ) ;
+
+    build( gc_x.get_vec_real(), gc_y.get_vec_real() ) ;
+  }
+  #endif
 
 }

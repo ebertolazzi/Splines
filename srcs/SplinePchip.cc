@@ -157,4 +157,39 @@ namespace Splines {
     SPLINE_CHECK_NAN(Yp,"PchipSpline::build(): Yp",npts);
     //pchip( X, Y, Yp, npts -1 ) ;
   }
+
+  /*
+  //    ____  ____   ____                               _
+  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
+  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
+  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
+  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
+  //                            |_|   |_|
+  */
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  void
+  PchipSpline::build( GC::GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] PchipSpline::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] PchipSpline::build, missing `y` field!") ;
+  
+    GC::GenericContainer const & gc_x = gc("x") ;
+    GC::GenericContainer const & gc_y = gc("y") ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_x.get_type(),
+                   "Field `x` expected to be of type `vec_real_type` found: `" <<
+                   gc_x.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_y.get_type(),
+                   "Field `y` expected to be of type `vec_real_type` found: `" <<
+                   gc_y.get_type_name() << "`" ) ;
+
+    build( gc_x.get_vec_real(), gc_y.get_vec_real() ) ;
+  }
+  #endif
+
 }

@@ -96,5 +96,20 @@ namespace Splines {
     _external_alloc = false ;
     X = Y = nullptr ;
   }
+  
+  /*
+  //    ____  ____   ____                               _
+  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
+  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
+  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
+  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
+  //                            |_|   |_|
+  */
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  void
+  LinearSpline::build( GC::GenericContainer const & gc ) {
+    SPLINE_ASSERT( false, "Not Yet Implemented!" ) ;
+  }
+  #endif
 
 }
