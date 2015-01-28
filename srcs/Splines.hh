@@ -80,7 +80,7 @@ namespace Splines {
   typedef unsigned sizeType  ; //!< Unsigned integer type for splines
   typedef int      indexType ; //!< Signed integer type for splines
 
-  //! Assiciate a number for each type of splines implemented
+  //! Associate a number for each type of splines implemented
   typedef enum { CONSTANT,
                  LINEAR,
                  AKIMA,
@@ -177,6 +177,9 @@ namespace Splines {
 
     sizeType search( valueType x ) const ;
     mutable sizeType lastInterval ;
+
+    Spline(Spline const &) ; // block copy constructor
+    Spline const & operator = (Spline &) const ; // block copy method
 
   public:
 
@@ -1031,6 +1034,10 @@ namespace Splines {
 
   //! Splines Management Class
   class SplineSet {
+
+    SplineSet(SplineSet const &) ; // block copy constructor
+    SplineSet const & operator = (SplineSet &) const ; // block copy method
+
   protected:
 
     string const _name ;
@@ -1163,6 +1170,10 @@ namespace Splines {
   */
   //! Spline Management Class
   class SplineSurf {
+
+    SplineSurf(SplineSurf const &) ; // block copy constructor
+    SplineSurf const & operator = (SplineSurf &) const ; // block copy method
+
   protected:
   
     string const _name ;
