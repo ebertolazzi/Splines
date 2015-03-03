@@ -71,6 +71,7 @@ main() {
   ofstream       file_qs ;
 
   for ( indexType k = 0 ; k < 6 ; ++ k ) {
+    cout << "\n\nk = " << k << '\n' ;
     valueType * xx, * yy ;
     switch ( k ) {
       case 0: xx = xx0 ; yy = yy0 ; break ;
@@ -92,7 +93,14 @@ main() {
     valueType xmax = xx[n[k]-1] ;
     
     #define SAVE(S) \
-    S.build( xx, yy, n[k] ) ; \
+    cout << #S": n[k] = " << n[k] << '\n' ; \
+    S.clear() ; \
+    for ( indexType i = 0 ; i < n[k] ; ++i ) S.pushBack(xx[i],yy[i]) ; \
+    S.build() ; /*( xx, yy, n[k] ) ;*/ \
+    cout << #S": xMin    = " << S.xMin()   << '\n' ; \
+    cout << #S": xMax    = " << S.xMax()   << '\n' ; \
+    cout << #S": xx[0]   = " << xx[0]      << '\n' ; \
+    cout << #S": xx[end] = " << xx[n[k]-1] << '\n' ; \
     file_##S << "x\ty\tDy\tDDy\n" ; \
     for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) \
       file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n' ; \

@@ -4,7 +4,7 @@ Splines
 `Splines` is a set of C++ classes which implements varios spline interpolation.
 The classes are the following:
  
-  - ConstantsSpline, for piecewise constants functions
+  - ConstantSpline, for piecewise constants functions
   - LinearSpline, for piecewise linear interpolation
   - CubicSpline, for classical cubic spline interpolation
   - AkimaSpline, for Akima "non oscillatory" spline interpolation 

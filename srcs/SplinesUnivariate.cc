@@ -78,19 +78,21 @@ namespace Splines {
   void
   Spline::pushBack( valueType x, valueType y ) {
     if ( npts > 0 ) {
-      //// DA RISCRIVERE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      if ( std::abs(x-X[npts-1]) < 1e-9 ) return ; // workaround per punti doppi
-      SPLINE_ASSERT( x > X[npts-1],
+      SPLINE_ASSERT( x >= X[npts-1], // ammetto punti doppi
                      "Spline::pushBack, non monotone insert at insert N. " << npts <<
                      "\nX[ " << npts-1 << "] = " << X[npts-1] <<
                      "\nX[ " << npts   << "] = " << x ) ;
     }
-    if ( npts >= npts_reserved ) {
+    if ( npts_reserved == 0 ) {
+      reserve( 2 ) ;
+    } else if ( npts >= npts_reserved ) {
       // riallocazione & copia
+      sizeType saved_npts = npts ; // salvo npts perche reserve lo azzera
       valueType Xsaved[npts], Ysaved[npts] ;
       std::copy( X, X+npts, Xsaved ) ;
       std::copy( Y, Y+npts, Ysaved ) ;
       reserve( (npts+1) * 2 ) ;
+      npts = saved_npts ;
       std::copy( Xsaved, Xsaved+npts, X ) ;
       std::copy( Ysaved, Ysaved+npts, Y ) ;
     }
