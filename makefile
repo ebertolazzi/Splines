@@ -1,14 +1,22 @@
 SRCS = \
 srcs/SplineAkima.cc \
-srcs/SplineBessel.cc \
-srcs/SplineCubic.cc \
-srcs/SplineCubicBase.cc \
 srcs/SplineHermite.cc \
+srcs/SplineAkima2D.cc \
+srcs/SplineLinear.cc \
+srcs/SplineBessel.cc \
 srcs/SplinePchip.cc \
+srcs/SplineBiCubic.cc \
 srcs/SplineQuintic.cc \
+srcs/SplineBiQuintic.cc \
 srcs/SplineQuinticBase.cc \
-srcs/Splines.cc \
-srcs/SplinesCinterface.cc
+srcs/SplineBilinear.cc \
+srcs/SplineSet.cc \
+srcs/SplineConstant.cc \
+srcs/SplinesBivariate.cc \
+srcs/SplineCubic.cc \
+srcs/SplinesCinterface.cc \
+srcs/SplineCubicBase.cc \
+srcs/SplinesUnivariate.cc
 
 OBJS = $(SRCS:.cc=.o)
 DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
@@ -20,13 +28,14 @@ DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
 CC     = gcc
 CXX    = g++
 
-CFLAGS =  -I./srcs -Wall -O3
+CFLAGS =  -I./srcs -I./srcs_utils -Wall -O3
 LIBS   = -L./lib -lSplines
 
 #AR     = ar rcs
 AR     = libtool -static -o 
 
 all: libSplines.a
+	mkdir -p bin
 	$(CXX) $(CFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
 
 srcs/%.o: srcs/%.cc $(DEPS)
@@ -53,4 +62,5 @@ doc:
 clean:
 	rm -f lib/libSplines.a srcs/*.o
 	rm -f tests/test1
+	rm -rf bin
 	

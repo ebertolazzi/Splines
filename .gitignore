@@ -18,6 +18,10 @@
 *.o
 *.so
 *.obj
+lib/*.a
+lib/*.so
+lib/*.dll
+lib/*.dylib
 
 # Packages #
 ############

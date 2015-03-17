@@ -1117,13 +1117,13 @@ namespace Splines {
     : _name(name)
     , baseValue(name+"_values")
     , basePointer(name+"_pointers")
-    , lastInterval(0)
     , _X(nullptr)
     , _Y(nullptr)
     , _Yp(nullptr)
     , _Ypp(nullptr)
     , _Ymin(nullptr)
     , _Ymax(nullptr)
+    , lastInterval(0)
     {}
 
     //! spline destructor
@@ -1618,8 +1618,8 @@ namespace Splines {
     BiQuinticSplineBase( string const & name = "Spline", bool ck = false )
     : SplineSurf( name, ck )
     , DX()
-    , DY()
     , DXX()
+    , DY()
     , DYY()
     , DXY()
     {}
