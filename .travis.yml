@@ -4,7 +4,7 @@ compiler:
   - clang
   - gcc
 script:
-  - "make test"
+  - "make && make run"
 os:
   - linux
   - osx
