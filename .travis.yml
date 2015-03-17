@@ -1,7 +1,11 @@
 ---
-language: c
+language: cpp
 compiler:
   - clang
   - gcc
 script:
   - "make test"
+os:
+  - linux
+  - osx
+osx_image: xcode61
