@@ -28,11 +28,16 @@ DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
 CC     = gcc
 CXX    = g++
 
-CFLAGS =  -I./srcs -I./srcs_utils -Wall -O3
-LIBS   = -L./lib -lSplines
 
-#AR     = ar rcs
-AR     = libtool -static -o 
+ifeq ($(shell uname),Linux)
+	LIBS   = -static -L./lib -lSplines
+	CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -fPIC -Wno-sign-compare
+	AR     = ar rcs
+else
+	LIBS   = -L./lib -lSplines
+	CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -std=c++0x -fPIC -Wno-sign-compare
+	AR     = libtool -static -o
+endif
 
 all: libSplines.a
 	mkdir -p bin
