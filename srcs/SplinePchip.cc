@@ -120,8 +120,8 @@ namespace Splines {
       case 1: // use brodlie modification of butland formula.
         w1    = (1+h1/hsum)/3 ;
         w2    = (1+h2/hsum)/3 ;
-        dmax  = std::max( std::abs(del1), std::abs(del2) ) ;
-        dmin  = std::min( std::abs(del1), std::abs(del2) ) ;
+        dmax  = max( std::abs(del1), std::abs(del2) ) ;
+        dmin  = min( std::abs(del1), std::abs(del2) ) ;
         valueType drat1 = del1/dmax ;
         valueType drat2 = del2/dmax ;
         Yp[i] = dmin/(w1*drat1 + w2*drat2) ;

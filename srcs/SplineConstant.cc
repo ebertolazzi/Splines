@@ -83,7 +83,7 @@ namespace Splines {
 
   void
   ConstantSpline::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType(std::min( x.size(), y.size()-1 )) ;
+    sizeType n = sizeType(min( x.size(), y.size()-1 )) ;
     reserve( n ) ;
     std::copy( x.begin(), x.begin()+n,   X );
     std::copy( y.begin(), y.begin()+n-1, Y );

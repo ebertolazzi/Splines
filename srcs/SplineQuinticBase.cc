@@ -84,7 +84,7 @@ namespace Splines {
 
   void
   QuinticSplineBase::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType(std::min( x.size(), y.size() )) ;
+    sizeType n = sizeType(min( x.size(), y.size() )) ;
     reserve( n ) ;
     std::copy( x.begin(), x.begin()+n, X );
     std::copy( y.begin(), y.begin()+n, Y );
