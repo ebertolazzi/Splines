@@ -98,7 +98,16 @@ namespace Splines {
     _external_alloc = false ;
     X = Y = nullptr ;
   }
-  
+
+  void
+  ConstantSpline::writeToStream( std::basic_ostream<char> & s ) const {
+    sizeType nseg = npts - 1 ;
+    for ( sizeType i = 0 ; i < nseg ; ++i )
+      s << "segment N." << setw(4) << i
+        << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:" << Y[i]
+        << '\n' ; 
+  }
+
   /*
   //    ____  ____   ____                               _
   //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_

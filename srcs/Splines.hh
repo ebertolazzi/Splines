@@ -486,6 +486,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
+    using CubicSplineBase::reserve ;
 
     //! spline constructor
     AkimaSpline( string const & name = "Spline", bool ck = false )
@@ -526,6 +527,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
+    using CubicSplineBase::reserve ;
 
     //! spline constructor
     BesselSpline( string const & name = "Spline", bool ck = false )
@@ -584,6 +586,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
+    using CubicSplineBase::reserve ;
 
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline", bool ck = false )
@@ -644,6 +647,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
+    using CubicSplineBase::reserve ;
 
     //! spline constructor
     PchipSpline( string const & name = "PchipSpline", bool ck = false )
@@ -1050,6 +1054,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
+    using QuinticSplineBase::reserve ;
 
     //! spline constructor
     QuinticSpline( string const & name = "Spline", bool ck = false )

@@ -69,6 +69,31 @@ namespace Splines {
     X = Y = Yp = nullptr ;
   }
 
+  void
+  CubicSplineBase::reserve( sizeType n ) {
+    if ( _external_alloc && n <= npts_reserved ) {
+      // nothing to do!, already allocated
+    } else {
+      npts_reserved = n ;
+      baseValue.allocate(3*n) ;
+      X  = baseValue(n) ;
+      Y  = baseValue(n) ;
+      Yp = baseValue(n) ;
+      _external_alloc = false ;
+    }
+    npts = lastInterval = 0 ;
+  }
+
+  void
+  CubicSplineBase::reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) {
+    npts_reserved = n ;
+    X    = p_x ;
+    Y    = p_y ;
+    Yp   = p_dy ;
+    npts = lastInterval = 0 ;
+    _external_alloc = true ;
+  }
+
   valueType
   CubicSplineBase::operator () ( valueType x ) const { 
     sizeType i = Spline::search( x ) ;
@@ -118,7 +143,16 @@ namespace Splines {
     std::copy( S.Y, S.Y+npts, Y ) ;
     std::copy( S.Yp, S.Yp+npts, Yp ) ;
   }
-     
+
+  //! change X-range of the spline
+  void
+  CubicSplineBase::setRange( valueType xmin, valueType xmax ) {
+    Spline::setRange( xmin, xmax ) ;
+    valueType recS = ( X[npts-1] - X[0] ) / (xmax - xmin) ;
+    valueType * iy = Y ;
+    while ( iy < Y + npts ) *iy++ *= recS ;
+  }
+
   void
   CubicSplineBase::writeToStream( std::basic_ostream<char> & s ) const {
     sizeType nseg = npts-1 ;
