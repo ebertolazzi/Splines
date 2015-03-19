@@ -42,6 +42,9 @@ endif
 all: libSplines.a
 	mkdir -p bin
 	$(CXX) $(CFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
+	$(CXX) $(CFLAGS) -o bin/test2 tests/test2.cc $(LIBS)
+	$(CXX) $(CFLAGS) -o bin/test3 tests/test3.cc $(LIBS)
+	$(CXX) $(CFLAGS) -o bin/test4 tests/test4.cc $(LIBS)
 
 srcs/%.o: srcs/%.cc $(DEPS)
 	$(CXX) $(CFLAGS) -c $< -o $@ 
@@ -59,7 +62,10 @@ libSplines.so: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 run:
-	cd bin ; ./test1
+	./bin/test1
+	./bin/test2
+	./bin/test3
+	./bin/test4
 
 doc:
 	doxygen

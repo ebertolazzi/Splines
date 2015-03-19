@@ -95,6 +95,7 @@ main() {
     #define SAVE(S) \
     cout << #S": n[k] = " << n[k] << '\n' ; \
     S.clear() ; \
+    S.reserve(n[k]) ; \
     for ( indexType i = 0 ; i < n[k] ; ++i ) S.pushBack(xx[i],yy[i]) ; \
     S.build() ; /*( xx, yy, n[k] ) ;*/ \
     cout << #S": xMin    = " << S.xMin()   << '\n' ; \
