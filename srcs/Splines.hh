@@ -78,7 +78,6 @@
 #ifdef _MSC_VER
   #include <math.h>
   #define SPLINE_USE_ALLOCA
-  #define SPLINE_USE_MSC
 #endif
 
 //! Various kind of splines
@@ -487,12 +486,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
-
-    #ifdef SPLINE_USE_MSC
     using CubicSplineBase::reserve ;
-    #else
-    inline void reserve( sizeType npts ) { CubicSplineBase::reserve(npts) ; }
-    #endif
 
     //! spline constructor
     AkimaSpline( string const & name = "Spline", bool ck = false )
@@ -533,12 +527,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
-
-    #ifdef SPLINE_USE_MSC
     using CubicSplineBase::reserve ;
-    #else
-    inline void reserve( sizeType npts ) { CubicSplineBase::reserve(npts) ; }
-    #endif
 
     //! spline constructor
     BesselSpline( string const & name = "Spline", bool ck = false )
@@ -597,12 +586,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
-
-    #ifdef SPLINE_USE_MSC
     using CubicSplineBase::reserve ;
-    #else
-    inline void reserve( sizeType npts ) { CubicSplineBase::reserve(npts) ; }
-    #endif
 
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline", bool ck = false )
@@ -663,12 +647,7 @@ namespace Splines {
   public:
 
     using Spline::build ;
-
-    #ifdef SPLINE_USE_MSC
     using CubicSplineBase::reserve ;
-    #else
-    inline void reserve( sizeType npts ) { CubicSplineBase::reserve(npts) ; }
-    #endif
 
     //! spline constructor
     PchipSpline( string const & name = "PchipSpline", bool ck = false )
