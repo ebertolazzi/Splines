@@ -88,7 +88,14 @@ namespace Splines {
     } else if ( npts >= npts_reserved ) {
       // riallocazione & copia
       sizeType saved_npts = npts ; // salvo npts perche reserve lo azzera
-      valueType Xsaved[npts], Ysaved[npts] ;
+      #ifdef SPLINE_USE_ALLOCA
+        valueType * Xsaved = (valueType*)alloca( (npts)*sizeof(valueType) ) ;
+        valueType * Ysaved = (valueType*)alloca( (npts)*sizeof(valueType) ) ;
+      #else
+        valueType Xsaved[npts], Ysaved[npts] ;
+      #endif
+
+      
       std::copy( X, X+npts, Xsaved ) ;
       std::copy( Y, Y+npts, Ysaved ) ;
       reserve( (npts+1) * 2 ) ;
@@ -176,7 +183,7 @@ namespace Splines {
   Spline::dump( ostream & s, sizeType nintervals, char const header[] ) const {
     s << header << '\n' ;
     valueType dx = (xMax()-xMin())/nintervals ;
-    for ( int i = 0 ; i <= nintervals ; ++i ) {
+    for ( sizeType i = 0 ; i <= nintervals ; ++i ) {
       valueType x = xMin() + i*dx ;
       s << x << '\t' << (*this)(x) << '\n' ;
     }

@@ -76,6 +76,7 @@
 #endif
 
 #ifdef _MSC_VER
+  #include <math.h>
   #define SPLINE_USE_ALLOCA
 #endif
 
