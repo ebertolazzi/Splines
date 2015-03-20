@@ -1,4 +1,4 @@
-Splines [![Build Status](https://travis-ci.org/pbosetti/Splines.svg?branch=master)](https://travis-ci.org/pbosetti/Splines)
+Splines [![Build Status](https://travis-ci.org/ebertolazzi/Splines.svg?branch=master)](https://travis-ci.org/ebertolazzi/Splines)
 =======
 
 `Splines` is a set of C++ classes which implements varios spline interpolation.
