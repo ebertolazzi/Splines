@@ -41,7 +41,7 @@ namespace Splines {
 
   sizeType
   SplineSurf::search_x( valueType x ) const {
-    if ( X[lastInterval_x] < x || X[lastInterval_x+1] > x ) {
+    if ( lastInterval_x >= X.size()-1 || X[lastInterval_x] < x || X[lastInterval_x+1] > x ) {
       if ( _check_range ) {
         SPLINE_ASSERT( x >= X.front() && x <= X.back(),
                        "method search_x( " << x << " ) out of range: [" <<
@@ -55,7 +55,7 @@ namespace Splines {
 
   sizeType
   SplineSurf::search_y( valueType y ) const {
-    if ( Y[lastInterval_y] < y || Y[lastInterval_y+1] > y ) {
+    if ( lastInterval_y >= Y.size()-1 || Y[lastInterval_y] < y || Y[lastInterval_y+1] > y ) {
       if ( _check_range ) {
         SPLINE_ASSERT( y >= Y.front() && y <= Y.back(),
                        "method search_y( " << y << " ) out of range: [" <<

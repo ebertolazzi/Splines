@@ -327,7 +327,7 @@ namespace Splines {
     { ofstream file(fname) ; dump( file, nintervals, header ) ; file.close() ; }
 
     ///////////////////////////////////////////////////////////////////////////
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x ) const = 0 ;
 
     //! First derivative
@@ -399,7 +399,7 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x ) const ;
 
     //! First derivative
@@ -831,7 +831,7 @@ namespace Splines {
     }
 #endif
 
-    //! Evalute spline value at `x`
+    //! Evaluate spline value at `x`
     virtual valueType operator () ( valueType x ) const ;
 
     //! First derivative
@@ -965,7 +965,7 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x ) const ;
 
     //! First derivative
@@ -1180,7 +1180,7 @@ namespace Splines {
       return splines[i] ;
     }
 
-    //! Evalute spline value
+    //! Evaluate spline value
     valueType operator () ( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
 
     //! First derivative
@@ -1404,7 +1404,7 @@ namespace Splines {
       else                   build ( &z.front(), ny, nx, ny, fortran_storage, transposed ) ;
     }
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x, valueType y ) const = 0 ;
 
     //! First derivative
@@ -1448,7 +1448,7 @@ namespace Splines {
     ~BilinearSpline()
     {}
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x, valueType y ) const ;
 
     //! First derivative
@@ -1514,7 +1514,7 @@ namespace Splines {
     valueType DyNode ( sizeType i, sizeType j ) const { return DY[ipos_C(i,j)] ; }
     valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos_C(i,j)] ; }
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x, valueType y ) const ;
 
     //! First derivative
@@ -1640,7 +1640,7 @@ namespace Splines {
     valueType DyyNode( sizeType i, sizeType j ) const { return DYY[ipos_C(i,j)] ; }
     valueType DxyNode( sizeType i, sizeType j ) const { return DXY[ipos_C(i,j)] ; }
 
-    //! Evalute spline value
+    //! Evaluate spline value
     virtual valueType operator () ( valueType x, valueType y ) const ;
 
     //! First derivative

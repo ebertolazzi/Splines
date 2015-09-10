@@ -111,7 +111,7 @@ namespace Splines {
   sizeType
   Spline::search( valueType x ) const {
     SPLINE_ASSERT( npts > 0, "\nsearch(" << x << ") empty spline");
-    if ( X[lastInterval] < x || X[lastInterval+1] > x ) {
+    if ( lastInterval >= npts-1 || X[lastInterval] < x || X[lastInterval+1] > x ) {
       if ( _check_range ) {
         SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
                        "method search( " << x << " ) out of range: [" <<
@@ -120,6 +120,7 @@ namespace Splines {
       lastInterval = sizeType(lower_bound( X, X+npts, x ) - X) ;
       if ( lastInterval > 0 ) --lastInterval ;
       if ( X[lastInterval] == X[lastInterval+1] ) ++lastInterval ; // degenerate interval for duplicated nodes
+      if ( lastInterval >= npts-1 ) lastInterval = npts-2 ;
     }
     return lastInterval ;
   }
