@@ -1,4 +1,5 @@
 SRCS = \
+srcs/Splines.cc \
 srcs/SplineAkima.cc \
 srcs/SplineHermite.cc \
 srcs/SplineAkima2D.cc \
