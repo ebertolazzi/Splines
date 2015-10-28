@@ -86,20 +86,21 @@ main() {
     } ;
     
     SplineType const stype[] = {
-       Splines::CONSTANT_TYPE,
-       Splines::LINEAR_TYPE,
-       Splines::AKIMA_TYPE,
-       Splines::BESSEL_TYPE,
-       Splines::PCHIP_TYPE,
-       Splines::CUBIC_TYPE,
-       Splines::QUINTIC_TYPE
+      Splines::CONSTANT_TYPE,
+      Splines::LINEAR_TYPE,
+      //Splines::CUBIC_BASE_TYPE,
+      Splines::CUBIC_TYPE,
+      Splines::AKIMA_TYPE,
+      Splines::BESSEL_TYPE,
+      Splines::PCHIP_TYPE,
+      Splines::QUINTIC_TYPE
     } ;
 
     // bool const rp_policy[] = { true, true, true, true, true, true, true } ;
 
     valueType const *Y[] = { yy, yy, yy, yy, yy, yy, yy } ;
 
-    ss.build( nspl, npts, headers, stype, xx, Y ) ;
+    ss.build( nspl, npts, headers, stype, xx, Y, nullptr ) ;
 
     file << "x" ;
     for ( sizeType i = 0 ; i < nspl ; ++i ) file << '\t' << ss.header(i) ;
@@ -110,6 +111,7 @@ main() {
       file << '\n' ;
     }
     file.close() ;
+    ss.info(cout) ;
   }
   
   cout << "ALL DONE!\n" ;

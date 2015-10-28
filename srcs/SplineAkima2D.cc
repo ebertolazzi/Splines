@@ -316,7 +316,7 @@ namespace Splines {
           if ( jmax-jmin == 1 ) {
             valueType y0 = y_loc[jmin] ;
             valueType y1 = y_loc[jmax] ;
-            for ( int i = imin-iadd ; i <= imax+iadd ; ++i ) {
+            for ( sizeType i = imin-iadd ; i <= imax+iadd ; ++i ) {
               valueType z0 = z_loc[i][jmin] ;
               valueType z1 = z_loc[i][jmax] ;
               z_loc[i][jmin-1] = Extrapolate2( y0-y1, y_loc[jmin-1]-y1, z1, z0 ) ;
@@ -326,7 +326,7 @@ namespace Splines {
             valueType y0 = y_loc[jmin] ;
             valueType y1 = y_loc[jmin+1] ;
             valueType y2 = y_loc[jmax] ;
-            for ( int i = imin-iadd ; i <= imax+iadd ; ++i ) {
+            for ( sizeType i = imin-iadd ; i <= imax+iadd ; ++i ) {
               valueType z0 = z_loc[i][jmin] ;
               valueType z1 = z_loc[i][jmin+1] ;
               valueType z2 = z_loc[i][jmax] ;

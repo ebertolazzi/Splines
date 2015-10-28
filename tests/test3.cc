@@ -50,15 +50,19 @@ valueType yy4[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.91
 valueType xx5[] = { 0.11, 0.12, 0.15, 0.16 } ;
 valueType yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 } ;
 
-sizeType  n[]   = { 11, 11, 11, 9, 12, 4 } ;
+// monotone
+valueType xx6[] = { 0, 1, 2, 3, 4 } ;
+valueType yy6[] = { 0, 1, 1.1, 2.0, 2.1 } ;
+
+sizeType  n[]   = { 11, 11, 11, 9, 12, 4, 5 } ;
 
 int
 main() {
 
   SplineSet   ss ;
-  ofstream    file ;
+  ofstream    file, file_D ;
 
-  for ( indexType k = 0 ; k < 6 ; ++ k ) {
+  for ( indexType k = 0 ; k < 7 ; ++ k ) {
     valueType * xx, * yy ;
     switch ( k ) {
       case 0: xx = xx0 ; yy = yy0 ; break ;
@@ -67,49 +71,74 @@ main() {
       case 3: xx = xx3 ; yy = yy3 ; break ;
       case 4: xx = xx4 ; yy = yy4 ; break ;
       case 5: xx = xx5 ; yy = yy5 ; break ;
+      case 6: xx = xx6 ; yy = yy6 ; break ;
     }
     char fname[100] ;
-    sprintf( fname, "out/SplineSet%d.txt", k) ; file.open(fname) ;
+    sprintf( fname, "out/SplineSet%d.txt", k) ;
+    file.open(fname) ;
+
+    sprintf( fname, "out/SplineSet%d_D.txt", k) ;
+    file_D.open(fname) ;
+    
     valueType xmin = xx[0] ;
     valueType xmax = xx[n[k]-1] ;
 
     indexType nspl = 7 ;
     indexType npts = n[k] ;
+
     char const *headers[] = {
       "SPLINE_CONSTANT",
       "SPLINE_LINEAR",
+      "SPLINE_CUBIC_BASE",
+      "SPLINE_CUBIC",
       "SPLINE_AKIMA",
       "SPLINE_BESSEL",
       "SPLINE_PCHIP",
-      "SPLINE_CUBIC",
       "SPLINE_QUINTIC"
     } ;
     
     SplineType const stype[] = {
        Splines::CONSTANT_TYPE,
        Splines::LINEAR_TYPE,
+       Splines::CUBIC_BASE_TYPE,
+       Splines::CUBIC_TYPE,
        Splines::AKIMA_TYPE,
        Splines::BESSEL_TYPE,
        Splines::PCHIP_TYPE,
-       Splines::CUBIC_TYPE,
        Splines::QUINTIC_TYPE
     } ;
 
     //bool const rp_policy[] = { true, true, true, true, true, true, true } ;
 
-    valueType const *Y[] = { yy, yy, yy, yy, yy, yy, yy } ;
+    std::vector<valueType> YpZero(npts) ;
+    std::fill(YpZero.begin(), YpZero.end(), 0 ) ;
 
-    ss.build( nspl, npts, headers, stype, xx, Y ) ;
+    valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy } ;
+    valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr } ;
 
-    file << "x" ;
-    for ( indexType i = 0 ; i < nspl ; ++i ) file << '\t' << ss.header(i) ;
-    file << '\n' ;
+    ss.build( nspl, npts, headers, stype, xx, Y, Yp ) ;
+    ss.info(cout) ;
+
+    file   << "x" ;
+    file_D << "x" ;
+    for ( indexType i = 0 ; i < nspl ; ++i ) {
+      file   << '\t' << ss.header(i) ;
+      file_D << '\t' << ss.header(i) ;
+    }
+    file   << '\n' ;
+    file_D << '\n' ;
     for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) {
-      file << x ;
-      for ( indexType i = 0 ; i < nspl ; ++i ) file << '\t' << ss(x,i) ;
-      file << '\n' ;
+      file   << x ;
+      file_D << x ;
+      for ( indexType i = 0 ; i < nspl ; ++i ) {
+        file   << '\t' << ss(x,i) ;
+        file_D << '\t' << ss.D(x,i) ;
+      }
+      file   << '\n' ;
+      file_D << '\n' ;
     }
     file.close() ;
+    file_D.close() ;
   }
   
   cout << "ALL DONE!\n" ;

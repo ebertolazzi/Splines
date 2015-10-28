@@ -16,6 +16,21 @@
  |      email: enrico.bertolazzi@unitn.it                                   |
  |                                                                          |
 \*--------------------------------------------------------------------------*/
+/*!
+ *
+ * \date     October 28, 2015
+ * \version  5.1
+ * \note     first release Jan 12, 1998
+ *
+ * \author   Enrico Bertolazzi
+ *
+ * \par      Affiliation:
+ *           Department of Industrial Engineering<br>
+ *           University of Trento<br>
+ *           Via Sommarive 9, I -- 38123 Trento, Italy <br>
+ *           enrico.bertolazzi@unitn.it
+ *
+ */
 
 #ifndef SPLINES_HH
 #define SPLINES_HH
@@ -92,10 +107,11 @@ namespace Splines {
   //! Associate a number for each type of splines implemented
   typedef enum { CONSTANT_TYPE,
                  LINEAR_TYPE,
+                 CUBIC_BASE_TYPE,
+                 CUBIC_TYPE,
                  AKIMA_TYPE,
                  BESSEL_TYPE,
                  PCHIP_TYPE,
-                 CUBIC_TYPE,
                  QUINTIC_TYPE,
                  SPLINE_SET_TYPE } SplineType ;
   
@@ -147,6 +163,13 @@ namespace Splines {
   bilinear5( valueType const p[6],
              valueType const M[6][6],
              valueType const q[6] ) ;
+
+  //! Check if cubic spline with this data is monotone, -1 no, 0 yes, 1 strictly monotone
+  indexType
+  checkCubicSplineMonotonicity( valueType const X[],
+                                valueType const Y[],
+                                valueType const Yp[],
+                                indexType       npts ) ;
 
   /*
   //   ____        _ _            
@@ -375,7 +398,7 @@ namespace Splines {
     using Spline::build ;
   
     //! spline constructor
-    CubicSplineBase( string const & name = "Spline", bool ck = false )
+    CubicSplineBase( string const & name = "CubicSplineBase", bool ck = false )
     : Spline(name,ck)
     , baseValue(name+"_memory")
     , Yp(nullptr)
@@ -398,6 +421,9 @@ namespace Splines {
     void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) ;
 
     // --------------------------- VIRTUALS -----------------------------------
+
+    //! Return spline type (as number)
+    virtual unsigned type() const { return CUBIC_BASE_TYPE ; }
 
     //! Evaluate spline value
     virtual valueType operator () ( valueType x ) const ;
@@ -422,10 +448,11 @@ namespace Splines {
     // must be defined in derived classes
     virtual
     void
-    build (void) = 0 ;
+    build (void)
+    {} ; // nothing to do for CubicSplineBase
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) = 0 ;
+    virtual void build ( GC::GenericContainer const & gc ) ; // constrainer that uses x, y, yp
     #endif
 
     //! Build a spline.
@@ -461,10 +488,108 @@ namespace Splines {
     void
     build ( vector<valueType> const & x, vector<valueType> const & y ) ;
 
+    //! Build a spline.
+    /*!
+     * \param x    vector of x-coordinates
+     * \param incx access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+     * \param y    vector of y-coordinates
+     * \param incy access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
+     * \param yp   vector of y'-coordinates
+     * \param incy access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
+     * \param n    total number of points
+     */
+    void
+    build ( valueType const x[],  sizeType incx,
+            valueType const y[],  sizeType incy,
+            valueType const yp[], sizeType incyp,
+            sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x  vector of x-coordinates
+     * \param y  vector of y-coordinates
+     * \param yp vector of y'-coordinates
+     * \param n  total number of points
+     */
+    void
+    build ( valueType const x[],
+            valueType const y[],
+            valueType const yp[],
+            sizeType n ) ;
+
+    //! Build a spline.
+    /*!
+     * \param x  vector of x-coordinates
+     * \param y  vector of y-coordinates
+     * \param yp vector of y'-coordinates
+     */
+    void
+    build ( vector<valueType> const & x,
+            vector<valueType> const & y,
+            vector<valueType> const & yp ) ;
+
     //! Cancel the support points, empty the spline.
     virtual
     void
     clear(void) ;
+
+  } ;
+
+  /*
+  //    ____      _     _      ____        _ _            
+  //   / ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___ 
+  //  | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
+  //  | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
+  //   \____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
+  //                                |_|                   
+  */
+  //! Cubic Spline Management Class
+  class CubicSpline : public CubicSplineBase {
+  private:
+    valueType ddy0 ;
+    valueType ddyn ;
+  public:
+
+    using Spline::build ;
+    using CubicSplineBase::reserve ;
+
+    //! spline constructor
+    CubicSpline( string const & name = "CubicSpline", bool ck = false )
+    : CubicSplineBase( name, ck )
+    , ddy0(0)
+    , ddyn(0)
+    {}
+
+    //! spline destructor
+    virtual
+    ~CubicSpline()
+    {}
+
+    /*!
+     * \param ddy0  first boundary condition.
+     *              The second derivative at initial point.
+     * \param ddyn  second boundary condition.
+     *              The second derivative at final point.
+     */
+    void
+    setbc( valueType ddy0, valueType ddyn ) {
+      this -> ddy0 = ddy0 ;
+      this -> ddyn = ddyn ;    
+    }
+
+    //! Return spline type (as number)
+    virtual unsigned type() const { return CUBIC_TYPE ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Build a Cubic spline from previously inserted points
+    virtual
+    void
+    build (void) ;
+
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void build ( GC::GenericContainer const & gc ) ;
+    #endif
 
   } ;
 
@@ -545,79 +670,6 @@ namespace Splines {
     // --------------------------- VIRTUALS -----------------------------------
 
     //! Build a Bessel spline from previously inserted points
-    virtual
-    void
-    build (void) ;
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
-    #endif
-
-  } ;
-
-  /*
-  //    ____      _     _      ____        _ _            
-  //   / ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___ 
-  //  | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
-  //  | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
-  //   \____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
-  //                                |_|                   
-  */
-  //! Cubic Spline Management Class
-  /*!
-   * 
-   * \date     Feruary 25, 2008
-   * \version  5.0
-   * \note     first release Jan 12, 1998 
-   *
-   * \author   Enrico Bertolazzi
-   *
-   * \par      Affiliation:
-   *           Department of Industrial Engineering <br>
-   *           University of Trento <br>
-   *           via Mesiano 77, I -- 38050 Trento, Italy <br>
-   *           enrico.bertolazzi@ing.unitn.it
-   *
-   */
-  class CubicSpline : public CubicSplineBase {
-  private:
-    valueType ddy0 ;
-    valueType ddyn ;
-  public:
-
-    using Spline::build ;
-    using CubicSplineBase::reserve ;
-
-    //! spline constructor
-    CubicSpline( string const & name = "CubicSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
-    , ddy0(0)
-    , ddyn(0)
-    {}
-
-    //! spline destructor
-    virtual
-    ~CubicSpline()
-    {}
-
-    /*!
-     * \param ddy0  first boundary condition.
-     *              The second derivative at initial point.
-     * \param ddyn  second boundary condition.
-     *              The second derivative at final point.
-     */
-    void
-    setbc( valueType ddy0, valueType ddyn ) {
-      this -> ddy0 = ddy0 ;
-      this -> ddyn = ddyn ;    
-    }
-
-    //! Return spline type (as number)
-    virtual unsigned type() const { return CUBIC_TYPE ; }
-
-    // --------------------------- VIRTUALS -----------------------------------
-
-    //! Build a Cubic spline from previously inserted points
     virtual
     void
     build (void) ;
@@ -1104,22 +1156,23 @@ namespace Splines {
     Malloc<valueType>  baseValue ;
     Malloc<valueType*> basePointer ;
 
-    valueType *_X ;
-    valueType **_Y ;
-    valueType **_Yp ;
-    valueType **_Ypp ;
-    valueType *_Ymin ;
-    valueType *_Ymax ;
+    valueType *  _X ;
+    valueType ** _Y ;
+    valueType ** _Yp ;
+    valueType ** _Ypp ;
+    valueType *  _Ymin ;
+    valueType *  _Ymax ;
 
     mutable sizeType lastInterval ;
     sizeType search( valueType x ) const ;
     
     vector<Spline*> splines ;
+    vector<bool>    is_monotone ;
 
   public:
 
     //! spline constructor
-    SplineSet( string const & name = "Splines" )
+    SplineSet( string const & name = "SplineSet" )
     : _name(name)
     , baseValue(name+"_values")
     , basePointer(name+"_pointers")
@@ -1139,6 +1192,7 @@ namespace Splines {
 
     string const & name() const { return _name ; }
     string const & header( sizeType const i ) const { return splines[i]->name() ; }
+    bool isMonotone( sizeType const i ) const { return is_monotone[i] ; }
 
     //! return the number of support points of the splines
     sizeType numPoints(void) const { return _npts ; }
@@ -1208,7 +1262,7 @@ namespace Splines {
             SplineType const stype[],
             valueType  const X[],
             valueType  const *Y[],
-            bool       const rp_policy[] = nullptr ) ;
+            valueType  const *Yp[] ) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
     void build ( GC::GenericContainer const & gc ) ;
@@ -1216,6 +1270,9 @@ namespace Splines {
 
     //! Return spline type (as number)
     virtual unsigned type() const { return SPLINE_SET_TYPE ; }
+
+    //! Get info of splines collected
+    void info( std::basic_ostream<char> & s ) const ;
 
   } ;
 
@@ -1691,10 +1748,11 @@ namespace Splines {
 namespace SplinesLoad {
 
   using Splines::Spline ;
+  using Splines::CubicSplineBase ;
+  using Splines::CubicSpline ;
   using Splines::AkimaSpline ;
   using Splines::BesselSpline ;
   using Splines::PchipSpline ;
-  using Splines::CubicSpline ;
   using Splines::LinearSpline ;
   using Splines::ConstantSpline ;
   using Splines::QuinticSpline ;

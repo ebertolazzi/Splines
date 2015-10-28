@@ -95,7 +95,6 @@ namespace Splines {
         valueType Xsaved[npts], Ysaved[npts] ;
       #endif
 
-      
       std::copy( X, X+npts, Xsaved ) ;
       std::copy( Y, Y+npts, Ysaved ) ;
       reserve( (npts+1) * 2 ) ;

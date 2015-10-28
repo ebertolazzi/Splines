@@ -27,7 +27,83 @@
 
 namespace Splines {
 
-  using namespace std ; // load standard namspace
+  using namespace std ; // load standard namespace
+
+  // build spline without computation
+
+  void
+  CubicSplineBase::build ( valueType const x[],  sizeType incx,
+                           valueType const y[],  sizeType incy,
+                           valueType const yp[], sizeType incyp,
+                           sizeType n ) {
+    reserve( n ) ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      X[i]  = x[i*incx] ;
+      Y[i]  = y[i*incy] ;
+      Yp[i] = yp[i*incyp] ;
+    }
+    npts = n ;
+  }
+
+  void
+  CubicSplineBase::build ( valueType const x[],
+                           valueType const y[],
+                           valueType const yp[],
+                           sizeType n ) {
+    reserve( n ) ;
+    std::copy( x, x+n, X );
+    std::copy( y, y+n, Y );
+    std::copy( yp, yp+n, Yp );
+    npts = n ;
+  }
+
+  void
+  CubicSplineBase::build ( vector<valueType> const & x,
+                           vector<valueType> const & y,
+                           vector<valueType> const & yp ) {
+    sizeType n = sizeType(min( x.size(), y.size() )) ;
+    reserve( n ) ;
+    std::copy( x.begin(),  x.begin()+n,  X  );
+    std::copy( y.begin(),  y.begin()+n,  Y  );
+    std::copy( yp.begin(), yp.begin()+n, Yp );
+    npts = n ;
+    build() ;
+  }
+
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  void
+  CubicSplineBase::build( GC::GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    // gc["yp"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"),  "[" << _name << "] CubicSplineBase::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"),  "[" << _name << "] CubicSplineBase::build, missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("yp"), "[" << _name << "] CubicSplineBase::build, missing `yp` field!") ;
+  
+    GC::GenericContainer const & gc_x  = gc("x") ;
+    GC::GenericContainer const & gc_y  = gc("y") ;
+    GC::GenericContainer const & gc_yp = gc("yp") ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_x.get_type(),
+                   "Field `x` expected to be of type `vec_real_type` found: `" <<
+                   gc_x.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_y.get_type(),
+                   "Field `y` expected to be of type `vec_real_type` found: `" <<
+                   gc_y.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_yp.get_type(),
+                   "Field `yp` expected to be of type `vec_real_type` found: `" <<
+                   gc_yp.get_type_name() << "`" ) ;
+
+    build( gc_x.get_vec_real(), gc_y.get_vec_real(), gc_yp.get_vec_real() ) ;
+  }
+  #endif
+
+  // build spline using virtual constructor
 
   void
   CubicSplineBase::build ( valueType const x[], sizeType incx,
@@ -85,7 +161,10 @@ namespace Splines {
   }
 
   void
-  CubicSplineBase::reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) {
+  CubicSplineBase::reserve_external( sizeType     n,
+                                     valueType *& p_x,
+                                     valueType *& p_y,
+                                     valueType *& p_dy ) {
     npts_reserved = n ;
     X    = p_x ;
     Y    = p_y ;

@@ -117,7 +117,7 @@ namespace Splines {
   */
   #ifdef SPLINES_USE_GENERIC_CONTAINER
   void
-  LinearSpline::build( GC::GenericContainer const & gc ) {
+  LinearSpline::build( GC::GenericContainer const & ) {
     SPLINE_ASSERT( false, "Not Yet Implemented!" ) ;
   }
   #endif
