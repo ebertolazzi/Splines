@@ -115,6 +115,5 @@ main() {
     SAVE(pc) ;
     SAVE(qs) ;
   }
-  
   cout << "ALL DONE!\n" ;
 }

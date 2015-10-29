@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include <limits>
 
 /**
  * 
@@ -27,13 +28,184 @@ namespace Splines {
 
   using namespace std ; // load standard namspace
 
+  static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
+  static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
+
+  //! quadratic polinomial roots
+  /*!
+    Compute the roots of the polynomial
+    
+    \f[ a_0 + a_1 z + a_2 z^2 \f]
+    
+    and store the results is `real` and `imag`.
+    It is assumed that \f$ a_2 \f$ is nonzero.
+  */
+  /*
+    Converted to be compatible with ELF90 by Alan Miller
+    amiller @ bigpond.net.au
+    WWW-page: http://users.bigpond.net.au/amiller
+    Latest revision - 27 February 1997
+  */
+
+  static
+  int
+  quadraticRoots( valueType const a[3],
+                  valueType       real[2], 
+                  valueType       imag[2] ) {
+
+    // A x^2 + B x + C
+    valueType const & C = a[0] ;
+    valueType const & B = a[1] ;
+    valueType const & A = a[2] ;
+
+    real[0] = real[1] = imag[0] = imag[1] = 0 ;
+    
+    int res = 0 ;
+    if ( a[0] == 0 ) {
+      real[1] = -B/A ;
+      res = 1 ; // una singola radice reale
+    } else {
+      valueType twoA = 2*A ;
+      valueType d    = B*B - 4*A*C ;
+      valueType absd = std::abs(d) ;
+      if ( absd <= 2*machineEps*B*B ) { 
+        real[0] = real[1] = -B/twoA ; // EQUAL REAL ROOTS
+        res = 3 ; // 2 radici reali coincidenti
+      } else {
+        valueType r = sqrt(absd) ;
+        if ( d < 0 ) { // COMPLEX ROOTS
+          real[0] = real[1] = -B/twoA ;
+          imag[0] = std::abs(r/twoA) ;
+          imag[1] = -imag[0] ;
+          res = 4 ; // 2 radici complesse coniugate
+        } else {
+          // DISTINCT REAL ROOTS
+          if ( B == 0  ) {
+            real[0] = std::abs(r/twoA) ;
+            real[1] = -real[0] ;
+          } else {
+            valueType w = -B ;
+            if ( w > 0 ) w += r ; else w -= r ;
+            w *= 0.5 ;
+            real[0] = C/w ;
+            real[1] = w/A ;
+          }
+          res = 2 ; // 2 radici reali distinte
+        }
+      }
+    }
+    return res ;
+  }
+  
+  //! cubic polinomial roots
+  /*!
+    Compute the roots of the polynomial
+    
+    \f[ a_0 + a_1 z + a_2 z^2 + a_3 z^3 \f]
+    
+    and store the results is `real` and `imag`.
+    It is assumed that \f$ a_3 \f$ is nonzero.
+  */
+
+  static
+  int
+  cubicRoots( valueType const a[4],
+              valueType       real[3], 
+              valueType       imag[3] ) {
+
+    // initialize roots
+    real[0] = real[1] = real[2] = 
+    imag[0] = imag[1] = imag[2] = 0 ;
+
+    // trivial case
+    if ( a[0] == 0 ) return quadraticRoots( a+1, real+1, imag+1 ) ; // quadratica degenerata
+
+    // x^3 + A x^2 + B x + C
+    valueType const C = a[0]/a[3] ;
+    valueType const B = a[1]/a[3] ;
+    valueType const A = a[2]/a[3] ;
+    
+    // p(y-A/3) = y^3 + p*y + q
+    valueType const A3 = A/3 ;
+    valueType const p  = B-A*A3 ;
+    valueType const q  = C+A3*(2*(A3*A3)-B) ;
+    
+    // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
+    valueType const S = max( std::sqrt(std::abs(p)), std::cbrt(std::abs(q)) ) ;
+
+    // check for a triple root
+    if ( S <= machineEps ) {
+      real[0] = real[1] = real[2] = -A3 ;
+      return 5 ; // 3 radici reali coincidenti
+    }
+    
+    valueType const P     = (p/3)/S/S ;
+    valueType const sqrtP = std::sqrt(std::abs(p/3))/S ;
+    valueType const Q     = (q/2)/S/S/S ;
+
+    valueType const d     = P*P*P + Q*Q ;
+    valueType const sqrtd = sqrt(std::abs(d)) ;
+
+    int res = 0 ;
+    if ( sqrtd < std::abs(q)*machineEps ) {
+      // P^3 = - Q^2
+      // (x+2*a)(x-a)^2 = x^3 - 3*x*a^2 + 2*a^3
+      // cioè -a^2 = P, a^3 = Q ==> a = sqrt(-P)
+      valueType tmp = Q > 0 ? sqrtP : -sqrtP ;
+      real[1] = real[2] = tmp ;
+      real[0] = -2*tmp ;
+      res = 6 ; // 3 radici reali, 2 coincidenti
+    } else if ( d > 0 ) {
+      // w1 = (- Q + sqrt( P^3 + Q^2 ))^(1/3)
+      // w2 = (- Q - sqrt( P^3 + Q^2 ))^(1/3)
+      valueType w1, w2 ;
+      if ( Q > 0 ) {
+        w2 = - pow( sqrtd + Q, 1.0 / 3.0 ) ;
+        w1 = - P / w2 ;
+      } else {
+        w1 =   pow( sqrtd - Q, 1.0 / 3.0 ) ;
+        w2 = - P / w1 ;
+      }
+      real[0] = w1 + w2 ;
+      real[1] = real[2] = -0.5*real[0] ;
+      imag[1] = (w1-w2)*sqrt(3.0/4.0) ;
+      imag[2] = -imag[1] ;
+      res = 8 ; // 1 reale 2 complesse coniugate
+    } else { // 3 radici reali
+      // w1 = (- Q + I*sqrt(|P^3 + Q^2|) )^(1/3)
+      // w2 = (- Q - I*sqrt(|P^3 + Q^2|) )^(1/3)
+      valueType angle  = atan2( sqrtd, -Q ) ;
+      if ( angle < 0 ) angle += m_2pi ;
+      angle /= 3 ;
+      valueType re = sqrtP * cos(angle) ;
+      valueType im = sqrtP * sin(angle) ;
+      //if ( Q > 0 ) re = -re ;
+      real[0]  = 2*re ;
+      real[1]  = real[2] = -re ;
+      real[1] += sqrt(3.0) * im ;
+      real[2] -= sqrt(3.0) * im ;
+      res = 7 ; // 3 radici reali distinte
+    }
+
+    // scalo radici
+    real[0] *= S ; real[1] *= S ; real[2] *= S ;
+    imag[0] *= S ; imag[1] *= S ; imag[2] *= S ;
+    
+    // traslo radici
+    real[0] -= A3 ;
+    real[1] -= A3 ;
+    real[2] -= A3 ;
+
+    return res ;
+  }
+
   void
   SplineSet::info( std::basic_ostream<char> & s ) const {
     s << "SplineSet[" << name() << "] N.points = "
       << _npts << " N.splines = " << _nspl << '\n' ;
     for ( sizeType i = 0 ; i < _nspl ; ++i )
       s << "Spline N." << i << " " << header(i)
-        << (is_monotone[i]?" is monotone" : " is NOT monotone" )
+        << (is_monotone[i]>0?" is monotone" : " is NOT monotone" )
         << '\n' ;
   }
 
@@ -129,7 +301,7 @@ namespace Splines {
       string h = headers[i] ;
       Spline * & s = splines[sizeType(i)] ;
       
-      is_monotone[sizeType(i)] = false ;
+      is_monotone[sizeType(i)] = -1 ;
       switch (stype[sizeType(i)]) {
         case CONSTANT_TYPE:
           s = new ConstantSpline(h) ;
@@ -141,41 +313,49 @@ namespace Splines {
           s = new LinearSpline(h) ;
           static_cast<LinearSpline*>(s)->reserve_external( _npts, _X, pY ) ;
           static_cast<LinearSpline*>(s)->build( _X, pY, _npts ) ;
+          // check monotonicity of data
+          { indexType flag = 1 ;
+            for ( sizeType j = 1 ; j < _npts ; ++j ) {
+              if ( Y[j-1] > Y[j] ) { flag = -1 ; break ; } // non monotone data
+              if ( Y[j-1] == Y[j] && X[j-1] < X[j] ) flag = 0 ; // non strict monotone
+            }
+            is_monotone[sizeType(i)] = flag ;
+          }
         break;
 
         case CUBIC_BASE_TYPE:
           s = new CubicSplineBase(h) ;
           static_cast<CubicSplineBase*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<CubicSplineBase*>(s)->build( _X, pY, pYp, _npts ) ;
-          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) > 0 ;
+          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
         break;
 
         case CUBIC_TYPE:
           s = new CubicSpline(h) ;
           static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<CubicSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) > 0 ;
+          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
         break;
 
         case AKIMA_TYPE:
           s = new AkimaSpline(h) ;
           static_cast<AkimaSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<AkimaSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) > 0 ;
+          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
         break ;
 
         case BESSEL_TYPE:
           s = new BesselSpline(h) ;
           static_cast<BesselSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<BesselSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) > 0 ;
+          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
         break ;
 
         case PCHIP_TYPE:
           s = new PchipSpline(h) ;
           static_cast<PchipSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<PchipSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) > 0 ;
+          is_monotone[sizeType(i)] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
         break ;
 
         case QUINTIC_TYPE:
@@ -280,4 +460,246 @@ namespace Splines {
 
   }
   #endif
+
+  // vectorial values
+  void
+  SplineSet::getHeaders( vector<string> & h ) const {
+    h.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      h[i] = splines[i]->name() ;
+  }
+
+  void
+  SplineSet::eval( valueType x, vector<valueType> & vals ) const {
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = (*splines[i])(x) ;
+  }
+
+  void
+  SplineSet::eval( valueType x, valueType vals[], indexType incy ) const {
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = (*splines[i])(x) ;
+  }
+
+  void
+  SplineSet::eval_D( valueType x, vector<valueType> & vals ) const {
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->D(x) ;
+  }
+
+  void
+  SplineSet::eval_D( valueType x, valueType vals[], indexType incy ) const {
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->D(x) ;
+  }
+
+  void
+  SplineSet::eval_DD( valueType x, vector<valueType> & vals ) const {
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->DD(x) ;
+  }
+
+  void
+  SplineSet::eval_DD( valueType x, valueType vals[], indexType incy ) const {
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->DD(x) ;
+  }
+
+  void
+  SplineSet::eval_DDD( valueType x, vector<valueType> & vals ) const {
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->DDD(x) ;
+  }
+
+  void
+  SplineSet::eval_DDD( valueType x, valueType vals[], indexType incy ) const {
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->DDD(x) ;
+  }
+
+  // vectorial values
+  
+  Spline const *
+  SplineSet::intersect( indexType spl, valueType zeta, valueType & x ) const {
+    SPLINE_ASSERT( spl >= 0 && spl < _nspl,
+                   "Spline n." << spl << " is not in SplineSet") ;
+    SPLINE_ASSERT( is_monotone[sizeType(spl)]>0,
+                   "Spline n." << spl << " is not monotone") ;
+    Spline const * S = splines[sizeType(spl)] ;
+    // cerco intervallo intersezione
+    valueType const * X = _Y[sizeType(spl)] ;
+    SPLINE_ASSERT( zeta >= X[0] && zeta <= X[_npts-1],
+                   "SplineSet, evaluation at zeta = " << zeta <<
+                   " is out of range: [" << X[0] << ", " << X[_npts-1] << "]" ) ;
+
+    sizeType interval = sizeType(lower_bound( X, X+_npts, zeta ) - X) ;
+    if ( interval > 0 ) --interval ;
+    if ( X[interval] == X[interval+1] ) ++interval ; // degenerate interval for duplicated nodes
+    if ( interval >= _npts-1 ) interval = _npts-2 ;
+    // compute intersection
+    valueType a  = _X[interval] ;
+    valueType b  = _X[interval+1] ;
+    valueType ya = X[interval] ;
+    valueType yb = X[interval+1] ;
+    valueType DX = b-a ;
+    valueType DY = yb-ya ;
+    if ( S->type() == LINEAR_TYPE ) {
+      x = a + (b-a)*(zeta-ya)/(yb-ya) ;
+    } else {
+      valueType const * dX = _Yp[sizeType(spl)] ;
+      valueType dya = dX[interval] ;
+      valueType dyb = dX[interval+1] ;
+      valueType const coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) } ;
+      valueType real[3], imag[3] ;
+      int icase = cubicRoots( coeffs, real, imag ) ;
+      cout << "coeffs " << coeffs[0] << " " << coeffs[1] << " " << coeffs[2] << " " << coeffs[3] << '\n' ;
+      cout << "DX " << DX << " zeta = " << zeta << '\n' ;
+      int nr = 0 ;
+      switch ( icase ) {
+      case 4:// 2 radici complesse coniugate
+        break ;
+      case 1:// una singola radice reale
+      case 3:// 2 radici reali coincidenti
+      case 5:// 3 radici reali coincidenti
+      case 8:// 1 reale 2 complesse coniugate
+        nr = 1 ;
+        break ;
+      case 2:// 2 radici reali distinte
+      case 6:// 3 radici reali, 2 coincidenti
+        nr = 2 ;
+        break ;
+      case 7:// 3 radici reali distinte
+        nr = 3 ;
+        break ;
+      }
+      // cerca radice buona
+      bool ok = false ;
+      for ( indexType i = 0 ; i < nr && !ok ; ++i ) {
+        ok = real[i] >= 0 && real[i] <= DX ;
+        if ( ok ) x = a + real[i] ;
+      }
+      SPLINE_ASSERT( ok, "SplineSet, failed to find intersection with independent spline at zeta = " << zeta << " icase = " << icase ) ;
+    }
+    return S ;
+  }
+
+  void
+  SplineSet::eval2( indexType           spl,
+                    valueType           zeta,
+                    vector<valueType> & vals ) const {
+    valueType x ;
+    intersect( spl, zeta, x ) ;
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = (*splines[i])(x) ;
+  }
+
+  void
+  SplineSet::eval2( indexType spl,
+                    valueType zeta,
+                    valueType vals[],
+                    indexType incy ) const {
+    valueType x ;
+    intersect( spl, zeta, x ) ;
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = (*splines[i])(x) ;
+  }
+
+  void
+  SplineSet::eval2_D( indexType           spl,
+                      valueType           zeta,
+                      vector<valueType> & vals ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType ds = S->D(x) ;
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->D(x)/ds ;
+  }
+
+  void
+  SplineSet::eval2_D( indexType spl,
+                      valueType zeta,
+                      valueType vals[],
+                      indexType incy ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType ds = S->D(x) ;
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->D(x)/ds ;
+  }
+
+  void
+  SplineSet::eval2_DD( indexType           spl,
+                       valueType           zeta,
+                       vector<valueType> & vals ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType dt  = 1/S->D(x) ;
+    valueType dt2 = dt*dt ;
+    valueType ddt = -S->DD(x)*(dt*dt2) ;
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt ;
+  }
+
+  void
+  SplineSet::eval2_DD( indexType spl,
+                       valueType zeta,
+                       valueType vals[],
+                       indexType incy ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType dt  = 1/S->D(x) ;
+    valueType dt2 = dt*dt ;
+    valueType ddt = -S->DD(x)*(dt*dt2) ;
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt ;
+  }
+
+  void
+  SplineSet::eval2_DDD( indexType           spl,
+                        valueType           zeta,
+                        vector<valueType> & vals ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType dt  = 1/S->D(x) ;
+    valueType dt3 = dt*dt*dt ;
+    valueType ddt = -S->DD(x)*dt3 ;
+    valueType dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) ;
+    vals.resize(_nspl) ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i )
+      vals[i] = splines[i]->DDD(x)*dt3 +
+                3*splines[i]->DD(x)*dt*ddt +
+                splines[i]->D(x)*dddt ;
+  }
+
+  void
+  SplineSet::eval2_DDD( indexType spl,
+                        valueType zeta,
+                        valueType vals[],
+                        indexType incy ) const {
+    valueType x ;
+    Spline const * S = intersect( spl, zeta, x ) ;
+    valueType dt  = 1/S->D(x) ;
+    valueType dt3 = dt*dt*dt ;
+    valueType ddt = -S->DD(x)*dt3 ;
+    valueType dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) ;
+    sizeType ii = 0 ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+      vals[ii] = splines[i]->DDD(x)*dt3 +
+                 3*splines[i]->DD(x)*dt*ddt +
+                 splines[i]->D(x)*dddt ;
+  }
 }
