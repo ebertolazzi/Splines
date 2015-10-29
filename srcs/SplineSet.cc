@@ -19,6 +19,7 @@
 
 #include "Splines.hh"
 #include <limits>
+#include <cmath>
 
 /**
  * 
@@ -26,7 +27,9 @@
 
 namespace Splines {
 
-  using namespace std ; // load standard namspace
+  using std::abs ;
+  using std::sqrt ;
+  using std::cbrt ;
 
   static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
   static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
@@ -67,7 +70,7 @@ namespace Splines {
     } else {
       valueType twoA = 2*A ;
       valueType d    = B*B - 4*A*C ;
-      valueType absd = std::abs(d) ;
+      valueType absd = abs(d) ;
       if ( absd <= 2*machineEps*B*B ) { 
         real[0] = real[1] = -B/twoA ; // EQUAL REAL ROOTS
         res = 3 ; // 2 radici reali coincidenti
@@ -75,13 +78,13 @@ namespace Splines {
         valueType r = sqrt(absd) ;
         if ( d < 0 ) { // COMPLEX ROOTS
           real[0] = real[1] = -B/twoA ;
-          imag[0] = std::abs(r/twoA) ;
+          imag[0] = abs(r/twoA) ;
           imag[1] = -imag[0] ;
           res = 4 ; // 2 radici complesse coniugate
         } else {
           // DISTINCT REAL ROOTS
           if ( B == 0  ) {
-            real[0] = std::abs(r/twoA) ;
+            real[0] = abs(r/twoA) ;
             real[1] = -real[0] ;
           } else {
             valueType w = -B ;
@@ -131,7 +134,7 @@ namespace Splines {
     valueType const q  = C+A3*(2*(A3*A3)-B) ;
     
     // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
-    valueType const S = max( std::sqrt(std::abs(p)), std::cbrt(std::abs(q)) ) ;
+    valueType const S = max( sqrt(abs(p)), cbrt(abs(q)) ) ;
 
     // check for a triple root
     if ( S <= machineEps ) {
@@ -140,14 +143,14 @@ namespace Splines {
     }
     
     valueType const P     = (p/3)/S/S ;
-    valueType const sqrtP = std::sqrt(std::abs(p/3))/S ;
+    valueType const sqrtP = sqrt(abs(p/3))/S ;
     valueType const Q     = (q/2)/S/S/S ;
 
     valueType const d     = P*P*P + Q*Q ;
-    valueType const sqrtd = sqrt(std::abs(d)) ;
+    valueType const sqrtd = sqrt(abs(d)) ;
 
     int res = 0 ;
-    if ( sqrtd < std::abs(q)*machineEps ) {
+    if ( sqrtd < abs(q)*machineEps ) {
       // P^3 = - Q^2
       // (x+2*a)(x-a)^2 = x^3 - 3*x*a^2 + 2*a^3
       // cioè -a^2 = P, a^3 = Q ==> a = sqrt(-P)
