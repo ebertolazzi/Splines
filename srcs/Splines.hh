@@ -44,6 +44,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <utility>      // std::pair
 #include <algorithm>
 
 //
@@ -98,24 +99,34 @@
 //! Various kind of splines
 namespace Splines {
 
-  using namespace ::std ; // load standard namspace
+  using namespace ::std ; // load standard namespace
 
   typedef double   valueType ; //!< Floating point type for splines
   typedef unsigned sizeType  ; //!< Unsigned integer type for splines
   typedef int      indexType ; //!< Signed integer type for splines
 
   //! Associate a number for each type of splines implemented
-  typedef enum { CONSTANT_TYPE,
-                 LINEAR_TYPE,
-                 CUBIC_BASE_TYPE,
-                 CUBIC_TYPE,
-                 AKIMA_TYPE,
-                 BESSEL_TYPE,
-                 PCHIP_TYPE,
-                 QUINTIC_TYPE,
-                 SPLINE_SET_TYPE } SplineType ;
+  typedef enum { CONSTANT_TYPE   = 0,
+                 LINEAR_TYPE     = 1,
+                 CUBIC_BASE_TYPE = 2,
+                 CUBIC_TYPE      = 3,
+                 AKIMA_TYPE      = 4,
+                 BESSEL_TYPE     = 5,
+                 PCHIP_TYPE      = 6,
+                 QUINTIC_TYPE    = 7,
+                 SPLINE_SET_TYPE = 8 } SplineType ;
   
   extern char const *spline_type[] ;
+
+  pair<int,int>
+  quadraticRoots( valueType const a[3],
+                  valueType       real[2], 
+                  valueType       imag[2] ) ;
+
+  pair<int,int>
+  cubicRoots( valueType const a[4],
+              valueType       real[3], 
+              valueType       imag[3] ) ;
 
   /*       _               _    _   _       _   _
   //   ___| |__   ___  ___| | _| \ | | __ _| \ | |
@@ -1814,6 +1825,9 @@ namespace SplinesLoad {
 
   using Splines::SplineSet ;
   using Splines::SplineType ;
+
+  using Splines::quadraticRoots ;
+  using Splines::cubicRoots ;
 
 }
 

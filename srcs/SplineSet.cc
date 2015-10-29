@@ -29,178 +29,6 @@ namespace Splines {
 
   using std::abs ;
   using std::sqrt ;
-  using std::cbrt ;
-
-  static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
-  static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
-
-  //! quadratic polinomial roots
-  /*!
-    Compute the roots of the polynomial
-    
-    \f[ a_0 + a_1 z + a_2 z^2 \f]
-    
-    and store the results is `real` and `imag`.
-    It is assumed that \f$ a_2 \f$ is nonzero.
-  */
-  /*
-    Converted to be compatible with ELF90 by Alan Miller
-    amiller @ bigpond.net.au
-    WWW-page: http://users.bigpond.net.au/amiller
-    Latest revision - 27 February 1997
-  */
-
-  static
-  int
-  quadraticRoots( valueType const a[3],
-                  valueType       real[2], 
-                  valueType       imag[2] ) {
-
-    // A x^2 + B x + C
-    valueType const & C = a[0] ;
-    valueType const & B = a[1] ;
-    valueType const & A = a[2] ;
-
-    real[0] = real[1] = imag[0] = imag[1] = 0 ;
-    
-    int res = 0 ;
-    if ( a[0] == 0 ) {
-      real[1] = -B/A ;
-      res = 1 ; // una singola radice reale
-    } else {
-      valueType twoA = 2*A ;
-      valueType d    = B*B - 4*A*C ;
-      valueType absd = abs(d) ;
-      if ( absd <= 2*machineEps*B*B ) { 
-        real[0] = real[1] = -B/twoA ; // EQUAL REAL ROOTS
-        res = 3 ; // 2 radici reali coincidenti
-      } else {
-        valueType r = sqrt(absd) ;
-        if ( d < 0 ) { // COMPLEX ROOTS
-          real[0] = real[1] = -B/twoA ;
-          imag[0] = abs(r/twoA) ;
-          imag[1] = -imag[0] ;
-          res = 4 ; // 2 radici complesse coniugate
-        } else {
-          // DISTINCT REAL ROOTS
-          if ( B == 0  ) {
-            real[0] = abs(r/twoA) ;
-            real[1] = -real[0] ;
-          } else {
-            valueType w = -B ;
-            if ( w > 0 ) w += r ; else w -= r ;
-            w *= 0.5 ;
-            real[0] = C/w ;
-            real[1] = w/A ;
-          }
-          res = 2 ; // 2 radici reali distinte
-        }
-      }
-    }
-    return res ;
-  }
-  
-  //! cubic polinomial roots
-  /*!
-    Compute the roots of the polynomial
-    
-    \f[ a_0 + a_1 z + a_2 z^2 + a_3 z^3 \f]
-    
-    and store the results is `real` and `imag`.
-    It is assumed that \f$ a_3 \f$ is nonzero.
-  */
-
-  static
-  int
-  cubicRoots( valueType const a[4],
-              valueType       real[3], 
-              valueType       imag[3] ) {
-
-    // initialize roots
-    real[0] = real[1] = real[2] = 
-    imag[0] = imag[1] = imag[2] = 0 ;
-
-    // trivial case
-    if ( a[0] == 0 ) return quadraticRoots( a+1, real+1, imag+1 ) ; // quadratica degenerata
-
-    // x^3 + A x^2 + B x + C
-    valueType const C = a[0]/a[3] ;
-    valueType const B = a[1]/a[3] ;
-    valueType const A = a[2]/a[3] ;
-    
-    // p(y-A/3) = y^3 + p*y + q
-    valueType const A3 = A/3 ;
-    valueType const p  = B-A*A3 ;
-    valueType const q  = C+A3*(2*(A3*A3)-B) ;
-    
-    // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
-    valueType const S = max( sqrt(abs(p)), cbrt(abs(q)) ) ;
-
-    // check for a triple root
-    if ( S <= machineEps ) {
-      real[0] = real[1] = real[2] = -A3 ;
-      return 5 ; // 3 radici reali coincidenti
-    }
-    
-    valueType const P     = (p/3)/S/S ;
-    valueType const sqrtP = sqrt(abs(p/3))/S ;
-    valueType const Q     = (q/2)/S/S/S ;
-
-    valueType const d     = P*P*P + Q*Q ;
-    valueType const sqrtd = sqrt(abs(d)) ;
-
-    int res = 0 ;
-    if ( sqrtd < abs(q)*machineEps ) {
-      // P^3 = - Q^2
-      // (x+2*a)(x-a)^2 = x^3 - 3*x*a^2 + 2*a^3
-      // cioè -a^2 = P, a^3 = Q ==> a = sqrt(-P)
-      valueType tmp = Q > 0 ? sqrtP : -sqrtP ;
-      real[1] = real[2] = tmp ;
-      real[0] = -2*tmp ;
-      res = 6 ; // 3 radici reali, 2 coincidenti
-    } else if ( d > 0 ) {
-      // w1 = (- Q + sqrt( P^3 + Q^2 ))^(1/3)
-      // w2 = (- Q - sqrt( P^3 + Q^2 ))^(1/3)
-      valueType w1, w2 ;
-      if ( Q > 0 ) {
-        w2 = - pow( sqrtd + Q, 1.0 / 3.0 ) ;
-        w1 = - P / w2 ;
-      } else {
-        w1 =   pow( sqrtd - Q, 1.0 / 3.0 ) ;
-        w2 = - P / w1 ;
-      }
-      real[0] = w1 + w2 ;
-      real[1] = real[2] = -0.5*real[0] ;
-      imag[1] = (w1-w2)*sqrt(3.0/4.0) ;
-      imag[2] = -imag[1] ;
-      res = 8 ; // 1 reale 2 complesse coniugate
-    } else { // 3 radici reali
-      // w1 = (- Q + I*sqrt(|P^3 + Q^2|) )^(1/3)
-      // w2 = (- Q - I*sqrt(|P^3 + Q^2|) )^(1/3)
-      valueType angle  = atan2( sqrtd, -Q ) ;
-      if ( angle < 0 ) angle += m_2pi ;
-      angle /= 3 ;
-      valueType re = sqrtP * cos(angle) ;
-      valueType im = sqrtP * sin(angle) ;
-      //if ( Q > 0 ) re = -re ;
-      real[0]  = 2*re ;
-      real[1]  = real[2] = -re ;
-      real[1] += sqrt(3.0) * im ;
-      real[2] -= sqrt(3.0) * im ;
-      res = 7 ; // 3 radici reali distinte
-    }
-
-    // scalo radici
-    real[0] *= S ; real[1] *= S ; real[2] *= S ;
-    imag[0] *= S ; imag[1] *= S ; imag[2] *= S ;
-    
-    // traslo radici
-    real[0] -= A3 ;
-    real[1] -= A3 ;
-    real[2] -= A3 ;
-
-    return res ;
-  }
 
   void
   SplineSet::info( std::basic_ostream<char> & s ) const {
@@ -440,14 +268,14 @@ namespace Splines {
       string n = gc_spline_type(i).get_string() ;
       std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
       SplineType & st = stype[i] ;
-      if      ( n == "constant"   ) st = CONSTANT_TYPE ;
-      else if ( n == "linear"     ) st = LINEAR_TYPE ;
-      //else if ( n == "cubic_base" ) st = CUBIC_BASE_TYPE ; NOT yet supported
-      else if ( n == "cubic"      ) st = CUBIC_TYPE ;
-      else if ( n == "akima"      ) st = AKIMA_TYPE ;
-      else if ( n == "bessel"     ) st = BESSEL_TYPE ;
-      else if ( n == "pchip"      ) st = PCHIP_TYPE ;
-      else if ( n == "quintic"    ) st = QUINTIC_TYPE ;
+      if      ( n == spline_type[CONSTANT_TYPE] ) st = CONSTANT_TYPE ;
+      else if ( n == spline_type[LINEAR_TYPE]   ) st = LINEAR_TYPE ;
+      //else if ( n == spline_type[CUBIC_BASE_TYPE] ) st = CUBIC_BASE_TYPE ; NOT yet supported
+      else if ( n == spline_type[CUBIC_TYPE]    ) st = CUBIC_TYPE ;
+      else if ( n == spline_type[AKIMA_TYPE]    ) st = AKIMA_TYPE ;
+      else if ( n == spline_type[BESSEL_TYPE]   ) st = BESSEL_TYPE ;
+      else if ( n == spline_type[PCHIP_TYPE]    ) st = PCHIP_TYPE ;
+      else if ( n == spline_type[QUINTIC_TYPE]  ) st = QUINTIC_TYPE ;
       else {
         SPLINE_ASSERT( false, "[" << _name << "] SplineSet::build\ntype = " << n << " unkonwn for " << i << "-th spline" );
       }
@@ -558,38 +386,18 @@ namespace Splines {
       x = a + (b-a)*(zeta-ya)/(yb-ya) ;
     } else {
       valueType const * dX = _Yp[sizeType(spl)] ;
-      valueType dya = dX[interval] ;
-      valueType dyb = dX[interval+1] ;
-      valueType const coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) } ;
+      valueType        dya = dX[interval] ;
+      valueType        dyb = dX[interval+1] ;
+      valueType coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) } ;
       valueType real[3], imag[3] ;
-      int icase = cubicRoots( coeffs, real, imag ) ;
-      cout << "coeffs " << coeffs[0] << " " << coeffs[1] << " " << coeffs[2] << " " << coeffs[3] << '\n' ;
-      cout << "DX " << DX << " zeta = " << zeta << '\n' ;
-      int nr = 0 ;
-      switch ( icase ) {
-      case 4:// 2 radici complesse coniugate
-        break ;
-      case 1:// una singola radice reale
-      case 3:// 2 radici reali coincidenti
-      case 5:// 3 radici reali coincidenti
-      case 8:// 1 reale 2 complesse coniugate
-        nr = 1 ;
-        break ;
-      case 2:// 2 radici reali distinte
-      case 6:// 3 radici reali, 2 coincidenti
-        nr = 2 ;
-        break ;
-      case 7:// 3 radici reali distinte
-        nr = 3 ;
-        break ;
-      }
+      pair<int,int> icase = cubicRoots( coeffs, real, imag ) ;
       // cerca radice buona
       bool ok = false ;
-      for ( indexType i = 0 ; i < nr && !ok ; ++i ) {
+      for ( indexType i = 0 ; i < icase.first && !ok ; ++i ) {
         ok = real[i] >= 0 && real[i] <= DX ;
         if ( ok ) x = a + real[i] ;
       }
-      SPLINE_ASSERT( ok, "SplineSet, failed to find intersection with independent spline at zeta = " << zeta << " icase = " << icase ) ;
+      SPLINE_ASSERT( ok, "SplineSet, failed to find intersection with independent spline at zeta = " << zeta ) ;
     }
     return S ;
   }

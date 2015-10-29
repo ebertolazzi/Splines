@@ -36,6 +36,193 @@
 
 //! Various kind of splines
 namespace Splines {
+ 
+  char const * spline_type[] = {
+    "constant",    // 0
+    "linear",      // 1
+    "cubic base",  // 2
+    "cubic",       // 3
+    "Akima",       // 4
+    "Bessel",      // 5
+    "Pchip",       // 6
+    "quintic",     // 7
+    "spline set"   // 8
+  } ;
+
+  using std::abs ;
+  using std::sqrt ;
+  using std::cbrt ;
+
+  static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
+  static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
+
+  //! quadratic polinomial roots
+  /*!
+    Compute the roots of the polynomial
+    
+    \f[ a_0 + a_1 z + a_2 z^2 \f]
+    
+    and store the results is `real` and `imag`.
+    It is assumed that \f$ a_2 \f$ is nonzero.
+  */
+  /*
+    Converted to be compatible with ELF90 by Alan Miller
+    amiller @ bigpond.net.au
+    WWW-page: http://users.bigpond.net.au/amiller
+    Latest revision - 27 February 1997
+  */
+
+  // num real roots, num complex root
+  pair<int,int>
+  quadraticRoots( valueType const a[3],
+                  valueType       real[2], 
+                  valueType       imag[2] ) {
+
+    // A x^2 + B x + C
+    valueType const & C = a[0] ;
+    valueType const & B = a[1] ;
+    valueType const & A = a[2] ;
+
+    real[0] = real[1] = imag[0] = imag[1] = 0 ;
+
+    pair<int,int> res(0,0) ;
+    if ( a[0] == 0 ) {
+      real[0] = -B/A ;
+      res.first = 1 ; // una singola radice reale
+    } else {
+      valueType twoA = 2*A ;
+      valueType d    = B*B - 4*A*C ;
+      valueType absd = abs(d) ;
+      if ( absd <= 2*machineEps*B*B ) { 
+        real[0] = -B/twoA ; // EQUAL REAL ROOTS
+        res.first = 1 ; // 2 radici reali coincidenti
+      } else {
+        valueType r = sqrt(absd) ;
+        if ( d < 0 ) { // COMPLEX ROOTS
+          real[0] = real[1] = -B/twoA ;
+          imag[0] = abs(r/twoA) ;
+          imag[1] = -imag[0] ;
+          res.second = 2 ; // 2 radici complesse coniugate
+        } else {
+          // DISTINCT REAL ROOTS
+          if ( B == 0  ) {
+            real[0] = abs(r/twoA) ;
+            real[1] = -real[0] ;
+          } else {
+            valueType w = -B ;
+            if ( w > 0 ) w += r ; else w -= r ;
+            w *= 0.5 ;
+            real[0] = C/w ;
+            real[1] = w/A ;
+          }
+          res.first = 2 ; // 2 radici reali distinte
+        }
+      }
+    }
+    return res ;
+  }
+  
+  //! cubic polinomial roots
+  /*!
+    Compute the roots of the polynomial
+    
+    \f[ a_0 + a_1 z + a_2 z^2 + a_3 z^3 \f]
+    
+    and store the results is `real` and `imag`.
+    It is assumed that \f$ a_3 \f$ is nonzero.
+  */
+
+  pair<int,int>
+  cubicRoots( valueType const a[4],
+              valueType       real[3], 
+              valueType       imag[3] ) {
+
+    // initialize roots
+    real[0] = real[1] = real[2] = 
+    imag[0] = imag[1] = imag[2] = 0 ;
+
+    // trivial case
+    if ( a[0] == 0 ) return quadraticRoots( a+1, real+1, imag+1 ) ; // quadratica degenerata
+
+    // x^3 + A x^2 + B x + C
+    valueType const C = a[0]/a[3] ;
+    valueType const B = a[1]/a[3] ;
+    valueType const A = a[2]/a[3] ;
+    
+    // p(y-A/3) = y^3 + p*y + q
+    valueType const A3 = A/3 ;
+    valueType const p  = B-A*A3 ;
+    valueType const q  = C+A3*(2*(A3*A3)-B) ;
+    
+    // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
+    valueType const S = max( sqrt(abs(p)), cbrt(abs(q)) ) ;
+
+    // check for a triple root
+    if ( S <= machineEps ) {
+      real[0] = -A3 ;
+      return pair<int,int>(1,0) ; // 3 radici reali coincidenti
+    }
+
+    valueType const P     = (p/3)/S/S ;
+    valueType const sqrtP = sqrt(abs(p/3))/S ;
+    valueType const Q     = (q/2)/S/S/S ;
+
+    valueType const d     = P*P*P + Q*Q ;
+    valueType const sqrtd = sqrt(abs(d)) ;
+
+    pair<int,int> res(0,0) ;
+    if ( sqrtd < abs(q)*machineEps ) {
+      // P^3 = - Q^2
+      // (x+2*a)(x-a)^2 = x^3 - 3*x*a^2 + 2*a^3
+      // cioè -a^2 = P, a^3 = Q ==> a = sqrt(-P)
+      valueType tmp = Q > 0 ? sqrtP : -sqrtP ;
+      real[0] = tmp ;
+      real[1] = -2*tmp ;
+      res.first = 2 ; // 3 radici reali, 2 coincidenti
+    } else if ( d > 0 ) {
+      // w1 = (- Q + sqrt( P^3 + Q^2 ))^(1/3)
+      // w2 = (- Q - sqrt( P^3 + Q^2 ))^(1/3)
+      valueType w1, w2 ;
+      if ( Q > 0 ) {
+        w2 = - pow( sqrtd + Q, 1.0 / 3.0 ) ;
+        w1 = - P / w2 ;
+      } else {
+        w1 =   pow( sqrtd - Q, 1.0 / 3.0 ) ;
+        w2 = - P / w1 ;
+      }
+      real[0] = w1 + w2 ;
+      real[1] =
+      real[2] = -0.5*real[0] ;
+      imag[1] = (w1-w2)*sqrt(3.0/4.0) ;
+      imag[2] = -imag[1] ;
+      res.first  = 1 ;
+      res.second = 2 ; // 1 reale 2 complesse coniugate
+    } else { // 3 radici reali
+      // w1 = (- Q + I*sqrt(|P^3 + Q^2|) )^(1/3)
+      // w2 = (- Q - I*sqrt(|P^3 + Q^2|) )^(1/3)
+      valueType angle  = atan2( sqrtd, -Q ) ;
+      if ( angle < 0 ) angle += m_2pi ;
+      angle /= 3 ;
+      valueType re = sqrtP * cos(angle) ;
+      valueType im = sqrtP * sin(angle) ;
+      //if ( Q > 0 ) re = -re ;
+      real[0]  = 2*re ;
+      real[1]  = real[2] = -re ;
+      real[1] += sqrt(3.0) * im ;
+      real[2] -= sqrt(3.0) * im ;
+      res.first = 3 ; // 3 radici reali distinte
+    }
+
+    for ( indexType i = 0 ; i < res.first+res.second ; ++i ) {
+      // scalo radici
+      real[i] *= S ;
+      imag[i] *= S ;
+      // traslo radici
+      real[i] -= A3 ;
+    }
+
+    return res ;
+  }
 
   //! Check if cubic spline with this data is monotone, -2 non monotone data, -1 no, 0 yes, 1 strictly monotone
   indexType
