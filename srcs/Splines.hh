@@ -395,8 +395,6 @@ namespace Splines {
 
   public:
 
-    using Spline::build ;
-  
     //! spline constructor
     CubicSplineBase( string const & name = "CubicSplineBase", bool ck = false )
     : Spline(name,ck)
@@ -550,7 +548,7 @@ namespace Splines {
     valueType ddyn ;
   public:
 
-    using Spline::build ;
+    using CubicSplineBase::build ;
     using CubicSplineBase::reserve ;
 
     //! spline constructor
@@ -610,7 +608,7 @@ namespace Splines {
   class AkimaSpline : public CubicSplineBase {
   public:
 
-    using Spline::build ;
+    using CubicSplineBase::build ;
     using CubicSplineBase::reserve ;
 
     //! spline constructor
@@ -651,7 +649,7 @@ namespace Splines {
   class BesselSpline : public CubicSplineBase {
   public:
 
-    using Spline::build ;
+    using CubicSplineBase::build ;
     using CubicSplineBase::reserve ;
 
     //! spline constructor
@@ -698,7 +696,7 @@ namespace Splines {
   class PchipSpline : public CubicSplineBase {
   public:
 
-    using Spline::build ;
+    using CubicSplineBase::build ;
     using CubicSplineBase::reserve ;
 
     //! spline constructor
@@ -982,8 +980,6 @@ namespace Splines {
 
   public:
 
-    using Spline::build ;
-
     //! spline constructor
     QuinticSplineBase( string const & name = "Spline", bool ck = false )
     : Spline(name,ck)
@@ -1105,7 +1101,7 @@ namespace Splines {
   class QuinticSpline : public QuinticSplineBase {
   public:
 
-    using Spline::build ;
+    using QuinticSplineBase::build ;
     using QuinticSplineBase::reserve ;
 
     //! spline constructor
@@ -1723,7 +1719,6 @@ namespace Splines {
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
     virtual void makeSpline() ;
-
   public:
   
     //! spline constructor

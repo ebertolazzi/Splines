@@ -1,22 +1,22 @@
 SRCS = \
-srcs/Splines.cc \
 srcs/SplineAkima.cc \
-srcs/SplineHermite.cc \
 srcs/SplineAkima2D.cc \
-srcs/SplineLinear.cc \
 srcs/SplineBessel.cc \
-srcs/SplinePchip.cc \
 srcs/SplineBiCubic.cc \
-srcs/SplineQuintic.cc \
 srcs/SplineBiQuintic.cc \
-srcs/SplineQuinticBase.cc \
 srcs/SplineBilinear.cc \
-srcs/SplineSet.cc \
 srcs/SplineConstant.cc \
-srcs/SplinesBivariate.cc \
 srcs/SplineCubic.cc \
-srcs/SplinesCinterface.cc \
 srcs/SplineCubicBase.cc \
+srcs/SplineHermite.cc \
+srcs/SplineLinear.cc \
+srcs/SplinePchip.cc \
+srcs/SplineQuintic.cc \
+srcs/SplineQuinticBase.cc \
+srcs/SplineSet.cc \
+srcs/Splines.cc \
+srcs/SplinesBivariate.cc \
+srcs/SplinesCinterface.cc \
 srcs/SplinesUnivariate.cc
 
 OBJS = $(SRCS:.cc=.o)
