@@ -44,6 +44,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <map>
 #include <utility>      // std::pair
 #include <algorithm>
 
@@ -115,7 +116,7 @@ namespace Splines {
                  PCHIP_TYPE      = 6,
                  QUINTIC_TYPE    = 7,
                  SPLINE_SET_TYPE = 8 } SplineType ;
-  
+
   extern char const *spline_type[] ;
 
   pair<int,int>
@@ -1173,8 +1174,9 @@ namespace Splines {
     mutable sizeType lastInterval ;
     sizeType search( valueType x ) const ;
     
-    vector<Spline*> splines ;
-    vector<int>     is_monotone ;
+    vector<Spline*>       splines ;
+    vector<int>           is_monotone ;
+    map<string,indexType> header_to_position ;
 
   private:
 
@@ -1213,6 +1215,9 @@ namespace Splines {
 
     //! return the number splines in the spline set
     sizeType numSplines(void) const { return _nspl ; }
+
+    //! return the column with header(i) == hdr, return -1 if not found
+    indexType getPosition( char const * hdr ) const ;
 
     //! return the vector of values of x-nodes
     valueType const * xNodes() const { return _X ; }

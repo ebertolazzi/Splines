@@ -40,6 +40,13 @@ namespace Splines {
         << '\n' ;
   }
 
+  indexType
+  SplineSet::getPosition( char const * hdr ) const {
+    map<string,indexType>::const_iterator it = header_to_position.find(hdr) ;
+    if ( it == header_to_position.end() ) return -1 ;
+    return it->second ;
+  }
+
   void
   SplineSet::build ( indexType  const nspl,
                      indexType  const npts,
