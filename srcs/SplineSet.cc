@@ -210,6 +210,7 @@ namespace Splines {
           SPLINE_ASSERT( false, "type " << stype[i] << " not recognized as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
         break;
       }
+      header_to_position[s->name()] = i ;
     }
     
   }
