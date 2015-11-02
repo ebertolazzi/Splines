@@ -383,6 +383,7 @@ namespace Splines {
     if ( interval > 0 ) --interval ;
     if ( X[interval] == X[interval+1] ) ++interval ; // degenerate interval for duplicated nodes
     if ( interval >= _npts-1 ) interval = _npts-2 ;
+
     // compute intersection
     valueType a  = _X[interval] ;
     valueType b  = _X[interval+1] ;
@@ -390,6 +391,10 @@ namespace Splines {
     valueType yb = X[interval+1] ;
     valueType DX = b-a ;
     valueType DY = yb-ya ;
+    SPLINE_ASSERT( zeta >= ya && zeta <= yb,
+                   "SplineSet, Bad interval [ " << ya << "," << yb << "] for zeta = " << zeta ) ;
+    SPLINE_ASSERT( a < b,
+                   "SplineSet, Bad x interval [ " << a << "," << b << "]" ) ;
     if ( S->type() == LINEAR_TYPE ) {
       x = a + (b-a)*(zeta-ya)/(yb-ya) ;
     } else {
@@ -399,6 +404,8 @@ namespace Splines {
       valueType coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) } ;
       valueType real[3], imag[3] ;
       pair<int,int> icase = cubicRoots( coeffs, real, imag ) ;
+      SPLINE_ASSERT( icase.first > 0,
+                     "SplineSet, No intersection found with independent spline at zeta = " << zeta ) ;
       // cerca radice buona
       bool ok = false ;
       for ( indexType i = 0 ; i < icase.first && !ok ; ++i ) {
