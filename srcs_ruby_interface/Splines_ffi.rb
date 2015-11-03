@@ -15,28 +15,37 @@
 require 'ffi'
 
 module Splines
-  
+
   extend FFI::Library
-  
+
   base_path = File.expand_path('../', __FILE__)
 
-  case RUBY_PLATFORM
-  when /darwin/
-    LIB_PATH = base_path+"/libSplines.dylib"
-  when /linux/
-    LIB_PATH = base_path+"/libSplines.so"
-  when /mingw/
-    LIB_PATH = base_path+"/libSplines.dll"
+  if @libSplines then
+    ffi_lib @libSplines
   else
-    raise RuntimeError, "Unsupported platform: #{RUBY_PLATFORM}"
-  end
-
-  raise RuntimeError, "Missing library #{LIB_PATH}" unless File.exist? LIB_PATH
-  begin
-    ffi_lib LIB_PATH
-  rescue
-    warn "remember to run export DYLD_LIBRARY_PATH=#{LIB_PATH}"
-    exit
+    HOST_OS     = RbConfig::CONFIG['host_os']
+    @libSplines = "Splines"
+    @ext        = ".noextension"
+    case HOST_OS
+    when /mac|darwin/
+      @ext = ".dylib" ;
+    when /linux|cygwin|bsd/
+      @ext = ".so" ;
+    when /mswin|win|mingw/
+      @ext = ".dll" ;
+    else
+      raise RuntimeError, "Unsupported platform: #{HOST_OS}"
+    end
+    ffi_lib [ @libSplines+@ext,
+              "./lib/"+@libSplines+@ext,
+              "../lib/"+@libSplines+@ext,
+              "./libs/"+@libSplines+@ext,
+              "../libs/"+@libSplines+@ext,
+              "lib"+@libSplines+@ext,
+              "./lib/lib"+@libSplines+@ext,
+              "../lib/lib"+@libSplines+@ext,
+              "./libs/lib"+@libSplines+@ext,
+              "../libs/lib"+@libSplines+@ext ]
   end
 
   attach_function :SPLINE_new,           [ :string, :string ], :int
@@ -61,48 +70,51 @@ class Spline
 
   def initialize(type="pchip")
     @id = self.__id__.to_s
-    Splines.SPLINE_new @id, type
+    ok = ::Splines.SPLINE_new @id, type
+    if ok != 0 then
+      puts "initialize error, check type = #{type}\n"
+    end
     return @id
   end
 
   def clear
-    Splines.SPLINE_select @id
-    Splines.SPLINE_init
+    ::Splines.SPLINE_select @id
+    ::Splines.SPLINE_init
   end
 
   def build
-    Splines.SPLINE_select @id
-    Splines.SPLINE_build
+    ::Splines.SPLINE_select @id
+    ::Splines.SPLINE_build
   end
 
   def type
-    Splines.SPLINE_select @id
-    Splines.SPLINE_get_type_name
+    ::Splines.SPLINE_select @id
+    ::Splines.SPLINE_get_type_name
   end
 
   def push_back( x, y )
-    Splines.SPLINE_select @id
-    Splines.SPLINE_push x, y
+    ::Splines.SPLINE_select @id
+    ::Splines.SPLINE_push x, y
   end
 
   def value( x )
-    Splines.SPLINE_select @id
-    return Splines.SPLINE_eval(x)
+    ::Splines.SPLINE_select @id
+    return ::Splines.SPLINE_eval(x)
   end
 
   def D( x )
-    Splines.SPLINE_select @id
-    return Splines.SPLINE_eval_D(x)
+    ::Splines.SPLINE_select @id
+    return ::Splines.SPLINE_eval_D(x)
   end
 
   def DD( x )
-    Splines.SPLINE_select @id
-    return Splines.SPLINE_eval_DD(x)
+    ::Splines.SPLINE_select @id
+    return ::Splines.SPLINE_eval_DD(x)
   end
 
   def DDD( x )
-    Splines.SPLINE_select @id
-    return Splines.SPLINE_eval_DDD(x)
+    ::Splines.SPLINE_select @id
+    return ::Splines.SPLINE_eval_DDD(x)
   end
 
 end

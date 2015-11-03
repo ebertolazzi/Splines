@@ -50,6 +50,7 @@ Spline * head = nullptr ;
 EXTERN_C
 int
 SPLINE_new( char const id[], char const type[] ) {
+  cout << "SPLINE_new, id = " << id << " type = " << type << "\n" ;
   MAP_SPLINE::iterator it = spline_stored.find(id) ;
   if ( it != spline_stored.end() ) delete it->second ;
   int ok = 0 ;
@@ -115,6 +116,7 @@ SPLINE_print() {
 EXTERN_C
 char const *
 SPLINE_get_type_name() {
+  if ( head == nullptr ) return "NOTYPE - head = nullptr" ;
   return head -> type_name() ;
 }
 

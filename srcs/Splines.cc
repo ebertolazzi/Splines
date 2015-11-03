@@ -43,9 +43,9 @@ namespace Splines {
     "linear",      // 1
     "cubic base",  // 2
     "cubic",       // 3
-    "Akima",       // 4
-    "Bessel",      // 5
-    "Pchip",       // 6
+    "akima",       // 4
+    "bessel",      // 5
+    "pchip",       // 6
     "quintic",     // 7
     "spline set"   // 8
   } ;

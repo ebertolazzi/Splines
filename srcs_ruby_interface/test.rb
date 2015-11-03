@@ -12,7 +12,7 @@
 #      email: enrico.bertolazzi@unitn.it                                   #
 #--------------------------------------------------------------------------#
 
-require '../lib/Splines_ffi.rb'
+require './Splines_ffi.rb'
 
 xx0 = [  0,  1,  2,  3,  4,  5,    6,  7,  8,  9, 10 ] 
 yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ]
@@ -20,6 +20,7 @@ yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ]
 spline = Spline.new
 
 xx0.zip(yy0).each { |p| p p ; spline.push_back(p[0],p[1]) }
+
 spline.build
 puts spline.type
 

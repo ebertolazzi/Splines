@@ -47,7 +47,7 @@ namespace Splines {
     valueType wl  = std::abs(di_p1 - di) ;
     valueType wr  = std::abs(di_m1 - di_m2);
     valueType den = wl + wr ;
-    if ( den < epsi ) { wl = wr = 0.5 ; den = 1 ; }
+    if ( den <= epsi ) { wl = wr = 0.5 ; den = 1 ; } // if epsi == 0
     valueType num = wl * di_m1 + wr * di;
     return num / den ;
   }
@@ -63,11 +63,11 @@ namespace Splines {
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]) ;
     } else {
       #ifdef SPLINE_USE_ALLOCA
-      valueType * m = (valueType*)alloca( (npts+4)*sizeof(valueType) ) ;
+      valueType * m = (valueType*)alloca( (npts+3)*sizeof(valueType) ) ;
       #else
-      valueType m[npts+4] ;
+      valueType m[npts+3] ;
       #endif
-      // calcolo slopes
+      // calcolo slopes (npts-1) intervals + 4
       for ( sizeType i = 1 ; i < npts ; ++i )
         m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]) ;
 
@@ -75,8 +75,9 @@ namespace Splines {
       m[1]      = 2*m[2]-m[3] ;
       m[0]      = 2*m[1]-m[2] ;
       m[npts+1] = 2*m[npts]-m[npts-1] ;
-      m[npts+2] = 2*m[npts+1]-m[npts+2] ;
+      m[npts+2] = 2*m[npts+1]-m[npts] ;
 
+      // minimum delta slope
       valueType epsi = 0 ;
       for ( sizeType i = 0 ; i < npts+2 ; ++i ) {
         valueType dm = std::abs(m[i+1]-m[i]) ;
@@ -84,8 +85,10 @@ namespace Splines {
       }
       epsi *= 1E-8 ;
 
+      // 0  1  2  3  4---- n-1 n n+1 n+2
+      //       +  +  +      +  +
       for ( sizeType i = 0 ; i < npts ; ++i )
-        Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3]) ;
+        Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] ) ;
     }
   }
 

@@ -378,7 +378,7 @@ namespace Splines {
     virtual void writeToStream( std::basic_ostream<char> & s ) const = 0 ;
 
     //! Return spline typename
-    char const * type_name() const { return spline_type[type()] ; }
+    char const * type_name() const { return Splines::spline_type[type()] ; }
 
     //! Return spline type (as number)
     virtual unsigned type() const = 0 ;
