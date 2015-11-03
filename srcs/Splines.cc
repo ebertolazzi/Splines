@@ -143,7 +143,14 @@ namespace Splines {
     imag[0] = imag[1] = imag[2] = 0 ;
 
     // trivial case
-    if ( a[0] == 0 ) return quadraticRoots( a+1, real+1, imag+1 ) ; // quadratica degenerata
+    if ( a[0] == 0 ) {
+      pair<int,int> res = quadraticRoots( a+1, real+1, imag+1 ) ; // quadratica degenerata
+      ++res.first ;
+      return res ;
+    }
+
+    // trivial case
+    if ( a[3] == 0 ) return quadraticRoots( a, real, imag ) ; // cubica degenerata
 
     // x^3 + A x^2 + B x + C
     valueType const C = a[0]/a[3] ;
