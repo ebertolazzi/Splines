@@ -52,7 +52,17 @@ namespace Splines {
 
   using std::abs ;
   using std::sqrt ;
+  
+  #ifdef _MSC_VER
+  // cbrt is not available on WINDOWS?
+  static
+  inline
+  valueType
+  cbrt( valueType x )
+  { return pow( x, 1.0/3.0 ) ; }
+  #else
   using std::cbrt ;
+  #endif
 
   static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
   static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
