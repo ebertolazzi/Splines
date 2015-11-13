@@ -83,7 +83,10 @@ namespace Splines {
         break;
         
         default:
-          SPLINE_ASSERT( false, "SplineSet::build unknwn type = " << stype[i] ) ;
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline N. " << i <<
+                         " named " << headers[i] <<
+                         " unknwn type = " << stype[i] ) ;
         break;
       }
     }
@@ -115,9 +118,11 @@ namespace Splines {
 
         case CUBIC_BASE_TYPE:
           SPLINE_ASSERT( Yp != nullptr,
-                         "7th argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
+                         "SplineSet::build\nAt spline N. " << i << " named " << headers[i] <<
+                         "\n7th argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
           SPLINE_ASSERT( Yp[i] != nullptr,
-                         "7th argument Yp[" << i << "] argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
+                         "SplineSet::build\nAt spline N. " << i << " named " << headers[i] <<
+                         "\n7th argument Yp[" << i << "] argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
           pYp = baseValue( _npts ) ;
           std::copy( Yp[i], Yp[i]+npts, pYp ) ; // copy values
         break;
@@ -203,11 +208,15 @@ namespace Splines {
         break;
 
         case SPLINE_SET_TYPE:
-          SPLINE_ASSERT( false, "SPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline N. " << i << " named " << headers[i] <<
+                         "\nSPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
         break ;
         
         default:
-          SPLINE_ASSERT( false, "type " << stype[i] << " not recognized as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline N. " << i << " named " << headers[i] <<
+                         "\ntype " << stype[i] << " not recognized as spline type\nin SplineSet::build for " << i << "-th spline" ) ;
         break;
       }
       header_to_position[s->name()] = i ;
