@@ -107,6 +107,27 @@ namespace Splines {
         << '\n' ; 
   }
 
+  sizeType // order
+  LinearSpline::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
+    sizeType n = npts-1 ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      nodes[i] = X[i] ;
+      valueType a = Y[i] ;
+      valueType b = (Y[i+1]-Y[i])/(X[i+1]-X[i]) ;
+      if ( transpose ) {
+        cfs[2*i+1] = a ;
+        cfs[2*i+0] = b ;
+      } else {
+        cfs[n+i] = a ;
+        cfs[i]   = b ;
+      }
+    }
+    return 2 ;
+  }
+  
+  sizeType
+  LinearSpline::order( ) const { return 2 ; }
+
   /*
   //    ____  ____   ____                               _
   //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_

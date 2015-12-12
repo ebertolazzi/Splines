@@ -83,7 +83,8 @@ namespace Splines {
   }
 
   void
-  QuinticSplineBase::build ( vector<valueType> const & x, vector<valueType> const & y ) {
+  QuinticSplineBase::build ( vector<valueType> const & x,
+                             vector<valueType> const & y ) {
     sizeType n = sizeType(min( x.size(), y.size() )) ;
     reserve( n ) ;
     std::copy( x.begin(), x.begin()+n, X );
@@ -171,6 +172,40 @@ namespace Splines {
            base_DDDDD[4] * Ypp[i]  +
            base_DDDDD[5] * Ypp[i+1] ;
   }
+
+  sizeType // order
+  QuinticSplineBase::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
+    sizeType n = npts-1 ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      nodes[i] = X[i] ;
+      valueType H = X[i+1]-X[i] ;
+      valueType a = Y[i] ;
+      valueType b = Yp[i] ;
+      valueType c = Ypp[i]/2 ;
+      valueType d = ((10*(Y[i+1]-Y[i])/H-6*Yp[i]-4*Yp[i+1])/H-1.5*Ypp[i]+0.5*Ypp[i+1])/H ;
+      valueType e = ((15*(Y[i]-Y[i+1])/H+8*Yp[i]+7*Yp[i+1])/H+1.5*Ypp[i]-Ypp[i+1])/(H*H) ;
+      valueType f = ((6*(Y[i+1]-Y[i])/H-3*(Yp[i]+Yp[i+1]))/H-0.5*Ypp[i]+0.5*Ypp[i+1])/(H*H*H) ;
+      if ( transpose ) {
+        cfs[6*i+5] = a ;
+        cfs[6*i+4] = b ;
+        cfs[6*i+3] = c ;
+        cfs[6*i+2] = d ;
+        cfs[6*i+1] = e ;
+        cfs[6*i+0] = f ;
+      } else {
+        cfs[i+5*n] = a ;
+        cfs[i+4*n] = b ;
+        cfs[i+3*n] = c ;
+        cfs[i+2*n] = d ;
+        cfs[i+1*n] = e ;
+        cfs[i+0*n] = f ;
+      }
+    }
+    return 6 ;
+  }
+  
+  sizeType
+  QuinticSplineBase::order( ) const { return 6 ; }
 
   // Implementation
   void

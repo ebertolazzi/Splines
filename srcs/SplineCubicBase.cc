@@ -213,6 +213,35 @@ namespace Splines {
            base_DDD[3] * Yp[i+1] ;
   }
 
+  sizeType // order
+  CubicSplineBase::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
+    sizeType n = npts-1 ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      nodes[i] = X[i] ;
+      valueType H  = X[i+1]-X[i] ;
+      valueType DY = (Y[i+1]-Y[i])/H ;
+      valueType a = Y[i] ;
+      valueType b = Yp[i] ;
+      valueType c = (3*DY-2*Yp[i]-Yp[i+1])/H;
+      valueType d = (Yp[i+1]+Yp[i]-2*DY)/(H*H) ;
+      if ( transpose ) {
+        cfs[4*i+3] = a ;
+        cfs[4*i+2] = b ;
+        cfs[4*i+1] = c ;
+        cfs[4*i+0] = d ;
+      } else {
+        cfs[i+3*n] = a ;
+        cfs[i+2*n] = b ;
+        cfs[i+1*n] = c ;
+        cfs[i+0*n] = d ;
+      }
+    }
+    return 4 ;
+  }
+  
+  sizeType
+  CubicSplineBase::order() const { return 4 ; }
+
   // Implementation
   void
   CubicSplineBase::copySpline( CubicSplineBase const & S ) {

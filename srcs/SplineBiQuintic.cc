@@ -57,7 +57,7 @@ namespace Splines {
         DYY[ipos_C(i,j)] = sp.yppNode(j) ;
       }
     }
-    // interpolo le derivate
+    // interpolate derivative
     for ( sizeType i = 0 ; i < nx ; ++i ) {
       sp.build( &Y.front(), 1, &DX[ipos_C(i,0)], 1, ny ) ;
       sp1.build( &Y.front(), 1, &DXX[ipos_C(i,0)], 1, ny ) ;
@@ -68,6 +68,7 @@ namespace Splines {
         DXXYY[ipos_C(i,j)] = sp1.yppNode(j) ;
       }
     }
+    // interpolate derivative again
     for ( sizeType j = 0 ; j < ny ; ++j ) {
       sp.build( &X.front(), 1, &DY[ipos_C(0,j)], ny, nx ) ;
       sp1.build( &X.front(), 1, &DYY[ipos_C(0,j)], ny, nx ) ;

@@ -108,6 +108,18 @@ namespace Splines {
         << '\n' ; 
   }
 
+  sizeType // order
+  ConstantSpline::coeffs( valueType cfs[], valueType nodes[], bool ) const {
+    for ( sizeType i = 0 ; i < npts-1 ; ++i ) {
+      nodes[i] = X[i] ;
+      cfs[i]   = Y[i] ;
+    }
+    return 1 ;
+  }
+
+  sizeType // order
+  ConstantSpline::order() const { return 1 ; }
+
   /*
   //    ____  ____   ____                               _
   //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_

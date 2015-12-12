@@ -123,25 +123,28 @@ namespace Splines {
   void
   BiCubicSplineBase::load( sizeType i, sizeType j ) const {
 
-    bili3[0][0] = Z[ipos_C(i,j)] ;
-    bili3[0][1] = Z[ipos_C(i,j+1)] ;
-    bili3[0][2] = DY[ipos_C(i,j)] ;
-    bili3[0][3] = DY[ipos_C(i,j+1)] ;
+    //
+    //  1    3
+    //
+    //  0    2
+    //
 
-    bili3[1][0] = Z[ipos_C(i+1,j)];
-    bili3[1][1] = Z[ipos_C(i+1,j+1)];
-    bili3[1][2] = DY[ipos_C(i+1,j)] ;
-    bili3[1][3] = DY[ipos_C(i+1,j+1)];
+    sizeType i0 = ipos_C(i,j) ;
+    sizeType i1 = ipos_C(i,j+1) ;
+    sizeType i2 = ipos_C(i+1,j) ;
+    sizeType i3 = ipos_C(i+1,j+1) ;
 
-    bili3[2][0] = DX[ipos_C(i,j)] ;
-    bili3[2][1] = DX[ipos_C(i,j+1)] ;
-    bili3[2][2] = DXY[ipos_C(i,j)] ;
-    bili3[2][3] = DXY[ipos_C(i,j+1)] ;
+    bili3[0][0] = Z[i0];   bili3[0][1] = Z[i1];
+    bili3[0][2] = DY[i0];  bili3[0][3] = DY[i1];
 
-    bili3[3][0] = DX[ipos_C(i+1,j)];
-    bili3[3][1] = DX[ipos_C(i+1,j+1)];
-    bili3[3][2] = DXY[ipos_C(i+1,j)] ;
-    bili3[3][3] = DXY[ipos_C(i+1,j+1)] ;
+    bili3[1][0] = Z[i2];   bili3[1][1] = Z[i3];
+    bili3[1][2] = DY[i2];  bili3[1][3] = DY[i3];
+
+    bili3[2][0] = DX[i0];  bili3[2][1] = DX[i1];
+    bili3[2][2] = DXY[i0]; bili3[2][3] = DXY[i1];
+
+    bili3[3][0] = DX[i2];  bili3[3][1] = DX[i3];
+    bili3[3][2] = DXY[i2]; bili3[3][3] = DXY[i3];
 
   }
 
@@ -243,9 +246,19 @@ namespace Splines {
   // ---------------------------------------------------------------------------
   void
   BiQuinticSplineBase::load( sizeType i, sizeType j ) const {
-  
+
+    sizeType i00 = ipos_C(i,j) ;
+    sizeType i01 = ipos_C(i,j+1) ;
+    sizeType i10 = ipos_C(i+1,j) ;
+    sizeType i11 = ipos_C(i+1,j+1) ;
+
+    //
+    //  1    3
+    //
+    //  0    2
+    //
     // H0, H1, dH0, dH1, ddH0, ddH1
-    
+
     // + + + + + +
     // + + + + + +
     // + + + + . .
@@ -253,48 +266,41 @@ namespace Splines {
     // + + . . . .
     // + + . . . .
 
-    bili5[0][0] = Z[ipos_C(i,j)] ;
-    bili5[0][1] = Z[ipos_C(i,j+1)] ;
-    bili5[0][2] = DY[ipos_C(i,j)] ;
-    bili5[0][3] = DY[ipos_C(i,j+1)] ;
-    bili5[0][4] = DYY[ipos_C(i,j)] ;
-    bili5[0][5] = DYY[ipos_C(i,j+1)] ;
+    // P
+    bili5[0][0] = Z[i00]; bili5[0][1] = Z[i01];
+    bili5[1][0] = Z[i10]; bili5[1][1] = Z[i11];
 
-    bili5[1][0] = Z[ipos_C(i+1,j)];
-    bili5[1][1] = Z[ipos_C(i+1,j+1)];
-    bili5[1][2] = DY[ipos_C(i+1,j)] ;
-    bili5[1][3] = DY[ipos_C(i+1,j+1)];
-    bili5[1][4] = DYY[ipos_C(i+1,j)] ;
-    bili5[1][5] = DYY[ipos_C(i+1,j+1)];
+    // DX
+    bili5[2][0] = DX[i00]; bili5[2][1] = DX[i01];
+    bili5[3][0] = DX[i10]; bili5[3][1] = DX[i11];
 
-    bili5[2][0] = DX[ipos_C(i,j)] ;
-    bili5[2][1] = DX[ipos_C(i,j+1)] ;
-    bili5[2][2] = DXY[ipos_C(i,j)] ;
-    bili5[2][3] = DXY[ipos_C(i,j+1)] ;
-    bili5[2][4] = DXXY[ipos_C(i,j)] ;
-    bili5[2][5] = DXXY[ipos_C(i,j+1)] ;
+    // DXX
+    bili5[4][0] = DXX[i00]; bili5[4][1] = DXX[i01];
+    bili5[5][0] = DXX[i10]; bili5[5][1] = DXX[i11];
 
-    bili5[3][0] = DX[ipos_C(i+1,j)];
-    bili5[3][1] = DX[ipos_C(i+1,j+1)];
-    bili5[3][2] = DXY[ipos_C(i+1,j)] ;
-    bili5[3][3] = DXY[ipos_C(i+1,j+1)] ;
-    bili5[3][4] = DXXY[ipos_C(i+1,j)] ;
-    bili5[3][5] = DXXY[ipos_C(i+1,j+1)] ;
+    // DY
+    bili5[0][2] = DY[i00]; bili5[0][3] = DY[i01];
+    bili5[1][2] = DY[i10]; bili5[1][3] = DY[i11];
 
-    bili5[4][0] = DXX[ipos_C(i,j)] ;
-    bili5[4][1] = DXX[ipos_C(i,j+1)] ;
-    bili5[4][2] = DXXY[ipos_C(i,j)] ;
-    bili5[4][3] = DXXY[ipos_C(i,j+1)] ;
-    bili5[4][4] = 0 ; // DXXXY[ipos_C(i,j)] ;
-    bili5[4][5] = 0 ; // DXXXY[ipos_C(i,j+1)] ;
+    // DYY
+    bili5[0][4] = DYY[i00]; bili5[0][5] = DYY[i01];
+    bili5[1][4] = DYY[i10]; bili5[1][5] = DYY[i11];
 
-    bili5[5][0] = DXX[ipos_C(i+1,j)];
-    bili5[5][1] = DXX[ipos_C(i+1,j+1)];
-    bili5[5][2] = DXXY[ipos_C(i+1,j)] ;
-    bili5[5][3] = DXXY[ipos_C(i+1,j+1)] ;
-    bili5[5][4] = 0 ; // DXXXY[ipos_C(i+1,j)] ;
-    bili5[5][5] = 0 ; // DXXXY[ipos_C(i+1,j+1)] ;
+    // DXY
+    bili5[2][2] = DXY[i00]; bili5[2][3] = DXY[i01];
+    bili5[3][2] = DXY[i10]; bili5[3][3] = DXY[i11];
 
+    // DXXY
+    bili5[4][2] = DXXY[i00]; bili5[4][3] = DXXY[i01];
+    bili5[5][2] = DXXY[i10]; bili5[5][3] = DXXY[i11];
+
+    // DXYY
+    bili5[2][4] = DXYY[i00]; bili5[2][5] = DXYY[i01];
+    bili5[3][4] = DXYY[i10]; bili5[3][5] = DXYY[i11];
+
+    // DXXYY
+    bili5[4][4] = DXXYY[i00]; bili5[4][5] = DXXYY[i01];
+    bili5[5][4] = DXXYY[i10]; bili5[5][5] = DXXYY[i11];
   }
 
   valueType
