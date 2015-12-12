@@ -1,6 +1,6 @@
 clc;
 
-NAMES = { 'spline2d' } ;
+NAMES = {  'spline1d', 'spline2d' } ;
 CFILES = ['../srcs/SplineAkima.cc ' ...
           '../srcs/SplineAkima2D.cc ' ...
           '../srcs/SplineBessel.cc ' ...
@@ -22,20 +22,15 @@ CFILES = ['../srcs/SplineAkima.cc ' ...
           '../srcs/SplinesUnivariate.cc ' ] ;
 
 disp('---------------------------------------------------------');
-for k=1:1
+for k=1:2
   N=NAMES{k} ;
   fprintf(1,'Compiling: %s\n',N) ;
-
   CMD = ['mex -I../srcs -I../srcs_utils -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES] ;
   if isunix
-    if ismac
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'] ;
-    else
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'] ;
-    end
+    CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'] ;
   elseif ispc
   end
-  disp(CMD);
+  %disp(CMD);
   eval(CMD);
 end
 disp('----------------------- DONE ----------------------------');
