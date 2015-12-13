@@ -53,6 +53,8 @@ either expressed or implied, of the FreeBSD Project.
 #include <sstream>
 #include <stdexcept>
 
+#include <stdlib.h> // exit()
+
 // if C++ < C++11 define nullptr
 #if __cplusplus <= 199711L
   #ifndef nullptr
@@ -145,7 +147,7 @@ public:
       numTotValues   = 0 ;
       numTotReserved = 0 ;
       numAllocated   = 0 ;
-      pMalloc = nullptr ;
+      pMalloc        = nullptr ;
     }
   }
 
