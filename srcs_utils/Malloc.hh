@@ -53,6 +53,14 @@ either expressed or implied, of the FreeBSD Project.
 #include <sstream>
 #include <stdexcept>
 
+// if C++ < C++11 define nullptr
+#if __cplusplus <= 199711L
+  #ifndef nullptr
+    #include <cstddef>
+    #define nullptr NULL
+  #endif
+#endif
+
 /*
 //   __  __       _ _            
 //  |  \/  | __ _| | | ___   ___ 
