@@ -31,13 +31,13 @@ CXX    = g++
 
 
 ifeq ($(shell uname),Linux)
-	LIBS   = -static -L./lib -lSplines
-	CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -std=c++0x -fPIC -Wno-sign-compare
-	AR     = ar rcs
+  LIBS   = -static -L./lib -lSplines
+  CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -fPIC -Wno-sign-compare
+  AR     = ar rcs
 else
-	LIBS   = -L./lib -lSplines
-	CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -fPIC -Wno-sign-compare
-	AR     = libtool -static -o
+  LIBS   = -L./lib -lSplines
+  CFLAGS = -I./srcs -I./srcs_utils -Wall -O3 -fPIC -Wno-sign-compare
+  AR     = libtool -static -o
 endif
 
 all: libSplines.a

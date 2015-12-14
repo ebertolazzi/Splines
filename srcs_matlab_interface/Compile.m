@@ -27,7 +27,7 @@ for k=1:2
   fprintf(1,'Compiling: %s\n',N) ;
   CMD = ['mex -I../srcs -I../srcs_utils -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES] ;
   if isunix
-    CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'] ;
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -lstdc++ -Wall -O2 -g0"'] ;
   elseif ispc
   end
   %disp(CMD);

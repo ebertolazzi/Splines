@@ -53,8 +53,8 @@ namespace Splines {
   using std::abs ;
   using std::sqrt ;
   
-  #ifdef _MSC_VER
-  // cbrt is not available on WINDOWS?
+  #if defined(_MSC_VER) || __cplusplus <= 199711L
+  // cbrt is not available on WINDOWS? or C++ < C++11?
   static
   inline
   valueType
