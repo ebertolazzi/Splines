@@ -34,6 +34,7 @@
 
 #include "Splines.hh"
 #include <cmath>
+#include <limits> // std::numeric_limits
 
 //! Various kind of splines
 namespace Splines {
