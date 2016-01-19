@@ -1326,8 +1326,16 @@ namespace Splines {
       return splines[i] ;
     }
 
+    //! Return pointer to the `i`-th spline
+    Spline * getSpline( char const * hdr ) const {
+      return splines[unsigned(getPosition(hdr))] ;
+    }
+
     //! Evaluate spline value
     valueType operator () ( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
+
+    //! Evaluate spline value
+    valueType eval( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
 
     //! First derivative
     valueType D( valueType x, sizeType spl ) const { return getSpline(spl)->D(x) ; }
@@ -1337,6 +1345,18 @@ namespace Splines {
 
     //! Third derivative
     valueType DDD( valueType x, sizeType spl ) const { return getSpline(spl)->DDD(x) ; }
+
+    //! Evaluate spline value
+    valueType eval( valueType x, char const * name ) const { return (*getSpline(name))(x) ; }
+
+    //! First derivative
+    valueType D( valueType x, char const * name ) const { return getSpline(name)->D(x) ; }
+
+    //! Second derivative
+    valueType DD( valueType x, char const * name ) const { return getSpline(name)->DD(x) ; }
+
+    //! Third derivative
+    valueType DDD( valueType x, char const * name ) const { return getSpline(name)->DDD(x) ; }
 
     // vectorial values
     //! fill a vector of strings with the names of the splines
