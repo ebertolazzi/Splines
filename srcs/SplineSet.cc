@@ -537,4 +537,40 @@ namespace Splines {
                  3*splines[i]->DD(x)*dt*ddt +
                  splines[i]->D(x)*dddt ;
   }
+
+  valueType
+  SplineSet::eval2( valueType zeta,
+                    char const * indep,
+                    char const * name ) const {
+    vector<valueType> vals ;
+    eval2( getPosition(indep), zeta, vals ) ;
+    return vals[unsigned(getPosition(name))] ;
+  }
+
+  valueType
+  SplineSet::eval2_D( valueType zeta,
+                      char const * indep,
+                      char const * name ) const {
+    vector<valueType> vals ;
+    eval2_D( getPosition(indep), zeta, vals ) ;
+    return vals[unsigned(getPosition(name))] ;
+  }
+
+  valueType
+  SplineSet::eval2_DD( valueType zeta,
+                       char const * indep,
+                       char const * name ) const {
+    vector<valueType> vals ;
+    eval2_DD( getPosition(indep), zeta, vals ) ;
+    return vals[unsigned(getPosition(name))] ;
+  }
+
+  valueType
+  SplineSet::eval2_DDD( valueType zeta,
+                        char const * indep,
+                        char const * name ) const {
+    vector<valueType> vals ;
+    eval2_DDD( getPosition(indep), zeta, vals ) ;
+    return vals[unsigned(getPosition(name))] ;
+  }
 }

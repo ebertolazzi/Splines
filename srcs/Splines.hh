@@ -1382,7 +1382,7 @@ namespace Splines {
     void eval_DDD( valueType x, vector<valueType> & vals ) const ;
     //! Evaluate the third derivative of all the splines at `x`
     void eval_DDD( valueType x, valueType vals[], indexType incy = 1 ) const ;
-    
+
     // change independent variable
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     void eval2( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
@@ -1403,6 +1403,18 @@ namespace Splines {
     void eval2_DDD( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
     //! Evaluate the third derivative of all the splines at `zeta` using spline[spl] as independent
     void eval2_DDD( indexType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
+
+    //! Evaluate the spline `name` at `zeta` using spline `indep` as independent
+    valueType eval2( valueType zeta, char const * indep, char const * name  ) const ;
+
+    //! Evaluate first derivative of the spline `name` at `zeta` using spline `indep` as independent
+    valueType eval2_D( valueType zeta, char const * indep, char const * name  ) const ;
+
+    //! Evaluate second derivative of the spline `name` at `zeta` using spline `indep` as independent
+    valueType eval2_DD( valueType zeta, char const * indep, char const * name  ) const ;
+
+    //! Evaluate third derivative of the spline `name` at `zeta` using spline `indep` as independent
+    valueType eval2_DDD( valueType zeta, char const * indep, char const * name  ) const ;
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines
