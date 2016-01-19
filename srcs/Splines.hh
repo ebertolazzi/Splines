@@ -1333,30 +1333,31 @@ namespace Splines {
 
     //! Evaluate spline value
     valueType operator () ( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
-
-    //! Evaluate spline value
     valueType eval( valueType x, sizeType spl ) const { return (*getSpline(spl))(x) ; }
 
     //! First derivative
     valueType D( valueType x, sizeType spl ) const { return getSpline(spl)->D(x) ; }
+    valueType eval_D( valueType x, sizeType spl ) const { return getSpline(spl)->D(x) ; }
 
     //! Second derivative
     valueType DD( valueType x, sizeType spl ) const { return getSpline(spl)->DD(x) ; }
+    valueType eval_DD( valueType x, sizeType spl ) const { return getSpline(spl)->DD(x) ; }
 
     //! Third derivative
     valueType DDD( valueType x, sizeType spl ) const { return getSpline(spl)->DDD(x) ; }
+    valueType eval_DDD( valueType x, sizeType spl ) const { return getSpline(spl)->DDD(x) ; }
 
     //! Evaluate spline value
     valueType eval( valueType x, char const * name ) const { return (*getSpline(name))(x) ; }
 
     //! First derivative
-    valueType D( valueType x, char const * name ) const { return getSpline(name)->D(x) ; }
+    valueType eval_D( valueType x, char const * name ) const { return getSpline(name)->D(x) ; }
 
     //! Second derivative
-    valueType DD( valueType x, char const * name ) const { return getSpline(name)->DD(x) ; }
+    valueType eval_DD( valueType x, char const * name ) const { return getSpline(name)->DD(x) ; }
 
     //! Third derivative
-    valueType DDD( valueType x, char const * name ) const { return getSpline(name)->DDD(x) ; }
+    valueType eval_DDD( valueType x, char const * name ) const { return getSpline(name)->DDD(x) ; }
 
     // vectorial values
     //! fill a vector of strings with the names of the splines
