@@ -322,6 +322,7 @@ namespace Splines {
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
     virtual void build ( GC::GenericContainer const & gc ) = 0 ;
+    void setup( GC::GenericContainer const & gc ) { build(gc) ; }
     #endif
 
     //! Build a spline.
@@ -401,6 +402,12 @@ namespace Splines {
 
     //! Third derivative
     virtual valueType DDD( valueType x ) const = 0 ;
+
+    //! Some aliases
+    valueType eval( valueType x ) const { return (*this)(x) ; }
+    valueType eval_D( valueType x ) const { return D(x) ; }
+    valueType eval_DD( valueType x ) const { return DD(x) ; }
+    valueType eval_DDD( valueType x ) const { return DDD(x) ; }
 
     //! get the piecewise polinomials of the spline
     virtual
