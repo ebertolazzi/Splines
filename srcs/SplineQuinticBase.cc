@@ -175,7 +175,7 @@ namespace Splines {
 
   sizeType // order
   QuinticSplineBase::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
-    sizeType n = npts-1 ;
+    sizeType n = npts > 0 ? npts-1 : 0 ;
     for ( sizeType i = 0 ; i < n ; ++i ) {
       nodes[i] = X[i] ;
       valueType H = X[i+1]-X[i] ;
@@ -220,7 +220,7 @@ namespace Splines {
 
   void
   QuinticSplineBase::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = npts-1 ;
+    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[" << X[i] << ", " << X[i+1]

@@ -56,8 +56,8 @@ namespace Splines {
   //! Evalute spline value at `x`
   valueType
   ConstantSpline::operator () ( valueType x ) const {
-    if ( x < X[0]      ) return Y[0] ;
-    if ( x > X[npts-1] ) return Y[npts-1] ;
+    if ( x < X[0] ) return Y[0] ;
+    if ( npts > 0 && x > X[npts-1] ) return Y[npts-1] ;
     return Y[search(x)] ;
   }
 
@@ -66,8 +66,8 @@ namespace Splines {
                           valueType const y[], sizeType incy,
                           sizeType n ) {
     reserve( n ) ;
-    for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i*incy] ;
+    for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i*incx] ;
+    for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i*incy] ;
     npts = n ;
     build() ;
   }
@@ -75,18 +75,20 @@ namespace Splines {
   void
   ConstantSpline::build ( valueType const x[], valueType const y[], sizeType n ) {
     reserve( n ) ;
-    for ( sizeType i = 0 ; i < n   ; ++i ) X[i] = x[i] ;
-    for ( sizeType i = 0 ; i < n-1 ; ++i ) Y[i] = y[i] ; // ultimo y ignorato
+    for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i] ;
+    for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i] ; // ultimo y ignorato
     npts = n ;
     build() ;
   }
 
   void
   ConstantSpline::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType(min( x.size(), y.size()-1 )) ;
+    sizeType n = sizeType( y.size() > x.size() ? y.size()-1 : x.size() ) ;
     reserve( n ) ;
-    std::copy( x.begin(), x.begin()+n,   X );
-    std::copy( y.begin(), y.begin()+n-1, Y );
+    if ( n > 0 ) {
+      std::copy( x.begin(), x.begin()+n,   X );
+      std::copy( y.begin(), y.begin()+n-1, Y );
+    }
     npts = n ;
     build() ;
   }
@@ -101,7 +103,7 @@ namespace Splines {
 
   void
   ConstantSpline::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = npts - 1 ;
+    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:" << Y[i]
@@ -110,7 +112,8 @@ namespace Splines {
 
   sizeType // order
   ConstantSpline::coeffs( valueType cfs[], valueType nodes[], bool ) const {
-    for ( sizeType i = 0 ; i < npts-1 ; ++i ) {
+    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
+    for ( sizeType i = 0 ; i < nseg ; ++i ) {
       nodes[i] = X[i] ;
       cfs[i]   = Y[i] ;
     }

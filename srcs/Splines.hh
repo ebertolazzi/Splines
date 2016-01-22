@@ -835,8 +835,8 @@ namespace Splines {
     virtual
     valueType
     operator () ( valueType x ) const {
-      if ( x < X[0]      ) return Y[0] ;
-      if ( x > X[npts-1] ) return Y[npts-1] ;
+      if ( x < X[0] ) return Y[0] ;
+      if ( npts > 0 && x > X[npts-1] ) return Y[npts-1] ;
       sizeType i = search(x) ;
       valueType s = (x-X[i])/(X[i+1] - X[i]) ;
       return (1-s)*Y[i] + s * Y[i+1] ;
@@ -846,8 +846,8 @@ namespace Splines {
     virtual
     valueType
     D( valueType x ) const {
-      if ( x < X[0]      ) return 0 ;
-      if ( x > X[npts-1] ) return 0 ;
+      if ( x < X[0] ) return 0 ;
+      if ( npts > 0 && x > X[npts-1] ) return 0 ;
       sizeType i = search(x) ;
       return ( Y[i+1] - Y[i] ) / ( X[i+1] - X[i] ) ;
     }

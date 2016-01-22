@@ -99,7 +99,7 @@ namespace Splines {
 
   void
   LinearSpline::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = npts - 1 ;
+    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
     for ( sizeType i = 0 ; i < nseg ; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:[ " << Y[i] << ", " << Y[i+1] 
@@ -109,7 +109,7 @@ namespace Splines {
 
   sizeType // order
   LinearSpline::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
-    sizeType n = npts-1 ;
+    sizeType n = npts > 0 ? npts-1 : 0 ;
     for ( sizeType i = 0 ; i < n ; ++i ) {
       nodes[i] = X[i] ;
       valueType a = Y[i] ;
@@ -147,8 +147,8 @@ namespace Splines {
     // gc["y"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] ConstantSpline::build, missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] ConstantSpline::build, missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] LinearSpline::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] LinearSpline::build, missing `y` field!") ;
   
     GenericContainer const & gc_x = gc("x") ;
     GenericContainer const & gc_y = gc("y") ;

@@ -38,7 +38,8 @@ namespace Splines {
                 valueType const Y[],
                 valueType       Yp[],
                 sizeType        npts ) {
-    sizeType n = npts-1 ;
+
+    sizeType n = npts > 0 ? npts-1 : 0 ;
 
     #ifdef SPLINE_USE_ALLOCA
     valueType * m = (valueType*)alloca( n*sizeof(valueType) ) ;

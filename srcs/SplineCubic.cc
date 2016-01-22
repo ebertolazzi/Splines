@@ -41,7 +41,7 @@ namespace Splines {
                      valueType       ddy0,
                      valueType       ddyn ) {
 
-    sizeType n = npts-1 ;
+    sizeType n = npts > 0 ? npts-1 : 0 ;
 
     #ifdef SPLINE_USE_ALLOCA
     valueType * L = (valueType*)alloca( npts*sizeof(valueType) ) ;
@@ -134,8 +134,8 @@ namespace Splines {
     // gc["y''(end)"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] ConstantSpline::build, missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] ConstantSpline::build, missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] CubicSpline::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] CubicSpline::build, missing `y` field!") ;
 
     valueType y_DD_0 = 0 ;
     if ( gc.exists("y''(begin)") ) y_DD_0 = gc("y''(begin)").get_number() ;
