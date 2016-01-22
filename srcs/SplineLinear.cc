@@ -137,9 +137,31 @@ namespace Splines {
   //                            |_|   |_|
   */
   #ifdef SPLINES_USE_GENERIC_CONTAINER
+  
+  using GenericContainerNamepace::GC_VEC_REAL ;
+  
   void
-  LinearSpline::build( GenericContainer const & ) {
-    SPLINE_ASSERT( false, "Not Yet Implemented!" ) ;
+  LinearSpline::build( GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] ConstantSpline::build, missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] ConstantSpline::build, missing `y` field!") ;
+  
+    GenericContainer const & gc_x = gc("x") ;
+    GenericContainer const & gc_y = gc("y") ;
+
+    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type(),
+                   "Field `x` expected to be of type `vec_real_type` found: `" <<
+                   gc_x.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type(),
+                   "Field `y` expected to be of type `vec_real_type` found: `" <<
+                   gc_y.get_type_name() << "`" ) ;
+
+    build( gc_x.get_vec_real(), gc_y.get_vec_real() ) ;
   }
   #endif
 
