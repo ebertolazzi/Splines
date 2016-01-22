@@ -279,4 +279,15 @@ namespace Splines {
     }
     return flag ; // passed all check
   }
+
+  void
+  Spline::info( std::basic_ostream<char> & s ) const {
+    s << "Spline `" << Spline::_name
+      << " of type: " << type_name()
+      << " of order: " << order()
+      << "\nxMin = " << xMin() << " xMax = " << xMax()
+      << "\nyMin = " << yMin() << " yMax = " << yMax()
+      << '\n' ;
+  }
+
 }

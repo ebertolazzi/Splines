@@ -418,6 +418,9 @@ namespace Splines {
     sizeType // order
     order() const = 0 ;
 
+    //! Print spline information
+    virtual void info( std::basic_ostream<char> & s ) const ;
+
     //! Print spline coefficients
     virtual void writeToStream( std::basic_ostream<char> & s ) const = 0 ;
 
@@ -1446,6 +1449,7 @@ namespace Splines {
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
     void build ( GC::GenericContainer const & gc ) ;
+    void setup ( GC::GenericContainer const & gc ) { build( gc ) ; }
     #endif
 
     //! Return spline type (as number)
