@@ -122,8 +122,11 @@ namespace Splines {
   //                            |_|   |_|
   */
   #ifdef SPLINES_USE_GENERIC_CONTAINER
+  
+  using GenericContainerNamepace::GC_VEC_REAL ;
+  
   void
-  CubicSpline::build( GC::GenericContainer const & gc ) {
+  CubicSpline::build( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]
@@ -142,14 +145,14 @@ namespace Splines {
     
     setbc( y_DD_0, y_DD_1 ) ;
   
-    GC::GenericContainer const & gc_x = gc("x") ;
-    GC::GenericContainer const & gc_y = gc("y") ;
+    GenericContainer const & gc_x = gc("x") ;
+    GenericContainer const & gc_y = gc("y") ;
 
-    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_x.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type(),
                    "Field `x` expected to be of type `vec_real_type` found: `" <<
                    gc_x.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_y.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type(),
                    "Field `y` expected to be of type `vec_real_type` found: `" <<
                    gc_y.get_type_name() << "`" ) ;
 

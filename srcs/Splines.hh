@@ -147,6 +147,10 @@ namespace Splines {
 
   extern char const *spline_type[] ;
 
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  using GenericContainerNamepace::GenericContainer ;
+  #endif
+
   pair<int,int>
   quadraticRoots( valueType const a[3],
                   valueType       real[2], 
@@ -321,8 +325,8 @@ namespace Splines {
     build (void) = 0 ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) = 0 ;
-    void setup( GC::GenericContainer const & gc ) { build(gc) ; }
+    virtual void build ( GenericContainer const & gc ) = 0 ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
     //! Build a spline.
@@ -509,7 +513,8 @@ namespace Splines {
     {} ; // nothing to do for CubicSplineBase
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ; // constrainer that uses x, y, yp
+    virtual void build ( GenericContainer const & gc ) ; // constrainer that uses x, y, yp
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
     //! Build a spline.
@@ -654,7 +659,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
   } ;
@@ -700,7 +706,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
   } ;
@@ -741,7 +748,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
   } ;
@@ -788,7 +796,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
   } ;
@@ -867,7 +876,8 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
     //! given x and y vectors build a linear spline
@@ -988,7 +998,8 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
     //! given x and y vectors build a piecewise constants spline
@@ -1217,7 +1228,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GC::GenericContainer const & gc ) ;
+    virtual void build ( GenericContainer const & gc ) ;
+    void setup( GenericContainer const & gc ) { build(gc) ; }
     #endif
 
   } ;
@@ -1448,8 +1460,8 @@ namespace Splines {
             valueType  const *Yp[] ) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GC::GenericContainer const & gc ) ;
-    void setup ( GC::GenericContainer const & gc ) { build( gc ) ; }
+    void build ( GenericContainer const & gc ) ;
+    void setup ( GenericContainer const & gc ) { build( gc ) ; }
     #endif
 
     //! Return spline type (as number)

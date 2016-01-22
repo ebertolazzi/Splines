@@ -71,8 +71,11 @@ namespace Splines {
   }
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamepace::GC_VEC_REAL ;
+
   void
-  CubicSplineBase::build( GC::GenericContainer const & gc ) {
+  CubicSplineBase::build( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]
@@ -83,19 +86,19 @@ namespace Splines {
     SPLINE_ASSERT( gc.exists("y"),  "[" << _name << "] CubicSplineBase::build, missing `y` field!") ;
     SPLINE_ASSERT( gc.exists("yp"), "[" << _name << "] CubicSplineBase::build, missing `yp` field!") ;
   
-    GC::GenericContainer const & gc_x  = gc("x") ;
-    GC::GenericContainer const & gc_y  = gc("y") ;
-    GC::GenericContainer const & gc_yp = gc("yp") ;
+    GenericContainer const & gc_x  = gc("x") ;
+    GenericContainer const & gc_y  = gc("y") ;
+    GenericContainer const & gc_yp = gc("yp") ;
 
-    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_x.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type(),
                    "Field `x` expected to be of type `vec_real_type` found: `" <<
                    gc_x.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_y.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type(),
                    "Field `y` expected to be of type `vec_real_type` found: `" <<
                    gc_y.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC::GC_VEC_REAL == gc_yp.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_yp.get_type(),
                    "Field `yp` expected to be of type `vec_real_type` found: `" <<
                    gc_yp.get_type_name() << "`" ) ;
 

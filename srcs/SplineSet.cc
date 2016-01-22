@@ -225,8 +225,16 @@ namespace Splines {
   }
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamepace::GC_VEC_REAL ;
+  using GenericContainerNamepace::GC_VEC_STRING ;
+  using GenericContainerNamepace::GC_MAT_REAL ;
+  using GenericContainerNamepace::GC_INTEGER ;
+  using GenericContainerNamepace::mat_real_type ;
+  using GenericContainerNamepace::vec_string_type ;
+
   void
-  SplineSet::build( GC::GenericContainer const & gc ) {
+  SplineSet::build( GenericContainer const & gc ) {
     /*
     // gc["headers"]
     // gc["spline_type"]
@@ -238,33 +246,33 @@ namespace Splines {
     SPLINE_ASSERT( gc.exists("headers") ,    "[" << _name << "] SplineSet::build, missing `headers` field!") ;
     SPLINE_ASSERT( gc.exists("data") ,       "[" << _name << "] SplineSet::build, missing `data` field!") ;
   
-    GC::GenericContainer const & gc_headers     = gc("headers") ;
-    GC::GenericContainer const & gc_spline_type = gc("spline_type") ;
-    GC::GenericContainer const & gc_data        = gc("data") ;
+    GenericContainer const & gc_headers     = gc("headers") ;
+    GenericContainer const & gc_spline_type = gc("spline_type") ;
+    GenericContainer const & gc_data        = gc("data") ;
     
-    SPLINE_ASSERT( GC::GC_VEC_STRING == gc_headers.get_type(),
+    SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
                    "Field `headers` expected to be of type `vec_string_type` found: ` " <<
                    gc_headers.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC::GC_VEC_STRING == gc_spline_type.get_type(),
+    SPLINE_ASSERT( GC_VEC_STRING == gc_spline_type.get_type(),
                    "Field `spline_type` expected to be of type `vec_string_type` found: ` " <<
                    gc_spline_type.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC::GC_MAT_REAL == gc_data.get_type(),
+    SPLINE_ASSERT( GC_MAT_REAL == gc_data.get_type(),
                    "Field `spline_type` expected to be of type `mat_real_type` found: ` " <<
                    gc_data.get_type_name() << "`" ) ;
 
     indexType independent = 0 ;
     if ( gc.exists("independent") ) {
-      GC::GenericContainer const & gc_independent = gc("independent") ;
-      SPLINE_ASSERT( GC::GC_INTEGER == gc_independent.get_type(),
+      GenericContainer const & gc_independent = gc("independent") ;
+      SPLINE_ASSERT( GC_INTEGER == gc_independent.get_type(),
                      "Field `independent` expected to be of type `int_type` found: ` " <<
                      gc_independent.get_type_name() << "`" ) ;
       independent = gc_independent.get_int() ;
     }
 
-    GC::mat_real_type   const & data    = gc_data.get_mat_real() ;
-    GC::vec_string_type const & headers = gc_headers.get_vec_string() ;
+    mat_real_type   const & data    = gc_data.get_mat_real() ;
+    vec_string_type const & headers = gc_headers.get_vec_string() ;
 
     sizeType const nspl = sizeType(headers.size()) ;
     #ifdef SPLINE_USE_ALLOCA
