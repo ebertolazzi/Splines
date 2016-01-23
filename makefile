@@ -24,10 +24,10 @@ DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
 
 #CC     = llvm-gcc
 #CXX    = llvm-g++
-#CC     = clang
-#CXX    = clang++
-CC     = gcc
-CXX    = g++
+CC     = clang
+CXX    = clang++
+#CC     = gcc
+#CXX    = g++
 
 
 ifeq ($(shell uname),Linux)
@@ -74,7 +74,7 @@ doc:
 	doxygen
 	
 clean:
-	rm -f lib/libSplines.a srcs/*.o
+	rm -f lib/libSplines.a lib/libSplines.dylib lib/libSplines.so srcs/*.o
 	rm -f tests/test1
 	rm -rf bin
 	

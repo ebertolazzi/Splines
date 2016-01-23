@@ -1533,9 +1533,7 @@ namespace Splines {
     {}
 
     //! spline destructor
-    virtual 
-    ~SplineSurf()
-    {}
+    virtual ~SplineSurf() {}
 
     string const & name() const { return _name ; }
 
@@ -1665,6 +1663,11 @@ namespace Splines {
       else                   build ( &z.front(), ny, nx, ny, fortran_storage, transposed ) ;
     }
 
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
+    #endif
+
     //! Evaluate spline value
     virtual valueType operator () ( valueType x, valueType y ) const = 0 ;
 
@@ -1678,6 +1681,21 @@ namespace Splines {
     virtual valueType Dxx( valueType x, valueType y ) const = 0 ;
     virtual valueType Dxy( valueType x, valueType y ) const = 0 ;
     virtual valueType Dyy( valueType x, valueType y ) const = 0 ;
+
+    //! Evaluate spline value
+    valueType eval( valueType x, valueType y ) const { return (*this)(x,y) ; }
+
+    //! First derivative
+    virtual valueType eval_D_1( valueType x, valueType y ) const { return Dx(x,y) ; }
+    virtual valueType eval_D_2( valueType x, valueType y ) const { return Dy(x,y) ; }
+
+    //! Second derivative
+    virtual valueType eval_D_1_1( valueType x, valueType y ) const { return Dxx(x,y) ; }
+    virtual valueType eval_D_1_2( valueType x, valueType y ) const { return Dxy(x,y) ; }
+    virtual valueType eval_D_2_2( valueType x, valueType y ) const { return Dyy(x,y) ; }
+
+    //! Print spline information
+    virtual void info( ostream & s ) const ;
 
     //! Print spline coefficients
     virtual void writeToStream( ostream & s ) const = 0 ;
