@@ -136,7 +136,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_REAL ;
 
   void
-  ConstantSpline::build( GenericContainer const & gc ) {
+  ConstantSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

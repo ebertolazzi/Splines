@@ -111,7 +111,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_REAL ;
 
   void
-  QuinticSpline::build( GenericContainer const & gc ) {
+  QuinticSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

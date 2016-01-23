@@ -37,13 +37,6 @@ namespace Splines {
 
   using namespace std ; // load standard namspace
 
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_STRING ;
-  using GenericContainerNamepace::GC_MAT_REAL ;
-  using GenericContainerNamepace::GC_INTEGER ;
-  #endif
-
   static
   valueType
   akima_one( valueType epsi,
@@ -123,8 +116,14 @@ namespace Splines {
   //                            |_|   |_|
   */
   #ifdef SPLINES_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamepace::GC_VEC_REAL ;
+  using GenericContainerNamepace::GC_VEC_STRING ;
+  using GenericContainerNamepace::GC_MAT_REAL ;
+  using GenericContainerNamepace::GC_INTEGER ;
+
   void
-  AkimaSpline::build( GenericContainer const & gc ) {
+  AkimaSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

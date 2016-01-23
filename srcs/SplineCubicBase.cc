@@ -75,7 +75,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_REAL ;
 
   void
-  CubicSplineBase::build( GenericContainer const & gc ) {
+  CubicSplineBase::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

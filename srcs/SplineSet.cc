@@ -234,7 +234,7 @@ namespace Splines {
   using GenericContainerNamepace::vec_string_type ;
 
   void
-  SplineSet::build( GenericContainer const & gc ) {
+  SplineSet::setup( GenericContainer const & gc ) {
     /*
     // gc["headers"]
     // gc["spline_type"]

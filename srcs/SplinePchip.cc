@@ -171,7 +171,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_REAL ;
 
   void
-  PchipSpline::build( GenericContainer const & gc ) {
+  PchipSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

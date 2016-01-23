@@ -137,11 +137,11 @@ namespace Splines {
   //                            |_|   |_|
   */
   #ifdef SPLINES_USE_GENERIC_CONTAINER
-  
+
   using GenericContainerNamepace::GC_VEC_REAL ;
-  
+
   void
-  LinearSpline::build( GenericContainer const & gc ) {
+  LinearSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]

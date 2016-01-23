@@ -65,8 +65,16 @@ either expressed or implied, of the FreeBSD Project.
 
 #include "Malloc.hh"
 
+// if GenericContainer is included add support
+#ifdef GENERIC_CONTAINER_HH
+  #ifndef SPLINES_USE_GENERIC_CONTAINER
+    #define SPLINES_USE_GENERIC_CONTAINER 1
+  #endif
+#endif
+
+// some one may force the use of GenericContainer
 #ifdef SPLINES_USE_GENERIC_CONTAINER
-#include "GenericContainer.hh"
+  #include "GenericContainer.hh"
 #endif
 
 #include <iostream>
@@ -325,8 +333,8 @@ namespace Splines {
     build (void) = 0 ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) = 0 ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) = 0 ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
     //! Build a spline.
@@ -513,8 +521,8 @@ namespace Splines {
     {} ; // nothing to do for CubicSplineBase
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ; // constrainer that uses x, y, yp
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
     //! Build a spline.
@@ -659,8 +667,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
   } ;
@@ -706,8 +714,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
   } ;
@@ -748,8 +756,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
   } ;
@@ -796,8 +804,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
   } ;
@@ -876,8 +884,8 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
     //! given x and y vectors build a linear spline
@@ -998,8 +1006,8 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
     //! given x and y vectors build a piecewise constants spline
@@ -1228,8 +1236,8 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void build ( GenericContainer const & gc ) ;
-    void setup( GenericContainer const & gc ) { build(gc) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
   } ;
@@ -1460,8 +1468,8 @@ namespace Splines {
             valueType  const *Yp[] ) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) ;
-    void setup ( GenericContainer const & gc ) { build( gc ) ; }
+    virtual void setup ( GenericContainer const & gc ) ;
+    void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
     //! Return spline type (as number)

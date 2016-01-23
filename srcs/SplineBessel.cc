@@ -97,7 +97,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_REAL ;
 
   void
-  BesselSpline::build( GenericContainer const & gc ) {
+  BesselSpline::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]
