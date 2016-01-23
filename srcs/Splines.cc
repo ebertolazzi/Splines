@@ -284,10 +284,11 @@ namespace Splines {
   Spline::info( std::basic_ostream<char> & s ) const {
     s << "Spline `" << _name
       << " of type: " << type_name()
-      << " of order: " << order()
-      << "\nxMin = " << xMin() << " xMax = " << xMax()
-      << "\nyMin = " << yMin() << " yMax = " << yMax()
-      << '\n' ;
+      << " of order: " << order() ;
+    if ( npts > 0 )
+      s << "\nxMin = " << xMin() << " xMax = " << xMax()
+        << "\nyMin = " << yMin() << " yMax = " << yMax() ;
+    s << '\n' ;
   }
 
 }
