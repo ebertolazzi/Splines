@@ -1277,14 +1277,14 @@ namespace Splines {
     mutable sizeType lastInterval ;
     sizeType search( valueType x ) const ;
     
-    vector<Spline*>       splines ;
-    vector<int>           is_monotone ;
-    map<string,indexType> header_to_position ;
+    vector<Spline*>      splines ;
+    vector<int>          is_monotone ;
+    map<string,sizeType> header_to_position ;
 
   private:
 
     //! find `x` value such that the monotone spline `(spline[spl])(x)` intersect the value `zeta`
-    Spline const * intersect( indexType spl, valueType zeta, valueType & x ) const ;
+    Spline const * intersect( sizeType spl, valueType zeta, valueType & x ) const ;
 
   public:
 
@@ -1320,7 +1320,7 @@ namespace Splines {
     sizeType numSplines(void) const { return _nspl ; }
 
     //! return the column with header(i) == hdr, return -1 if not found
-    indexType getPosition( char const * hdr ) const ;
+    sizeType getPosition( char const * hdr ) const ;
 
     //! return the vector of values of x-nodes
     valueType const * xNodes() const { return _X ; }
@@ -1358,7 +1358,7 @@ namespace Splines {
 
     //! Return pointer to the `i`-th spline
     Spline * getSpline( char const * hdr ) const {
-      return splines[unsigned(getPosition(hdr))] ;
+      return splines[getPosition(hdr)] ;
     }
 
     //! Evaluate spline value
@@ -1415,36 +1415,48 @@ namespace Splines {
 
     // change independent variable
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
-    void eval2( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
+    void eval2( sizeType spl, valueType zeta, vector<valueType> & vals ) const ;
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
-    void eval2( indexType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
+    void eval2( sizeType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
 
     //! Evaluate the fist derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_D( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
+    void eval2_D( sizeType spl, valueType zeta, vector<valueType> & vals ) const ;
     //! Evaluate the fist derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_D( indexType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
+    void eval2_D( sizeType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
 
     //! Evaluate the second derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_DD( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
+    void eval2_DD( sizeType spl, valueType zeta, vector<valueType> & vals ) const ;
     //! Evaluate the second derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_DD( indexType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
+    void eval2_DD( sizeType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
 
     //! Evaluate the third derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_DDD( indexType spl, valueType zeta, vector<valueType> & vals ) const ;
-    //! Evaluate the third derivative of all the splines at `zeta` using spline[spl] as independent
-    void eval2_DDD( indexType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
+    void eval2_DDD( sizeType spl, valueType zeta, vector<valueType> & vals ) const ;
+    //! Evaluate the sizeType derivative of all the splines at `zeta` using spline[spl] as independent
+    void eval2_DDD( sizeType spl, valueType zeta, valueType vals[], indexType incy = 1 ) const ;
 
     //! Evaluate the spline `name` at `zeta` using spline `indep` as independent
-    valueType eval2( valueType zeta, char const * indep, char const * name  ) const ;
+    valueType eval2( valueType zeta, char const * indep, char const * name ) const ;
 
     //! Evaluate first derivative of the spline `name` at `zeta` using spline `indep` as independent
-    valueType eval2_D( valueType zeta, char const * indep, char const * name  ) const ;
+    valueType eval2_D( valueType zeta, char const * indep, char const * name ) const ;
 
     //! Evaluate second derivative of the spline `name` at `zeta` using spline `indep` as independent
-    valueType eval2_DD( valueType zeta, char const * indep, char const * name  ) const ;
+    valueType eval2_DD( valueType zeta, char const * indep, char const * name ) const ;
 
     //! Evaluate third derivative of the spline `name` at `zeta` using spline `indep` as independent
-    valueType eval2_DDD( valueType zeta, char const * indep, char const * name  ) const ;
+    valueType eval2_DDD( valueType zeta, char const * indep, char const * name ) const ;
+
+    //! Evaluate the spline `spl` at `zeta` using spline `indep` as independent
+    valueType eval2( valueType zeta, sizeType indep, sizeType spl ) const ;
+
+    //! Evaluate first derivative of the spline `spl` at `zeta` using spline `indep` as independent
+    valueType eval2_D( valueType zeta, sizeType indep, sizeType spl ) const ;
+
+    //! Evaluate second derivative of the spline `spl` at `zeta` using spline `indep` as independent
+    valueType eval2_DD( valueType zeta, sizeType indep, sizeType spl ) const ;
+
+    //! Evaluate third derivative of the spline `spl` at `zeta` using spline `indep` as independent
+    valueType eval2_DDD( valueType zeta, sizeType indep, sizeType spl ) const ;
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines

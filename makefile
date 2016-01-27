@@ -47,6 +47,7 @@ all: libSplines.a
 	$(CXX) $(CFLAGS) -o bin/test3 tests/test3.cc $(LIBS)
 	$(CXX) $(CFLAGS) -o bin/test4 tests/test4.cc $(LIBS)
 	$(CXX) $(CFLAGS) -o bin/test5 tests/test5.cc $(LIBS)
+	#$(CXX) $(CFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
 
 srcs/%.o: srcs/%.cc $(DEPS)
 	$(CXX) $(CFLAGS) -c $< -o $@ 
@@ -69,6 +70,7 @@ run:
 	./bin/test3
 	./bin/test4
 	./bin/test5
+	#./bin/test6
 
 doc:
 	doxygen

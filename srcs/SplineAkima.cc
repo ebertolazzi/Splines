@@ -121,6 +121,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VEC_STRING ;
   using GenericContainerNamepace::GC_MAT_REAL ;
   using GenericContainerNamepace::GC_INTEGER ;
+  using GenericContainerNamepace::GC_VECTOR ;
 
   void
   AkimaSpline::setup( GenericContainer const & gc ) {

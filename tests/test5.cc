@@ -87,19 +87,19 @@ main() {
     file   << '\t' << ss.header(i) ;
     file_D << '\t' << ss.header(i) ;
   }
-  file    << '\n' ;
-  file_D  << '\n' ;
+  file   << '\n' ;
+  file_D << '\n' ;
   for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) {
-    file    << x ;
-    file_D  << x ;
+    file   << x ;
+    file_D << x ;
     ss.eval( x, val ) ;
     ss.eval_D( x, val_D ) ;
     for ( indexType i = 0 ; i < nspl ; ++i ) {
-      file    << '\t' << val[i] ;
-      file_D  << '\t' << val_D[i] ;
+      file   << '\t' << val[i] ;
+      file_D << '\t' << val_D[i] ;
     }
-    file    << '\n' ;
-    file_D  << '\n' ;
+    file   << '\n' ;
+    file_D << '\n' ;
   }
   file.close() ;
   file_D.close() ;
