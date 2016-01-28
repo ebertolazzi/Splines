@@ -244,27 +244,27 @@ namespace Splines {
     // gc["independent"]
     //
     */
-    SPLINE_ASSERT( gc.exists("spline_type"), "[" << _name << "] SplineSet::build, missing `spline_type` field!") ;
-    SPLINE_ASSERT( gc.exists("headers") ,    "[" << _name << "] SplineSet::build, missing `headers` field!") ;
-    SPLINE_ASSERT( gc.exists("data") ,       "[" << _name << "] SplineSet::build, missing `data` field!") ;
+    SPLINE_ASSERT( gc.exists("spline_type"), "[SplineSet[" << _name << "]::setup] missing `spline_type` field!") ;
+    SPLINE_ASSERT( gc.exists("headers") ,    "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
+    SPLINE_ASSERT( gc.exists("data") ,       "[SplineSet[" << _name << "]::setup] missing `data` field!") ;
   
     GenericContainer const & gc_headers     = gc("headers") ;
     GenericContainer const & gc_spline_type = gc("spline_type") ;
     GenericContainer const & gc_data        = gc("data") ;
 
     SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
-                   "[SplineSet::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
+                   "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
                    gc_headers.get_type_name() << "`" ) ;
 
     SPLINE_ASSERT( GC_VEC_STRING == gc_spline_type.get_type(),
-                   "[SplineSet::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
+                   "[SplineSet[" << _name << "]::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
                    gc_spline_type.get_type_name() << "`" ) ;
 
     indexType independent = 0 ;
     if ( gc.exists("independent") ) {
       GenericContainer const & gc_independent = gc("independent") ;
       SPLINE_ASSERT( GC_INTEGER == gc_independent.get_type(),
-                     "[SplineSet::setup] field `independent` expected to be of type `int_type` found: ` " <<
+                     "[SplineSet[" << _name << "]::setup] field `independent` expected to be of type `int_type` found: ` " <<
                      gc_independent.get_type_name() << "`" ) ;
       independent = gc_independent.get_int() ;
     }
@@ -288,7 +288,7 @@ namespace Splines {
     if ( GC_MAT_REAL == gc_data.get_type() ) {
       mat_real_type const & data = gc_data.get_mat_real() ;
       SPLINE_ASSERT( nspl == data.numCols(),
-                     "[SplineSet::setup] number of headers [" << nspl <<
+                     "[SplineSet[" << _name << "]::setup] number of headers [" << nspl <<
                      "] differs the numeber of columns [" << data.numCols() << "] in data" ) ;
       for ( sizeType i = 0 ; i < nspl ; ++i ) Y[i] = &data(0,i) ;
       nrow = data.numRows() ;
@@ -296,7 +296,7 @@ namespace Splines {
       nrow = 0 ;
       vector_type const & data = gc_data.get_vector() ;
       SPLINE_ASSERT( data.size() == nspl,
-                    "[SplineSet::setup] field `data` expected of size " << nspl <<
+                    "[SplineSet[" << _name << "]::setup] field `data` expected of size " << nspl <<
                     " found of size " << data.size()  ) ;
       for ( sizeType i = 0 ; i < nspl ; ++i ) {
         GenericContainer const & datai = data[i] ;
@@ -314,7 +314,7 @@ namespace Splines {
       }
     } else {
       SPLINE_ASSERT( false,
-                     "[SplineSet::setup] field `data` expected to be of type `mat_real_type` or `vector_type` found: ` " <<
+                     "[SplineSet[" << _name << "]::setup] field `data` expected to be of type `mat_real_type` or `vector_type` found: ` " <<
                       gc_data.get_type_name() << "`" ) ;
     }
 

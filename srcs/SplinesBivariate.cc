@@ -49,6 +49,7 @@ namespace Splines {
   #ifdef SPLINES_USE_GENERIC_CONTAINER
   
   using GenericContainerNamepace::GC_VEC_REAL ;
+  using GenericContainerNamepace::GC_VEC_INTEGER ;
   using GenericContainerNamepace::GC_MAT_REAL ;
 
   void
@@ -59,24 +60,26 @@ namespace Splines {
     // gc["z"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"), "[" << _name << "] SplineSurf::build, missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[" << _name << "] SplineSurf::build, missing `y` field!") ;
-    SPLINE_ASSERT( gc.exists("z"), "[" << _name << "] SplineSurf::build, missing `z` field!") ;
+    SPLINE_ASSERT( gc.exists("x"), "[SplineSurf[" << _name << "]::setup] missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[SplineSurf[" << _name << "]::setup] missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("z"), "[SplineSurf[" << _name << "]::setup] missing `z` field!") ;
   
     GenericContainer const & gc_x = gc("x") ;
     GenericContainer const & gc_y = gc("y") ;
     GenericContainer const & gc_z = gc("z") ;
 
-    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type(),
-                   "Field `x` expected to be of type `vec_real_type` found: `" <<
+    SPLINE_ASSERT( GC_VEC_REAL    == gc_x.get_type() ||
+                   GC_VEC_INTEGER == gc_x.get_type(),
+                   "[SplineSurf[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
                    gc_x.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type(),
-                   "Field `y` expected to be of type `vec_real_type` found: `" <<
+    SPLINE_ASSERT( GC_VEC_REAL    == gc_y.get_type() ||
+                   GC_VEC_INTEGER == gc_y.get_type(),
+                   "[SplineSurf[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
                    gc_y.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC_MAT_REAL == gc_z.get_type(),
-                   "Field `z` expected to be of type `mat_real_type` found: `" <<
+    SPLINE_ASSERT( GC_MAT_REAL    == gc_z.get_type(),
+                   "[SplineSurf[" << _name << "]::setup] field `z` expected to be of type `mat_real_type` found: `" <<
                    gc_z.get_type_name() << "`" ) ;
 
     bool fortran_storage = false ;
