@@ -257,10 +257,6 @@ namespace Splines {
     sizeType  npts, npts_reserved ;
     valueType *X ; // allocated in the derived class!
     valueType *Y ; // allocated in the derived class!
-    
-    // for bbox
-    valueType Y_min ;
-    valueType Y_max ;
 
     sizeType search( valueType x ) const ;
     mutable sizeType lastInterval ;
@@ -382,10 +378,16 @@ namespace Splines {
     valueType xMax() const { return X[npts-1] ; }
 
     //! return y-minumum spline value
-    valueType yMin() const { return Y_min ; }
+    valueType yMin() const {
+      indexType N = type() == CONSTANT_TYPE ? npts : npts-1 ;
+      return *std::min_element(Y,Y+N) ;
+    }
 
     //! return y-maximum spline value
-    valueType yMax() const { return Y_max ; }
+    valueType yMax() const {
+      indexType N = type() == CONSTANT_TYPE ? npts : npts-1 ;
+      return *std::max_element(Y,Y+N) ;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline

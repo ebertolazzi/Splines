@@ -34,10 +34,15 @@ namespace Splines {
   SplineSet::info( std::basic_ostream<char> & s ) const {
     s << "SplineSet[" << name() << "] N.points = "
       << _npts << " N.splines = " << _nspl << '\n' ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      s << "Spline N." << i << " " << header(i)
-        << (is_monotone[i]>0?" is monotone" : " is NOT monotone" )
-        << '\n' ;
+    for ( sizeType i = 0 ; i < _nspl ; ++i ) {
+      s << "Spline N." << i ;
+      switch ( is_monotone[i] ) {
+        case -1: s << " is NOT monotone\n"      ; break ;
+        case  0: s << " is monotone\n"          ; break ;
+        case  1: s << " is strictly monotone\n" ; break ;
+      }
+      splines[i]->info(s) ;
+    }
   }
 
   sizeType
@@ -107,8 +112,13 @@ namespace Splines {
       valueType *& pYpp = _Ypp[spl] ;
       pY = baseValue( _npts ) ;
       std::copy( Y[spl], Y[spl]+npts, pY ) ;
-      _Ymin[spl] = *std::min_element( pY,pY+npts ) ;
-      _Ymax[spl] = *std::max_element( pY,pY+npts ) ;
+      if ( stype[spl] == CONSTANT_TYPE ) {
+        _Ymin[spl] = *std::min_element( pY,pY+npts-1 ) ;
+        _Ymax[spl] = *std::max_element( pY,pY+npts-1 ) ;        
+      } else {
+        _Ymin[spl] = *std::min_element( pY,pY+npts ) ;
+        _Ymax[spl] = *std::max_element( pY,pY+npts ) ;
+      }
       pYpp = pYp = nullptr ;
       switch ( stype[spl] ) {
         case QUINTIC_TYPE:
@@ -159,8 +169,8 @@ namespace Splines {
           // check monotonicity of data
           { indexType flag = 1 ;
             for ( sizeType j = 1 ; j < _npts ; ++j ) {
-              if ( Y[j-1] > Y[j] ) { flag = -1 ; break ; } // non monotone data
-              if ( Y[j-1] == Y[j] && X[j-1] < X[j] ) flag = 0 ; // non strict monotone
+              if ( pY[j-1] > pY[j] ) { flag = -1 ; break ; } // non monotone data
+              if ( pY[j-1] == pY[j] && _X[j-1] < _X[j] ) flag = 0 ; // non strict monotone
             }
             is_monotone[spl] = flag ;
           }
