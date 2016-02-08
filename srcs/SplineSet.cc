@@ -238,15 +238,18 @@ namespace Splines {
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
 
+  using GenericContainerNamepace::GC_INTEGER ;
+  using GenericContainerNamepace::GC_VEC_INTEGER ;
   using GenericContainerNamepace::GC_VEC_REAL ;
   using GenericContainerNamepace::GC_VEC_STRING ;
-  using GenericContainerNamepace::GC_MAT_REAL ;
   using GenericContainerNamepace::GC_VECTOR ;
-  using GenericContainerNamepace::GC_INTEGER ;
+  using GenericContainerNamepace::GC_MAP ;
+  using GenericContainerNamepace::GC_MAT_REAL ;
   using GenericContainerNamepace::mat_real_type ;
   using GenericContainerNamepace::vec_real_type ;
   using GenericContainerNamepace::vec_string_type ;
   using GenericContainerNamepace::vector_type ;
+  using GenericContainerNamepace::map_type ;
 
   void
   SplineSet::setup( GenericContainer const & gc ) {
@@ -258,31 +261,13 @@ namespace Splines {
     //
     */
     SPLINE_ASSERT( gc.exists("spline_type"), "[SplineSet[" << _name << "]::setup] missing `spline_type` field!") ;
-    SPLINE_ASSERT( gc.exists("headers") ,    "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
-    SPLINE_ASSERT( gc.exists("xdata") ,      "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
-    SPLINE_ASSERT( gc.exists("ydata") ,      "[SplineSet[" << _name << "]::setup] missing `ydata` field!") ;
-  
-    GenericContainer const & gc_headers     = gc("headers") ;
     GenericContainer const & gc_spline_type = gc("spline_type") ;
-    GenericContainer const & gc_ydata       = gc("ydata") ;
-    GenericContainer const & gc_xdata       = gc("xdata") ;
-
-    SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
-                   "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
-                   gc_headers.get_type_name() << "`" ) ;
-
     SPLINE_ASSERT( GC_VEC_STRING == gc_spline_type.get_type(),
                    "[SplineSet[" << _name << "]::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
                    gc_spline_type.get_type_name() << "`" ) ;
+    vec_string_type const & spline_type_vec = gc_spline_type.get_vec_string() ;
+    sizeType const nspl = sizeType(spline_type_vec.size()) ;
 
-    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type(),
-                   "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
-                   gc_xdata.get_type_name() << "`" ) ;
-
-    vec_real_type   const & X       = gc_xdata.get_vec_real() ;
-    vec_string_type const & headers = gc_headers.get_vec_string() ;
-
-    sizeType const nspl = sizeType(headers.size()) ;
     #ifdef SPLINE_USE_ALLOCA
     char const ** headers_strs = (char const**)alloca( nspl*sizeof(char const *) ) ;
     valueType const ** Y       = (valueType const**)alloca( nspl*sizeof(valueType const *) ) ;
@@ -291,7 +276,40 @@ namespace Splines {
     char      const * headers_strs[nspl] ;
     valueType const * Y[nspl] ;
     SplineType        stype[nspl] ;
-	  #endif
+    #endif
+    
+    for ( sizeType i = 0 ; i < nspl ; ++i ) {
+      bool found = false ;
+      sizeType j = 0 ;
+      string n = spline_type_vec[i] ;
+      std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
+      while ( !found && Splines::spline_type[j] != nullptr ) {
+        found = Splines::spline_type[j] == n ;
+        if ( found ) stype[i] = SplineType(j) ;
+        ++j ;
+      }
+      SPLINE_ASSERT( found, "[SplineSet[" << _name << "]::setup] spline type: ``" << spline_type_vec[i] << "'' unknown" ) ;
+    }
+
+    SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
+    GenericContainer const & gc_xdata = gc("xdata") ;
+    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type(),
+                   "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
+                   gc_xdata.get_type_name() << "`" ) ;
+    vec_real_type const & X = gc_xdata.get_vec_real() ;
+
+    SPLINE_ASSERT( gc.exists("ydata") , "[SplineSet[" << _name << "]::setup] missing `ydata` field!") ;
+    GenericContainer const & gc_ydata = gc("ydata") ;
+  
+    if ( GC_MAT_REAL == gc_ydata.get_type() || GC_VECTOR == gc_ydata.get_type() ) {
+      SPLINE_ASSERT( gc.exists("headers"), "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
+      GenericContainer const & gc_headers = gc("headers") ;
+      SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
+                     "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
+                     gc_headers.get_type_name() << "`" ) ;
+      vec_string_type const & headers = gc_headers.get_vec_string() ;
+      for ( sizeType i = 0 ; i < nspl ; ++i ) headers_strs[i] = headers[i].c_str() ;
+    }
 
     sizeType nrow ;
     if ( GC_MAT_REAL == gc_ydata.get_type() ) {
@@ -309,7 +327,7 @@ namespace Splines {
                     " found of size " << data.size()  ) ;
       for ( sizeType i = 0 ; i < nspl ; ++i ) {
         GenericContainer const & datai = data[i] ;
-        SPLINE_ASSERT( GC_VEC_REAL == datai.get_type(),
+        SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
                        "[SplineSet::setup] data[" << i << "] expected to be of type `vec_real_type` found: ` " <<
                         datai.get_type_name() << "`" ) ;
         Y[i] = &datai.get_vec_real().front() ;
@@ -321,28 +339,33 @@ namespace Splines {
           if ( nrow > len ) nrow = len ;
         }
       }
+    } else if ( GC_MAP == gc_ydata.get_type() ) {
+      nrow = 0 ;
+      map_type const & data = gc_ydata.get_map() ;
+      SPLINE_ASSERT( data.size() == nspl,
+                    "[SplineSet[" << _name << "]::setup] field `data` expected of size " << nspl <<
+                    " found of size " << data.size() ) ;
+                    
+      map_type::const_iterator im = data.begin() ;
+      for ( sizeType spl = 0 ; im != data.end() ; ++im, ++spl ) {
+        headers_strs[spl] = im->first.c_str() ;
+        GenericContainer const & datai = im->second ;
+        SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
+                       "[SplineSet::setup] data[" << spl << "] expected to be of type `vec_real_type` found: ` " <<
+                        datai.get_type_name() << "`" ) ;
+        Y[spl] = &datai.get_vec_real().front() ;
+        sizeType len = sizeType(datai.get_vec_real().size()) ;
+        if ( spl == 0 ) {
+          nrow = len ;
+        } else {
+          if ( stype[spl] == CONSTANT_TYPE ) ++len ; // constant spline uses n-1 points
+          if ( nrow > len ) nrow = len ;
+        }
+      }
     } else {
       SPLINE_ASSERT( false,
-                     "[SplineSet[" << _name << "]::setup] field `data` expected to be of type `mat_real_type` or `vector_type` found: ` " <<
+                     "[SplineSet[" << _name << "]::setup] field `data` expected to be of type `mat_real_type`, `vector_type` or `map_type' found: ` " <<
                       gc_ydata.get_type_name() << "`" ) ;
-    }
-
-    for ( sizeType i = 0 ; i < nspl ; ++i ) {
-      headers_strs[i] = headers[i].c_str() ;
-      string n = gc_spline_type.get_string(i) ;
-      std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
-      SplineType & st = stype[i] ;
-      if      ( n == spline_type[CONSTANT_TYPE]   ) st = CONSTANT_TYPE ;
-      else if ( n == spline_type[LINEAR_TYPE]     ) st = LINEAR_TYPE ;
-      //else if ( n == spline_type[CUBIC_BASE_TYPE] ) st = CUBIC_BASE_TYPE ; NOT YET IMPLEMENTED
-      else if ( n == spline_type[CUBIC_TYPE]      ) st = CUBIC_TYPE ;
-      else if ( n == spline_type[AKIMA_TYPE]      ) st = AKIMA_TYPE ;
-      else if ( n == spline_type[BESSEL_TYPE]     ) st = BESSEL_TYPE ;
-      else if ( n == spline_type[PCHIP_TYPE]      ) st = PCHIP_TYPE ;
-      else if ( n == spline_type[QUINTIC_TYPE]    ) st = QUINTIC_TYPE ;
-      else {
-        SPLINE_ASSERT( false, "[" << _name << "] SplineSet::build\ntype = " << n << " unkonwn for " << i << "-th spline" );
-      }
     }
 
     build( nspl,

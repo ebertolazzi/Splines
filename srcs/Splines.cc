@@ -48,7 +48,8 @@ namespace Splines {
     "bessel",      // 5
     "pchip",       // 6
     "quintic",     // 7
-    "spline set"   // 8
+    "spline set",  // 8
+    nullptr
   } ;
 
   using std::abs ;

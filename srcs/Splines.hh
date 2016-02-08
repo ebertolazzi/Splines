@@ -1354,6 +1354,12 @@ namespace Splines {
     //! return y-maximum spline value
     valueType yMax( sizeType spl ) const { return _Ymax[spl] ; }
 
+    //! return y-minumum spline value
+    valueType yMin( char const spl[] ) const { return _Ymin[getPosition(spl)] ; }
+
+    //! return y-maximum spline value
+    valueType yMax( char const spl[] ) const { return _Ymax[getPosition(spl)] ; }
+
     //! Return pointer to the `i`-th spline
     Spline * getSpline( sizeType i ) const {
       SPLINE_ASSERT( i < _nspl, "SplineSet::getSpline( " << i << ") argument out of range [0," << _nspl-1 << "]" ) ;
