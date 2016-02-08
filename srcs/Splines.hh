@@ -379,13 +379,15 @@ namespace Splines {
 
     //! return y-minumum spline value
     valueType yMin() const {
-      indexType N = type() == CONSTANT_TYPE ? npts : npts-1 ;
+      sizeType N = sizeType(npts) ;
+      if ( type() == CONSTANT_TYPE ) --N ;
       return *std::min_element(Y,Y+N) ;
     }
 
     //! return y-maximum spline value
     valueType yMax() const {
-      indexType N = type() == CONSTANT_TYPE ? npts : npts-1 ;
+      sizeType N = sizeType(npts) ;
+      if ( type() == CONSTANT_TYPE ) --N ;
       return *std::max_element(Y,Y+N) ;
     }
 

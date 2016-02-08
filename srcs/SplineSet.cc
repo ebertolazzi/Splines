@@ -37,9 +37,11 @@ namespace Splines {
     for ( sizeType i = 0 ; i < _nspl ; ++i ) {
       s << "Spline N." << i ;
       switch ( is_monotone[i] ) {
-        case -1: s << " is NOT monotone\n"      ; break ;
-        case  0: s << " is monotone\n"          ; break ;
-        case  1: s << " is strictly monotone\n" ; break ;
+        case -2: s << " with NON monotone data\n" ; break ;
+        case -1: s << " is NOT monotone\n"        ; break ;
+        case  0: s << " is monotone\n"            ; break ;
+        case  1: s << " is strictly monotone\n"   ; break ;
+        default: SPLINE_ASSERT( false, "SplineSet::info classification: " << is_monotone[i] << " not in range {-2,-1,0,1}" ) ;
       }
       splines[i]->info(s) ;
     }
@@ -242,6 +244,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_VECTOR ;
   using GenericContainerNamepace::GC_INTEGER ;
   using GenericContainerNamepace::mat_real_type ;
+  using GenericContainerNamepace::vec_real_type ;
   using GenericContainerNamepace::vec_string_type ;
   using GenericContainerNamepace::vector_type ;
 
@@ -256,11 +259,13 @@ namespace Splines {
     */
     SPLINE_ASSERT( gc.exists("spline_type"), "[SplineSet[" << _name << "]::setup] missing `spline_type` field!") ;
     SPLINE_ASSERT( gc.exists("headers") ,    "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
-    SPLINE_ASSERT( gc.exists("data") ,       "[SplineSet[" << _name << "]::setup] missing `data` field!") ;
+    SPLINE_ASSERT( gc.exists("xdata") ,      "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
+    SPLINE_ASSERT( gc.exists("ydata") ,      "[SplineSet[" << _name << "]::setup] missing `ydata` field!") ;
   
     GenericContainer const & gc_headers     = gc("headers") ;
     GenericContainer const & gc_spline_type = gc("spline_type") ;
-    GenericContainer const & gc_data        = gc("data") ;
+    GenericContainer const & gc_ydata       = gc("ydata") ;
+    GenericContainer const & gc_xdata       = gc("xdata") ;
 
     SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
                    "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
@@ -270,21 +275,15 @@ namespace Splines {
                    "[SplineSet[" << _name << "]::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
                    gc_spline_type.get_type_name() << "`" ) ;
 
-    indexType independent = 0 ;
-    if ( gc.exists("independent") ) {
-      GenericContainer const & gc_independent = gc("independent") ;
-      SPLINE_ASSERT( GC_INTEGER == gc_independent.get_type(),
-                     "[SplineSet[" << _name << "]::setup] field `independent` expected to be of type `int_type` found: ` " <<
-                     gc_independent.get_type_name() << "`" ) ;
-      independent = gc_independent.get_int() ;
-    }
+    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type(),
+                   "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
+                   gc_xdata.get_type_name() << "`" ) ;
 
+    vec_real_type   const & X       = gc_xdata.get_vec_real() ;
     vec_string_type const & headers = gc_headers.get_vec_string() ;
 
     sizeType const nspl = sizeType(headers.size()) ;
     #ifdef SPLINE_USE_ALLOCA
-    valueType * X0 = (valueType*)alloca( nkk*sizeof(valueType) ) ;
-	  valueType * Y0 = (valueType*)alloca( nkk*sizeof(valueType) ) ;
     char const ** headers_strs = (char const**)alloca( nspl*sizeof(char const *) ) ;
     valueType const ** Y       = (valueType const**)alloca( nspl*sizeof(valueType const *) ) ;
     SplineType * stype         = (SplineType*)alloca( nspl*sizeof(SplineType) ) ;
@@ -295,16 +294,16 @@ namespace Splines {
 	  #endif
 
     sizeType nrow ;
-    if ( GC_MAT_REAL == gc_data.get_type() ) {
-      mat_real_type const & data = gc_data.get_mat_real() ;
+    if ( GC_MAT_REAL == gc_ydata.get_type() ) {
+      mat_real_type const & data = gc_ydata.get_mat_real() ;
       SPLINE_ASSERT( nspl == data.numCols(),
                      "[SplineSet[" << _name << "]::setup] number of headers [" << nspl <<
                      "] differs the numeber of columns [" << data.numCols() << "] in data" ) ;
       for ( sizeType i = 0 ; i < nspl ; ++i ) Y[i] = &data(0,i) ;
       nrow = data.numRows() ;
-    } else if ( GC_VECTOR == gc_data.get_type() ) {
+    } else if ( GC_VECTOR == gc_ydata.get_type() ) {
       nrow = 0 ;
-      vector_type const & data = gc_data.get_vector() ;
+      vector_type const & data = gc_ydata.get_vector() ;
       SPLINE_ASSERT( data.size() == nspl,
                     "[SplineSet[" << _name << "]::setup] field `data` expected of size " << nspl <<
                     " found of size " << data.size()  ) ;
@@ -314,7 +313,7 @@ namespace Splines {
                        "[SplineSet::setup] data[" << i << "] expected to be of type `vec_real_type` found: ` " <<
                         datai.get_type_name() << "`" ) ;
         Y[i] = &datai.get_vec_real().front() ;
-        sizeType len = datai.get_vec_real().size() ;
+        sizeType len = sizeType(datai.get_vec_real().size()) ;
         if ( i == 0 ) {
           nrow = len ;
         } else {
@@ -325,7 +324,7 @@ namespace Splines {
     } else {
       SPLINE_ASSERT( false,
                      "[SplineSet[" << _name << "]::setup] field `data` expected to be of type `mat_real_type` or `vector_type` found: ` " <<
-                      gc_data.get_type_name() << "`" ) ;
+                      gc_ydata.get_type_name() << "`" ) ;
     }
 
     for ( sizeType i = 0 ; i < nspl ; ++i ) {
@@ -350,7 +349,7 @@ namespace Splines {
            nrow,
            headers_strs,
            stype,
-           Y[independent],
+           &X.front(),
            Y,
            nullptr ) ;
 
@@ -428,7 +427,7 @@ namespace Splines {
     SPLINE_ASSERT( spl >= 0 && spl < _nspl,
                    "Spline n." << spl << " is not in SplineSet") ;
     SPLINE_ASSERT( is_monotone[sizeType(spl)]>0,
-                   "Spline n." << spl << " is not monotone") ;
+                   "Spline n." << spl << " is not monotone and can't be used as independent") ;
     Spline const * S = splines[sizeType(spl)] ;
     // cerco intervallo intersezione
     valueType const * X = _Y[sizeType(spl)] ;
