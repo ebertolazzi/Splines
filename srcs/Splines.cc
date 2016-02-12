@@ -54,7 +54,7 @@ namespace Splines {
 
   using std::abs ;
   using std::sqrt ;
-  
+
   #if defined(_MSC_VER) || __cplusplus <= 199711L
   // cbrt is not available on WINDOWS? or C++ < C++11?
   static

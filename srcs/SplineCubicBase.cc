@@ -74,39 +74,61 @@ namespace Splines {
 
   using GenericContainerNamepace::GC_VEC_REAL ;
   using GenericContainerNamepace::GC_VEC_INTEGER ;
+  using GenericContainerNamepace::vec_int_type ;
+  using GenericContainerNamepace::vec_real_type ;
 
   void
   CubicSplineBase::setup( GenericContainer const & gc ) {
     /*
     // gc["x"]
     // gc["y"]
-    // gc["yp"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"),  "[CubicSplineBase[" << _name << "]::setup] missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"),  "[CubicSplineBase[" << _name << "]::setup] missing `y` field!") ;
-    SPLINE_ASSERT( gc.exists("yp"), "[CubicSplineBase[" << _name << "]::setup] missing `yp` field!") ;
-  
+    SPLINE_ASSERT( gc.exists("x"),  "[" << type_name() << "[" << _name << "]::setup] missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"),  "[" << type_name() << "[" << _name << "]::setup] missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("yp"), "[" << type_name() << "[" << _name << "]::setup] missing `yp` field!") ;
+
     GenericContainer const & gc_x  = gc("x") ;
     GenericContainer const & gc_y  = gc("y") ;
     GenericContainer const & gc_yp = gc("yp") ;
 
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_x.get_type() ||
-                   GC_VEC_INTEGER == gc_x.get_type(),
-                   "[CubicSplineBase[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
+    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type() || GC_VEC_INTEGER == gc_x.get_type(),
+                   "[" << type_name() << "[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
                    gc_x.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_y.get_type() ||
-                   GC_VEC_INTEGER == gc_y.get_type(),
-                   "[CubicSplineBase[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
+    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type() || GC_VEC_INTEGER == gc_y.get_type(),
+                   "[" << type_name() << "[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
                    gc_y.get_type_name() << "`" ) ;
 
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_yp.get_type() ||
-                   GC_VEC_INTEGER == gc_yp.get_type(),
-                   "[CubicSplineBase[" << _name << "]::setup] field `yp` expected to be of type `vec_real_type` found: `" <<
+    SPLINE_ASSERT( GC_VEC_REAL == gc_yp.get_type() || GC_VEC_INTEGER == gc_yp.get_type(),
+                   "[" << type_name() << "[" << _name << "]::setup] field `yp` expected to be of type `vec_real_type` found: `" <<
                    gc_yp.get_type_name() << "`" ) ;
 
-    build( gc_x.get_vec_real(), gc_y.get_vec_real(), gc_yp.get_vec_real() ) ;
+    vec_real_type x, y, yp ;
+    vec_real_type const * px  = nullptr ;
+    vec_real_type const * py  = nullptr ;
+    vec_real_type const * pyp = nullptr ;
+    if ( GC_VEC_INTEGER == gc_x.get_type() ) {
+      vec_int_type const & vx = gc_x.get_vec_int() ;
+      x.resize(vx.size()) ; std::copy( vx.begin(), vx.end(), x.begin() ) ;
+    } else {
+      px = &gc_x.get_vec_real() ;
+    }
+    if ( GC_VEC_INTEGER == gc_y.get_type() ) {
+      vec_int_type const & vy = gc_y.get_vec_int() ;
+      y.resize(vy.size()) ; std::copy( vy.begin(), vy.end(), y.begin() ) ;
+    } else {
+      py = &gc_y.get_vec_real() ;
+    }
+    if ( GC_VEC_INTEGER == gc_yp.get_type() ) {
+      vec_int_type const & vyp = gc_yp.get_vec_int() ;
+      yp.resize(vyp.size()) ; std::copy( vyp.begin(), vyp.end(), yp.begin() ) ;
+    } else {
+      pyp = &gc_yp.get_vec_real() ;
+    }
+
+    build( *px, *py, *pyp ) ;
+
   }
   #endif
 

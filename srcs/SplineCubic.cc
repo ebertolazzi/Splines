@@ -112,55 +112,5 @@ namespace Splines {
     
     SPLINE_CHECK_NAN(Yp,"CubicSpline::build(): Yp",npts);
   }
-  
-  /*
-  //    ____  ____   ____                               _
-  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
-  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
-  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
-  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
-  //                            |_|   |_|
-  */
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
-
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_INTEGER ;
-  
-  void
-  CubicSpline::setup( GenericContainer const & gc ) {
-    /*
-    // gc["x"]
-    // gc["y"]
-    // gc["y''(begin)"]
-    // gc["y''(end)"]
-    //
-    */
-    SPLINE_ASSERT( gc.exists("x"), "[CubicSpline[" << _name << "]::setup] missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[CubicSpline[" << _name << "]::setup] missing `y` field!") ;
-
-    valueType y_DD_0 = 0 ;
-    if ( gc.exists("y''(begin)") ) y_DD_0 = gc("y''(begin)").get_number() ;
-
-    valueType y_DD_1 = 0 ;
-    if ( gc.exists("y''(end)") ) y_DD_1 = gc("y''(end)").get_number() ;
-    
-    setbc( y_DD_0, y_DD_1 ) ;
-  
-    GenericContainer const & gc_x = gc("x") ;
-    GenericContainer const & gc_y = gc("y") ;
-
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_x.get_type() ||
-                   GC_VEC_INTEGER == gc_x.get_type(),
-                   "[CubicSpline[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
-                   gc_x.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_y.get_type() ||
-                   GC_VEC_INTEGER == gc_y.get_type(),
-                   "[CubicSpline[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
-                   gc_y.get_type_name() << "`" ) ;
-
-    build( gc_x.get_vec_real(), gc_y.get_vec_real() ) ;
-  }
-  #endif
 
 }

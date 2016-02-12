@@ -40,6 +40,63 @@
 namespace Splines {
   //! Associate a number for each type of splines implemented
 
+  /*
+  //    ____  ____   ____                               _
+  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
+  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
+  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
+  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
+  //                            |_|   |_|
+  */
+
+  #ifdef SPLINES_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamepace::GC_VEC_REAL ;
+  using GenericContainerNamepace::GC_VEC_INTEGER ;
+  using GenericContainerNamepace::vec_int_type ;
+  using GenericContainerNamepace::vec_real_type ;
+
+  void
+  Spline::setup( GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"), "[" << type_name() << "[" << _name << "]::setup] missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"), "[" << type_name() << "[" << _name << "]::setup] missing `y` field!") ;
+
+    GenericContainer const & gc_x = gc("x") ;
+    GenericContainer const & gc_y = gc("y") ;
+
+    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type() || GC_VEC_INTEGER == gc_x.get_type(),
+                   "[" << type_name() << "[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
+                   gc_x.get_type_name() << "`" ) ;
+
+    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type() || GC_VEC_INTEGER == gc_y.get_type(),
+                   "[" << type_name() << "[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
+                   gc_y.get_type_name() << "`" ) ;
+
+    vec_real_type x, y ;
+    vec_real_type const * px = nullptr ;
+    vec_real_type const * py = nullptr ;
+    if ( GC_VEC_INTEGER == gc_x.get_type() ) {
+      vec_int_type const & vx = gc_x.get_vec_int() ;
+      x.resize(vx.size()) ; std::copy( vx.begin(), vx.end(), x.begin() ) ;
+    } else {
+      px = &gc_x.get_vec_real() ;
+    }
+    if ( GC_VEC_INTEGER == gc_y.get_type() ) {
+      vec_int_type const & vy = gc_y.get_vec_int() ;
+      y.resize(vy.size()) ; std::copy( vy.begin(), vy.end(), y.begin() ) ;
+    } else {
+      py = &gc_y.get_vec_real() ;
+    }
+
+    build( *px, *py ) ;
+  }
+  #endif
+
   /*       _               _    _   _       _   _
   //   ___| |__   ___  ___| | _| \ | | __ _| \ | |
   //  / __| '_ \ / _ \/ __| |/ /  \| |/ _` |  \| |

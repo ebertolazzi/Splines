@@ -32,10 +32,10 @@ namespace Splines {
 
   void
   SplineSet::info( std::basic_ostream<char> & s ) const {
-    s << "SplineSet[" << name() << "] N.points = "
-      << _npts << " N.splines = " << _nspl << '\n' ;
+    s << "SplineSet[" << name() << "] n.points = "
+      << _npts << " n.splines = " << _nspl << '\n' ;
     for ( sizeType i = 0 ; i < _nspl ; ++i ) {
-      s << "Spline N." << i ;
+      s << "\nSpline n." << i ;
       switch ( is_monotone[i] ) {
         case -2: s << " with NON monotone data\n" ; break ;
         case -1: s << " is NOT monotone\n"        ; break ;
@@ -47,10 +47,26 @@ namespace Splines {
     }
   }
 
+  void
+  SplineSet::dump_table( std::basic_ostream<char> & stream, sizeType num_points ) const {
+    vector<valueType> vals ;
+    stream << 's' ;
+    for ( indexType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << header(i) ;
+    stream << '\n' ;
+  
+    for ( sizeType j = 0 ; j < num_points ; ++j ) {
+      valueType s = xMin() + ((xMax()-xMin())*j)/(num_points-1) ;
+      this->eval( s, vals ) ;
+      stream << s ;
+      for ( indexType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << vals[i] ;
+      stream << '\n' ;
+    }
+  }
+
   sizeType
   SplineSet::getPosition( char const * hdr ) const {
     map<string,sizeType>::const_iterator it = header_to_position.find(hdr) ;
-    SPLINE_ASSERT( it != header_to_position.end(), "Spline [" << hdr << "] not found!" ) ;
+    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(" << hdr << ") not found!" ) ;
     return it->second ;
   }
 
@@ -72,26 +88,21 @@ namespace Splines {
     indexType mem = npts ;
     for ( sizeType spl = 0 ; spl < nspl ; ++spl ) {
       switch (stype[spl]) {
-        case CONSTANT_TYPE:
-        case LINEAR_TYPE:
-          mem += npts ;
-        break;
-
+        case QUINTIC_TYPE:
+          mem += npts ; // Y, Yp, Ypp
         case CUBIC_BASE_TYPE:
         case CUBIC_TYPE:
         case AKIMA_TYPE:
         case BESSEL_TYPE:
         case PCHIP_TYPE:
-          mem += 2*npts ; // Y, Yp
+          mem += npts ; // Y, Yp
+        case CONSTANT_TYPE:
+        case LINEAR_TYPE:
+          mem += npts ;
         break;
-
-        case QUINTIC_TYPE:
-          mem += 3*npts ; // Y, Yp, Ypp
-        break;
-        
         default:
           SPLINE_ASSERT( false,
-                         "SplineSet::build\nAt spline N. " << spl <<
+                         "SplineSet::build\nAt spline n. " << spl <<
                          " named " << headers[spl] <<
                          " unknwn type = " << stype[spl] ) ;
         break;
@@ -123,33 +134,26 @@ namespace Splines {
       }
       pYpp = pYp = nullptr ;
       switch ( stype[spl] ) {
-        case QUINTIC_TYPE:
-          pYpp = baseValue( _npts ) ;
-          pYp  = baseValue( _npts ) ;
-        break ;
-
         case CUBIC_BASE_TYPE:
           SPLINE_ASSERT( Yp != nullptr,
-                         "SplineSet::build\nAt spline N. " << spl << " named " << headers[spl] <<
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
                          "\n7th argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
           SPLINE_ASSERT( Yp[spl] != nullptr,
-                         "SplineSet::build\nAt spline N. " << spl << " named " << headers[spl] <<
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
                          "\n7th argument Yp[" << spl << "] argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
           pYp = baseValue( _npts ) ;
           std::copy( Yp[spl], Yp[spl]+npts, pYp ) ; // copy values
         break;
 
+        case QUINTIC_TYPE:
+          pYpp = baseValue( _npts ) ;
         case CUBIC_TYPE:
         case AKIMA_TYPE:
         case BESSEL_TYPE:
         case PCHIP_TYPE:
           pYp = baseValue( _npts ) ;
-        break;
-
         case CONSTANT_TYPE:
         case LINEAR_TYPE:
-        break;
-
         case SPLINE_SET_TYPE:
         break;
       }
@@ -221,19 +225,19 @@ namespace Splines {
 
         case SPLINE_SET_TYPE:
           SPLINE_ASSERT( false,
-                         "SplineSet::build\nAt spline N. " << spl << " named " << headers[spl] <<
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
                          "\nSPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
         break ;
         
         default:
           SPLINE_ASSERT( false,
-                         "SplineSet::build\nAt spline N. " << spl << " named " << headers[spl] <<
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
                          "\ntype " << stype[spl] << " not recognized as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
         break;
       }
       header_to_position[s->name()] = spl ;
     }
-    
+
   }
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
@@ -246,6 +250,7 @@ namespace Splines {
   using GenericContainerNamepace::GC_MAP ;
   using GenericContainerNamepace::GC_MAT_REAL ;
   using GenericContainerNamepace::mat_real_type ;
+  using GenericContainerNamepace::vec_int_type ;
   using GenericContainerNamepace::vec_real_type ;
   using GenericContainerNamepace::vec_string_type ;
   using GenericContainerNamepace::vector_type ;
@@ -266,100 +271,167 @@ namespace Splines {
                    "[SplineSet[" << _name << "]::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
                    gc_spline_type.get_type_name() << "`" ) ;
     vec_string_type const & spline_type_vec = gc_spline_type.get_vec_string() ;
-    sizeType const nspl = sizeType(spline_type_vec.size()) ;
-
-    #ifdef SPLINE_USE_ALLOCA
-    char const ** headers_strs = (char const**)alloca( nspl*sizeof(char const *) ) ;
-    valueType const ** Y       = (valueType const**)alloca( nspl*sizeof(valueType const *) ) ;
-    SplineType * stype         = (SplineType*)alloca( nspl*sizeof(SplineType) ) ;
-    #else
-    char      const * headers_strs[nspl] ;
-    valueType const * Y[nspl] ;
-    SplineType        stype[nspl] ;
-    #endif
-    
-    for ( sizeType i = 0 ; i < nspl ; ++i ) {
-      bool found = false ;
-      sizeType j = 0 ;
-      string n = spline_type_vec[i] ;
-      std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
-      while ( !found && Splines::spline_type[j] != nullptr ) {
-        found = Splines::spline_type[j] == n ;
-        if ( found ) stype[i] = SplineType(j) ;
-        ++j ;
-      }
-      SPLINE_ASSERT( found, "[SplineSet[" << _name << "]::setup] spline type: ``" << spline_type_vec[i] << "'' unknown" ) ;
-    }
+    _nspl = sizeType(spline_type_vec.size()) ;
 
     SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
     GenericContainer const & gc_xdata = gc("xdata") ;
-    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type(),
+    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type() || GC_VEC_INTEGER == gc_xdata.get_type(),
                    "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
                    gc_xdata.get_type_name() << "`" ) ;
-    vec_real_type const & X = gc_xdata.get_vec_real() ;
+    if ( GC_VEC_REAL == gc_xdata.get_type() ) _npts = gc_xdata.get_vec_real().size() ;
+    else                                      _npts = gc_xdata.get_vec_int().size() ;
+
+    vector<SplineType> stype(_nspl) ;
+    vec_string_type    headers(_nspl) ;
+
+    // allocate memory
+    splines.resize(_nspl) ;
+    is_monotone.resize(_nspl) ;
+    indexType mem = _npts ;
+    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
+
+      bool found = false ;
+      sizeType j = 0 ;
+      string n = spline_type_vec[spl] ;
+      std::transform(n.begin(), n.end(), n.begin(), ::tolower) ;
+      while ( !found && Splines::spline_type[j] != nullptr ) {
+        found = Splines::spline_type[j] == n ;
+        if ( found ) stype[spl] = SplineType(j) ;
+        ++j ;
+      }
+      SPLINE_ASSERT( found, "[SplineSet[" << _name << "]::setup] spline type: ``" << spline_type_vec[spl] << "'' unknown" ) ;
+
+      switch (stype[spl]) {
+        case QUINTIC_TYPE:
+          mem += _npts ; // Y, Yp, Ypp
+        case CUBIC_BASE_TYPE:
+        case CUBIC_TYPE:
+        case AKIMA_TYPE:
+        case BESSEL_TYPE:
+        case PCHIP_TYPE:
+          mem += _npts ; // Y, Yp
+        case CONSTANT_TYPE:
+        case LINEAR_TYPE:
+          mem += _npts ;
+        break;
+        default:
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline n. " << spl <<
+                         " named " << headers[spl] <<
+                         " unknwn type = " << stype[spl] ) ;
+        break;
+      }
+    }
+
+    baseValue.allocate( sizeType(mem + 2*_nspl) ) ;
+    basePointer.allocate( sizeType(3*_nspl) ) ;
+
+    _Y    = basePointer(_nspl) ;
+    _Yp   = basePointer(_nspl) ;
+    _Ypp  = basePointer(_nspl) ;
+    _X    = baseValue(_npts) ;
+    _Ymin = baseValue(_nspl) ;
+    _Ymax = baseValue(_nspl) ;
+
+    if ( GC_VEC_REAL == gc_xdata.get_type() ) {
+      vec_real_type const & Xdata = gc_xdata.get_vec_real() ;
+      std::copy( Xdata.begin(), Xdata.end(), _X ) ;
+    } else {
+      vec_int_type const & Xdata = gc_xdata.get_vec_int() ;
+      std::copy( Xdata.begin(), Xdata.end(), _X ) ;
+    }
+
+    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
+      _Yp[spl]  = nullptr ;
+      _Ypp[spl] = nullptr ;
+      switch (stype[spl]) {
+        case QUINTIC_TYPE:
+          _Ypp[spl] = baseValue( _npts ) ;
+        case CUBIC_BASE_TYPE:
+        case CUBIC_TYPE:
+        case AKIMA_TYPE:
+        case BESSEL_TYPE:
+        case PCHIP_TYPE:
+          _Yp[spl] = baseValue( _npts ) ;
+        case CONSTANT_TYPE:
+        case LINEAR_TYPE:
+          _Y[spl] = baseValue( _npts ) ;
+        case SPLINE_SET_TYPE:
+        break;
+      }
+    }
 
     SPLINE_ASSERT( gc.exists("ydata") , "[SplineSet[" << _name << "]::setup] missing `ydata` field!") ;
     GenericContainer const & gc_ydata = gc("ydata") ;
-  
+
     if ( GC_MAT_REAL == gc_ydata.get_type() || GC_VECTOR == gc_ydata.get_type() ) {
       SPLINE_ASSERT( gc.exists("headers"), "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
       GenericContainer const & gc_headers = gc("headers") ;
       SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
                      "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
                      gc_headers.get_type_name() << "`" ) ;
-      vec_string_type const & headers = gc_headers.get_vec_string() ;
-      for ( sizeType i = 0 ; i < nspl ; ++i ) headers_strs[i] = headers[i].c_str() ;
+      vec_string_type const & headers_in = gc_headers.get_vec_string() ;
+      SPLINE_ASSERT( headers_in.size() == _nspl,
+                     "[SplineSet[" << _name << "]::setup] field `headers` expected to be of size " << _nspl <<
+                      " found of size " << headers_in.size() ) ;
+      std::copy( headers_in.begin(), headers_in.end(), headers.begin() ) ;
     }
 
-    sizeType nrow ;
     if ( GC_MAT_REAL == gc_ydata.get_type() ) {
       mat_real_type const & data = gc_ydata.get_mat_real() ;
-      SPLINE_ASSERT( nspl == data.numCols(),
-                     "[SplineSet[" << _name << "]::setup] number of headers [" << nspl <<
-                     "] differs the numeber of columns [" << data.numCols() << "] in data" ) ;
-      for ( sizeType i = 0 ; i < nspl ; ++i ) Y[i] = &data(0,i) ;
-      nrow = data.numRows() ;
+      SPLINE_ASSERT( _nspl == data.numCols(),
+                     "[SplineSet[" << _name << "]::setup] number of headers [" << _nspl <<
+                     "] differs from the number of columns [" << data.numCols() << "] in data" ) ;
+      SPLINE_ASSERT( _npts == data.numRows(),
+                     "[SplineSet[" << _name << "]::setup] number of points [" << _npts <<
+                     "] differs from the numeber of rows [" << data.numCols() << "] in data" ) ;
+      for ( sizeType i = 0 ; i < _nspl ; ++i ) std::copy(&data(0,i),&data(_npts,i),_Y[i]) ;
     } else if ( GC_VECTOR == gc_ydata.get_type() ) {
-      nrow = 0 ;
       vector_type const & data = gc_ydata.get_vector() ;
-      SPLINE_ASSERT( data.size() == nspl,
-                    "[SplineSet[" << _name << "]::setup] field `data` expected of size " << nspl <<
-                    " found of size " << data.size()  ) ;
-      for ( sizeType i = 0 ; i < nspl ; ++i ) {
+      SPLINE_ASSERT( _nspl == data.size(),
+                     "[SplineSet[" << _name << "]::setup] field `data` expected of size " << _nspl <<
+                     " found of size " << data.size()  ) ;
+      for ( sizeType i = 0 ; i < _nspl ; ++i ) {
         GenericContainer const & datai = data[i] ;
         SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
                        "[SplineSet::setup] data[" << i << "] expected to be of type `vec_real_type` found: ` " <<
                         datai.get_type_name() << "`" ) ;
-        Y[i] = &datai.get_vec_real().front() ;
-        sizeType len = sizeType(datai.get_vec_real().size()) ;
-        if ( i == 0 ) {
-          nrow = len ;
+        sizeType nrow = _npts ;
+        if ( stype[i] == CONSTANT_TYPE ) --nrow ; // constant spline uses n-1 points
+        if ( GC_VEC_REAL == datai.get_type() ) {
+          vec_real_type const & yi = datai.get_vec_real() ;
+          SPLINE_ASSERT( yi.size() >= nrow,
+                         "[SplineSet::setup] data[" << i << "] expected to be of size >= " << nrow << 
+                         " found of size " << yi.size() ) ;
+          std::copy( yi.begin(), yi.begin() + nrow, _Y[i] ) ;
         } else {
-          if ( stype[i] == CONSTANT_TYPE ) ++len ; // constant spline uses n-1 points
-          if ( nrow > len ) nrow = len ;
+          vec_int_type const & yi = datai.get_vec_int() ;
+          SPLINE_ASSERT( yi.size() >= nrow,
+                         "[SplineSet::setup] data[" << i << "] expected to be of size >= " << nrow << 
+                         " found of size " << yi.size() ) ;
+          std::copy( yi.begin(), yi.begin() + nrow, _Y[i] ) ;
         }
       }
     } else if ( GC_MAP == gc_ydata.get_type() ) {
-      nrow = 0 ;
       map_type const & data = gc_ydata.get_map() ;
-      SPLINE_ASSERT( data.size() == nspl,
-                    "[SplineSet[" << _name << "]::setup] field `data` expected of size " << nspl <<
+      SPLINE_ASSERT( data.size() == _nspl,
+                    "[SplineSet[" << _name << "]::setup] field `data` expected of size " << _nspl <<
                     " found of size " << data.size() ) ;
-                    
       map_type::const_iterator im = data.begin() ;
       for ( sizeType spl = 0 ; im != data.end() ; ++im, ++spl ) {
-        headers_strs[spl] = im->first.c_str() ;
+        headers[spl] = im->first ;
         GenericContainer const & datai = im->second ;
         SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
-                       "[SplineSet::setup] data[" << spl << "] expected to be of type `vec_real_type` found: ` " <<
+                       "[SplineSet::setup] ydata[" << spl << "] expected to be of type `vec_real_type` found: `" <<
                         datai.get_type_name() << "`" ) ;
-        Y[spl] = &datai.get_vec_real().front() ;
-        sizeType len = sizeType(datai.get_vec_real().size()) ;
-        if ( spl == 0 ) {
-          nrow = len ;
+        sizeType nrow = _npts ;
+        if ( stype[spl] == CONSTANT_TYPE ) --nrow ; // constant spline uses n-1 points
+        if ( GC_VEC_REAL == datai.get_type() ) {
+          vec_real_type const & yi = datai.get_vec_real() ;
+          std::copy( yi.begin(), yi.begin() + nrow, _Y[spl] ) ;
         } else {
-          if ( stype[spl] == CONSTANT_TYPE ) ++len ; // constant spline uses n-1 points
-          if ( nrow > len ) nrow = len ;
+          vec_int_type const & yi = datai.get_vec_int() ;
+          std::copy( yi.begin(), yi.begin() + nrow, _Y[spl] ) ;
         }
       }
     } else {
@@ -368,14 +440,97 @@ namespace Splines {
                       gc_ydata.get_type_name() << "`" ) ;
     }
 
-    build( nspl,
-           nrow,
-           headers_strs,
-           stype,
-           &X.front(),
-           Y,
-           nullptr ) ;
+    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
 
+      valueType *& pY   = _Y[spl] ;
+      valueType *& pYp  = _Yp[spl] ;
+      valueType *& pYpp = _Ypp[spl] ;
+
+      sizeType nrow = _npts ;
+      if ( stype[spl] == CONSTANT_TYPE ) --nrow ; // constant spline uses n-1 points
+      _Ymin[spl] = *std::min_element( pY,pY+nrow ) ;
+      _Ymax[spl] = *std::max_element( pY,pY+nrow ) ;        
+
+      string h = headers[spl] ;
+      Spline * & s = splines[spl] ;
+      
+      is_monotone[spl] = -1 ;
+      switch (stype[spl]) {
+        case CONSTANT_TYPE:
+          s = new ConstantSpline(h) ;
+          static_cast<ConstantSpline*>(s)->reserve_external( _npts, _X, pY ) ;
+          static_cast<ConstantSpline*>(s)->build( _X, pY, _npts ) ;
+        break;
+
+        case LINEAR_TYPE:
+          s = new LinearSpline(h) ;
+          static_cast<LinearSpline*>(s)->reserve_external( _npts, _X, pY ) ;
+          static_cast<LinearSpline*>(s)->build( _X, pY, _npts ) ;
+          // check monotonicity of data
+          { indexType flag = 1 ;
+            for ( sizeType j = 1 ; j < _npts ; ++j ) {
+              if ( pY[j-1] > pY[j] ) { flag = -1 ; break ; } // non monotone data
+              if ( pY[j-1] == pY[j] && _X[j-1] < _X[j] ) flag = 0 ; // non strict monotone
+            }
+            is_monotone[spl] = flag ;
+          }
+        break;
+
+        case CUBIC_BASE_TYPE:
+          s = new CubicSplineBase(h) ;
+          static_cast<CubicSplineBase*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
+          static_cast<CubicSplineBase*>(s)->build( _X, pY, pYp, _npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        break;
+
+        case CUBIC_TYPE:
+          s = new CubicSpline(h) ;
+          static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
+          static_cast<CubicSpline*>(s)->build( _X, pY, _npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        break;
+
+        case AKIMA_TYPE:
+          s = new AkimaSpline(h) ;
+          static_cast<AkimaSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
+          static_cast<AkimaSpline*>(s)->build( _X, pY, _npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        break ;
+
+        case BESSEL_TYPE:
+          s = new BesselSpline(h) ;
+          static_cast<BesselSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
+          static_cast<BesselSpline*>(s)->build( _X, pY, _npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        break ;
+
+        case PCHIP_TYPE:
+          s = new PchipSpline(h) ;
+          static_cast<PchipSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
+          static_cast<PchipSpline*>(s)->build( _X, pY, _npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        break ;
+
+        case QUINTIC_TYPE:
+          s = new QuinticSpline(h) ;
+          static_cast<QuinticSpline*>(s)->reserve_external( _npts, _X, pY, pYp, pYpp ) ;
+          static_cast<QuinticSpline*>(s)->build( _X, pY, _npts ) ;
+        break;
+
+        case SPLINE_SET_TYPE:
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
+                         "\nSPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
+        break ;
+        
+        default:
+          SPLINE_ASSERT( false,
+                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
+                         "\ntype " << stype[spl] << " not recognized as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
+        break;
+      }
+      header_to_position[s->name()] = spl ;
+    }
   }
   #endif
 

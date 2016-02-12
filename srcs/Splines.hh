@@ -329,7 +329,7 @@ namespace Splines {
     build (void) = 0 ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) = 0 ;
+    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -525,7 +525,7 @@ namespace Splines {
     {} ; // nothing to do for CubicSplineBase
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup( GenericContainer const & gc ) ;
+    void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -671,7 +671,6 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -718,7 +717,6 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -760,7 +758,6 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -808,7 +805,6 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -888,7 +884,6 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -1010,7 +1005,6 @@ namespace Splines {
     {}
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -1240,7 +1234,6 @@ namespace Splines {
     build (void) ;
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
 
@@ -1264,12 +1257,12 @@ namespace Splines {
   protected:
 
     string const _name ;
-    
-    sizeType _npts ;
-    sizeType _nspl ;
 
     Malloc<valueType>  baseValue ;
     Malloc<valueType*> basePointer ;
+    
+    sizeType _npts ;
+    sizeType _nspl ;
 
     valueType *  _X ;
     valueType ** _Y ;
@@ -1297,6 +1290,8 @@ namespace Splines {
     : _name(name)
     , baseValue(name+"_values")
     , basePointer(name+"_pointers")
+    , _npts(0)
+    , _nspl(0)
     , _X(nullptr)
     , _Y(nullptr)
     , _Yp(nullptr)
@@ -1499,6 +1494,8 @@ namespace Splines {
 
     //! Get info of splines collected
     void info( std::basic_ostream<char> & s ) const ;
+    
+    void dump_table( std::basic_ostream<char> & s, sizeType num_points ) const ;
 
   } ;
 

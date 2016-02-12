@@ -97,45 +97,5 @@ namespace Splines {
     SPLINE_CHECK_NAN(Yp, "QuinticSpline::build(): Yp",npts);
     SPLINE_CHECK_NAN(Ypp,"QuinticSpline::build(): Ypp",npts);
   }
-  
-  /*
-  //    ____  ____   ____                               _
-  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
-  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
-  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
-  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
-  //                            |_|   |_|
-  */
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
-  
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_INTEGER ;
-
-  void
-  QuinticSpline::setup( GenericContainer const & gc ) {
-    /*
-    // gc["x"]
-    // gc["y"]
-    //
-    */
-    SPLINE_ASSERT( gc.exists("x"), "[QuinticSpline[" << _name << "]::setup] missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[QuinticSpline[" << _name << "]::setup] missing `y` field!") ;
-  
-    GenericContainer const & gc_x = gc("x") ;
-    GenericContainer const & gc_y = gc("y") ;
-
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_x.get_type() ||
-                   GC_VEC_INTEGER == gc_x.get_type(),
-                   "[QuinticSpline[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
-                   gc_x.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_y.get_type() ||
-                   GC_VEC_INTEGER == gc_y.get_type(),
-                   "[QuinticSpline[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
-                   gc_y.get_type_name() << "`" ) ;
-
-    build( gc_x.get_vec_real(), gc_y.get_vec_real() ) ;
-  }
-  #endif
 
 }
