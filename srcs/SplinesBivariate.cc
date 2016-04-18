@@ -48,9 +48,9 @@ namespace Splines {
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
   
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_INTEGER ;
-  using GenericContainerNamepace::GC_MAT_REAL ;
+  using GenericContainerNamespace::GC_VEC_REAL ;
+  using GenericContainerNamespace::GC_VEC_INTEGER ;
+  using GenericContainerNamespace::GC_MAT_REAL ;
 
   void
   SplineSurf::setup( GenericContainer const & gc ) {

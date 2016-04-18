@@ -156,7 +156,7 @@ namespace Splines {
   extern char const *spline_type[] ;
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
-  using GenericContainerNamepace::GenericContainer ;
+  using GenericContainerNamespace::GenericContainer ;
   #endif
 
   pair<int,int>

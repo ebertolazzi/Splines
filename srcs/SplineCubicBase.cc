@@ -72,10 +72,10 @@ namespace Splines {
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
 
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_INTEGER ;
-  using GenericContainerNamepace::vec_int_type ;
-  using GenericContainerNamepace::vec_real_type ;
+  using GenericContainerNamespace::GC_VEC_REAL ;
+  using GenericContainerNamespace::GC_VEC_INTEGER ;
+  using GenericContainerNamespace::vec_int_type ;
+  using GenericContainerNamespace::vec_real_type ;
 
   void
   CubicSplineBase::setup( GenericContainer const & gc ) {
