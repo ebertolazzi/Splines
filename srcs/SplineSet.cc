@@ -242,20 +242,19 @@ namespace Splines {
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
 
-  using GenericContainerNamepace::GC_INTEGER ;
-  using GenericContainerNamepace::GC_VEC_BOOL ;
-  using GenericContainerNamepace::GC_VEC_INTEGER ;
-  using GenericContainerNamepace::GC_VEC_REAL ;
-  using GenericContainerNamepace::GC_VEC_STRING ;
-  using GenericContainerNamepace::GC_VECTOR ;
-  using GenericContainerNamepace::GC_MAP ;
-  using GenericContainerNamepace::GC_MAT_REAL ;
-  using GenericContainerNamepace::mat_real_type ;
-  using GenericContainerNamepace::vec_int_type ;
-  using GenericContainerNamepace::vec_real_type ;
-  using GenericContainerNamepace::vec_string_type ;
-  using GenericContainerNamepace::vector_type ;
-  using GenericContainerNamepace::map_type ;
+  using GenericContainerNamespace::GC_INTEGER ;
+  using GenericContainerNamespace::GC_VEC_INTEGER ;
+  using GenericContainerNamespace::GC_VEC_REAL ;
+  using GenericContainerNamespace::GC_VEC_STRING ;
+  using GenericContainerNamespace::GC_VECTOR ;
+  using GenericContainerNamespace::GC_MAP ;
+  using GenericContainerNamespace::GC_MAT_REAL ;
+  using GenericContainerNamespace::mat_real_type ;
+  using GenericContainerNamespace::vec_int_type ;
+  using GenericContainerNamespace::vec_real_type ;
+  using GenericContainerNamespace::vec_string_type ;
+  using GenericContainerNamespace::vector_type ;
+  using GenericContainerNamespace::map_type ;
 
   void
   SplineSet::setup( GenericContainer const & gc ) {
