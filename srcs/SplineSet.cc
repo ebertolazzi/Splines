@@ -243,6 +243,7 @@ namespace Splines {
   #ifdef SPLINES_USE_GENERIC_CONTAINER
 
   using GenericContainerNamespace::GC_INTEGER ;
+  using GenericContainerNamespace::GC_VEC_BOOL ;
   using GenericContainerNamespace::GC_VEC_INTEGER ;
   using GenericContainerNamespace::GC_VEC_REAL ;
   using GenericContainerNamespace::GC_VEC_STRING ;
