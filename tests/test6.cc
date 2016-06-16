@@ -17,6 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
+#include "GenericContainer.hh"
 #include "Splines.hh"
 #include <fstream>
 
@@ -28,7 +29,7 @@ using Splines::sizeType ;
 
 // monotone
 valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
-valueType yy[] = { 0, 1, 1.1, 2.0, 2.1 } ;
+valueType yy[] = { 0, 1, 1.99, 2.0, 2.1 } ;
 
 sizeType  n = 5 ;
 
@@ -46,50 +47,63 @@ main() {
   valueType xmin = xx[0] ;
   valueType xmax = xx[n-1] ;
 
-  indexType nspl = 8 ;
-  indexType npts = n ;
+  sizeType  nspl = 8 ;
+  sizeType  npts = n ;
   valueType val[8], val_D[8] ;
 
   char const *headers[] = {
-    "SPLINE_CONSTANT",
-    "SPLINE_LINEAR",
-    "SPLINE_CUBIC_BASE",
-    "SPLINE_CUBIC",
-    "SPLINE_AKIMA",
-    "SPLINE_BESSEL",
-    "SPLINE_PCHIP",
-    "SPLINE_QUINTIC"
-  } ;
-    
-  SplineType const stype[] = {
-    Splines::CONSTANT_TYPE,
-    Splines::LINEAR_TYPE,
-    Splines::CUBIC_BASE_TYPE,
-    Splines::CUBIC_TYPE,
-    Splines::AKIMA_TYPE,
-    Splines::BESSEL_TYPE,
-    Splines::PCHIP_TYPE,
-    Splines::QUINTIC_TYPE
+    "constant",
+    "linear",
+    "cubic", // "cubic base"
+    "cubic",
+    "akima",
+    "bessel",
+    "pchip",
+    "quintic"
   } ;
 
   std::vector<valueType> YpZero(npts) ;
   std::fill(YpZero.begin(), YpZero.end(), 0 ) ;
 
   valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy, yy } ;
-  valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr } ;
+  //valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr } ;
 
-  ss.build( nspl, npts, headers, stype, xx, Y, Yp ) ;
+  GC::GenericContainer gc ;
+
+  GC::vec_string_type & t = gc["spline_type"].set_vec_string() ;
+  GC::vec_string_type & h = gc["headers"].set_vec_string() ;
+  t.resize(nspl) ;
+  h.resize(nspl) ;
+  std::copy( headers, headers+nspl, h.begin() ) ;
+  std::copy( headers, headers+nspl, t.begin() ) ;
+
+  GC::vector_type & data = gc["ydata"].set_vector() ;
+  data.resize(nspl) ;
+  for ( sizeType i = 0 ; i < nspl ; ++i ) {
+    GC::GenericContainer & di = data[i] ;
+    GC::vec_real_type    & v  = di.set_vec_real() ;
+    v.resize(npts) ;
+    std::copy( Y[i], Y[i]+npts, v.begin() ) ;
+  }
+
+  GC::vec_real_type & xdata = gc["xdata"].set_vec_real() ;
+  xdata.resize(npts) ;
+  std::copy( xx, xx+npts, xdata.begin() ) ;
+
+  ss.build( gc ) ; // nspl, npts, headers, stype, xx, Y, Yp ) ;
   ss.info(cout) ;
 
   file   << "x" ;
   file_D << "x" ;
-  for ( indexType i = 0 ; i < nspl ; ++i ) {
+  for ( sizeType i = 0 ; i < nspl ; ++i ) {
     file   << '\t' << ss.header(i) ;
     file_D << '\t' << ss.header(i) ;
   }
   file   << '\n' ;
   file_D << '\n' ;
-  for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) {
+  for ( valueType x = xmin-(xmax-xmin)*0.01 ;
+        x <= xmax+(xmax-xmin)*0.01 ;
+        x += (xmax-xmin)/1000 ) {
     file   << x ;
     file_D << x ;
     ss.eval( x, val ) ;
@@ -110,7 +124,7 @@ main() {
 
   fileR   << "x" ;
   fileR_D << "x" ;
-  for ( indexType i = 0 ; i < nspl ; ++i ) {
+  for ( sizeType i = 0 ; i < nspl ; ++i ) {
     fileR   << '\t' << ss.header(i) ;
     fileR_D << '\t' << ss.header(i) ;
   }

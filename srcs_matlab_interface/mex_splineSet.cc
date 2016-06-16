@@ -43,11 +43,11 @@ using Splines::sizeType ;
 #define out_DP          plhs[1]
 #define out_DDP         plhs[2]
 
-#define ASSERT(COND,MSG)                 \
-  if ( !(COND) ) {                       \
-    std::ostringstream ost ;             \
-    ost << "spline2d: " << MSG << '\n' ; \
-    mexErrMsgTxt(ost.str().c_str()) ;    \
+#define ASSERT(COND,MSG)                  \
+  if ( !(COND) ) {                        \
+    std::ostringstream ost ;              \
+    ost << "splineSet: " << MSG << '\n' ; \
+    mexErrMsgTxt(ost.str().c_str()) ;     \
   }
 
 static
@@ -56,26 +56,25 @@ mexErrorMessage() {
   // Check for proper number of arguments, etc
   mexErrMsgTxt(
 "%======================================================================%\n"
-"% spline1d:  Compute spline curve                                      %\n"
+"% splineSet:  Compute spline curve set                                 %\n"
 "%                                                                      %\n"
-"% USAGE: spline1d( 'name', kind, X, Y ) ;                              %\n"
-"%        pp         = spline1d( kind, X, Y ) ;                         %\n"
-"%        P          = spline1d( 'name', X ) ;                          %\n"
-"%        [P,DP]     = spline1d( 'name', X ) ;                          %\n"
-"%        [P,DP,DDP] = spline1d( 'name', X ) ;                          %\n"
+"% USAGE: splineSet( 'name', kinds, X, Y ) ;                            %\n"
+"%        P          = splineSet( 'name', X ) ;                         %\n"
+"%        [P,DP]     = splineSet( 'name', X ) ;                         %\n"
+"%        [P,DP,DDP] = splineSet( 'name', X ) ;                         %\n"
 "%                                                                      %\n"
 "% On input:                                                            %\n"
 "%                                                                      %\n"
-"%  kind = string with the kind of spline, any of:                      %\n"
+"%  kinds = cell of strings with the kind of spline, any of:            %\n"
 "%         'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'     %\n"
 "%  X = vector of X coordinates                                         %\n"
-"%  Y = vector of Y coordinates                                         %\n"
+"%  Y = matrix of dimension length(X) x NSPL with Y coordinates         %\n"
 "%                                                                      %\n"
 "% On output:                                                           %\n"
 "%                                                                      %\n"
-"%  P   = vector of Y values                                            %\n"
-"%  DP  = vector of dimension size(X) with derivative                   %\n"
-"%  DDP = vector of dimension size(X) with second derivative            %\n"
+"%  P   = matrix of dimension size(X) x NSPL with Y values              %\n"
+"%  DP  = matrix of dimension size(X) x NSPL with derivative            %\n"
+"%  DDP = matrix of dimension size(X) x NSPL with second derivative     %\n"
 "%                                                                      %\n"
 "%======================================================================%\n"
 "%                                                                      %\n"
@@ -92,7 +91,7 @@ void
 mexFunction( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
 
-  static std::map<string,Splines::Spline*> pSplines ;
+  static std::map<string,Splines::SplineSet*> pSplineSet ;
 
   // the first argument must be a string
 
@@ -101,29 +100,38 @@ mexFunction( int nlhs, mxArray       *plhs[],
 
   if ( nrhs == 4 ) { // setup
 
-    ASSERT( mxIsChar(arg_spline_type), "Second argument expected to be a string" ) ;
-
-    string tname = mxArrayToString(arg_spline_type) ;
-    
-    Splines::Spline* p_spline = nullptr ;
-
-    if ( tname == "linear" ) {
-      p_spline = new Splines::LinearSpline() ;
-    } else if ( tname == "cubic" ) {
-      p_spline = new Splines::CubicSpline() ;
-    } else if ( tname == "akima" ) {
-      p_spline = new Splines::AkimaSpline() ;
-    } else if ( tname == "bessel" ) {
-      p_spline = new Splines::BesselSpline() ;
-    } else if ( tname == "pchip" ) {
-      p_spline = new Splines::PchipSpline() ;
-    } else if ( tname == "quintic" ) {
-      p_spline = new Splines::QuinticSpline() ;
+    // check if spline exists
+    std::map<string,Splines::SplineSet*>::iterator it = pSplineSet.find(sname) ;
+    Splines::SplineSet * p_spline_set ;
+    if ( it != pSplineSet.end() ) {
+      p_spline_set = pSplineSet[sname] = new SplineSet() ;
     } else {
-      ASSERT(false,"Second argument must be one of the strings:\n" <<
-             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" ) ;
+      p_spline_set = it->second ;
+    };
+
+    ASSERT( mxIsCell(arg_spline_type), "Second argument expected to be cell array" ) ;
+    mwSize const *dims = mxGetDimensions(arg_spline_type) ;
+    mwSize nspl = dims[0] ;
+    std::vector<Splines::SplineType> types ;
+    types.reserve(nspl) ;
+    for ( mwSize i = 0 ; i < nspl ; ++i ) {
+      mxArray const * cell = mxGetCell(arg_spline_type,i);
+      ASSERT( mxIsChar(cell),
+              "Second argument expected to be cell array of strings" ) ;
+      string tname = mxArrayToString(cell) ;
+      Splines::SplineType st ;
+      if      ( tname == "linear"  ) st = Splines::LINEAR_TYPE ;
+      else if ( tname == "cubic"   ) st = Splines::CUBIC_TYPE ;
+      else if ( tname == "akima"   ) st = Splines::AKIMA_TYPE ;
+      else if ( tname == "bessel"  ) st = Splines::BESSEL_TYPE ;
+      else if ( tname == "pchip"   ) st = Splines::PCHIP_TYPE ;
+      else if ( tname == "quintic" ) st = Splines::QUINTIC_TYPE ;
+      else {
+        ASSERT(false, "Cell array of strings must contains the strings:\n" <<
+                      "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" ) ;
+      }
+      types.push_back(st) ;
     }
-    pSplines[sname] = p_spline ;
 
     mxArray const * arg_x = prhs[2] ;
     mxArray const * arg_y = prhs[3] ;
@@ -133,84 +141,29 @@ mexFunction( int nlhs, mxArray       *plhs[],
     mwSize const * dims_x = mxGetDimensions(arg_x) ;
     ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] ) ;
     double const * x = mxGetPr(arg_x) ;
-    sizeType  nx = dims_x[0]*dims_x[1] ;
+    sizeType npts = dims_x[0]*dims_x[1] ;
 
     number_of_dimensions = mxGetNumberOfDimensions(arg_y) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as 4th argument" ) ;
+    ASSERT( number_of_dimensions == 2, "Expect matrix as 4th argument" ) ;
     mwSize const * dims_y = mxGetDimensions(arg_y) ;
-    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] ) ;
-    double const * y = mxGetPr(arg_y) ;
-    sizeType  ny = dims_y[0]*dims_y[1] ;
-
-    ASSERT( nx == ny, "lenght of third and fourth argument mut be the same" ) ;
-
-    p_spline -> build( x, y, nx ) ;
-
-  } else if ( nrhs == 3 ) { // eval
-
-    Splines::Spline* p_spline = nullptr ;
-
-    if ( sname == "linear" ) {
-      p_spline = new Splines::LinearSpline() ;
-    } else if ( sname == "cubic" ) {
-      p_spline = new Splines::CubicSpline() ;
-    } else if ( sname == "akima" ) {
-      p_spline = new Splines::AkimaSpline() ;
-    } else if ( sname == "bessel" ) {
-      p_spline = new Splines::BesselSpline() ;
-    } else if ( sname == "pchip" ) {
-      p_spline = new Splines::PchipSpline() ;
-    } else if ( sname == "quintic" ) {
-      p_spline = new Splines::QuinticSpline() ;
-    } else {
-      ASSERT(false,"Second argument must be one of the strings:\n" <<
-             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" ) ;
-    }
-    pSplines[sname] = p_spline ;
-
-    mxArray const * arg_x = prhs[1] ;
-    mxArray const * arg_y = prhs[2] ;
-
-    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as second argument" ) ;
-    mwSize const * dims_x = mxGetDimensions(arg_x) ;
-    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] ) ;
-    double const * x = mxGetPr(arg_x) ;
-    sizeType nx = dims_x[0]*dims_x[1] ;
-
-    number_of_dimensions = mxGetNumberOfDimensions(arg_y) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as third argument" ) ;
-    mwSize const * dims_y = mxGetDimensions(arg_y) ;
-    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] ) ;
+    ASSERT( dims_y[0] == npts || dims_y[1] == nspl,
+            "Expect (" << nx << " x " << nspl << " matrix as 4th argument, found " <<
+            dims_y[0] << " x " << dims_y[1] ) ;
     double const * y = mxGetPr(arg_y) ;
     sizeType ny = dims_y[0]*dims_y[1] ;
 
-    ASSERT( nx == ny, "lenght of third and fourth argument must be the same" ) ;
-
-    p_spline -> build( x, y, nx ) ;
-
-    static char const *fieldnames[] = {
-      "form", "breaks", "coefs", "pieces", "order", "dim"
-    } ;
-    int nfield = 6 ;
-    plhs[0] = mxCreateStructMatrix(1,1,nfield,fieldnames);
- 
-    mxArray * mx_nodes = mxCreateNumericMatrix(1, nx, mxDOUBLE_CLASS, mxREAL);
-    valueType  * nodes = mxGetPr(mx_nodes) ;
-
-    mxArray * mx_coeffs = mxCreateNumericMatrix(nx-1, p_spline -> order(), mxDOUBLE_CLASS, mxREAL);
-    valueType     * cfs = mxGetPr(mx_coeffs) ;
-
-    p_spline -> coeffs( cfs, nodes, false ) ;
-
-    mxSetFieldByNumber( plhs[0], 0, 0, mxCreateString( "pp" ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 1, mx_nodes ) ;
-    mxSetFieldByNumber( plhs[0], 0, 2, mx_coeffs ) ;
-    mxSetFieldByNumber( plhs[0], 0, 3, mxCreateDoubleScalar( nx-1 ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 4, mxCreateDoubleScalar( p_spline -> order() ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 5, mxCreateDoubleScalar( 1 ) ) ;
+    ASSERT( nx == ny, "lenght of third and fourth argument mut be the same" ) ;
     
-    delete p_spline ;
+    std::vector<char const *>   headers ;
+    std::vector<double const **> Y ;
+    headers.reserve(nspl) ;
+    pY.reserve(nspl) ;
+    for ( mwSize i = 0 ; i < nspl ; ++i ) {
+      headers.push_back() ;
+      pY.push_back(y+i*npts) ;
+    }
+    p_spline_set -> build ( nspl, npts, &headers.front(), &types.front(),
+                            x, &Y.front(), nullptr ) ;
 
   } else if ( nrhs == 2 ) { // eval
 

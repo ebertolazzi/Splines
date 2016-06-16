@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998-2014                                                 |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -54,9 +54,6 @@ namespace Splines {
     npts = lastInterval = 0 ;
   }
 
-  //void
-  //LinearSpline::pushBack( valueType x, valueType y )
-
   void
   LinearSpline::build ( valueType const x[], sizeType incx,
                         valueType const y[], sizeType incy,
@@ -75,16 +72,6 @@ namespace Splines {
     reserve( n ) ;
     std::copy( x, x+n, X );
     std::copy( y, y+n, Y );
-    npts = n ;
-    build() ;
-  }
-
-  void
-  LinearSpline::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType(min( x.size(), y.size() )) ;
-    reserve( n ) ;
-    std::copy( x.begin(), x.begin()+n, X );
-    std::copy( y.begin(), y.begin()+n, Y );
     npts = n ;
     build() ;
   }

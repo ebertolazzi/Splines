@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998-2014                                                 |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -77,18 +77,6 @@ namespace Splines {
     reserve( n ) ;
     for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i] ;
     for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i] ; // ultimo y ignorato
-    npts = n ;
-    build() ;
-  }
-
-  void
-  ConstantSpline::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType( y.size() > x.size() ? y.size()-1 : x.size() ) ;
-    reserve( n ) ;
-    if ( n > 0 ) {
-      std::copy( x.begin(), x.begin()+n,   X );
-      std::copy( y.begin(), y.begin()+n-1, Y );
-    }
     npts = n ;
     build() ;
   }

@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998                                                      |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -51,14 +51,14 @@ namespace Splines {
   SplineSet::dump_table( std::basic_ostream<char> & stream, sizeType num_points ) const {
     vector<valueType> vals ;
     stream << 's' ;
-    for ( indexType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << header(i) ;
+    for ( sizeType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << header(i) ;
     stream << '\n' ;
   
     for ( sizeType j = 0 ; j < num_points ; ++j ) {
       valueType s = xMin() + ((xMax()-xMin())*j)/(num_points-1) ;
       this->eval( s, vals ) ;
       stream << s ;
-      for ( indexType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << vals[i] ;
+      for ( sizeType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << vals[i] ;
       stream << '\n' ;
     }
   }
@@ -66,7 +66,7 @@ namespace Splines {
   sizeType
   SplineSet::getPosition( char const * hdr ) const {
     map<string,sizeType>::const_iterator it = header_to_position.find(hdr) ;
-    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(" << hdr << ") not found!" ) ;
+    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(\"" << hdr << "\") not found!" ) ;
     return it->second ;
   }
 
@@ -186,35 +186,35 @@ namespace Splines {
           s = new CubicSplineBase(h) ;
           static_cast<CubicSplineBase*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<CubicSplineBase*>(s)->build( _X, pY, pYp, _npts ) ;
-          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break;
 
         case CUBIC_TYPE:
           s = new CubicSpline(h) ;
           static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<CubicSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break;
 
         case AKIMA_TYPE:
           s = new AkimaSpline(h) ;
           static_cast<AkimaSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<AkimaSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break ;
 
         case BESSEL_TYPE:
           s = new BesselSpline(h) ;
           static_cast<BesselSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<BesselSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break ;
 
         case PCHIP_TYPE:
           s = new PchipSpline(h) ;
           static_cast<PchipSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
           static_cast<PchipSpline*>(s)->build( _X, pY, _npts ) ;
-          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, npts ) ;
+          is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break ;
 
         case QUINTIC_TYPE:
@@ -243,6 +243,7 @@ namespace Splines {
   #ifdef SPLINES_USE_GENERIC_CONTAINER
 
   using GenericContainerNamepace::GC_INTEGER ;
+  using GenericContainerNamepace::GC_VEC_BOOL ;
   using GenericContainerNamepace::GC_VEC_INTEGER ;
   using GenericContainerNamepace::GC_VEC_REAL ;
   using GenericContainerNamepace::GC_VEC_STRING ;
@@ -278,8 +279,9 @@ namespace Splines {
     SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type() || GC_VEC_INTEGER == gc_xdata.get_type(),
                    "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
                    gc_xdata.get_type_name() << "`" ) ;
-    if ( GC_VEC_REAL == gc_xdata.get_type() ) _npts = gc_xdata.get_vec_real().size() ;
-    else                                      _npts = gc_xdata.get_vec_int().size() ;
+
+    _npts = sizeType( GC_VEC_REAL == gc_xdata.get_type() ?
+                      gc_xdata.get_vec_real().size() : gc_xdata.get_vec_int().size() ) ;
 
     vector<SplineType> stype(_nspl) ;
     vec_string_type    headers(_nspl) ;
@@ -287,7 +289,7 @@ namespace Splines {
     // allocate memory
     splines.resize(_nspl) ;
     is_monotone.resize(_nspl) ;
-    indexType mem = _npts ;
+    sizeType mem = _npts ;
     for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
 
       bool found = false ;
@@ -421,7 +423,9 @@ namespace Splines {
       for ( sizeType spl = 0 ; im != data.end() ; ++im, ++spl ) {
         headers[spl] = im->first ;
         GenericContainer const & datai = im->second ;
-        SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
+        SPLINE_ASSERT( GC_VEC_REAL    == datai.get_type() ||
+                       GC_VEC_INTEGER == datai.get_type() ||
+                       GC_VEC_BOOL    == datai.get_type(),
                        "[SplineSet::setup] ydata[" << spl << "] expected to be of type `vec_real_type` found: `" <<
                         datai.get_type_name() << "`" ) ;
         sizeType nrow = _npts ;

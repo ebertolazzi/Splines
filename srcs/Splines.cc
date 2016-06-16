@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998                                                      |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -38,7 +38,39 @@
 
 //! Various kind of splines
 namespace Splines {
- 
+
+  using std::abs ;
+
+  // cbrt is not available on WINDOWS? or C++ < C++11?
+  #ifdef _MSC_VER
+    #if _MSC_VER >= 1700
+      #include <amp_math.h>
+      using Concurrency::precise_math::cbrt ;
+      using Concurrency::precise_math::sqrt ;
+      using Concurrency::precise_math::pow ;
+    #else
+      using std::sqrt ;
+      using std::pow ;
+      static
+      inline
+      valueType
+      cbrt( valueType x )
+      { return pow( x, 1.0/3.0 ) ; }
+    #endif
+  #else
+    using std::sqrt ;
+    using std::pow ;
+    #if __cplusplus <= 199711L
+      static
+      inline
+      valueType
+      cbrt( valueType x )
+      { return pow( x, 1.0/3.0 ) ; }
+    #else
+      using std::pow ;
+    #endif
+  #endif
+
   char const * spline_type[] = {
     "constant",    // 0
     "linear",      // 1
@@ -49,22 +81,9 @@ namespace Splines {
     "pchip",       // 6
     "quintic",     // 7
     "spline set",  // 8
+    "b-spline",    // 9 PER ORA IN CODA
     nullptr
   } ;
-
-  using std::abs ;
-  using std::sqrt ;
-
-  #if defined(_MSC_VER) || __cplusplus <= 199711L
-  // cbrt is not available on WINDOWS? or C++ < C++11?
-  static
-  inline
-  valueType
-  cbrt( valueType x )
-  { return pow( x, 1.0/3.0 ) ; }
-  #else
-  using std::cbrt ;
-  #endif
 
   static valueType const machineEps = std::numeric_limits<valueType>::epsilon() ;
   static valueType const m_2pi      = 6.28318530717958647692528676656  ; // 2*pi
@@ -249,7 +268,7 @@ namespace Splines {
   checkCubicSplineMonotonicity( valueType const X[],
                                 valueType const Y[],
                                 valueType const Yp[],
-                                indexType       npts ) {
+                                sizeType        npts ) {
     // check monotonicity of data: (assuming X monotone)
     indexType flag = 1 ;
     for ( indexType i = 1 ; i < npts ; ++i ) {

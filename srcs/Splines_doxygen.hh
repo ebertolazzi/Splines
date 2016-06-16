@@ -50,8 +50,14 @@ either expressed or implied, of the FreeBSD Project.
 \mainpage  Splines
 \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
 \version   1.0.0
-\date      2013
+\note      first release Jan 12, 1998
+\date      2016
 \copyright GNU Public License.
+\par       Affiliation:
+           Department of Industrial Engineering<br>
+           University of Trento<br>
+           Via Sommarive 9, I -- 38123 Trento, Italy <br>
+           enrico.bertolazzi@unitn.it
 
 \details
 

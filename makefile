@@ -77,6 +77,5 @@ doc:
 	
 clean:
 	rm -f lib/libSplines.a lib/libSplines.dylib lib/libSplines.so srcs/*.o
-	rm -f tests/test1
 	rm -rf bin
 	

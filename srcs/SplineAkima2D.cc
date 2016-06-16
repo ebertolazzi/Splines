@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998                                                      |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -103,8 +103,8 @@ namespace Splines {
   // 0 1 2 3 (4) 5 6 7 8
   static
   void
-  AkimaSmooth( valueType const X[9], int imin, int imax,
-               valueType const Y[9], int jmin, int jmax,
+  AkimaSmooth( valueType const X[9], sizeType imin, sizeType imax,
+               valueType const Y[9], sizeType jmin, sizeType jmax,
                valueType const Z[9][9],
                valueType & DX,
                valueType & DY,
@@ -256,8 +256,8 @@ namespace Splines {
     DY.resize(Z.size()) ;
     DXY.resize(Z.size()) ;
     // calcolo derivate
-    int nx = int(X.size()) ;
-    int ny = int(Y.size()) ;
+    sizeType nx = sizeType(X.size()) ;
+    sizeType ny = sizeType(Y.size()) ;
     
     std::fill(DX.begin(),DX.end(),0) ;
     std::fill(DY.begin(),DY.end(),0) ;
@@ -265,32 +265,32 @@ namespace Splines {
     
     valueType x_loc[9], y_loc[9], z_loc[9][9] ;
 
-    for ( int i0 = 0 ; i0 < nx ; ++i0 ) {
-      int imin = 4-i0      ; if ( imin < 0 ) imin = 0 ;
-      int imax = 3+(nx-i0) ; if ( imax > 8 ) imax = 8 ;
+    for ( sizeType i0 = 0 ; i0 < nx ; ++i0 ) {
+      sizeType imin = 4  > i0   ? 4-i0      : 0 ;
+      sizeType imax = nx < 5+i0 ? 3+(nx-i0) : 8 ;
 
-      for ( int i = imin ; i <= imax ; ++i ) x_loc[i] = X[i+i0-4]-X[i0] ;
+      for ( sizeType i = imin ; i <= imax ; ++i ) x_loc[i] = X[i+i0-4]-X[i0] ;
 
-      for ( int j0 = 0 ; j0 < ny ; ++j0 ) {
-        int jmin = 4-j0      ; if ( jmin < 0 ) jmin = 0 ;
-        int jmax = 3+(ny-j0) ; if ( jmax > 8 ) jmax = 8 ;
+      for ( sizeType j0 = 0 ; j0 < ny ; ++j0 ) {
+        sizeType jmin = 4 > j0    ? 4-j0      : 0 ;
+        sizeType jmax = ny < 5+j0 ? 3+(ny-j0) : 8 ;
 
-        for ( int j = jmin ; j <= jmax ; ++j ) y_loc[j] = Y[j+j0-4]-Y[j0] ;
+        for ( sizeType j = jmin ; j <= jmax ; ++j ) y_loc[j] = Y[j+j0-4]-Y[j0] ;
 
-        for ( int i = imin ; i <= imax ; ++i )
-          for ( int j = jmin ; j <= jmax ; ++j )
+        for ( sizeType i = imin ; i <= imax ; ++i )
+          for ( sizeType j = jmin ; j <= jmax ; ++j )
             z_loc[i][j] = Z[ipos_C(i+i0-4,j+j0-4)] ;
 
         // if not enough points, extrapolate
-        int iadd = 0, jadd = 0 ;
-        if ( imax-imin < 3 ) {
+        sizeType iadd = 0, jadd = 0 ;
+        if ( imax < 3+imin ) {
           x_loc[imin-1] = 2*x_loc[imin] - x_loc[imax] ;
           x_loc[imax+1] = 2*x_loc[imax] - x_loc[imin] ;
           iadd = 1 ;
-          if ( imax-imin == 1 ) {
+          if ( imax == 1+imin ) {
             valueType x0 = x_loc[imin] ;
             valueType x1 = x_loc[imax] ;
-            for ( int j = jmin ; j <= jmax ; ++j ) {
+            for ( size_t j = jmin ; j <= jmax ; ++j ) {
               valueType z0 = z_loc[imin][j] ;
               valueType z1 = z_loc[imax][j] ;
               z_loc[imin-1][j] = Extrapolate2( x0-x1, x_loc[imin-1]-x1, z1, z0 ) ;
@@ -300,7 +300,7 @@ namespace Splines {
             valueType x0 = x_loc[imin] ;
             valueType x1 = x_loc[imin+1] ;
             valueType x2 = x_loc[imax] ;
-            for ( int j = jmin ; j <= jmax ; ++j ) {
+            for ( size_t j = jmin ; j <= jmax ; ++j ) {
               valueType z0 = z_loc[imin][j] ;
               valueType z1 = z_loc[imin+1][j] ;
               valueType z2 = z_loc[imax][j] ;
@@ -309,7 +309,7 @@ namespace Splines {
             }
           }
         }
-        if ( jmax-jmin < 3 ) {
+        if ( jmax < 3+jmin ) {
           y_loc[jmin-1] = 2*y_loc[jmin] - y_loc[jmax] ;
           y_loc[jmax+1] = 2*y_loc[jmax] - y_loc[jmin] ;
           jadd = 1 ;

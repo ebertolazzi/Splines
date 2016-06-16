@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998                                                      |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -91,7 +91,7 @@ main() {
     sprintf( fname, "out/Quintic%d.txt",  k) ; file_qs.open(fname) ;
     valueType xmin = xx[0] ;
     valueType xmax = xx[n[k]-1] ;
-    
+
     #define SAVE(S) \
     cout << #S": n[k] = " << n[k] << '\n' ; \
     S.clear() ; \

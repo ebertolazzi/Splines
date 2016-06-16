@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 1998-2014                                                 |
+ |  Copyright (C) 2016                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -18,7 +18,6 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
-
 #include <iomanip>
 
 /**
@@ -51,23 +50,10 @@ namespace Splines {
                            valueType const yp[],
                            sizeType n ) {
     reserve( n ) ;
-    std::copy( x, x+n, X );
-    std::copy( y, y+n, Y );
+    std::copy( x,  x+n,  X );
+    std::copy( y,  y+n,  Y );
     std::copy( yp, yp+n, Yp );
     npts = n ;
-  }
-
-  void
-  CubicSplineBase::build ( vector<valueType> const & x,
-                           vector<valueType> const & y,
-                           vector<valueType> const & yp ) {
-    sizeType n = sizeType(min( x.size(), y.size() )) ;
-    reserve( n ) ;
-    std::copy( x.begin(),  x.begin()+n,  X  );
-    std::copy( y.begin(),  y.begin()+n,  Y  );
-    std::copy( yp.begin(), yp.begin()+n, Yp );
-    npts = n ;
-    build() ;
   }
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
@@ -139,8 +125,10 @@ namespace Splines {
                            valueType const y[], sizeType incy,
                            sizeType n ) {
     reserve( n ) ;
-    for ( sizeType i = 0 ; i < n ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i < n ; ++i ) Y[i] = y[i*incy] ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      X[i] = x[i*incx] ;
+      Y[i] = y[i*incy] ;
+    }
     npts = n ;
     build() ;
   }
@@ -152,16 +140,6 @@ namespace Splines {
     reserve( n ) ;
     std::copy( x, x+n, X );
     std::copy( y, y+n, Y );
-    npts = n ;
-    build() ;
-  }
-
-  void
-  CubicSplineBase::build ( vector<valueType> const & x, vector<valueType> const & y ) {
-    sizeType n = sizeType(min( x.size(), y.size() )) ;
-    reserve( n ) ;
-    std::copy( x.begin(), x.begin()+n, X );
-    std::copy( y.begin(), y.begin()+n, Y );
     npts = n ;
     build() ;
   }
