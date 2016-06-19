@@ -31,12 +31,12 @@ using Splines::sizeType ;
 //valueType xx[] = { 595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
 //valueType yy[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.916, 0.607, 0.603, 0.608 } ;
 //valueType xx[] = { 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
-//valueType yy[] = { 0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4 } ;
-valueType xx[] = { -10, -9, -6, -1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
-valueType yy[] = { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4 } ;
+//valueType yy[] = { 0, 0, 0, 0, 1, 2, 3, 4, 4,   4,  4 } ;
+//valueType xx[] = { -10, -9, -6, -1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
+//valueType yy[] = { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4 } ;
 //valueType yy[] = {  595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
-//valueType xx[] = { 0, 1, 2, 3, 4, 8, 10 } ;
-//valueType yy[] = { 0, 1, 2, 3, 4 } ;
+valueType xx[] = { 0, 1, 2, 3, 4 } ;
+valueType yy[] = { 0, 1, 2, 3, 4 } ;
 //valueType yy[] = { 1, 1, 1, 1 } ;
 //valueType yy[] = { 0, 1, 4, 9, 16, 64, 100 } ;
 sizeType  n = sizeof(xx)/sizeof(xx[0]) ;
@@ -63,37 +63,63 @@ main() {
   valueType xmax = xx[n-1] ;
 
   PchipSpline pc ;
+  //CubicSpline pc ;
   BSpline<3>  bs ;
-  ofstream    file_pc("out/PchipSpline.txt") ;
-  ofstream    file_bs("out/BSpline.txt") ;
-  ofstream    file_bs1("out/BSpline1.txt") ;
-  ofstream    file_bs2("out/_DATA.txt") ;
+  ofstream file_pc("out/PchipSpline.txt") ;
+  ofstream file_bs("out/BSpline.txt") ;
+  ofstream file_bs_base("out/BSpline_base.txt") ;
+  ofstream file_bs_base_D("out/BSpline_base_D.txt") ;
+  ofstream file_bs_base_DD("out/BSpline_base_DD.txt") ;
+  ofstream file_bs_base_DDD("out/BSpline_base_DDD.txt") ;
+  ofstream file_bs2("out/DATA.txt") ;
 
   SAVE(pc) ;
   SAVE(bs) ;
 
-  file_bs1 << "x" ;
-  for ( sizeType i = 0 ; i < n ; ++i ) file_bs1 << "\tb" << i ;
-  file_bs1 << '\n' ;
-
-  for ( valueType x = xmin-(xmax-xmin)*0.01 ; x <= xmax+(xmax-xmin)*0.01 ; x += (xmax-xmin)/1000 ) {
-    file_bs1 << x ;
-    valueType vals[n] ;
-    bs.bases( x, vals) ;
-    for ( sizeType i = 0 ; i < n ; ++i ) file_bs1 << '\t' << vals[i] ;
-    file_bs1 << '\n' ;
+  file_bs_base     << "x" ;
+  file_bs_base_D   << "x" ;
+  file_bs_base_DD  << "x" ;
+  file_bs_base_DDD << "x" ;
+  for ( sizeType i = 0 ; i < n ; ++i ) {
+    file_bs_base     << "\tb" << i ;
+    file_bs_base_D   << "\tb" << i ;
+    file_bs_base_DD  << "\tb" << i ;
+    file_bs_base_DDD << "\tb" << i ;
   }
-  file_bs1.close() ;
+  file_bs_base     << '\n' ;
+  file_bs_base_D   << '\n' ;
+  file_bs_base_DD  << '\n' ;
+  file_bs_base_DDD << '\n' ;
+
+  for ( valueType x = xmin-(xmax-xmin)*0.5 ; x <= xmax+(xmax-xmin)*0.5 ; x += (xmax-xmin)/1000 ) {
+    file_bs_base     << x ;
+    file_bs_base_D   << x ;
+    file_bs_base_DD  << x ;
+    file_bs_base_DDD << x ;
+    valueType vals[n], vals_D[n], vals_DD[n], vals_DDD[n] ;
+    bs.bases     ( x, vals ) ;
+    bs.bases_D   ( x, vals_D ) ;
+    bs.bases_DD  ( x, vals_DD ) ;
+    bs.bases_DDD ( x, vals_DDD ) ;
+    for ( sizeType i = 0 ; i < n ; ++i ) {
+      file_bs_base     << '\t' << vals[i] ;
+      file_bs_base_D   << '\t' << vals_D[i] ;
+      file_bs_base_DD  << '\t' << vals_DD[i] ;
+      file_bs_base_DDD << '\t' << vals_DDD[i] ;
+    }
+    file_bs_base     << '\n' ;
+    file_bs_base_D   << '\n' ;
+    file_bs_base_DD  << '\n' ;
+    file_bs_base_DDD << '\n' ;
+  }
+  file_bs_base.close() ;
+  file_bs_base_D.close() ;
+  file_bs_base_DD.close() ;
+  file_bs_base_DDD.close() ;
 
   file_bs2 << "x\ty\tz\n" ;
   for ( sizeType i = 0 ; i < n ; ++i ) file_bs2 << xx[i] << '\t' << yy[i] << "\t0\n" ;
   file_bs2.close() ;
-
-  cout << "v = " << bs(xmin-0.1) << '\n' ;
-  cout << "v = " << bs(xmin+0.001) << '\n' ;
-  cout << "v = " << bs(xmax-0.1) << '\n' ;
-  cout << "v = " << bs(xmax) << '\n' ;
-  cout << "v = " << bs(xmax+0.1) << '\n' ;
 
   cout << "ALL DONE!\n" ;
 }

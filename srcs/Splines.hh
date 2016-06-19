@@ -561,7 +561,30 @@ namespace Splines {
 
     //! B-spline bases
     void bases( valueType x, valueType vals[] ) const ;
+    void bases_D( valueType x, valueType vals[] ) const ;
+    void bases_DD( valueType x, valueType vals[] ) const ;
+    void bases_DDD( valueType x, valueType vals[] ) const ;
+
     sizeType bases_nz( valueType x, valueType vals[] ) const ;
+    sizeType bases_D_nz( valueType x, valueType vals[] ) const ;
+    sizeType bases_DD_nz( valueType x, valueType vals[] ) const ;
+    sizeType bases_DDD_nz( valueType x, valueType vals[] ) const ;
+
+    // Utilities
+    static
+    void
+    knots_sequence( sizeType        n,
+                    valueType const X[],
+                    valueType     * Knots ) ;
+
+    static
+    void
+    sample_bases( indexType           n,
+                  valueType const     X[],
+                  valueType const     Knots[],
+                  vector<indexType> & I,
+                  vector<indexType> & J,
+                  vector<valueType> & vals ) ;
 
   } ;
 

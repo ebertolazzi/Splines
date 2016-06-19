@@ -28,128 +28,148 @@ namespace Splines {
 
   using namespace std ; // load standard namespace
 
-  static
-  void
-  knots_sequence( sizeType        n,
-                  valueType const X[],
-                  sizeType        order,
-                  valueType     * knots ) {
-                  /*
-   knots[0] = 595 ;
-   knots[1] = 595 ;
-   knots[2] = 595 ;
-   knots[3] = 595 ;
-   knots[4] = 700 ;
-   knots[5] = 738.759 ;
-   knots[6] = 840.556 ;
-   knots[7] = 872.888 ;
-   knots[8] = 897.222 ;
-   knots[9] = 921.032 ;
-   knots[10] = 960.426 ;
-   knots[11] = 1024.64 ;
-   knots[12] = 1075 ;
-   knots[13] = 1075 ;
-   knots[14] = 1075 ;
-   knots[15] = 1075 ;
-   return ;
-  /*
-   knots[0] = 0.595000000000000e3 ;
-   knots[1] = 0.595000000000000e3 ;
-   knots[2] = 0.595000000000000e3 ;
-   knots[3] = 0.595000000000000e3 ;
-   knots[4] = 0.704596277936432e3 ;
-   knots[5] = 0.772030235868696e3 ;
-   knots[6] = 0.828886094973769e3 ;
-   knots[7] = 0.868451908082036e3 ;
-   knots[8] = 0.894798665375998e3 ;
-   knots[9] = 0.919446984213767e3 ;
-   knots[10] = 0.951204525959706e3 ;
-   knots[11] = 0.992334500376403e3 ;
-   knots[12] = 1.075000000000000e3 ;
-   knots[13] = 1.075000000000000e3 ;
-   knots[14] = 1.075000000000000e3 ;
-   knots[15] = 1.075000000000000e3 ;
-   return ;
-*/
 
-    std::fill( knots, knots+order, X[0] ) ;
-    knots += order ;
-    if ( n > order ) {
-      /*
-      #ifdef SPLINE_USE_ALLOCA
-      valueType * i_nodes = (valueType*)alloca( n*sizeof(valueType) ) ;
-      valueType * Xp      = (valueType*)alloca( n*sizeof(valueType) ) ;
-      #else
-      valueType i_nodes[n] ;
-      valueType Xp[n] ;
-      #endif
-      for ( sizeType i = 0 ; i < n ; ++i ) i_nodes[i] = i ;
-      pchip( i_nodes, X, Xp, n ) ;
-      for ( sizeType j = 0 ; j < n-order ; ++j ) {
-        valueType ss = valueType((n-1)*(j+1))/valueType(n-order+1) ;
-        sizeType i_segment = sizeType(ss) ;
-        valueType base[4] ;
-        Hermite3( ss-i_segment, 1.0, base ) ;
-        knots[j] = base[0] * X[i_segment] +
-                   base[1] * X[i_segment+1] +
-                   base[2] * Xp[i_segment]  +
-                   base[3] * Xp[i_segment+1] ;
+  template <int degree>
+  class BSplineBase {
+  public:
+
+    /*
+    // dati i nodi knot[0]...knot[2*degree+1] calcola le basi
+    // B[0]...B[degree] che hanno supporto knot[j]..knot[j+degree+1]
+    // vale la condizione knot[degree] <= x <= knot[degree+1]
+    */
+    static
+    void
+    eval( valueType       x,
+          valueType const knot[],
+          valueType       Bbase[] ) {
+      valueType B[2*degree+2] ;
+      std::fill( B, B+2*degree+2, 0.0 ) ;
+      B[degree] = 1 ;
+      for ( sizeType r = 1 ; r <= degree; ++r ) {
+        for ( sizeType j = 0 ; j <= 2*degree-r ; ++j ) {
+          if ( knot[j] <= x && x <= knot[j+r+1] ) {
+            valueType oma = 0 ;
+            valueType omb = 0 ;
+            if ( knot[j+r]   > knot[j]   ) oma = (x-knot[j])/(knot[j+r]-knot[j]) ;
+            if ( knot[j+r+1] > knot[j+1] ) omb = (knot[j+r+1]-x)/(knot[j+r+1]-knot[j+1]) ;
+            B[j] = oma*B[j] + omb*B[j+1] ;
+          }
+        }
       }
-      //*/
-      ///*
-      for ( sizeType j = 0 ; j < n-order ; ++j ) {
-        valueType acc = 0 ;
-        for ( sizeType k = 1 ; k < order ; ++k ) acc += X[j+k] ;
-        knots[j] = acc / (order-1) ;
-      }
-      //*/
-      knots += n-order ;
+      std::copy( B, B+degree+1, Bbase ) ;
     }
-    std::fill( knots, knots+order, X[n-1] ) ;
-  }
 
-  /*\
-	  uses de Boor algorithm to compute one
-	  coordinate on B-spline curve for param. value u in interval i.
-    input:  degree:	polynomial degree of each piece of curve
-    coeff:	B-spline control points
-	knot:	knot sequence
-	u:	evaluation abscissa
-	i:	u's interval: u[i]<= u < u[i+1]
-output:	coordinate value. 
-  \*/
+    static
+    void
+    eval_D( valueType       x,
+            valueType const knot[],
+            valueType       B_D[] ) {
+      valueType B[degree+2] ;
+      B[0] = B[degree+1] = 0 ;
+      BSplineBase<degree-1>::eval( x, knot+1, B+1 ) ;
+      for ( sizeType j = 1 ; j <= degree ; ++j ) B[j] *= degree/(knot[j+degree]-knot[j]) ;
+      for ( sizeType j = 0 ; j <= degree ; ++j ) B_D[j] = B[j]-B[j+1] ;
+    }
+
+    static
+    void
+    eval_DD( valueType       x,
+             valueType const knot[],
+             valueType       B_DD[] ) {
+      valueType B_D[degree+2] ;
+      B_D[0] = B_D[degree+1] = 0 ;
+      BSplineBase<degree-1>::eval_D( x, knot+1, B_D+1 ) ;
+      for ( sizeType j = 1 ; j <= degree ; ++j ) B_D[j] *= degree/(knot[j+degree]-knot[j]) ;
+      for ( sizeType j = 0 ; j <= degree ; ++j ) B_DD[j] = B_D[j]-B_D[j+1] ;
+    }
+
+    static
+    void
+    eval_DDD ( valueType       x,
+               valueType const knot[],
+               valueType       B_DDD[] ) {
+      valueType B_DD[degree+2] ;
+      B_DD[0] = B_DD[degree+1] = 0 ;
+      BSplineBase<degree-1>::eval_DD( x, knot+1, B_DD+1 ) ;
+      for ( sizeType j = 1 ; j <= degree ; ++j ) B_DD[j] *= degree/(knot[j+degree]-knot[j]) ;
+      for ( sizeType j = 0 ; j <= degree ; ++j ) B_DDD[j] = B_DD[j]-B_DD[j+1] ;
+    }
+  } ;
+
+
+  template <>
+  class BSplineBase<0> {
+  public:
+
+    static void
+    eval( valueType       x,
+          valueType const knot[],
+          valueType       Bbase[] ) {
+      Bbase[0] = knot[0] <= x && x <= knot[1] ? 1 : 0 ;
+    }
+
+    static void
+    eval_D( valueType, valueType const [], valueType B_D[] ) { B_D[0] = 0 ; }
+
+    static void
+    eval_DD( valueType, valueType const [], valueType B_DD[] ) { B_DD[0] = 0 ; }
+
+    static void
+    eval_DDD( valueType, valueType const [], valueType B_DDD[] ) { B_DDD[0] = 0 ; }
+  } ;
 
   template <int degree>
   class BSplineEval {
   public:
 
+    /*
+    //  Calcola il valore di
+    //
+    //  y[0] * B[0](x) + y[1] * B[1](x) + ... + y[degree] * B[degree](x)
+    //
+    //  Usando usando la ricorsione e l'algoritmo di De Boor.
+    */
     static
     void
     eval_levels( valueType x, valueType const knot[], valueType y[] ) {
       sizeType j = degree ;
       do {
-        valueType omega = (x-knot[j])/(knot[j+degree]-knot[j]) ;
-        y[j] = (1-omega)*y[j-1]+omega*y[j] ;
+        if ( knot[j+degree] > knot[j] ) {
+          valueType omega = (x-knot[j])/(knot[j+degree]-knot[j]) ;
+          y[j] = (1-omega)*y[j-1]+omega*y[j] ;
+        } else {
+          y[j] = y[j-1] ;
+        }
       } while ( --j > 0 ) ;
       BSplineEval<degree-1>::eval_levels( x, knot+1, y+1 ) ;
     }
 
+    /*
+    //  Calcola il valore di
+    //
+    //  y[0] * B[0](x) + y[1] * B[1](x) + ... + y[degree] * B[degree](x)
+    //
+    //  Usando usando la ricorsione e l'algoritmo di De Boor.
+    //  offs e' tale che knot[degree-offs] <= x <= knot[degree-offs+1]
+    */
     static
     valueType
-    eval( valueType x, valueType const knot[], valueType const y[] ) {
-      valueType c[degree+1] ;
-      sizeType j = degree ;
-      do {
-        valueType omega = (x-knot[j])/(knot[j+degree]-knot[j]) ;
-        c[j] = (1-omega)*y[j-1]+omega*y[j] ;
-      } while ( --j > 0 ) ;
-      BSplineEval<degree-1>::eval_levels( x, knot+1, c+1 ) ;
+    eval( valueType       x,
+          valueType const knot[],
+          valueType const y[] ) {
+      valueType c[degree+1], kn[2*degree+2] ;
+      std::copy( y,    y+degree+1,      c  ) ;
+      std::copy( knot, knot+2*degree+2, kn ) ;
+      BSplineEval<degree>::eval_levels( x, kn, c ) ;
       return c[degree] ;
     }
 
     static
     valueType
-    eval_D( valueType x, valueType const knot[], valueType const y[] ) {
+    eval_D( valueType       x,
+            valueType const knot[],
+            valueType const y[] ) {
       valueType d[degree] ; // poligono derivata
       for ( sizeType j = 0 ; j < degree ; ++j )
         d[j] = degree*(y[j+1]-y[j])/(knot[j+degree+1] - knot[j+1]) ;
@@ -158,7 +178,9 @@ output:	coordinate value.
 
     static
     valueType
-    eval_DD( valueType x, valueType const knot[], valueType const y[] ) {
+    eval_DD( valueType       x,
+             valueType const knot[],
+             valueType const y[] ) {
       valueType d[degree] ; // poligono derivata
       for ( sizeType j = 0 ; j < degree ; ++j )
         d[j] = degree*(y[j+1]-y[j])/(knot[j+degree+1] - knot[j+1]) ;
@@ -167,79 +189,155 @@ output:	coordinate value.
 
     static
     valueType
-    eval_DDD( valueType x, valueType const knot[], valueType const y[] ) {
+    eval_DDD( valueType       x,
+              valueType const knot[],
+              valueType const y[] ) {
       valueType d[degree] ; // poligono derivata
       for ( sizeType j = 0 ; j < degree ; ++j )
         d[j] = degree*(y[j+1]-y[j])/(knot[j+degree+1] - knot[j+1]) ;
       return BSplineEval<degree-1>::eval_DD( x, knot+1, d ) ;
     }
-
-    // calcola il valore delle basi non zero quando
-    // knot[degree] <= x <= knot[degree+1]
-    static
-    void
-    eval_B( valueType x, valueType const knot[], valueType Bbase[] ) {
-      valueType B[2*degree+2] ;
-      std::fill( B, B+2*degree+2, 0.0 ) ;
-      B[degree] = 1 ;
-      for ( sizeType r = 1 ; r <= degree; ++r ) {
-        for ( sizeType j = 0 ; j <= 2*degree-r ; ++j ) {
-          valueType oma = 0 ;
-          valueType omb = 0 ;
-          if ( knot[j+r]   > knot[j]   ) oma = (x-knot[j])/(knot[j+r]-knot[j]) ;
-          if ( knot[j+r+1] > knot[j+1] ) omb = (x-knot[j+1])/(knot[j+r+1]-knot[j+1]) ;
-          B[j] = oma*B[j]+(1-omb)*B[j+1] ;
-        }
-      }
-      std::copy( B, B+degree+1, Bbase ) ;
-    }
-
   } ;
 
   template <>
   class BSplineEval<1> {
   public:
 
+    static void
+    eval_B( valueType       x,
+            valueType const knot[],
+            valueType       Bbase[] ) {
+      valueType B[4] ;
+      std::fill( B, B+4, 0.0 ) ;
+      B[1] = 1 ;
+      for ( sizeType j = 0 ; j <= 1 ; ++j ) {
+        if ( knot[j] <= x && x <= knot[j+2] ) {
+          valueType oma = 0 ;
+          valueType omb = 0 ;
+          if ( knot[j+1] > knot[j]   ) oma = (x-knot[j])/(knot[j+1]-knot[j]) ;
+          if ( knot[j+2] > knot[j+1] ) omb = (knot[j+2]-x)/(knot[j+2]-knot[j+1]) ;
+          B[j] = oma*B[j] + omb*B[j+1] ;
+        }
+      }
+      std::copy( B, B+2, Bbase ) ;
+    }
+
+    static void
+    eval_B_D( valueType, valueType const [], valueType B_D[] ) { B_D[0] = 0 ; }
+
+    static void
+    eval_B_DD( valueType, valueType const [], valueType B_DD[] ) { B_DD[0] = 0 ; }
+
+    static void
+    eval_B_DDD( valueType, valueType const [], valueType B_DDD[] ) { B_DDD[0] = 0 ; }
+
     static
     void
-    eval_levels( valueType x, valueType const knot[], valueType y[] ) {
+    eval_levels( valueType       x,
+                 valueType const knot[],
+                 valueType       y[] ) {
       valueType omega = (x-knot[1])/(knot[2]-knot[1]) ;
       y[1] = (1-omega)*y[0]+omega*y[1] ;
     }
 
     static
     valueType
-    eval( valueType x, valueType const knot[], valueType const y[] ) {
+    eval( valueType       x,
+          valueType const knot[],
+          valueType const y[] ) {
       valueType omega = (x-knot[1])/(knot[2]-knot[1]) ;
       return (1-omega)*y[0]+omega*y[1] ;
     }
 
     static
     valueType
-    eval_D( valueType, valueType const knot[], valueType const y[] ) {
+    eval_D( valueType             ,
+            valueType const knot[],
+            valueType const y[] ) {
       return (y[1]-y[0])/(knot[2] - knot[1]) ;
     }
 
     static
     valueType
-    eval_DD( valueType, valueType const [], valueType const [] ) {
+    eval_DD( valueType         ,
+             valueType const [],
+             valueType const [] ) {
       return 0 ;
     }
 
     static
     valueType
-    eval_DDD( valueType, valueType const [], valueType const [] ) {
+    eval_DDD( valueType         ,
+              valueType const [],
+              valueType const [] ) {
       return 0 ;
-    }
-
-    static
-    void
-    eval_B( valueType, valueType const [], valueType Bbase[] ) {
-      Bbase[0] = 1 ;
     }
 
   } ;
   
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // standard average nodes
+  template <int _degree>
+  void
+  BSpline<_degree>::knots_sequence( sizeType        n,
+                                    valueType const X[],
+                                    valueType     * Knots ) {
+    for ( int j = 0 ; j <= _degree ; ++j ) Knots[j] = X[0] ;
+    Knots += _degree+1 ;
+    for ( int j = 0 ; j < n-_degree-1 ; ++j ) {
+      valueType tmp = 0 ;
+      for ( int k = 1 ; k <= _degree ; ++k ) tmp += X[j+k] ;
+      Knots[j] = tmp / _degree ;
+    }
+    Knots += n-_degree-1 ;
+    for ( int j = 0 ; j <= _degree ; ++j ) Knots[j] = X[n-1] ;
+  }
+
+  template <int _degree>
+  void
+  BSpline<_degree>::sample_bases( indexType           n,
+                                  valueType const     X[],
+                                  valueType const     Knots[],
+                                  vector<indexType> & I,
+                                  vector<indexType> & J,
+                                  vector<valueType> & vals ) {
+    valueType row[_degree+1] ;
+    I.clear()    ; I.reserve( sizeType(n*(_degree+1)) ) ;
+    J.clear()    ; J.reserve( sizeType(n*(_degree+1)) ) ;
+    vals.clear() ; vals.reserve( sizeType(n*(_degree+1)) ) ;
+    for ( indexType i = 0 ; i < n ; ++i ) {
+      indexType ii = indexType(lower_bound( Knots+_degree, Knots+n+1, X[i] ) - Knots ) ;
+      if ( ii > _degree ) --ii ;
+      BSplineBase<_degree>::eval( X[i], Knots+ii, row ) ;
+      for ( indexType j = 0 ; j <= _degree ; ++j ) {
+        I.push_back( i ) ;
+        J.push_back( ii+j ) ;
+        vals.push_back( row[j] ) ;
+      }
+    }
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  template <int _degree>
+  sizeType
+  BSpline<_degree>::knot_search( valueType x ) const {
+    SPLINE_ASSERT( npts > 0, "\nknot_search(" << x << ") empty spline");
+    if ( x < knots[lastInterval] || knots[lastInterval+1] < x ) {
+      if ( _check_range ) {
+        SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
+                       "method search( " << x << " ) out of range: [" <<
+                       X[0] << ", " << X[npts-1] << "]" ) ;
+      }
+      // 0 1 2 3
+      lastInterval = sizeType(lower_bound( knots+_degree, knots+npts+1, x ) - knots) ;
+      if ( lastInterval > _degree ) --lastInterval ;
+    }
+    return lastInterval-_degree ;
+  }
+
   /*
   // Solve banded linear system
   */
@@ -271,17 +369,6 @@ output:	coordinate value.
         rhs[i+k] -= tmp*rhs[i] ;
       }
       rowsi += rsize ;
-      /*
-      cout << "\n\n" ;
-      for ( int ii = 0 ; ii < n ; ++ii ) {
-        valueType * rowsi = rows + ii * rsize ;
-        for ( int jj = 0 ; jj < rsize ; ++jj ) {
-          cout << rowsi[jj] << ' ' ;
-        }
-        cout << "\n" ;
-      }
-      cout << "\n\n" ;
-      */
     } while ( ++i < n ) ;
     // backward
     while ( i > 0 ) {
@@ -352,7 +439,7 @@ output:	coordinate value.
     #endif
     
     std::fill( band, band+npts*(2*_degree+1), 0 ) ;
-    knots_sequence( npts, X, _degree+1, knots ) ;
+    knots_sequence( npts, X, knots ) ;
     
     // costruzione sistema lineare
 
@@ -362,13 +449,8 @@ output:	coordinate value.
     for ( sizeType i = 0 ; i < npts ; ++i ) {
       valueType * rowi = band + nr * i ;
       sizeType ii = knot_search( X[i] ) ;
-      BSplineEval<_degree>::eval_B( X[i], knots+ii, (rowi + _degree + ii) - i ) ;
+      BSplineBase<_degree>::eval( X[i], knots+ii, (rowi + ii + _degree) - i ) ;
       yPolygon[i] = Y[i] ;
-      /*
-      for ( sizeType ii = 0 ; ii < nr ; ++ii )
-        cout << rowi[ii] << " " ;
-      cout << '\n' ;
-      */
     }
     solveBanded( band, yPolygon, npts, _degree ) ;
     // extrapolation
@@ -396,20 +478,18 @@ output:	coordinate value.
       X[i] = x[i*incx] ;
       Y[i] = y[i*incy] ;
     }
-    knots_sequence( n, X, _degree+1, knots ) ;
+    knots_sequence( n, X, knots ) ;
     npts = n ;
     build() ;
   }
 
   template <int _degree>
   void
-  BSpline<_degree>::build ( valueType const x[],
-                            valueType const y[],
-                            sizeType n ) {
+  BSpline<_degree>::build ( valueType const x[], valueType const y[], sizeType n ) {
     reserve( n ) ;
     std::copy( x, x+n, X );
     std::copy( y, y+n, Y );
-    knots_sequence( n, X, _degree+1, knots ) ;
+    knots_sequence( n, X, knots ) ;
     npts = n ;
     build() ;
   }
@@ -459,23 +539,6 @@ output:	coordinate value.
   }
 
   template <int _degree>
-  sizeType
-  BSpline<_degree>::knot_search( valueType x ) const {
-    SPLINE_ASSERT( npts > 0, "\nknot_search(" << x << ") empty spline");
-    if ( x < knots[lastInterval] || knots[lastInterval+1] < x ) {
-      if ( _check_range ) {
-        SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
-                       "method search( " << x << " ) out of range: [" <<
-                       X[0] << ", " << X[npts-1] << "]" ) ;
-      }
-      lastInterval = sizeType(lower_bound( knots, knots+npts+_degree+1, x ) - knots) ;
-      if ( lastInterval < _degree ) lastInterval = _degree ;
-      else                          --lastInterval ;
-    }
-    return lastInterval-_degree ;
-  }
-
-  template <int _degree>
   valueType
   BSpline<_degree>::operator () ( valueType x ) const {
     if ( x >= X[npts-1] ) {
@@ -485,8 +548,8 @@ output:	coordinate value.
       valueType dx = x - X[0] ;
       return s_L + dx * ( ds_L + 0.5 * dds_L * dx ) ;
     } else {
-      sizeType i = knot_search( x ) ;
-      return BSplineEval<_degree>::eval(x,knots+i,yPolygon+i) ;
+      sizeType idx = knot_search( x ) ;
+      return BSplineEval<_degree>::eval(x,knots+idx,yPolygon+idx) ;
     }
   }
 
@@ -500,8 +563,8 @@ output:	coordinate value.
       valueType dx = x - X[0] ;
       return ds_L + dds_L * dx ;
     } else {
-      sizeType i = knot_search( x ) ;
-      return BSplineEval<_degree>::eval_D(x,knots+i,yPolygon+i) ;
+      sizeType idx = knot_search( x ) ;
+      return BSplineEval<_degree>::eval_D(x,knots+idx,yPolygon+idx) ;
     }
   }
 
@@ -513,21 +576,19 @@ output:	coordinate value.
     } else if ( x <= X[0] ) {
       return dds_L ;
     } else {
-      sizeType i = knot_search( x ) ;
-      return BSplineEval<_degree>::eval_DD(x,knots+i,yPolygon+i) ;
+      sizeType idx = knot_search( x ) ;
+      return BSplineEval<_degree>::eval_DD(x,knots+idx,yPolygon+idx) ;
     }
   }
 
   template <int _degree>
   valueType
   BSpline<_degree>::DDD( valueType x ) const {
-    if ( x >= X[npts-1] ) {
-      return 0 ;
-    } else if ( x <= X[0] ) {
+    if ( x >= X[npts-1] || x <= X[0] ) {
       return 0 ;
     } else {
-      sizeType i = knot_search( x ) ;
-      return BSplineEval<_degree>::eval_DDD(x,knots+i,yPolygon+i) ;
+      sizeType idx = knot_search( x ) ;
+      return BSplineEval<_degree>::eval_DDD(x,knots+idx,yPolygon+idx) ;
     }
   }
 
@@ -598,16 +659,72 @@ output:	coordinate value.
   void
   BSpline<_degree>::bases( valueType x, valueType vals[] ) const {
     std::fill( vals, vals+npts, 0 ) ;
-    sizeType i = knot_search( x ) ;
-    BSplineEval<_degree>::eval_B( x, knots+i, vals+i ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) {
+      sizeType idx = knot_search( x ) ;
+      BSplineBase<_degree>::eval( x, knots+idx, vals+idx ) ;
+    }
+  }
+
+  template <int _degree>
+  void
+  BSpline<_degree>::bases_D( valueType x, valueType vals[] ) const {
+    std::fill( vals, vals+npts, 0 ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) {
+      sizeType idx = knot_search( x ) ;
+      BSplineBase<_degree>::eval_D( x, knots+idx, vals+idx ) ;
+    }
+  }
+
+  template <int _degree>
+  void
+  BSpline<_degree>::bases_DD( valueType x, valueType vals[] ) const {
+    std::fill( vals, vals+npts, 0 ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) {
+      sizeType idx = knot_search( x ) ;
+      BSplineBase<_degree>::eval_DD( x, knots+idx, vals+idx ) ;
+    }
+  }
+
+  template <int _degree>
+  void
+  BSpline<_degree>::bases_DDD( valueType x, valueType vals[] ) const {
+    std::fill( vals, vals+npts, 0 ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) {
+      sizeType idx = knot_search( x ) ;
+      BSplineBase<_degree>::eval_DDD( x, knots+idx, vals+idx ) ;
+    }
   }
 
   template <int _degree>
   sizeType
   BSpline<_degree>::bases_nz( valueType x, valueType vals[] ) const {
-    sizeType i = knot_search( x ) ;
-    BSplineEval<_degree>::eval_B( x, knots+i, vals ) ;
-    return i ;
+    sizeType idx = knot_search( x ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) BSplineBase<_degree>::eval( x, knots+idx, vals ) ;
+    return idx ;
+  }
+
+  template <int _degree>
+  sizeType
+  BSpline<_degree>::bases_D_nz( valueType x, valueType vals[] ) const {
+    sizeType idx = knot_search( x ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) BSplineBase<_degree>::eval_D( x, knots+idx, vals ) ;
+    return idx ;
+  }
+
+  template <int _degree>
+  sizeType
+  BSpline<_degree>::bases_DD_nz( valueType x, valueType vals[] ) const {
+    sizeType idx = knot_search( x ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) BSplineBase<_degree>::eval_DD( x, knots+idx, vals ) ;
+    return idx ;
+  }
+
+  template <int _degree>
+  sizeType
+  BSpline<_degree>::bases_DDD_nz( valueType x, valueType vals[] ) const {
+    sizeType idx = knot_search( x ) ;
+    if ( x >= X[0] && x <= X[npts-1] ) BSplineBase<_degree>::eval_DDD( x, knots+idx, vals ) ;
+    return idx ;
   }
 
   template class BSpline<1> ;
