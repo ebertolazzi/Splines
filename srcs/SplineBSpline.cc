@@ -309,6 +309,7 @@ namespace Splines {
     for ( indexType i = 0 ; i < n ; ++i ) {
       indexType ii = indexType(lower_bound( Knots+_degree, Knots+n+1, X[i] ) - Knots ) ;
       if ( ii > _degree ) --ii ;
+      ii -= _degree ;
       BSplineBase<_degree>::eval( X[i], Knots+ii, row ) ;
       for ( indexType j = 0 ; j <= _degree ; ++j ) {
         I.push_back( i ) ;
