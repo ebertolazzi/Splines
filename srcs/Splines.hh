@@ -559,6 +559,24 @@ namespace Splines {
     sizeType // order
     order() const { return _degree+1 ; }
 
+    // ---------------------------  UTILS  -----------------------------------
+
+    //! Evaluate spline value
+    static
+    valueType eval( valueType x, sizeType n, valueType const Knots[], valueType const yPolygon[] ) ;
+
+    //! First derivative
+    static
+    valueType eval_D( valueType x, sizeType n, valueType const Knots[], valueType const yPolygon[] ) ;
+
+    //! Second derivative
+    static
+    valueType eval_DD( valueType x, sizeType n, valueType const Knots[], valueType const yPolygon[] ) ;
+
+    //! Third derivative
+    static
+    valueType eval_DDD( valueType x, sizeType n, valueType const Knots[], valueType const yPolygon[] ) ;
+
     //! B-spline bases
     void bases( valueType x, valueType vals[] ) const ;
     void bases_D( valueType x, valueType vals[] ) const ;

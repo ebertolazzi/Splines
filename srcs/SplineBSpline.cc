@@ -541,6 +541,42 @@ namespace Splines {
 
   template <int _degree>
   valueType
+  BSpline<_degree>::eval( valueType x, sizeType n, valueType const Knots[], valueType const yPoly[] ) {
+    sizeType idx = sizeType(lower_bound( Knots+_degree, Knots+n+1, x ) - Knots) ;
+    if ( idx > _degree ) --idx ;
+    idx -= _degree ;
+    return BSplineEval<_degree>::eval(x,Knots+idx,yPoly+idx) ;
+  }
+
+  template <int _degree>
+  valueType
+  BSpline<_degree>::eval_D( valueType x, sizeType n, valueType const Knots[], valueType const yPoly[] ) {
+    sizeType idx = sizeType(lower_bound( Knots+_degree, Knots+n+1, x ) - Knots) ;
+    if ( idx > _degree ) --idx ;
+    idx -= _degree ;
+    return BSplineEval<_degree>::eval_D(x,Knots+idx,yPoly+idx) ;
+  }
+
+  template <int _degree>
+  valueType
+  BSpline<_degree>::eval_DD( valueType x, sizeType n, valueType const Knots[], valueType const yPoly[] ) {
+    sizeType idx = sizeType(lower_bound( Knots+_degree, Knots+n+1, x ) - Knots) ;
+    if ( idx > _degree ) --idx ;
+    idx -= _degree ;
+    return BSplineEval<_degree>::eval_DD(x,Knots+idx,yPoly+idx) ;
+  }
+
+  template <int _degree>
+  valueType
+  BSpline<_degree>::eval_DDD( valueType x, sizeType n, valueType const Knots[], valueType const yPoly[] ) {
+    sizeType idx = sizeType(lower_bound( Knots+_degree, Knots+n+1, x ) - Knots) ;
+    if ( idx > _degree ) --idx ;
+    idx -= _degree ;
+    return BSplineEval<_degree>::eval_DDD(x,Knots+idx,yPoly+idx) ;
+  }
+
+  template <int _degree>
+  valueType
   BSpline<_degree>::operator () ( valueType x ) const {
     if ( x >= X[npts-1] ) {
       valueType dx = x - X[npts-1] ;
