@@ -597,8 +597,9 @@ namespace Splines {
 
     static
     void
-    sample_bases( indexType           n,
+    sample_bases( indexType           nx, // number of sample points
                   valueType const     X[],
+                  indexType           nb, // number of bases
                   valueType const     Knots[],
                   vector<indexType> & I,
                   vector<indexType> & J,

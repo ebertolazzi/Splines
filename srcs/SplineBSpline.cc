@@ -296,18 +296,19 @@ namespace Splines {
 
   template <int _degree>
   void
-  BSpline<_degree>::sample_bases( indexType           n,
+  BSpline<_degree>::sample_bases( indexType           nx,
                                   valueType const     X[],
+                                  indexType           nb,
                                   valueType const     Knots[],
                                   vector<indexType> & I,
                                   vector<indexType> & J,
                                   vector<valueType> & vals ) {
     valueType row[_degree+1] ;
-    I.clear()    ; I.reserve( sizeType(n*(_degree+1)) ) ;
-    J.clear()    ; J.reserve( sizeType(n*(_degree+1)) ) ;
-    vals.clear() ; vals.reserve( sizeType(n*(_degree+1)) ) ;
-    for ( indexType i = 0 ; i < n ; ++i ) {
-      indexType ii = indexType(lower_bound( Knots+_degree, Knots+n+1, X[i] ) - Knots ) ;
+    I.clear()    ; I.reserve( sizeType(nx) ) ;
+    J.clear()    ; J.reserve( sizeType(nx) ) ;
+    vals.clear() ; vals.reserve( sizeType(nx) ) ;
+    for ( indexType i = 0 ; i < nx ; ++i ) {
+      indexType ii = indexType(lower_bound( Knots+_degree, Knots+nb+_degree, X[i] ) - Knots ) ;
       if ( ii > _degree ) --ii ;
       ii -= _degree ;
       BSplineBase<_degree>::eval( X[i], Knots+ii, row ) ;
