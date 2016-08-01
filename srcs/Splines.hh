@@ -48,8 +48,6 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
-#include "Malloc.hh"
-
 // if GenericContainer is included add support
 #ifdef GENERIC_CONTAINER_HH
   #ifndef SPLINES_USE_GENERIC_CONTAINER
@@ -222,6 +220,110 @@ namespace Splines {
                                 valueType const Y[],
                                 valueType const Yp[],
                                 sizeType        npts ) ;
+  /*
+  //   __  __       _ _
+  //  |  \/  | __ _| | | ___   ___
+  //  | |\/| |/ _` | | |/ _ \ / __|
+  //  | |  | | (_| | | | (_) | (__
+  //  |_|  |_|\__,_|_|_|\___/ \___|
+  */
+
+  //! Allocate memory
+  template <typename T>
+  class SplineMalloc {
+    typedef T                 valueType           ;
+    typedef valueType*        valuePointer        ;
+    typedef const valueType*  valueConstPointer   ;
+    typedef valueType&        valueReference      ;
+    typedef const valueType&  valueConstReference ;
+
+    typedef long              indexType           ;
+    typedef indexType*        indexPointer        ;
+    typedef const indexType*  indexConstPointer   ;
+    typedef indexType&        indexReference      ;
+    typedef const indexType&  indexConstReference ;
+
+  private:
+
+    std::string  _name ;
+    size_t       numTotValues ;
+    size_t       numTotReserved ;
+    size_t       numAllocated ;
+    valuePointer pMalloc ;
+
+    SplineMalloc(SplineMalloc<T> const &) ; // block copy constructor
+    SplineMalloc<T> const & operator = (SplineMalloc<T> &) const ; // block copy constructor
+
+  public:
+
+    //! malloc object constructor
+    explicit
+    SplineMalloc( std::string const & __name )
+    : _name(__name)
+    , numTotValues(0)
+    , numTotReserved(0)
+    , numAllocated(0)
+    , pMalloc(nullptr)
+    {}
+
+    //! malloc object destructor
+    ~SplineMalloc()
+    { free() ; }
+
+    //! allocate memory for `n` objects
+    void
+    allocate( size_t n ) {
+      try {
+        if ( n > numTotReserved ) {
+          delete [] pMalloc ;
+          numTotValues   = n ;
+          numTotReserved = n + (n>>3) ; // 12% more values
+          pMalloc = new T[numTotReserved] ;
+        }
+      }
+      catch ( std::exception const & exc ) {
+        std::cerr << "Memory allocation failed: " << exc.what()
+                  << "\nTry to allocate " << n << " bytes for " << _name
+                  << '\n' ;
+        exit(0) ;
+      }
+      catch (...) {
+        std::cerr << "SplineMalloc allocation failed for " << _name << ": memory exausted\n"
+                  << "Requesting " << n << " blocks\n";
+        exit(0) ;
+      }
+      numTotValues = n ;
+      numAllocated = 0 ;
+    }
+
+    //! free memory
+    void
+    free(void) {
+      if ( pMalloc != 0 ) {
+        delete [] pMalloc ;
+        numTotValues   = 0 ;
+        numTotReserved = 0 ;
+        numAllocated   = 0 ;
+        pMalloc        = nullptr ;
+      }
+    }
+
+    //! number of objects allocated
+    indexType size(void) const { return numTotValues ; }
+
+    //! get pointer of allocated memory for `sz` objets
+    T * operator () ( size_t sz ) {
+      size_t offs = numAllocated ;
+      numAllocated += sz ;
+      if ( numAllocated > numTotValues ) {
+        std::ostringstream ost ;
+        ost << "\nMalloc<" << _name << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
+            << "request = " << numAllocated << " > " << numTotValues << " = available\n" ;
+        throw std::runtime_error(ost.str()) ;
+      }
+      return pMalloc + offs ;
+    }
+  } ;
 
   /*
   //   ____        _ _            
@@ -443,7 +545,7 @@ namespace Splines {
   template <int _degree>
   class BSpline : public Spline {
   protected:
-    Malloc<valueType> baseValue ;
+    SplineMalloc<valueType> baseValue ;
     valueType * knots ;
     valueType * yPolygon ;
     bool        _external_alloc ;
@@ -618,7 +720,7 @@ namespace Splines {
   //! cubic spline base class
   class CubicSplineBase : public Spline {
   protected:
-    Malloc<valueType> baseValue ;
+    SplineMalloc<valueType> baseValue ;
     mutable valueType base[4] ;
     mutable valueType base_D[4] ;
     mutable valueType base_DD[4] ;
@@ -973,8 +1075,8 @@ namespace Splines {
   */
   //! Linear spline class
   class LinearSpline : public Spline {
-    Malloc<valueType> baseValue ;
-    bool              _external_alloc ;
+    SplineMalloc<valueType> baseValue ;
+    bool                    _external_alloc ;
   public:
 
     LinearSpline( string const & name = "LinearSpline", bool ck = false )
@@ -1090,8 +1192,8 @@ namespace Splines {
   */
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
-    Malloc<valueType> baseValue ;
-    bool              _external_alloc ;
+    SplineMalloc<valueType> baseValue ;
+    bool                    _external_alloc ;
   public:
 
     ConstantSpline( string const & name = "ConstantSpline", bool ck = false )
@@ -1204,7 +1306,7 @@ namespace Splines {
   //! cubic quintic base class
   class QuinticSplineBase : public Spline {
   protected:
-    Malloc<valueType> baseValue ;
+    SplineMalloc<valueType> baseValue ;
     mutable valueType base[6] ;
     mutable valueType base_D[6] ;
     mutable valueType base_DD[6] ;
@@ -1384,8 +1486,8 @@ namespace Splines {
 
     string const _name ;
 
-    Malloc<valueType>  baseValue ;
-    Malloc<valueType*> basePointer ;
+    SplineMalloc<valueType>  baseValue ;
+    SplineMalloc<valueType*> basePointer ;
     
     sizeType _npts ;
     sizeType _nspl ;
