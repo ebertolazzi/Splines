@@ -1,17 +1,21 @@
 # get the type of OS currently running
 OS=$(shell uname)
+PWD=$(shell pwd)
 
 LIB_SPLINE = libSplines.a
+LIB_GC     = libGenericContainer.a
 
 CC   = gcc
 CXX  = g++
-INC  = -I./srcs
-LIBS = -L./lib -lSplines
+INC  = -I./srcs -I./include -I./GC/srcs
+LIBS = -L./lib -lSplines -lGenericContainer
+DEFS =
 
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
   #LIB_SPLINE = libSplines.so
-  LIBS   = -static -L./lib -lSplines
+  #LIB_GC     = libGenericContainer.so
+  LIBS   = -static -L./lib -lSplines -lGenericContainer
   CFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR     = ar rcs
 endif
@@ -21,7 +25,8 @@ ifneq (,$(findstring Darwin, $(OS)))
   CC     = clang
   CXX    = clang++
   #LIB_SPLINE = libSplines.dylib
-  LIBS   = -L./lib -lSplines
+  #LIB_GC     = libGenericContainer.dylib
+  LIBS   = -L./lib -lSplines -lGenericContainer
   CFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR     = libtool -static -o
 endif
@@ -29,6 +34,7 @@ endif
 SRCS = \
 srcs/SplineAkima.cc \
 srcs/SplineAkima2D.cc \
+srcs/SplineBSpline.cc \
 srcs/SplineBessel.cc \
 srcs/SplineBiCubic.cc \
 srcs/SplineBiQuintic.cc \
@@ -47,17 +53,16 @@ srcs/SplinesBivariate.cc \
 srcs/SplinesCinterface.cc \
 srcs/SplinesUnivariate.cc
 
-OBJS = $(SRCS:.cc=.o)
-DEPS = srcs/Splines.hh srcs/SplinesCinterface.h
+OBJS  = $(SRCS:.cc=.o)
+DEPS  = srcs/Splines.hh srcs/SplinesCinterface.h
+MKDIR = mkdir -p
 
-#CC     = llvm-gcc
-#CXX    = llvm-g++
-CC     = clang
-CXX    = clang++
-#CC     = gcc
-#CXX    = g++
+# prefix for installation, use make PREFIX=/new/prefix install
+# to override
+PREFIX    = /usr/local
+FRAMEWORK = Splines
 
-all: $(LIB_SPLINE)
+all: $(LIB_SPLINE) $(LIB_GC)
 	mkdir -p bin
 	$(CXX) $(INC) $(CFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
 	$(CXX) $(INC) $(CFLAGS) -o bin/test2 tests/test2.cc $(LIBS)
@@ -67,10 +72,10 @@ all: $(LIB_SPLINE)
 	#$(CXX) $(CFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
 
 srcs/%.o: srcs/%.cc $(DEPS)
-	$(CXX) $(INC) $(CFLAGS) -c $< -o $@ 
+	$(CXX) $(INC) $(CFLAGS) $(DEFS) -c $< -o $@ 
 
 srcs/%.o: srcs/%.c $(DEPS)
-	$(CC) $(INC) -c -o $@ $< $(CFLAGS)
+	$(CC) $(INC) $(DEFS) -c -o $@ $< $(CFLAGS)
 
 libSplines.a: $(OBJS)
 	$(AR) lib/libSplines.a $(OBJS) 
@@ -81,10 +86,20 @@ libSplines.dylib: $(OBJS)
 libSplines.so: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
-install: lib/$(LIB_SPLINE)
+lib/$(LIB_GC):
+	$(MKDIR) include ; cd GC ; make ; make PREFIX=$(PWD) install 
+
+
+install: lib/$(LIB_SPLINE) lib/$(LIB_GC)
 	cp srcs/Splines.hh          $(PREFIX)/include
 	cp srcs/SplinesCinterface.h $(PREFIX)/include
-	cp lib/$(LIB_SPLINE)       $(PREFIX)/lib
+	cp lib/$(LIB_SPLINE)        $(PREFIX)/lib
+
+install_as_framework: lib/$(LIB_GC)
+	$(MKDIR) $(PREFIX)/include/$(FRAMEWORK)
+	cp srcs/Splines.hh          $(PREFIX)/include/$(FRAMEWORK)
+	cp srcs/SplinesCinterface.h $(PREFIX)/include/$(FRAMEWORK)
+	cp lib/$(LIB_SPLINE)        $(PREFIX)/lib
 
 run:
 	./bin/test1
@@ -98,6 +113,7 @@ doc:
 	doxygen
 	
 clean:
-	rm -f lib/libSplines.a lib/libSplines.dylib lib/libSplines.so srcs/*.o
+	rm -f lib/libSplines.* lib/libGenericContainer.* srcs/*.o
+
 	rm -rf bin
 	

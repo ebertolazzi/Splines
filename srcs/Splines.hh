@@ -48,12 +48,8 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
-// if GenericContainer is included add support
-#ifdef GENERIC_CONTAINER_HH
-  #ifndef SPLINES_USE_GENERIC_CONTAINER
-    #define SPLINES_USE_GENERIC_CONTAINER 1
-  #endif
-#endif
+// Comment this if you do not want that Splines uses GenericContainer
+#define SPLINES_USE_GENERIC_CONTAINER 1
 
 // some one may force the use of GenericContainer
 #ifdef SPLINES_USE_GENERIC_CONTAINER
@@ -1514,25 +1510,10 @@ namespace Splines {
   public:
 
     //! spline constructor
-    SplineSet( string const & name = "SplineSet" )
-    : _name(name)
-    , baseValue(name+"_values")
-    , basePointer(name+"_pointers")
-    , _npts(0)
-    , _nspl(0)
-    , _X(nullptr)
-    , _Y(nullptr)
-    , _Yp(nullptr)
-    , _Ypp(nullptr)
-    , _Ymin(nullptr)
-    , _Ymax(nullptr)
-    , lastInterval(0)
-    {}
+    SplineSet( string const & name = "SplineSet" ) ;
 
     //! spline destructor
-    virtual 
-    ~SplineSet()
-    { baseValue.free() ; basePointer.free() ; }
+    virtual ~SplineSet() ;
 
     string const & name() const { return _name ; }
     string const & header( sizeType const i ) const { return splines[i]->name() ; }

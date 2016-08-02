@@ -30,6 +30,28 @@ namespace Splines {
   using std::abs ;
   using std::sqrt ;
 
+  //! spline constructor
+  SplineSet::SplineSet( string const & name )
+  : _name(name)
+  , baseValue(name+"_values")
+  , basePointer(name+"_pointers")
+  , _npts(0)
+  , _nspl(0)
+  , _X(nullptr)
+  , _Y(nullptr)
+  , _Yp(nullptr)
+  , _Ypp(nullptr)
+  , _Ymin(nullptr)
+  , _Ymax(nullptr)
+  , lastInterval(0)
+  {}
+
+  //! spline destructor
+  SplineSet::~SplineSet() {
+    baseValue.free() ;
+    basePointer.free() ;
+  }
+
   void
   SplineSet::info( std::basic_ostream<char> & s ) const {
     s << "SplineSet[" << name() << "] n.points = "
