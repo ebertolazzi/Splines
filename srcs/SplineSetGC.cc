@@ -66,7 +66,7 @@ namespace Splines {
 
   //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
   void
-  SplineSet::eval( vec_real_type & vec, vec_string_type const & columns, GenericContainer & gc ) const {
+  SplineSet::eval( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & gc ) const {
     sizeType npts = sizeType(vec.size()) ;
     map_type & vals = gc.set_map() ;
     for ( vec_string_type::const_iterator is = columns.begin() ;
@@ -189,7 +189,7 @@ namespace Splines {
 
   //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
   void
-  SplineSet::eval_D( vec_real_type & vec, vec_string_type const & columns, GenericContainer & gc ) const {
+  SplineSet::eval_D( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & gc ) const {
     sizeType npts = sizeType(vec.size()) ;
     map_type & vals = gc.set_map() ;
     for ( vec_string_type::const_iterator is = columns.begin() ;
@@ -311,7 +311,7 @@ namespace Splines {
 
   //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
   void
-  SplineSet::eval_DD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & gc ) const {
+  SplineSet::eval_DD( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & gc ) const {
     sizeType npts = sizeType(vec.size()) ;
     map_type & vals = gc.set_map() ;
     for ( vec_string_type::const_iterator is = columns.begin() ;
@@ -434,7 +434,7 @@ namespace Splines {
 
   //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
   void
-  SplineSet::eval_DDD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & gc ) const {
+  SplineSet::eval_DDD( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & gc ) const {
     sizeType npts = sizeType(vec.size()) ;
     map_type & vals = gc.set_map() ;
     for ( vec_string_type::const_iterator is = columns.begin() ;

@@ -1688,7 +1688,7 @@ namespace Splines {
     void eval( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
-    void eval( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+    void eval( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
     void eval2( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
@@ -1728,7 +1728,7 @@ namespace Splines {
     void eval_D( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
-    void eval_D( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+    void eval_D( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
     void eval2_D( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
@@ -1768,7 +1768,7 @@ namespace Splines {
     void eval_DD( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
-    void eval_DD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+    void eval_DD( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
     void eval2_DD( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
@@ -1808,7 +1808,7 @@ namespace Splines {
     void eval_DDD( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
-    void eval_DDD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+    void eval_DDD( vec_real_type const & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
 
     //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
     void eval2_DDD( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
