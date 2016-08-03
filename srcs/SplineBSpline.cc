@@ -633,6 +633,7 @@ namespace Splines {
   template <int _degree>
   sizeType // order
   BSpline<_degree>::coeffs( valueType cfs[], valueType nodes[], bool transpose ) const {
+    SPLINE_ASSERT( false, "BSpline<_degree>::coeffs not yet implemented" ) ;
 #if 0
     sizeType n = npts > 0 ? npts-1 : 0 ;
     for ( sizeType i = 0 ; i < n ; ++i ) {

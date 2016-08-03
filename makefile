@@ -48,6 +48,7 @@ srcs/SplinePchip.cc \
 srcs/SplineQuintic.cc \
 srcs/SplineQuinticBase.cc \
 srcs/SplineSet.cc \
+srcs/SplineSetGC.cc \
 srcs/Splines.cc \
 srcs/SplinesBivariate.cc \
 srcs/SplinesCinterface.cc \
@@ -62,7 +63,7 @@ MKDIR = mkdir -p
 PREFIX    = /usr/local
 FRAMEWORK = Splines
 
-all: $(LIB_SPLINE) $(LIB_GC)
+all: lib/$(LIB_SPLINE) lib/$(LIB_GC)
 	mkdir -p bin
 	$(CXX) $(INC) $(CFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
 	$(CXX) $(INC) $(CFLAGS) -o bin/test2 tests/test2.cc $(LIBS)
@@ -77,13 +78,13 @@ srcs/%.o: srcs/%.cc $(DEPS)
 srcs/%.o: srcs/%.c $(DEPS)
 	$(CC) $(INC) $(DEFS) -c -o $@ $< $(CFLAGS)
 
-libSplines.a: $(OBJS)
+lib/libSplines.a: $(OBJS)
 	$(AR) lib/libSplines.a $(OBJS) 
 
-libSplines.dylib: $(OBJS)
+lib/libSplines.dylib: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.dylib $(OBJS) 
 
-libSplines.so: $(OBJS)
+lib/libSplines.so: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):

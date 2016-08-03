@@ -178,6 +178,8 @@ namespace Splines {
         case LINEAR_TYPE:
         case SPLINE_SET_TYPE:
         break;
+        case BSPLINE_TYPE: // nothing to do (not implemented)
+        break ;
       }
       string h = headers[spl] ;
       Spline * & s = splines[spl] ;
@@ -381,6 +383,8 @@ namespace Splines {
         case LINEAR_TYPE:
           _Y[spl] = baseValue( _npts ) ;
         case SPLINE_SET_TYPE:
+        break;
+        case BSPLINE_TYPE: // nothing to do (not implemented)
         break;
       }
     }

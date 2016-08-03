@@ -151,6 +151,10 @@ namespace Splines {
 
   #ifdef SPLINES_USE_GENERIC_CONTAINER
   using GenericContainerNamespace::GenericContainer ;
+  using GenericContainerNamespace::vec_real_type ;
+  using GenericContainerNamespace::vec_string_type ;
+  using GenericContainerNamespace::vector_type ;
+  using GenericContainerNamespace::map_type ;
   #endif
 
   pair<int,int>
@@ -1671,6 +1675,170 @@ namespace Splines {
 
     //! Evaluate third derivative of the spline `spl` at `zeta` using spline `indep` as independent
     valueType eval2_DDD( valueType zeta, sizeType indep, sizeType spl ) const ;
+
+    // interface with GenericContainer
+    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer
+    void eval( valueType x, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer
+    void eval( vec_real_type const & vec, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer with keys in `columns`
+    void eval( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
+    void eval( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2( vec_real_type const & zetas, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2( valueType zeta, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2( vec_real_type const & zetas, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2( valueType zeta, char const * indep, GenericContainer & vals ) const
+    { eval2( zeta, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2( vec_real_type const & zetas, char const * indep, GenericContainer & vals ) const
+    { eval2( zetas, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2( valueType zeta, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2( zeta, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2( vec_real_type const & zetas, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2( zetas, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer
+    void eval_D( valueType x, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer
+    void eval_D( vec_real_type const & vec, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer with keys in `columns`
+    void eval_D( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
+    void eval_D( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_D( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_D( vec_real_type const & zetas, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_D( valueType zeta, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_D( vec_real_type const & zetas, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_D( valueType zeta, char const * indep, GenericContainer & vals ) const
+    { eval2_D( zeta, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_D( vec_real_type const & zetas, char const * indep, GenericContainer & vals ) const
+    { eval2_D( zetas, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_D( valueType zeta, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_D( zeta, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_D( vec_real_type const & zetas, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_D( zetas, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer
+    void eval_DD( valueType x, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer
+    void eval_DD( vec_real_type const & vec, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer with keys in `columns`
+    void eval_DD( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
+    void eval_DD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_DD( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_DD( vec_real_type const & zetas, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DD( valueType zeta, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DD( vec_real_type const & zetas, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_DD( valueType zeta, char const * indep, GenericContainer & vals ) const
+    { eval2_DD( zeta, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_DD( vec_real_type const & zetas, char const * indep, GenericContainer & vals ) const
+    { eval2_DD( zetas, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DD( valueType zeta, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_DD( zeta, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DD( vec_real_type const & zetas, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_DD( zetas, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer
+    void eval_DDD( valueType x, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer
+    void eval_DDD( vec_real_type const & vec, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer with keys in `columns`
+    void eval_DDD( valueType x, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `x` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns`
+    void eval_DDD( vec_real_type & vec, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_DDD( valueType zeta, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_DDD( vec_real_type const & zetas, sizeType indep, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DDD( valueType zeta, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DDD( vec_real_type const & zetas, sizeType indep, vec_string_type const & columns, GenericContainer & vals ) const ;
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer and `indep` as independent spline
+    void eval2_DDD( valueType zeta, char const * indep, GenericContainer & vals ) const
+    { eval2_DD( zeta, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
+    void eval2_DDD( vec_real_type const & zetas, char const * indep, GenericContainer & vals ) const
+    { eval2_DD( zetas, getPosition(indep), vals ) ; }
+
+    //! Evaluate all the splines at `zeta` and fill a map of values in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DDD( valueType zeta, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_DD( zeta, getPosition(indep), columns, vals ) ; }
+
+    //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer with keys in `columns` and `indep` as independent spline
+    void eval2_DDD( vec_real_type const & zetas, char const * indep, vec_string_type const & columns, GenericContainer & vals ) const
+    { eval2_DD( zetas, getPosition(indep), columns, vals ) ; }
+
+    #endif
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines
