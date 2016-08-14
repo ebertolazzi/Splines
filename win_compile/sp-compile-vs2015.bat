@@ -1,14 +1,13 @@
 @echo off
-@rmdir vs2015_32 /s /q
-@rmdir vs2015_64 /s /q
-@mkdir vs2015_32
 
+@rmdir vs2015_32 /s /q
+@mkdir vs2015_32
 @pushd vs2015_32
 @cmake -G "Visual Studio 14 2015" ..\..
 @popd
 
+@rmdir vs2015_64 /s /q
 @mkdir vs2015_64
-
 @pushd vs2015_64
 @cmake -G "Visual Studio 14 2015 Win64" ..\..
 @popd

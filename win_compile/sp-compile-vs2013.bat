@@ -1,15 +1,13 @@
 @echo off
 
 @rmdir vs2013_32 /s /q
-@rmdir vs2013_64 /s /q
 @mkdir vs2013_32
-
 @pushd vs2013_32
 @cmake -G "Visual Studio 12 2013" ..\..
 @popd
 
+@rmdir vs2013_64 /s /q
 @mkdir vs2013_64
-
 @pushd vs2013_64
 @cmake -G "Visual Studio 12 2013 Win64" ..\..
 @popd
