@@ -41,7 +41,7 @@ namespace Splines {
     base[0] = 1-base[1]     ;
     base[2] = x*(X*(X-2)+1) ;
     base[3] = x*X*(X-1)     ;
-  } ;
+  }
 
   void
   Hermite3_D( valueType const x, valueType const H, valueType base_D[4] ) {
@@ -92,7 +92,7 @@ namespace Splines {
     base[3] = -t11 * (4 * h - t4) * t3 * t7;
     base[4] = 0.5 * (t10 * t9 * t5) ;
     base[5] = 0.5 * (t11 * t6 * t5) ;
-  } ;
+  }
 
   void
   Hermite5_D( valueType const t, valueType const h, valueType base_D[6] ) {

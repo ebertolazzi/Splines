@@ -28,18 +28,18 @@ using Splines::indexType ;
 using Splines::sizeType ;
 
 // monotone
-//valueType xx[] = { 595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
-//valueType yy[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.916, 0.607, 0.603, 0.608 } ;
-//valueType xx[] = { 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
-//valueType yy[] = { 0, 0, 0, 0, 1, 2, 3, 4, 4,   4,  4 } ;
-//valueType xx[] = { -10, -9, -6, -1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
-//valueType yy[] = { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4 } ;
-//valueType yy[] = {  595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
-valueType xx[] = { 0, 1, 2, 3, 4 } ;
-valueType yy[] = { 0, 1, 2, 3, 4 } ;
-//valueType yy[] = { 1, 1, 1, 1 } ;
-//valueType yy[] = { 0, 1, 4, 9, 16, 64, 100 } ;
-sizeType  n = sizeof(xx)/sizeof(xx[0]) ;
+//static valueType xx[] = { 595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
+//static valueType yy[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.916, 0.607, 0.603, 0.608 } ;
+//static valueType xx[] = { 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
+//static valueType yy[] = { 0, 0, 0, 0, 1, 2, 3, 4, 4,   4,  4 } ;
+//static valueType xx[] = { -10, -9, -6, -1, 2, 3, 5, 6, 7, 9, 10, 11, 12 } ;
+//static valueType yy[] = { 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4 } ;
+//static valueType yy[] = {  595, 635, 695, 795, 855, 875, 895, 915, 935, 985, 1035, 1075 } ;
+static valueType xx[] = { 0, 1, 2, 3, 4 } ;
+static valueType yy[] = { 0, 1, 2, 3, 4 } ;
+//static valueType yy[] = { 1, 1, 1, 1 } ;
+//static valueType yy[] = { 0, 1, 4, 9, 16, 64, 100 } ;
+static sizeType  n = sizeof(xx)/sizeof(xx[0]) ;
 
 #define SAVE(S) \
 cout << #S": n = " << n << '\n' ; \

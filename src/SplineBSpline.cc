@@ -434,13 +434,9 @@ namespace Splines {
   template <int _degree>
   void
   BSpline<_degree>::build(void) {
-    #ifdef SPLINE_USE_ALLOCA
-    valueType * band = (valueType*)alloca( npts*(2*_degree+1)*sizeof(valueType) ) ;
-    #else
-    valueType band[npts*(2*_degree+1)] ;
-    #endif
+    std::vector<valueType> band(npts*(2*_degree+1)) ;
     
-    std::fill( band, band+npts*(2*_degree+1), 0 ) ;
+    std::fill( band.begin(), band.end(), 0 ) ;
     knots_sequence( npts, X, knots ) ;
     
     // costruzione sistema lineare
@@ -449,12 +445,12 @@ namespace Splines {
     // knot[degree] <= x <= knot[degree+1]
     sizeType nr = 2*_degree+1 ;
     for ( sizeType i = 0 ; i < npts ; ++i ) {
-      valueType * rowi = band + nr * i ;
+      valueType * rowi = &band[nr * i] ;
       sizeType ii = knot_search( X[i] ) ;
       BSplineBase<_degree>::eval( X[i], knots+ii, (rowi + ii + _degree) - i ) ;
       yPolygon[i] = Y[i] ;
     }
-    solveBanded( band, yPolygon, npts, _degree ) ;
+    solveBanded( &band.front(), yPolygon, npts, _degree ) ;
     // extrapolation
     valueType const * knots_R    = knots    + npts - _degree - 1 ;
     valueType const * yPolygon_R = yPolygon + npts - _degree - 1 ;

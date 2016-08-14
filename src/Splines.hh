@@ -75,7 +75,6 @@ either expressed or implied, of the FreeBSD Project.
   #endif
   #ifdef _MSC_VER
     #include <math.h>
-    #define SPLINE_USE_ALLOCA
   #endif
 #else
   #if __cplusplus > 199711L
@@ -783,7 +782,7 @@ namespace Splines {
     virtual
     void
     build (void)
-    {} ; // nothing to do for CubicSplineBase
+    {} // nothing to do for CubicSplineBase
 
     #ifdef SPLINES_USE_GENERIC_CONTAINER
     void setup ( GenericContainer const & gc ) ;
@@ -816,13 +815,13 @@ namespace Splines {
 
     //! Build a spline.
     /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
-     * \param yp   vector of y'-coordinates
-     * \param incy access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
-     * \param n    total number of points
+     * \param x     vector of x-coordinates
+     * \param incx  access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+     * \param y     vector of y-coordinates
+     * \param incy  access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
+     * \param yp    vector of y'-coordinates
+     * \param incyp access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
+     * \param n     total number of points
      */
     void
     build ( valueType const x[],  sizeType incx,
@@ -904,15 +903,15 @@ namespace Splines {
     {}
 
     /*!
-     * \param ddy0  first boundary condition.
-     *              The second derivative at initial point.
-     * \param ddyn  second boundary condition.
-     *              The second derivative at final point.
+     * \param _ddy0  first boundary condition.
+     *               The second derivative at initial point.
+     * \param _ddyn  second boundary condition.
+     *               The second derivative at final point.
      */
     void
-    setbc( valueType ddy0, valueType ddyn ) {
-      this -> ddy0 = ddy0 ;
-      this -> ddyn = ddyn ;    
+    setbc( valueType _ddy0, valueType _ddyn ) {
+      this -> ddy0 = _ddy0 ;
+      this -> ddyn = _ddyn ;    
     }
 
     //! Return spline type (as number)
@@ -1843,13 +1842,12 @@ namespace Splines {
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines
      * \param nspl       the number of splines
-     * \param nspl       the number of splines
+     * \param npts       the number of points of each splines
      * \param headers    the names of the splines
      * \param stype      the type of each spline
-     * \param rp_policy  treatment of repeated points of eachj splines. True = continuous,
-     *                   rp_policy = NULL all splines are discontinuous at repeated points
      * \param X          pointer to X independent values
      * \param Y          vector of `nspl` pointers to Y depentendent values.
+     * \param Yp         vector of `nspl` pointers to Yp depentendent values.
      */
 
     void

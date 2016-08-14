@@ -33,9 +33,9 @@
 #define isfinite(A) ((A*0.0) == 0.0)
 #endif
 
-#ifndef isregular
-#define isregular(A) ( !isnan(A) && isfinite(A) )
-#endif
+//#ifndef isregular
+//#define isregular(A) ( !isnan(A) && isfinite(A) )
+//#endif
 
 namespace Splines {
   //! Associate a number for each type of splines implemented
@@ -135,19 +135,15 @@ namespace Splines {
     } else if ( npts >= npts_reserved ) {
       // riallocazione & copia
       sizeType saved_npts = npts ; // salvo npts perche reserve lo azzera
-      #ifdef SPLINE_USE_ALLOCA
-        valueType * Xsaved = (valueType*)alloca( (npts)*sizeof(valueType) ) ;
-        valueType * Ysaved = (valueType*)alloca( (npts)*sizeof(valueType) ) ;
-      #else
-        valueType Xsaved[npts], Ysaved[npts] ;
-      #endif
+      vector<valueType> Xsaved(npts) ;
+      vector<valueType> Ysaved(npts) ;
 
-      std::copy( X, X+npts, Xsaved ) ;
-      std::copy( Y, Y+npts, Ysaved ) ;
+      std::copy( X, X+npts, Xsaved.begin() ) ;
+      std::copy( Y, Y+npts, Ysaved.begin() ) ;
       reserve( (npts+1) * 2 ) ;
       npts = saved_npts ;
-      std::copy( Xsaved, Xsaved+npts, X ) ;
-      std::copy( Ysaved, Ysaved+npts, Y ) ;
+      std::copy( Xsaved.begin(), Xsaved.end(), X ) ;
+      std::copy( Ysaved.begin(), Ysaved.end(), Y ) ;
     }
     X[npts] = x ;
     Y[npts] = y ;

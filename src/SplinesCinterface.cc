@@ -45,7 +45,7 @@ using namespace std ;
 typedef std::map<std::string,Spline*> MAP_SPLINE ;
 
 static std::map<std::string,Spline*> spline_stored ;
-Spline * head = nullptr ;
+static Spline * head = nullptr ;
 
 EXTERN_C
 int
@@ -124,7 +124,7 @@ EXTERN_C
 void *
 SPLINE_mem_ptr( char const id[] ) {
   // check if exists ?
-  return (void*) & spline_stored[id] ;
+  return static_cast<void*>(&spline_stored[id]) ;
 }
 
 EXTERN_C

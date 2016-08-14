@@ -27,10 +27,10 @@ using Splines::indexType ;
 using Splines::sizeType ;
 
 // monotone
-valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
-valueType yy[] = { 0, 1, 1.1, 2.0, 2.1 } ;
+static valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
+static valueType yy[] = { 0, 1, 1.1, 2.0, 2.1 } ;
 
-sizeType  n = 5 ;
+static indexType n = 5 ;
 
 int
 main() {
@@ -83,7 +83,7 @@ main() {
 
   file   << "x" ;
   file_D << "x" ;
-  for ( indexType i = 0 ; i < nspl ; ++i ) {
+  for ( sizeType i = 0 ; i < sizeType(nspl) ; ++i ) {
     file   << '\t' << ss.header(i) ;
     file_D << '\t' << ss.header(i) ;
   }
@@ -110,7 +110,7 @@ main() {
 
   fileR   << "x" ;
   fileR_D << "x" ;
-  for ( indexType i = 0 ; i < nspl ; ++i ) {
+  for ( sizeType i = 0 ; i < sizeType(nspl) ; ++i ) {
     fileR   << '\t' << ss.header(i) ;
     fileR_D << '\t' << ss.header(i) ;
   }

@@ -26,14 +26,14 @@ using Splines::valueType ;
 using Splines::indexType ;
 using Splines::sizeType ;
 
-valueType x[] = {  0,  1,  2,  3,  4,  5 } ;
-valueType y[] = {  0,  1,  2,  3,  4,  5 } ;
-valueType z[] = {  10, 10, 10,   10,  10, 11,
-                   10, 10, 10.5, 11,  9,  9,
-                   11, 12, 13,   8,   7,  9,
-                   11, 12, 13,   8,   7,  9,
-                   11, 12, 13,   8,   7,  9,
-                   11, 12, 13,   8,   7,  9 } ;
+static valueType x[] = {  0,  1,  2,  3,  4,  5 } ;
+static valueType y[] = {  0,  1,  2,  3,  4,  5 } ;
+static valueType z[] = {  10, 10, 10,   10,  10, 11,
+                          10, 10, 10.5, 11,  9,  9,
+                          11, 12, 13,   8,   7,  9,
+                          11, 12, 13,   8,   7,  9,
+                          11, 12, 13,   8,   7,  9,
+                          11, 12, 13,   8,   7,  9 } ;
 
 int
 main() {
@@ -66,13 +66,13 @@ main() {
     ofstream file_ak("out/akima2d.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc(x,y) << '\t' ;
-        file_bq << bq(x,y) << '\t' ;
-        file_bl << bl(x,y) << '\t' ;
-        file_ak << ak(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc(xxx,yyy) << '\t' ;
+        file_bq << bq(xxx,yyy) << '\t' ;
+        file_bl << bl(xxx,yyy) << '\t' ;
+        file_ak << ak(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;
@@ -93,13 +93,13 @@ main() {
     ofstream file_ak("out/akima2d_Dx.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc.Dx(x,y) << '\t' ;
-        file_bq << bq.Dx(x,y) << '\t' ;
-        file_bl << bl.Dx(x,y) << '\t' ;
-        file_ak << ak.Dx(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dx(xxx,yyy) << '\t' ;
+        file_bq << bq.Dx(xxx,yyy) << '\t' ;
+        file_bl << bl.Dx(xxx,yyy) << '\t' ;
+        file_ak << ak.Dx(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;
@@ -120,13 +120,13 @@ main() {
     ofstream file_ak("out/akima2d_Dxx.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc.Dxx(x,y) << '\t' ;
-        file_bq << bq.Dxx(x,y) << '\t' ;
-        file_bl << bl.Dxx(x,y) << '\t' ;
-        file_ak << ak.Dxx(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dxx(xxx,yyy) << '\t' ;
+        file_bq << bq.Dxx(xxx,yyy) << '\t' ;
+        file_bl << bl.Dxx(xxx,yyy) << '\t' ;
+        file_ak << ak.Dxx(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;
@@ -147,13 +147,13 @@ main() {
     ofstream file_ak("out/akima2d_Dy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc.Dy(x,y) << '\t' ;
-        file_bq << bq.Dy(x,y) << '\t' ;
-        file_bl << bl.Dy(x,y) << '\t' ;
-        file_ak << ak.Dy(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dy(xxx,yyy) << '\t' ;
+        file_bq << bq.Dy(xxx,yyy) << '\t' ;
+        file_bl << bl.Dy(xxx,yyy) << '\t' ;
+        file_ak << ak.Dy(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;
@@ -174,13 +174,13 @@ main() {
     ofstream file_ak("out/akima2d_Dyy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc.Dyy(x,y) << '\t' ;
-        file_bq << bq.Dyy(x,y) << '\t' ;
-        file_bl << bl.Dyy(x,y) << '\t' ;
-        file_ak << ak.Dyy(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dyy(xxx,yyy) << '\t' ;
+        file_bq << bq.Dyy(xxx,yyy) << '\t' ;
+        file_bl << bl.Dyy(xxx,yyy) << '\t' ;
+        file_ak << ak.Dyy(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;
@@ -201,13 +201,13 @@ main() {
     ofstream file_ak("out/akima2d_Dxy.txt") ;
 
     for ( int i = 0 ; i <= 100 ; ++i ) {
-      valueType x = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
+      valueType xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0 ;
       for ( int j = 0 ; j <= 100 ; ++j ) {
-        valueType y = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
-        file_bc << bc.Dxy(x,y) << '\t' ;
-        file_bq << bq.Dxy(x,y) << '\t' ;
-        file_bl << bl.Dxy(x,y) << '\t' ;
-        file_ak << ak.Dxy(x,y) << '\t' ;
+        valueType yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0 ;
+        file_bc << bc.Dxy(xxx,yyy) << '\t' ;
+        file_bq << bq.Dxy(xxx,yyy) << '\t' ;
+        file_bl << bl.Dxy(xxx,yyy) << '\t' ;
+        file_ak << ak.Dxy(xxx,yyy) << '\t' ;
       }
       file_bc << '\n' ;
       file_bq << '\n' ;

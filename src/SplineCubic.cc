@@ -43,18 +43,10 @@ namespace Splines {
 
     sizeType n = npts > 0 ? npts-1 : 0 ;
 
-    #ifdef SPLINE_USE_ALLOCA
-    valueType * L = (valueType*)alloca( npts*sizeof(valueType) ) ;
-    valueType * D = (valueType*)alloca( npts*sizeof(valueType) ) ;
-    valueType * U = (valueType*)alloca( npts*sizeof(valueType) ) ;
-    valueType * Z = (valueType*)alloca( npts*sizeof(valueType) ) ;
-    #else
-    valueType L[npts] ;
-    valueType D[npts] ;
-    valueType U[npts] ;
-    valueType Z[npts] ;
-    #endif
-
+    vector<valueType> L(npts) ;
+    vector<valueType> D(npts) ;
+    vector<valueType> U(npts) ;
+    vector<valueType> Z(npts) ;
 
     sizeType i ;
     for ( i = 1 ; i < n ; ++i ) {

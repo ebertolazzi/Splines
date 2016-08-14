@@ -40,12 +40,7 @@ namespace Splines {
                 sizeType        npts ) {
 
     sizeType n = npts > 0 ? npts-1 : 0 ;
-
-    #ifdef SPLINE_USE_ALLOCA
-    valueType * m = (valueType*)alloca( n*sizeof(valueType) ) ;
-    #else
-    valueType m[n] ;
-    #endif
+    std::vector<valueType> m(n) ;
 
     // calcolo slopes
     for ( sizeType i = 0 ; i < n ; ++i )

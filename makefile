@@ -22,8 +22,8 @@ endif
 
 # check if the OS string contains 'Darwin'
 ifneq (,$(findstring Darwin, $(OS)))
-  CC       = clang
-  CXX      = clang++
+  CC  = clang   -Weverything -Wno-reserved-id-macro -Wno-padded -Wno-documentation-unknown-command
+  CXX = clang++ -Weverything -Wno-reserved-id-macro -Wno-padded -Wno-documentation-unknown-command
   #LIB_SPLINE = libSplines.dylib
   #LIB_GC     = libGenericContainer.dylib
   LIBS     = -L./lib -lSplines -lGenericContainer

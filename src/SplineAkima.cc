@@ -62,11 +62,8 @@ namespace Splines {
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]) ;
     } else {
-      #ifdef SPLINE_USE_ALLOCA
-      valueType * m = (valueType*)alloca( (npts+3)*sizeof(valueType) ) ;
-      #else
-      valueType m[npts+3] ;
-      #endif
+      std::vector<valueType> m(npts+3) ;
+
       // calcolo slopes (npts-1) intervals + 4
       for ( sizeType i = 1 ; i < npts ; ++i )
         m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]) ;

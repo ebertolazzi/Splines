@@ -28,10 +28,10 @@ using Splines::indexType ;
 using Splines::sizeType ;
 
 // monotone
-valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
-valueType yy[] = { 0, 1, 1.99, 2.0, 2.1 } ;
+static valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
+static valueType yy[] = { 0, 1, 1.99, 2.0, 2.1 } ;
 
-sizeType  n = 5 ;
+static sizeType  n = 5 ;
 
 int
 main() {
