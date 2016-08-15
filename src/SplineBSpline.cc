@@ -762,6 +762,10 @@ namespace Splines {
     return idx ;
   }
 
+  #ifdef __GNUC__
+    #pragma clang diagnostic ignored "-Wweak-template-vtables"
+  #endif
+
   template class BSpline<1> ;
   template class BSpline<2> ;
   template class BSpline<3> ;

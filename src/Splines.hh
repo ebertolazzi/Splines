@@ -72,6 +72,12 @@ either expressed or implied, of the FreeBSD Project.
     #ifndef DO_NOT_USE_CXX11
       #define SPLINES_USE_CXX11
     #endif
+  #else
+    #include <cstdlib>
+    #ifndef nullptr
+      #include <cstddef>
+      #define nullptr NULL
+    #endif
   #endif
   #ifdef _MSC_VER
     #include <math.h>
@@ -81,15 +87,12 @@ either expressed or implied, of the FreeBSD Project.
     #ifndef DO_NOT_USE_CXX11
       #define SPLINES_USE_CXX11
     #endif
-  #endif
-#endif
-
-// if C++ < C++11 define nullptr
-#ifndef SPLINES_USE_CXX11
-  #include <cstdlib>
-  #ifndef nullptr
-    #include <cstddef>
-    #define nullptr NULL
+  #else
+    #include <cstdlib>
+    #ifndef nullptr
+      #include <cstddef>
+      #define nullptr NULL
+    #endif
   #endif
 #endif
 

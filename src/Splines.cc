@@ -271,12 +271,12 @@ namespace Splines {
                                 sizeType        npts ) {
     // check monotonicity of data: (assuming X monotone)
     indexType flag = 1 ;
-    for ( indexType i = 1 ; i < npts ; ++i ) {
+    for ( indexType i = 1 ; i < indexType(npts) ; ++i ) {
       if ( Y[i-1] > Y[i] ) return -2 ; // non monotone data
       if ( Y[i-1] == Y[i] && X[i-1] < X[i] ) flag = 0 ; // non strict monotone
     }
     // pag 146 Methods of Shape-Preserving Spline Approximation, K
-    for ( indexType i = 1 ; i < npts ; ++i ) {
+    for ( indexType i = 1 ; i < indexType(npts) ; ++i ) {
       if ( X[i] <= X[i-1] ) continue ; // skip duplicate points
       valueType dd = (Y[i]-Y[i-1])/(X[i]-X[i-1]) ;
       valueType m0 = Yp[i-1]/dd ;

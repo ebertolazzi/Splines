@@ -108,7 +108,7 @@ namespace Splines {
     splines.resize(_nspl) ;
     is_monotone.resize(_nspl) ;
     indexType mem = npts ;
-    for ( sizeType spl = 0 ; spl < nspl ; ++spl ) {
+    for ( sizeType spl = 0 ; spl < sizeType(nspl) ; ++spl ) {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
         mem += npts ; // Y, Yp, Ypp
@@ -141,7 +141,7 @@ namespace Splines {
     _Ymin = baseValue(_nspl) ;
     _Ymax = baseValue(_nspl) ;
     std::copy( X, X+npts, _X ) ;
-    for ( sizeType spl = 0 ; spl < nspl ; ++spl ) {
+    for ( sizeType spl = 0 ; spl < sizeType(nspl) ; ++spl ) {
       valueType *& pY   = _Y[spl] ;
       valueType *& pYp  = _Yp[spl] ;
       valueType *& pYpp = _Ypp[spl] ;
