@@ -67,18 +67,12 @@ namespace Splines {
     GenericContainer const & gc_x = gc("x") ;
     GenericContainer const & gc_y = gc("y") ;
     GenericContainer const & gc_z = gc("z") ;
+    
+    vec_real_type x, y ;
+    gc_x.copyto_vec_real( x, "SplineSurf::setup, field `x'" ) ;
+    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `x'" ) ;
 
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_x.get_type() ||
-                   GC_VEC_INTEGER == gc_x.get_type(),
-                   "[SplineSurf[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
-                   gc_x.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL    == gc_y.get_type() ||
-                   GC_VEC_INTEGER == gc_y.get_type(),
-                   "[SplineSurf[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
-                   gc_y.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_MAT_REAL    == gc_z.get_type(),
+    SPLINE_ASSERT( GC_MAT_REAL == gc_z.get_type(),
                    "[SplineSurf[" << _name << "]::setup] field `z` expected to be of type `mat_real_type` found: `" <<
                    gc_z.get_type_name() << "`" ) ;
 
@@ -90,11 +84,11 @@ namespace Splines {
     if ( gc.exists("transposed") )
       transposed = gc("transposed").get_bool() ;
 
-    sizeType nx = sizeType(gc_x.get_vec_real().size()) ;
-    sizeType ny = sizeType(gc_y.get_vec_real().size()) ;
+    sizeType nx = sizeType(x.size()) ;
+    sizeType ny = sizeType(y.size()) ;
 
-    build ( &gc_x.get_vec_real().front(), 1,
-            &gc_y.get_vec_real().front(), 1,
+    build ( &x.front(), 1,
+            &y.front(), 1,
             &gc_z.get_mat_real().front(), gc_z.get_mat_real().numRows(),
             nx, ny, fortran_storage, transposed ) ;
 

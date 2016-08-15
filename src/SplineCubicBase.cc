@@ -78,43 +78,11 @@ namespace Splines {
     GenericContainer const & gc_y  = gc("y") ;
     GenericContainer const & gc_yp = gc("yp") ;
 
-    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type() || GC_VEC_INTEGER == gc_x.get_type(),
-                   "[" << type_name() << "[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
-                   gc_x.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type() || GC_VEC_INTEGER == gc_y.get_type(),
-                   "[" << type_name() << "[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
-                   gc_y.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL == gc_yp.get_type() || GC_VEC_INTEGER == gc_yp.get_type(),
-                   "[" << type_name() << "[" << _name << "]::setup] field `yp` expected to be of type `vec_real_type` found: `" <<
-                   gc_yp.get_type_name() << "`" ) ;
-
     vec_real_type x, y, yp ;
-    vec_real_type const * px  = nullptr ;
-    vec_real_type const * py  = nullptr ;
-    vec_real_type const * pyp = nullptr ;
-    if ( GC_VEC_INTEGER == gc_x.get_type() ) {
-      vec_int_type const & vx = gc_x.get_vec_int() ;
-      x.resize(vx.size()) ; std::copy( vx.begin(), vx.end(), x.begin() ) ;
-    } else {
-      px = &gc_x.get_vec_real() ;
-    }
-    if ( GC_VEC_INTEGER == gc_y.get_type() ) {
-      vec_int_type const & vy = gc_y.get_vec_int() ;
-      y.resize(vy.size()) ; std::copy( vy.begin(), vy.end(), y.begin() ) ;
-    } else {
-      py = &gc_y.get_vec_real() ;
-    }
-    if ( GC_VEC_INTEGER == gc_yp.get_type() ) {
-      vec_int_type const & vyp = gc_yp.get_vec_int() ;
-      yp.resize(vyp.size()) ; std::copy( vyp.begin(), vyp.end(), yp.begin() ) ;
-    } else {
-      pyp = &gc_yp.get_vec_real() ;
-    }
-
-    build( *px, *py, *pyp ) ;
-
+    gc_x.copyto_vec_real ( x,  "CubicSplineBase::setup, field `x'"  ) ;
+    gc_y.copyto_vec_real ( y,  "CubicSplineBase::setup, field `y'"  ) ;
+    gc_yp.copyto_vec_real( yp, "CubicSplineBase::setup, field `yp'" ) ;
+    build( x, y, yp ) ;
   }
   #endif
 

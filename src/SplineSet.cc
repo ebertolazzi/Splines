@@ -93,8 +93,8 @@ namespace Splines {
   }
 
   void
-  SplineSet::build( indexType  const nspl,
-                    indexType  const npts,
+  SplineSet::build( sizeType   const nspl,
+                    sizeType   const npts,
                     char       const *headers[],
                     SplineType const stype[],
                     valueType  const X[],
@@ -102,12 +102,12 @@ namespace Splines {
                     valueType  const *Yp[] ) {
     SPLINE_ASSERT( nspl > 0, "SplineSet::build expected positive nspl = " << nspl ) ;
     SPLINE_ASSERT( npts > 1, "SplineSet::build expected npts = " << npts << " greather than 1" ) ;
-    _nspl = sizeType(nspl) ;
-    _npts = sizeType(npts) ;
+    _nspl = nspl ;
+    _npts = npts ;
     // allocate memory
     splines.resize(_nspl) ;
     is_monotone.resize(_nspl) ;
-    indexType mem = npts ;
+    sizeType mem = npts ;
     for ( sizeType spl = 0 ; spl < sizeType(nspl) ; ++spl ) {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
@@ -297,12 +297,7 @@ namespace Splines {
 
     SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
     GenericContainer const & gc_xdata = gc("xdata") ;
-    SPLINE_ASSERT( GC_VEC_REAL == gc_xdata.get_type() || GC_VEC_INTEGER == gc_xdata.get_type(),
-                   "[SplineSet[" << _name << "]::setup] field `xdata` expected to be of type `vec_real` found: ` " <<
-                   gc_xdata.get_type_name() << "`" ) ;
-
-    _npts = sizeType( GC_VEC_REAL == gc_xdata.get_type() ?
-                      gc_xdata.get_vec_real().size() : gc_xdata.get_vec_int().size() ) ;
+    _npts = sizeType( gc_xdata.get_num_elements() ) ;
 
     vector<SplineType> stype(_nspl) ;
     vec_string_type    headers(_nspl) ;
@@ -355,14 +350,10 @@ namespace Splines {
     _X    = baseValue(_npts) ;
     _Ymin = baseValue(_nspl) ;
     _Ymax = baseValue(_nspl) ;
-
-    if ( GC_VEC_REAL == gc_xdata.get_type() ) {
-      vec_real_type const & Xdata = gc_xdata.get_vec_real() ;
-      std::copy( Xdata.begin(), Xdata.end(), _X ) ;
-    } else {
-      vec_int_type const & Xdata = gc_xdata.get_vec_int() ;
-      std::copy( Xdata.begin(), Xdata.end(), _X ) ;
-    }
+    
+    vec_real_type tmp_v ;
+    gc_xdata.copyto_vec_real( tmp_v, "SplineSet::setup reading `xdata'" ) ;
+    std::copy( tmp_v.begin(), tmp_v.end(), _X ) ;
 
     for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
       _Yp[spl]  = nullptr ;
@@ -418,24 +409,10 @@ namespace Splines {
                      " found of size " << data.size()  ) ;
       for ( sizeType i = 0 ; i < _nspl ; ++i ) {
         GenericContainer const & datai = data[i] ;
-        SPLINE_ASSERT( GC_VEC_REAL == datai.get_type() || GC_VEC_INTEGER == datai.get_type(),
-                       "[SplineSet::setup] data[" << i << "] expected to be of type `vec_real_type` found: ` " <<
-                        datai.get_type_name() << "`" ) ;
         sizeType nrow = _npts ;
         if ( stype[i] == CONSTANT_TYPE ) --nrow ; // constant spline uses n-1 points
-        if ( GC_VEC_REAL == datai.get_type() ) {
-          vec_real_type const & yi = datai.get_vec_real() ;
-          SPLINE_ASSERT( yi.size() >= nrow,
-                         "[SplineSet::setup] data[" << i << "] expected to be of size >= " << nrow << 
-                         " found of size " << yi.size() ) ;
-          std::copy( yi.begin(), yi.begin() + nrow, _Y[i] ) ;
-        } else {
-          vec_int_type const & yi = datai.get_vec_int() ;
-          SPLINE_ASSERT( yi.size() >= nrow,
-                         "[SplineSet::setup] data[" << i << "] expected to be of size >= " << nrow << 
-                         " found of size " << yi.size() ) ;
-          std::copy( yi.begin(), yi.begin() + nrow, _Y[i] ) ;
-        }
+        datai.copyto_vec_real( tmp_v, "SplineSet::setup reading `ydata'" ) ;
+        std::copy( tmp_v.begin(), tmp_v.end(), _Y[i] ) ;
       }
     } else if ( GC_MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map() ;
@@ -446,20 +423,10 @@ namespace Splines {
       for ( sizeType spl = 0 ; im != data.end() ; ++im, ++spl ) {
         headers[spl] = im->first ;
         GenericContainer const & datai = im->second ;
-        SPLINE_ASSERT( GC_VEC_REAL    == datai.get_type() ||
-                       GC_VEC_INTEGER == datai.get_type() ||
-                       GC_VEC_BOOL    == datai.get_type(),
-                       "[SplineSet::setup] ydata[" << spl << "] expected to be of type `vec_real_type` found: `" <<
-                        datai.get_type_name() << "`" ) ;
         sizeType nrow = _npts ;
         if ( stype[spl] == CONSTANT_TYPE ) --nrow ; // constant spline uses n-1 points
-        if ( GC_VEC_REAL == datai.get_type() ) {
-          vec_real_type const & yi = datai.get_vec_real() ;
-          std::copy( yi.begin(), yi.begin() + nrow, _Y[spl] ) ;
-        } else {
-          vec_int_type const & yi = datai.get_vec_int() ;
-          std::copy( yi.begin(), yi.begin() + nrow, _Y[spl] ) ;
-        }
+        datai.copyto_vec_real( tmp_v, "SplineSet::setup reading `ydata'" ) ;
+        std::copy( tmp_v.begin(), tmp_v.end(), _Y[spl] ) ;
       }
     } else {
       SPLINE_ASSERT( false,

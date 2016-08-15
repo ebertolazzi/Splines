@@ -283,15 +283,15 @@ namespace Splines {
   BSpline<_degree>::knots_sequence( sizeType        n,
                                     valueType const X[],
                                     valueType     * Knots ) {
-    for ( int j = 0 ; j <= _degree ; ++j ) Knots[j] = X[0] ;
+    for ( sizeType j = 0 ; j <= _degree ; ++j ) Knots[j] = X[0] ;
     Knots += _degree+1 ;
-    for ( int j = 0 ; j < n-_degree-1 ; ++j ) {
+    for ( sizeType j = 0 ; j < n-_degree-1 ; ++j ) {
       valueType tmp = 0 ;
-      for ( int k = 1 ; k <= _degree ; ++k ) tmp += X[j+k] ;
+      for ( sizeType k = 1 ; k <= _degree ; ++k ) tmp += X[j+k] ;
       Knots[j] = tmp / _degree ;
     }
     Knots += n-_degree-1 ;
-    for ( int j = 0 ; j <= _degree ; ++j ) Knots[j] = X[n-1] ;
+    for ( sizeType j = 0 ; j <= _degree ; ++j ) Knots[j] = X[n-1] ;
   }
 
   template <int _degree>
@@ -403,31 +403,10 @@ namespace Splines {
     GenericContainer const & gc_x = gc("x") ;
     GenericContainer const & gc_y = gc("y") ;
 
-    SPLINE_ASSERT( GC_VEC_REAL == gc_x.get_type() || GC_VEC_INTEGER == gc_x.get_type(),
-                   "[" << type_name() << "[" << _name << "]::setup] field `x` expected to be of type `vec_real_type` found: `" <<
-                   gc_x.get_type_name() << "`" ) ;
-
-    SPLINE_ASSERT( GC_VEC_REAL == gc_y.get_type() || GC_VEC_INTEGER == gc_y.get_type(),
-                   "[" << type_name() << "[" << _name << "]::setup] field `y` expected to be of type `vec_real_type` found: `" <<
-                   gc_y.get_type_name() << "`" ) ;
-
     vec_real_type x, y ;
-    vec_real_type const * px = nullptr ;
-    vec_real_type const * py = nullptr ;
-    if ( GC_VEC_INTEGER == gc_x.get_type() ) {
-      vec_int_type const & vx = gc_x.get_vec_int() ;
-      x.resize(vx.size()) ; std::copy( vx.begin(), vx.end(), x.begin() ) ;
-    } else {
-      px = &gc_x.get_vec_real() ;
-    }
-    if ( GC_VEC_INTEGER == gc_y.get_type() ) {
-      vec_int_type const & vy = gc_y.get_vec_int() ;
-      y.resize(vy.size()) ; std::copy( vy.begin(), vy.end(), y.begin() ) ;
-    } else {
-      py = &gc_y.get_vec_real() ;
-    }
-
-    build( *px, *py ) ;
+    gc_x.copyto_vec_real( x, "in BSpline::setup get field `x'" ) ;
+    gc_y.copyto_vec_real( y, "in BSpline::setup get field `y'" ) ;
+    build( x, y ) ;
   }
   #endif
 

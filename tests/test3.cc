@@ -59,10 +59,10 @@ static sizeType  n[]   = { 11, 11, 11, 9, 12, 4, 5 } ;
 int
 main() {
 
-  SplineSet   ss ;
-  ofstream    file, file_D ;
+  SplineSet ss ;
+  ofstream  file, file_D ;
 
-  for ( indexType k = 0 ; k < 7 ; ++ k ) {
+  for ( sizeType k = 0 ; k < 7 ; ++ k ) {
     valueType * xx = nullptr, * yy = nullptr ;
     switch ( k ) {
       case 0: xx = xx0 ; yy = yy0 ; break ;
@@ -83,8 +83,8 @@ main() {
     valueType xmin = xx[0] ;
     valueType xmax = xx[n[k]-1] ;
 
-    std::size_t nspl = 7 ;
-    std::size_t npts = std::size_t(n[k]) ;
+    sizeType nspl = 7 ;
+    sizeType npts = n[k] ;
 
     char const *headers[] = {
       "SPLINE_CONSTANT",
@@ -116,7 +116,7 @@ main() {
     valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy } ;
     valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr } ;
 
-    ss.build( indexType(nspl), indexType(npts), headers, stype, xx, Y, Yp ) ;
+    ss.build( nspl, npts, headers, stype, xx, Y, Yp ) ;
     ss.info(cout) ;
 
     file   << "x" ;

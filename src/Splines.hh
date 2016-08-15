@@ -1854,8 +1854,8 @@ namespace Splines {
      */
 
     void
-    build ( indexType  const nspl,
-            indexType  const npts,
+    build ( sizeType   const nspl,
+            sizeType   const npts,
             char       const *headers[],
             SplineType const stype[],
             valueType  const X[],

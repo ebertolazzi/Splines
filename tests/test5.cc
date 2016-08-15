@@ -30,13 +30,13 @@ using Splines::sizeType ;
 static valueType xx[] = { 0, 0.9, 2.1, 3, 4.5 } ;
 static valueType yy[] = { 0, 1, 1.1, 2.0, 2.1 } ;
 
-static indexType n = 5 ;
+static sizeType n = 5 ;
 
 int
 main() {
 
-  SplineSet   ss ;
-  ofstream    file, file_D, fileR, fileR_D ;
+  SplineSet ss ;
+  ofstream  file, file_D, fileR, fileR_D ;
 
   file.open("out/SplineSet.txt") ;
   file_D.open("out/SplineSet_D.txt") ;
@@ -46,8 +46,8 @@ main() {
   valueType xmin = xx[0] ;
   valueType xmax = xx[n-1] ;
 
-  indexType nspl = 8 ;
-  indexType npts = n ;
+  sizeType  nspl = 8 ;
+  sizeType  npts = n ;
   valueType val[8], val_D[8] ;
 
   char const *headers[] = {

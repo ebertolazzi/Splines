@@ -132,7 +132,7 @@ namespace Splines {
       int j1 = 4 + stencil[0][k] ;
       int j2 = 4 + stencil[1][k] ;
       int j3 = 4 + stencil[2][k] ;
-      if ( j1 >= jmin && j3 <= jmax )
+      if ( j1 >= int(jmin) && j3 <= int(jmax) )
         estimate( Z00, Z[4][j1], Z[4][j2], Z[4][j3],
                   Y[j1] - Y0, Y[j2] - Y0, Y[j3] - Y0,
                   CY1A[k], CY2A[k], CY3A[k], SYA[k], SYYA[k],
@@ -144,7 +144,7 @@ namespace Splines {
       int i2 = 4 + stencil[1][kx] ;
       int i3 = 4 + stencil[2][kx] ;
 
-      if ( i1 < imin || i3 > imax ) continue ;
+      if ( i1 < int(imin) || i3 > int(imax) ) continue ;
 
       valueType X1  = X[i1] - X0 ;
       valueType X2  = X[i2] - X0 ;
@@ -159,7 +159,7 @@ namespace Splines {
         int j1 = 4 + stencil[0][ky] ;
         int j2 = 4 + stencil[1][ky] ;
         int j3 = 4 + stencil[2][ky] ;
-        if ( j1 < jmin || j3 > jmax ) continue ;
+        if ( j1 < int(jmin) || j3 > int(jmax) ) continue ;
 
         valueType Y1   = Y[j1] - Y0 ;
         valueType Y2   = Y[j2] - Y0 ;
