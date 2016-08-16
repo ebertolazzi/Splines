@@ -449,7 +449,9 @@ namespace Splines {
     inline
     void
     build ( vector<valueType> const & x, vector<valueType> const & y ) {
-      build( &x.front(), &y.front(), sizeType(std::min(x.size(),y.size())) ) ;
+      sizeType N = sizeType(x.size()) ;
+      if ( N > sizeType(y.size()) ) N = sizeType(y.size()) ;
+      build( &x.front(), &y.front(), N ) ;
     }
 
     //! Cancel the support points, empty the spline.
@@ -855,8 +857,10 @@ namespace Splines {
     build ( vector<valueType> const & x,
             vector<valueType> const & y,
             vector<valueType> const & yp ) {
-      build ( &x.front(), &y.front(), &yp.front(),
-              sizeType(std::min(std::min(x.size(),y.size()),yp.size())) ) ;
+      sizeType N = sizeType(x.size()) ;
+      if ( N > sizeType(y.size())  ) N = sizeType(y.size()) ;
+      if ( N > sizeType(yp.size()) ) N = sizeType(yp.size()) ;
+      build ( &x.front(), &y.front(), &yp.front(), N ) ;
     }
 
     //! Cancel the support points, empty the spline.

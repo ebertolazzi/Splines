@@ -28,6 +28,24 @@
 namespace Splines {
 
   using namespace std ; // load standard namspace
+  
+  static
+  inline
+  valueType
+  max_abs( valueType a, valueType b ) {
+    valueType res = std::abs(a) ;
+    if ( res < std::abs(b) ) res = std::abs(b) ;
+    return res ;
+  }
+  
+  static
+  inline
+  valueType
+  min_abs( valueType a, valueType b ) {
+    valueType res = std::abs(a) ;
+    if ( res > std::abs(b) ) res = std::abs(b) ;
+    return res ;
+  }
 
   /*
   //   ____      _     _      ____        _ _            
@@ -120,8 +138,8 @@ namespace Splines {
       case 1: // use brodlie modification of butland formula.
         w1    = (1+h1/hsum)/3 ;
         w2    = (1+h2/hsum)/3 ;
-        dmax  = max( std::abs(del1), std::abs(del2) ) ;
-        dmin  = min( std::abs(del1), std::abs(del2) ) ;
+        dmax  = max_abs( del1, del2 ) ;
+        dmin  = min_abs( del1, del2 ) ;
         valueType drat1 = del1/dmax ;
         valueType drat2 = del2/dmax ;
         Yp[i] = dmin/(w1*drat1 + w2*drat2) ;
