@@ -43,20 +43,13 @@ namespace Splines {
 
   // cbrt is not available on WINDOWS? or C++ < C++11?
   #ifdef _MSC_VER
-    #if _MSC_VER >= 1700
-      #include <amp_math.h>
-      using Concurrency::precise_math::cbrt ;
-      using Concurrency::precise_math::sqrt ;
-      using Concurrency::precise_math::pow ;
-    #else
-      using std::sqrt ;
-      using std::pow ;
-      static
-      inline
-      valueType
-      cbrt( valueType x )
-      { return pow( x, 1.0/3.0 ) ; }
-    #endif
+    using std::sqrt ;
+    using std::pow ;
+    static
+    inline
+    valueType
+    cbrt( valueType x )
+    { return pow( x, 1.0/3.0 ) ; }
   #else
     using std::sqrt ;
     using std::pow ;

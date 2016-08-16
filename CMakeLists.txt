@@ -47,30 +47,30 @@ FOREACH (F ${S})
   LIST( APPEND HEADERS ${RF} )
 ENDFOREACH (F ${S})
 
-INCLUDE_DIRECTORIES( src )
+INCLUDE_DIRECTORIES( src GC/src GC/src_lua_interface )
 
 add_library( ${TARGET} STATIC ${SOURCES} ${HEADERS} )
 
-ADD_EXECUTABLE( test1 tests/test1.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( test1 ${TARGET} )
-
-ADD_EXECUTABLE( test2 tests/test2.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( test1 ${TARGET} )
-
-ADD_EXECUTABLE( test3 tests/test3.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( example3 ${TARGET} )
-
-ADD_EXECUTABLE( test4 tests/test4.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( example4 ${TARGET} )
-
-ADD_EXECUTABLE( test5 tests/test5.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( example5 ${TARGET} )
-
-ADD_EXECUTABLE( test6 tests/test6.c  ${HEADERS} ) # IT'S C!
-TARGET_LINK_LIBRARIES( example6 ${TARGET} )
-
-ADD_EXECUTABLE( test7 tests/test7.cc ${HEADERS} )
-TARGET_LINK_LIBRARIES( example7 ${TARGET} )
+# ADD_EXECUTABLE( test1 tests/test1.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test1 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test2 tests/test2.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test1 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test3 tests/test3.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test3 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test4 tests/test4.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test4 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test5 tests/test5.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test5 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test6 tests/test6.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test6 ${TARGET} )
+# 
+# ADD_EXECUTABLE( test7 tests/test7.cc ${HEADERS} )
+# TARGET_LINK_LIBRARIES( test7 ${TARGET} )
 
 MESSAGE( STATUS "Using ${SSE_FLAGS} extensions")
 MESSAGE( STATUS "C compiler                  = ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER}" )
