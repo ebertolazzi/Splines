@@ -63,7 +63,7 @@ MKDIR = mkdir -p
 PREFIX    = /usr/local
 FRAMEWORK = Splines
 
-all: lib
+all: lib gc
 	mkdir -p bin
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test2 tests/test2.cc $(LIBS)
@@ -72,7 +72,9 @@ all: lib
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test5 tests/test5.cc $(LIBS)
 	#$(CXX) $(CXXFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
 
-lib: lib/$(LIB_GC) lib/$(LIB_SPLINE)
+gc: lib/$(LIB_GC)
+
+lib: gc lib/$(LIB_SPLINE)
 
 src/%.o: src/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@ 
@@ -90,7 +92,8 @@ lib/libSplines.so: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
-	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" lib ; make PREFIX="$(PWD)" install 
+	rm -rf GC ; git clone --depth 1 git@github.com:ebertolazzi/GenericContainer.git GC
+	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; make PREFIX="$(PWD)" install 
 
 
 install: lib
