@@ -63,7 +63,7 @@ MKDIR = mkdir -p
 PREFIX    = /usr/local
 FRAMEWORK = Splines
 
-all: lib gc
+all: gc lib
 	mkdir -p bin
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test2 tests/test2.cc $(LIBS)

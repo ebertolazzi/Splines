@@ -383,14 +383,11 @@ namespace Splines {
     if ( GC_MAT_REAL == gc_ydata.get_type() || GC_VECTOR == gc_ydata.get_type() ) {
       SPLINE_ASSERT( gc.exists("headers"), "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
       GenericContainer const & gc_headers = gc("headers") ;
-      SPLINE_ASSERT( GC_VEC_STRING == gc_headers.get_type(),
-                     "[SplineSet[" << _name << "]::setup] field `headers` expected to be of type `vec_string_type` found: ` " <<
-                     gc_headers.get_type_name() << "`" ) ;
-      vec_string_type const & headers_in = gc_headers.get_vec_string() ;
-      SPLINE_ASSERT( headers_in.size() == _nspl,
+      gc_headers.copyto_vec_string( headers, "SplineSet::setup reading `headers'" ) ;
+
+      SPLINE_ASSERT( headers.size() == _nspl,
                      "[SplineSet[" << _name << "]::setup] field `headers` expected to be of size " << _nspl <<
-                      " found of size " << headers_in.size() ) ;
-      std::copy( headers_in.begin(), headers_in.end(), headers.begin() ) ;
+                    " found of size " << headers.size() ) ;
     }
 
     if ( GC_MAT_REAL == gc_ydata.get_type() ) {
