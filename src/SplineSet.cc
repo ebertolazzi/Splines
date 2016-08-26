@@ -289,7 +289,7 @@ namespace Splines {
     */
     SPLINE_ASSERT( gc.exists("spline_type"), "[SplineSet[" << _name << "]::setup] missing `spline_type` field!") ;
     vec_string_type spline_type_vec ;
-    gc("spline_type").copyto_vec_string( spline_type_vec, "SplineSet::setup -- in reading `spline_type'" ) ;
+    gc("spline_type").copyto_vec_string( spline_type_vec, "SplineSet::setup -- in reading `spline_type'\n" ) ;
     _nspl = sizeType(spline_type_vec.size()) ;
 
     SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
@@ -380,7 +380,7 @@ namespace Splines {
     if ( GC_MAT_REAL == gc_ydata.get_type() || GC_VECTOR == gc_ydata.get_type() ) {
       SPLINE_ASSERT( gc.exists("headers"), "[SplineSet[" << _name << "]::setup] missing `headers` field!") ;
       GenericContainer const & gc_headers = gc("headers") ;
-      gc_headers.copyto_vec_string( headers, "SplineSet::setup reading `headers'" ) ;
+      gc_headers.copyto_vec_string( headers, "SplineSet::setup reading `headers'\n" ) ;
 
       SPLINE_ASSERT( headers.size() == _nspl,
                      "[SplineSet[" << _name << "]::setup] field `headers` expected to be of size " << _nspl <<
