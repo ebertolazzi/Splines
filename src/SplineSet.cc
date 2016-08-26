@@ -288,11 +288,8 @@ namespace Splines {
     //
     */
     SPLINE_ASSERT( gc.exists("spline_type"), "[SplineSet[" << _name << "]::setup] missing `spline_type` field!") ;
-    GenericContainer const & gc_spline_type = gc("spline_type") ;
-    SPLINE_ASSERT( GC_VEC_STRING == gc_spline_type.get_type(),
-                   "[SplineSet[" << _name << "]::setup] field `spline_type` expected to be of type `vec_string_type` found: ` " <<
-                   gc_spline_type.get_type_name() << "`" ) ;
-    vec_string_type const & spline_type_vec = gc_spline_type.get_vec_string() ;
+    vec_string_type spline_type_vec ;
+    gc("spline_type").copyto_vec_string( spline_type_vec, "SplineSet::setup -- in reading `spline_type'" ) ;
     _nspl = sizeType(spline_type_vec.size()) ;
 
     SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
