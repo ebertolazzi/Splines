@@ -395,7 +395,7 @@ namespace Splines {
       SPLINE_ASSERT( _npts == data.numRows(),
                      "[SplineSet[" << _name << "]::setup] number of points [" << _npts <<
                      "] differs from the numeber of rows [" << data.numCols() << "] in data" ) ;
-      for ( sizeType i = 0 ; i < _nspl ; ++i ) std::copy(&data(0,i),&data(_npts,i),_Y[i]) ;
+      for ( sizeType i = 0 ; i < _nspl ; ++i ) data.getColumn(i,_Y[i]) ;
     } else if ( GC_VECTOR == gc_ydata.get_type() ) {
       vector_type const & data = gc_ydata.get_vector() ;
       SPLINE_ASSERT( _nspl == data.size(),
