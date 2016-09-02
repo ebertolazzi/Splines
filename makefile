@@ -95,6 +95,9 @@ lib/libSplines.so: $(OBJS)
 
 lib/$(LIB_GC):
 	rm -rf GC ; git clone --depth 1 git@github.com:ebertolazzi/GenericContainer.git GC
+ifneq (,$(findstring Linux, $(OS)))
+	cd GC ; ruby gcc_workaround.rb ; cd ..
+endif
 	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; make PREFIX="$(PWD)" install 
 
 
