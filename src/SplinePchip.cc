@@ -162,7 +162,9 @@ namespace Splines {
 
   void
   PchipSpline::build() {
-    SPLINE_ASSERT( npts > 1,"PchipSpline::build(): npts = " << npts << " not enought points" );
+    SPLINE_ASSERT( npts > 1,
+                   "PchipSpline::build(): npts = " << npts <<
+                   " not enought points" );
     sizeType ibegin = 0 ;
     sizeType iend   = 0 ;
     do {

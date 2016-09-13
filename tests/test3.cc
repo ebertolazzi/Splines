@@ -89,7 +89,6 @@ main() {
     char const *headers[] = {
       "SPLINE_CONSTANT",
       "SPLINE_LINEAR",
-      "SPLINE_CUBIC_BASE",
       "SPLINE_CUBIC",
       "SPLINE_AKIMA",
       "SPLINE_BESSEL",
@@ -100,7 +99,6 @@ main() {
     SplineType const stype[] = {
        Splines::CONSTANT_TYPE,
        Splines::LINEAR_TYPE,
-       Splines::CUBIC_BASE_TYPE,
        Splines::CUBIC_TYPE,
        Splines::AKIMA_TYPE,
        Splines::BESSEL_TYPE,
@@ -109,14 +107,9 @@ main() {
     } ;
 
     //bool const rp_policy[] = { true, true, true, true, true, true, true } ;
-
-    std::vector<valueType> YpZero(npts) ;
-    std::fill(YpZero.begin(), YpZero.end(), 0 ) ;
-
     valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy } ;
-    valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr } ;
 
-    ss.build( nspl, npts, headers, stype, xx, Y, Yp ) ;
+    ss.build( nspl, npts, headers, stype, xx, Y ) ;
     ss.info(cout) ;
 
     file   << "x" ;

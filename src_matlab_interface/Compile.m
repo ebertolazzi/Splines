@@ -25,7 +25,7 @@ disp('---------------------------------------------------------');
 for k=1:2
   N=NAMES{k} ;
   fprintf(1,'Compiling: %s\n',N) ;
-  CMD = ['mex -I../src -I../src_utils -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES] ;
+  CMD = ['mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -I../src -I../include -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES] ;
   if isunix
     CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -lstdc++ -Wall -O2 -g0"'] ;
   elseif ispc

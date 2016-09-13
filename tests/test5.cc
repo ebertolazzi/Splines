@@ -46,14 +46,13 @@ main() {
   valueType xmin = xx[0] ;
   valueType xmax = xx[n-1] ;
 
-  sizeType  nspl = 8 ;
+  sizeType  nspl = 7 ;
   sizeType  npts = n ;
   valueType val[8], val_D[8] ;
 
   char const *headers[] = {
     "SPLINE_CONSTANT",
     "SPLINE_LINEAR",
-    "SPLINE_CUBIC_BASE",
     "SPLINE_CUBIC",
     "SPLINE_AKIMA",
     "SPLINE_BESSEL",
@@ -64,7 +63,6 @@ main() {
   SplineType const stype[] = {
     Splines::CONSTANT_TYPE,
     Splines::LINEAR_TYPE,
-    Splines::CUBIC_BASE_TYPE,
     Splines::CUBIC_TYPE,
     Splines::AKIMA_TYPE,
     Splines::BESSEL_TYPE,
@@ -75,10 +73,9 @@ main() {
   std::vector<valueType> YpZero(npts) ;
   std::fill(YpZero.begin(), YpZero.end(), 0 ) ;
 
-  valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy, yy } ;
-  valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr } ;
+  valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy } ;
 
-  ss.build( nspl, npts, headers, stype, xx, Y, Yp ) ;
+  ss.build( nspl, npts, headers, stype, xx, Y ) ;
   ss.info(cout) ;
 
   file   << "x" ;
@@ -120,9 +117,9 @@ main() {
   for ( valueType x = xmin ; x <= xmax ; x += (xmax-xmin)/1000 ) {
     fileR   << x ;
     fileR_D << x ;
-    ss.eval2( 6, x, val ) ;
-    ss.eval2_D( 6, x, val_D ) ;
-    for ( indexType i = 0 ; i < nspl ; ++i ) {
+    ss.eval2( 5, x, val ) ;
+    ss.eval2_D( 5, x, val_D ) ;
+    for ( sizeType i = 0 ; i < nspl ; ++i ) {
       fileR   << '\t' << val[i] ;
       fileR_D << '\t' << val_D[i] ;
     }

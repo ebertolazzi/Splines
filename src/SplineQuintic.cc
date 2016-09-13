@@ -97,5 +97,4 @@ namespace Splines {
     SPLINE_CHECK_NAN(Yp, "QuinticSpline::build(): Yp",npts);
     SPLINE_CHECK_NAN(Ypp,"QuinticSpline::build(): Ypp",npts);
   }
-
 }

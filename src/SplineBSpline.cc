@@ -381,35 +381,6 @@ namespace Splines {
     }
   }
 
-  // build spline without computation
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
-
-  using GenericContainerNamespace::GC_VEC_REAL ;
-  using GenericContainerNamespace::GC_VEC_INTEGER ;
-  using GenericContainerNamespace::vec_int_type ;
-  using GenericContainerNamespace::vec_real_type ;
-
-  template <int _degree>
-  void
-  BSpline<_degree>::setup( GenericContainer const & gc ) {
-    /*
-    // gc["x"]
-    // gc["y"]
-    //
-    */
-    SPLINE_ASSERT( gc.exists("x"), "[" << type_name() << "[" << _name << "]::setup] missing `x` field!") ;
-    SPLINE_ASSERT( gc.exists("y"), "[" << type_name() << "[" << _name << "]::setup] missing `y` field!") ;
-
-    GenericContainer const & gc_x = gc("x") ;
-    GenericContainer const & gc_y = gc("y") ;
-
-    vec_real_type x, y ;
-    gc_x.copyto_vec_real( x, "in BSpline::setup get field `x'" ) ;
-    gc_y.copyto_vec_real( y, "in BSpline::setup get field `y'" ) ;
-    build( x, y ) ;
-  }
-  #endif
-
   template <int _degree>
   void
   BSpline<_degree>::build(void) {
@@ -441,34 +412,6 @@ namespace Splines {
     ds_R  = BSplineEval<_degree>::eval_D(x_R,knots_R,yPolygon_R) ;
     dds_L = BSplineEval<_degree>::eval_DD(x_L,knots,yPolygon) ;
     dds_R = BSplineEval<_degree>::eval_DD(x_R,knots_R,yPolygon_R) ;
-  }
-
-  // build spline using virtual constructor
-
-  template <int _degree>
-  void
-  BSpline<_degree>::build ( valueType const x[], sizeType incx,
-                            valueType const y[], sizeType incy,
-                            sizeType n ) {
-    reserve( n ) ;
-    for ( sizeType i = 0 ; i < n ; ++i ) {
-      X[i] = x[i*incx] ;
-      Y[i] = y[i*incy] ;
-    }
-    knots_sequence( n, X, knots ) ;
-    npts = n ;
-    build() ;
-  }
-
-  template <int _degree>
-  void
-  BSpline<_degree>::build ( valueType const x[], valueType const y[], sizeType n ) {
-    reserve( n ) ;
-    std::copy( x, x+n, X );
-    std::copy( y, y+n, Y );
-    knots_sequence( n, X, knots ) ;
-    npts = n ;
-    build() ;
   }
   
   template <int _degree>
@@ -741,7 +684,7 @@ namespace Splines {
     return idx ;
   }
 
-  #ifdef __GNUC__
+  #ifdef __clang__
     #pragma clang diagnostic ignored "-Wweak-template-vtables"
   #endif
 

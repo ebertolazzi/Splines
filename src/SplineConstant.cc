@@ -62,21 +62,12 @@ namespace Splines {
   }
 
   void
-  ConstantSpline::build ( valueType const x[], sizeType incx,
-                          valueType const y[], sizeType incy,
-                          sizeType n ) {
+  ConstantSpline::build( valueType const x[], sizeType incx,
+                         valueType const y[], sizeType incy,
+                         sizeType n ) {
     reserve( n ) ;
     for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i*incx] ;
     for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i*incy] ;
-    npts = n ;
-    build() ;
-  }
-
-  void
-  ConstantSpline::build ( valueType const x[], valueType const y[], sizeType n ) {
-    reserve( n ) ;
-    for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i] ;
-    for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i] ; // ultimo y ignorato
     npts = n ;
     build() ;
   }

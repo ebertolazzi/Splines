@@ -36,8 +36,8 @@ static sizeType  n = 5 ;
 int
 main() {
 
-  SplineSet   ss ;
-  ofstream    file, file_D, fileR, fileR_D ;
+  SplineSet ss ;
+  ofstream  file, file_D, fileR, fileR_D ;
 
   file.open("out/SplineSet.txt") ;
   file_D.open("out/SplineSet_D.txt") ;
@@ -47,14 +47,13 @@ main() {
   valueType xmin = xx[0] ;
   valueType xmax = xx[n-1] ;
 
-  sizeType  nspl = 8 ;
+  sizeType  nspl = 7 ;
   sizeType  npts = n ;
-  valueType val[8], val_D[8] ;
+  valueType val[7], val_D[7] ;
 
   char const *headers[] = {
     "constant",
     "linear",
-    "cubic", // "cubic base"
     "cubic",
     "akima",
     "bessel",
@@ -62,11 +61,7 @@ main() {
     "quintic"
   } ;
 
-  std::vector<valueType> YpZero(npts) ;
-  std::fill(YpZero.begin(), YpZero.end(), 0 ) ;
-
-  valueType const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy, yy } ;
-  //valueType const *Yp[] = { nullptr, nullptr, &YpZero.front(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr } ;
+  valueType const *Y[] = { yy, yy, yy, yy, yy, yy, yy, yy } ;
 
   GC::GenericContainer gc ;
 
@@ -90,6 +85,7 @@ main() {
   xdata.resize(npts) ;
   std::copy( xx, xx+npts, xdata.begin() ) ;
 
+  gc.print(cout) ;
   ss.build( gc ) ; // nspl, npts, headers, stype, xx, Y, Yp ) ;
   ss.info(cout) ;
 
@@ -108,7 +104,7 @@ main() {
     file_D << x ;
     ss.eval( x, val ) ;
     ss.eval_D( x, val_D ) ;
-    for ( indexType i = 0 ; i < nspl ; ++i ) {
+    for ( sizeType i = 0 ; i < nspl ; ++i ) {
       file   << '\t' << val[i] ;
       file_D << '\t' << val_D[i] ;
     }
@@ -134,8 +130,8 @@ main() {
   for ( valueType x = xmin ; x <= xmax ; x += (xmax-xmin)/1000 ) {
     fileR   << x ;
     fileR_D << x ;
-    ss.eval2( 6, x, val ) ;
-    ss.eval2_D( 6, x, val_D ) ;
+    ss.eval2( 5, x, val ) ;
+    ss.eval2_D( 5, x, val_D ) ;
     for ( indexType i = 0 ; i < nspl ; ++i ) {
       fileR   << '\t' << val[i] ;
       fileR_D << '\t' << val_D[i] ;

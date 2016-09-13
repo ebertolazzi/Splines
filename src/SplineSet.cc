@@ -21,6 +21,12 @@
 #include <limits>
 #include <cmath>
 
+#ifdef __clang__
+  #define FALLTHROUGH [[clang::fallthrough]]
+#else
+  #define FALLTHROUGH
+#endif
+
 /**
  * 
  */
@@ -98,8 +104,7 @@ namespace Splines {
                     char       const *headers[],
                     SplineType const stype[],
                     valueType  const X[],
-                    valueType  const *Y[],
-                    valueType  const *Yp[] ) {
+                    valueType  const *Y[] ) {
     SPLINE_ASSERT( nspl > 0, "SplineSet::build expected positive nspl = " << nspl ) ;
     SPLINE_ASSERT( npts > 1, "SplineSet::build expected npts = " << npts << " greather than 1" ) ;
     _nspl = nspl ;
@@ -112,12 +117,13 @@ namespace Splines {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
         mem += npts ; // Y, Yp, Ypp
-      case CUBIC_BASE_TYPE:
+        FALLTHROUGH ;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
         mem += npts ; // Y, Yp
+        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
         mem += npts ;
@@ -156,24 +162,15 @@ namespace Splines {
       }
       pYpp = pYp = nullptr ;
       switch ( stype[spl] ) {
-      case CUBIC_BASE_TYPE:
-        SPLINE_ASSERT( Yp != nullptr,
-                       "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-                       "\n7th argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
-        SPLINE_ASSERT( Yp[spl] != nullptr,
-                       "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-                       "\n7th argument Yp[" << spl << "] argument of SplineSet::build must be nonnull pointer for `cubic_base` spline" ) ;
-        pYp = baseValue( _npts ) ;
-        std::copy( Yp[spl], Yp[spl]+npts, pYp ) ; // copy values
-        break;
-
       case QUINTIC_TYPE:
         pYpp = baseValue( _npts ) ;
+        FALLTHROUGH;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
         pYp = baseValue( _npts ) ;
+        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
       case SPLINE_SET_TYPE:
@@ -204,13 +201,6 @@ namespace Splines {
           }
           is_monotone[spl] = flag ;
         }
-        break;
-
-      case CUBIC_BASE_TYPE:
-        s = new CubicSplineBase(h) ;
-        static_cast<CubicSplineBase*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<CubicSplineBase*>(s)->build( _X, pY, pYp, _npts ) ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break;
 
       case CUBIC_TYPE:
@@ -261,7 +251,7 @@ namespace Splines {
 
   }
 
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
 
   using GenericContainerNamespace::GC_INTEGER ;
   using GenericContainerNamespace::GC_VEC_BOOL ;
@@ -292,7 +282,7 @@ namespace Splines {
     gc("spline_type").copyto_vec_string( spline_type_vec, "SplineSet::setup -- in reading `spline_type'\n" ) ;
     _nspl = sizeType(spline_type_vec.size()) ;
 
-    SPLINE_ASSERT( gc.exists("xdata") , "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
+    SPLINE_ASSERT( gc.exists("xdata"), "[SplineSet[" << _name << "]::setup] missing `xdata` field!") ;
     GenericContainer const & gc_xdata = gc("xdata") ;
     _npts = sizeType( gc_xdata.get_num_elements() ) ;
 
@@ -303,8 +293,8 @@ namespace Splines {
     splines.resize(_nspl) ;
     is_monotone.resize(_nspl) ;
     sizeType mem = _npts ;
-    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
 
+    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
       bool found = false ;
       sizeType j = 0 ;
       string n = spline_type_vec[spl] ;
@@ -315,16 +305,19 @@ namespace Splines {
         ++j ;
       }
       SPLINE_ASSERT( found, "[SplineSet[" << _name << "]::setup] spline type: ``" << spline_type_vec[spl] << "'' unknown" ) ;
+    }
 
+    for ( sizeType spl = 0 ; spl < _nspl ; ++spl ) {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
         mem += _npts ; // Y, Yp, Ypp
-      case CUBIC_BASE_TYPE:
+        FALLTHROUGH;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
         mem += _npts ; // Y, Yp
+        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
         mem += _npts ;
@@ -358,15 +351,17 @@ namespace Splines {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
         _Ypp[spl] = baseValue( _npts ) ;
-      case CUBIC_BASE_TYPE:
+        FALLTHROUGH;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
         _Yp[spl] = baseValue( _npts ) ;
+        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
         _Y[spl] = baseValue( _npts ) ;
+        FALLTHROUGH;
       case SPLINE_SET_TYPE:
         break;
       case BSPLINE_TYPE: // nothing to do (not implemented)
@@ -461,12 +456,6 @@ namespace Splines {
           }
           is_monotone[spl] = flag ;
         }
-        break;
-      case CUBIC_BASE_TYPE:
-        s = new CubicSplineBase(h) ;
-        static_cast<CubicSplineBase*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<CubicSplineBase*>(s)->build( _X, pY, pYp, _npts ) ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
         break;
       case CUBIC_TYPE:
         s = new CubicSpline(h) ;

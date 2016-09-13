@@ -78,5 +78,4 @@ namespace Splines {
     
     SPLINE_CHECK_NAN(Yp,"BesselSpline::build(): Yp",npts);
   }
-
 }

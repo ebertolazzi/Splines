@@ -53,28 +53,6 @@ namespace Splines {
     }
     npts = lastInterval = 0 ;
   }
-
-  void
-  LinearSpline::build ( valueType const x[], sizeType incx,
-                        valueType const y[], sizeType incy,
-                        sizeType n ) {
-    reserve( n ) ;
-    for ( sizeType i = 0 ; i < n ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i < n ; ++i ) Y[i] = y[i*incy] ;
-    npts = n ;
-    build() ;
-  }
-
-  void
-  LinearSpline::build ( valueType const x[],
-                        valueType const y[],
-                        sizeType n ) {
-    reserve( n ) ;
-    std::copy( x, x+n, X );
-    std::copy( y, y+n, Y );
-    npts = n ;
-    build() ;
-  }
   
   void
   LinearSpline::clear(void) {

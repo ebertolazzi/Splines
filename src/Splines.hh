@@ -48,11 +48,11 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
-// Comment this if you do not want that Splines uses GenericContainer
-#define SPLINES_USE_GENERIC_CONTAINER 1
+// Uncomment this if you do not want that Splines uses GenericContainer
+// #define SPLINES_DO_NOT_USE_GENERIC_CONTAINER 1
 
 // some one may force the use of GenericContainer
-#ifdef SPLINES_USE_GENERIC_CONTAINER
+#ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   #include "GenericContainer.hh"
 #endif
 
@@ -140,18 +140,19 @@ namespace Splines {
   //! Associate a number for each type of splines implemented
   typedef enum { CONSTANT_TYPE   = 0,
                  LINEAR_TYPE     = 1,
-                 CUBIC_BASE_TYPE = 2,
-                 CUBIC_TYPE      = 3,
-                 AKIMA_TYPE      = 4,
-                 BESSEL_TYPE     = 5,
-                 PCHIP_TYPE      = 6,
-                 QUINTIC_TYPE    = 7,
-                 SPLINE_SET_TYPE = 8, // PER ORA METTO IN CODE
-                 BSPLINE_TYPE    = 9 } SplineType ;
+                 CUBIC_TYPE      = 2,
+                 AKIMA_TYPE      = 3,
+                 BESSEL_TYPE     = 4,
+                 PCHIP_TYPE      = 5,
+                 QUINTIC_TYPE    = 6,
+                 BSPLINE_TYPE    = 7,
+                 SPLINE_SET_TYPE = 8 } SplineType ;
 
   extern char const *spline_type[] ;
+  
+  extern SplineType string_to_splineType( std::string const & n ) ;
 
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   using GenericContainerNamespace::GenericContainer ;
   using GenericContainerNamespace::vec_real_type ;
   using GenericContainerNamespace::vec_string_type ;
@@ -407,12 +408,13 @@ namespace Splines {
       if ( npts > 0 ) --npts ;
     }
 
+    //! Build a spline.
     // must be defined in derived classes
     virtual
     void
     build (void) = 0 ;
 
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
@@ -425,11 +427,18 @@ namespace Splines {
      * \param incy access elements as y[0], y[incy], x[2*incy],...
      * \param n    total number of points
      */
+    // must be defined in derived classes
     virtual
     void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) = 0 ;
+    build( valueType const x[], sizeType incx,
+           valueType const y[], sizeType incy,
+           sizeType n ) {
+      reserve( n ) ;
+      for ( sizeType i = 0 ; i < n ; ++i ) X[i] = x[i*incx] ;
+      for ( sizeType i = 0 ; i < n ; ++i ) Y[i] = y[i*incy] ;
+      npts = n ;
+      build() ;
+    }
 
     //! Build a spline.
     /*!
@@ -437,9 +446,10 @@ namespace Splines {
      * \param y vector of y-coordinates
      * \param n total number of points
      */
-    virtual
+    inline
     void
-    build ( valueType const x[], valueType const y[], sizeType n ) = 0 ;
+    build( valueType const x[], valueType const y[], sizeType n )
+    { build( x, 1, y, 1, n ) ; }
 
     //! Build a spline.
     /*!
@@ -451,7 +461,7 @@ namespace Splines {
     build ( vector<valueType> const & x, vector<valueType> const & y ) {
       sizeType N = sizeType(x.size()) ;
       if ( N > sizeType(y.size()) ) N = sizeType(y.size()) ;
-      build( &x.front(), &y.front(), N ) ;
+      build( &x.front(), 1, &y.front(), 1, N ) ;
     }
 
     //! Cancel the support points, empty the spline.
@@ -622,35 +632,6 @@ namespace Splines {
     void
     build(void) ;
 
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void setup ( GenericContainer const & gc ) ;
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
-    //! Build a spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) ;
-
-    //! Build a spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) ;
-
     //! Cancel the support points, empty the spline.
     virtual
     void
@@ -735,6 +716,8 @@ namespace Splines {
 
   public:
 
+    using Spline::build ;
+
     //! spline constructor
     CubicSplineBase( string const & name = "CubicSplineBase", bool ck = false )
     : Spline(name,ck)
@@ -756,13 +739,12 @@ namespace Splines {
     void setRange( valueType xmin, valueType xmax ) ;
 
     //! Use externally allocated memory for `npts` points
-    void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y, valueType *& p_dy ) ;
+    void reserve_external( sizeType     n,
+                           valueType *& p_x,
+                           valueType *& p_y,
+                           valueType *& p_dy ) ;
 
     // --------------------------- VIRTUALS -----------------------------------
-
-    //! Return spline type (as number)
-    virtual unsigned type() const { return CUBIC_BASE_TYPE ; }
-
     //! Evaluate spline value
     virtual valueType operator () ( valueType x ) const ;
 
@@ -783,41 +765,6 @@ namespace Splines {
     //! Allocate memory for `npts` points
     virtual void reserve( sizeType npts ) ;
 
-    // must be defined in derived classes
-    virtual
-    void
-    build (void)
-    {} // nothing to do for CubicSplineBase
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void setup ( GenericContainer const & gc ) ;
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
-    //! Build a spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) ;
-
-    //! Build a spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) ;
-
     //! Build a spline.
     /*!
      * \param x     vector of x-coordinates
@@ -829,10 +776,10 @@ namespace Splines {
      * \param n     total number of points
      */
     void
-    build ( valueType const x[],  sizeType incx,
-            valueType const y[],  sizeType incy,
-            valueType const yp[], sizeType incyp,
-            sizeType n ) ;
+    build( valueType const x[],  sizeType incx,
+           valueType const y[],  sizeType incy,
+           valueType const yp[], sizeType incyp,
+           sizeType n ) ;
 
     //! Build a spline.
     /*!
@@ -841,11 +788,14 @@ namespace Splines {
      * \param yp vector of y'-coordinates
      * \param n  total number of points
      */
+    inline
     void
-    build ( valueType const x[],
-            valueType const y[],
-            valueType const yp[],
-            sizeType n ) ;
+    build( valueType const x[],
+           valueType const y[],
+           valueType const yp[],
+           sizeType n ) {
+      build ( x, 1, y, 1, yp, 1, n ) ;
+    }
 
     //! Build a spline.
     /*!
@@ -853,6 +803,7 @@ namespace Splines {
      * \param y  vector of y-coordinates
      * \param yp vector of y'-coordinates
      */
+    inline
     void
     build ( vector<valueType> const & x,
             vector<valueType> const & y,
@@ -860,7 +811,10 @@ namespace Splines {
       sizeType N = sizeType(x.size()) ;
       if ( N > sizeType(y.size())  ) N = sizeType(y.size()) ;
       if ( N > sizeType(yp.size()) ) N = sizeType(yp.size()) ;
-      build ( &x.front(), &y.front(), &yp.front(), N ) ;
+      build ( &x.front(), 1,
+              &y.front(), 1,
+              &yp.front(), 1,
+              N ) ;
     }
 
     //! Cancel the support points, empty the spline.
@@ -926,13 +880,12 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Build a Cubic spline from previously inserted points
     virtual
     void
     build (void) ;
 
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+    virtual void setup ( GenericContainer const & gc ) ;
     #endif
 
   } ;
@@ -958,7 +911,7 @@ namespace Splines {
     using CubicSplineBase::reserve ;
 
     //! spline constructor
-    AkimaSpline( string const & name = "Spline", bool ck = false )
+    AkimaSpline( string const & name = "AkimaSpline", bool ck = false )
     : CubicSplineBase( name, ck )
     {}
 
@@ -976,10 +929,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
 
   } ;
 
@@ -999,7 +948,7 @@ namespace Splines {
     using CubicSplineBase::reserve ;
 
     //! spline constructor
-    BesselSpline( string const & name = "Spline", bool ck = false )
+    BesselSpline( string const & name = "BesselSpline", bool ck = false )
     : CubicSplineBase( name, ck )
     {}
 
@@ -1017,11 +966,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
   } ;
 
   /*
@@ -1064,11 +1008,6 @@ namespace Splines {
     virtual
     void
     build (void) ;
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
   } ;
 
   /*
@@ -1084,6 +1023,8 @@ namespace Splines {
     SplineMalloc<valueType> baseValue ;
     bool                    _external_alloc ;
   public:
+
+    using Spline::build ;
 
     LinearSpline( string const & name = "LinearSpline", bool ck = false )
     : Spline(name,ck)
@@ -1141,36 +1082,8 @@ namespace Splines {
     //! added for compatibility with cubic splines
     virtual
     void
-    build()
+    build (void)
     {}
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
-    //! given x and y vectors build a linear spline
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) ;
-
-    //! given x and y vectors build a linear spline
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) ;
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -1202,6 +1115,8 @@ namespace Splines {
     bool                    _external_alloc ;
   public:
 
+    using Spline::build ;
+
     ConstantSpline( string const & name = "ConstantSpline", bool ck = false )
     : Spline(name,ck)
     , baseValue(name+"_memory")
@@ -1214,18 +1129,17 @@ namespace Splines {
     void reserve_external( sizeType n, valueType *& p_x, valueType *& p_y ) ;
 
     // --------------------------- VIRTUALS -----------------------------------
-
-
-#if 0
-    //! Cancel the support points, empty the spline. `x0` is the initial abscissa of empty spline
+    //! Build a spline.
     virtual
     void
-    clear( valueType x0, sizeType n_reserved = 0 ) {
-      Spline::clear() ;
-      Spline::reserve( n_reserved ) ;
-      Spline::pushBack( x0, 0 ) ;
-    }
-#endif
+    build (void)
+    {} // nothing to do
+
+    virtual
+    void
+    build( valueType const x[], sizeType incx,
+           valueType const y[], sizeType incy,
+           sizeType n ) ;
 
     //! Evaluate spline value at `x`
     virtual valueType operator () ( valueType x ) const ;
@@ -1249,40 +1163,6 @@ namespace Splines {
 
     //! Allocate memory for `npts` points
     virtual void reserve( sizeType npts ) ;
-
-    //! added for compatibility with cubic splines
-    virtual
-    void
-    build()
-    {}
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
-    //! given x and y vectors build a piecewise constants spline
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) ;
-
-    //! given x and y vectors build a linear spline
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) ;
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -1325,6 +1205,8 @@ namespace Splines {
     bool      _external_alloc ;
 
   public:
+
+    using Spline::build ;
 
     //! spline constructor
     QuinticSplineBase( string const & name = "Spline", bool ck = false )
@@ -1383,40 +1265,10 @@ namespace Splines {
     //! Return spline type (as number)
     virtual unsigned type() const { return QUINTIC_TYPE ; }
 
-
     // --------------------------- VIRTUALS -----------------------------------
 
     //! Allocate memory for `npts` points
     virtual void reserve( sizeType npts ) ;
-
-    // must be defined in derived classes
-    virtual
-    void
-    build (void) = 0 ;
-
-    //! Build a spline.
-    /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], sizeType incx,
-            valueType const y[], sizeType incy,
-            sizeType n ) ;
-
-    //! Build a spline.
-    /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
-    virtual
-    void
-    build ( valueType const x[], valueType const y[], sizeType n ) ;
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -1447,7 +1299,7 @@ namespace Splines {
   class QuinticSpline : public QuinticSplineBase {
   public:
 
-    using QuinticSplineBase::build ;
+    using Spline::build ;
     using QuinticSplineBase::reserve ;
 
     //! spline constructor
@@ -1461,16 +1313,10 @@ namespace Splines {
     {}
 
     // --------------------------- VIRTUALS -----------------------------------
-
     //! Build a Monotone quintic spline from previously inserted points
     virtual
     void
     build (void) ;
-
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
-    void build ( GenericContainer const & gc ) { setup(gc) ; }
-    #endif
-
   } ;
 
   /*
@@ -1683,7 +1529,7 @@ namespace Splines {
     valueType eval2_DDD( valueType zeta, sizeType indep, sizeType spl ) const ;
 
     // interface with GenericContainer
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     //! Evaluate all the splines at `x` and fill a map of values in a GenericContainer
     void eval( valueType x, GenericContainer & vals ) const ;
 
@@ -1854,7 +1700,6 @@ namespace Splines {
      * \param stype      the type of each spline
      * \param X          pointer to X independent values
      * \param Y          vector of `nspl` pointers to Y depentendent values.
-     * \param Yp         vector of `nspl` pointers to Yp depentendent values.
      */
 
     void
@@ -1863,10 +1708,9 @@ namespace Splines {
             char       const *headers[],
             SplineType const stype[],
             valueType  const X[],
-            valueType  const *Y[],
-            valueType  const *Yp[] ) ;
+            valueType  const *Y[] ) ;
 
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif
@@ -2060,7 +1904,7 @@ namespace Splines {
       else                   build ( &z.front(), ny, nx, ny, fortran_storage, transposed ) ;
     }
 
-    #ifdef SPLINES_USE_GENERIC_CONTAINER
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual void setup ( GenericContainer const & gc ) ;
     void build ( GenericContainer const & gc ) { setup(gc) ; }
     #endif

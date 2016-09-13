@@ -26,7 +26,7 @@
  */
 
 // interface with GenericContainer
-#ifdef SPLINES_USE_GENERIC_CONTAINER
+#ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
 
 namespace Splines {
 

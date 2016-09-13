@@ -100,7 +100,7 @@ main() {
 
     valueType const *Y[] = { yy, yy, yy, yy, yy, yy, yy } ;
 
-    ss.build( nspl, npts, headers, stype, xx, Y, nullptr ) ;
+    ss.build( nspl, npts, headers, stype, xx, Y ) ;
 
     file << "x" ;
     for ( sizeType i = 0 ; i < nspl ; ++i ) file << '\t' << ss.header(i) ;

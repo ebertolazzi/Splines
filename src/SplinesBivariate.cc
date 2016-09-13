@@ -25,18 +25,6 @@
  * 
  */
 
-#ifndef isnan
-#define isnan(A) ((A) != (A))
-#endif
-
-#ifndef isfinite
-#define isfinite(A) ((A*0.0) == 0.0)
-#endif
-
-#ifndef isregular
-#define isregular(A) ( !isnan(A) && isfinite(A) )
-#endif
-
 namespace Splines {
 
   void
@@ -46,8 +34,7 @@ namespace Splines {
       << '\n' ;
   }
 
-  #ifdef SPLINES_USE_GENERIC_CONTAINER
-  
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   using GenericContainerNamespace::GC_VEC_REAL ;
   using GenericContainerNamespace::GC_VEC_INTEGER ;
   using GenericContainerNamespace::GC_MAT_REAL ;
