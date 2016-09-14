@@ -126,12 +126,12 @@ namespace Splines {
     vec_real_type x, y ;
     {
       std::ostringstream ost ;
-      ost << "Spline[" << _name << "]::setup, field `x'" ;
+      ost << "CubicSpline[" << _name << "]::setup, field `x'" ;
       gc_x.copyto_vec_real ( x, ost.str().c_str() ) ;
     }
     {
       std::ostringstream ost ;
-      ost << "Spline[" << _name << "]::setup, field `y'" ;
+      ost << "CubicSpline[" << _name << "]::setup, field `y'" ;
       gc_y.copyto_vec_real ( y, ost.str().c_str() ) ;
     }
     ddy0 = ddyn = 0 ;

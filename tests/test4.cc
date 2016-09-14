@@ -88,11 +88,10 @@ main() {
     SplineType const stype[] = {
       Splines::CONSTANT_TYPE,
       Splines::LINEAR_TYPE,
-      //Splines::CUBIC_BASE_TYPE,
-      Splines::CUBIC_TYPE,
       Splines::AKIMA_TYPE,
       Splines::BESSEL_TYPE,
       Splines::PCHIP_TYPE,
+      Splines::CUBIC_TYPE,
       Splines::QUINTIC_TYPE
     } ;
 

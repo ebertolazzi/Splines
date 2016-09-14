@@ -219,4 +219,52 @@ namespace Splines {
     
   }
 
+  // block method!
+  void
+  HermiteSpline::build( valueType const [], sizeType,
+                        valueType const [], sizeType,
+                        sizeType ) {
+    SPLINE_ASSERT( false, "HermiteSpline::build(x,incx,y,incy,n) cannot be used") ;
+  }
+
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamespace::GC_VEC_REAL ;
+  using GenericContainerNamespace::vec_real_type ;
+
+  void
+  HermiteSpline::setup( GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"),  "HermiteSpline[" << _name << "]::setup missing `x` field!") ;
+    SPLINE_ASSERT( gc.exists("y"),  "HermiteSpline[" << _name << "]::setup missing `y` field!") ;
+    SPLINE_ASSERT( gc.exists("yp"), "HermiteSpline[" << _name << "]::setup missing `yp` field!") ;
+
+    GenericContainer const & gc_x  = gc("x") ;
+    GenericContainer const & gc_y  = gc("y") ;
+    GenericContainer const & gc_yp = gc("yp") ;
+
+    vec_real_type x, y, yp ;
+    {
+      std::ostringstream ost ;
+      ost << "HermiteSpline[" << _name << "]::setup, field `x'" ;
+      gc_x.copyto_vec_real ( x, ost.str().c_str() ) ;
+    }
+    {
+      std::ostringstream ost ;
+      ost << "HermiteSpline[" << _name << "]::setup, field `y'" ;
+      gc_y.copyto_vec_real ( y, ost.str().c_str() ) ;
+    }
+    {
+      std::ostringstream ost ;
+      ost << "HermiteSpline[" << _name << "]::setup, field `yp'" ;
+      gc_yp.copyto_vec_real ( yp, ost.str().c_str() ) ;
+    }
+    build( x, y, yp ) ;
+  }
+  #endif
+
 }

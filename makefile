@@ -80,6 +80,7 @@ all: gc lib
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test7 tests/test7.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test8 tests/test8.cc $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9 tests/test9.cc $(LIBS)
 
 gc: lib/$(LIB_GC)
 
@@ -129,6 +130,7 @@ run:
 	./bin/test6
 	./bin/test7
 	./bin/test8
+	./bin/test9
 
 doc:
 	doxygen

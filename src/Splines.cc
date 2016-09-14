@@ -72,8 +72,9 @@ namespace Splines {
     "bessel",      // 4
     "pchip",       // 5
     "quintic",     // 6
-    "b-spline",    // 7
+    "hermite",     // 7
     "spline set",  // 8
+    "b-spline",    // 9
     nullptr
   } ;
   

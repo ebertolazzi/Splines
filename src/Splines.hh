@@ -145,8 +145,9 @@ namespace Splines {
                  BESSEL_TYPE     = 4,
                  PCHIP_TYPE      = 5,
                  QUINTIC_TYPE    = 6,
-                 BSPLINE_TYPE    = 7,
-                 SPLINE_SET_TYPE = 8 } SplineType ;
+                 HERMITE_TYPE    = 7,
+                 SPLINE_SET_TYPE = 8,
+                 BSPLINE_TYPE    = 9 } SplineType ;
 
   extern char const *spline_type[] ;
   
@@ -543,6 +544,8 @@ namespace Splines {
 
     //! Return spline type (as number)
     virtual unsigned type() const = 0 ;
+    
+    friend class SplineSet ;
 
   } ;
 
@@ -1179,6 +1182,53 @@ namespace Splines {
     order() const ;
 
   } ;
+  
+  /*
+  //    _   _                     _ _       ____        _ _
+  //   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
+  //   | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \___ \| '_ \| | | '_ \ / _ \
+  //   |  _  |  __/ |  | | | | | | | ||  __/___) | |_) | | | | | |  __/
+  //   |_| |_|\___|_|  |_| |_| |_|_|\__\___|____/| .__/|_|_|_| |_|\___|
+  //                                             |_|
+  */
+  //! Hermite Spline Management Class
+  class HermiteSpline : public CubicSplineBase {
+  public:
+
+    using CubicSplineBase::build ;
+    using CubicSplineBase::reserve ;
+
+    //! spline constructor
+    HermiteSpline( string const & name = "HermiteSpline", bool ck = false )
+    : CubicSplineBase( name, ck )
+    {}
+
+    //! spline destructor
+    virtual
+    ~HermiteSpline()
+    {}
+
+    //! Return spline type (as number)
+    virtual unsigned type() const { return HERMITE_TYPE ; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    virtual
+    void
+    build(void)
+    {} // nothing to do
+
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+    virtual void setup( GenericContainer const & gc ) ;
+    #endif
+
+    // block method!
+    virtual
+    void
+    build( valueType const [], sizeType,
+           valueType const [], sizeType,
+           sizeType ) ;
+  } ;
 
   /*
   //    ___        _       _   _      ____        _ _            ____                 
@@ -1703,12 +1753,13 @@ namespace Splines {
      */
 
     void
-    build ( sizeType   const nspl,
-            sizeType   const npts,
-            char       const *headers[],
-            SplineType const stype[],
-            valueType  const X[],
-            valueType  const *Y[] ) ;
+    build( sizeType   const nspl,
+           sizeType   const npts,
+           char       const *headers[],
+           SplineType const stype[],
+           valueType  const X[],
+           valueType  const *Y[],
+           valueType  const *Yp[] = nullptr ) ;
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual void setup ( GenericContainer const & gc ) ;
