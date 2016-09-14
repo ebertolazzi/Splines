@@ -96,7 +96,8 @@ lib/libSplines.so: $(OBJS)
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
-	rm -rf GC ; git clone --depth 1 git@github.com:ebertolazzi/GenericContainer.git GC
+	#rm -rf GC ; git clone --depth 1 git@github.com:ebertolazzi/GenericContainer.git GC
+	rm -rf GC ; git clone --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC ; ruby gcc_workaround.rb ; cd ..
 endif
