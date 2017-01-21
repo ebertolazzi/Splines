@@ -13,14 +13,9 @@ DEFS =
 
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
-  WARN     = -Wall -Wno-reserved-id-macro -Wno-global-constructors]
+  WARN     = -Wall -Wno-reserved-id-macro -Wno-global-constructors
   CC       = gcc $(WARN)
-  VER      = $(shell g++ -std=c++11)
-ifneq (,$(findstring unrecognized, $(VER)))
   CXX      = g++ $(WARN) -std=c++11 
-else
-  CXX      = g++ $(WARN) -std=c++0x
-endif
   LIBS     = -static -L./lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = ar rcs
