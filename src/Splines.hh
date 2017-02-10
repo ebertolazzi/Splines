@@ -128,6 +128,17 @@ either expressed or implied, of the FreeBSD Project.
   #define SPLINE_CHECK_NAN( PTR, MSG, DIM )
 #endif
 
+#ifdef __GCC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#pragma GCC diagnostic ignored "-Wc++98-compat"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
+
 //! Various kind of splines
 namespace Splines {
 
@@ -1919,7 +1930,10 @@ namespace Splines {
             vector<valueType> const & z,
             bool fortran_storage = false,
             bool transposed      = false ) {
-      build ( &x.front(), 1, &y.front(), 1, &z.front(), 1,
+      bool xyswp = (fortran_storage && transposed) ||
+                   (!fortran_storage && !transposed) ;
+      build ( &x.front(), 1, &y.front(), 1, &z.front(),
+              sizeType(xyswp ? y.size() : x.size()),
               sizeType(x.size()), sizeType(y.size()),
               fortran_storage, transposed ) ;
     }
@@ -2283,5 +2297,12 @@ namespace SplinesLoad {
   using Splines::cubicRoots ;
 
 }
+
+#ifdef __GCC__
+#pragma GCC diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif

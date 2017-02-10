@@ -20,6 +20,13 @@
 #include "Splines.hh"
 #include <iomanip>
 
+#ifdef __GCC__
+#pragma GCC diagnostic ignored "-Wc++98-compat"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
+
 /**
  * 
  */

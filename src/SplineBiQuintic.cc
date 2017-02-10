@@ -87,23 +87,29 @@ namespace Splines {
 
   void
   BiQuinticSpline::writeToStream( ostream & s ) const {
+    sizeType ny = sizeType(Y.size()) ;
     s << "Nx = " << X.size() << " Ny = " << Y.size() << '\n' ;
     for ( sizeType i = 1 ; i < sizeType(X.size()) ; ++i ) {
       for ( sizeType j = 1 ; j < sizeType(Y.size()) ; ++j ) {
-        s << "patch (" << setw(2) << i << "," << setw(2) << j
-          << "): DX = " << X[i]-X[i-1] << " DY = " << Y[j]-Y[j-1]
-          << "\n Z00 = " << Z[ipos_C(i-1,j-1)]
-          << " Z01 = " << Z[ipos_C(i-1,j)]
-          << " Z10 = " << Z[ipos_C(i,j-1)]
-          << " Z11 = " << Z[ipos_C(i,j)]
-          << "\n Dx00 = " << DX[ipos_C(i-1,j-1)]
-          << " Dx01 = " << DX[ipos_C(i-1,j)]
-          << " Dx10 = " << DX[ipos_C(i,j-1)]
-          << " ZDx1 = " << DX[ipos_C(i,j)]
-          << "\n Dy00 = " << DY[ipos_C(i-1,j-1)]
-          << " Dy01 = " << DY[ipos_C(i-1,j)]
-          << " Dy10 = " << DY[ipos_C(i,j-1)]
-          << " Dy11 = " << DY[ipos_C(i,j)]
+        sizeType i00 = ipos_C(i-1,j-1,ny) ;
+        sizeType i10 = ipos_C(i,j-1,ny) ;
+        sizeType i01 = ipos_C(i-1,j,ny) ;
+        sizeType i11 = ipos_C(i,j,ny) ;
+        s << "patch (" << i << "," << j
+          << ")\n DX = " << setw(10) << left << X[i]-X[i-1]
+          <<    " DY = " << setw(10) << left << Y[j]-Y[j-1]
+          << "\n Z00  = " << setw(10) << left << Z[i00]
+          <<   " Z01  = " << setw(10) << left << Z[i01]
+          <<   " Z10  = " << setw(10) << left << Z[i10]
+          <<   " Z11  = " << setw(10) << left << Z[i11]
+          << "\n Dx00 = " << setw(10) << left << DX[i00]
+          <<   " Dx01 = " << setw(10) << left << DX[i01]
+          <<   " Dx10 = " << setw(10) << left << DX[i10]
+          <<   " Dx10 = " << setw(10) << left << DX[i11]
+          << "\n Dy00 = " << setw(10) << left << DY[i00]
+          <<   " Dy01 = " << setw(10) << left << DY[i01]
+          <<   " Dy10 = " << setw(10) << left << DY[i10]
+          <<   " Dy11 = " << setw(10) << left << DY[i11]
           << '\n' ;
       }
     }

@@ -21,6 +21,15 @@
 #include "Splines.hh"
 #include <fstream>
 
+#ifdef __GCC__
+#pragma GCC diagnostic ignored "-Wc++98-compat"
+#pragma GCC diagnostic ignored "-Wvla-extension"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wvla-extension"
+#endif
+
 using namespace SplinesLoad ;
 using namespace std ;
 using Splines::valueType ;

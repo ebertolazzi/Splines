@@ -123,26 +123,18 @@ namespace Splines {
     Z.resize(nx*ny) ;
     for ( sizeType i = 0 ; i < nx ; ++i ) X[i] = x[i*incx] ;
     for ( sizeType i = 0 ; i < ny ; ++i ) Y[i] = y[i*incy] ;
-    if ( fortran_storage ) {
-      if ( transposed ) {
-        for ( sizeType i = 0 ; i < nx ; ++i )
-          for ( sizeType j = 0 ; j < ny ; ++j )
-            Z[ipos_C(i,j)] = z[ipos_F(j,i,ldZ)] ;
-      } else {
-        for ( sizeType i = 0 ; i < nx ; ++i )
-          for ( sizeType j = 0 ; j < ny ; ++j )
-            Z[ipos_C(i,j)] = z[ipos_F(i,j,ldZ)] ;
-      }
+    if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
+      SPLINE_ASSERT( ldZ >= ny,
+                     "SplineSurf::build, ldZ = " << ldZ << " must be >= of nx = " << ny ) ;
+      for ( sizeType i = 0 ; i < nx ; ++i )
+        for ( sizeType j = 0 ; j < ny ; ++j )
+          Z[ipos_C(i,j,ny)] = z[ipos_C(i,j,ldZ)] ;
     } else {
-      if ( transposed ) {
-        for ( sizeType i = 0 ; i < nx ; ++i )
-          for ( sizeType j = 0 ; j < ny ; ++j )
-            Z[ipos_C(i,j)] = z[ipos_C(j,i,ldZ)] ;
-      } else {
-        for ( sizeType i = 0 ; i < nx ; ++i )
-          for ( sizeType j = 0 ; j < ny ; ++j )
-            Z[ipos_C(i,j)] = z[ipos_C(i,j,ldZ)] ;
-      }
+      SPLINE_ASSERT( ldZ >= nx,
+                     "SplineSurf::build, ldZ = " << ldZ << " must be >= of ny = " << nx ) ;
+      for ( sizeType i = 0 ; i < nx ; ++i )
+        for ( sizeType j = 0 ; j < ny ; ++j )
+          Z[ipos_C(i,j,ny)] = z[ipos_F(i,j,ldZ)] ;
     }
     Z_max = *std::max_element(Z.begin(),Z.end()) ;
     Z_min = *std::min_element(Z.begin(),Z.end()) ;
@@ -171,11 +163,11 @@ namespace Splines {
     //
     //  0    2
     //
-
-    sizeType i0 = ipos_C(i,j) ;
-    sizeType i1 = ipos_C(i,j+1) ;
-    sizeType i2 = ipos_C(i+1,j) ;
-    sizeType i3 = ipos_C(i+1,j+1) ;
+    sizeType ny = sizeType(Y.size()) ;
+    sizeType i0 = ipos_C(i,j,ny) ;
+    sizeType i1 = ipos_C(i,j+1,ny) ;
+    sizeType i2 = ipos_C(i+1,j,ny) ;
+    sizeType i3 = ipos_C(i+1,j+1,ny) ;
 
     bili3[0][0] = Z[i0];   bili3[0][1] = Z[i1];
     bili3[0][2] = DY[i0];  bili3[0][3] = DY[i1];
@@ -290,10 +282,11 @@ namespace Splines {
   void
   BiQuinticSplineBase::load( sizeType i, sizeType j ) const {
 
-    sizeType i00 = ipos_C(i,j) ;
-    sizeType i01 = ipos_C(i,j+1) ;
-    sizeType i10 = ipos_C(i+1,j) ;
-    sizeType i11 = ipos_C(i+1,j+1) ;
+    sizeType ny  = sizeType(Y.size()) ;
+    sizeType i00 = ipos_C(i,j,ny) ;
+    sizeType i01 = ipos_C(i,j+1,ny) ;
+    sizeType i10 = ipos_C(i+1,j,ny) ;
+    sizeType i11 = ipos_C(i+1,j+1,ny) ;
 
     //
     //  1    3

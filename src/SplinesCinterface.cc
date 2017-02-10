@@ -38,6 +38,15 @@ using namespace SplinesLoad ;
 
 #include <string.h>
 
+#ifdef __GCC__
+#pragma GCC diagnostic ignored "-Wc++98-compat"
+#pragma GCC diagnostic ignored "-Wglobal-constructors"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+
 using namespace std ;
 
 #define EXTERN_C extern "C"
