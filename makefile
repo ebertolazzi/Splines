@@ -13,21 +13,22 @@ DEFS =
 
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
-  WARN     = -Wall
-  CC       = gcc $(WARN)
-  CXX      = g++ $(WARN)
-  VERSION  = $(shell g++ -v 2>&1 | grep "gcc version" | grep -o 'version [0-9]\.[0-9]\.[0-9]' | grep -o '[0-9]\.[0-9]\.[0-9]' )
+  WARN = -Wall
+  CC  = gcc
+  CXX = g++
+  # activate C++11 for g++ >= 4.9
+  VERSION  = $(shell $(CC) -dumpversion)
 ifneq (,$(findstring 4.9, $(VERSION)))
-  CXX  = g++ $(WARN) -std=c++11 -pthread
+  CXX += -std=c++11 -pthread
 endif
 ifneq (,$(findstring 5., $(VERSION)))
-  CXX  = g++ $(WARN) -std=c++11 -pthread
-  WARN = -Wall -Wno-reserved-id-macro -Wno-global-constructors
+  CXX += -std=c++11 -pthread
 endif
 ifneq (,$(findstring 6., $(VERSION)))
-  CXX  = g++ $(WARN) -std=c++11 -pthread
-  WARN = -Wall -Wno-reserved-id-macro -Wno-global-constructors
+  CXX += -std=c++11 -pthread
 endif
+  CC  += $(WARN)
+  CXX += $(WARN)
   LIBS     = -static -L./lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = ar rcs
@@ -35,11 +36,18 @@ endif
 
 # check if the OS string contains 'Darwin'
 ifneq (,$(findstring Darwin, $(OS)))
-  WARN = -Weverything -Wno-padded -Wno-documentation-unknown-command -Wno-float-equal -Wimplicit-fallthrough
-  CC   = clang   $(WARN)
-  CXX  = clang++ $(WARN) -std=c++11 -stdlib=libc++ 
-  #LIB_SPLINE = libSplines.dylib
-  #LIB_GC     = libGenericContainer.dylib
+  WARN    = -Weverything -Wno-reserved-id-macro -Wno-padded
+  CC      = clang
+  CXX     = clang++
+  VERSION = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
+ifneq (,$(findstring 8., $(VERSION)))
+  CXX += -std=c++11 -stdlib=libc++ 
+endif
+ifneq (,$(findstring 7., $(VERSION)))
+  CXX += -std=c++11 -stdlib=libc++ 
+endif
+  CC  += $(WARN)
+  CXX += $(WARN)
   LIBS     = -L./lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = libtool -static -o
