@@ -23,15 +23,11 @@
 
 #ifdef __GCC__
 #pragma GCC diagnostic ignored "-Wc++98-compat"
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
 #endif
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
-#endif
-
-#ifdef __clang__
-  #define FALLTHROUGH [[clang::fallthrough]]
-#else
-  #define FALLTHROUGH
+#pragma clang diagnostic ignored "-Wimplicit-fallthrough"
 #endif
 
 /**
@@ -125,14 +121,12 @@ namespace Splines {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
         mem += npts ; // Y, Yp, Ypp
-        FALLTHROUGH ;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
       case HERMITE_TYPE:
         mem += npts ; // Y, Yp
-        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
         mem += npts ;
@@ -173,7 +167,6 @@ namespace Splines {
       switch ( stype[spl] ) {
       case QUINTIC_TYPE:
         pYpp = baseValue( _npts ) ;
-        FALLTHROUGH;
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
@@ -186,7 +179,6 @@ namespace Splines {
                          "\nexpect to find derivative values" ) ;
           std::copy( Yp[spl], Yp[spl]+npts, pYp ) ;
         }
-        FALLTHROUGH;
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
       case SPLINE_SET_TYPE:
