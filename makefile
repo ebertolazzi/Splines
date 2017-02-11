@@ -13,9 +13,21 @@ DEFS =
 
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
-  WARN     = -Wall -Wno-reserved-id-macro -Wno-global-constructors
+  WARN     = -Wall
   CC       = gcc $(WARN)
-  CXX      = g++ $(WARN) -std=c++11 
+  CXX      = g++ $(WARN)
+  VERSION  = $(shell g++ -v 2>&1 | grep "gcc version" | grep -o 'version [0-9]\.[0-9]\.[0-9]' | grep -o '[0-9]\.[0-9]\.[0-9]' )
+ifneq (,$(findstring 4.9, $(VERSION)))
+  CXX  = g++ $(WARN) -std=c++11 -pthread
+endif
+ifneq (,$(findstring 5., $(VERSION)))
+  CXX  = g++ $(WARN) -std=c++11 -pthread
+  WARN = -Wall -Wno-reserved-id-macro -Wno-global-constructors
+endif
+ifneq (,$(findstring 6., $(VERSION)))
+  CXX  = g++ $(WARN) -std=c++11 -pthread
+  WARN = -Wall -Wno-reserved-id-macro -Wno-global-constructors
+endif
   LIBS     = -static -L./lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = ar rcs

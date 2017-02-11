@@ -1,5 +1,5 @@
 ---
-anguage: cpp
+language: cpp
 compiler:
   - clang
   - gcc
