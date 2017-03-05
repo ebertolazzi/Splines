@@ -125,6 +125,11 @@ ifneq (,$(findstring Linux, $(OS)))
 endif
 	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; make PREFIX="$(PWD)" install 
 
+install_local: lib
+	$(MKDIR) ./lib/include
+	cp GC/lib/include/*        ./lib/include
+	cp src/Splines.hh          ./lib/include
+	cp src/SplinesCinterface.h ./lib/include
 
 install: lib
 	cp src/Splines.hh          $(PREFIX)/include
@@ -153,7 +158,7 @@ doc:
 	doxygen
 	
 clean:
-	rm -f lib/libSplines.* lib/libGenericContainer.* src/*.o
+	rm -rf lib/libSplines.* lib/libGenericContainer.* lib/include src/*.o
 
 	rm -rf bin
 	
