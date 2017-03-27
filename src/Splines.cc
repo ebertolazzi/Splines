@@ -313,6 +313,40 @@ namespace Splines {
   }
 
   void
+  updateInterval( sizeType      & lastInterval,
+                  valueType       x,
+                  valueType const X[],
+                  sizeType        npts ) {
+
+    if ( npts <= 2 ) { lastInterval = 0 ; return ; } // nothing to search
+
+    // find the interval of the support of the B-spline
+    valueType const * XL = X+lastInterval ;
+    if ( XL[1] <= x ) { // x on the right
+      if ( x >= X[npts-2] ) { // x in [X[npt-2],X[npts-1]]
+        lastInterval = npts-2 ; // last interval
+      } else if ( x < XL[2] ) { // x in [XL[1],XL[2])
+        ++lastInterval ;
+      } else { // x >= XL[2] search the right interval
+        valueType const * XE = X+npts ;
+        lastInterval += sizeType(std::lower_bound( XL, XE, x )-XL) ;
+        if ( X[lastInterval] > x ) --lastInterval ;
+      }
+    } else if ( x < XL[0] ) { // on the left
+      if ( x < X[1] ) { // x in [X[0],X[1])
+        lastInterval = 0 ; // first interval
+      } else if ( XL[-1] <= x ) { // x in [XL[-1],XL[0])
+        --lastInterval ;
+      } else {
+        lastInterval = sizeType(std::lower_bound( X, XL, x )-X) ;
+        if ( X[lastInterval] > x ) --lastInterval ;
+      }
+    } else {
+      // x in the interval [XL[0],XL[1]) nothing to do
+    }
+  }
+
+  void
   Spline::info( std::basic_ostream<char> & s ) const {
     s << "Spline `" << _name
       << "` of type: " << type_name()
@@ -349,23 +383,6 @@ namespace Splines {
     X[npts] = x ;
     Y[npts] = y ;
     ++npts ;
-  }
-
-  sizeType
-  Spline::search( valueType x ) const {
-    SPLINE_ASSERT( npts > 0, "\nsearch(" << x << ") empty spline");
-    if ( lastInterval+1 >= npts || X[lastInterval] < x || X[lastInterval+1] > x ) {
-      if ( _check_range ) {
-        SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
-                       "method search( " << x << " ) out of range: [" <<
-                       X[0] << ", " << X[npts-1] << "]" ) ;
-      }
-      lastInterval = sizeType(lower_bound( X, X+npts, x ) - X) ;
-      if ( lastInterval > 0 ) --lastInterval ;
-      if ( X[lastInterval] == X[lastInterval+1] ) ++lastInterval ; // degenerate interval for duplicated nodes
-      if ( lastInterval+1 >= npts ) lastInterval = npts-2 ;
-    }
-    return lastInterval ;
   }
 
   ///////////////////////////////////////////////////////////////////////////

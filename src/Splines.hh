@@ -235,6 +235,13 @@ namespace Splines {
                                 valueType const Y[],
                                 valueType const Yp[],
                                 sizeType        npts ) ;
+
+  void
+  updateInterval( sizeType      & lastInterval,
+                  valueType       x,
+                  valueType const X[],
+                  sizeType        npts ) ;
+
   /*
   //   __  __       _ _
   //  |  \/  | __ _| | | ___   ___
@@ -358,9 +365,22 @@ namespace Splines {
     sizeType  npts, npts_reserved ;
     valueType *X ; // allocated in the derived class!
     valueType *Y ; // allocated in the derived class!
-
-    sizeType search( valueType x ) const ;
+    
     mutable sizeType lastInterval ;
+
+    sizeType
+    search( valueType x ) const {
+      SPLINE_ASSERT( npts > 1, "\nsearch(" << x << ") empty spline");
+      if ( _check_range ) {
+        valueType xl = X[0] ;
+        valueType xr = X[npts-1] ;
+        SPLINE_ASSERT( x >= xl && x <= xr,
+                       "method search( " << x << " ) out of range: [" <<
+                       xl << ", " << xr << "]" ) ;
+      }
+      Splines::updateInterval( lastInterval, x, X, npts ) ;
+      return lastInterval;
+    }
 
     Spline(Spline const &) ; // block copy constructor
     Spline const & operator = (Spline const &) ; // block copy method
@@ -1059,9 +1079,10 @@ namespace Splines {
     virtual
     valueType
     operator () ( valueType x ) const {
-      if ( x < X[0] ) return Y[0] ;
-      if ( npts > 0 && x > X[npts-1] ) return Y[npts-1] ;
-      sizeType i = search(x) ;
+      SPLINE_ASSERT( npts > 0, "in LinearSpline::operator(), npts == 0!") ;
+      if ( x < X[0]      ) return Y[0] ;
+      if ( x > X[npts-1] ) return Y[npts-1] ;
+      sizeType  i = search(x) ;
       valueType s = (x-X[i])/(X[i+1] - X[i]) ;
       return (1-s)*Y[i] + s * Y[i+1] ;
     }
@@ -1070,8 +1091,9 @@ namespace Splines {
     virtual
     valueType
     D( valueType x ) const {
-      if ( x < X[0] ) return 0 ;
-      if ( npts > 0 && x > X[npts-1] ) return 0 ;
+      SPLINE_ASSERT( npts > 0, "in LinearSpline::operator(), npts == 0!") ;
+      if ( x < X[0]      ) return 0 ;
+      if ( x > X[npts-1] ) return 0 ;
       sizeType i = search(x) ;
       return ( Y[i+1] - Y[i] ) / ( X[i+1] - X[i] ) ;
     }
@@ -1811,10 +1833,38 @@ namespace Splines {
     valueType Z_min, Z_max ;
 
     mutable sizeType lastInterval_x ;
-    sizeType search_x( valueType x ) const ;
+
+    sizeType
+    search_x( valueType x ) const {
+      sizeType npts_x = sizeType(X.size()) ;
+      SPLINE_ASSERT( npts_x > 1, "\nsearch_x(" << x << ") empty spline");
+      if ( _check_range ) {
+        valueType xl = X.front() ;
+        valueType xr = X.back() ;
+        SPLINE_ASSERT( x >= xl && x <= xr,
+                       "method search_x( " << x << " ) out of range: [" <<
+                       xl << ", " << xr << "]" ) ;
+      }
+      Splines::updateInterval( lastInterval_x, x, &X.front(), npts_x ) ;
+      return lastInterval_x;
+    }
 
     mutable sizeType lastInterval_y ;
-    sizeType search_y( valueType y ) const ;
+
+    sizeType
+    search_y( valueType y ) const {
+      sizeType npts_y = sizeType(Y.size()) ;
+      SPLINE_ASSERT( npts_y > 1, "\nsearch_y(" << y << ") empty spline");
+      if ( _check_range ) {
+        valueType yl = Y.front() ;
+        valueType yr = Y.back() ;
+        SPLINE_ASSERT( y >= yl && y <= yr,
+                      "method search_y( " << y << " ) out of range: [" <<
+                       yl << ", " << yr << "]" ) ;
+      }
+      Splines::updateInterval( lastInterval_y, y, &Y.front(), npts_y ) ;
+      return lastInterval_y;
+    }
 
     sizeType ipos_C( sizeType i, sizeType j, sizeType ldZ ) const { return i*ldZ + j ; }
     sizeType ipos_F( sizeType i, sizeType j, sizeType ldZ ) const { return i + ldZ*j ; }
@@ -2067,8 +2117,6 @@ namespace Splines {
   class BiCubicSplineBase : public SplineSurf {
   protected:
   
-    //! \cond PRIVATE
-
     vector<valueType> DX, DY, DXY ;
     mutable valueType u[4] ;
     mutable valueType u_D[4] ;
@@ -2079,8 +2127,6 @@ namespace Splines {
     mutable valueType bili3[4][4] ;
 
     void load( sizeType i, sizeType j ) const ;
-
-    //! \endcond
 
   public:
   
@@ -2187,8 +2233,6 @@ namespace Splines {
   //! Bi-quintic spline base class
   class BiQuinticSplineBase : public SplineSurf {
   protected:
-  
-    //! \cond PRIVATE
 
     vector<valueType> DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY ;
     mutable valueType u[6] ;
@@ -2200,8 +2244,6 @@ namespace Splines {
     mutable valueType bili5[6][6] ;
 
     void load( sizeType i, sizeType j ) const ;
-
-    //! \endcond
 
   public:
   
