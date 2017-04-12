@@ -722,8 +722,8 @@ namespace Splines {
                   valueType const     X[],
                   indexType           nb, // number of bases
                   valueType const     Knots[],
-                  vector<indexType> & I,
-                  vector<indexType> & J,
+                  vector<indexType> & II, // GCC on linux bugged for I
+                  vector<indexType> & JJ,
                   vector<valueType> & vals ) ;
 
   } ;

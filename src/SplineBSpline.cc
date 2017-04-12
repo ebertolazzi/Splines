@@ -307,12 +307,12 @@ namespace Splines {
                                   valueType const     X[],
                                   indexType           nb,
                                   valueType const     Knots[],
-                                  vector<indexType> & I,
-                                  vector<indexType> & J,
+                                  vector<indexType> & II,
+                                  vector<indexType> & JJ,
                                   vector<valueType> & vals ) {
     valueType row[_degree+1] ;
-    I.clear()    ; I.reserve( sizeType(nx) ) ;
-    J.clear()    ; J.reserve( sizeType(nx) ) ;
+    II.clear()    ; II.reserve( sizeType(nx) ) ;
+    JJ.clear()    ; JJ.reserve( sizeType(nx) ) ;
     vals.clear() ; vals.reserve( sizeType(nx) ) ;
     for ( indexType i = 0 ; i < nx ; ++i ) {
       indexType ii = indexType(lower_bound( Knots+_degree, Knots+nb+_degree, X[i] ) - Knots ) ;
@@ -320,8 +320,8 @@ namespace Splines {
       ii -= _degree ;
       BSplineBase<_degree>::eval( X[i], Knots+ii, row ) ;
       for ( indexType j = 0 ; j <= _degree ; ++j ) {
-        I.push_back( i ) ;
-        J.push_back( ii+j ) ;
+        II.push_back( i ) ;
+        JJ.push_back( ii+j ) ;
         vals.push_back( row[j] ) ;
       }
     }
