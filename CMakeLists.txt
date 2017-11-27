@@ -51,7 +51,7 @@ FOREACH (F ${S})
   LIST( APPEND HEADERS ${RF} )
 ENDFOREACH (F ${S})
 
-INCLUDE_DIRECTORIES( src GC/src GC/src_lua_interface )
+INCLUDE_DIRECTORIES( src GC/lib/include )
 
 ADD_LIBRARY( ${TARGET} STATIC ${SOURCES} ${HEADERS} )
 
