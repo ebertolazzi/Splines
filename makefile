@@ -102,19 +102,25 @@ gc: lib/$(LIB_GC)
 
 lib: gc lib/$(LIB_SPLINE)
 
+include_local:
+	@rm -rf lib/include
+	$(MKDIR) lib
+	$(MKDIR) lib/include
+	@cp -f src/*.h* lib/include
+
 src/%.o: src/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@ 
 
 src/%.o: src/%.c $(DEPS)
 	$(CC) $(INC) $(CFLAGS) $(DEFS) -c -o $@ $<
 
-lib/libSplines.a: $(OBJS)
+lib/libSplines.a: $(OBJS) include_local
 	$(AR) lib/libSplines.a $(OBJS) 
 
-lib/libSplines.dylib: $(OBJS)
+lib/libSplines.dylib: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.dylib $(OBJS) 
 
-lib/libSplines.so: $(OBJS)
+lib/libSplines.so: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
