@@ -7,8 +7,8 @@ LIB_GC     = libGenericContainer.a
 
 CC   = gcc
 CXX  = g++
-INC  = -I./src -I./include
-LIBS = -L./lib -lSplines -lGenericContainer
+INC  = -I./src -I./include -I./GC/lib/include
+LIBS = -L./lib -L./GC/lib -lSplines -lGenericContainer
 DEFS =
 
 # check if the OS string contains 'Linux'
@@ -29,7 +29,7 @@ ifneq (,$(findstring 6., $(VERSION)))
 endif
   CC  += $(WARN)
   CXX += $(WARN)
-  LIBS     = -static -L./lib -lSplines -lGenericContainer
+  LIBS     = -static -L./lib -L./GC/lib  -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif
@@ -48,7 +48,7 @@ ifneq (,$(findstring 7., $(VERSION)))
 endif
   CC  += $(WARN)
   CXX += $(WARN)
-  LIBS     = -L./lib -lSplines -lGenericContainer
+  LIBS     = -L./lib -L./GC/lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
   AR       = libtool -static -o
 endif
@@ -102,19 +102,25 @@ gc: lib/$(LIB_GC)
 
 lib: gc lib/$(LIB_SPLINE)
 
+include_local:
+	@rm -rf lib/include
+	$(MKDIR) lib
+	$(MKDIR) lib/include
+	@cp -f src/*.h* lib/include
+
 src/%.o: src/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@ 
 
 src/%.o: src/%.c $(DEPS)
 	$(CC) $(INC) $(CFLAGS) $(DEFS) -c -o $@ $<
 
-lib/libSplines.a: $(OBJS)
+lib/libSplines.a: $(OBJS) include_local
 	$(AR) lib/libSplines.a $(OBJS) 
 
-lib/libSplines.dylib: $(OBJS)
+lib/libSplines.dylib: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.dylib $(OBJS) 
 
-lib/libSplines.so: $(OBJS)
+lib/libSplines.so: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
@@ -123,7 +129,7 @@ lib/$(LIB_GC):
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC ; ruby gcc_workaround.rb ; cd ..
 endif
-	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; make PREFIX="$(PWD)" install 
+	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; 
 
 install_local: lib
 	$(MKDIR) ./lib/include
