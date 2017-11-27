@@ -43,5 +43,10 @@
   @cmake --build . --config Release --target Install
   @cmake --build . --config Debug --target Install
   @cd ..
+) else (
+  @echo.
+  powershell -command write-host -foreground "red" -background "yellow" -nonewline "Splines already compiled"
+  @echo.
 )
+
 
