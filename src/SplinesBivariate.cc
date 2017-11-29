@@ -76,11 +76,13 @@ namespace Splines {
               &gc_z.get_mat_real().front(), gc_z.get_mat_real().numRows(),
               nx, ny, fortran_storage, transposed ) ;
     } else if ( GC_VEC_REAL == gc_z.get_type() ) {
+      GenericContainer const & gc_ldz = gc("ldz") ;
+      sizeType ldz = sizeType(gc_ldz.get_as_uint("SplineSurf::setup, field `ldz` expected to be and integer")) ;
       vec_real_type z ;
       gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" ) ;
       build ( &x.front(), 1,
               &y.front(), 1,
-              &z.front(), nx,
+              &z.front(), ldz,
               nx, ny, fortran_storage, transposed ) ;
     } else {
       SPLINE_ASSERT( false,
