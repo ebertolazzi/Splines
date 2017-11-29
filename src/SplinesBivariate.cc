@@ -57,11 +57,7 @@ namespace Splines {
     
     vec_real_type x, y ;
     gc_x.copyto_vec_real( x, "SplineSurf::setup, field `x'" ) ;
-    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `x'" ) ;
-
-    SPLINE_ASSERT( GC_MAT_REAL == gc_z.get_type(),
-                   "[SplineSurf[" << _name << "]::setup] field `z` expected to be of type `mat_real_type` found: `" <<
-                   gc_z.get_type_name() << "`" ) ;
+    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `y'" ) ;
 
     bool fortran_storage = false ;
     if ( gc.exists("fortran_storage") )
@@ -74,10 +70,23 @@ namespace Splines {
     sizeType nx = sizeType(x.size()) ;
     sizeType ny = sizeType(y.size()) ;
 
-    build ( &x.front(), 1,
-            &y.front(), 1,
-            &gc_z.get_mat_real().front(), gc_z.get_mat_real().numRows(),
-            nx, ny, fortran_storage, transposed ) ;
+    if ( GC_MAT_REAL == gc_z.get_type() ) {
+      build ( &x.front(), 1,
+              &y.front(), 1,
+              &gc_z.get_mat_real().front(), gc_z.get_mat_real().numRows(),
+              nx, ny, fortran_storage, transposed ) ;
+    } else if ( GC_VEC_REAL == gc_z.get_type() ) {
+      vec_real_type z ;
+      gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" ) ;
+      build ( &x.front(), 1,
+              &y.front(), 1,
+              &z.front(), nx,
+              nx, ny, fortran_storage, transposed ) ;
+    } else {
+      SPLINE_ASSERT( false,
+                     "[SplineSurf[" << _name << "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
+                     gc_z.get_type_name() << "`" ) ;
+    }
 
   }
   #endif
