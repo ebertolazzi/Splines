@@ -45,7 +45,7 @@
 
 @IF %COMPILE% == "YES" (
 
-  @IF NOT EXIST GC (
+  @IF NOT EXIST ..\GC (
     @echo.
     @powershell -command write-host -foreground "red" -background "yellow" -nonewline "Download GenericContainer"
     @echo.
@@ -56,9 +56,12 @@
   @RMDIR /S /Q %VSDIR%
   @mkdir %VSDIR%
   @cd %VSDIR%
-  @cmake -G "%STR%" -D%LAPACK%=1 -DYEAR=%YEAR% -DBITS=%BITS% -DCMAKE_INSTALL_PREFIX:PATH=..\lib ..
+
+  @cmake -G "%STR%" -DYEAR=%YEAR% -DBITS=%BITS% -DCMAKE_INSTALL_PREFIX:PATH=..\lib ..
   @cmake --build . --config Release --target Install
+  @cmake -G "%STR%" -DYEAR=%YEAR% -DBITS=%BITS% -DCMAKE_INSTALL_PREFIX:PATH=..\lib_debug ..
   @cmake --build . --config Debug --target Install
+							
   @cd ..
 ) else (
   @echo.

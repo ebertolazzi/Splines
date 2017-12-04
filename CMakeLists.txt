@@ -56,7 +56,12 @@ FOREACH (F ${S})
   LIST( APPEND HEADERS ${RF} )
 ENDFOREACH (F ${S})
 
-INCLUDE_DIRECTORIES( src GC/lib/include )
+FILE( GLOB S ../GC/lib/include )
+IF(EXISTS ${S})
+  INCLUDE_DIRECTORIES( src ${S} )
+ELSE()
+  INCLUDE_DIRECTORIES( src ./ADD_COMPILE_OPTIONSGC/lib/include )
+ENDIF()
 
 IF( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
   INCLUDE_DIRECTORIES( "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries/windows/mkl/include" )
