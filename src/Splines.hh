@@ -321,7 +321,7 @@ namespace Splines {
     //! free memory
     void
     free(void) {
-      if ( pMalloc != 0 ) {
+      if ( pMalloc != nullptr ) {
         delete [] pMalloc ;
         numTotValues   = 0 ;
         numTotReserved = 0 ;
