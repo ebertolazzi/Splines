@@ -36,8 +36,8 @@
 
 namespace Splines {
 
-  using std::abs ;
-  using std::sqrt ;
+  using std::abs;
+  using std::sqrt;
 
   //! spline constructor
   SplineSet::SplineSet( string const & name )
@@ -57,513 +57,527 @@ namespace Splines {
 
   //! spline destructor
   SplineSet::~SplineSet() {
-    baseValue.free() ;
-    basePointer.free() ;
+    baseValue.free();
+    basePointer.free();
   }
 
   void
-  SplineSet::info( std::basic_ostream<char> & s ) const {
+  SplineSet::info( ostream_type & s ) const {
     s << "SplineSet[" << name() << "] n.points = "
-      << _npts << " n.splines = " << _nspl << '\n' ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i ) {
-      s << "\nSpline n." << i ;
+      << _npts << " n.splines = " << _nspl << '\n';
+    for ( size_t i = 0; i < size_t(_nspl); ++i ) {
+      s << "\nSpline n." << i;
       switch ( is_monotone[i] ) {
-        case -2: s << " with NON monotone data\n" ; break ;
-        case -1: s << " is NOT monotone\n"        ; break ;
-        case  0: s << " is monotone\n"            ; break ;
-        case  1: s << " is strictly monotone\n"   ; break ;
-        default: SPLINE_ASSERT( false, "SplineSet::info classification: " << is_monotone[i] << " not in range {-2,-1,0,1}" ) ;
+        case -2: s << " with NON monotone data\n"; break;
+        case -1: s << " is NOT monotone\n";        break;
+        case  0: s << " is monotone\n";            break;
+        case  1: s << " is strictly monotone\n";   break;
+        default: SPLINE_ASSERT( false, "SplineSet::info classification: " << is_monotone[i] << " not in range {-2,-1,0,1}" );
       }
-      splines[i]->info(s) ;
+      splines[i]->info(s);
     }
   }
 
   void
-  SplineSet::dump_table( std::basic_ostream<char> & stream, sizeType num_points ) const {
-    vector<valueType> vals ;
-    stream << 's' ;
-    for ( sizeType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << header(i) ;
-    stream << '\n' ;
+  SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
+    vector<real_type> vals;
+    stream << 's';
+    for ( integer i = 0; i < numSplines(); ++i )
+      stream << '\t' << header(i);
+    stream << '\n';
   
-    for ( sizeType j = 0 ; j < num_points ; ++j ) {
-      valueType s = xMin() + ((xMax()-xMin())*j)/(num_points-1) ;
-      this->eval( s, vals ) ;
-      stream << s ;
-      for ( sizeType i = 0 ; i < numSplines() ; ++i ) stream << '\t' << vals[i] ;
-      stream << '\n' ;
+    for ( integer j = 0; j < num_points; ++j ) {
+      real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
+      this->eval( s, vals );
+      stream << s;
+      for ( integer i = 0; i < numSplines(); ++i )
+        stream << '\t' << vals[size_t(i)];
+      stream << '\n';
     }
   }
 
-  sizeType
+  integer
   SplineSet::getPosition( char const * hdr ) const {
-    map<string,sizeType>::const_iterator it = header_to_position.find(hdr) ;
-    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(\"" << hdr << "\") not found!" ) ;
-    return it->second ;
+    map<string,integer>::const_iterator it = header_to_position.find(hdr);
+    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(\"" << hdr << "\") not found!" );
+    return it->second;
   }
 
   void
-  SplineSet::build( sizeType   const nspl,
-                    sizeType   const npts,
+  SplineSet::build( integer          nspl,
+                    integer          npts,
                     char       const *headers[],
                     SplineType const stype[],
-                    valueType  const X[],
-                    valueType  const *Y[],
-                    valueType  const *Yp[] ) {
-    SPLINE_ASSERT( nspl > 0, "SplineSet::build expected positive nspl = " << nspl ) ;
-    SPLINE_ASSERT( npts > 1, "SplineSet::build expected npts = " << npts << " greather than 1" ) ;
-    _nspl = nspl ;
-    _npts = npts ;
+                    real_type  const X[],
+                    real_type  const *Y[],
+                    real_type  const *Yp[] ) {
+    SPLINE_ASSERT( nspl > 0,
+                   "SplineSet::build expected positive nspl = " << nspl );
+    SPLINE_ASSERT( npts > 1,
+                   "SplineSet::build expected npts = " << npts <<
+                   " greather than 1" );
+    _nspl = nspl;
+    _npts = npts;
     // allocate memory
-    splines.resize(_nspl) ;
-    is_monotone.resize(_nspl) ;
-    sizeType mem = npts ;
-    for ( sizeType spl = 0 ; spl < sizeType(nspl) ; ++spl ) {
+    splines.resize(size_t(_nspl));
+    is_monotone.resize(size_t(_nspl));
+    integer mem = npts;
+    for ( integer spl = 0; spl < nspl; ++spl ) {
       switch (stype[spl]) {
       case QUINTIC_TYPE:
-        mem += npts ; // Y, Yp, Ypp
+        mem += npts; // Y, Yp, Ypp
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
       case HERMITE_TYPE:
-        mem += npts ; // Y, Yp
+        mem += npts; // Y, Yp
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
-        mem += npts ;
+        mem += npts;
       break;
       case SPLINE_SET_TYPE:
       case BSPLINE_TYPE:
         SPLINE_ASSERT( false,
                        "SplineSet::build\nAt spline n. " << spl <<
                        " named " << headers[spl] <<
-                       " cannot be done for type = " << stype[spl] ) ;
+                       " cannot be done for type = " << stype[spl] );
       }
     }
 
-    baseValue.allocate( sizeType(mem + 2*nspl) ) ;
-    basePointer.allocate( sizeType(3*nspl) ) ;
+    baseValue   . allocate( size_t(mem + 2*nspl) );
+    basePointer . allocate( size_t(3*nspl) );
 
-    _Y    = basePointer(_nspl) ;
-    _Yp   = basePointer(_nspl) ;
-    _Ypp  = basePointer(_nspl) ;
-    _X    = baseValue(_npts) ;
-    _Ymin = baseValue(_nspl) ;
-    _Ymax = baseValue(_nspl) ;
-    std::copy( X, X+npts, _X ) ;
-    for ( sizeType spl = 0 ; spl < sizeType(nspl) ; ++spl ) {
-      valueType *& pY   = _Y[spl] ;
-      valueType *& pYp  = _Yp[spl] ;
-      valueType *& pYpp = _Ypp[spl] ;
-      pY = baseValue( _npts ) ;
-      std::copy( Y[spl], Y[spl]+npts, pY ) ;
+    _Y    = basePointer(size_t(_nspl));
+    _Yp   = basePointer(size_t(_nspl));
+    _Ypp  = basePointer(size_t(_nspl));
+    _X    = baseValue(size_t(_npts));
+    _Ymin = baseValue(size_t(_nspl));
+    _Ymax = baseValue(size_t(_nspl));
+
+    std::copy( X, X+npts, _X );
+    for ( size_t spl = 0; spl < size_t(nspl); ++spl ) {
+      real_type *& pY   = _Y[spl];
+      real_type *& pYp  = _Yp[spl];
+      real_type *& pYpp = _Ypp[spl];
+      pY = baseValue(size_t(_npts));
+      std::copy( Y[spl], Y[spl]+npts, pY );
       if ( stype[spl] == CONSTANT_TYPE ) {
-        _Ymin[spl] = *std::min_element( pY,pY+npts-1 ) ;
-        _Ymax[spl] = *std::max_element( pY,pY+npts-1 ) ;        
+        _Ymin[spl] = *std::min_element( pY,pY+npts-1 );
+        _Ymax[spl] = *std::max_element( pY,pY+npts-1 );
       } else {
-        _Ymin[spl] = *std::min_element( pY,pY+npts ) ;
-        _Ymax[spl] = *std::max_element( pY,pY+npts ) ;
+        _Ymin[spl] = *std::min_element( pY,pY+npts );
+        _Ymax[spl] = *std::max_element( pY,pY+npts );
       }
-      pYpp = pYp = nullptr ;
+      pYpp = pYp = nullptr;
       switch ( stype[spl] ) {
       case QUINTIC_TYPE:
-        pYpp = baseValue( _npts ) ;
+        pYpp = baseValue(size_t(_npts));
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
       case HERMITE_TYPE:
-        pYp = baseValue( _npts ) ;
+        pYp = baseValue(size_t(_npts));
         if ( stype[spl] == HERMITE_TYPE ) {
           SPLINE_ASSERT( Yp != nullptr && Yp[spl] != nullptr,
-                         "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-                         "\nexpect to find derivative values" ) ;
-          std::copy( Yp[spl], Yp[spl]+npts, pYp ) ;
+                         "SplineSet::build\nAt spline n. " << spl <<
+                         " named " << headers[spl] <<
+                         "\nexpect to find derivative values" );
+          std::copy( Yp[spl], Yp[spl]+npts, pYp );
         }
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
       case SPLINE_SET_TYPE:
         break;
       case BSPLINE_TYPE: // nothing to do (not implemented)
-        break ;
+        break;
       }
-      string h = headers[spl] ;
-      Spline * & s = splines[spl] ;
+      string h = headers[spl];
+      Spline * & s = splines[spl];
       
-      is_monotone[spl] = -1 ;
-      switch (stype[spl]) {
+      is_monotone[spl] = -1;
+      switch (stype[size_t(spl)]) {
       case CONSTANT_TYPE:
-        s = new ConstantSpline(h) ;
-        static_cast<ConstantSpline*>(s)->reserve_external( _npts, _X, pY ) ;
-        static_cast<ConstantSpline*>(s)->npts = _npts ;
-        static_cast<ConstantSpline*>(s)->build() ;
+        s = new ConstantSpline(h);
+        static_cast<ConstantSpline*>(s)->reserve_external( _npts, _X, pY );
+        static_cast<ConstantSpline*>(s)->npts = _npts;
+        static_cast<ConstantSpline*>(s)->build();
         break;
 
       case LINEAR_TYPE:
-        s = new LinearSpline(h) ;
-        static_cast<LinearSpline*>(s)->reserve_external( _npts, _X, pY ) ;
-        static_cast<LinearSpline*>(s)->npts = _npts ;
-        static_cast<LinearSpline*>(s)->build() ;
+        s = new LinearSpline(h);
+        static_cast<LinearSpline*>(s)->reserve_external( _npts, _X, pY );
+        static_cast<LinearSpline*>(s)->npts = _npts;
+        static_cast<LinearSpline*>(s)->build();
         // check monotonicity of data
-        { indexType flag = 1 ;
-          for ( sizeType j = 1 ; j < _npts ; ++j ) {
-            if ( pY[j-1] > pY[j] ) { flag = -1 ; break ; } // non monotone data
-            if ( pY[j-1] == pY[j] && _X[j-1] < _X[j] ) flag = 0 ; // non strict monotone
+        { integer flag = 1;
+          for ( integer j = 1; j < _npts; ++j ) {
+            if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
+            if ( isZero(pY[j-1]-pY[j]) && _X[j-1] < _X[j] ) flag = 0; // non strict monotone
           }
-          is_monotone[spl] = flag ;
+          is_monotone[spl] = flag;
         }
         break;
 
       case CUBIC_TYPE:
-        s = new CubicSpline(h) ;
-        static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<CubicSpline*>(s)->npts = _npts ;
-        static_cast<CubicSpline*>(s)->build() ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        s = new CubicSpline(h);
+        static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp );
+        static_cast<CubicSpline*>(s)->npts = _npts;
+        static_cast<CubicSpline*>(s)->build();
+        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts );
         break;
 
       case AKIMA_TYPE:
-        s = new AkimaSpline(h) ;
-        static_cast<AkimaSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<AkimaSpline*>(s)->npts = _npts ;
-        static_cast<AkimaSpline*>(s)->build() ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
-        break ;
+        s = new AkimaSpline(h);
+        static_cast<AkimaSpline*>(s)->reserve_external( _npts, _X, pY, pYp );
+        static_cast<AkimaSpline*>(s)->npts = _npts;
+        static_cast<AkimaSpline*>(s)->build();
+        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts );
+        break;
 
       case BESSEL_TYPE:
-        s = new BesselSpline(h) ;
-        static_cast<BesselSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<BesselSpline*>(s)->npts = _npts ;
-        static_cast<BesselSpline*>(s)->build() ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
-        break ;
+        s = new BesselSpline(h);
+        static_cast<BesselSpline*>(s)->reserve_external( _npts, _X, pY, pYp );
+        static_cast<BesselSpline*>(s)->npts = _npts;
+        static_cast<BesselSpline*>(s)->build();
+        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts );
+        break;
 
       case PCHIP_TYPE:
-        s = new PchipSpline(h) ;
-        static_cast<PchipSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<PchipSpline*>(s)->npts = _npts ;
-        static_cast<PchipSpline*>(s)->build() ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
-        break ;
+        s = new PchipSpline(h);
+        static_cast<PchipSpline*>(s)->reserve_external( _npts, _X, pY, pYp );
+        static_cast<PchipSpline*>(s)->npts = _npts;
+        static_cast<PchipSpline*>(s)->build();
+        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts );
+        break;
 
       case HERMITE_TYPE:
-        s = new HermiteSpline(h) ;
-        static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp ) ;
-        static_cast<CubicSpline*>(s)->npts = _npts ;
-        static_cast<CubicSpline*>(s)->build() ;
-        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts ) ;
+        s = new HermiteSpline(h);
+        static_cast<CubicSpline*>(s)->reserve_external( _npts, _X, pY, pYp );
+        static_cast<CubicSpline*>(s)->npts = _npts;
+        static_cast<CubicSpline*>(s)->build();
+        is_monotone[spl] = checkCubicSplineMonotonicity( _X, pY, pYp, _npts );
         break;
 
       case QUINTIC_TYPE:
-        s = new QuinticSpline(h) ;
-        static_cast<QuinticSpline*>(s)->reserve_external( _npts, _X, pY, pYp, pYpp ) ;
-        static_cast<QuinticSpline*>(s)->npts = _npts ;
-        static_cast<QuinticSpline*>(s)->build() ;
+        s = new QuinticSpline(h);
+        static_cast<QuinticSpline*>(s)->reserve_external( _npts, _X, pY, pYp, pYpp );
+        static_cast<QuinticSpline*>(s)->npts = _npts;
+        static_cast<QuinticSpline*>(s)->build();
         break;
 
       case SPLINE_SET_TYPE:
         SPLINE_ASSERT( false,
                        "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-                       "\nSPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
+                       "\nSPLINE_SET_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" );
       case BSPLINE_TYPE:
         SPLINE_ASSERT( false,
                        "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-                       "\nBSPLINE_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" ) ;
+                       "\nBSPLINE_TYPE not allowed as spline type\nin SplineSet::build for " << spl << "-th spline" );
       }
-      header_to_position[s->name()] = spl ;
+      header_to_position[s->name()] = integer(spl);
     }
+
+    baseValue   . must_be_empty( "SplineSet::build, baseValue" );
+    basePointer . must_be_empty( "SplineSet::build, basePointer" );
 
   }
 
   // vectorial values
   void
   SplineSet::getHeaders( vector<string> & h ) const {
-    h.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      h[i] = splines[i]->name() ;
+    h.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      h[i] = splines[i]->name();
   }
 
   void
-  SplineSet::eval( valueType x, vector<valueType> & vals ) const {
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = (*splines[i])(x) ;
+  SplineSet::eval( real_type x, vector<real_type> & vals ) const {
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = (*splines[i])(x);
   }
 
   void
-  SplineSet::eval( valueType x, valueType vals[], indexType incy ) const {
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = (*splines[i])(x) ;
+  SplineSet::eval( real_type x, real_type vals[], integer incy ) const {
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = (*splines[i])(x);
   }
 
   void
-  SplineSet::eval_D( valueType x, vector<valueType> & vals ) const {
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = splines[i]->D(x) ;
+  SplineSet::eval_D( real_type x, vector<real_type> & vals ) const {
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = splines[i]->D(x);
   }
 
   void
-  SplineSet::eval_D( valueType x, valueType vals[], indexType incy ) const {
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = splines[i]->D(x) ;
+  SplineSet::eval_D( real_type x, real_type vals[], integer incy ) const {
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = splines[i]->D(x);
   }
 
   void
-  SplineSet::eval_DD( valueType x, vector<valueType> & vals ) const {
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = splines[i]->DD(x) ;
+  SplineSet::eval_DD( real_type x, vector<real_type> & vals ) const {
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = splines[i]->DD(x);
   }
 
   void
-  SplineSet::eval_DD( valueType x, valueType vals[], indexType incy ) const {
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = splines[i]->DD(x) ;
+  SplineSet::eval_DD( real_type x, real_type vals[], integer incy ) const {
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = splines[i]->DD(x);
   }
 
   void
-  SplineSet::eval_DDD( valueType x, vector<valueType> & vals ) const {
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = splines[i]->DDD(x) ;
+  SplineSet::eval_DDD( real_type x, vector<real_type> & vals ) const {
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = splines[i]->DDD(x);
   }
 
   void
-  SplineSet::eval_DDD( valueType x, valueType vals[], indexType incy ) const {
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = splines[i]->DDD(x) ;
+  SplineSet::eval_DDD( real_type x, real_type vals[], integer incy ) const {
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = splines[i]->DDD(x);
   }
 
   // vectorial values
   
   Spline const *
-  SplineSet::intersect( sizeType spl, valueType zeta, valueType & x ) const {
+  SplineSet::intersect( integer     spl,
+                        real_type   zeta,
+                        real_type & x ) const {
     SPLINE_ASSERT( spl >= 0 && spl < _nspl,
-                   "Spline n." << spl << " is not in SplineSet") ;
-    SPLINE_ASSERT( is_monotone[sizeType(spl)]>0,
-                   "Spline n." << spl << " is not monotone and can't be used as independent") ;
-    Spline const * S = splines[sizeType(spl)] ;
+                   "Spline n." << spl << " is not in SplineSet");
+    SPLINE_ASSERT( is_monotone[size_t(spl)]>0,
+                   "Spline n." << spl <<
+                   " is not monotone and can't be used as independent");
+    Spline const * S = splines[size_t(spl)];
     // cerco intervallo intersezione
-    valueType const * X = _Y[sizeType(spl)] ;
-    SPLINE_ASSERT( zeta >= X[0] && zeta <= X[_npts-1],
+    real_type const * X = _Y[size_t(spl)];
+    SPLINE_ASSERT( zeta >= X[0] && zeta <= X[size_t(_npts-1)],
                    "SplineSet, evaluation at zeta = " << zeta <<
-                   " is out of range: [" << X[0] << ", " << X[_npts-1] << "]" ) ;
+                   " is out of range: [" << X[0] <<
+                   ", " << X[size_t(_npts-1)] << "]" );
 
-    sizeType interval = sizeType(lower_bound( X, X+_npts, zeta ) - X) ;
-    if ( interval > 0 ) --interval ;
-    if ( X[interval] == X[interval+1] ) ++interval ; // degenerate interval for duplicated nodes
-    if ( interval >= _npts-1 ) interval = _npts-2 ;
+    integer interval = integer(lower_bound( X, X+_npts, zeta ) - X);
+    if ( interval > 0 ) --interval;
+    if ( isZero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
+    if ( interval >= _npts-1 ) interval = _npts-2;
 
     // compute intersection
-    valueType a  = _X[interval] ;
-    valueType b  = _X[interval+1] ;
-    valueType ya = X[interval] ;
-    valueType yb = X[interval+1] ;
-    valueType DX = b-a ;
-    valueType DY = yb-ya ;
+    real_type a  = _X[size_t(interval)];
+    real_type b  = _X[size_t(interval+1)];
+    real_type ya = X[size_t(interval)];
+    real_type yb = X[size_t(interval+1)];
+    real_type DX = b-a;
+    real_type DY = yb-ya;
     SPLINE_ASSERT( zeta >= ya && zeta <= yb,
-                   "SplineSet, Bad interval [ " << ya << "," << yb << "] for zeta = " << zeta ) ;
+                   "SplineSet, Bad interval [ " << ya << "," << yb << "] for zeta = " << zeta );
     SPLINE_ASSERT( a < b,
-                   "SplineSet, Bad x interval [ " << a << "," << b << "]" ) ;
+                   "SplineSet, Bad x interval [ " << a << "," << b << "]" );
     if ( S->type() == LINEAR_TYPE ) {
-      x = a + (b-a)*(zeta-ya)/(yb-ya) ;
+      x = a + (b-a)*(zeta-ya)/(yb-ya);
     } else {
-      valueType const * dX = _Yp[sizeType(spl)] ;
-      valueType        dya = dX[interval] ;
-      valueType        dyb = dX[interval+1] ;
-      valueType coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) } ;
-      valueType real[3], imag[3] ;
-      pair<int,int> icase = cubicRoots( coeffs, real, imag ) ;
+      real_type const * dX = _Yp[size_t(spl)];
+      real_type        dya = dX[interval];
+      real_type        dyb = dX[interval+1];
+      real_type coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) };
+      real_type real[3], imag[3];
+      pair<int,int> icase = cubicRoots( coeffs, real, imag );
       SPLINE_ASSERT( icase.first > 0,
-                     "SplineSet, No intersection found with independent spline at zeta = " << zeta ) ;
+                     "SplineSet, No intersection found with independent spline at zeta = " << zeta );
       // cerca radice buona
-      bool ok = false ;
-      for ( indexType i = 0 ; i < icase.first && !ok ; ++i ) {
-        ok = real[i] >= 0 && real[i] <= DX ;
-        if ( ok ) x = a + real[i] ;
+      bool ok = false;
+      for ( integer i = 0; i < icase.first && !ok; ++i ) {
+        ok = real[i] >= 0 && real[i] <= DX;
+        if ( ok ) x = a + real[i];
       }
-      SPLINE_ASSERT( ok, "SplineSet, failed to find intersection with independent spline at zeta = " << zeta ) ;
+      SPLINE_ASSERT( ok, "SplineSet, failed to find intersection with independent spline at zeta = " << zeta );
     }
-    return S ;
+    return S;
   }
 
   void
-  SplineSet::eval2( sizeType            spl,
-                    valueType           zeta,
-                    vector<valueType> & vals ) const {
-    valueType x ;
-    intersect( spl, zeta, x ) ;
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = (*splines[i])(x) ;
+  SplineSet::eval2( integer             spl,
+                    real_type           zeta,
+                    vector<real_type> & vals ) const {
+    real_type x;
+    intersect( spl, zeta, x );
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = (*splines[i])(x);
   }
 
   void
-  SplineSet::eval2( sizeType  spl,
-                    valueType zeta,
-                    valueType vals[],
-                    indexType incy ) const {
-    valueType x ;
-    intersect( spl, zeta, x ) ;
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = (*splines[i])(x) ;
+  SplineSet::eval2( integer   spl,
+                    real_type zeta,
+                    real_type vals[],
+                    integer   incy ) const {
+    real_type x;
+    intersect( spl, zeta, x );
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = (*splines[i])(x);
   }
 
   void
-  SplineSet::eval2_D( sizeType            spl,
-                      valueType           zeta,
-                      vector<valueType> & vals ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType ds = S->D(x) ;
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = splines[i]->D(x)/ds ;
+  SplineSet::eval2_D( integer             spl,
+                      real_type           zeta,
+                      vector<real_type> & vals ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type ds = S->D(x);
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = splines[i]->D(x)/ds;
   }
 
   void
-  SplineSet::eval2_D( sizeType  spl,
-                      valueType zeta,
-                      valueType vals[],
-                      indexType incy ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType ds = S->D(x) ;
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = splines[i]->D(x)/ds ;
+  SplineSet::eval2_D( integer   spl,
+                      real_type zeta,
+                      real_type vals[],
+                      integer   incy ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type ds = S->D(x);
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = splines[i]->D(x)/ds;
   }
 
   void
-  SplineSet::eval2_DD( sizeType            spl,
-                       valueType           zeta,
-                       vector<valueType> & vals ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType dt  = 1/S->D(x) ;
-    valueType dt2 = dt*dt ;
-    valueType ddt = -S->DD(x)*(dt*dt2) ;
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
-      vals[i] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt ;
+  SplineSet::eval2_DD( integer             spl,
+                       real_type           zeta,
+                       vector<real_type> & vals ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt2 = dt*dt;
+    real_type ddt = -S->DD(x)*(dt*dt2);
+    vals.resize(size_t(_nspl));
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
+      vals[i] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt;
   }
 
   void
-  SplineSet::eval2_DD( sizeType  spl,
-                       valueType zeta,
-                       valueType vals[],
-                       indexType incy ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType dt  = 1/S->D(x) ;
-    valueType dt2 = dt*dt ;
-    valueType ddt = -S->DD(x)*(dt*dt2) ;
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
-      vals[ii] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt ;
+  SplineSet::eval2_DD( integer   spl,
+                       real_type zeta,
+                       real_type vals[],
+                       integer   incy ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt2 = dt*dt;
+    real_type ddt = -S->DD(x)*(dt*dt2);
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
+      vals[ii] = splines[i]->DD(x)*dt2+splines[i]->D(x)*ddt;
   }
 
   void
-  SplineSet::eval2_DDD( sizeType            spl,
-                        valueType           zeta,
-                        vector<valueType> & vals ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType dt  = 1/S->D(x) ;
-    valueType dt3 = dt*dt*dt ;
-    valueType ddt = -S->DD(x)*dt3 ;
-    valueType dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) ;
-    vals.resize(_nspl) ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i )
+  SplineSet::eval2_DDD( integer             spl,
+                        real_type           zeta,
+                        vector<real_type> & vals ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt3 = dt*dt*dt;
+    real_type ddt = -S->DD(x)*dt3;
+    real_type dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3);
+    vals.resize( size_t(_nspl) );
+    for ( size_t i = 0; i < size_t(_nspl); ++i )
       vals[i] = splines[i]->DDD(x)*dt3 +
                 3*splines[i]->DD(x)*dt*ddt +
-                splines[i]->D(x)*dddt ;
+                splines[i]->D(x)*dddt;
   }
 
   void
-  SplineSet::eval2_DDD( sizeType  spl,
-                        valueType zeta,
-                        valueType vals[],
-                        indexType incy ) const {
-    valueType x ;
-    Spline const * S = intersect( spl, zeta, x ) ;
-    valueType dt  = 1/S->D(x) ;
-    valueType dt3 = dt*dt*dt ;
-    valueType ddt = -S->DD(x)*dt3 ;
-    valueType dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) ;
-    sizeType ii = 0 ;
-    for ( sizeType i = 0 ; i < _nspl ; ++i, ii += sizeType(incy) )
+  SplineSet::eval2_DDD( integer   spl,
+                        real_type zeta,
+                        real_type vals[],
+                        integer   incy ) const {
+    real_type x;
+    Spline const * S = intersect( spl, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt3 = dt*dt*dt;
+    real_type ddt = -S->DD(x)*dt3;
+    real_type dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3);
+    size_t ii = 0;
+    for ( size_t i = 0; i < size_t(_nspl); ++i, ii += size_t(incy) )
       vals[ii] = splines[i]->DDD(x)*dt3 +
                  3*splines[i]->DD(x)*dt*ddt +
-                 splines[i]->D(x)*dddt ;
+                 splines[i]->D(x)*dddt;
   }
 
-  valueType
-  SplineSet::eval2( valueType    zeta,
+  real_type
+  SplineSet::eval2( real_type    zeta,
                     char const * indep,
                     char const * name ) const {
-    vector<valueType> vals ;
-    eval2( getPosition(indep), zeta, vals ) ;
-    return vals[unsigned(getPosition(name))] ;
+    vector<real_type> vals;
+    eval2( getPosition(indep), zeta, vals );
+    return vals[size_t(getPosition(name))];
   }
 
-  valueType
-  SplineSet::eval2_D( valueType    zeta,
+  real_type
+  SplineSet::eval2_D( real_type    zeta,
                       char const * indep,
                       char const * name ) const {
-    vector<valueType> vals ;
-    eval2_D( getPosition(indep), zeta, vals ) ;
-    return vals[unsigned(getPosition(name))] ;
+    vector<real_type> vals;
+    eval2_D( getPosition(indep), zeta, vals );
+    return vals[size_t(getPosition(name))];
   }
 
-  valueType
-  SplineSet::eval2_DD( valueType    zeta,
+  real_type
+  SplineSet::eval2_DD( real_type    zeta,
                        char const * indep,
                        char const * name ) const {
-    vector<valueType> vals ;
-    eval2_DD( getPosition(indep), zeta, vals ) ;
-    return vals[unsigned(getPosition(name))] ;
+    vector<real_type> vals;
+    eval2_DD( getPosition(indep), zeta, vals );
+    return vals[size_t(getPosition(name))];
   }
 
-  valueType
-  SplineSet::eval2_DDD( valueType    zeta,
+  real_type
+  SplineSet::eval2_DDD( real_type    zeta,
                         char const * indep,
                         char const * name ) const {
-    vector<valueType> vals ;
-    eval2_DDD( getPosition(indep), zeta, vals ) ;
-    return vals[unsigned(getPosition(name))] ;
+    vector<real_type> vals;
+    eval2_DDD( getPosition(indep), zeta, vals );
+    return vals[size_t(getPosition(name))];
   }
 
-  valueType
-  SplineSet::eval2( valueType zeta, sizeType indep, sizeType spl ) const {
-    vector<valueType> vals ;
-    eval2( indep, zeta, vals ) ;
-    return vals[spl] ;
+  real_type
+  SplineSet::eval2( real_type zeta, integer indep, integer spl ) const {
+    vector<real_type> vals;
+    eval2( indep, zeta, vals );
+    return vals[size_t(spl)];
   }
 
-  valueType
-  SplineSet::eval2_D( valueType zeta, sizeType indep, sizeType spl ) const {
-    vector<valueType> vals ;
-    eval2_D( indep, zeta, vals ) ;
-    return vals[spl] ;
+  real_type
+  SplineSet::eval2_D( real_type zeta, integer indep, integer spl ) const {
+    vector<real_type> vals;
+    eval2_D( indep, zeta, vals );
+    return vals[size_t(spl)];
   }
 
-  valueType
-  SplineSet::eval2_DD( valueType zeta, sizeType indep, sizeType spl ) const {
-    vector<valueType> vals ;
-    eval2_DD( indep, zeta, vals ) ;
-    return vals[spl] ;
+  real_type
+  SplineSet::eval2_DD( real_type zeta, integer indep, integer spl ) const {
+    vector<real_type> vals;
+    eval2_DD( indep, zeta, vals );
+    return vals[size_t(spl)];
   }
 
-  valueType
-  SplineSet::eval2_DDD( valueType zeta, sizeType indep, sizeType spl ) const {
-    vector<valueType> vals ;
-    eval2_DDD( indep, zeta, vals ) ;
-    return vals[spl] ;
+  real_type
+  SplineSet::eval2_DDD( real_type zeta, integer indep, integer spl ) const {
+    vector<real_type> vals;
+    eval2_DDD( indep, zeta, vals );
+    return vals[size_t(spl)];
   }
 }

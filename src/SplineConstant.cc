@@ -33,79 +33,84 @@
 
 namespace Splines {
 
-  using namespace std ; // load standard namspace
+  using namespace std; // load standard namspace
 
   void
-  ConstantSpline::reserve_external( sizeType n, valueType *& p_x, valueType *& p_y ) {
-    if ( !_external_alloc ) baseValue.free() ;
-    npts            = 0 ;
-    npts_reserved   = n ;
-    _external_alloc = true ;
-    X = p_x ;
-    Y = p_y ;
+  ConstantSpline::reserve_external(
+    integer      n,
+    real_type *& p_x,
+    real_type *& p_y
+  ) {
+    if ( !_external_alloc ) baseValue.free();
+    npts            = 0;
+    npts_reserved   = n;
+    _external_alloc = true;
+    X = p_x;
+    Y = p_y;
   }
 
   void
-  ConstantSpline::reserve( sizeType n ) {
+  ConstantSpline::reserve( integer n ) {
     if ( _external_alloc && n <= npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      baseValue.allocate( 2*n ) ;
-      npts_reserved   = n ;
-      _external_alloc = false ;
-      X = baseValue(n) ;
-      Y = baseValue(n) ;
+      baseValue.allocate( size_t(2*n) );
+      npts_reserved   = n;
+      _external_alloc = false;
+      X = baseValue( size_t(n) );
+      Y = baseValue( size_t(n) );
     }
-    npts = lastInterval = 0 ;
+    npts = lastInterval = 0;
   }
 
   //! Evalute spline value at `x`
-  valueType
-  ConstantSpline::operator () ( valueType x ) const {
-    if ( x < X[0] ) return Y[0] ;
-    if ( npts > 0 && x > X[npts-1] ) return Y[npts-1] ;
-    return Y[search(x)] ;
+  real_type
+  ConstantSpline::operator () ( real_type x ) const {
+    if ( x < X[0] ) return Y[0];
+    if ( npts > 0 && x > X[npts-1] ) return Y[npts-1];
+    return Y[search(x)];
   }
 
   void
-  ConstantSpline::build( valueType const x[], sizeType incx,
-                         valueType const y[], sizeType incy,
-                         sizeType n ) {
-    reserve( n ) ;
-    for ( sizeType i = 0 ; i   < n ; ++i ) X[i] = x[i*incx] ;
-    for ( sizeType i = 0 ; i+1 < n ; ++i ) Y[i] = y[i*incy] ;
-    npts = n ;
-    build() ;
+  ConstantSpline::build( real_type const x[], integer incx,
+                         real_type const y[], integer incy,
+                         integer n ) {
+    reserve( n );
+    for ( size_t i = 0; i   < size_t(n); ++i ) X[i] = x[i*size_t(incx)];
+    for ( size_t i = 0; i+1 < size_t(n); ++i ) Y[i] = y[i*size_t(incy)];
+    npts = n;
+    build();
   }
 
   void
   ConstantSpline::clear() {
-    if ( !_external_alloc ) baseValue.free() ;
-    npts = npts_reserved = 0 ;
-    _external_alloc = false ;
-    X = Y = nullptr ;
+    if ( !_external_alloc ) baseValue.free();
+    npts = npts_reserved = 0;
+    _external_alloc = false;
+    X = Y = nullptr;
   }
 
   void
-  ConstantSpline::writeToStream( std::basic_ostream<char> & s ) const {
-    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
-    for ( sizeType i = 0 ; i < nseg ; ++i )
+  ConstantSpline::writeToStream( ostream_type & s ) const {
+    size_t nseg = size_t(npts > 0 ? npts - 1 : 0);
+    for ( size_t i = 0; i < nseg; ++i )
       s << "segment N." << setw(4) << i
         << " X:[ " << X[i] << ", " << X[i+1] << " ] Y:" << Y[i]
-        << '\n' ; 
+        << '\n';
   }
 
-  sizeType // order
-  ConstantSpline::coeffs( valueType cfs[], valueType nodes[], bool ) const {
-    sizeType nseg = npts > 0 ? npts - 1 : 0 ;
-    for ( sizeType i = 0 ; i < nseg ; ++i ) {
-      nodes[i] = X[i] ;
-      cfs[i]   = Y[i] ;
+  integer // order
+  ConstantSpline::coeffs( real_type cfs[], real_type nodes[], bool ) const {
+    size_t nseg = size_t(npts > 0 ? npts - 1 : 0);
+    for ( size_t i = 0; i < nseg; ++i ) {
+      nodes[i] = X[i];
+      cfs[i]   = Y[i];
     }
-    return 1 ;
+    return 1;
   }
 
-  sizeType // order
-  ConstantSpline::order() const { return 1 ; }
+  integer // order
+  ConstantSpline::order() const
+  { return 1; }
 
 }

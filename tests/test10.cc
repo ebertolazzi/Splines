@@ -28,21 +28,21 @@
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #endif
 
-using namespace SplinesLoad ;
-using namespace std ;
-using namespace GenericContainerNamespace ;
-using Splines::valueType ;
-using Splines::indexType ;
-using Splines::sizeType ;
+using namespace SplinesLoad;
+using namespace std;
+using namespace GenericContainerNamespace;
+using Splines::real_type;
+using Splines::integer;
 
 int
 main() {
+  cout << "\n\nTEST N.10\n\n";
 
   double x[] = {0, 5, 10, 15, 20, 25, 30, 40, 50, 70};
   double y[] = {0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6};
 
-  int nx = sizeof(x)/sizeof(x[0]) ;
-  int ny = sizeof(y)/sizeof(y[0]) ;
+  int nx = sizeof(x)/sizeof(x[0]);
+  int ny = sizeof(y)/sizeof(y[0]);
 
   // data is stored in C-like ordering: the element at graphical position (i,j) (which is at the
   // i * ny + j  1-dimensional position) refers to the function evaluated at j-th x and i-th y
@@ -60,10 +60,9 @@ main() {
   Splines::SplineSurf * _p_spline;
   _p_spline = new BiQuinticSpline();
 
-  int ldZ = ny ;
+  int ldZ = ny;
   _p_spline->build(x, 1, y, 1, z, ldZ, nx, ny, false,  false);
   _p_spline->writeToStream(cout);
 
-  cout << "\n\nALL DONE!\n" ;
-
+  cout << "\nALL DONE!\n\n";
 }

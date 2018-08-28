@@ -25,18 +25,6 @@
  * 
  */
 
-#ifndef isnan
-#define isnan(A) ((A) != (A))
-#endif
-
-#ifndef isfinite
-#define isfinite(A) ((A*0.0) == 0.0)
-#endif
-
-//#ifndef isregular
-//#define isregular(A) ( !isnan(A) && isfinite(A) )
-//#endif
-
 namespace Splines {
   //! Associate a number for each type of splines implemented
 
@@ -46,21 +34,24 @@ namespace Splines {
   // | (__| | | |  __/ (__|   <| |\  | (_| | |\  |
   //  \___|_| |_|\___|\___|_|\_\_| \_|\__,_|_| \_|
   */
-  //! check if the vector `pv` os size `DIM` contains only regular floats. If not an error is issued
+  /*!
+   | check if the vector `pv` os size `DIM` contains only regular floats.
+   | If not an error is issued
+  \*/
   void
-  checkNaN( valueType const pv[],
+  checkNaN( real_type const pv[],
             char      const v_name[],
-            sizeType  const DIM ) {
-    for ( sizeType i = 0 ; i < DIM ; ++i ) {
-      if ( isnan(pv[i]) ) {
-        std::ostringstream ost ;
-        ost << "\nfound NaN at " << v_name << "[" << i << "]" ;
-        throw std::runtime_error(ost.str()) ;
+            integer         DIM ) {
+    for ( size_t i = 0; i < size_t(DIM); ++i ) {
+      if ( isNaN(pv[i]) ) {
+        std::ostringstream ost;
+        ost << "\nfound NaN at " << v_name << "[" << i << "]";
+        throw std::runtime_error(ost.str());
       }
-      if ( !isfinite(pv[i]) ) {
-        std::ostringstream ost ;
-        ost << "\nfound Infinity at " << v_name << "[" << i << "]" ;
-        throw std::runtime_error(ost.str()) ;
+      if ( isInfinite(pv[i]) ) {
+        std::ostringstream ost;
+        ost << "\nfound Infinity at " << v_name << "[" << i << "]";
+        throw std::runtime_error(ost.str());
       }
     }
   }
