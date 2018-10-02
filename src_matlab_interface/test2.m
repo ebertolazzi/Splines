@@ -24,13 +24,13 @@ for k=1:6
   X = XXX{k};
   Y = YYY{k};
 
-  spline1d('pc','pchip',X,Y);
-  spline1d('qu','quintic',X,Y);
+  pc = Spline1D('pchip',X,Y);
+  qu = Spline1D('quintic',X,Y);
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 
-  Y1 = spline1d('pc',XX);
-  Y2 = spline1d('qu',XX);
+  Y1 = pc.eval(XX);
+  Y2 = qu.eval(XX);
 	
   subplot(2,3,k);
 

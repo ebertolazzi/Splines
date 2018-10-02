@@ -14,11 +14,12 @@ spline and `spline2d` for bivariate spline are available.
 To build a univariate spline use to command
 
 ~~~
-spline1d( 'name', 'type', X, Y ); 
+S = Spline1D( 'type', X, Y ); 
+
+S = Spline1D( 'type' ); 
+S.build( X, Y ); 
 ~~~
 
-- `name` is a string with the name of the spline, subsequent call
-         of `spline1d` must refer to this name.
 - `type` is a string with the type of spline you are building.
          Possibile values are:
          linear, cubic, akima, bessel, pchip, quintic.
@@ -29,45 +30,34 @@ after the build spline can be used as follows
 
 ~~~
 % build the spline
-Y = spline1d('pippo','akima',X,Y);
+S = Sline1D('pippo','akima',X,Y);
 
 ...
 x = [1,2,3];
-y = spline1d('pippo',X); % compute values
+y = S.eval(X); % compute values
 ~~~
 
 it is possibile to get also the derivative of the spline
 
 ~~~
-[y,dy] = spline1d('pippo',X);
-[y,dy,ddy] = spline1d('pippo',X);
+dy  = S.eval_D(X);
+ddy = S.eval_DD(X);
 ~~~
 
 where `dy` is a vector with the first derivative and 
 `ddy` is a vector with the second derivative.
-
-if you prefer a `pp` MATLAB structure can be generated
-
-~~~
-% build the spline and return a 
-% MATLAB piecewise polynomial structure
-pp = spline1d('akima',X,Y);
-
-...
-x = [1,2,3];
-y = ppval(pp,X); % compute values
-~~~
 
 **Bivariate splines**
 
 To build a bivariate spline use to command
 
 ~~~
-spline2d( 'name', 'type', X, Y, Z ); 
+S = Spline2D( 'type', X, Y, Z );
+
+S = Spline2D( 'type' );
+S.build( X, Y, Z );
 ~~~
 
-- `name` is a string with the name of the spline, subsequent call
-         of `spline1d` must refer to this name.
 - `type` is a string with the type of spline you are building.
          Possibile values are:
          bilinear, bicubic, akima, biquintic.
@@ -81,25 +71,25 @@ after the build spline can be used as follows
 
 ~~~
 % build the spline
-Y = spline2d('pippo','akima',X,Y,Z);
+S = Spline2D('akima',X,Y,Z);
 
 ...
-x = [1,2,3];
-y = [2,3,4];
-z = spline2d('pippo',x,y); % compute values
+x       = [1,2,3];
+y       = [2,3,4];
+[xx,yy] = ndgrid(x,y);
+zz      = S.eva(xx,yy); % compute values
 % z is a matrix 3x3 with z(i,j) the spline S(x(i),y(j))
-
-...
-xy = [ 1,2,3; 1,2,1 ];
-z = spline2d('pippo',xy); % compute values
-% z is a matrix 1x3 with z(i) the spline S(xy(1,i),xy(2,j))
 ~~~
 
 it is possibile to get also the derivative of the spline
 
 ~~~
-[z,dx,dy] = spline1d('pippo',X,Y);
-[z,dx,dy,dxx,dxy,dyy] = spline1d('pippo',X,Y);
+dx = S.eval_Dx(X,Y);
+dy = S.eval_Dy(X,Y);
+
+dxx = S.eval_Dxx(X,Y);
+dxy = S.eval_Dxy(X,Y);
+dyy = S.eval_Dyy(X,Y);
 ~~~
 
 where

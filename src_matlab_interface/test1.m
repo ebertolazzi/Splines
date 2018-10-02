@@ -1,4 +1,4 @@
-xx0 = [  0,  1,  2,  3,  4,  5,    6,  7,  8,  9, 10 ]; 
+xx0 = [  0,  1,  2,  3,  4,  5,    6,  7,  8,  9, 10 ];
 yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ];
 
 xx1 = [  0,  1,  3,  4,  6,  7,    9, 10, 12, 13, 15 ];
@@ -24,22 +24,22 @@ for k=1:4
   X = XXX{k};
   Y = YYY{k};
 
-  spline1d('li','linear',X,Y);
-  spline1d('cu','cubic',X,Y);
-  spline1d('ak','akima',X,Y);
-  spline1d('be','bessel',X,Y);
-  spline1d('pc','pchip',X,Y);
-  spline1d('qu','quintic',X,Y);
+  li = Spline1D('linear',X,Y);
+  cu = Spline1D('cubic',X,Y);
+  ak = Spline1D('akima',X,Y);
+  be = Spline1D('bessel',X,Y);
+  pc = Spline1D('pchip',X,Y);
+  qu = Spline1D('quintic',X,Y);
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 
-  Y1 = spline1d('li',XX);
-  Y2 = spline1d('cu',XX);
-  Y3 = spline1d('ak',XX);
-  Y4 = spline1d('be',XX);
-  Y5 = spline1d('pc',XX);
-  Y6 = spline1d('qu',XX);
-	
+  Y1 = li.eval(XX);
+  Y2 = cu.eval(XX);
+  Y3 = ak.eval(XX);
+  Y4 = be.eval(XX);
+  Y5 = pc.eval(XX);
+  Y6 = qu.eval(XX);
+
   subplot(2,2,k);
 
   plot( X,  Y, 'o', ...
