@@ -32,9 +32,9 @@ either expressed or implied, of the FreeBSD Project.
 #include <map>
 #include <string>
 
-using namespace std ;
-using Splines::valueType ;
-using Splines::sizeType ;
+using namespace std;
+using Splines::real_type;
+using Splines::integer;
 
 #define arg_spline_name prhs[0]
 #define arg_spline_type prhs[1]
@@ -43,11 +43,11 @@ using Splines::sizeType ;
 #define out_DP          plhs[1]
 #define out_DDP         plhs[2]
 
-#define ASSERT(COND,MSG)                 \
-  if ( !(COND) ) {                       \
-    std::ostringstream ost ;             \
-    ost << "spline2d: " << MSG << '\n' ; \
-    mexErrMsgTxt(ost.str().c_str()) ;    \
+#define ASSERT(COND,MSG)                \
+  if ( !(COND) ) {                      \
+    std::ostringstream ost;             \
+    ost << "spline2d: " << MSG << '\n'; \
+    mexErrMsgTxt(ost.str().c_str());    \
   }
 
 static
@@ -58,11 +58,11 @@ mexErrorMessage() {
 "%======================================================================%\n"
 "% spline1d:  Compute spline curve                                      %\n"
 "%                                                                      %\n"
-"% USAGE: spline1d( 'name', kind, X, Y ) ;                              %\n"
-"%        pp         = spline1d( kind, X, Y ) ;                         %\n"
-"%        P          = spline1d( 'name', X ) ;                          %\n"
-"%        [P,DP]     = spline1d( 'name', X ) ;                          %\n"
-"%        [P,DP,DDP] = spline1d( 'name', X ) ;                          %\n"
+"% USAGE: spline1d( 'name', kind, X, Y );                               %\n"
+"%        pp         = spline1d( kind, X, Y );                          %\n"
+"%        P          = spline1d( 'name', X );                           %\n"
+"%        [P,DP]     = spline1d( 'name', X );                           %\n"
+"%        [P,DP,DDP] = spline1d( 'name', X );                           %\n"
 "%                                                                      %\n"
 "% On input:                                                            %\n"
 "%                                                                      %\n"
@@ -84,7 +84,7 @@ mexErrorMessage() {
 "%         University of Trento                                         %\n"
 "%         enrico.bertolazzi@unitn.it                                   %\n"
 "%                                                                      %\n"
-"%======================================================================%\n" ) ;
+"%======================================================================%\n" );
 }
 
 extern "C"
@@ -92,161 +92,161 @@ void
 mexFunction( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
 
-  static std::map<string,Splines::Spline*> pSplines ;
+  static std::map<string,Splines::Spline*> pSplines;
 
   // the first argument must be a string
 
-  ASSERT( mxIsChar(arg_spline_name), "First argument must be a string" ) ;
-  string sname = mxArrayToString(arg_spline_name) ;
+  ASSERT( mxIsChar(arg_spline_name), "First argument must be a string" );
+  string sname = mxArrayToString(arg_spline_name);
 
   if ( nrhs == 4 ) { // setup
 
-    ASSERT( mxIsChar(arg_spline_type), "Second argument expected to be a string" ) ;
+    ASSERT( mxIsChar(arg_spline_type), "Second argument expected to be a string" );
 
-    string tname = mxArrayToString(arg_spline_type) ;
+    string tname = mxArrayToString(arg_spline_type);
     
-    Splines::Spline* p_spline = nullptr ;
+    Splines::Spline* p_spline = nullptr;
 
     if ( tname == "linear" ) {
-      p_spline = new Splines::LinearSpline() ;
+      p_spline = new Splines::LinearSpline();
     } else if ( tname == "cubic" ) {
-      p_spline = new Splines::CubicSpline() ;
+      p_spline = new Splines::CubicSpline();
     } else if ( tname == "akima" ) {
-      p_spline = new Splines::AkimaSpline() ;
+      p_spline = new Splines::AkimaSpline();
     } else if ( tname == "bessel" ) {
-      p_spline = new Splines::BesselSpline() ;
+      p_spline = new Splines::BesselSpline();
     } else if ( tname == "pchip" ) {
-      p_spline = new Splines::PchipSpline() ;
+      p_spline = new Splines::PchipSpline();
     } else if ( tname == "quintic" ) {
-      p_spline = new Splines::QuinticSpline() ;
+      p_spline = new Splines::QuinticSpline();
     } else {
       ASSERT(false,"Second argument must be one of the strings:\n" <<
-             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" ) ;
+             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" );
     }
-    pSplines[sname] = p_spline ;
+    pSplines[sname] = p_spline;
 
-    mxArray const * arg_x = prhs[2] ;
-    mxArray const * arg_y = prhs[3] ;
+    mxArray const * arg_x = prhs[2];
+    mxArray const * arg_y = prhs[3];
 
-    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as third argument" ) ;
-    mwSize const * dims_x = mxGetDimensions(arg_x) ;
-    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] ) ;
-    double const * x = mxGetPr(arg_x) ;
-    sizeType  nx = dims_x[0]*dims_x[1] ;
+    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x);
+    ASSERT( number_of_dimensions == 2, "Expect vector as third argument" );
+    mwSize const * dims_x = mxGetDimensions(arg_x);
+    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] );
+    double const * x = mxGetPr(arg_x);
+    integer  nx = dims_x[0]*dims_x[1];
 
-    number_of_dimensions = mxGetNumberOfDimensions(arg_y) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as 4th argument" ) ;
-    mwSize const * dims_y = mxGetDimensions(arg_y) ;
-    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] ) ;
-    double const * y = mxGetPr(arg_y) ;
-    sizeType  ny = dims_y[0]*dims_y[1] ;
+    number_of_dimensions = mxGetNumberOfDimensions(arg_y);
+    ASSERT( number_of_dimensions == 2, "Expect vector as 4th argument" );
+    mwSize const * dims_y = mxGetDimensions(arg_y);
+    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] );
+    double const * y = mxGetPr(arg_y);
+    integer  ny = dims_y[0]*dims_y[1];
 
-    ASSERT( nx == ny, "lenght of third and fourth argument mut be the same" ) ;
+    ASSERT( nx == ny, "lenght of third and fourth argument mut be the same" );
 
-    p_spline -> build( x, y, nx ) ;
+    p_spline -> build( x, y, nx );
 
   } else if ( nrhs == 3 ) { // eval
 
-    Splines::Spline* p_spline = nullptr ;
+    Splines::Spline* p_spline = nullptr;
 
     if ( sname == "linear" ) {
-      p_spline = new Splines::LinearSpline() ;
+      p_spline = new Splines::LinearSpline();
     } else if ( sname == "cubic" ) {
-      p_spline = new Splines::CubicSpline() ;
+      p_spline = new Splines::CubicSpline();
     } else if ( sname == "akima" ) {
-      p_spline = new Splines::AkimaSpline() ;
+      p_spline = new Splines::AkimaSpline();
     } else if ( sname == "bessel" ) {
-      p_spline = new Splines::BesselSpline() ;
+      p_spline = new Splines::BesselSpline();
     } else if ( sname == "pchip" ) {
-      p_spline = new Splines::PchipSpline() ;
+      p_spline = new Splines::PchipSpline();
     } else if ( sname == "quintic" ) {
-      p_spline = new Splines::QuinticSpline() ;
+      p_spline = new Splines::QuinticSpline();
     } else {
       ASSERT(false,"Second argument must be one of the strings:\n" <<
-             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" ) ;
+             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" );
     }
-    pSplines[sname] = p_spline ;
+    pSplines[sname] = p_spline;
 
-    mxArray const * arg_x = prhs[1] ;
-    mxArray const * arg_y = prhs[2] ;
+    mxArray const * arg_x = prhs[1];
+    mxArray const * arg_y = prhs[2];
 
-    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as second argument" ) ;
-    mwSize const * dims_x = mxGetDimensions(arg_x) ;
-    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] ) ;
-    double const * x = mxGetPr(arg_x) ;
-    sizeType nx = dims_x[0]*dims_x[1] ;
+    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x);
+    ASSERT( number_of_dimensions == 2, "Expect vector as second argument" );
+    mwSize const * dims_x = mxGetDimensions(arg_x);
+    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect (1 x n or n x 1) matrix as third argument, found " << dims_x[0] << " x " << dims_x[1] );
+    double const * x = mxGetPr(arg_x);
+    integer nx = dims_x[0]*dims_x[1];
 
-    number_of_dimensions = mxGetNumberOfDimensions(arg_y) ;
-    ASSERT( number_of_dimensions == 2, "Expect vector as third argument" ) ;
-    mwSize const * dims_y = mxGetDimensions(arg_y) ;
-    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] ) ;
-    double const * y = mxGetPr(arg_y) ;
-    sizeType ny = dims_y[0]*dims_y[1] ;
+    number_of_dimensions = mxGetNumberOfDimensions(arg_y);
+    ASSERT( number_of_dimensions == 2, "Expect vector as third argument" );
+    mwSize const * dims_y = mxGetDimensions(arg_y);
+    ASSERT( dims_y[0] == 1 || dims_y[1] == 1, "Expect (1 x n or n x 1) matrix as 4th argument, found " << dims_y[0] << " x " << dims_y[1] );
+    double const * y = mxGetPr(arg_y);
+    integer ny = dims_y[0]*dims_y[1];
 
-    ASSERT( nx == ny, "lenght of third and fourth argument must be the same" ) ;
+    ASSERT( nx == ny, "lenght of third and fourth argument must be the same" );
 
-    p_spline -> build( x, y, nx ) ;
+    p_spline -> build( x, y, nx );
 
     static char const *fieldnames[] = {
       "form", "breaks", "coefs", "pieces", "order", "dim"
-    } ;
-    int nfield = 6 ;
+    };
+    int nfield = 6;
     plhs[0] = mxCreateStructMatrix(1,1,nfield,fieldnames);
  
     mxArray * mx_nodes = mxCreateNumericMatrix(1, nx, mxDOUBLE_CLASS, mxREAL);
-    valueType  * nodes = mxGetPr(mx_nodes) ;
+    real_type  * nodes = mxGetPr(mx_nodes);
 
     mxArray * mx_coeffs = mxCreateNumericMatrix(nx-1, p_spline -> order(), mxDOUBLE_CLASS, mxREAL);
-    valueType     * cfs = mxGetPr(mx_coeffs) ;
+    real_type     * cfs = mxGetPr(mx_coeffs);
 
-    p_spline -> coeffs( cfs, nodes, false ) ;
+    p_spline -> coeffs( cfs, nodes, false );
 
-    mxSetFieldByNumber( plhs[0], 0, 0, mxCreateString( "pp" ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 1, mx_nodes ) ;
-    mxSetFieldByNumber( plhs[0], 0, 2, mx_coeffs ) ;
-    mxSetFieldByNumber( plhs[0], 0, 3, mxCreateDoubleScalar( nx-1 ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 4, mxCreateDoubleScalar( p_spline -> order() ) ) ;
-    mxSetFieldByNumber( plhs[0], 0, 5, mxCreateDoubleScalar( 1 ) ) ;
+    mxSetFieldByNumber( plhs[0], 0, 0, mxCreateString( "pp" ) );
+    mxSetFieldByNumber( plhs[0], 0, 1, mx_nodes );
+    mxSetFieldByNumber( plhs[0], 0, 2, mx_coeffs );
+    mxSetFieldByNumber( plhs[0], 0, 3, mxCreateDoubleScalar( nx-1 ) );
+    mxSetFieldByNumber( plhs[0], 0, 4, mxCreateDoubleScalar( p_spline -> order() ) );
+    mxSetFieldByNumber( plhs[0], 0, 5, mxCreateDoubleScalar( 1 ) );
     
-    delete p_spline ;
+    delete p_spline;
 
   } else if ( nrhs == 2 ) { // eval
 
     // check if spline exists
-    std::map<string,Splines::Spline*>::iterator it = pSplines.find(sname) ;
+    std::map<string,Splines::Spline*>::iterator it = pSplines.find(sname);
     ASSERT( it != pSplines.end(), "Spline: ``" << sname << "'' not defined" );
 
-    mxArray const * arg_x = prhs[1] ;
-    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x) ;
-    ASSERT( number_of_dimensions == 2, "Expect (2 x n) matrix as second argument" ) ;
-    mwSize const * dims_x = mxGetDimensions(arg_x) ;
-    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect a vector as second argument, found " << dims_x[0] << " x " << dims_x[1] ) ;
-    valueType * x = mxGetPr(arg_x) ;
-    mwSize n = dims_x[0]*dims_x[1] ;
+    mxArray const * arg_x = prhs[1];
+    mwSize number_of_dimensions = mxGetNumberOfDimensions(arg_x);
+    ASSERT( number_of_dimensions == 2, "Expect (2 x n) matrix as second argument" );
+    mwSize const * dims_x = mxGetDimensions(arg_x);
+    ASSERT( dims_x[0] == 1 || dims_x[1] == 1, "Expect a vector as second argument, found " << dims_x[0] << " x " << dims_x[1] );
+    real_type * x = mxGetPr(arg_x);
+    mwSize n = dims_x[0]*dims_x[1];
 
-    ASSERT( nlhs >= 1, "Expect at least one output argument" ) ;
+    ASSERT( nlhs >= 1, "Expect at least one output argument" );
 
-    Splines::Spline * p_spline = it->second ;
+    Splines::Spline * p_spline = it->second;
 
     if ( nlhs >= 1 ) {
       out_P = mxCreateNumericMatrix(1, n, mxDOUBLE_CLASS, mxREAL);
-      valueType * P = mxGetPr(out_P) ;
-      for ( mwSize i = 0 ; i < n ; ++i ) P[i] = (*p_spline)(x[i]) ;
+      real_type * P = mxGetPr(out_P);
+      for ( mwSize i = 0; i < n; ++i ) P[i] = (*p_spline)(x[i]);
     }
     if ( nlhs >= 2 ) {
       out_DP = mxCreateNumericMatrix(1, n, mxDOUBLE_CLASS, mxREAL);
-      valueType * DP = mxGetPr(out_DP) ;
-      for ( mwSize i = 0 ; i < n ; ++i ) DP[i] = p_spline->D(x[i]) ;
+      real_type * DP = mxGetPr(out_DP);
+      for ( mwSize i = 0; i < n; ++i ) DP[i] = p_spline->D(x[i]);
     }
     if ( nlhs >= 3 ) {
       out_DDP = mxCreateNumericMatrix(1, n, mxDOUBLE_CLASS, mxREAL);
-      valueType * DDP = mxGetPr(out_DDP) ;
-      for ( mwSize i = 0 ; i < n ; ++i ) DDP[i] = p_spline->DD(x[i]) ;
+      real_type * DDP = mxGetPr(out_DDP);
+      for ( mwSize i = 0; i < n; ++i ) DDP[i] = p_spline->DD(x[i]);
     }
-    ASSERT( nlhs <= 3, "Expect 1, 2, or 3 output arguments" ) ;
+    ASSERT( nlhs <= 3, "Expect 1, 2, or 3 output arguments" );
   } else {
-    mexErrorMessage() ;
+    mexErrorMessage();
   }
 }

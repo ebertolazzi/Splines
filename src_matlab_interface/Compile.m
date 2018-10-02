@@ -1,6 +1,6 @@
 clc;
 
-NAMES = {  'spline1d', 'spline2d' } ;
+NAMES = {  'spline1d', 'spline2d' };
 CFILES = ['../src/SplineAkima.cc ' ...
           '../src/SplineAkima2D.cc ' ...
           '../src/SplineBessel.cc ' ...
@@ -19,15 +19,15 @@ CFILES = ['../src/SplineAkima.cc ' ...
           '../src/Splines.cc ' ...
           '../src/SplinesBivariate.cc ' ...
           '../src/SplinesCinterface.cc ' ...
-          '../src/SplinesUnivariate.cc ' ] ;
+          '../src/SplinesUnivariate.cc ' ];
 
 disp('---------------------------------------------------------');
 for k=1:2
-  N=NAMES{k} ;
-  fprintf(1,'Compiling: %s\n',N) ;
-  CMD = ['mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -I../src -I../include -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES] ;
+  N=NAMES{k};
+  fprintf(1,'Compiling: %s\n',N);
+  CMD = ['mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -I../src -I../include -output ./',N,' -largeArrayDims mex_',N,'.cc ',CFILES];
   if isunix
-    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -lstdc++ -Wall -O2 -g0"'] ;
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -lstdc++ -Wall -O2 -g0"'];
   elseif ispc
   end
   %disp(CMD);

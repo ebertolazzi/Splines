@@ -83,6 +83,8 @@ either expressed or implied, of the FreeBSD Project.
     #include <math.h>
   #endif
 #else
+  #include <cmath>
+  #include <cfloat>
   #if __cplusplus > 199711L
     #ifndef DO_NOT_USE_CXX11
       #define SPLINES_USE_CXX11
@@ -154,28 +156,28 @@ namespace Splines {
 
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
-  typedef std::basic_ostream<char> ostream_type;
+  typedef basic_ostream<char> ostream_type;
 
   static
   inline
   bool isZero( real_type x )
-  { return FP_ZERO == std::fpclassify(x); }
+  { return FP_ZERO == fpclassify(x); }
 
   static
   inline
   bool isInfinite( real_type x )
-  { return FP_INFINITE == std::fpclassify(x); }
+  { return FP_INFINITE == fpclassify(x); }
 
   static
   inline
   bool isNaN( real_type x )
-  { return FP_NAN == std::fpclassify(x); }
+  { return FP_NAN == fpclassify(x); }
 
   static
   inline
   bool isRegular( real_type x )
-  { return !( FP_INFINITE == std::fpclassify(x) ||
-              FP_NAN      == std::fpclassify(x) ); }
+  { return !( FP_INFINITE == fpclassify(x) ||
+              FP_NAN      == fpclassify(x) ); }
 
   //! Associate a number for each type of splines implemented
   typedef enum { CONSTANT_TYPE   = 0,
@@ -312,6 +314,7 @@ namespace Splines {
   //! Allocate memory
   template <typename T>
   class SplineMalloc {
+  public:
     typedef T valueType;
 
   private:
