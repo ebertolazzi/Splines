@@ -19,18 +19,20 @@
 
 #include "Splines.hh"
 
-/*
-//   ####  #    # #####  #  ####
-//  #    # #    # #    # # #    #
-//  #      #    # #####  # #
-//  #      #    # #    # # #
-//  #    # #    # #    # # #    #
-//   ####   ####  #####  #  ####
-*/
+/*\
+ |   ####  #    # #####  #  ####
+ |  #    # #    # #    # # #    #
+ |  #      #    # #####  # #
+ |  #      #    # #    # # #
+ |  #    # #    # #    # # #    #
+ |   ####   ####  #####  #  ####
+\*/
 
 namespace Splines {
 
   using namespace std; // load standard namspace
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
   void
@@ -86,7 +88,7 @@ namespace Splines {
 
   }
 
-  // ---------------------------------------------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSpline::build() {
@@ -114,6 +116,8 @@ namespace Splines {
 
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSpline::setup( GenericContainer const & gc ) {

@@ -28,6 +28,8 @@ namespace Splines {
 
   using namespace std; // load standard namspace
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BilinearSpline::operator () ( real_type x, real_type y ) const {
     integer   i   = search_x( x );
@@ -46,6 +48,8 @@ namespace Splines {
            u  * ( Z10 * v1 + Z11 * v );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BilinearSpline::Dx( real_type x, real_type y ) const {
     integer   i   = search_x( x );
@@ -59,7 +63,9 @@ namespace Splines {
     real_type Z11 = Z[size_t(ipos_C(i+1,j+1))];
     return ( (Z10-Z00) * (1-v) + (Z11-Z01) * v ) / DX;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BilinearSpline::Dy( real_type x, real_type y ) const {
     integer   i   = search_x( x );
@@ -72,8 +78,9 @@ namespace Splines {
     real_type Z10 = Z[size_t(ipos_C(i+1,j))];
     real_type Z11 = Z[size_t(ipos_C(i+1,j+1))];
     return ( ( Z01-Z00 ) * (1-u) + ( Z11-Z10 ) * u ) / DY;
-
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BilinearSpline::D( real_type x, real_type y, real_type d[3] ) const {
@@ -93,6 +100,8 @@ namespace Splines {
     d[1] = v1 * (Z10-Z00) + v * (Z11-Z01); d[1] /= DX;
     d[2] = u1 * (Z01-Z00) + u * (Z11-Z10); d[2] /= DY;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BilinearSpline::writeToStream( ostream_type & s ) const {
@@ -115,6 +124,8 @@ namespace Splines {
       }
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   char const *
   BilinearSpline::type_name() const

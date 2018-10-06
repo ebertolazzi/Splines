@@ -37,7 +37,9 @@ namespace Splines {
                 real_type Z1 ) {
     return (Z1-Z0)*X2/X1 + Z0;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   inline
   real_type
   Extrapolate3( real_type X1,
@@ -48,6 +50,8 @@ namespace Splines {
                 real_type Z2 ) {
     return ( (Z2-Z0) * (X3-X1)/X2 - (Z1-Z0) * (X3-X2)/X1 ) * (X3/(X2-X1)) + Z0;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
   void
@@ -68,13 +72,15 @@ namespace Splines {
             real_type   RF[2],
             real_type   RI[2] ) {
 
-    // Primary estimate of partial derivative zx as the coefficient of the bicubic polynomial.
+    // Primary estimate of partial derivative zx
+    // as the coefficient of the bicubic polynomial.
     c1 = x2*x3/((x1-x2)*(x1-x3));
     c2 = x3*x1/((x2-x3)*(x2-x1));
     c3 = x1*x2/((x3-x1)*(x3-x2));
     real_type primary_estimate = c1*(z1-z0)/x1 + c2*(z2-z0)/x2 + c3*(z3-z0)/x3;
 
-    // Volatility factor and distance factor in the x direction for the primary estimate of zx.
+    // Volatility factor and distance factor in the x direction
+    // for the primary estimate of zx.
               SX  = x1 + x2 + x3;
     real_type SZ  = z0 + z1 + z2 + z3;
               SXX = x1*x1 + x2*x2 + x3*x3;
@@ -87,7 +93,8 @@ namespace Splines {
     real_type dz2 = z2 - (b0+b1*x2);
     real_type dz3 = z3 - (b0+b1*x3);
     real_type volatility_factor = dz0*dz0 + dz1*dz1 + dz2*dz2 + dz3*dz3;
-    // epsi value used to decide whether or not the volatility factor is essentially zero.
+    // epsi value used to decide whether or not
+    // the volatility factor is essentially zero.
     real_type epsi = (z0*z0+z1*z1+z2*z2+z3*z3)*1.0E-12;
     // Accumulates the weighted primary estimates and their weights.
     if ( volatility_factor > epsi ) { // finite weight.
@@ -99,7 +106,8 @@ namespace Splines {
       RI[0] += 1.0;
     }
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 0 1 2 3 (4) 5 6 7 8
   static
   void
@@ -153,7 +161,11 @@ namespace Splines {
       real_type Z20 = Z[i2][4];
       real_type Z30 = Z[i3][4];
       real_type CX1, CX2, CX3, SX, SXX, B00X, B10;
-      estimate( Z00, Z10, Z20, Z30, X1, X2, X3, CX1, CX2, CX3, SX, SXX, B00X, B10, DXF, DXI );
+      estimate( Z00, Z10, Z20, Z30,
+                X1, X2, X3,
+                CX1, CX2, CX3,
+                SX, SXX,
+                B00X, B10, DXF, DXI );
 
       for ( int ky = 0; ky < 4; ++ky ) {
         int j1 = 4 + stencil[0][ky];
@@ -177,7 +189,8 @@ namespace Splines {
         real_type Z21 = Z[i2][j1], Z22 = Z[i2][j2], Z23 = Z[i2][j3];
         real_type Z31 = Z[i3][j1], Z32 = Z[i3][j2], Z33 = Z[i3][j3];
 
-        // Primary estimate of partial derivative zxy as the coefficient of the bicubic polynomial.
+        // Primary estimate of partial derivative zxy
+        // as the coefficient of the bicubic polynomial.
         real_type DZXY11 = (Z11-Z10-Z01+Z00)/(X1*Y1);
         real_type DZXY12 = (Z12-Z10-Z02+Z00)/(X1*Y2);
         real_type DZXY13 = (Z13-Z10-Z03+Z00)/(X1*Y3);
@@ -190,7 +203,8 @@ namespace Splines {
         real_type PEZXY  = CX1* (CY1*DZXY11+CY2*DZXY12+CY3*DZXY13) +
                            CX2* (CY1*DZXY21+CY2*DZXY22+CY3*DZXY23) +
                            CX3* (CY1*DZXY31+CY2*DZXY32+CY3*DZXY33);
-        // Volatility factor and distance factor in the x and y directions for the primary estimate of zxy.
+        // Volatility factor and distance factor
+        // in the x and y directions for the primary estimate of zxy.
         real_type B00   = (B00X+B00Y)/2.0;
         real_type SXY   = SX*SY;
         real_type SXXY  = SXX*SY;
@@ -376,6 +390,8 @@ namespace Splines {
       }
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   char const *
   Akima2Dspline::type_name() const

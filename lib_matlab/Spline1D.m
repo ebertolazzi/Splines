@@ -6,8 +6,8 @@ classdef Spline1D < handle
 
   methods
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function self = Spline1D( name, varargin )
-      self.objectHandle = Spline1DMexWrapper( 'new', name );
+    function self = Spline1D( kind, varargin )
+      self.objectHandle = Spline1DMexWrapper( 'new', kind );
       if nargin > 1
         Spline1DMexWrapper( 'build', self.objectHandle, varargin{1}, varargin{2} );
       end

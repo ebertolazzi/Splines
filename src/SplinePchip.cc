@@ -28,7 +28,9 @@
 namespace Splines {
 
   using namespace std; // load standard namspace
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   static
   inline
   real_type
@@ -37,7 +39,9 @@ namespace Splines {
     if ( res < std::abs(b) ) res = std::abs(b);
     return res;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   static
   inline
   real_type
@@ -55,6 +59,7 @@ namespace Splines {
   //  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
   //                    |_|        |_|                   
   */
+
   static
   inline
   int
@@ -69,17 +74,17 @@ namespace Splines {
   }
 
   /*!
-  // Reference:
-  // ==========
-  //
-  //    F.N. Fritsch, R.E. Carlson:
-  //    Monotone Piecewise Cubic Interpolation,
-  //    SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
-  //
-  //    F.N. Fritsch and J. Butland:
-  //    A method for constructing local monotone piecewise cubic interpolants,
-  //    SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
-  */
+   | Reference:
+   | ==========
+   |
+   | F.N. Fritsch, R.E. Carlson:
+   | Monotone Piecewise Cubic Interpolation,
+   | SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
+   |
+   | F.N. Fritsch and J. Butland:
+   | A method for constructing local monotone piecewise cubic interpolants,
+   | SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
+  \*/
   void
   pchip( real_type const X[],
          real_type const Y[],
@@ -159,6 +164,8 @@ namespace Splines {
     }
     // cout << "ierr = " << ierr << '\n';
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   PchipSpline::build() {

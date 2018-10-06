@@ -35,6 +35,8 @@ namespace Splines {
 
   using namespace std; // load standard namspace
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   ConstantSpline::reserve_external(
     integer      n,
@@ -48,6 +50,8 @@ namespace Splines {
     X = p_x;
     Y = p_y;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   ConstantSpline::reserve( integer n ) {
@@ -63,6 +67,8 @@ namespace Splines {
     npts = lastInterval = 0;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   //! Evalute spline value at `x`
   real_type
   ConstantSpline::operator () ( real_type x ) const {
@@ -70,6 +76,8 @@ namespace Splines {
     if ( npts > 0 && x > X[npts-1] ) return Y[npts-1];
     return Y[search(x)];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   ConstantSpline::build( real_type const x[], integer incx,
@@ -82,6 +90,8 @@ namespace Splines {
     build();
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   ConstantSpline::clear() {
     if ( !_external_alloc ) baseValue.free();
@@ -89,6 +99,8 @@ namespace Splines {
     _external_alloc = false;
     X = Y = nullptr;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   ConstantSpline::writeToStream( ostream_type & s ) const {
@@ -99,6 +111,8 @@ namespace Splines {
         << '\n';
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   integer // order
   ConstantSpline::coeffs( real_type cfs[], real_type nodes[], bool ) const {
     size_t nseg = size_t(npts > 0 ? npts - 1 : 0);
@@ -108,6 +122,8 @@ namespace Splines {
     }
     return 1;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
   ConstantSpline::order() const

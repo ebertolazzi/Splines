@@ -1,3 +1,5 @@
+addpath('../lib_matlab');
+
 X = 0:0.1:1;
 Y = 0:0.25:2;
 [XX,YY] = ndgrid(X,Y);

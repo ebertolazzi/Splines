@@ -27,7 +27,6 @@
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #endif
 
-
 /**
  * 
  */
@@ -35,6 +34,8 @@
 namespace Splines {
 
   using namespace std; // load standard namspace
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! Use externally allocated memory for `npts` points
   void
@@ -51,6 +52,8 @@ namespace Splines {
     Y = p_y;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   LinearSpline::reserve( integer n ) {
     if ( _external_alloc && n <= npts_reserved ) {
@@ -64,7 +67,9 @@ namespace Splines {
     }
     npts = lastInterval = 0;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   LinearSpline::clear(void) {
     if ( !_external_alloc ) baseValue.free();
@@ -72,6 +77,8 @@ namespace Splines {
     _external_alloc = false;
     X = Y = nullptr;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   LinearSpline::writeToStream( ostream_type & s ) const {
@@ -82,6 +89,8 @@ namespace Splines {
         << " ] slope: " << (Y[i+1]-Y[i])/(X[i+1]-X[i])
         << '\n';
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
   LinearSpline::coeffs( real_type cfs[], real_type nodes[], bool transpose ) const {
@@ -100,7 +109,9 @@ namespace Splines {
     }
     return 2;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   integer
   LinearSpline::order( ) const { return 2; }
 

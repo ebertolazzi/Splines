@@ -37,6 +37,8 @@
 
 namespace Splines {
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   using GenericContainerNamespace::GC_INTEGER;
   using GenericContainerNamespace::GC_VEC_BOOL;
   using GenericContainerNamespace::GC_VEC_INTEGER;
@@ -51,6 +53,8 @@ namespace Splines {
   using GenericContainerNamespace::vec_string_type;
   using GenericContainerNamespace::vector_type;
   using GenericContainerNamespace::map_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineSet::setup( GenericContainer const & gc ) {
@@ -72,8 +76,8 @@ namespace Splines {
                    "[SplineSet[" << _name <<
                    "]::setup] missing `spline_type` field!");
     gc("spline_type").copyto_vec_string(
-       spline_type_vec,
-       "SplineSet::setup -- in reading `spline_type'\n"
+      spline_type_vec,
+      "SplineSet::setup -- in reading `spline_type'\n"
     );
     _nspl = integer(spline_type_vec.size());
     stype.resize( size_t(_nspl) );
@@ -100,7 +104,8 @@ namespace Splines {
     Yp . resize( size_t(_nspl) );
     
     // se tipo vettore o matrice deve esserci headers
-    if ( GC_MAT_REAL == gc_ydata.get_type() || GC_VECTOR == gc_ydata.get_type() ) {
+    if ( GC_MAT_REAL == gc_ydata.get_type() ||
+         GC_VECTOR   == gc_ydata.get_type() ) {
       SPLINE_ASSERT( gc.exists("headers"),
                      "[SplineSet[" << _name <<
                      "]::setup] missing `headers` field!");

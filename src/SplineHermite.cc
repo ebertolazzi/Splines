@@ -27,13 +27,14 @@ namespace Splines {
 
   using namespace std; // load standard namspace
 
-  /*
-  //   _   _                     _ _       
-  //  | | | | ___ _ __ _ __ ___ (_) |_ ___ 
-  //  | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \
-  //  |  _  |  __/ |  | | | | | | | ||  __/
-  //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
-  */
+  /*\
+   |   _   _                     _ _
+   |  | | | | ___ _ __ _ __ ___ (_) |_ ___
+   |  | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \
+   |  |  _  |  __/ |  | | | | | | | ||  __/
+   |  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
+  \*/
+
   void
   Hermite3( real_type x, real_type H, real_type base[4] ) {
     real_type X = x/H;
@@ -42,6 +43,8 @@ namespace Splines {
     base[2] = x*(X*(X-2)+1);
     base[3] = x*X*(X-1);
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite3_D( real_type x, real_type H, real_type base_D[4] ) {
@@ -52,6 +55,8 @@ namespace Splines {
     base_D[3] = X*(3*X-2);
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Hermite3_DD( real_type x, real_type H, real_type base_DD[4] ) {
     real_type X = x/H;
@@ -60,6 +65,8 @@ namespace Splines {
     base_DD[2] = (6*X-4)/H;
     base_DD[3] = (6*X-2)/H;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite3_DDD( real_type, real_type H, real_type base_DDD[4] ) {
@@ -94,6 +101,8 @@ namespace Splines {
     base[5] = 0.5 * (t11 * t6 * t5);
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Hermite5_D( real_type t, real_type h, real_type base_D[6] ) {
     real_type t1  = h - t;
@@ -115,6 +124,8 @@ namespace Splines {
     base_D[5] = 0.5 * t1 * t9 * (3 * h - t2) * t6;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Hermite5_DD( real_type t, real_type h, real_type base_DD[6] ) {
     real_type t1 = h - t;
@@ -134,6 +145,8 @@ namespace Splines {
     base_DD[4] = t1 * (t3 + (t4 - 8 * h) * t) * t6;
     base_DD[5] = t * (3 * t3 + (t4 - 12 * h) * t) * t6;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DDD( real_type t, real_type h, real_type base_DDD[6] ) {
@@ -155,6 +168,8 @@ namespace Splines {
     base_DDD[5] =  3*(t1 + (t5 - 8 * h) * t) * t7;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Hermite5_DDDD( real_type t, real_type h, real_type base_DDDD[6] ) {
     real_type t1 = -15 * t;
@@ -171,6 +186,8 @@ namespace Splines {
     base_DDDD[4] =  (36 * h + 12 * t2) * t4;
     base_DDDD[5] = -(24 * h + 12 * t2) * t4;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DDDDD( real_type, real_type h, real_type base_DDDDD[6] ) {
@@ -195,6 +212,7 @@ namespace Splines {
   //  | |_) | | | | | | |  __/ (_| | |
   //  |____/|_|_|_|_| |_|\___|\__,_|_|
   */
+
   real_type
   bilinear3( real_type const p[4],
              real_type const M[4][4],
@@ -205,6 +223,8 @@ namespace Splines {
            p[3] * ( M[3][0]*q[0] + M[3][1]*q[1] + M[3][2]*q[2] + M[3][3]*q[3] );
     
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   bilinear5( real_type const p[6],
@@ -219,7 +239,8 @@ namespace Splines {
     
   }
 
-  // block method!
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   HermiteSpline::build( real_type const [], integer,
                         real_type const [], integer,
@@ -239,9 +260,12 @@ namespace Splines {
     // gc["y"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"),  "HermiteSpline[" << _name << "]::setup missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"),  "HermiteSpline[" << _name << "]::setup missing `y` field!");
-    SPLINE_ASSERT( gc.exists("yp"), "HermiteSpline[" << _name << "]::setup missing `yp` field!");
+    SPLINE_ASSERT( gc.exists("x"),
+                   "HermiteSpline[" << _name << "]::setup missing `x` field!");
+    SPLINE_ASSERT( gc.exists("y"),
+                   "HermiteSpline[" << _name << "]::setup missing `y` field!");
+    SPLINE_ASSERT( gc.exists("yp"),
+                   "HermiteSpline[" << _name << "]::setup missing `yp` field!");
 
     GenericContainer const & gc_x  = gc("x");
     GenericContainer const & gc_y  = gc("y");
@@ -266,5 +290,4 @@ namespace Splines {
     build( x, y, yp );
   }
   #endif
-
 }

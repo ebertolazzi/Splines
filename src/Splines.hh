@@ -130,12 +130,16 @@ either expressed or implied, of the FreeBSD Project.
   #define SPLINE_CHECK_NAN( PTR, MSG, DIM )
 #endif
 
-#ifndef OVERRIDE
+#ifndef SPLINES_OVERRIDE
   #ifdef SPLINES_USE_CXX11
-    #define OVERRIDE override
+    #define SPLINES_OVERRIDE override
   #else
-    #define OVERRIDE
+    #define SPLINES_OVERRIDE
   #endif
+#endif
+
+#ifndef SPLINES_PURE_VIRTUAL
+  #define SPLINES_PURE_VIRTUAL = 0
 #endif
 
 #ifdef __GCC__
@@ -160,22 +164,26 @@ namespace Splines {
 
   static
   inline
-  bool isZero( real_type x )
+  bool
+  isZero( real_type x )
   { return FP_ZERO == fpclassify(x); }
 
   static
   inline
-  bool isInfinite( real_type x )
+  bool
+  isInfinite( real_type x )
   { return FP_INFINITE == fpclassify(x); }
 
   static
   inline
-  bool isNaN( real_type x )
+  bool
+  isNaN( real_type x )
   { return FP_NAN == fpclassify(x); }
 
   static
   inline
-  bool isRegular( real_type x )
+  bool
+  isRegular( real_type x )
   { return !( FP_INFINITE == fpclassify(x) ||
               FP_NAN      == fpclassify(x) ); }
 
@@ -189,7 +197,7 @@ namespace Splines {
                  QUINTIC_TYPE    = 6,
                  HERMITE_TYPE    = 7,
                  SPLINE_SET_TYPE = 8,
-                 BSPLINE_TYPE    = 9 } SplineType;
+                 SPLINE_VEC_TYPE = 9 } SplineType;
 
   extern char const *spline_type[];
   
@@ -386,7 +394,8 @@ namespace Splines {
     size_t size(void) const { return numTotValues; }
 
     //! get pointer of allocated memory for `sz` objets
-    T * operator () ( size_t sz ) {
+    T *
+    operator () ( size_t sz ) {
       size_t offs = numAllocated;
       numAllocated += sz;
       if ( numAllocated > numTotValues ) {
@@ -419,25 +428,77 @@ namespace Splines {
     }
   };
 
-  /*
-  //   ____        _ _            
-  //  / ___| _ __ | (_)_ __   ___ 
-  //  \___ \| '_ \| | | '_ \ / _ \
-  //   ___) | |_) | | | | | |  __/
-  //  |____/| .__/|_|_|_| |_|\___|
-  //        |_|                   
-  */
+  /*\
+   |  ____                                _        _          _   _
+   | |  _ \ __ _ _ __ __ _ _ __ ___   ___| |_ _ __(_)______ _| |_(_) ___  _ __
+   | | |_) / _` | '__/ _` | '_ ` _ \ / _ \ __| '__| |_  / _` | __| |/ _ \| '_ \
+   | |  __/ (_| | | | (_| | | | | | |  __/ |_| |  | |/ / (_| | |_| | (_) | | | |
+   | |_|   \__,_|_|  \__,_|_| |_| |_|\___|\__|_|  |_/___\__,_|\__|_|\___/|_| |_|
+   |
+  \*/
+
+  void
+  uniform( integer         dim,
+           integer         npts,
+           real_type const pnts[],
+           integer         ld_pnts,
+           real_type       t[] );
+
+  void
+  chordal( integer         dim,
+           integer         npts,
+           real_type const pnts[],
+           integer         ld_pnts,
+           real_type       t[] );
+
+  void
+  centripetal( integer         dim,
+               integer         npts,
+               real_type const pnts[],
+               integer         ld_pnts,
+               real_type const alpha,
+               real_type       t[] );
+
+  void
+  universal( integer         dim,
+             integer         npts,
+             real_type const pnts[],
+             integer         ld_pnts,
+             real_type       t[] );
+
+  void
+  FoleyNielsen( integer         dim,
+                integer         npts,
+                real_type const pnts[],
+                integer         ld_pnts,
+                real_type       t[] );
+
+  void
+  FangHung( integer         dim,
+            integer         npts,
+            real_type const pnts[],
+            integer         ld_pnts,
+            real_type       t[] );
+
+  /*\
+   |   ____        _ _
+   |  / ___| _ __ | (_)_ __   ___
+   |  \___ \| '_ \| | | '_ \ / _ \
+   |   ___) | |_) | | | | | |  __/
+   |  |____/| .__/|_|_|_| |_|\___|
+   |        |_|
+  \*/
   //! Spline Management Class
   class Spline {
   protected:
-  
+
     string _name;
     bool   _check_range;
 
     integer   npts, npts_reserved;
     real_type *X; // allocated in the derived class!
     real_type *Y; // allocated in the derived class!
-    
+
     mutable integer lastInterval;
 
     integer
@@ -454,8 +515,8 @@ namespace Splines {
       return lastInterval;
     }
 
-    Spline(Spline const &); // block copy constructor
-    Spline const & operator = (Spline const &); // block copy method
+    Spline( Spline const & ); // block copy constructor
+    Spline const & operator = ( Spline const & ); // block copy method
 
   public:
 
@@ -481,34 +542,52 @@ namespace Splines {
     bool getCheckRange() const { return _check_range; }
 
     //! return the number of support points of the spline.
-    integer numPoints(void) const { return npts; }
+    integer
+    numPoints(void) const
+    { return npts; }
 
     //! return the i-th node of the spline (x component).
-    real_type xNode( integer i ) const { return X[size_t(i)]; }
+    real_type
+    xNode( integer i ) const
+    { return X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type yNode( integer i ) const { return Y[size_t(i)]; }
+    real_type
+    yNode( integer i ) const
+    { return Y[size_t(i)]; }
 
     //! return first node of the spline (x component).
-    real_type xBegin() const { return X[0]; }
+    real_type
+    xBegin() const
+    { return X[0]; }
 
     //! return first node of the spline (y component).
-    real_type yBegin() const { return Y[0]; }
+    real_type
+    yBegin() const
+    { return Y[0]; }
 
     //! return last node of the spline (x component).
-    real_type xEnd() const { return X[npts-1]; }
+    real_type
+    xEnd() const
+    { return X[npts-1]; }
 
     //! return last node of the spline (y component).
-    real_type yEnd() const { return Y[npts-1]; }
+    real_type
+    yEnd() const
+    { return Y[npts-1]; }
 
     //! Allocate memory for `npts` points
-    virtual void reserve( integer npts ) = 0;
+    virtual
+    void
+    reserve( integer npts ) SPLINES_PURE_VIRTUAL;
 
     //! Add a support point (x,y) to the spline.
-    void pushBack( real_type x, real_type y );
+    void
+    pushBack( real_type x, real_type y );
 
     //! Drop a support point to the spline.
-    void dropBack() {
+    void
+    dropBack() {
       if ( npts > 0 ) --npts;
     }
 
@@ -516,21 +595,26 @@ namespace Splines {
     // must be defined in derived classes
     virtual
     void
-    build (void) = 0;
+    build(void) SPLINES_PURE_VIRTUAL;
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc );
-    void build ( GenericContainer const & gc ) { setup(gc); }
+    virtual
+    void
+    setup( GenericContainer const & gc );
+
+    void
+    build( GenericContainer const & gc )
+    { setup(gc); }
     #endif
 
     //! Build a spline.
     /*!
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
+     | \param x    vector of x-coordinates
+     | \param incx access elements as x[0], x[incx], x[2*incx],...
+     | \param y    vector of y-coordinates
+     | \param incy access elements as y[0], y[incy], x[2*incy],...
+     | \param n    total number of points
+    \*/
     // must be defined in derived classes
     virtual
     void
@@ -546,10 +630,10 @@ namespace Splines {
 
     //! Build a spline.
     /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
+     | \param x vector of x-coordinates
+     | \param y vector of y-coordinates
+     | \param n total number of points
+    \*/
     inline
     void
     build( real_type const x[], real_type const y[], integer n )
@@ -557,9 +641,9 @@ namespace Splines {
 
     //! Build a spline.
     /*!
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
+     | \param x vector of x-coordinates
+     | \param y vector of y-coordinates
+    \*/
     inline
     void
     build( vector<real_type> const & x,
@@ -572,13 +656,17 @@ namespace Splines {
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear(void) = 0;
+    clear(void) SPLINES_PURE_VIRTUAL;
 
     //! return x-minumum spline value
-    real_type xMin() const { return X[0]; }
+    real_type
+    xMin() const
+    { return X[0]; }
 
     //! return x-maximum spline value
-    real_type xMax() const { return X[npts-1]; }
+    real_type
+    xMax() const
+    { return X[npts-1]; }
 
     //! return y-minumum spline value
     real_type
@@ -598,10 +686,12 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline
-    void setOrigin( real_type x0 );
+    void
+    setOrigin( real_type x0 );
 
     //! change X-range of the spline
-    void setRange( real_type xmin, real_type xmax );
+    void
+    setRange( real_type xmin, real_type xmax );
 
     ///////////////////////////////////////////////////////////////////////////
     //! dump a sample of the spline
@@ -618,225 +708,85 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x ) const = 0;
+    virtual
+    real_type
+    operator () ( real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! First derivative
-    virtual real_type D( real_type x ) const = 0;
+    virtual
+    real_type
+    D( real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! Second derivative
-    virtual real_type DD( real_type x ) const = 0;
+    virtual
+    real_type
+    DD( real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! Third derivative
-    virtual real_type DDD( real_type x ) const = 0;
+    virtual
+    real_type
+    DDD( real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! Some aliases
-    real_type eval( real_type x ) const { return (*this)(x); }
-    real_type eval_D( real_type x ) const { return D(x); }
-    real_type eval_DD( real_type x ) const { return DD(x); }
-    real_type eval_DDD( real_type x ) const { return DDD(x); }
+    real_type
+    eval( real_type x ) const
+    { return (*this)(x); }
+
+    real_type
+    eval_D( real_type x ) const
+    { return D(x); }
+
+    real_type
+    eval_DD( real_type x ) const
+    { return DD(x); }
+
+    real_type
+    eval_DDD( real_type x ) const
+    { return DDD(x); }
 
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
     coeffs( real_type cfs[],
             real_type nodes[],
-            bool transpose = false ) const = 0;
+            bool transpose = false ) const SPLINES_PURE_VIRTUAL;
 
     virtual
     integer // order
-    order() const = 0;
+    order() const SPLINES_PURE_VIRTUAL;
 
     //! Print spline information
-    virtual void info( ostream_type & s ) const;
+    virtual
+    void
+    info( ostream_type & s ) const;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const = 0;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const SPLINES_PURE_VIRTUAL;
 
     //! Return spline typename
-    char const * type_name() const { return Splines::spline_type[type()]; }
+    char const *
+    type_name() const
+    { return Splines::spline_type[type()]; }
 
     //! Return spline type (as number)
-    virtual unsigned type() const = 0;
+    virtual
+    unsigned
+    type() const SPLINES_PURE_VIRTUAL;
     
     friend class SplineSet;
 
   };
 
-  /*
-  //   ____                  _ _
-  //  | __ )       ___ _ __ | (_)_ __   ___
-  //  |  _ \ _____/ __| '_ \| | | '_ \ / _ \
-  //  | |_) |_____\__ \ |_) | | | | | |  __/
-  //  |____/      |___/ .__/|_|_|_| |_|\___|
-  //                  |_|
-  */
-
-  //! B-spline base class
-  template <size_t _degree>
-  class BSpline : public Spline {
-  protected:
-    SplineMalloc<real_type> baseValue;
-    real_type * knots;
-    real_type * yPolygon;
-    bool        _external_alloc;
-
-    integer knot_search( real_type x ) const;
-    
-    // extrapolation
-    real_type s_L,   s_R;
-    real_type ds_L,  ds_R;
-    real_type dds_L, dds_R;
-
-  public:
-  
-    using Spline::build;
-
-    //! spline constructor
-    BSpline( string const & name = "BSpline", bool ck = false )
-    : Spline(name,ck)
-    , baseValue(name+"_memory")
-    , knots(nullptr)
-    , yPolygon(nullptr)
-    , _external_alloc(false)
-    {}
-
-    virtual
-    ~BSpline() OVERRIDE
-    {}
-
-    void copySpline( BSpline const & S );
-
-    //! return the i-th node of the spline (y' component).
-    real_type yPoly( integer i ) const { return yPolygon[size_t(i)]; }
-
-    //! change X-range of the spline
-    void setRange( real_type xmin, real_type xmax );
-
-    //! Use externally allocated memory for `npts` points
-    void reserve_external( integer      n,
-                           real_type *& p_x,
-                           real_type *& p_y,
-                           real_type *& p_knots,
-                           real_type *& p_yPolygon );
-
-    // --------------------------- VIRTUALS -----------------------------------
-
-    //! Return spline type (as number)
-    virtual unsigned type() const OVERRIDE { return BSPLINE_TYPE; }
-
-    //! Evaluate spline value
-    virtual real_type operator () ( real_type x ) const OVERRIDE;
-
-    //! First derivative
-    virtual real_type D( real_type x ) const OVERRIDE;
-
-    //! Second derivative
-    virtual real_type DD( real_type x ) const OVERRIDE;
-
-    //! Third derivative
-    virtual real_type DDD( real_type x ) const OVERRIDE;
-
-    //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const OVERRIDE;
-
-    // --------------------------- VIRTUALS -----------------------------------
-
-    //! Allocate memory for `npts` points
-    virtual void reserve( integer npts ) OVERRIDE;
-
-    virtual
-    void
-    build(void) OVERRIDE;
-
-    //! Cancel the support points, empty the spline.
-    virtual
-    void
-    clear(void) OVERRIDE;
-
-    //! get the piecewise polinomials of the spline
-    virtual
-    integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const OVERRIDE;
-
-    virtual
-    integer // order
-    order() const OVERRIDE
-    { return _degree+1; }
-
-    // ---------------------------  UTILS  -----------------------------------
-
-    //! Evaluate spline value
-    static
-    real_type
-    eval( real_type       x,
-          integer         n,
-          real_type const Knots[],
-          real_type const yPolygon[] );
-
-    //! First derivative
-    static
-    real_type
-    eval_D( real_type       x,
-            integer         n,
-            real_type const Knots[],
-            real_type const yPolygon[] );
-
-    //! Second derivative
-    static
-    real_type
-    eval_DD( real_type       x,
-             integer         n,
-             real_type const Knots[],
-             real_type const yPolygon[] );
-
-    //! Third derivative
-    static
-    real_type
-    eval_DDD( real_type       x,
-              integer         n,
-              real_type const Knots[],
-              real_type const yPolygon[] );
-
-    //! B-spline bases
-    void bases( real_type x, real_type vals[] ) const;
-    void bases_D( real_type x, real_type vals[] ) const;
-    void bases_DD( real_type x, real_type vals[] ) const;
-    void bases_DDD( real_type x, real_type vals[] ) const;
-
-    integer bases_nz( real_type x, real_type vals[] ) const;
-    integer bases_D_nz( real_type x, real_type vals[] ) const;
-    integer bases_DD_nz( real_type x, real_type vals[] ) const;
-    integer bases_DDD_nz( real_type x, real_type vals[] ) const;
-
-    // Utilities
-    static
-    void
-    knots_sequence( integer         n,
-                    real_type const X[],
-                    real_type     * Knots );
-
-    static
-    void
-    sample_bases( integer             nx, // number of sample points
-                  real_type const     X[],
-                  integer             nb, // number of bases
-                  real_type const     Knots[],
-                  vector<integer> & II, // GCC on linux bugged for I
-                  vector<integer> & JJ,
-                  vector<real_type> & vals );
-
-  };
-
-  /*
-  //    ____      _     _        ____        _ _              ____                 
-  //   / ___|   _| |__ (_) ___  / ___| _ __ | (_)_ __   ___  | __ )  __ _ ___  ___ 
-  //  | |  | | | | '_ \| |/ __| \___ \| '_ \| | | '_ \ / _ \ |  _ \ / _` / __|/ _ \
-  //  | |__| |_| | |_) | | (__   ___) | |_) | | | | | |  __/ | |_) | (_| \__ \  __/
-  //   \____\__,_|_.__/|_|\___| |____/| .__/|_|_|_| |_|\___| |____/ \__,_|___/\___|
-  //                                  |_|
-  */
+  /*\
+   |    ____      _     _        ____        _ _              ____
+   |   / ___|   _| |__ (_) ___  / ___| _ __ | (_)_ __   ___  | __ )  __ _ ___  ___
+   |  | |  | | | | '_ \| |/ __| \___ \| '_ \| | | '_ \ / _ \ |  _ \ / _` / __|/ _ \
+   |  | |__| |_| | |_) | | (__   ___) | |_) | | | | | |  __/ | |_) | (_| \__ \  __/
+   |   \____\__,_|_.__/|_|\___| |____/| .__/|_|_|_| |_|\___| |____/ \__,_|___/\___|
+   |                                  |_|
+  \*/
   //! cubic spline base class
   class CubicSplineBase : public Spline {
   protected:
@@ -862,54 +812,71 @@ namespace Splines {
     {}
     
     virtual
-    ~CubicSplineBase() OVERRIDE
+    ~CubicSplineBase() SPLINES_OVERRIDE
     {}
 
-    void copySpline( CubicSplineBase const & S );
+    void
+    copySpline( CubicSplineBase const & S );
 
     //! return the i-th node of the spline (y' component).
-    real_type ypNode( integer i ) const { return Yp[size_t(i)]; }
+    real_type
+    ypNode( integer i ) const
+    { return Yp[size_t(i)]; }
 
     //! change X-range of the spline
-    void setRange( real_type xmin, real_type xmax );
+    void
+    setRange( real_type xmin, real_type xmax );
 
     //! Use externally allocated memory for `npts` points
-    void reserve_external( integer      n,
-                           real_type *& p_x,
-                           real_type *& p_y,
-                           real_type *& p_dy );
+    void
+    reserve_external( integer      n,
+                      real_type *& p_x,
+                      real_type *& p_y,
+                      real_type *& p_dy );
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x ) const OVERRIDE;
+    virtual
+    real_type
+    operator () ( real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
-    virtual real_type D( real_type x ) const OVERRIDE;
+    virtual
+    real_type
+    D( real_type x ) const SPLINES_OVERRIDE;
 
     //! Second derivative
-    virtual real_type DD( real_type x ) const OVERRIDE;
+    virtual
+    real_type
+    DD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Third derivative
-    virtual real_type DDD( real_type x ) const OVERRIDE;
+    virtual
+    real_type
+    DDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const OVERRIDE;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     // --------------------------- VIRTUALS -----------------------------------
 
     //! Allocate memory for `npts` points
-    virtual void reserve( integer npts ) OVERRIDE;
+    virtual
+    void
+    reserve( integer npts ) SPLINES_OVERRIDE;
 
     //! Build a spline.
     /*!
-     * \param x     vector of x-coordinates
-     * \param incx  access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
-     * \param y     vector of y-coordinates
-     * \param incy  access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
-     * \param yp    vector of y'-coordinates
-     * \param incyp access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
-     * \param n     total number of points
-     */
+     | \param x     vector of x-coordinates
+     | \param incx  access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+     | \param y     vector of y-coordinates
+     | \param incy  access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
+     | \param yp    vector of y'-coordinates
+     | \param incyp access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
+     | \param n     total number of points
+    \*/
     void
     build( real_type const x[],  integer incx,
            real_type const y[],  integer incy,
@@ -918,11 +885,11 @@ namespace Splines {
 
     //! Build a spline.
     /*!
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     * \param yp vector of y'-coordinates
-     * \param n  total number of points
-     */
+     | \param x  vector of x-coordinates
+     | \param y  vector of y-coordinates
+     | \param yp vector of y'-coordinates
+     | \param n  total number of points
+    \*/
     inline
     void
     build( real_type const x[],
@@ -934,10 +901,10 @@ namespace Splines {
 
     //! Build a spline.
     /*!
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     * \param yp vector of y'-coordinates
-     */
+     | \param x  vector of x-coordinates
+     | \param y  vector of y-coordinates
+     | \param yp vector of y'-coordinates
+    \*/
     inline
     void
     build ( vector<real_type> const & x,
@@ -955,29 +922,29 @@ namespace Splines {
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear(void) OVERRIDE;
+    clear(void) SPLINES_OVERRIDE;
 
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
     coeffs( real_type cfs[],
             real_type nodes[],
-            bool transpose = false ) const OVERRIDE;
+            bool transpose = false ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
-    order() const OVERRIDE;
+    order() const SPLINES_OVERRIDE;
 
   };
 
-  /*
-  //    ____      _     _      ____        _ _            
-  //   / ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___ 
-  //  | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
-  //  | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
-  //   \____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
-  //                                |_|                   
-  */
+  /*\
+   |    ____      _     _      ____        _ _
+   |   / ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___
+   |  | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
+   |  | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
+   |   \____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
+   |                                |_|
+  \*/
   //! Cubic Spline Management Class
   class CubicSpline : public CubicSplineBase {
   private:
@@ -1001,11 +968,11 @@ namespace Splines {
     {}
 
     /*!
-     * \param _ddy0  first boundary condition.
-     *               The second derivative at initial point.
-     * \param _ddyn  second boundary condition.
-     *               The second derivative at final point.
-     */
+     | \param _ddy0  first boundary condition.
+     |               The second derivative at initial point.
+     | \param _ddyn  second boundary condition.
+     |               The second derivative at final point.
+    \*/
     void
     setbc( real_type _ddy0, real_type _ddyn ) {
       this -> ddy0 = _ddy0;
@@ -1019,28 +986,30 @@ namespace Splines {
 
     virtual
     void
-    build (void);
+    build(void);
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-    virtual void setup ( GenericContainer const & gc );
+    virtual
+    void
+    setup( GenericContainer const & gc );
     #endif
 
   };
 
-  /*
-  //      _    _    _                   ____        _ _            
-  //     / \  | | _(_)_ __ ___   __ _  / ___| _ __ | (_)_ __   ___ 
-  //    / _ \ | |/ / | '_ ` _ \ / _` | \___ \| '_ \| | | '_ \ / _ \
-  //   / ___ \|   <| | | | | | | (_| |  ___) | |_) | | | | | |  __/
-  //  /_/   \_\_|\_\_|_| |_| |_|\__,_| |____/| .__/|_|_|_| |_|\___|
-  //                                         |_|                   
-  */
+  /*\
+   |      _    _    _                   ____        _ _
+   |     / \  | | _(_)_ __ ___   __ _  / ___| _ __ | (_)_ __   ___
+   |    / _ \ | |/ / | '_ ` _ \ / _` | \___ \| '_ \| | | '_ \ / _ \
+   |   / ___ \|   <| | | | | | | (_| |  ___) | |_) | | | | | |  __/
+   |  /_/   \_\_|\_\_|_| |_| |_|\__,_| |____/| .__/|_|_|_| |_|\___|
+   |                                         |_|
+  \*/
   //! Akima spline class
   /*!
-   *  Reference
-   *  =========
-   *  Hiroshi Akima, Journal of the ACM, Vol. 17, No. 4, October 1970, pages 589-602.
-   */
+   |  Reference
+   |  =========
+   |  Hiroshi Akima, Journal of the ACM, Vol. 17, No. 4, October 1970, pages 589-602.
+  \*/
   class AkimaSpline : public CubicSplineBase {
   public:
 
@@ -1054,13 +1023,13 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~AkimaSpline() OVERRIDE
+    ~AkimaSpline() SPLINES_OVERRIDE
     {}
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return AKIMA_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1068,18 +1037,18 @@ namespace Splines {
     //! Build an Akima spline from previously inserted points
     virtual
     void
-    build (void) OVERRIDE;
+    build (void) SPLINES_OVERRIDE;
 
   };
 
   /*
-  //   ____                     _ ____        _ _            
-  //  | __ )  ___  ___ ___  ___| / ___| _ __ | (_)_ __   ___ 
-  //  |  _ \ / _ \/ __/ __|/ _ \ \___ \| '_ \| | | '_ \ / _ \
-  //  | |_) |  __/\__ \__ \  __/ |___) | |_) | | | | | |  __/
-  //  |____/ \___||___/___/\___|_|____/| .__/|_|_|_| |_|\___|
-  //                                   |_|                   
-  */
+   |   ____                     _ ____        _ _
+   |  | __ )  ___  ___ ___  ___| / ___| _ __ | (_)_ __   ___
+   |  |  _ \ / _ \/ __/ __|/ _ \ \___ \| '_ \| | | '_ \ / _ \
+   |  | |_) |  __/\__ \__ \  __/ |___) | |_) | | | | | |  __/
+   |  |____/ \___||___/___/\___|_|____/| .__/|_|_|_| |_|\___|
+   |                                   |_|
+  \*/
   //! Bessel spline class
   class BesselSpline : public CubicSplineBase {
   public:
@@ -1094,13 +1063,13 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~BesselSpline() OVERRIDE
+    ~BesselSpline() SPLINES_OVERRIDE
     {}
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return BESSEL_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1108,17 +1077,17 @@ namespace Splines {
     //! Build a Bessel spline from previously inserted points
     virtual
     void
-    build (void) OVERRIDE;
+    build (void) SPLINES_OVERRIDE;
   };
 
-  /*
-  //   ____      _     _      ____        _ _            
-  //  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___ 
-  //  | |_) / __| '_ \| | '_ \___ \| '_ \| | | '_ \ / _ \
-  //  |  __/ (__| | | | | |_) |__) | |_) | | | | | |  __/
-  //  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
-  //                    |_|        |_|                   
-  */
+  /*\
+   |   ____      _     _      ____        _ _
+   |  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___
+   |  | |_) / __| '_ \| | '_ \___ \| '_ \| | | '_ \ / _ \
+   |  |  __/ (__| | | | | |_) |__) | |_) | | | | | |  __/
+   |  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
+   |                    |_|        |_|
+  \*/
   void
   pchip( real_type const X[],
          real_type const Y[],
@@ -1139,13 +1108,13 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~PchipSpline() OVERRIDE
+    ~PchipSpline() SPLINES_OVERRIDE
     {}
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return PCHIP_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1153,17 +1122,17 @@ namespace Splines {
     //! Build a Monotone spline from previously inserted points
     virtual
     void
-    build (void) OVERRIDE;
+    build (void) SPLINES_OVERRIDE;
   };
 
-  /*
-  //   _     _                       ____        _ _            
-  //  | |   (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___ 
-  //  | |   | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
-  //  | |___| | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
-  //  |_____|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
-  //                                      |_|                   
-  */
+  /*\
+   |   _     _                       ____        _ _
+   |  | |   (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
+   |  | |   | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
+   |  | |___| | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
+   |  |_____|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
+   |                                      |_|
+  \*/
   //! Linear spline class
   class LinearSpline : public Spline {
     SplineMalloc<real_type> baseValue;
@@ -1179,7 +1148,7 @@ namespace Splines {
     {}
 
     virtual
-    ~LinearSpline() OVERRIDE
+    ~LinearSpline() SPLINES_OVERRIDE
     {}
 
     //! Use externally allocated memory for `npts` points
@@ -1193,7 +1162,7 @@ namespace Splines {
     //! Evalute spline value at `x`
     virtual
     real_type
-    operator () ( real_type x ) const OVERRIDE {
+    operator () ( real_type x ) const SPLINES_OVERRIDE {
       SPLINE_ASSERT( npts > 0, "in LinearSpline::operator(), npts == 0!");
       if ( x < X[0]      ) return Y[0];
       if ( x > X[npts-1] ) return Y[npts-1];
@@ -1205,7 +1174,7 @@ namespace Splines {
     //! First derivative
     virtual
     real_type
-    D( real_type x ) const OVERRIDE {
+    D( real_type x ) const SPLINES_OVERRIDE {
       SPLINE_ASSERT( npts > 0, "in LinearSpline::operator(), npts == 0!");
       if ( x < X[0]      ) return 0;
       if ( x > X[npts-1] ) return 0;
@@ -1216,24 +1185,24 @@ namespace Splines {
     //! Second derivative
     virtual
     real_type
-    DD( real_type ) const OVERRIDE
+    DD( real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type ) const OVERRIDE
+    DDD( real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const OVERRIDE;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return LINEAR_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1241,40 +1210,40 @@ namespace Splines {
     //! Allocate memory for `npts` points
     virtual
     void
-    reserve( integer npts ) OVERRIDE;
+    reserve( integer npts ) SPLINES_OVERRIDE;
 
     //! added for compatibility with cubic splines
     virtual
     void
-    build (void) OVERRIDE
+    build (void) SPLINES_OVERRIDE
     {}
 
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear(void) OVERRIDE;
+    clear(void) SPLINES_OVERRIDE;
 
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
     coeffs( real_type cfs[],
             real_type nodes[],
-            bool transpose = false ) const OVERRIDE;
+            bool transpose = false ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
-    order() const OVERRIDE;
+    order() const SPLINES_OVERRIDE;
 
   };
 
-  /*  
-  //    ____                _              _       ____        _ _            
-  //   / ___|___  _ __  ___| |_ __ _ _ __ | |_ ___/ ___| _ __ | (_)_ __   ___ 
-  //  | |   / _ \| '_ \/ __| __/ _` | '_ \| __/ __\___ \| '_ \| | | '_ \ / _ \
-  //  | |__| (_) | | | \__ \ || (_| | | | | |_\__ \___) | |_) | | | | | |  __/
-  //   \____\___/|_| |_|___/\__\__,_|_| |_|\__|___/____/| .__/|_|_|_| |_|\___|
-  //                                                    |_|                   
-  */
+  /*\
+   |    ____                _              _       ____        _ _
+   |   / ___|___  _ __  ___| |_ __ _ _ __ | |_ ___/ ___| _ __ | (_)_ __   ___
+   |  | |   / _ \| '_ \/ __| __/ _` | '_ \| __/ __\___ \| '_ \| | | '_ \ / _ \
+   |  | |__| (_) | | | \__ \ || (_| | | | | |_\__ \___) | |_) | | | | | |  __/
+   |   \____\___/|_| |_|___/\__\__,_|_| |_|\__|___/____/| .__/|_|_|_| |_|\___|
+   |                                                    |_|
+  \*/
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
     SplineMalloc<real_type> baseValue;
@@ -1289,7 +1258,7 @@ namespace Splines {
     , _external_alloc(false)
     {}
 
-    ~ConstantSpline() OVERRIDE
+    ~ConstantSpline() SPLINES_OVERRIDE
     {}
 
     //! Use externally allocated memory for `npts` points
@@ -1302,46 +1271,47 @@ namespace Splines {
     //! Build a spline.
     virtual
     void
-    build (void) OVERRIDE
+    build(void) SPLINES_OVERRIDE
     {} // nothing to do
 
     virtual
     void
     build( real_type const x[], integer incx,
            real_type const y[], integer incy,
-           integer n ) OVERRIDE;
+           integer n ) SPLINES_OVERRIDE;
 
     //! Evaluate spline value at `x`
     virtual
     real_type
-    operator () ( real_type x ) const OVERRIDE;
+    operator () ( real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type ) const OVERRIDE
+    D( real_type ) const SPLINES_OVERRIDE
     { return 0; }
     
     //! Second derivative
     virtual
     real_type
-    DD( real_type ) const OVERRIDE
+    DD( real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type ) const OVERRIDE
+    DDD( real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & ) const OVERRIDE;
+    writeToStream( ostream_type & ) const SPLINES_OVERRIDE;
 
     //! Return spline type (as number)
     virtual
-    unsigned type() const OVERRIDE
+    unsigned
+    type() const SPLINES_OVERRIDE
     { return CONSTANT_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1349,34 +1319,34 @@ namespace Splines {
     //! Allocate memory for `npts` points
     virtual
     void
-    reserve( integer npts ) OVERRIDE;
+    reserve( integer npts ) SPLINES_OVERRIDE;
 
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear(void) OVERRIDE;
+    clear(void) SPLINES_OVERRIDE;
 
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
     coeffs( real_type cfs[],
             real_type nodes[],
-            bool transpose = false ) const OVERRIDE;
+            bool transpose = false ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
-    order() const OVERRIDE;
+    order() const SPLINES_OVERRIDE;
 
   };
   
-  /*
-  //    _   _                     _ _       ____        _ _
-  //   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
-  //   | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \___ \| '_ \| | | '_ \ / _ \
-  //   |  _  |  __/ |  | | | | | | | ||  __/___) | |_) | | | | | |  __/
-  //   |_| |_|\___|_|  |_| |_| |_|_|\__\___|____/| .__/|_|_|_| |_|\___|
-  //                                             |_|
-  */
+  /*\
+   |    _   _                     _ _       ____        _ _
+   |   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
+   |   | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \___ \| '_ \| | | '_ \ / _ \
+   |   |  _  |  __/ |  | | | | | | | ||  __/___) | |_) | | | | | |  __/
+   |   |_| |_|\___|_|  |_| |_| |_|_|\__\___|____/| .__/|_|_|_| |_|\___|
+   |                                             |_|
+  \*/
   //! Hermite Spline Management Class
   class HermiteSpline : public CubicSplineBase {
   public:
@@ -1391,26 +1361,26 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~HermiteSpline() OVERRIDE
+    ~HermiteSpline() SPLINES_OVERRIDE
     {}
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return HERMITE_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
     virtual
     void
-    build(void) OVERRIDE
+    build(void) SPLINES_OVERRIDE
     {} // nothing to do
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
-    setup( GenericContainer const & gc ) OVERRIDE;
+    setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
     #endif
 
     // block method!
@@ -1418,18 +1388,18 @@ namespace Splines {
     void
     build( real_type const [], integer,
            real_type const [], integer,
-           integer ) OVERRIDE;
+           integer ) SPLINES_OVERRIDE;
   };
 
-  /*
-  //    ___        _       _   _      ____        _ _            ____                 
-  //   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___ 
-  //  | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
-  //  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
-  //   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
-  //                                       |_|                                        
-  //  
-  */
+  /*\
+   |    ___        _       _   _      ____        _ _            ____
+   |   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
+   |  | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
+   |  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
+   |   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
+   |                                       |_|
+   |
+  \*/
   //! cubic quintic base class
   class QuinticSplineBase : public Spline {
   protected:
@@ -1459,48 +1429,55 @@ namespace Splines {
     {}
     
     virtual
-    ~QuinticSplineBase() OVERRIDE
+    ~QuinticSplineBase() SPLINES_OVERRIDE
     {}
 
-    void copySpline( QuinticSplineBase const & S );
+    void
+    copySpline( QuinticSplineBase const & S );
 
     //! return the i-th node of the spline (y' component).
-    real_type ypNode( integer i ) const { return Yp[size_t(i)]; }
+    real_type
+    ypNode( integer i ) const
+    { return Yp[size_t(i)]; }
 
     //! return the i-th node of the spline (y'' component).
-    real_type yppNode( integer i ) const { return Ypp[size_t(i)]; }
+    real_type
+    yppNode( integer i ) const
+    { return Ypp[size_t(i)]; }
 
     //! change X-range of the spline
-    void setRange( real_type xmin, real_type xmax );
+    void
+    setRange( real_type xmin, real_type xmax );
 
     //! Use externally allocated memory for `npts` points
-    void reserve_external( integer      n,
-                           real_type *& p_x,
-                           real_type *& p_y,
-                           real_type *& p_Yp,
-                           real_type *& p_Ypp );
+    void
+    reserve_external( integer      n,
+                      real_type *& p_x,
+                      real_type *& p_y,
+                      real_type *& p_Yp,
+                      real_type *& p_Ypp );
 
     // --------------------------- VIRTUALS -----------------------------------
 
     //! Evaluate spline value
     virtual
     real_type
-    operator () ( real_type x ) const OVERRIDE;
+    operator () ( real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x ) const OVERRIDE;
+    D( real_type x ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type x ) const OVERRIDE;
+    DD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type x ) const OVERRIDE;
+    DDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Fourth derivative
     virtual
@@ -1515,12 +1492,12 @@ namespace Splines {
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const OVERRIDE;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline type (as number)
     virtual
     unsigned
-    type() const OVERRIDE
+    type() const SPLINES_OVERRIDE
     { return QUINTIC_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -1528,35 +1505,35 @@ namespace Splines {
     //! Allocate memory for `npts` points
     virtual
     void
-    reserve( integer npts ) OVERRIDE;
+    reserve( integer npts ) SPLINES_OVERRIDE;
 
     //! Cancel the support points, empty the spline.
     virtual
     void
-    clear(void) OVERRIDE;
+    clear(void) SPLINES_OVERRIDE;
 
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
     coeffs( real_type cfs[],
             real_type nodes[],
-            bool transpose = false ) const OVERRIDE;
+            bool transpose = false ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
-    order() const OVERRIDE;
+    order() const SPLINES_OVERRIDE;
 
   };
  
-  /*
-  //    ___        _       _   _      ____        _ _            
-  //   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___ 
-  //  | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \
-  //  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/
-  //   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
-  //                                       |_|                   
-  //  
-  */
+  /*\
+   |    ___        _       _   _      ____        _ _
+   |   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
+   |  | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \
+   |  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/
+   |   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
+   |                                       |_|
+   |
+  \*/
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
   public:
@@ -1571,30 +1548,292 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~QuinticSpline() OVERRIDE
+    ~QuinticSpline() SPLINES_OVERRIDE
     {}
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a Monotone quintic spline from previously inserted points
     virtual
     void
-    build (void) OVERRIDE;
+    build (void) SPLINES_OVERRIDE;
   };
 
-  /*
-  //   ____        _ _            ____       _
-  //  / ___| _ __ | (_)_ __   ___/ ___|  ___| |_
-  //  \___ \| '_ \| | | '_ \ / _ \___ \ / _ \ __|
-  //   ___) | |_) | | | | | |  __/___) |  __/ |_
-  //  |____/| .__/|_|_|_| |_|\___|____/ \___|\__|
-  //        |_|
-  */
+  /*\
+   |   ____        _ _          __     __
+   |  / ___| _ __ | (_)_ __   __\ \   / /__  ___
+   |  \___ \| '_ \| | | '_ \ / _ \ \ / / _ \/ __|
+   |   ___) | |_) | | | | | |  __/\ V /  __/ (__
+   |  |____/| .__/|_|_|_| |_|\___| \_/ \___|\___|
+   |        |_|
+  \*/
+
+  //! Splines Management Class
+  class SplineVec {
+
+    SplineVec( SplineVec const & ); // block copy constructor
+    SplineVec const & operator = ( SplineVec const & ); // block copy method
+
+  protected:
+
+    string const _name;
+
+    SplineMalloc<real_type>  baseValue;
+    SplineMalloc<real_type*> basePointer;
+
+    integer      _dim;
+    integer      _npts;
+    bool         _check_range;
+
+    real_type *  _X;
+    real_type ** _Y;
+    real_type ** _Yp;
+
+    mutable integer lastInterval;
+
+    integer
+    search( real_type x ) const {
+      SPLINE_ASSERT( _npts > 1, "\nsearch(" << x << ") empty spline");
+      if ( _check_range ) {
+        real_type xl = _X[0];
+        real_type xr = _X[_npts-1];
+        SPLINE_ASSERT( x >= xl && x <= xr,
+                       "method search( " << x << " ) out of range: [" <<
+                       xl << ", " << xr << "]" );
+      }
+      Splines::updateInterval( lastInterval, x, _X, _npts );
+      return lastInterval;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    void
+    allocate( integer dim, integer npts );
+
+    void
+    computeChords();
+
+  public:
+
+    //! spline constructor
+    SplineVec( string const & name = "SplineVec" );
+
+    //! spline destructor
+    virtual
+    ~SplineVec();
+
+    string const &
+    name() const
+    { return _name; }
+
+    //! return the number of support points of the splines
+    integer
+    numPoints(void) const
+    { return _npts; }
+
+    //! return the number splines in the spline set
+    integer
+    dimension(void) const
+    { return _dim; }
+
+    //! return the vector of values of x-nodes
+    real_type const *
+    xNodes() const
+    { return _X; }
+
+    //! return the npt-th node of the spline (x component).
+    real_type
+    xNode( integer npt ) const
+    { return _X[size_t(npt)]; }
+
+    //! return the npt-th node of the spline (y component).
+    real_type
+    yNode( integer npt, integer j ) const
+    { return _Y[size_t(j)][size_t(npt)]; }
+
+    //! return x-minumum spline value
+    real_type
+    xMin() const
+    { return _X[0]; }
+
+    //! return x-maximum spline value
+    real_type
+    xMax() const
+    { return _X[size_t(_npts-1)]; }
+
+    //! Evaluate spline value
+    real_type
+    operator () ( real_type x, integer i ) const;
+
+    real_type
+    eval( real_type x, integer i ) const
+    { return operator() (x,i); }
+
+    //! First derivative
+    real_type
+    D( real_type x, integer i ) const;
+
+    real_type
+    eval_D( real_type x, integer i ) const
+    { return this->D(x,i); }
+
+    //! Second derivative
+    real_type
+    DD( real_type x, integer i ) const;
+
+    real_type
+    eval_DD( real_type x, integer i ) const
+    { return this->DD(x,i); }
+
+    //! Third derivative
+    real_type
+    DDD( real_type x, integer i ) const;
+
+    real_type
+    eval_DDD( real_type x, integer i ) const
+    { return this->DDD(x,i); }
+
+    //! Evaluate all the splines at `x`
+    void
+    eval( real_type x,
+          real_type vals[],
+          integer   inc ) const;
+
+    //! Evaluate the fist derivative of all the splines at `x`
+    void
+    eval_D( real_type x,
+            real_type vals[],
+            integer   inc ) const;
+
+    //! Evaluate the second derivative of all the splines at `x`
+    void
+    eval_DD( real_type x,
+             real_type vals[],
+             integer   inc ) const;
+
+    //! Evaluate the third derivative of all the splines at `x`
+    void
+    eval_DDD( real_type x,
+              real_type vals[],
+              integer   inc ) const;
+
+    //! Evaluate all the splines at `x`
+    void
+    eval( real_type x, vector<real_type> & vals ) const;
+
+    //! Evaluate the fist derivative of all the splines at `x`
+    void
+    eval_D( real_type x, vector<real_type> & vals ) const;
+
+    //! Evaluate the second derivative of all the splines at `x`
+    void
+    eval_DD( real_type x, vector<real_type> & vals ) const;
+
+    //! Evaluate the third derivative of all the splines at `x`
+    void
+    eval_DDD( real_type x, vector<real_type> & vals ) const;
+
+    // interface with GenericContainer
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+    /*!
+     | Evaluate at `x` and fill a GenericContainer
+    \*/
+    void
+    eval( real_type x, GenericContainer & vals ) const
+    { eval( x, vals.set_vec_real() ); }
+
+    void
+    eval_D( real_type x, GenericContainer & vals ) const
+    { eval_D( x, vals.set_vec_real() ); }
+
+    void
+    eval_DD( real_type x, GenericContainer & vals ) const
+    { eval_DD( x, vals.set_vec_real() ); }
+
+    void
+    eval_DDD( real_type x, GenericContainer & vals ) const
+    { eval_DDD( x, vals.set_vec_real() ); }
+
+    /*!
+     | Evaluate at `x` and fill a GenericContainer
+    \*/
+    void
+    eval( vec_real_type const & x, GenericContainer & vals ) const;
+
+    void
+    eval_D( vec_real_type const & x, GenericContainer & vals ) const;
+
+    void
+    eval_DD( vec_real_type const & x, GenericContainer & vals ) const;
+
+    void
+    eval_DDD( vec_real_type const & x, GenericContainer & vals ) const;
+
+    #endif
+
+    void
+    setup( integer           dim,
+           integer           npts,
+           real_type const * Y[] );
+
+    void
+    setup( integer         dim,
+           integer         npts,
+           real_type const Y[],
+           integer         ldY );
+
+    void
+    setKnots( real_type const X[] );
+
+    void
+    setKnotsChordLength();
+
+    void
+    setKnotsCentripetal();
+
+    void
+    setKnotsFoley();
+
+    void
+    CatmullRom();
+
+    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+    virtual
+    void
+    setup( GenericContainer const & gc );
+
+    void
+    build( GenericContainer const & gc )
+    { setup(gc); }
+    #endif
+
+    //! Return spline type (as number)
+    virtual
+    unsigned
+    type() const
+    { return SPLINE_VEC_TYPE; }
+
+    //! Get info of splines collected
+    void
+    info( ostream_type & s ) const;
+
+    void
+    dump_table( ostream_type & s, integer num_points ) const;
+
+  };
+
+  /*\
+   |   ____        _ _            ____       _
+   |  / ___| _ __ | (_)_ __   ___/ ___|  ___| |_
+   |  \___ \| '_ \| | | '_ \ / _ \___ \ / _ \ __|
+   |   ___) | |_) | | | | | |  __/___) |  __/ |_
+   |  |____/| .__/|_|_|_| |_|\___|____/ \___|\__|
+   |        |_|
+  \*/
 
   //! Splines Management Class
   class SplineSet {
 
-    SplineSet(SplineSet const &); // block copy constructor
-    SplineSet const & operator = (SplineSet const &); // block copy method
+    SplineSet( SplineSet const & ); // block copy constructor
+    SplineSet const & operator = ( SplineSet const & ); // block copy method
 
   protected:
 
@@ -1622,7 +1861,10 @@ namespace Splines {
 
   private:
 
-    //! find `x` value such that the monotone spline `(spline[spl])(x)` intersect the value `zeta`
+    /*!
+     | find `x` value such that the monotone spline
+     | `(spline[spl])(x)` intersect the value `zeta`
+    \*/
     Spline const *
     intersect( integer spl, real_type zeta, real_type & x ) const;
 
@@ -1649,16 +1891,23 @@ namespace Splines {
     { return is_monotone[size_t(i)]; }
 
     //! return the number of support points of the splines
-    integer numPoints(void) const { return _npts; }
+    integer
+    numPoints(void) const
+    { return _npts; }
 
     //! return the number splines in the spline set
-    integer numSplines(void) const { return _nspl; }
+    integer
+    numSplines(void) const
+    { return _nspl; }
 
     //! return the column with header(i) == hdr, return -1 if not found
-    integer getPosition( char const * hdr ) const;
+    integer
+    getPosition( char const * hdr ) const;
 
     //! return the vector of values of x-nodes
-    real_type const * xNodes() const { return _X; }
+    real_type const *
+    xNodes() const
+    { return _X; }
 
     //! return the vector of values of x-nodes
     real_type const *
@@ -1710,7 +1959,8 @@ namespace Splines {
     { return _Ymax[size_t(getPosition(spl))]; }
 
     //! Return pointer to the `i`-th spline
-    Spline * getSpline( integer i ) const {
+    Spline *
+    getSpline( integer i ) const {
       SPLINE_ASSERT( i < _nspl,
                      "SplineSet::getSpline( " << i <<
                      ") argument out of range [0," << _nspl-1 << "]" );
@@ -1718,7 +1968,8 @@ namespace Splines {
     }
 
     //! Return pointer to the `i`-th spline
-    Spline * getSpline( char const * hdr ) const {
+    Spline *
+    getSpline( char const * hdr ) const {
       return splines[size_t(getPosition(hdr))];
     }
 
@@ -1780,7 +2031,8 @@ namespace Splines {
 
     // vectorial values
     //! fill a vector of strings with the names of the splines
-    void getHeaders( vector<string> & h ) const;
+    void
+    getHeaders( vector<string> & h ) const;
 
     //! Evaluate all the splines at `x`
     void
@@ -1864,7 +2116,7 @@ namespace Splines {
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_DD( integer            spl,
+    eval2_DD( integer             spl,
               real_type           zeta,
               vector<real_type> & vals ) const;
 
@@ -1902,36 +2154,36 @@ namespace Splines {
      | spline `indep` as independent
     \*/
     real_type
-    eval2( real_type    zeta,
-           char const * indep,
-           char const * name ) const;
+    eval2( real_type  zeta,
+           char const indep[],
+           char const name[] ) const;
 
     /*!
      | Evaluate first derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_D( real_type    zeta,
-             char const * indep,
-             char const * name ) const;
+    eval2_D( real_type  zeta,
+             char const indep[],
+             char const name[] ) const;
 
     /*!
      | Evaluate second derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DD( real_type    zeta,
-              char const * indep,
-              char const * name ) const;
+    eval2_DD( real_type  zeta,
+              char const indep[],
+              char const name[] ) const;
 
     /*!
      | Evaluate third derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DDD( real_type    zeta,
-               char const * indep,
-               char const * name ) const;
+    eval2_DDD( real_type  zeta,
+               char const indep[],
+               char const name[] ) const;
 
     /*!
      | Evaluate the spline `spl` at `zeta` using
@@ -2449,13 +2701,13 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines
-     * \param nspl       the number of splines
-     * \param npts       the number of points of each splines
-     * \param headers    the names of the splines
-     * \param stype      the type of each spline
-     * \param X          pointer to X independent values
-     * \param Y          vector of `nspl` pointers to Y depentendent values.
-     */
+     | \param nspl       the number of splines
+     | \param npts       the number of points of each splines
+     | \param headers    the names of the splines
+     | \param stype      the type of each spline
+     | \param X          pointer to X independent values
+     | \param Y          vector of `nspl` pointers to Y depentendent values.
+    \*/
 
     void
     build( integer          nspl,
@@ -2489,14 +2741,14 @@ namespace Splines {
 
   };
 
-  /*
-  //   ____        _ _            ____              __
-  //  / ___| _ __ | (_)_ __   ___/ ___| _   _ _ __ / _|
-  //  \___ \| '_ \| | | '_ \ / _ \___ \| | | | '__| |_
-  //   ___) | |_) | | | | | |  __/___) | |_| | |  |  _|
-  //  |____/| .__/|_|_|_| |_|\___|____/ \__,_|_|  |_|
-  //        |_|
-  */
+  /*\
+   |   ____        _ _            ____              __
+   |  / ___| _ __ | (_)_ __   ___/ ___| _   _ _ __ / _|
+   |  \___ \| '_ \| | | '_ \ / _ \___ \| | | | '__| |_
+   |   ___) | |_) | | | | | |  __/___) | |_| | |  |  _|
+   |  |____/| .__/|_|_|_| |_|\___|____/ \__,_|_|  |_|
+   |        |_|
+  \*/
   //! Spline Management Class
   class SplineSurf {
 
@@ -2562,7 +2814,7 @@ namespace Splines {
     ipos_F( integer i, integer j ) const
     { return ipos_F(i,j,integer(X.size())); }
 
-    virtual void makeSpline() = 0;
+    virtual void makeSpline() SPLINES_PURE_VIRTUAL;
 
   public:
 
@@ -2584,10 +2836,17 @@ namespace Splines {
     ~SplineSurf()
     {}
 
-    string const & name() const { return _name; }
+    string const &
+    name() const
+    { return _name; }
 
-    void setCheckRange( bool ck ) { _check_range = ck; }
-    bool getCheckRange() const { return _check_range; }
+    void
+    setCheckRange( bool ck )
+    { _check_range = ck; }
+
+    bool
+    getCheckRange() const
+    { return _check_range; }
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -2602,114 +2861,142 @@ namespace Splines {
     }
 
     //! return the number of support points of the spline along x direction
-    integer numPointX(void) const { return integer(X.size()); }
+    integer
+    numPointX(void) const
+    { return integer(X.size()); }
 
     //! return the number of support points of the spline along y direction
-    integer numPointY(void) const { return integer(Y.size()); }
+    integer
+    numPointY(void) const
+    { return integer(Y.size()); }
 
     //! return the i-th node of the spline (x component).
-    real_type xNode( integer i ) const { return X[size_t(i)]; }
+    real_type
+    xNode( integer i ) const
+    { return X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type yNode( integer i ) const { return Y[size_t(i)]; }
+    real_type
+    yNode( integer i ) const
+    { return Y[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type zNode( integer i, integer j ) const
+    real_type
+    zNode( integer i, integer j ) const
     { return Z[size_t(ipos_C(i,j))]; }
 
     //! return x-minumum spline value
-    real_type xMin() const { return X.front(); }
+    real_type
+    xMin() const
+    { return X.front(); }
 
     //! return x-maximum spline value
-    real_type xMax() const { return X.back(); }
+    real_type
+    xMax() const
+    { return X.back(); }
 
     //! return y-minumum spline value
-    real_type yMin() const { return Y.front(); }
+    real_type
+    yMin() const
+    { return Y.front(); }
 
     //! return y-maximum spline value
-    real_type yMax() const { return Y.back(); }
+    real_type
+    yMax() const
+    { return Y.back(); }
 
     //! return z-minumum spline value
-    real_type zMin() const { return Z_min; }
+    real_type
+    zMin() const
+    { return Z_min; }
 
     //! return z-maximum spline value
-    real_type zMax() const { return Z_max; }
+    real_type
+    zMax() const
+    { return Z_max; }
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build surface spline
-     * \param x       vector of x-coordinates
-     * \param incx    access elements as x[0], x[incx], x[2*incx],...
-     * \param y       vector of y-coordinates
-     * \param incy    access elements as y[0], y[incy], x[2*incy],...
-     * \param z       matrix of z-values
-     * \param ldZ     leading dimension of the matrix. Elements are stored
-     *                by row Z(i,j) = z[i*ldZ+j] as C-matrix
-     * \param nx      total number of points in direction x
-     * \param ny      total number of points in direction y
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*ldZ] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+     | \param x       vector of x-coordinates
+     | \param incx    access elements as x[0], x[incx], x[2*incx],...
+     | \param y       vector of y-coordinates
+     | \param incy    access elements as y[0], y[incy], x[2*incy],...
+     | \param z       matrix of z-values
+     | \param ldZ     leading dimension of the matrix. Elements are stored
+     |                by row Z(i,j) = z[i*ldZ+j] as C-matrix
+     | \param nx      total number of points in direction x
+     | \param ny      total number of points in direction y
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*ldZ] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
     void
-    build ( real_type const x[], integer incx,
-            real_type const y[], integer incy,
-            real_type const z[], integer ldZ,
-            integer nx, integer ny,
-            bool fortran_storage = false,
-            bool transposed      = false );
+    build( real_type const x[], integer incx,
+           real_type const y[], integer incy,
+           real_type const z[], integer ldZ,
+           integer nx, integer ny,
+           bool fortran_storage = false,
+           bool transposed      = false );
 
     /*! Build surface spline
-     * \param x       vector of x-coordinates, nx = x.size()
-     * \param y       vector of y-coordinates, ny = y.size()
-     * \param z       matrix of z-values. Elements are stored
-     *                by row Z(i,j) = z[i*ny+j] as C-matrix
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+     | \param x       vector of x-coordinates, nx = x.size()
+     | \param y       vector of y-coordinates, ny = y.size()
+     | \param z       matrix of z-values. Elements are stored
+     |                by row Z(i,j) = z[i*ny+j] as C-matrix
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
     void
-    build ( vector<real_type> const & x,
-            vector<real_type> const & y,
-            vector<real_type> const & z,
-            bool fortran_storage = false,
-            bool transposed      = false ) {
+    build( vector<real_type> const & x,
+           vector<real_type> const & y,
+           vector<real_type> const & z,
+           bool fortran_storage = false,
+           bool transposed      = false ) {
       bool xyswp = (fortran_storage && transposed) ||
                    (!fortran_storage && !transposed);
-      build ( &x.front(), 1, &y.front(), 1, &z.front(),
-              integer(xyswp ? y.size() : x.size()),
-              integer(x.size()), integer(y.size()),
-              fortran_storage, transposed );
+      build( &x.front(), 1, &y.front(), 1, &z.front(),
+             integer(xyswp ? y.size() : x.size()),
+             integer(x.size()), integer(y.size()),
+             fortran_storage, transposed );
     }
 
     /*! Build surface spline
-     * \param z               matrix of z-values. Elements are stored
-     *                        by row Z(i,j) = z[i*ny+j] as C-matrix
-     * \param ldZ             leading dimension of the matrix. Elements are stored
-     *                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+     | \param z               matrix of z-values. Elements are stored
+     |                        by row Z(i,j) = z[i*ny+j] as C-matrix
+     | \param ldZ             leading dimension of the matrix. Elements are stored
+     |                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
     void
-    build ( real_type const z[], integer ldZ, integer nx, integer ny,
-            bool fortran_storage = false,
-            bool transposed      = false );
+    build( real_type const z[],
+           integer         ldZ,
+           integer         nx,
+           integer         ny,
+           bool fortran_storage = false,
+           bool transposed      = false );
 
     /*! Build surface spline
-     * \param z               matrix of z-values. Elements are stored
-     *                        by row Z(i,j) = z[i*ny+j] as C-matrix.
-     *                        ldZ leading dimension of the matrix is ny for C-storage
-     *                        and nx for Fortran storage.
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+     | \param z               matrix of z-values. Elements are stored
+     |                        by row Z(i,j) = z[i*ny+j] as C-matrix.
+     |                        ldZ leading dimension of the matrix is ny for C-storage
+     |                        and nx for Fortran storage.
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
     void
-    build ( vector<real_type> const & z, integer nx, integer ny,
-            bool fortran_storage = false,
-            bool transposed      = false ) {
-      if ( fortran_storage ) build ( &z.front(), nx, nx, ny, fortran_storage, transposed );
-      else                   build ( &z.front(), ny, nx, ny, fortran_storage, transposed );
+    build( vector<real_type> const & z,
+           integer                   nx,
+           integer                   ny,
+           bool fortran_storage = false,
+           bool transposed      = false ) {
+      if ( fortran_storage )
+        build( &z.front(), nx, nx, ny, fortran_storage, transposed );
+      else
+        build( &z.front(), ny, nx, ny, fortran_storage, transposed );
     }
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -2723,18 +3010,39 @@ namespace Splines {
     #endif
 
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x, real_type y ) const = 0;
+    virtual
+    real_type
+    operator () ( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
 
     //! First derivative
-    virtual void D( real_type x, real_type y, real_type d[3] ) const = 0;
-    virtual real_type Dx( real_type x, real_type y ) const = 0;
-    virtual real_type Dy( real_type x, real_type y ) const = 0;
+    virtual
+    void
+    D( real_type x, real_type y, real_type d[3] ) const SPLINES_PURE_VIRTUAL;
+
+    virtual
+    real_type
+    Dx( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
+
+    virtual
+    real_type
+    Dy( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
 
     //! Second derivative
-    virtual void DD( real_type x, real_type y, real_type dd[6] ) const = 0;
-    virtual real_type Dxx( real_type x, real_type y ) const = 0;
-    virtual real_type Dxy( real_type x, real_type y ) const = 0;
-    virtual real_type Dyy( real_type x, real_type y ) const = 0;
+    virtual
+    void
+    DD( real_type x, real_type y, real_type dd[6] ) const SPLINES_PURE_VIRTUAL;
+
+    virtual
+    real_type
+    Dxx( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
+
+    virtual
+    real_type
+    Dxy( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
+
+    virtual
+    real_type
+    Dyy( real_type x, real_type y ) const SPLINES_PURE_VIRTUAL;
 
     //! Evaluate spline value
     real_type
@@ -2769,24 +3077,30 @@ namespace Splines {
     { return Dyy(x,y); }
 
     //! Print spline information
-    virtual void info( ostream_type & s ) const;
+    virtual
+    void
+    info( ostream_type & s ) const;
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const = 0;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const SPLINES_PURE_VIRTUAL;
 
     //! Return spline typename
-    virtual char const * type_name() const = 0;
+    virtual
+    char const *
+    type_name() const SPLINES_PURE_VIRTUAL;
 
   };
 
-  /*
-  //   ____  _ _ _                       ____        _ _
-  //  | __ )(_) (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
-  //  |  _ \| | | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
-  //  | |_) | | | | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
-  //  |____/|_|_|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
-  //                                          |_|
-  */
+  /*\
+   |   ____  _ _ _                       ____        _ _
+   |  | __ )(_) (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
+   |  |  _ \| | | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
+   |  | |_) | | | | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
+   |  |____/|_|_|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
+   |                                          |_|
+  \*/
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
     virtual void makeSpline() {}
@@ -2802,35 +3116,60 @@ namespace Splines {
     {}
 
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x, real_type y ) const;
+    virtual
+    real_type
+    operator () ( real_type x, real_type y ) const;
 
     //! First derivative
-    virtual void D( real_type x, real_type y, real_type d[3] ) const;
-    virtual real_type Dx( real_type x, real_type y ) const;
-    virtual real_type Dy( real_type x, real_type y ) const;
+    virtual
+    void
+    D( real_type x, real_type y, real_type d[3] ) const;
+
+    virtual
+    real_type
+    Dx( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dy( real_type x, real_type y ) const;
 
     //! Second derivative
-    virtual void DD( real_type x, real_type y, real_type dd[6] ) const { D(x,y,dd); dd[3] = dd[4] = dd[5] = 0; }
-    virtual real_type Dxx( real_type , real_type ) const { return 0; }
-    virtual real_type Dxy( real_type , real_type ) const { return 0; }
-    virtual real_type Dyy( real_type , real_type ) const { return 0; }
+    virtual
+    void
+    DD( real_type x, real_type y, real_type dd[6] ) const
+    { D(x,y,dd); dd[3] = dd[4] = dd[5] = 0; }
+
+    virtual
+    real_type
+    Dxx( real_type , real_type ) const { return 0; }
+
+    virtual
+    real_type
+    Dxy( real_type , real_type ) const { return 0; }
+
+    virtual
+    real_type
+    Dyy( real_type , real_type ) const { return 0; }
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const;
 
     //! Return spline typename
-    virtual char const * type_name() const;
+    virtual
+    char const * type_name() const;
 
   };
 
-  /*
-  //   ____  _  ____      _     _      ____        _ _            ____
-  //  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
-  //  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
-  //  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
-  //  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
-  //                                        |_|
-  */
+  /*\
+   |   ____  _  ____      _     _      ____        _ _            ____
+   |  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
+   |  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
+   |  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
+   |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
+   |                                        |_|
+  \*/
   //! Bi-cubic spline base class
   class BiCubicSplineBase : public SplineSurf {
   protected:
@@ -2872,28 +3211,49 @@ namespace Splines {
     { return DXY[size_t(ipos_C(i,j))]; }
 
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x, real_type y ) const;
+    virtual
+    real_type
+    operator () ( real_type x, real_type y ) const;
 
     //! First derivative
-    virtual void D( real_type x, real_type y, real_type d[3] ) const;
-    virtual real_type Dx( real_type x, real_type y ) const;
-    virtual real_type Dy( real_type x, real_type y ) const;
+    virtual
+    void
+    D( real_type x, real_type y, real_type d[3] ) const;
+
+    virtual
+    real_type
+    Dx( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dy( real_type x, real_type y ) const;
 
     //! Second derivative
-    virtual void DD( real_type x, real_type y, real_type dd[6] ) const;
-    virtual real_type Dxx( real_type x, real_type y ) const;
-    virtual real_type Dxy( real_type x, real_type y ) const;
-    virtual real_type Dyy( real_type x, real_type y ) const;
+    virtual
+    void
+    DD( real_type x, real_type y, real_type dd[6] ) const;
+
+    virtual
+    real_type
+    Dxx( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dxy( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dyy( real_type x, real_type y ) const;
   };
 
-  /*
-  //   ____  _  ____      _     _      ____        _ _            
-  //  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___
-  //  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
-  //  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
-  //  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
-  //                                        |_|
-  */
+  /*\
+   |   ____  _  ____      _     _      ____        _ _
+   |  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___
+   |  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
+   |  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
+   |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
+   |                                        |_|
+  \*/
   //! cubic spline base class
   class BiCubicSpline : public BiCubicSplineBase {
     virtual void makeSpline();
@@ -2910,21 +3270,25 @@ namespace Splines {
     {}
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const;
 
     //! Return spline typename
-    virtual char const * type_name() const;
+    virtual
+    char const *
+    type_name() const;
 
   };
 
-  /*
-  //      _    _    _                 ____  ____            _ _
-  //     / \  | | _(_)_ __ ___   __ _|___ \|  _ \ ___ _ __ | (_)_ __   ___
-  //    / _ \ | |/ / | '_ ` _ \ / _` | __) | | | / __| '_ \| | | '_ \ / _ \
-  //   / ___ \|   <| | | | | | | (_| |/ __/| |_| \__ \ |_) | | | | | |  __/
-  //  /_/   \_\_|\_\_|_| |_| |_|\__,_|_____|____/|___/ .__/|_|_|_| |_|\___|
-  //                                                 |_|
-  */
+  /*\
+   |      _    _    _                 ____  ____            _ _
+   |     / \  | | _(_)_ __ ___   __ _|___ \|  _ \ ___ _ __ | (_)_ __   ___
+   |    / _ \ | |/ / | '_ ` _ \ / _` | __) | | | / __| '_ \| | | '_ \ / _ \
+   |   / ___ \|   <| | | | | | | (_| |/ __/| |_| \__ \ |_) | | | | | |  __/
+   |  /_/   \_\_|\_\_|_| |_| |_|\__,_|_____|____/|___/ .__/|_|_|_| |_|\___|
+   |                                                 |_|
+  \*/
   //! cubic spline base class
   class Akima2Dspline : public BiCubicSplineBase {
     virtual void makeSpline();
@@ -2941,21 +3305,25 @@ namespace Splines {
     {}
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const;
 
     //! Return spline typename
-    virtual char const * type_name() const;
+    virtual
+    char const *
+    type_name() const;
 
   };
   
-  /*
-  //   ____  _  ___        _       _   _      ____        _ _            ____
-  //  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
-  //  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
-  //  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
-  //  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
-  //                                               |_|
-  */
+  /*\
+   |   ____  _  ___        _       _   _      ____        _ _            ____
+   |  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
+   |  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \  _ \ / _` / __|/ _ \
+   |  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
+   |  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
+   |                                               |_|
+  \*/
   //! Bi-quintic spline base class
   class BiQuinticSplineBase : public SplineSurf {
   protected:
@@ -3008,28 +3376,49 @@ namespace Splines {
     { return DXY[size_t(ipos_C(i,j))]; }
 
     //! Evaluate spline value
-    virtual real_type operator () ( real_type x, real_type y ) const;
+    virtual
+    real_type
+    operator () ( real_type x, real_type y ) const;
 
     //! First derivative
-    virtual void D( real_type x, real_type y, real_type d[3] ) const;
-    virtual real_type Dx( real_type x, real_type y ) const;
-    virtual real_type Dy( real_type x, real_type y ) const;
+    virtual
+    void
+    D( real_type x, real_type y, real_type d[3] ) const;
+
+    virtual
+    real_type
+    Dx( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dy( real_type x, real_type y ) const;
 
     //! Second derivative
-    virtual void DD( real_type x, real_type y, real_type dd[6] ) const;
-    virtual real_type Dxx( real_type x, real_type y ) const;
-    virtual real_type Dxy( real_type x, real_type y ) const;
-    virtual real_type Dyy( real_type x, real_type y ) const;
+    virtual
+    void
+    DD( real_type x, real_type y, real_type dd[6] ) const;
+
+    virtual
+    real_type
+    Dxx( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dxy( real_type x, real_type y ) const;
+
+    virtual
+    real_type
+    Dyy( real_type x, real_type y ) const;
   };
 
-  /*
-  //   ____  _  ___        _       _   _      ____        _ _
-  //  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
-  //  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \ 
-  //  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ 
-  //  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
-  //                                               |_|
-  */
+  /*\
+   |   ____  _  ___        _       _   _      ____        _ _
+   |  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
+   |  |  _ \| | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \
+   |  | |_) | | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/
+   |  |____/|_|\__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
+   |                                               |_|
+  \*/
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
     virtual void makeSpline();
@@ -3045,40 +3434,22 @@ namespace Splines {
     {}
 
     //! Print spline coefficients
-    virtual void writeToStream( ostream_type & s ) const;
+    virtual
+    void
+    writeToStream( ostream_type & s ) const;
 
     //! Return spline typename
-    virtual char const * type_name() const;
+    virtual
+    char const *
+    type_name() const;
 
   };
-
-  #if defined(SPLINES_USE_CXX11)
-  extern template class BSpline<0>;
-  extern template class BSpline<1>;
-  extern template class BSpline<2>;
-  extern template class BSpline<3>;
-  extern template class BSpline<4>;
-  extern template class BSpline<5>;
-  extern template class BSpline<6>;
-  extern template class BSpline<7>;
-  extern template class BSpline<8>;
-  extern template class BSpline<9>;
-  extern template class BSpline<10>;
-  #else
-  #ifdef __GCC__
-  #pragma GCC diagnostic ignored "-Wundefined-func-template"
-  #endif
-  #ifdef __clang__
-  #pragma clang diagnostic ignored "-Wundefined-func-template"
-  #endif
-  #endif
 
 }
 
 namespace SplinesLoad {
 
   using Splines::Spline;
-  using Splines::BSpline;
   using Splines::CubicSplineBase;
   using Splines::CubicSpline;
   using Splines::AkimaSpline;
@@ -3093,6 +3464,7 @@ namespace SplinesLoad {
   using Splines::BiQuinticSpline;
   using Splines::Akima2Dspline;
 
+  using Splines::SplineVec;
   using Splines::SplineSet;
   using Splines::SplineType;
 

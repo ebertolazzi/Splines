@@ -37,11 +37,13 @@ namespace Splines {
 
   // build spline without computation
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
-  CubicSplineBase::build ( real_type const x[],  integer incx,
-                           real_type const y[],  integer incy,
-                           real_type const yp[], integer incyp,
-                           integer n ) {
+  CubicSplineBase::build( real_type const x[],  integer incx,
+                          real_type const y[],  integer incy,
+                          real_type const yp[], integer incyp,
+                          integer n ) {
     reserve( n );
     for ( size_t i = 0; i < size_t(n); ++i ) {
       X[i]  = x[i*size_t(incx)];
@@ -50,7 +52,9 @@ namespace Splines {
     }
     npts = n;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   CubicSplineBase::clear(void) {
     if ( !_external_alloc ) baseValue.free();
@@ -58,6 +62,8 @@ namespace Splines {
     _external_alloc = false;
     X = Y = Yp = nullptr;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSplineBase::reserve( integer n ) {
@@ -74,6 +80,8 @@ namespace Splines {
     npts = lastInterval = 0;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   CubicSplineBase::reserve_external( integer      n,
                                      real_type *& p_x,
@@ -87,6 +95,8 @@ namespace Splines {
     _external_alloc = true;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   CubicSplineBase::operator () ( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -96,6 +106,8 @@ namespace Splines {
            base[2] * Yp[i]  +
            base[3] * Yp[i+1];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   CubicSplineBase::D( real_type x ) const {
@@ -107,6 +119,8 @@ namespace Splines {
            base_D[3] * Yp[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   CubicSplineBase::DD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -117,6 +131,8 @@ namespace Splines {
            base_DD[3] * Yp[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   CubicSplineBase::DDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -126,6 +142,8 @@ namespace Splines {
            base_DDD[2] * Yp[i]  +
            base_DDD[3] * Yp[i+1];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
   CubicSplineBase::coeffs( real_type cfs[],
@@ -154,10 +172,14 @@ namespace Splines {
     }
     return 4;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   integer
   CubicSplineBase::order() const
   { return 4; }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // Implementation
   void
@@ -169,6 +191,8 @@ namespace Splines {
     std::copy( S.Yp, S.Yp+npts, Yp );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   //! change X-range of the spline
   void
   CubicSplineBase::setRange( real_type xmin, real_type xmax ) {
@@ -177,6 +201,8 @@ namespace Splines {
     real_type * iy = Y;
     while ( iy < Y + npts ) *iy++ *= recS;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSplineBase::writeToStream( ostream_type & s ) const {

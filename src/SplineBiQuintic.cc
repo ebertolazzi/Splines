@@ -27,7 +27,9 @@
 namespace Splines {
 
   using namespace std; // load standard namspace
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   BiQuinticSpline::makeSpline() {
     DX.resize(Z.size());
@@ -85,6 +87,8 @@ namespace Splines {
     //std::fill( DYY.begin(), DYY.end(), 0 );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   BiQuinticSpline::writeToStream( ostream_type & s ) const {
     integer ny = integer(Y.size());
@@ -114,6 +118,8 @@ namespace Splines {
       }
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   char const *
   BiQuinticSpline::type_name() const

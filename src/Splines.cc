@@ -16,21 +16,22 @@
  |      email: enrico.bertolazzi@unitn.it                                   |
  |                                                                          |
 \*--------------------------------------------------------------------------*/
+
 /*!
- *
- * \date     October 28, 2015
- * \version  5.1
- * \note     first release Jan 12, 1998
- *
- * \author   Enrico Bertolazzi
- *
- * \par      Affiliation:
- *           Department of Industrial Engineering<br>
- *           University of Trento<br>
- *           Via Sommarive 9, I -- 38123 Trento, Italy <br>
- *           enrico.bertolazzi@unitn.it
- *
- */
+ |
+ | \date     October 28, 2015
+ | \version  5.2
+ | \note     first release Jan 12, 1998
+ |
+ | \author   Enrico Bertolazzi
+ |
+ | \par      Affiliation:
+ |           Department of Industrial Engineering<br>
+ |           University of Trento<br>
+ |           Via Sommarive 9, I -- 38123 Trento, Italy <br>
+ |           enrico.bertolazzi@unitn.it
+ |
+\*/
 
 #include "Splines.hh"
 #include <cmath>
@@ -71,6 +72,103 @@ namespace Splines {
     #endif
   #endif
 
+  /*\
+   |  ____                                _        _          _   _
+   | |  _ \ __ _ _ __ __ _ _ __ ___   ___| |_ _ __(_)______ _| |_(_) ___  _ __
+   | | |_) / _` | '__/ _` | '_ ` _ \ / _ \ __| '__| |_  / _` | __| |/ _ \| '_ \
+   | |  __/ (_| | | | (_| | | | | | |  __/ |_| |  | |/ / (_| | |_| | (_) | | | |
+   | |_|   \__,_|_|  \__,_|_| |_| |_|\___|\__|_|  |_/___\__,_|\__|_|\___/|_| |_|
+   |
+  \*/
+
+  void
+  uniform( integer           /* dim */,
+           integer           npts,
+           real_type const []/* pnts    */,
+           integer           /* ld_pnts */,
+           real_type         t[] ) {
+    t[0]      = 0;
+    t[npts-1] = 1;
+    for ( integer k = 1; k < npts-1; ++k )
+      t[k] = static_cast<real_type>(k)/static_cast<real_type>(npts);
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  chordal( integer         dim,
+           integer         npts,
+           real_type const pnts[],
+           integer         ld_pnts,
+           real_type       t[] ) {
+    t[0] = 0;
+    real_type const * p0 = pnts;
+    for ( integer k = 1; k < npts; ++k ) {
+      real_type const * p1 = p0 + ld_pnts;
+      real_type dst = 0;
+      for ( integer j = 0; j < dim; ++j ) {
+        real_type c = p1[j] - p0[j];
+        dst += c*c;
+      }
+      t[k] = t[k-1] + sqrt(dst);
+    }
+    for ( integer k = 1; k < npts-1; ++k ) t[k] /= t[npts-1];
+    t[npts-1] = 1;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  centripetal( integer         dim,
+               integer         npts,
+               real_type const pnts[],
+               integer         ld_pnts,
+               real_type const alpha,
+               real_type       t[] ) {
+    t[0] = 0;
+    real_type const * p0 = pnts;
+    for ( integer k = 1; k < npts; ++k ) {
+      real_type const * p1 = p0 + ld_pnts;
+      real_type dst = 0;
+      for ( integer j = 0; j < dim; ++j ) {
+        real_type c = p1[j] - p0[j];
+        dst += c*c;
+      }
+      t[k] = t[k-1] + pow(dst,alpha/2);
+    }
+    for ( integer k = 1; k < npts-1; ++k ) t[k] /= t[npts-1];
+    t[npts-1] = 1;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  universal( integer         dim,
+             integer         npts,
+             real_type const pnts[],
+             integer         ld_pnts,
+             real_type       t[] );
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  FoleyNielsen( integer         dim,
+                integer         npts,
+                real_type const pnts[],
+                integer         ld_pnts,
+                real_type       t[] );
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  FangHung( integer         dim,
+            integer         npts,
+            real_type const pnts[],
+            integer         ld_pnts,
+            real_type       t[] );
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   char const * spline_type[] = {
     "constant",    // 0
     "linear",      // 1
@@ -81,10 +179,12 @@ namespace Splines {
     "quintic",     // 6
     "hermite",     // 7
     "spline set",  // 8
-    "b-spline",    // 9
+    "spline vec",  // 9
     nullptr
   };
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   SplineType
   string_to_splineType( std::string const & nin ) {
     std::string n = nin;
@@ -275,7 +375,12 @@ namespace Splines {
     return res;
   }
 
-  //! Check if cubic spline with this data is monotone, -2 non monotone data, -1 no, 0 yes, 1 strictly monotone
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  /*!
+   | Check if cubic spline with this data is monotone,
+   |  -2 non monotone data, -1 no, 0 yes, 1 strictly monotone
+  \*/
   integer
   checkCubicSplineMonotonicity( real_type const X[],
                                 real_type const Y[],
@@ -312,6 +417,8 @@ namespace Splines {
     return flag; // passed all check
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   updateInterval( integer       & lastInterval,
                   real_type       x,
@@ -346,6 +453,8 @@ namespace Splines {
     }
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Spline::info( ostream_type & s ) const {
     s << "Spline `" << _name
@@ -356,6 +465,8 @@ namespace Splines {
         << "\nyMin = " << yMin() << " yMax = " << yMax();
     s << '\n';
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Spline::pushBack( real_type x, real_type y ) {
@@ -386,7 +497,8 @@ namespace Splines {
     ++npts;
   }
 
-  ///////////////////////////////////////////////////////////////////////////
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Spline::setOrigin( real_type x0 ) {
     real_type Tx = x0 - X[0];
@@ -394,15 +506,20 @@ namespace Splines {
     while ( ix < X+npts ) *ix++ += Tx;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Spline::setRange( real_type xmin, real_type xmax ) {
-    SPLINE_ASSERT( xmax > xmin, "Spline::setRange( " << xmin << " , " << xmax << " ) bad range ");
+    SPLINE_ASSERT( xmax > xmin,
+                   "Spline::setRange( " << xmin <<
+                   " , " << xmax << " ) bad range ");
     real_type S  = (xmax - xmin) / ( X[npts-1] - X[0] );
     real_type Tx = xmin - S * X[0];
     for( real_type *ix = X; ix < X+npts; ++ix ) *ix = *ix * S + Tx;
   }
 
-  ///////////////////////////////////////////////////////////////////////////
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Spline::dump( ostream_type & s,
                 integer        nintervals,
@@ -429,6 +546,8 @@ namespace Splines {
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   Spline::setup( GenericContainer const & gc ) {
     /*
@@ -436,8 +555,10 @@ namespace Splines {
     // gc["y"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"), "Spline[" << _name << "]::setup missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"), "Spline[" << _name << "]::setup missing `y` field!");
+    SPLINE_ASSERT( gc.exists("x"),
+                   "Spline[" << _name << "]::setup missing `x` field!");
+    SPLINE_ASSERT( gc.exists("y"),
+                   "Spline[" << _name << "]::setup missing `y` field!");
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");

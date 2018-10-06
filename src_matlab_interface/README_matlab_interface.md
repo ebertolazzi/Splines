@@ -30,7 +30,7 @@ after the build spline can be used as follows
 
 ~~~
 % build the spline
-S = Sline1D('pippo','akima',X,Y);
+S = Sline1D('akima',X,Y);
 
 ...
 x = [1,2,3];

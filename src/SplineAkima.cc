@@ -23,19 +23,21 @@
 /**
  * 
  */
-/*
-//     #
-//    # #   #    # # #    #   ##
-//   #   #  #   #  # ##  ##  #  #
-//  #     # ####   # # ## # #    #
-//  ####### #  #   # #    # ######
-//  #     # #   #  # #    # #    #
-//  #     # #    # # #    # #    #
-*/
+/*\
+ |     #
+ |    # #   #    # # #    #   ##
+ |   #   #  #   #  # ##  ##  #  #
+ |  #     # ####   # # ## # #    #
+ |  ####### #  #   # #    # ######
+ |  #     # #   #  # #    # #    #
+ |  #     # #    # # #    # #    #
+\*/
 
 namespace Splines {
 
   using namespace std; // load standard namspace
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
   real_type
@@ -51,6 +53,8 @@ namespace Splines {
     real_type num = wl * di_m1 + wr * di;
     return num / den;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
   void
@@ -89,6 +93,8 @@ namespace Splines {
         Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] );
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   AkimaSpline::build() {

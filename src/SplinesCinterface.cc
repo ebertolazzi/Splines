@@ -15,16 +15,16 @@
  |      Universita` degli Studi di Trento                                   |
  |      email: enrico.bertolazzi@unitn.it                                   |
  |                                                                          |
- \*--------------------------------------------------------------------------*/
+\*--------------------------------------------------------------------------*/
 
 //
 // file: SplineCinterface.cc
 //
 
-/*
- \file SplineCinterface.cc
- This file contains the sources for the C interface to `Splines`
- */
+/*!
+ | \file SplineCinterface.cc
+ | This file contains the sources for the C interface to `Splines`
+\*/
 
 #include "Splines.hh"
 #include "SplinesCinterface.h"

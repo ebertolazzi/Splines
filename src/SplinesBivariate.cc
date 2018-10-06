@@ -27,6 +27,8 @@
 
 namespace Splines {
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSurf::info( ostream & s ) const {
     s << "Bivariate spline [" << name() << "] of type = "
@@ -39,6 +41,8 @@ namespace Splines {
   using GenericContainerNamespace::GC_VEC_INTEGER;
   using GenericContainerNamespace::GC_MAT_REAL;
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSurf::setup( GenericContainer const & gc ) {
     /*
@@ -47,9 +51,12 @@ namespace Splines {
     // gc["z"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"), "[SplineSurf[" << _name << "]::setup] missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"), "[SplineSurf[" << _name << "]::setup] missing `y` field!");
-    SPLINE_ASSERT( gc.exists("z"), "[SplineSurf[" << _name << "]::setup] missing `z` field!");
+    SPLINE_ASSERT( gc.exists("x"),
+                   "[SplineSurf[" << _name << "]::setup] missing `x` field!");
+    SPLINE_ASSERT( gc.exists("y"),
+                   "[SplineSurf[" << _name << "]::setup] missing `y` field!");
+    SPLINE_ASSERT( gc.exists("z"),
+                   "[SplineSurf[" << _name << "]::setup] missing `z` field!");
   
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");
@@ -94,8 +101,9 @@ namespace Splines {
 
   }
   #endif
-  
-  // ---------------------------------------------------------------------------
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSurf::build ( real_type const x[], integer incx,
                       real_type const y[], integer incy,
@@ -110,13 +118,15 @@ namespace Splines {
     for ( size_t i = 0; i < size_t(ny); ++i ) Y[i] = y[i*size_t(incy)];
     if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
       SPLINE_ASSERT( ldZ >= ny,
-                     "SplineSurf::build, ldZ = " << ldZ << " must be >= of nx = " << ny );
+                     "SplineSurf::build, ldZ = " << ldZ <<
+                     " must be >= of nx = " << ny );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_C(i,j,ldZ))];
     } else {
       SPLINE_ASSERT( ldZ >= nx,
-                     "SplineSurf::build, ldZ = " << ldZ << " must be >= of ny = " << nx );
+                     "SplineSurf::build, ldZ = " << ldZ <<
+                     " must be >= of ny = " << nx );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
@@ -125,6 +135,8 @@ namespace Splines {
     Z_min = *std::min_element(Z.begin(),Z.end());
     makeSpline();
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineSurf::build( real_type const z[], integer ldZ,
@@ -143,9 +155,8 @@ namespace Splines {
             fortran_storage, transposed );
   }
 
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   BiCubicSplineBase::load( integer i, integer j ) const {
 
@@ -174,6 +185,8 @@ namespace Splines {
 
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiCubicSplineBase::operator () ( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -183,6 +196,8 @@ namespace Splines {
     load(i,j);
     return bilinear3( u, bili3, v );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   BiCubicSplineBase::Dx( real_type x, real_type y ) const {
@@ -194,6 +209,8 @@ namespace Splines {
     return bilinear3( u_D, bili3, v );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiCubicSplineBase::Dy( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -203,6 +220,8 @@ namespace Splines {
     load(i,j);
     return bilinear3( u, bili3, v_D );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   BiCubicSplineBase::Dxy( real_type x, real_type y ) const {
@@ -214,6 +233,8 @@ namespace Splines {
     return bilinear3( u_D, bili3, v_D );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiCubicSplineBase::Dxx( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -224,6 +245,8 @@ namespace Splines {
     return bilinear3( u_DD, bili3, v );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiCubicSplineBase::Dyy( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -233,6 +256,8 @@ namespace Splines {
     load(i,j);
     return bilinear3( u, bili3, v_DD );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
@@ -247,6 +272,8 @@ namespace Splines {
     d[1] = bilinear3( u_D, bili3, v );
     d[2] = bilinear3( u, bili3, v_D );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
@@ -267,9 +294,8 @@ namespace Splines {
     d[5] = bilinear3( u, bili3, v_DD );
   }
 
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   BiQuinticSplineBase::load( integer i, integer j ) const {
 
@@ -330,6 +356,8 @@ namespace Splines {
     bili5[5][4] = DXXYY[i10]; bili5[5][5] = DXXYY[i11];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiQuinticSplineBase::operator () ( real_type x, real_type y ) const {
     size_t i = size_t(search_x( x ));
@@ -339,6 +367,8 @@ namespace Splines {
     load(integer(i),integer(j));
     return bilinear5( u, bili5, v );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   BiQuinticSplineBase::Dx( real_type x, real_type y ) const {
@@ -350,6 +380,8 @@ namespace Splines {
     return bilinear5( u_D, bili5, v );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiQuinticSplineBase::Dy( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -359,6 +391,8 @@ namespace Splines {
     load(i,j);
     return bilinear5( u, bili5, v_D );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   BiQuinticSplineBase::Dxy( real_type x, real_type y ) const {
@@ -370,6 +404,8 @@ namespace Splines {
     return bilinear5( u_D, bili5, v_D );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiQuinticSplineBase::Dxx( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -380,6 +416,8 @@ namespace Splines {
     return bilinear5( u_DD, bili5, v );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   BiQuinticSplineBase::Dyy( real_type x, real_type y ) const {
     integer i = search_x( x );
@@ -389,6 +427,8 @@ namespace Splines {
     load(i,j);
     return bilinear5( u, bili5, v_DD );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiQuinticSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
@@ -403,6 +443,8 @@ namespace Splines {
     d[1] = bilinear5( u_D, bili5, v );
     d[2] = bilinear5( u, bili5, v_D );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiQuinticSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {

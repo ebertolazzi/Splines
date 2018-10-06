@@ -27,7 +27,9 @@
 namespace Splines {
 
   using namespace std; // load standard namspace
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   BiCubicSpline::makeSpline() {
     DX.resize(Z.size());
@@ -49,6 +51,8 @@ namespace Splines {
     }
     std::fill( DXY.begin(), DXY.end(), 0 );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSpline::writeToStream( ostream_type & s ) const {
@@ -79,6 +83,8 @@ namespace Splines {
       }
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   char const *
   BiCubicSpline::type_name() const

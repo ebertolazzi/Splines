@@ -35,6 +35,8 @@ namespace Splines {
 
   using namespace std; // load standard namspace
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   QuinticSplineBase::reserve_external( integer      n,
                                        real_type *& p_X,
@@ -51,6 +53,8 @@ namespace Splines {
     Ypp = p_Ypp;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   QuinticSplineBase::reserve( integer n ) {
     if ( _external_alloc && n <= npts_reserved ) {
@@ -66,7 +70,9 @@ namespace Splines {
     }
     npts = lastInterval = 0;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   QuinticSplineBase::clear(void) {
     if ( !_external_alloc ) baseValue.free();
@@ -74,6 +80,8 @@ namespace Splines {
     _external_alloc = false;
     X = Y = Yp = Ypp = nullptr;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   QuinticSplineBase::operator () ( real_type x ) const {
@@ -87,6 +95,8 @@ namespace Splines {
            base[5] * Ypp[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   QuinticSplineBase::D( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -98,6 +108,8 @@ namespace Splines {
            base_D[4] * Ypp[i]  +
            base_D[5] * Ypp[i+1];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   QuinticSplineBase::DD( real_type x ) const {
@@ -111,6 +123,8 @@ namespace Splines {
            base_DD[5] * Ypp[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -122,6 +136,8 @@ namespace Splines {
            base_DDD[4] * Ypp[i]  +
            base_DDD[5] * Ypp[i+1];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
@@ -135,6 +151,8 @@ namespace Splines {
            base_DDDD[5] * Ypp[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
@@ -146,6 +164,8 @@ namespace Splines {
            base_DDDDD[4] * Ypp[i]  +
            base_DDDDD[5] * Ypp[i+1];
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
   QuinticSplineBase::coeffs(
@@ -181,9 +201,13 @@ namespace Splines {
     }
     return 6;
   }
-  
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   integer
   QuinticSplineBase::order( ) const { return 6; }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // Implementation
   void
@@ -195,6 +219,8 @@ namespace Splines {
     std::copy( S.Yp,  S.Yp+npts,  Yp  );
     std::copy( S.Ypp, S.Ypp+npts, Ypp );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   QuinticSplineBase::writeToStream( ostream_type & s ) const {

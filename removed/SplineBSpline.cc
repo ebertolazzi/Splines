@@ -1,3 +1,193 @@
+
+  /*\
+   |   ____                  _ _
+   |  | __ )       ___ _ __ | (_)_ __   ___
+   |  |  _ \ _____/ __| '_ \| | | '_ \ / _ \
+   |  | |_) |_____\__ \ |_) | | | | | |  __/
+   |  |____/      |___/ .__/|_|_|_| |_|\___|
+   |                  |_|
+  \*/
+
+  //! B-spline base class
+  template <size_t _degree>
+  class BSpline : public Spline {
+  protected:
+    SplineMalloc<real_type> baseValue;
+    real_type * knots;
+    real_type * yPolygon;
+    bool        _external_alloc;
+
+    integer knot_search( real_type x ) const;
+
+    // extrapolation
+    real_type s_L,   s_R;
+    real_type ds_L,  ds_R;
+    real_type dds_L, dds_R;
+
+  public:
+
+    using Spline::build;
+
+    //! spline constructor
+    BSpline( string const & name = "BSpline", bool ck = false )
+    : Spline(name,ck)
+    , baseValue(name+"_memory")
+    , knots(nullptr)
+    , yPolygon(nullptr)
+    , _external_alloc(false)
+    {}
+
+    virtual
+    ~BSpline() SPLINES_OVERRIDE
+    {}
+
+    void
+    copySpline( BSpline const & S );
+
+    //! return the i-th node of the spline (y' component).
+    real_type
+    yPoly( integer i ) const
+    { return yPolygon[size_t(i)]; }
+
+    //! change X-range of the spline
+    void
+    setRange( real_type xmin, real_type xmax );
+
+    //! Use externally allocated memory for `npts` points
+    void
+    reserve_external( integer      n,
+                      real_type *& p_x,
+                      real_type *& p_y,
+                      real_type *& p_knots,
+                      real_type *& p_yPolygon );
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Return spline type (as number)
+    virtual
+    unsigned
+    type() const SPLINES_OVERRIDE
+    { return BSPLINE_TYPE; }
+
+    //! Evaluate spline value
+    virtual
+    real_type
+    operator () ( real_type x ) const SPLINES_OVERRIDE;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type x ) const SPLINES_OVERRIDE;
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type x ) const SPLINES_OVERRIDE;
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type x ) const SPLINES_OVERRIDE;
+
+    //! Print spline coefficients
+    virtual
+    void
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Allocate memory for `npts` points
+    virtual
+    void
+    reserve( integer npts ) SPLINES_OVERRIDE;
+
+    virtual
+    void
+    build(void) SPLINES_OVERRIDE;
+
+    //! Cancel the support points, empty the spline.
+    virtual
+    void
+    clear(void) SPLINES_OVERRIDE;
+
+    //! get the piecewise polinomials of the spline
+    virtual
+    integer // order
+    coeffs( real_type cfs[],
+            real_type nodes[],
+            bool transpose = false ) const SPLINES_OVERRIDE;
+
+    virtual
+    integer // order
+    order() const SPLINES_OVERRIDE
+    { return _degree+1; }
+
+    // ---------------------------  UTILS  -----------------------------------
+
+    //! Evaluate spline value
+    static
+    real_type
+    eval( real_type       x,
+          integer         n,
+          real_type const Knots[],
+          real_type const yPolygon[] );
+
+    //! First derivative
+    static
+    real_type
+    eval_D( real_type       x,
+            integer         n,
+            real_type const Knots[],
+            real_type const yPolygon[] );
+
+    //! Second derivative
+    static
+    real_type
+    eval_DD( real_type       x,
+             integer         n,
+             real_type const Knots[],
+             real_type const yPolygon[] );
+
+    //! Third derivative
+    static
+    real_type
+    eval_DDD( real_type       x,
+              integer         n,
+              real_type const Knots[],
+              real_type const yPolygon[] );
+
+    //! B-spline bases
+    void bases( real_type x, real_type vals[] ) const;
+    void bases_D( real_type x, real_type vals[] ) const;
+    void bases_DD( real_type x, real_type vals[] ) const;
+    void bases_DDD( real_type x, real_type vals[] ) const;
+
+    integer bases_nz( real_type x, real_type vals[] ) const;
+    integer bases_D_nz( real_type x, real_type vals[] ) const;
+    integer bases_DD_nz( real_type x, real_type vals[] ) const;
+    integer bases_DDD_nz( real_type x, real_type vals[] ) const;
+
+    // Utilities
+    static
+    void
+    knots_sequence( integer         n,
+                    real_type const X[],
+                    real_type     * Knots );
+
+    static
+    void
+    sample_bases( integer             nx, // number of sample points
+                  real_type const     X[],
+                  integer             nb, // number of bases
+                  real_type const     Knots[],
+                  vector<integer>   & II, // GCC on linux bugged for I
+                  vector<integer>   & JJ,
+                  vector<real_type> & vals );
+
+  };
+
+
+
 /*--------------------------------------------------------------------------*\
  |                                                                          |
  |  Copyright (C) 2016                                                      |

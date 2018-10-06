@@ -17,13 +17,13 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-/*
- // file: SplinesCinterface.h
- */
+/*\
+ | file: SplinesCinterface.h
+\*/
 
 /*!
- \addtogroup Splines C interface
- */
+ | \addtogroup Splines C interface
+\*/
 
 /* @{ */
 
