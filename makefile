@@ -40,6 +40,12 @@ ifneq (,$(findstring Darwin, $(OS)))
   CC      = clang
   CXX     = clang++
   VERSION = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
+ifneq (,$(findstring 10., $(VERSION)))
+  CXX += -std=c++11 -stdlib=libc++ 
+endif
+ifneq (,$(findstring 9., $(VERSION)))
+  CXX += -std=c++11 -stdlib=libc++ 
+endif
 ifneq (,$(findstring 8., $(VERSION)))
   CXX += -std=c++11 -stdlib=libc++ 
 endif
@@ -56,7 +62,6 @@ endif
 SRCS = \
 src/SplineAkima.cc \
 src/SplineAkima2D.cc \
-src/SplineBSpline.cc \
 src/SplineBessel.cc \
 src/SplineBiCubic.cc \
 src/SplineBiQuintic.cc \
@@ -71,6 +76,7 @@ src/SplineQuintic.cc \
 src/SplineQuinticBase.cc \
 src/SplineSet.cc \
 src/SplineSetGC.cc \
+src/SplineVec.cc \
 src/Splines.cc \
 src/SplinesBivariate.cc \
 src/SplinesCinterface.cc \
@@ -93,7 +99,6 @@ all: gc lib
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test4 tests/test4.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test5 tests/test5.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test7 tests/test7.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test8 tests/test8.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9 tests/test9.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test10 tests/test10.cc $(LIBS)
@@ -124,8 +129,7 @@ lib/libSplines.so: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
-	#rm -rf GC ; git clone --depth 1 git@github.com:ebertolazzi/GenericContainer.git GC
-	rm -rf GC ; git clone --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
+	rm -rf GC ; git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC ; ruby gcc_workaround.rb ; cd ..
 endif
@@ -155,7 +159,6 @@ run:
 	./bin/test4
 	./bin/test5
 	./bin/test6
-	./bin/test7
 	./bin/test8
 	./bin/test9
 	./bin/test10

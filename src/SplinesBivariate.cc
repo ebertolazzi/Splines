@@ -29,6 +29,11 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  SplineSurf::~SplineSurf()
+  {}
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSurf::info( ostream & s ) const {
     s << "Bivariate spline [" << name() << "] of type = "
@@ -36,81 +41,27 @@ namespace Splines {
       << '\n';
   }
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::GC_VEC_INTEGER;
-  using GenericContainerNamespace::GC_MAT_REAL;
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::setup( GenericContainer const & gc ) {
-    /*
-    // gc["x"]
-    // gc["y"]
-    // gc["z"]
-    //
-    */
-    SPLINE_ASSERT( gc.exists("x"),
-                   "[SplineSurf[" << _name << "]::setup] missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"),
-                   "[SplineSurf[" << _name << "]::setup] missing `y` field!");
-    SPLINE_ASSERT( gc.exists("z"),
-                   "[SplineSurf[" << _name << "]::setup] missing `z` field!");
-  
-    GenericContainer const & gc_x = gc("x");
-    GenericContainer const & gc_y = gc("y");
-    GenericContainer const & gc_z = gc("z");
-    
-    vec_real_type x, y;
-    gc_x.copyto_vec_real( x, "SplineSurf::setup, field `x'" );
-    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `y'" );
-
-    bool fortran_storage = false;
-    if ( gc.exists("fortran_storage") )
-      fortran_storage = gc("fortran_storage").get_bool();
-
-    bool transposed = false;
-    if ( gc.exists("transposed") )
-      transposed = gc("transposed").get_bool();
-
-    integer nx = integer(x.size());
-    integer ny = integer(y.size());
-
-    if ( GC_MAT_REAL == gc_z.get_type() ) {
-      build( &x.front(), 1,
-             &y.front(), 1,
-             &gc_z.get_mat_real().front(),
-             integer(gc_z.get_mat_real().numRows()),
-             nx, ny, fortran_storage, transposed );
-    } else if ( GC_VEC_REAL == gc_z.get_type() ) {
-      GenericContainer const & gc_ldz = gc("ldz");
-      integer ldz = integer(gc_ldz.get_as_uint("SplineSurf::setup, field `ldz` expected to be and integer"));
-      vec_real_type z;
-      gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" );
-      build ( &x.front(), 1,
-              &y.front(), 1,
-              &z.front(), ldz,
-              nx, ny, fortran_storage, transposed );
-    } else {
-      SPLINE_ASSERT( false,
-                     "[SplineSurf[" << _name <<
-                     "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
-                     gc_z.get_type_name() << "`" );
-    }
-
+  SplineSurf::clear(void) {
+    X.clear();
+    Y.clear();
+    Z.clear();
+    Z_min = Z_max = 0;
+    lastInterval_x = 0;
+    lastInterval_y = 0;
   }
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::build ( real_type const x[], integer incx,
-                      real_type const y[], integer incy,
-                      real_type const z[], integer ldZ,
-                      integer nx, integer ny,
-                      bool fortran_storage,
-                      bool transposed ) {
+  SplineSurf::build( real_type const x[], integer incx,
+                     real_type const y[], integer incy,
+                     real_type const z[], integer ldZ,
+                     integer nx, integer ny,
+                     bool fortran_storage,
+                     bool transposed ) {
     X.resize( size_t(nx) );
     Y.resize( size_t(ny) );
     Z.resize( size_t(nx*ny) );
@@ -464,5 +415,71 @@ namespace Splines {
     d[4] = bilinear5( u_D, bili5, v_D );
     d[5] = bilinear5( u, bili5, v_DD );
   }
+
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+  using GenericContainerNamespace::GC_VEC_REAL;
+  using GenericContainerNamespace::GC_VEC_INTEGER;
+  using GenericContainerNamespace::GC_MAT_REAL;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  SplineSurf::setup( GenericContainer const & gc ) {
+    /*
+    // gc["x"]
+    // gc["y"]
+    // gc["z"]
+    //
+    */
+    SPLINE_ASSERT( gc.exists("x"),
+                   "[SplineSurf[" << _name << "]::setup] missing `x` field!");
+    SPLINE_ASSERT( gc.exists("y"),
+                   "[SplineSurf[" << _name << "]::setup] missing `y` field!");
+    SPLINE_ASSERT( gc.exists("z"),
+                   "[SplineSurf[" << _name << "]::setup] missing `z` field!");
+
+    GenericContainer const & gc_x = gc("x");
+    GenericContainer const & gc_y = gc("y");
+    GenericContainer const & gc_z = gc("z");
+
+    vec_real_type x, y;
+    gc_x.copyto_vec_real( x, "SplineSurf::setup, field `x'" );
+    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `y'" );
+
+    bool fortran_storage = false;
+    if ( gc.exists("fortran_storage") )
+      fortran_storage = gc("fortran_storage").get_bool();
+
+    bool transposed = false;
+    if ( gc.exists("transposed") )
+      transposed = gc("transposed").get_bool();
+
+    integer nx = integer(x.size());
+    integer ny = integer(y.size());
+
+    if ( GC_MAT_REAL == gc_z.get_type() ) {
+      build( &x.front(), 1,
+             &y.front(), 1,
+             &gc_z.get_mat_real().front(),
+             integer(gc_z.get_mat_real().numRows()),
+             nx, ny, fortran_storage, transposed );
+    } else if ( GC_VEC_REAL == gc_z.get_type() ) {
+      GenericContainer const & gc_ldz = gc("ldz");
+      integer ldz = integer(gc_ldz.get_as_uint("SplineSurf::setup, field `ldz` expected to be and integer"));
+      vec_real_type z;
+      gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" );
+      build ( &x.front(), 1,
+              &y.front(), 1,
+              &z.front(), ldz,
+              nx, ny, fortran_storage, transposed );
+    } else {
+      SPLINE_ASSERT( false,
+                     "[SplineSurf[" << _name <<
+                     "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
+                     gc_z.get_type_name() << "`" );
+    }
+
+  }
+  #endif
 
 }

@@ -755,11 +755,6 @@ namespace Splines {
     integer // order
     order() const SPLINES_PURE_VIRTUAL;
 
-    //! Print spline information
-    virtual
-    void
-    info( ostream_type & s ) const;
-
     //! Print spline coefficients
     virtual
     void
@@ -774,7 +769,10 @@ namespace Splines {
     virtual
     unsigned
     type() const SPLINES_PURE_VIRTUAL;
-    
+
+    void
+    info( ostream_type & s ) const;
+
     friend class SplineSet;
 
   };
@@ -964,7 +962,7 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~CubicSpline()
+    ~CubicSpline() SPLINES_OVERRIDE
     {}
 
     /*!
@@ -980,18 +978,21 @@ namespace Splines {
     }
 
     //! Return spline type (as number)
-    virtual unsigned type() const { return CUBIC_TYPE; }
+    virtual
+    unsigned
+    type() const SPLINES_OVERRIDE
+    { return CUBIC_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
     virtual
     void
-    build(void);
+    build(void) SPLINES_OVERRIDE ;
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
-    setup( GenericContainer const & gc );
+    setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
     #endif
 
   };
@@ -1413,7 +1414,7 @@ namespace Splines {
 
     real_type * Yp;
     real_type * Ypp;
-    bool      _external_alloc;
+    bool        _external_alloc;
 
   public:
 
@@ -1480,12 +1481,10 @@ namespace Splines {
     DDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Fourth derivative
-    virtual
     real_type
     DDDD( real_type x ) const;
 
     //! Fifth derivative
-    virtual
     real_type
     DDDDD( real_type x ) const;
 
@@ -1499,8 +1498,6 @@ namespace Splines {
     unsigned
     type() const SPLINES_OVERRIDE
     { return QUINTIC_TYPE; }
-
-    // --------------------------- VIRTUALS -----------------------------------
 
     //! Allocate memory for `npts` points
     virtual
@@ -1811,7 +1808,6 @@ namespace Splines {
     type() const
     { return SPLINE_VEC_TYPE; }
 
-    //! Get info of splines collected
     void
     info( ostream_type & s ) const;
 
@@ -2719,7 +2715,6 @@ namespace Splines {
            real_type  const *Yp[] = nullptr );
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-    virtual
     void
     setup( GenericContainer const & gc );
 
@@ -2729,15 +2724,15 @@ namespace Splines {
     #endif
 
     //! Return spline type (as number)
-    virtual
     unsigned
     type() const
     { return SPLINE_SET_TYPE; }
 
-    //! Get info of splines collected
-    void info( ostream_type & s ) const;
-    
-    void dump_table( ostream_type & s, integer num_points ) const;
+    void
+    info( ostream_type & s ) const;
+
+    void
+    dump_table( ostream_type & s, integer num_points ) const;
 
   };
 
@@ -2833,8 +2828,7 @@ namespace Splines {
 
     //! spline destructor
     virtual
-    ~SplineSurf()
-    {}
+    ~SplineSurf();
 
     string const &
     name() const
@@ -2849,16 +2843,8 @@ namespace Splines {
     { return _check_range; }
 
     //! Cancel the support points, empty the spline.
-    virtual
     void
-    clear(void) {
-      X.clear();
-      Y.clear();
-      Z.clear();
-      Z_min = Z_max = 0;
-      lastInterval_x = 0;
-      lastInterval_y = 0;
-    }
+    clear(void);
 
     //! return the number of support points of the spline along x direction
     integer
@@ -3000,7 +2986,6 @@ namespace Splines {
     }
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-    virtual
     void
     setup( GenericContainer const & gc );
 
@@ -3050,36 +3035,26 @@ namespace Splines {
     { return (*this)(x,y); }
 
     //! First derivative
-    virtual
     real_type
     eval_D_1( real_type x, real_type y ) const
     { return Dx(x,y); }
 
-    virtual
     real_type
     eval_D_2( real_type x, real_type y ) const
     { return Dy(x,y); }
 
     //! Second derivative
-    virtual
     real_type
     eval_D_1_1( real_type x, real_type y ) const
     { return Dxx(x,y); }
 
-    virtual
     real_type
     eval_D_1_2( real_type x, real_type y ) const
     { return Dxy(x,y); }
 
-    virtual
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return Dyy(x,y); }
-
-    //! Print spline information
-    virtual
-    void
-    info( ostream_type & s ) const;
 
     //! Print spline coefficients
     virtual
@@ -3090,6 +3065,9 @@ namespace Splines {
     virtual
     char const *
     type_name() const SPLINES_PURE_VIRTUAL;
+
+    void
+    info( ostream & s ) const;
 
   };
 
@@ -3103,7 +3081,7 @@ namespace Splines {
   \*/
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
-    virtual void makeSpline() {}
+    virtual void makeSpline() SPLINES_OVERRIDE {}
   public:
   
     //! spline constructor
@@ -3112,53 +3090,57 @@ namespace Splines {
     {}
     
     virtual
-    ~BilinearSpline()
+    ~BilinearSpline() SPLINES_OVERRIDE
     {}
 
     //! Evaluate spline value
     virtual
     real_type
-    operator () ( real_type x, real_type y ) const;
+    operator () ( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     void
-    D( real_type x, real_type y, real_type d[3] ) const;
+    D( real_type x, real_type y, real_type d[3] ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dx( real_type x, real_type y ) const;
+    Dx( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dy( real_type x, real_type y ) const;
+    Dy( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     void
-    DD( real_type x, real_type y, real_type dd[6] ) const
+    DD( real_type x, real_type y, real_type dd[6] ) const SPLINES_OVERRIDE
     { D(x,y,dd); dd[3] = dd[4] = dd[5] = 0; }
 
     virtual
     real_type
-    Dxx( real_type , real_type ) const { return 0; }
+    Dxx( real_type , real_type ) const SPLINES_OVERRIDE
+    { return 0; }
 
     virtual
     real_type
-    Dxy( real_type , real_type ) const { return 0; }
+    Dxy( real_type , real_type ) const SPLINES_OVERRIDE
+    { return 0; }
 
     virtual
     real_type
-    Dyy( real_type , real_type ) const { return 0; }
+    Dyy( real_type , real_type ) const SPLINES_OVERRIDE
+    { return 0; }
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline typename
     virtual
-    char const * type_name() const;
+    char const *
+    type_name() const SPLINES_OVERRIDE;
 
   };
 
@@ -3195,7 +3177,7 @@ namespace Splines {
     {}
     
     virtual
-    ~BiCubicSplineBase()
+    ~BiCubicSplineBase() SPLINES_OVERRIDE
     {}
 
     real_type
@@ -3213,37 +3195,37 @@ namespace Splines {
     //! Evaluate spline value
     virtual
     real_type
-    operator () ( real_type x, real_type y ) const;
+    operator () ( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     void
-    D( real_type x, real_type y, real_type d[3] ) const;
+    D( real_type x, real_type y, real_type d[3] ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dx( real_type x, real_type y ) const;
+    Dx( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dy( real_type x, real_type y ) const;
+    Dy( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     void
-    DD( real_type x, real_type y, real_type dd[6] ) const;
+    DD( real_type x, real_type y, real_type dd[6] ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dxx( real_type x, real_type y ) const;
+    Dxx( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dxy( real_type x, real_type y ) const;
+    Dxy( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dyy( real_type x, real_type y ) const;
+    Dyy( real_type x, real_type y ) const SPLINES_OVERRIDE;
   };
 
   /*\
@@ -3256,7 +3238,7 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class BiCubicSpline : public BiCubicSplineBase {
-    virtual void makeSpline();
+    virtual void makeSpline() SPLINES_OVERRIDE;
 
   public:
   
@@ -3266,18 +3248,18 @@ namespace Splines {
     {}
     
     virtual
-    ~BiCubicSpline()
+    ~BiCubicSpline() SPLINES_OVERRIDE
     {}
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline typename
     virtual
     char const *
-    type_name() const;
+    type_name() const SPLINES_OVERRIDE;
 
   };
 
@@ -3291,7 +3273,7 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class Akima2Dspline : public BiCubicSplineBase {
-    virtual void makeSpline();
+    virtual void makeSpline() SPLINES_OVERRIDE;
 
   public:
   
@@ -3301,18 +3283,18 @@ namespace Splines {
     {}
     
     virtual
-    ~Akima2Dspline()
+    ~Akima2Dspline() SPLINES_OVERRIDE
     {}
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline typename
     virtual
     char const *
-    type_name() const;
+    type_name() const SPLINES_OVERRIDE;
 
   };
   
@@ -3352,7 +3334,7 @@ namespace Splines {
     {}
     
     virtual
-    ~BiQuinticSplineBase()
+    ~BiQuinticSplineBase() SPLINES_OVERRIDE
     {}
 
     real_type
@@ -3378,37 +3360,37 @@ namespace Splines {
     //! Evaluate spline value
     virtual
     real_type
-    operator () ( real_type x, real_type y ) const;
+    operator () ( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     void
-    D( real_type x, real_type y, real_type d[3] ) const;
+    D( real_type x, real_type y, real_type d[3] ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dx( real_type x, real_type y ) const;
+    Dx( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dy( real_type x, real_type y ) const;
+    Dy( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     void
-    DD( real_type x, real_type y, real_type dd[6] ) const;
+    DD( real_type x, real_type y, real_type dd[6] ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dxx( real_type x, real_type y ) const;
+    Dxx( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dxy( real_type x, real_type y ) const;
+    Dxy( real_type x, real_type y ) const SPLINES_OVERRIDE;
 
     virtual
     real_type
-    Dyy( real_type x, real_type y ) const;
+    Dyy( real_type x, real_type y ) const SPLINES_OVERRIDE;
   };
 
   /*\
@@ -3421,7 +3403,7 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
-    virtual void makeSpline();
+    virtual void makeSpline() SPLINES_OVERRIDE;
   public:
   
     //! spline constructor
@@ -3430,18 +3412,18 @@ namespace Splines {
     {}
     
     virtual
-    ~BiQuinticSpline()
+    ~BiQuinticSpline() SPLINES_OVERRIDE
     {}
 
     //! Print spline coefficients
     virtual
     void
-    writeToStream( ostream_type & s ) const;
+    writeToStream( ostream_type & s ) const SPLINES_OVERRIDE;
 
     //! Return spline typename
     virtual
     char const *
-    type_name() const;
+    type_name() const SPLINES_OVERRIDE;
 
   };
 

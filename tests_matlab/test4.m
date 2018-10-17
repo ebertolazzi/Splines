@@ -63,9 +63,10 @@ for k=1:15
   else
     S = SplineVec();
     S.setup(P.');
-    S.knots(T);
-    S.chord();
-    S.centripetal();
+    S.knots(linspace(0,1,length(T)));
+    %S.knots(T);
+    %S.chord();
+    %S.centripetal();
     S.CatmullRom();
   end
   S.eval(0)
