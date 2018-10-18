@@ -118,7 +118,7 @@ task :build_win, [:year, :bits] do |t, args|
 
   puts "\n\nCompile Splines Debug".green
   sh 'cmake --build . --config Debug --target install'
-  FileUtils.cp "Debug/Splines_vs.lib", "../lib/Splines_vs#{args.year}_#{args.bits}_debug.lib"
+  FileUtils.cp "Debug/Splines.lib", "../lib/Splines_vs#{args.year}_#{args.bits}_debug.lib"
 
   puts "\n\nCompile Splines Release".green
   sh 'cmake --build . --config Release  --target install'
