@@ -131,7 +131,7 @@ namespace Splines {
                     real_type const * Y[] ) {
     allocate( dim, npts );
     for ( size_t spl = 0; spl < size_t(_dim); ++spl )
-      std::copy_n( Y[spl], _npts, _Y[spl] );
+      std::copy( Y[spl], Y[spl]+_npts, _Y[spl] );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,7 +151,7 @@ namespace Splines {
 
   void
   SplineVec::setKnots( real_type const X[] ) {
-    std::copy_n( X, _npts, _X );
+    std::copy( X, X+_npts, _X );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
