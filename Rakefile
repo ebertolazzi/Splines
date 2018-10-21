@@ -13,6 +13,8 @@ end
 
 task :default => [:build]
 
+LIB_NAME="Splines"
+
 desc "run tests"
 task :run do
 	sh "./bin/example1"
@@ -55,19 +57,32 @@ task :build do
   FileUtils.cd ".."
 
   FileUtils.rm_rf   "lib"
+  FileUtils.mkdir_p "lib"
   FileUtils.rm_rf   "build"
   FileUtils.mkdir_p "build"
   FileUtils.cd      "build"
 
-  puts "\n\nPrepare Splines project".green
-  sh 'cmake -DCMAKE_INSTALL_PREFIX:PATH=../lib ..'
+  puts "\n\nPrepare #{LIB_NAME} project".green
+  sh 'cmake -DCMAKE_INSTALL_PREFIX:PATH=lib ..'
 
-  puts "\n\nCompile Splines Debug".green
+  puts "\n\nCompile #{LIB_NAME} Debug".green
   sh 'cmake --build . --config Debug  --target install'
-  FileUtils.cp "../lib/libSplines.a", "../lib/libSplines_debug.a"  
+  FileList["*#{LIB_NAME}*.*"].each do |f|
+    puts "Copying #{f}".yellow
+    ext = File.extname(f);
+    FileUtils.cp f, "../lib/#{File.basename(f,ext)}_debug#{ext}"
+  end
 
   puts "\n\nCompile Splines Release".green
   sh 'cmake --build . --config Release --target install'
+  FileList["*#{LIB_NAME}*.*"].each do |f|
+    puts "Copying #{f}".yellow
+    FileUtils.cp f, "../lib/#{File.basename(f)}"
+  end
+
+  puts "\n\nCopy include".green
+  FileUtils.cp_r "lib/lib/include", "../lib/include"
+
   FileUtils.cd '..'
 
 end
@@ -80,17 +95,21 @@ task :build_win, [:year, :bits] do |t, args|
   FileUtils.rm_rf "GC"
   sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
   FileUtils.cd "GC"
+  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
   sh "rake build_win[#{args.year},#{args.bits}]"
   FileUtils.cd ".."
   
-  puts "\n\nPrepare Splines project".green
+  puts "\n\nPrepare #{LIB_NAME} project".green
   dir = "vs_#{args.year}_#{args.bits}"
+
+  FileUtils.rm_rf   "lib"
+  FileUtils.mkdir_p "lib"
 
   FileUtils.rm_rf   dir
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " + ' -DCMAKE_INSTALL_PREFIX:PATH=..\lib ..'
+  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " + ' -DCMAKE_INSTALL_PREFIX:PATH=lib ..'
 
   win32_64 = ''
   case args.bits
@@ -113,15 +132,16 @@ task :build_win, [:year, :bits] do |t, args|
     puts "Visual Studio year #{year} not supported!\n";
   end
 
-  FileUtils.mkdir_p "../lib"
-
-  puts "\n\nCompile Splines Debug".green
+  puts "\n\nCompile #{LIB_NAME} Debug".green
   sh 'cmake --build . --config Debug --target install'
-  FileUtils.cp "Debug/Splines.lib", "../lib/Splines_vs#{args.year}_#{args.bits}_debug.lib"
+  FileUtils.cp "Debug/#{LIB_NAME}.lib", "../lib/#{LIB_NAME}_vs#{args.year}_#{args.bits}_debug.lib"
 
-  puts "\n\nCompile Splines Release".green
+  puts "\n\nCompile #{LIB_NAME} Release".green
   sh 'cmake --build . --config Release  --target install'
-  FileUtils.cp "Release/Splines.lib", "../lib/Splines_vs#{args.year}_#{args.bits}.lib"  
+  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{LIB_NAME}_vs#{args.year}_#{args.bits}.lib"  
+
+  puts "\n\nCopy include".green
+  FileUtils.cp_r "lib/lib/include", "../lib/include"
 
   FileUtils.cd '..'
 
