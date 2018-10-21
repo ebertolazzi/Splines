@@ -80,9 +80,8 @@ task :build_win, [:year, :bits] do |t, args|
   FileUtils.rm_rf "GC"
   sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
   FileUtils.cd "GC"
-  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
   sh "rake build_win[#{args.year},#{args.bits}]"
-  FileUtils.cd "../"
+  FileUtils.cd ".."
   
   puts "\n\nPrepare Splines project".green
   dir = "vs_#{args.year}_#{args.bits}"
