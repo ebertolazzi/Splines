@@ -23,8 +23,20 @@ classdef Spline2D < handle
       Spline2DMexWrapper( 'build', self.objectHandle, x, y );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function p = eval( self, x, y )
-      p = Spline2DMexWrapper( 'eval', self.objectHandle, x, y );
+    function varargout = eval( self, x, y )
+      varargout{1} = Spline2DMexWrapper( 'eval', self.objectHandle, x, y );
+      if nargout >= 3
+        varargout{2} = Spline2DMexWrapper( 'eval_Dx', self.objectHandle, x, y );
+        varargout{3} = Spline2DMexWrapper( 'eval_Dy', self.objectHandle, x, y );
+      end
+      if nargout >= 6
+        varargout{4} = Spline2DMexWrapper( 'eval_Dxx', self.objectHandle, x, y );
+        varargout{5} = Spline2DMexWrapper( 'eval_Dxy', self.objectHandle, x, y );
+        varargout{6} = Spline2DMexWrapper( 'eval_Dyy', self.objectHandle, x, y );
+      end
+      if ~( nargout == 1 || nargout == 3 || nargout == 6 ) 
+        error( 'Spline2D.eval, nargout = %d must be 1, 3 or 6\n', nargout);
+      end
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function Dx = eval_Dx( self, x, y )
