@@ -209,7 +209,7 @@ namespace Splines {
                                                 CMD "error in reading `x`" );
         real_type * y = createMatrixValue( arg_out_0, nx, 1 );
 
-        for ( mwSize i = 0 ; i < nx ; ++i ) *y++ = ptr->eval( *x++ );
+        for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval( *x++ );
 
 
         #undef CMD
@@ -226,7 +226,7 @@ namespace Splines {
                                                 CMD "error in reading `x`" );
         real_type * y = createMatrixValue( arg_out_0, nx, 1 );
 
-        for ( mwSize i = 0 ; i < nx ; ++i ) *y++ = ptr->eval_D( *x++ );
+        for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_D( *x++ );
 
 
         #undef CMD
@@ -243,7 +243,7 @@ namespace Splines {
                                                 CMD "error in reading `x`" );
         real_type * y = createMatrixValue( arg_out_0, nx, 1 );
 
-        for ( mwSize i = 0 ; i < nx ; ++i ) *y++ = ptr->eval_DD( *x++ );
+        for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DD( *x++ );
 
 
         #undef CMD
@@ -260,7 +260,7 @@ namespace Splines {
                                                 CMD "error in reading `x`" );
         real_type * y = createMatrixValue( arg_out_0, nx, 1 );
 
-        for ( mwSize i = 0 ; i < nx ; ++i ) *y++ = ptr->eval_DDD( *x++ );
+        for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDD( *x++ );
 
 
         #undef CMD

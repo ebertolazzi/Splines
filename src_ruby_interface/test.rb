@@ -19,7 +19,7 @@ yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ]
 
 spline = Spline.new
 
-xx0.zip(yy0).each { |p| p p ; spline.push_back(p[0],p[1]) }
+xx0.zip(yy0).each { |p| p p; spline.push_back(p[0],p[1]) }
 
 spline.build
 puts spline.type

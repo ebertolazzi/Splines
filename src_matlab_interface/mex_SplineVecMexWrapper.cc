@@ -213,16 +213,16 @@ namespace Splines {
         real_type * Y = createMatrixValue( arg_out_0, dim, nx );
 
         if ( cmd == "eval" ) {
-          for ( mwSize i = 0 ; i < nx ; ++i, Y += dim )
+          for ( mwSize i = 0; i < nx; ++i, Y += dim )
             ptr->eval( x[i], Y, 1 );
         } else if ( cmd == "eval_D" ) {
-          for ( mwSize i = 0 ; i < nx ; ++i, Y += dim )
+          for ( mwSize i = 0; i < nx; ++i, Y += dim )
             ptr->eval_D( x[i], Y, 1 );
         } else if ( cmd == "eval_DD" ) {
-          for ( mwSize i = 0 ; i < nx ; ++i, Y += dim )
+          for ( mwSize i = 0; i < nx; ++i, Y += dim )
             ptr->eval_DD( x[i], Y, 1 );
         } else if ( cmd == "eval_DDD") {
-          for ( mwSize i = 0 ; i < nx ; ++i, Y += dim )
+          for ( mwSize i = 0; i < nx; ++i, Y += dim )
             ptr->eval_DDD( x[i], Y, 1 );
         }
 

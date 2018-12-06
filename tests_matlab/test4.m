@@ -39,7 +39,7 @@ for k=1:15
 
   P = PSET{k};
 
-  DP = (P(1:end-1,:)-P(2:end,:)).' ;
+  DP = (P(1:end-1,:)-P(2:end,:)).';
   % compute angles
   L     = sqrt(sum(DP.^2));
   theta = min(pi,acos( dot( DP(1:end-1), DP(2:end) )./(L(1:end-1).*L(2:end)) ));

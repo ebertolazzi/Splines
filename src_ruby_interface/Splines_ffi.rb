@@ -28,11 +28,11 @@ module Splines
     @ext        = ".noextension"
     case HOST_OS
     when /mac|darwin/
-      @ext = ".dylib" ;
+      @ext = ".dylib";
     when /linux|cygwin|bsd/
-      @ext = ".so" ;
+      @ext = ".so";
     when /mswin|win|mingw/
-      @ext = ".dll" ;
+      @ext = ".dll";
     else
       raise RuntimeError, "Unsupported platform: #{HOST_OS}"
     end

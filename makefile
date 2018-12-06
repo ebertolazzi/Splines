@@ -129,11 +129,11 @@ lib/libSplines.so: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
 
 lib/$(LIB_GC):
-	rm -rf GC ; git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
+	rm -rf GC; git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
 ifneq (,$(findstring Linux, $(OS)))
-	cd GC ; ruby gcc_workaround.rb ; cd ..
+	cd GC; ruby gcc_workaround.rb; cd ..
 endif
-	$(MKDIR) include ; cd GC ; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib ; 
+	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib; 
 
 install_local: lib
 	$(MKDIR) ./lib/include

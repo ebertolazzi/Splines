@@ -26,14 +26,14 @@ The usage is simple:
 
 ~~~~~~~~~~~~~
 #include "Splines.hh"
-using namespace SplinesLoad ;
+using namespace SplinesLoad;
 
 ....
 
-CubicSpline spline ;
-double x[] = {1,2,3,4} ;
-double y[] = {3,1,1,3} ;
-spline.build(x,y,4) ; // build a cubic spline with 4 points
+CubicSpline spline;
+double x[] = {1,2,3,4};
+double y[] = {3,1,1,3};
+spline.build(x,y,4); // build a cubic spline with 4 points
   
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
@@ -45,17 +45,17 @@ splines can be built incrementally
 
 ~~~~~~~~~~~~~
 #include "Splines.hh"
-using namespace SplinesLoad ;
+using namespace SplinesLoad;
 
 ....
 
-CubicSpline spline ;
+CubicSpline spline;
   
-spline . pushBack( 1, 3 ) ;
-spline . pushBack( 2, 1 ) ;
-spline . pushBack( 3, 1 ) ;
-spline . pushBack( 4, 3 ) ;
-spline . build() ;
+spline . pushBack( 1, 3 );
+spline . pushBack( 2, 1 );
+spline . pushBack( 3, 1 );
+spline . pushBack( 4, 3 );
+spline . build();
   
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
@@ -68,18 +68,18 @@ or by using standard vector
 ~~~~~~~~~~~~~
 #include "Splines.hh"
 #include <vector>
-using namespace SplinesLoad ;
-using namespace std ;
+using namespace SplinesLoad;
+using namespace std;
 
 ....
 
-CubicSpline spline ;
-std::vector x, y ;
-x.push_back(1) ; y.push_back(3) ;
-x.push_back(2) ; y.push_back(1) ;
-x.push_back(3) ; y.push_back(1) ;
-x.push_back(4) ; y.push_back(3) ;
-spline . build(x,y) ;
+CubicSpline spline;
+std::vector x, y;
+x.push_back(1); y.push_back(3);
+x.push_back(2); y.push_back(1);
+x.push_back(3); y.push_back(1);
+x.push_back(4); y.push_back(3);
+spline . build(x,y);
   
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1

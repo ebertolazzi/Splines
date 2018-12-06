@@ -291,8 +291,8 @@ MEX_ASSERT( nx == ny && mx == my, \
 \
 real_type * z = createMatrixValue( arg_out_0, nx, mx ); \
 \
-for ( mwSize j = 0 ; j < mx ; ++j ) \
-  for ( mwSize i = 0 ; i < nx ; ++i ) \
+for ( mwSize j = 0; j < mx; ++j ) \
+  for ( mwSize i = 0; i < nx; ++i ) \
     *z++ = EVAL( *x++, *y++ );
 
         #define CMD "Spline2DMexWrapper('eval',OBJ,x,y): "

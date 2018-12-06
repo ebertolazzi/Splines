@@ -237,17 +237,17 @@ namespace Splines {
         mwSize dim = ptr->numSplines();
         real_type * Y = createMatrixValue( arg_out_0, dim, nx );
 
-        for ( mwSize nsp = 0 ; nsp < dim; ++nsp ) {
+        for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
           Spline const * S = ptr->getSpline( nsp );
           real_type * y = Y+nsp;
           if ( cmd == "eval" ) {
-            for ( mwSize i = 0 ; i < nx ; ++i, y += dim ) *y = S->eval( x[i] );
+            for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
           } else if ( cmd == "eval_D" ) {
-            for ( mwSize i = 0 ; i < nx ; ++i, y += dim ) *y = S->eval_D( x[i] );
+            for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
           } else if ( cmd == "eval_DD" ) {
-            for ( mwSize i = 0 ; i < nx ; ++i, y += dim ) *y = S->eval_DD( x[i] );
+            for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
           } else if ( cmd == "eval_DDD") {
-            for ( mwSize i = 0 ; i < nx ; ++i, y += dim ) *y = S->eval_DDD( x[i] );
+            for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
           }
         }
 

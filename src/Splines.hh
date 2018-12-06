@@ -987,7 +987,7 @@ namespace Splines {
 
     virtual
     void
-    build(void) SPLINES_OVERRIDE ;
+    build(void) SPLINES_OVERRIDE;
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
