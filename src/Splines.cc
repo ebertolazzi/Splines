@@ -456,6 +456,19 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
+  Spline::build( real_type const x[], integer incx,
+                 real_type const y[], integer incy,
+                 integer n ) {
+    reserve( n );
+    for ( integer i = 0; i < n; ++i ) X[i] = x[i*incx];
+    for ( integer i = 0; i < n; ++i ) Y[i] = y[i*incy];
+    npts = n;
+    build();
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
   Spline::info( ostream_type & s ) const {
     s << "Spline `" << _name
       << "` of type: " << type_name()

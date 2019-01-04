@@ -48,55 +48,7 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
-// Uncomment this if you do not want that Splines uses GenericContainer
-// #define SPLINES_DO_NOT_USE_GENERIC_CONTAINER 1
-
-// some one may force the use of GenericContainer
-#ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-  #include "GenericContainer.hh"
-#endif
-
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <map>
-#include <utility>      // std::pair
-#include <algorithm>
-
-//
-// file: Splines
-//
-// if C++ < C++11 define nullptr
-#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
-  #if _MSC_VER >= 1900
-    #ifndef DO_NOT_USE_CXX11
-      #define SPLINES_USE_CXX11
-    #endif
-  #else
-    #include <cstdlib>
-    #ifndef nullptr
-      #include <cstddef>
-      #define nullptr NULL
-    #endif
-  #endif
-  #ifdef _MSC_VER
-    #include <math.h>
-  #endif
-#else
-  #include <cmath>
-  #include <cfloat>
-  #if __cplusplus > 199711L
-    #ifndef DO_NOT_USE_CXX11
-      #define SPLINES_USE_CXX11
-    #endif
-  #else
-    #include <cstdlib>
-    #ifndef nullptr
-      #include <cstddef>
-      #define nullptr NULL
-    #endif
-  #endif
-#endif
+#include "SplinesConfig.hh"
 
 #ifndef SPLINE_ASSERT
   #include <stdexcept>
@@ -122,12 +74,6 @@ either expressed or implied, of the FreeBSD Project.
                 << " file: " << __FILE__   \
                 << MSG << '\n';            \
     }
-#endif
-
-#ifdef DEBUG
-  #define SPLINE_CHECK_NAN( PTR, MSG, DIM ) Splines::checkNaN( PTR, MSG, DIM )
-#else
-  #define SPLINE_CHECK_NAN( PTR, MSG, DIM )
 #endif
 
 #ifndef SPLINES_OVERRIDE
@@ -333,8 +279,11 @@ namespace Splines {
     size_t      numAllocated;
     valueType * pMalloc;
 
-    SplineMalloc( SplineMalloc<T> const & ); // block copy constructor
-    SplineMalloc<T> const & operator = ( SplineMalloc<T> & ) const; // block copy constructor
+    SplineMalloc( SplineMalloc<T> const & )
+    {} // block copy constructor
+
+    SplineMalloc<T> const & operator = ( SplineMalloc<T> & ) const
+    {} // block copy constructor
 
   public:
 
@@ -620,13 +569,7 @@ namespace Splines {
     void
     build( real_type const x[], integer incx,
            real_type const y[], integer incy,
-           integer n ) {
-      reserve( n );
-      for ( integer i = 0; i < n; ++i ) X[i] = x[i*incx];
-      for ( integer i = 0; i < n; ++i ) Y[i] = y[i*incy];
-      npts = n;
-      build();
-    }
+           integer n );
 
     //! Build a spline.
     /*!
