@@ -40,9 +40,11 @@ namespace Splines {
    | If not an error is issued
   \*/
   void
-  checkNaN( real_type const pv[],
-            char      const v_name[],
-            integer         DIM ) {
+  checkNaN(
+    real_type const pv[],
+    char      const v_name[],
+    integer         DIM
+  ) {
     for ( size_t i = 0; i < size_t(DIM); ++i ) {
       if ( isNaN(pv[i]) ) {
         std::ostringstream ost;

@@ -38,11 +38,13 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSplineBase::reserve_external( integer      n,
-                                       real_type *& p_X,
-                                       real_type *& p_Y,
-                                       real_type *& p_Yp,
-                                       real_type *& p_Ypp ) {
+  QuinticSplineBase::reserve_external(
+    integer      n,
+    real_type *& p_X,
+    real_type *& p_Y,
+    real_type *& p_Yp,
+    real_type *& p_Ypp
+  ) {
     if ( !_external_alloc ) baseValue.free();
     npts            = 0;
     npts_reserved   = n;

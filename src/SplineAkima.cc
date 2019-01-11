@@ -41,11 +41,13 @@ namespace Splines {
 
   static
   real_type
-  akima_one( real_type epsi,
-             real_type di_m2,
-             real_type di_m1,
-             real_type di,
-             real_type di_p1 ) {
+  akima_one(
+    real_type epsi,
+    real_type di_m2,
+    real_type di_m1,
+    real_type di,
+    real_type di_p1
+  ) {
     real_type wl  = std::abs(di_p1 - di);
     real_type wr  = std::abs(di_m1 - di_m2);
     real_type den = wl + wr;
@@ -58,10 +60,12 @@ namespace Splines {
 
   static
   void
-  Akima_build( real_type const X[],
-               real_type const Y[],
-               real_type       Yp[],
-               integer         npts ) {
+  Akima_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
+  ) {
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);

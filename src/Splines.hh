@@ -174,9 +174,11 @@ namespace Splines {
   //  \___|_| |_|\___|\___|_|\_\_| \_|\__,_|_| \_|
   */
   void
-  checkNaN( real_type const pv[],
-            char      const v_name[],
-            integer         DIM );
+  checkNaN(
+    real_type const pv[],
+    char      const v_name[],
+    integer         DIM
+  );
 
   /*
   //   _   _                     _ _       
@@ -186,46 +188,74 @@ namespace Splines {
   //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
   */
   void
-  Hermite3( real_type x,
-            real_type H,
-            real_type base[4] );
-  void
-  Hermite3_D( real_type x,
-              real_type H,
-              real_type base_D[4] );
-  void
-  Hermite3_DD( real_type x,
-               real_type H,
-               real_type base_DD[4] );
-  void
-  Hermite3_DDD( real_type x,
-                real_type H,
-                real_type base_DDD[4] );
+  Hermite3(
+    real_type x,
+    real_type H,
+    real_type base[4]
+  );
 
   void
-  Hermite5( real_type x,
-            real_type H,
-            real_type base[6] );
+  Hermite3_D(
+    real_type x,
+    real_type H,
+    real_type base_D[4]
+  );
+
   void
-  Hermite5_D( real_type x,
-              real_type H,
-              real_type base_D[6] );
+  Hermite3_DD(
+    real_type x,
+    real_type H,
+    real_type base_DD[4]
+  );
+
   void
-  Hermite5_DD( real_type x,
-               real_type H,
-               real_type base_DD[6] );
+  Hermite3_DDD(
+    real_type x,
+    real_type H,
+    real_type base_DDD[4]
+  );
+
   void
-  Hermite5_DDD( real_type x,
-                real_type H,
-                real_type base_DDD[6] );
+  Hermite5(
+    real_type x,
+    real_type H,
+    real_type base[6]
+  );
+
   void
-  Hermite5_DDDD( real_type x,
-                 real_type H,
-                 real_type base_DDDD[6] );
+  Hermite5_D(
+    real_type x,
+    real_type H,
+    real_type base_D[6]
+  );
+
   void
-  Hermite5_DDDDD( real_type x,
-                  real_type H,
-                  real_type base_DDDDD[6] );
+  Hermite5_DD(
+    real_type x,
+    real_type H,
+    real_type base_DD[6]
+  );
+
+  void
+  Hermite5_DDD(
+    real_type x,
+    real_type H,
+    real_type base_DDD[6]
+  );
+
+  void
+  Hermite5_DDDD(
+    real_type x,
+    real_type H,
+    real_type base_DDDD[6]
+  );
+
+  void
+  Hermite5_DDDDD(
+    real_type x,
+    real_type H,
+    real_type base_DDDDD[6]
+  );
 
   /*
   //   ____  _ _ _
@@ -235,27 +265,35 @@ namespace Splines {
   //  |____/|_|_|_|_| |_|\___|\__,_|_|
   */
   real_type
-  bilinear3( real_type const p[4],
-             real_type const M[4][4],
-             real_type const q[4] );
+  bilinear3(
+    real_type const p[4],
+    real_type const M[4][4],
+    real_type const q[4]
+  );
 
   real_type
-  bilinear5( real_type const p[6],
-             real_type const M[6][6],
-             real_type const q[6] );
+  bilinear5(
+    real_type const p[6],
+    real_type const M[6][6],
+    real_type const q[6]
+  );
 
   //! Check if cubic spline with this data is monotone, -1 no, 0 yes, 1 strictly monotone
   integer
-  checkCubicSplineMonotonicity( real_type const X[],
-                                real_type const Y[],
-                                real_type const Yp[],
-                                integer         npts );
+  checkCubicSplineMonotonicity(
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    integer         npts
+  );
 
   void
-  updateInterval( integer       & lastInterval,
-                  real_type       x,
-                  real_type const X[],
-                  integer         npts );
+  updateInterval(
+    integer       & lastInterval,
+    real_type       x,
+    real_type const X[],
+    integer         npts
+  );
 
   /*
   //   __  __       _ _
@@ -387,47 +425,59 @@ namespace Splines {
   \*/
 
   void
-  uniform( integer         dim,
-           integer         npts,
-           real_type const pnts[],
-           integer         ld_pnts,
-           real_type       t[] );
+  uniform(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
+  );
 
   void
-  chordal( integer         dim,
-           integer         npts,
-           real_type const pnts[],
-           integer         ld_pnts,
-           real_type       t[] );
+  chordal(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
+  );
 
   void
-  centripetal( integer         dim,
-               integer         npts,
-               real_type const pnts[],
-               integer         ld_pnts,
-               real_type const alpha,
-               real_type       t[] );
+  centripetal(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type const alpha,
+    real_type       t[]
+  );
 
   void
-  universal( integer         dim,
-             integer         npts,
-             real_type const pnts[],
-             integer         ld_pnts,
-             real_type       t[] );
+  universal(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
+  );
 
   void
-  FoleyNielsen( integer         dim,
-                integer         npts,
-                real_type const pnts[],
-                integer         ld_pnts,
-                real_type       t[] );
+  FoleyNielsen(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
+  );
 
   void
-  FangHung( integer         dim,
-            integer         npts,
-            real_type const pnts[],
-            integer         ld_pnts,
-            real_type       t[] );
+  FangHung(
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
+  );
 
   /*\
    |   ____        _ _
@@ -639,15 +689,22 @@ namespace Splines {
     ///////////////////////////////////////////////////////////////////////////
     //! dump a sample of the spline
     void
-    dump( ostream_type & s,
-          integer    nintervals,
-          char const header[] = "x\ty" ) const;
+    dump(
+      ostream_type & s,
+      integer    nintervals,
+      char const header[] = "x\ty"
+    ) const;
 
     void
-    dump( char const fname[],
-          integer    nintervals,
-          char const header[] = "x\ty" ) const
-    { ofstream file(fname); dump( file, nintervals, header ); file.close(); }
+    dump(
+      char const fname[],
+      integer    nintervals,
+      char const header[] = "x\ty"
+    ) const {
+      ofstream file(fname);
+      dump( file, nintervals, header );
+      file.close();
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value
@@ -690,9 +747,11 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const SPLINES_PURE_VIRTUAL;
+    coeffs(
+      real_type cfs[],
+      real_type nodes[],
+      bool transpose = false
+    ) const SPLINES_PURE_VIRTUAL;
 
     virtual
     integer // order
@@ -770,10 +829,12 @@ namespace Splines {
 
     //! Use externally allocated memory for `npts` points
     void
-    reserve_external( integer      n,
-                      real_type *& p_x,
-                      real_type *& p_y,
-                      real_type *& p_dy );
+    reserve_external(
+      integer      n,
+      real_type *& p_x,
+      real_type *& p_y,
+      real_type *& p_dy
+    );
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Evaluate spline value
@@ -819,10 +880,12 @@ namespace Splines {
      | \param n     total number of points
     \*/
     void
-    build( real_type const x[],  integer incx,
-           real_type const y[],  integer incy,
-           real_type const yp[], integer incyp,
-           integer n );
+    build(
+      real_type const x[],  integer incx,
+      real_type const y[],  integer incy,
+      real_type const yp[], integer incyp,
+      integer n
+    );
 
     //! Build a spline.
     /*!
@@ -833,11 +896,13 @@ namespace Splines {
     \*/
     inline
     void
-    build( real_type const x[],
-           real_type const y[],
-           real_type const yp[],
-           integer n ) {
-      build ( x, 1, y, 1, yp, 1, n );
+    build(
+      real_type const x[],
+      real_type const y[],
+      real_type const yp[],
+      integer n
+    ) {
+      build( x, 1, y, 1, yp, 1, n );
     }
 
     //! Build a spline.
@@ -848,9 +913,11 @@ namespace Splines {
     \*/
     inline
     void
-    build ( vector<real_type> const & x,
-            vector<real_type> const & y,
-            vector<real_type> const & yp ) {
+    build(
+      vector<real_type> const & x,
+      vector<real_type> const & y,
+      vector<real_type> const & yp
+    ) {
       integer N = integer(x.size());
       if ( N > integer(y.size())  ) N = integer(y.size());
       if ( N > integer(yp.size()) ) N = integer(yp.size());
@@ -868,9 +935,11 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const SPLINES_OVERRIDE;
+    coeffs(
+      real_type cfs[],
+      real_type nodes[],
+      bool transpose = false
+    ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
@@ -1033,10 +1102,12 @@ namespace Splines {
    |                    |_|        |_|
   \*/
   void
-  pchip( real_type const X[],
-         real_type const Y[],
-         real_type       Yp[],
-         integer         n );
+  pchip(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         n
+  );
 
   //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
   class PchipSpline : public CubicSplineBase {
@@ -1097,9 +1168,11 @@ namespace Splines {
 
     //! Use externally allocated memory for `npts` points
     void
-    reserve_external( integer      n,
-                      real_type *& p_x,
-                      real_type *& p_y );
+    reserve_external(
+      integer      n,
+      real_type *& p_x,
+      real_type *& p_y
+    );
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -1170,9 +1243,11 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const SPLINES_OVERRIDE;
+    coeffs(
+      real_type cfs[],
+      real_type nodes[],
+      bool transpose = false
+    ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
@@ -1207,9 +1282,11 @@ namespace Splines {
 
     //! Use externally allocated memory for `npts` points
     void
-    reserve_external( integer      n,
-                      real_type *& p_x,
-                      real_type *& p_y );
+    reserve_external(
+      integer      n,
+      real_type *& p_x,
+      real_type *& p_y
+    );
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a spline.
@@ -1220,9 +1297,11 @@ namespace Splines {
 
     virtual
     void
-    build( real_type const x[], integer incx,
-           real_type const y[], integer incy,
-           integer n ) SPLINES_OVERRIDE;
+    build(
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
+      integer n
+    ) SPLINES_OVERRIDE;
 
     //! Evaluate spline value at `x`
     virtual
@@ -1273,9 +1352,11 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const SPLINES_OVERRIDE;
+    coeffs(
+      real_type cfs[],
+      real_type nodes[],
+      bool transpose = false
+    ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
@@ -1330,9 +1411,11 @@ namespace Splines {
     // block method!
     virtual
     void
-    build( real_type const [], integer,
-           real_type const [], integer,
-           integer ) SPLINES_OVERRIDE;
+    build(
+      real_type const [], integer,
+      real_type const [], integer,
+      integer
+    ) SPLINES_OVERRIDE;
   };
 
   /*\
@@ -1395,11 +1478,13 @@ namespace Splines {
 
     //! Use externally allocated memory for `npts` points
     void
-    reserve_external( integer      n,
-                      real_type *& p_x,
-                      real_type *& p_y,
-                      real_type *& p_Yp,
-                      real_type *& p_Ypp );
+    reserve_external(
+      integer      n,
+      real_type *& p_x,
+      real_type *& p_y,
+      real_type *& p_Yp,
+      real_type *& p_Ypp
+    );
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -1455,9 +1540,11 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
-    coeffs( real_type cfs[],
-            real_type nodes[],
-            bool transpose = false ) const SPLINES_OVERRIDE;
+    coeffs(
+      real_type cfs[],
+      real_type nodes[],
+      bool transpose = false
+    ) const SPLINES_OVERRIDE;
 
     virtual
     integer // order
@@ -1520,9 +1607,9 @@ namespace Splines {
     SplineMalloc<real_type>  baseValue;
     SplineMalloc<real_type*> basePointer;
 
-    integer      _dim;
-    integer      _npts;
-    bool         _check_range;
+    integer _dim;
+    integer _npts;
+    bool    _check_range;
 
     real_type *  _X;
     real_type ** _Y;
@@ -1633,27 +1720,35 @@ namespace Splines {
 
     //! Evaluate all the splines at `x`
     void
-    eval( real_type x,
-          real_type vals[],
-          integer   inc ) const;
+    eval(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
 
     //! Evaluate the fist derivative of all the splines at `x`
     void
-    eval_D( real_type x,
-            real_type vals[],
-            integer   inc ) const;
+    eval_D(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
 
     //! Evaluate the second derivative of all the splines at `x`
     void
-    eval_DD( real_type x,
-             real_type vals[],
-             integer   inc ) const;
+    eval_DD(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
 
     //! Evaluate the third derivative of all the splines at `x`
     void
-    eval_DDD( real_type x,
-              real_type vals[],
-              integer   inc ) const;
+    eval_DDD(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
 
     //! Evaluate all the splines at `x`
     void
@@ -1710,15 +1805,19 @@ namespace Splines {
     #endif
 
     void
-    setup( integer           dim,
-           integer           npts,
-           real_type const * Y[] );
+    setup(
+      integer           dim,
+      integer           npts,
+      real_type const * Y[]
+    );
 
     void
-    setup( integer         dim,
-           integer         npts,
-           real_type const Y[],
-           integer         ldY );
+    setup(
+      integer         dim,
+      integer         npts,
+      real_type const Y[],
+      integer         ldY
+    );
 
     void
     setKnots( real_type const X[] );
@@ -1975,187 +2074,235 @@ namespace Splines {
 
     //! Evaluate all the splines at `x`
     void
-    eval( real_type           x,
-          vector<real_type> & vals ) const;
+    eval(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
 
     //! Evaluate all the splines at `x`
     void
-    eval( real_type x,
-          real_type vals[],
-          integer   incy = 1 ) const;
+    eval(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     //! Evaluate the fist derivative of all the splines at `x`
     void
-    eval_D( real_type           x,
-            vector<real_type> & vals ) const;
+    eval_D(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
 
     //! Evaluate the fist derivative of all the splines at `x`
     void
-    eval_D( real_type x,
-            real_type vals[],
-            integer   incy = 1 ) const;
+    eval_D(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     //! Evaluate the second derivative of all the splines at `x`
     void
-    eval_DD( real_type           x,
-             vector<real_type> & vals ) const;
+    eval_DD(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
 
     //! Evaluate the second derivative of all the splines at `x`
     void
-    eval_DD( real_type x,
-             real_type vals[],
-             integer   incy = 1 ) const;
+    eval_DD(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     //! Evaluate the third derivative of all the splines at `x`
     void
-    eval_DDD( real_type           x,
-              vector<real_type> & vals ) const;
+    eval_DDD(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
 
     //! Evaluate the third derivative of all the splines at `x`
     void
-    eval_DDD( real_type x,
-              real_type vals[],
-              integer   incy = 1 ) const;
+    eval_DDD(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     // change independent variable
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     void
-    eval2( integer             spl,
-           real_type           zeta,
-           vector<real_type> & vals ) const;
+    eval2(
+      integer             spl,
+      real_type           zeta,
+      vector<real_type> & vals
+    ) const;
 
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     void
-    eval2( integer   spl,
-           real_type zeta,
-           real_type vals[],
-           integer   incy = 1 ) const;
+    eval2(
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     /*!
      | Evaluate the fist derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_D( integer             spl,
-             real_type           zeta,
-             vector<real_type> & vals ) const;
+    eval2_D(
+      integer             spl,
+      real_type           zeta,
+      vector<real_type> & vals
+    ) const;
 
     /*!
      | Evaluate the fist derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_D( integer   spl,
-             real_type zeta,
-             real_type vals[],
-             integer   incy = 1 ) const;
+    eval2_D(
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     /*!
      | Evaluate the second derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_DD( integer             spl,
-              real_type           zeta,
-              vector<real_type> & vals ) const;
+    eval2_DD(
+      integer             spl,
+      real_type           zeta,
+      vector<real_type> & vals
+    ) const;
 
     /*!
      | Evaluate the second derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_DD( integer   spl,
-              real_type zeta,
-              real_type vals[],
-              integer   incy = 1 ) const;
+    eval2_DD(
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     /*!
      | Evaluate the third derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_DDD( integer             spl,
-               real_type           zeta,
-               vector<real_type> & vals ) const;
+    eval2_DDD(
+      integer             spl,
+      real_type           zeta,
+      vector<real_type> & vals
+    ) const;
 
     /*!
      | Evaluate the 3rd derivative of all the splines
      | at `zeta` using spline[spl] as independent
     \*/
     void
-    eval2_DDD( integer   spl,
-               real_type zeta,
-               real_type vals[],
-               integer   incy = 1 ) const;
+    eval2_DDD(
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
 
     /*!
      | Evaluate the spline `name` at `zeta` using
      | spline `indep` as independent
     \*/
     real_type
-    eval2( real_type  zeta,
-           char const indep[],
-           char const name[] ) const;
+    eval2(
+      real_type  zeta,
+      char const indep[],
+      char const name[]
+    ) const;
 
     /*!
      | Evaluate first derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_D( real_type  zeta,
-             char const indep[],
-             char const name[] ) const;
+    eval2_D(
+      real_type  zeta,
+      char const indep[],
+      char const name[]
+    ) const;
 
     /*!
      | Evaluate second derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DD( real_type  zeta,
-              char const indep[],
-              char const name[] ) const;
+    eval2_DD(
+      real_type  zeta,
+      char const indep[],
+      char const name[]
+    ) const;
 
     /*!
      | Evaluate third derivative of the spline `name`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DDD( real_type  zeta,
-               char const indep[],
-               char const name[] ) const;
+    eval2_DDD(
+      real_type  zeta,
+      char const indep[],
+      char const name[]
+    ) const;
 
     /*!
      | Evaluate the spline `spl` at `zeta` using
      | spline `indep` as independent
     \*/
     real_type
-    eval2( real_type zeta,
-           integer   indep,
-           integer   spl ) const;
+    eval2(
+      real_type zeta,
+      integer   indep,
+      integer   spl
+    ) const;
 
     //! Evaluate first derivative of the spline `spl` at `zeta` using spline `indep` as independent
     real_type
-    eval2_D( real_type zeta,
-             integer   indep,
-             integer   spl ) const;
+    eval2_D(
+      real_type zeta,
+      integer   indep,
+      integer   spl
+    ) const;
 
     /*!
      | Evaluate second derivative of the spline `spl`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DD( real_type zeta,
-              integer   indep,
-              integer   spl ) const;
+    eval2_DD(
+      real_type zeta,
+      integer   indep,
+      integer   spl
+    ) const;
 
     /*!
      | Evaluate third derivative of the spline `spl`
      | at `zeta` using spline `indep` as independent
     \*/
     real_type
-    eval2_DDD( real_type zeta,
-               integer   indep,
-               integer   spl ) const;
+    eval2_DDD(
+      real_type zeta,
+      integer   indep,
+      integer   spl
+    ) const;
 
     // interface with GenericContainer
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -2178,9 +2325,11 @@ namespace Splines {
      | values in a GenericContainer with keys in `columns`
     \*/
     void
-    eval( real_type               x,
-          vec_string_type const & columns,
-          GenericContainer      & vals ) const;
+    eval(
+      real_type               x,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained
@@ -2188,9 +2337,11 @@ namespace Splines {
      | with keys in `columns`
     \*/
     void
-    eval( vec_real_type   const & vec,
-          vec_string_type const & columns,
-          GenericContainer      & vals ) const;
+    eval(
+      vec_real_type   const & vec,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill
@@ -2198,9 +2349,11 @@ namespace Splines {
      | as independent spline
     \*/
     void
-    eval2( real_type          zeta,
-           integer            indep,
-           GenericContainer & vals ) const;
+    eval2(
+      real_type          zeta,
+      integer            indep,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained in
@@ -2208,9 +2361,11 @@ namespace Splines {
      | `indep` as independent spline
     \*/
     void
-    eval2( vec_real_type const & zetas,
-           integer               indep,
-           GenericContainer    & vals ) const;
+    eval2(
+      vec_real_type const & zetas,
+      integer               indep,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
@@ -2218,10 +2373,12 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2( real_type               zeta,
-           integer                 indep,
-           vec_string_type const & columns,
-           GenericContainer      & vals ) const;
+    eval2(
+      real_type               zeta,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2229,20 +2386,25 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2( vec_real_type   const & zetas,
-           integer                 indep,
-           vec_string_type const & columns,
-           GenericContainer      & vals ) const;
+    eval2(
+      vec_real_type   const & zetas,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
      | of values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2( real_type          zeta,
-           char const       * indep,
-           GenericContainer & vals ) const
-    { eval2( zeta, getPosition(indep), vals ); }
+    eval2(
+      real_type          zeta,
+      char const       * indep,
+      GenericContainer & vals
+    ) const {
+      eval2( zeta, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2250,10 +2412,13 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2( vec_real_type const & zetas,
-           char const          * indep,
-           GenericContainer    & vals ) const
-    { eval2( zetas, getPosition(indep), vals ); }
+    eval2(
+      vec_real_type const & zetas,
+      char const          * indep,
+      GenericContainer    & vals
+    ) const {
+      eval2( zetas, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of
@@ -2261,11 +2426,14 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2( real_type               zeta,
-           char const            * indep,
-           vec_string_type const & columns,
-           GenericContainer      & vals ) const
-    { eval2( zeta, getPosition(indep), columns, vals ); }
+    eval2(
+      real_type               zeta,
+      char const            * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2( zeta, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2273,36 +2441,45 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2( vec_real_type const   & zetas,
-           char const            * indep,
-           vec_string_type const & columns,
-           GenericContainer      & vals ) const
-    { eval2( zetas, getPosition(indep), columns, vals ); }
+    eval2(
+      vec_real_type const   & zetas,
+      char const            * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2( zetas, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `x` and fill a map of
      | values in a GenericContainer
     \*/
     void
-    eval_D( real_type          x,
-            GenericContainer & vals ) const;
+    eval_D(
+      real_type          x,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained
      | in vec and fill a map of vector in a GenericContainer
     \*/
     void
-    eval_D( vec_real_type const & vec,
-            GenericContainer    & vals ) const;
+    eval_D(
+      vec_real_type const & vec,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` and fill a map of
      | values in a GenericContainer with keys in `columns`
     \*/
     void
-    eval_D( real_type               x,
-            vec_string_type const & columns,
-            GenericContainer      & vals ) const;
+    eval_D(
+      real_type               x,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained
@@ -2310,18 +2487,22 @@ namespace Splines {
      | with keys in `columns`
     \*/
     void
-    eval_D( vec_real_type const   & vec,
-            vec_string_type const & columns,
-            GenericContainer      & vals ) const;
+    eval_D(
+      vec_real_type const   & vec,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
      | of values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_D( real_type          zeta,
-             integer            indep,
-             GenericContainer & vals ) const;
+    eval2_D(
+      real_type          zeta,
+      integer            indep,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2329,9 +2510,11 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_D( vec_real_type const & zetas,
-             integer               indep,
-             GenericContainer    & vals ) const;
+    eval2_D(
+      vec_real_type const & zetas,
+      integer               indep,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
@@ -2339,10 +2522,12 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_D( real_type               zeta,
-             integer                 indep,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const;
+    eval2_D(
+      real_type               zeta,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2350,27 +2535,35 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_D( vec_real_type   const & zetas,
-             integer                 indep,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const;
+    eval2_D(
+      vec_real_type   const & zetas,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
      | of values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_D( real_type          zeta,
-             char const       * indep,
-             GenericContainer & vals ) const
-    { eval2_D( zeta, getPosition(indep), vals ); }
+    eval2_D(
+      real_type          zeta,
+      char const       * indep,
+      GenericContainer & vals
+    ) const {
+      eval2_D( zeta, getPosition(indep), vals );
+    }
 
     //! Evaluate all the splines at `zeta` values contained in vec and fill a map of vector in a GenericContainer and `indep` as independent spline
     void
-    eval2_D( vec_real_type const & zetas,
-             char const          * indep,
-             GenericContainer    & vals ) const
-    { eval2_D( zetas, getPosition(indep), vals ); }
+    eval2_D(
+      vec_real_type const & zetas,
+      char const          * indep,
+      GenericContainer    & vals
+    ) const {
+      eval2_D( zetas, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of
@@ -2378,11 +2571,14 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_D( real_type               zeta,
-             char const            * indep,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const
-    { eval2_D( zeta, getPosition(indep), columns, vals ); }
+    eval2_D(
+      real_type               zeta,
+      char const            * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_D( zeta, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2390,54 +2586,67 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_D( vec_real_type const   & zetas,
-             char const            * indep,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const
-    { eval2_D( zetas, getPosition(indep), columns, vals ); }
+    eval2_D(
+      vec_real_type const   & zetas,
+      char const            * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_D( zetas, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `x` and fill a map of
      | values in a GenericContainer
     \*/
     void
-    eval_DD( real_type          x,
-             GenericContainer & vals ) const;
+    eval_DD(
+      real_type          x,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained in vec
      | and fill a map of vector in a GenericContainer
     \*/
     void
-    eval_DD( vec_real_type const & vec,
-             GenericContainer    & vals ) const;
+    eval_DD(
+      vec_real_type const & vec,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` and fill a map of
      | values in a GenericContainer with keys in `columns`
     \*/
     void
-    eval_DD( real_type               x,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const;
+    eval_DD(
+      real_type               x,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained in vec and
      | fill a map of vector in a GenericContainer with keys in `columns`
     \*/
     void
-    eval_DD( vec_real_type   const & vec,
-             vec_string_type const & columns,
-             GenericContainer      & vals ) const;
+    eval_DD(
+      vec_real_type   const & vec,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of
      | values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_DD( real_type          zeta,
-              integer            indep,
-              GenericContainer & vals ) const;
+    eval2_DD(
+      real_type          zeta,
+      integer            indep,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained in vec
@@ -2445,9 +2654,11 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DD( vec_real_type const & zetas,
-              integer              indep,
-              GenericContainer    & vals ) const;
+    eval2_DD(
+      vec_real_type const & zetas,
+      integer               indep,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
@@ -2455,10 +2666,12 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DD( real_type               zeta,
-              integer                 indep,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const;
+    eval2_DD(
+      real_type               zeta,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2466,20 +2679,25 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_DD( vec_real_type   const & zetas,
-              integer                 indep,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const;
+    eval2_DD(
+      vec_real_type   const & zetas,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of
      | values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_DD( real_type          zeta,
-              char const       * indep,
-              GenericContainer & vals ) const
-    { eval2_DD( zeta, getPosition(indep), vals ); }
+    eval2_DD(
+      real_type          zeta,
+      char const       * indep,
+      GenericContainer & vals
+    ) const {
+      eval2_DD( zeta, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained in vec
@@ -2487,10 +2705,13 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DD( vec_real_type const & zetas,
-              char const          * indep,
-              GenericContainer    & vals ) const
-    { eval2_DD( zetas, getPosition(indep), vals ); }
+    eval2_DD(
+      vec_real_type const & zetas,
+      char const          * indep,
+      GenericContainer    & vals
+    ) const {
+      eval2_DD( zetas, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
@@ -2498,11 +2719,14 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DD( real_type               zeta,
-              char const            * indep,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const
-    { eval2_DD( zeta, getPosition(indep), columns, vals ); }
+    eval2_DD(
+      real_type               zeta,
+      char const            * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_DD( zeta, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2510,54 +2734,67 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_DD( vec_real_type   const & zetas,
-              char            const * indep,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const
-    { eval2_DD( zetas, getPosition(indep), columns, vals ); }
+    eval2_DD(
+      vec_real_type   const & zetas,
+      char            const * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_DD( zetas, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `x` and fill a map
      | of values in a GenericContainer
     \*/
     void
-    eval_DDD( real_type          x,
-              GenericContainer & vals ) const;
+    eval_DDD(
+      real_type          x,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained
      | in vec and fill a map of vector in a GenericContainer
     \*/
     void
-    eval_DDD( vec_real_type const & vec,
-              GenericContainer    & vals ) const;
+    eval_DDD(
+      vec_real_type const & vec,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` and fill a map of
      | values in a GenericContainer with keys in `columns`
     \*/
     void
-    eval_DDD( real_type               x,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const;
+    eval_DDD(
+      real_type               x,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `x` values contained in vec
      | and fill a map of vector in a GenericContainer with keys in `columns`
     \*/
     void
-    eval_DDD( vec_real_type   const & vec,
-              vec_string_type const & columns,
-              GenericContainer      & vals ) const;
+    eval_DDD(
+      vec_real_type   const & vec,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of values
      | in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_DDD( real_type          zeta,
-               integer            indep,
-               GenericContainer & vals ) const;
+    eval2_DDD(
+      real_type          zeta,
+      integer            indep,
+      GenericContainer & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained in vec
@@ -2565,9 +2802,11 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DDD( vec_real_type const & zetas,
-               integer               indep,
-               GenericContainer    & vals ) const;
+    eval2_DDD(
+      vec_real_type const & zetas,
+      integer               indep,
+      GenericContainer    & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of values
@@ -2575,10 +2814,12 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DDD( real_type               zeta,
-               integer                 indep,
-               vec_string_type const & columns,
-               GenericContainer      & vals ) const;
+    eval2_DDD(
+      real_type               zeta,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2586,20 +2827,25 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_DDD( vec_real_type   const & zetas,
-               integer                 indep,
-               vec_string_type const & columns,
-               GenericContainer      & vals ) const;
+    eval2_DDD(
+      vec_real_type   const & zetas,
+      integer                 indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const;
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map
      | of values in a GenericContainer and `indep` as independent spline
     \*/
     void
-    eval2_DDD( real_type          zeta,
-               char const       * indep,
-               GenericContainer & vals ) const
-    { eval2_DD( zeta, getPosition(indep), vals ); }
+    eval2_DDD(
+      real_type          zeta,
+      char const       * indep,
+      GenericContainer & vals
+    ) const {
+      eval2_DD( zeta, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2607,10 +2853,13 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DDD( vec_real_type const & zetas,
-               char          const * indep,
-               GenericContainer    & vals ) const
-    { eval2_DD( zetas, getPosition(indep), vals ); }
+    eval2_DDD(
+      vec_real_type const & zetas,
+      char          const * indep,
+      GenericContainer    & vals
+    ) const {
+      eval2_DD( zetas, getPosition(indep), vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` and fill a map of
@@ -2618,11 +2867,14 @@ namespace Splines {
      | and `indep` as independent spline
     \*/
     void
-    eval2_DDD( real_type               zeta,
-               char            const * indep,
-               vec_string_type const & columns,
-               GenericContainer      & vals ) const
-    { eval2_DD( zeta, getPosition(indep), columns, vals ); }
+    eval2_DDD(
+      real_type               zeta,
+      char            const * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_DD( zeta, getPosition(indep), columns, vals );
+    }
 
     /*!
      | Evaluate all the splines at `zeta` values contained
@@ -2630,11 +2882,14 @@ namespace Splines {
      | with keys in `columns` and `indep` as independent spline
     \*/
     void
-    eval2_DDD( vec_real_type   const & zetas,
-               char            const * indep,
-               vec_string_type const & columns,
-               GenericContainer      & vals ) const
-    { eval2_DD( zetas, getPosition(indep), columns, vals ); }
+    eval2_DDD(
+      vec_real_type   const & zetas,
+      char            const * indep,
+      vec_string_type const & columns,
+      GenericContainer      & vals
+    ) const {
+      eval2_DD( zetas, getPosition(indep), columns, vals );
+    }
 
     #endif
 
@@ -2649,13 +2904,15 @@ namespace Splines {
     \*/
 
     void
-    build( integer          nspl,
-           integer          npts,
-           char       const *headers[],
-           SplineType const stype[],
-           real_type  const X[],
-           real_type  const *Y[],
-           real_type  const *Yp[] = nullptr );
+    build(
+      integer          nspl,
+      integer          npts,
+      char       const *headers[],
+      SplineType const stype[],
+      real_type  const X[],
+      real_type  const *Y[],
+      real_type  const *Yp[] = nullptr
+    );
 
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     void
@@ -2860,12 +3117,14 @@ namespace Splines {
      | \param transposed      if true matrix Z is stored transposed
     \*/
     void
-    build( real_type const x[], integer incx,
-           real_type const y[], integer incy,
-           real_type const z[], integer ldZ,
-           integer nx, integer ny,
-           bool fortran_storage = false,
-           bool transposed      = false );
+    build(
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
+      real_type const z[], integer ldZ,
+      integer nx, integer ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
 
     /*! Build surface spline
      | \param x       vector of x-coordinates, nx = x.size()
@@ -2877,11 +3136,13 @@ namespace Splines {
      | \param transposed      if true matrix Z is stored transposed
     \*/
     void
-    build( vector<real_type> const & x,
-           vector<real_type> const & y,
-           vector<real_type> const & z,
-           bool fortran_storage = false,
-           bool transposed      = false ) {
+    build(
+      vector<real_type> const & x,
+      vector<real_type> const & y,
+      vector<real_type> const & z,
+      bool fortran_storage = false,
+      bool transposed      = false
+    ) {
       bool xyswp = (fortran_storage && transposed) ||
                    (!fortran_storage && !transposed);
       build( &x.front(), 1, &y.front(), 1, &z.front(),
@@ -2900,12 +3161,14 @@ namespace Splines {
      | \param transposed      if true matrix Z is stored transposed
     \*/
     void
-    build( real_type const z[],
-           integer         ldZ,
-           integer         nx,
-           integer         ny,
-           bool fortran_storage = false,
-           bool transposed      = false );
+    build(
+      real_type const z[],
+      integer         ldZ,
+      integer         nx,
+      integer         ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
 
     /*! Build surface spline
      | \param z               matrix of z-values. Elements are stored
@@ -2917,11 +3180,13 @@ namespace Splines {
      | \param transposed      if true matrix Z is stored transposed
     \*/
     void
-    build( vector<real_type> const & z,
-           integer                   nx,
-           integer                   ny,
-           bool fortran_storage = false,
-           bool transposed      = false ) {
+    build(
+      vector<real_type> const & z,
+      integer                   nx,
+      integer                   ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    ) {
       if ( fortran_storage )
         build( &z.front(), nx, nx, ny, fortran_storage, transposed );
       else

@@ -36,10 +36,12 @@ namespace Splines {
 
   static
   void
-  Bessel_build( real_type const X[],
-                real_type const Y[],
-                real_type       Yp[],
-                integer         npts ) {
+  Bessel_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
+  ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
     std::vector<real_type> m(n+1);

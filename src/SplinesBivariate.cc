@@ -56,12 +56,14 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::build( real_type const x[], integer incx,
-                     real_type const y[], integer incy,
-                     real_type const z[], integer ldZ,
-                     integer nx, integer ny,
-                     bool fortran_storage,
-                     bool transposed ) {
+  SplineSurf::build(
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
+    real_type const z[], integer ldZ,
+    integer nx, integer ny,
+    bool fortran_storage,
+    bool transposed
+  ) {
     X.resize( size_t(nx) );
     Y.resize( size_t(ny) );
     Z.resize( size_t(nx*ny) );
@@ -90,10 +92,12 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::build( real_type const z[], integer ldZ,
-                     integer nx, integer ny,
-                     bool fortran_storage,
-                     bool transposed ) {
+  SplineSurf::build(
+    real_type const z[], integer ldZ,
+    integer nx, integer ny,
+    bool fortran_storage,
+    bool transposed
+  ) {
     vector<real_type> XX, YY; // temporary vector
     XX.resize( size_t(nx) );
     YY.resize( size_t(ny) ); // temporary vector

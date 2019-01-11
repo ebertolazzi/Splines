@@ -17,44 +17,46 @@ LIB_NAME="Splines"
 
 desc "run tests"
 task :run do
-	sh "./bin/example1"
-	sh "./bin/example2"
-	sh "./bin/example3"
-	sh "./bin/example4"
-	sh "./bin/example5"
-	sh "./bin/example6"
-	sh "./bin/example7"
-	sh "./bin/example8"
-	sh "./bin/example9"
-	sh "./bin/example10"
-	sh "./bin/example11"
+  sh "./bin/test1"
+  sh "./bin/test2"
+  sh "./bin/test3"
+  sh "./bin/test4"
+  sh "./bin/test5"
+  sh "./bin/test6"
+  ##sh "./bin/test7"
+  sh "./bin/test8"
+  sh "./bin/test9"
 end
 
 desc "run tests"
 task :run_win do
-	sh "./bin/Release/example1"
-	sh "./bin/Release/example2"
-	sh "./bin/Release/example3"
-	sh "./bin/Release/example4"
-	sh "./bin/Release/example5"
-	sh "./bin/Release/example6"
-	sh "./bin/Release/example7"
-	sh "./bin/Release/example8"
-	sh "./bin/Release/example9"
-	sh "./bin/Release/example10"
-	sh "./bin/Release/example11"
+  sh "./bin/Release/test1"
+  sh "./bin/Release/test2"
+  sh "./bin/Release/test3"
+  sh "./bin/Release/test4"
+  sh "./bin/Release/test5"
+  sh "./bin/Release/test6"
+  ##sh "./bin/Release/test7"
+  sh "./bin/Release/test8"
+  sh "./bin/Release/test9"
 end
 
-desc "compile for Visual Studio [default year=2017 bits=x64]"
-task :build do
+desc "compile for UNIX/OSX [default GC='./GC']"
+task :build, [:gc_dir] do |t, args|
 
-  puts "\n\nBuild submodule GenericContainer".green
-  FileUtils.rm_rf "GC"
-  sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
-  FileUtils.cd "GC"
-  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
-  sh "rake build"
-  FileUtils.cd ".."
+  args.with_defaults( :gc_dir => './GC' )
+
+  if args.gc_dir == './GC' then
+    puts "\n\nBuild submodule GenericContainer".green
+    FileUtils.rm_rf "GC"
+    sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
+    FileUtils.cd "GC"
+    FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
+    sh "rake build"
+    FileUtils.cd ".."
+  else
+    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
+  end
 
   FileUtils.rm_rf   "lib"
   FileUtils.mkdir_p "lib"
@@ -63,7 +65,7 @@ task :build do
   FileUtils.cd      "build"
 
   puts "\n\nPrepare #{LIB_NAME} project".green
-  sh 'cmake -DCMAKE_INSTALL_PREFIX:PATH=lib ..'
+  sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=lib -DGC_DIR:PATH=\"#{args.gc_dir}\" .."
 
   puts "\n\nCompile #{LIB_NAME} Debug".green
   sh 'cmake --build . --config Debug  --target install'
@@ -88,17 +90,21 @@ task :build do
 end
 
 desc "compile for Visual Studio [default year=2017 bits=x64]"
-task :build_win, [:year, :bits] do |t, args|
-  args.with_defaults( :year => "2017", :bits => "x64" )
+task :build_win, [:year, :bits, :gc_dir] do |t, args|
+  args.with_defaults( :year => "2017", :bits => "x64", :gc_dir => './GC' )
 
-  puts "\n\nBuild submodule GenericContainer".green
-  FileUtils.rm_rf "GC"
-  sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
-  FileUtils.cd "GC"
-  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
-  sh "rake build_win[#{args.year},#{args.bits}]"
-  FileUtils.cd ".."
-  
+  if args.gc_dir == './GC' then
+    puts "\n\nBuild submodule GenericContainer".green
+    FileUtils.rm_rf "GC"
+    sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
+    FileUtils.cd "GC"
+    FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
+    sh "rake build_win[#{args.year},#{args.bits}]"
+    FileUtils.cd ".."
+  else
+    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
+  end
+
   puts "\n\nPrepare #{LIB_NAME} project".green
   dir = "vs_#{args.year}_#{args.bits}"
 
@@ -109,7 +115,7 @@ task :build_win, [:year, :bits] do |t, args|
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " + ' -DCMAKE_INSTALL_PREFIX:PATH=lib ..'
+  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " + ' -DCMAKE_INSTALL_PREFIX:PATH=lib -DGC_DIR:PATH=\"#{args.gc_dir}\" ..'
 
   win32_64 = ''
   case args.bits

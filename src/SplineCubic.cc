@@ -36,12 +36,14 @@ namespace Splines {
 
   static
   void
-  CubicSpline_build( real_type const X[],
-                     real_type const Y[],
-                     real_type       Yp[],
-                     integer         npts,
-                     real_type       ddy0,
-                     real_type       ddyn ) {
+  CubicSpline_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts,
+    real_type       ddy0,
+    real_type       ddyn
+  ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 

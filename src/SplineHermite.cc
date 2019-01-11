@@ -214,37 +214,41 @@ namespace Splines {
   */
 
   real_type
-  bilinear3( real_type const p[4],
-             real_type const M[4][4],
-             real_type const q[4] ) {
+  bilinear3(
+    real_type const p[4],
+    real_type const M[4][4],
+    real_type const q[4]
+  ) {
     return p[0] * ( M[0][0]*q[0] + M[0][1]*q[1] + M[0][2]*q[2] + M[0][3]*q[3] ) +
            p[1] * ( M[1][0]*q[0] + M[1][1]*q[1] + M[1][2]*q[2] + M[1][3]*q[3] ) +
            p[2] * ( M[2][0]*q[0] + M[2][1]*q[1] + M[2][2]*q[2] + M[2][3]*q[3] ) +
            p[3] * ( M[3][0]*q[0] + M[3][1]*q[1] + M[3][2]*q[2] + M[3][3]*q[3] );
-    
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  bilinear5( real_type const p[6],
-             real_type const M[6][6],
-             real_type const q[6] ) {
+  bilinear5(
+    real_type const p[6],
+    real_type const M[6][6],
+    real_type const q[6]
+  ) {
     return p[0] * ( M[0][0]*q[0] + M[0][1]*q[1] + M[0][2]*q[2] + M[0][3]*q[3] + M[0][4]*q[4] + M[0][5]*q[5]) +
            p[1] * ( M[1][0]*q[0] + M[1][1]*q[1] + M[1][2]*q[2] + M[1][3]*q[3] + M[1][4]*q[4] + M[1][5]*q[5]) +
            p[2] * ( M[2][0]*q[0] + M[2][1]*q[1] + M[2][2]*q[2] + M[2][3]*q[3] + M[2][4]*q[4] + M[2][5]*q[5]) +
            p[3] * ( M[3][0]*q[0] + M[3][1]*q[1] + M[3][2]*q[2] + M[3][3]*q[3] + M[3][4]*q[4] + M[3][5]*q[5]) +
            p[4] * ( M[4][0]*q[0] + M[4][1]*q[1] + M[4][2]*q[2] + M[4][3]*q[3] + M[4][4]*q[4] + M[4][5]*q[5]) +
            p[5] * ( M[5][0]*q[0] + M[5][1]*q[1] + M[5][2]*q[2] + M[5][3]*q[3] + M[5][4]*q[4] + M[5][5]*q[5]);
-    
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  HermiteSpline::build( real_type const [], integer,
-                        real_type const [], integer,
-                        integer ) {
+  HermiteSpline::build(
+    real_type const [], integer,
+    real_type const [], integer,
+    integer
+  ) {
     SPLINE_ASSERT( false, "HermiteSpline::build(x,incx,y,incy,n) cannot be used");
   }
 

@@ -40,10 +40,12 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  CubicSplineBase::build( real_type const x[],  integer incx,
-                          real_type const y[],  integer incy,
-                          real_type const yp[], integer incyp,
-                          integer n ) {
+  CubicSplineBase::build(
+    real_type const x[],  integer incx,
+    real_type const y[],  integer incy,
+    real_type const yp[], integer incyp,
+    integer n
+  ) {
     reserve( n );
     for ( size_t i = 0; i < size_t(n); ++i ) {
       X[i]  = x[i*size_t(incx)];
@@ -83,10 +85,12 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  CubicSplineBase::reserve_external( integer      n,
-                                     real_type *& p_x,
-                                     real_type *& p_y,
-                                     real_type *& p_dy ) {
+  CubicSplineBase::reserve_external(
+    integer      n,
+    real_type *& p_x,
+    real_type *& p_y,
+    real_type *& p_dy
+  ) {
     npts_reserved = n;
     X    = p_x;
     Y    = p_y;
@@ -146,9 +150,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
-  CubicSplineBase::coeffs( real_type cfs[],
-                           real_type nodes[],
-                           bool transpose ) const {
+  CubicSplineBase::coeffs(
+    real_type cfs[],
+    real_type nodes[],
+    bool transpose
+  ) const {
     size_t n = size_t(npts > 0 ? npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {
       nodes[i] = X[i];

@@ -126,9 +126,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setup( integer           dim,
-                    integer           npts,
-                    real_type const * Y[] ) {
+  SplineVec::setup(
+    integer           dim,
+    integer           npts,
+    real_type const * Y[]
+  ) {
     allocate( dim, npts );
     for ( size_t spl = 0; spl < size_t(_dim); ++spl )
       std::copy( Y[spl], Y[spl]+_npts, _Y[spl] );
@@ -137,10 +139,12 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setup( integer         dim,
-                    integer         npts,
-                    real_type const Y[],
-                    integer         ldY ) {
+  SplineVec::setup(
+    integer         dim,
+    integer         npts,
+    real_type const Y[],
+    integer         ldY
+  ) {
     allocate( dim, npts );
     for ( size_t spl = 0; spl < size_t(_dim); ++spl )
       for ( size_t j = 0; j < size_t(_npts); ++j )
@@ -306,9 +310,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval( real_type x,
-                   real_type vals[],
-                   integer   inc ) const {
+  SplineVec::eval(
+    real_type x,
+    real_type vals[],
+    integer   inc
+  ) const {
     size_t i = size_t(search( x ));
     real_type base[4];
     Hermite3( x-_X[i], _X[i+1]-_X[i], base );
@@ -323,9 +329,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_D( real_type x,
-                     real_type vals[],
-                     integer   inc ) const {
+  SplineVec::eval_D(
+    real_type x,
+    real_type vals[],
+    integer   inc
+  ) const {
     size_t i = size_t(search( x ));
     real_type base_D[4];
     Hermite3_D( x-_X[i], _X[i+1]-_X[i], base_D );
@@ -340,9 +348,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_DD( real_type x,
-                      real_type vals[],
-                      integer   inc ) const {
+  SplineVec::eval_DD(
+    real_type x,
+    real_type vals[],
+    integer   inc
+  ) const {
     size_t i = size_t(search( x ));
     real_type base_DD[4];
     Hermite3_DD( x-_X[i], _X[i+1]-_X[i], base_DD );
@@ -357,9 +367,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_DDD( real_type x,
-                       real_type vals[],
-                       integer   inc ) const {
+  SplineVec::eval_DDD(
+    real_type x,
+    real_type vals[],
+    integer   inc
+  ) const {
     size_t i = size_t(search( x ));
     real_type base_DDD[4];
     Hermite3_DDD( x-_X[i], _X[i+1]-_X[i], base_DDD );
@@ -408,8 +420,10 @@ namespace Splines {
    | Evaluate at `x` and fill a GenericContainer
   \*/
   void
-  SplineVec::eval( vec_real_type const & x,
-                   GenericContainer    & vals ) const {
+  SplineVec::eval(
+    vec_real_type const & x,
+    GenericContainer    & vals
+  ) const {
     mat_real_type & m = vals.set_mat_real( unsigned(_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
@@ -420,8 +434,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_D( vec_real_type const & x,
-                     GenericContainer    & vals ) const {
+  SplineVec::eval_D(
+    vec_real_type const & x,
+    GenericContainer    & vals
+  ) const {
     mat_real_type & m = vals.set_mat_real( unsigned(_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
@@ -432,8 +448,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_DD( vec_real_type const & x,
-                      GenericContainer    & vals ) const {
+  SplineVec::eval_DD(
+    vec_real_type const & x,
+    GenericContainer    & vals
+  ) const {
     mat_real_type & m = vals.set_mat_real( unsigned(_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
@@ -445,8 +463,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::eval_DDD( vec_real_type const & x,
-                       GenericContainer    & vals ) const {
+  SplineVec::eval_DDD(
+    vec_real_type const & x,
+    GenericContainer    & vals
+  ) const {
     mat_real_type & m = vals.set_mat_real( unsigned(_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();

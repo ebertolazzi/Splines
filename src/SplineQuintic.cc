@@ -66,11 +66,13 @@ namespace Splines {
 
   static
   void
-  quintic_pchip( real_type const X[],
-                 real_type const Y[],
-                 real_type       Yp[],
-                 real_type       Ypp[],
-                 integer         n ) {
+  quintic_pchip(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    real_type       Ypp[],
+    integer         n
+  ) {
     pchip( X, Y, Yp, n );
     real_type h1 = X[1] - X[0];
     Ypp[0] = 0*(6*(X[1]-X[0])/h1-4*Yp[0]-2*Yp[1])/h1; // left

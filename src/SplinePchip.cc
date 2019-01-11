@@ -86,10 +86,12 @@ namespace Splines {
    | SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
   \*/
   void
-  pchip( real_type const X[],
-         real_type const Y[],
-         real_type       Yp[],
-         integer         n ) {
+  pchip(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         n
+  ) {
 
     integer ierr = 0;
 

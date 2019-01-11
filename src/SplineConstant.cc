@@ -80,9 +80,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  ConstantSpline::build( real_type const x[], integer incx,
-                         real_type const y[], integer incy,
-                         integer n ) {
+  ConstantSpline::build(
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
+    integer n
+  ) {
     reserve( n );
     for ( size_t i = 0; i   < size_t(n); ++i ) X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i+1 < size_t(n); ++i ) Y[i] = y[i*size_t(incy)];

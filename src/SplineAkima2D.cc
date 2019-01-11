@@ -31,10 +31,12 @@ namespace Splines {
   // Statement Function definitions
   inline
   real_type
-  Extrapolate2( real_type X1,
-                real_type X2,
-                real_type Z0,
-                real_type Z1 ) {
+  Extrapolate2(
+    real_type X1,
+    real_type X2,
+    real_type Z0,
+    real_type Z1
+  ) {
     return (Z1-Z0)*X2/X1 + Z0;
   }
 
@@ -42,12 +44,14 @@ namespace Splines {
 
   inline
   real_type
-  Extrapolate3( real_type X1,
-                real_type X2,
-                real_type X3,
-                real_type Z0,
-                real_type Z1,
-                real_type Z2 ) {
+  Extrapolate3(
+    real_type X1,
+    real_type X2,
+    real_type X3,
+    real_type Z0,
+    real_type Z1,
+    real_type Z2
+  ) {
     return ( (Z2-Z0) * (X3-X1)/X2 - (Z1-Z0) * (X3-X2)/X1 ) * (X3/(X2-X1)) + Z0;
   }
 
@@ -55,22 +59,24 @@ namespace Splines {
 
   static
   void
-  estimate( real_type   z0,
-            real_type   z1,
-            real_type   z2,
-            real_type   z3,
-            real_type   x1,
-            real_type   x2,
-            real_type   x3,
-            real_type & c1,
-            real_type & c2,
-            real_type & c3,
-            real_type & SX,
-            real_type & SXX,
-            real_type & b0,
-            real_type & b1,
-            real_type   RF[2],
-            real_type   RI[2] ) {
+  estimate(
+    real_type   z0,
+    real_type   z1,
+    real_type   z2,
+    real_type   z3,
+    real_type   x1,
+    real_type   x2,
+    real_type   x3,
+    real_type & c1,
+    real_type & c2,
+    real_type & c3,
+    real_type & SX,
+    real_type & SXX,
+    real_type & b0,
+    real_type & b1,
+    real_type   RF[2],
+    real_type   RI[2]
+  ) {
 
     // Primary estimate of partial derivative zx
     // as the coefficient of the bicubic polynomial.
@@ -111,12 +117,14 @@ namespace Splines {
   // 0 1 2 3 (4) 5 6 7 8
   static
   void
-  AkimaSmooth( real_type const X[9], integer imin, integer imax,
-               real_type const Y[9], integer jmin, integer jmax,
-               real_type const Z[9][9],
-               real_type & DX,
-               real_type & DY,
-               real_type & DXY ) {
+  AkimaSmooth(
+    real_type const X[9], integer imin, integer imax,
+    real_type const Y[9], integer jmin, integer jmax,
+    real_type const Z[9][9],
+    real_type & DX,
+    real_type & DY,
+    real_type & DXY
+  ) {
 
     int stencil[3][4] = { { -3, -2, -1, 1 },
                           { -2, -1,  1, 2 },
