@@ -11,6 +11,12 @@
   end
 end
 
+require "rake/clean"
+
+CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build"]
+CLOBBER.include []
+CLEAN.exclude('**/[cC][oO][rR][eE]')
+
 task :default => [:build]
 
 LIB_NAME="Splines"
@@ -89,7 +95,7 @@ task :build, [:gc_dir] do |t, args|
 
 end
 
-desc "compile for Visual Studio [default year=2017 bits=x64]"
+desc "compile for Visual Studio [default year=2017 bits=x64 gc_dir='./GC']"
 task :build_win, [:year, :bits, :gc_dir] do |t, args|
   args.with_defaults( :year => "2017", :bits => "x64", :gc_dir => './GC' )
 
@@ -115,7 +121,9 @@ task :build_win, [:year, :bits, :gc_dir] do |t, args|
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " + ' -DCMAKE_INSTALL_PREFIX:PATH=lib -DGC_DIR:PATH=\"#{args.gc_dir}\" ..'
+  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " +
+        ' -DCMAKE_INSTALL_PREFIX:PATH=lib' +
+        " -DGC_DIR:PATH=\"#{args.gc_dir}\" .."
 
   win32_64 = ''
   case args.bits
@@ -138,13 +146,15 @@ task :build_win, [:year, :bits, :gc_dir] do |t, args|
     puts "Visual Studio year #{year} not supported!\n";
   end
 
+  libname = "#{LIB_NAME}_vs#{args.year}_#{args.bits}"
+
   puts "\n\nCompile #{LIB_NAME} Debug".green
   sh 'cmake --build . --config Debug --target install'
-  FileUtils.cp "Debug/#{LIB_NAME}.lib", "../lib/#{LIB_NAME}_vs#{args.year}_#{args.bits}_debug.lib"
+  FileUtils.cp "Debug/#{LIB_NAME}.lib", "../lib/#{libname}_debug.lib"
 
   puts "\n\nCompile #{LIB_NAME} Release".green
   sh 'cmake --build . --config Release  --target install'
-  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{LIB_NAME}_vs#{args.year}_#{args.bits}.lib"  
+  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{libname}.lib"  
 
   puts "\n\nCopy include".green
   FileUtils.cp_r "lib/lib/include", "../lib/include"
