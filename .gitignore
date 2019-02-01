@@ -1,4 +1,5 @@
 *~
+.vscode/
 /wiki
 /doc/*
 /bin/*

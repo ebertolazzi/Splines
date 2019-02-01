@@ -21,8 +21,8 @@
 #include "Splines.hh"
 #include <fstream>
 
-#if defined(__GCC__) || defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wc++98-compat"
+#ifdef __GNUC__
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"

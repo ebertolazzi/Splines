@@ -210,9 +210,6 @@
 #include "Splines.hh"
 #include <iomanip>
 
-#if defined(__GCC__) || defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wc++98-compat"
-#endif
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #endif

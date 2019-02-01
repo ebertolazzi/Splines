@@ -21,9 +21,6 @@
 #include <limits>
 #include <cmath>
 
-#if defined(__GCC__) || defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wc++98-compat"
-#endif
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #endif
