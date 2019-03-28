@@ -1878,7 +1878,7 @@ namespace Splines {
 
     SplineMalloc<real_type>  baseValue;
     SplineMalloc<real_type*> basePointer;
-    
+
     integer _npts;
     integer _nspl;
 
