@@ -126,9 +126,9 @@ namespace Splines {
     real_type & DXY
   ) {
 
-    int stencil[3][4] = { { -3, -2, -1, 1 },
-                          { -2, -1,  1, 2 },
-                          { -1,  1,  2, 3 } };
+    integer stencil[3][4] = { { -3, -2, -1, 1 },
+                              { -2, -1,  1, 2 },
+                              { -1,  1,  2, 3 } };
 
     real_type by0[4], by1[4], CY1A[4], CY2A[4], CY3A[4], SYA[4], SYYA[4];
 
@@ -144,7 +144,7 @@ namespace Splines {
     real_type DXYF[2] = {0,0};
     real_type DXYI[2] = {0,0};
 
-    for ( int k = 0; k < 4; ++k ) {
+    for ( integer k = 0; k < 4; ++k ) {
       int j1 = 4 + stencil[0][k];
       int j2 = 4 + stencil[1][k];
       int j3 = 4 + stencil[2][k];
@@ -155,7 +155,7 @@ namespace Splines {
                   by0[k], by1[k], DYF, DYI );
     }
 
-    for ( int kx = 0; kx < 4; ++kx ) {
+    for ( integer kx = 0; kx < 4; ++kx ) {
       int i1 = 4 + stencil[0][kx];
       int i2 = 4 + stencil[1][kx];
       int i3 = 4 + stencil[2][kx];
@@ -274,9 +274,9 @@ namespace Splines {
    */
   void
   Akima2Dspline::makeSpline() {
-    DX.resize(Z.size());
-    DY.resize(Z.size());
-    DXY.resize(Z.size());
+    this->DX.resize(Z.size());
+    this->DY.resize(Z.size());
+    this->DXY.resize(Z.size());
     // calcolo derivate
     size_t nx = size_t(X.size());
     size_t ny = size_t(Y.size());

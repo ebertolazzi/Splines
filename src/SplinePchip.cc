@@ -171,19 +171,20 @@ namespace Splines {
 
   void
   PchipSpline::build() {
-    SPLINE_ASSERT( npts > 1,
-                   "PchipSpline::build(): npts = " << npts <<
-                   " not enought points" );
+    SPLINE_ASSERT(
+      this->npts > 1,
+      "PchipSpline::build(): npts = " << this->npts << " not enought points"
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < npts && X[iend-1] < X[iend] ) {};
-      pchip( X+ibegin, Y+ibegin, Yp+ibegin, (iend-ibegin)-1 );
+      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {};
+      pchip( this->X+ibegin, this->Y+ibegin, this->Yp+ibegin, (iend-ibegin)-1 );
       ibegin = iend;
-    } while ( iend < npts );
+    } while ( iend < this->npts );
     
-    SPLINE_CHECK_NAN(Yp,"PchipSpline::build(): Yp",npts);
+    SPLINE_CHECK_NAN(this->Yp,"PchipSpline::build(): Yp",this->npts);
     //pchip( X, Y, Yp, npts -1 );
   }
 

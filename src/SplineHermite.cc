@@ -264,12 +264,18 @@ namespace Splines {
     // gc["y"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"),
-                   "HermiteSpline[" << _name << "]::setup missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"),
-                   "HermiteSpline[" << _name << "]::setup missing `y` field!");
-    SPLINE_ASSERT( gc.exists("yp"),
-                   "HermiteSpline[" << _name << "]::setup missing `yp` field!");
+    SPLINE_ASSERT(
+      gc.exists("x"),
+      "HermiteSpline[" << _name << "]::setup missing `x` field!"
+    );
+    SPLINE_ASSERT(
+      gc.exists("y"),
+      "HermiteSpline[" << _name << "]::setup missing `y` field!"
+    );
+    SPLINE_ASSERT(
+      gc.exists("yp"),
+      "HermiteSpline[" << _name << "]::setup missing `yp` field!"
+    );
 
     GenericContainer const & gc_x  = gc("x");
     GenericContainer const & gc_y  = gc("y");
@@ -279,19 +285,19 @@ namespace Splines {
     {
       std::ostringstream ost;
       ost << "HermiteSpline[" << _name << "]::setup, field `x'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      gc_x.copyto_vec_real( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
       ost << "HermiteSpline[" << _name << "]::setup, field `y'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      gc_y.copyto_vec_real( y, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
       ost << "HermiteSpline[" << _name << "]::setup, field `yp'";
-      gc_yp.copyto_vec_real ( yp, ost.str().c_str() );
+      gc_yp.copyto_vec_real( yp, ost.str().c_str() );
     }
-    build( x, y, yp );
+    this->build( x, y, yp );
   }
   #endif
 }

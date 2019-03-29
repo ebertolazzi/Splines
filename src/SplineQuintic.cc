@@ -91,19 +91,24 @@ namespace Splines {
 
   void
   QuinticSpline::build() {
-    SPLINE_ASSERT( npts > 1,
-                   "QuinticSpline::build(): npts = " << npts <<
-                   " not enought points" );
+    SPLINE_ASSERT(
+      this->npts > 1,
+      "QuinticSpline::build(): npts = " << this->npts << " not enought points"
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < npts && X[iend-1] < X[iend] ) {};
-      quintic_pchip( X+ibegin, Y+ibegin, Yp+ibegin, Ypp+ibegin, (iend-ibegin)-1 );
+      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {};
+      quintic_pchip(
+        this->X+ibegin,  this->Y+ibegin,
+        this->Yp+ibegin, this->Ypp+ibegin,
+        (iend-ibegin)-1
+      );
       ibegin = iend;
-    } while ( iend < npts );
+    } while ( iend < this->npts );
     
-    SPLINE_CHECK_NAN( Yp,  "QuinticSpline::build(): Yp",  npts );
-    SPLINE_CHECK_NAN( Ypp, "QuinticSpline::build(): Ypp", npts );
+    SPLINE_CHECK_NAN( this->Yp,  "QuinticSpline::build(): Yp",  this->npts );
+    SPLINE_CHECK_NAN( this->Ypp, "QuinticSpline::build(): Ypp", this->npts );
   }
 }

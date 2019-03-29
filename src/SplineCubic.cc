@@ -94,24 +94,28 @@ namespace Splines {
 
   void
   CubicSpline::build() {
-    SPLINE_ASSERT( npts > 1,
-                   "CubicSpline::build(): npts = " << npts <<
-                   " not enought points" );
+    SPLINE_ASSERT(
+      this->npts > 1,
+      "CubicSpline::build(): npts = " << this->npts <<
+      " not enought points"
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < npts && X[iend-1] < X[iend] ) {};
-      real_type d0 = ibegin == 0    ? ddy0 : 0;
-      real_type d1 = iend   == npts ? ddyn : 0;
-      CubicSpline_build( X+ibegin,
-                         Y+ibegin,
-                         Yp+ibegin,
-                         iend-ibegin, d0, d1 );
+      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {};
+      real_type d0 = ibegin == 0          ? ddy0 : 0;
+      real_type d1 = iend   == this->npts ? ddyn : 0;
+      CubicSpline_build(
+        this->X+ibegin,
+        this->Y+ibegin,
+        this->Yp+ibegin,
+        iend-ibegin, d0, d1
+      );
       ibegin = iend;
-    } while ( iend < npts );
+    } while ( iend < this->npts );
     
-    SPLINE_CHECK_NAN(Yp,"CubicSpline::build(): Yp",npts);
+    SPLINE_CHECK_NAN(this->Yp,"CubicSpline::build(): Yp",this->npts);
   }
 
   #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -128,10 +132,14 @@ namespace Splines {
     // gc["y"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"),
-                   "CubicSpline[" << _name << "]::setup missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"),
-                   "CubicSpline[" << _name << "]::setup missing `y` field!");
+    SPLINE_ASSERT(
+      gc.exists("x"),
+      "CubicSpline[" << this->_name << "]::setup missing `x` field!"
+    );
+    SPLINE_ASSERT(
+      gc.exists("y"),
+      "CubicSpline[" << this->_name << "]::setup missing `y` field!"
+    );
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");
@@ -139,19 +147,19 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "CubicSpline[" << _name << "]::setup, field `x'";
+      ost << "CubicSpline[" << this->_name << "]::setup, field `x'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "CubicSpline[" << _name << "]::setup, field `y'";
+      ost << "CubicSpline[" << this->_name << "]::setup, field `y'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     ddy0 = ddyn = 0;
     gc.get_if_exists( "ddy_begin", ddy0 );
     gc.get_if_exists( "ddy_end",   ddyn );
 
-    build( x, y );
+    this->build( x, y );
   }
   #endif
 }

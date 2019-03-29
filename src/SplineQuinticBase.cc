@@ -36,48 +36,48 @@ namespace Splines {
 
   void
   QuinticSplineBase::reserve_external(
-    integer      n,
-    real_type *& p_X,
-    real_type *& p_Y,
-    real_type *& p_Yp,
-    real_type *& p_Ypp
+    integer       n,
+    real_type * & p_X,
+    real_type * & p_Y,
+    real_type * & p_Yp,
+    real_type * & p_Ypp
   ) {
-    if ( !_external_alloc ) baseValue.free();
-    npts            = 0;
-    npts_reserved   = n;
-    _external_alloc = true;
-    X   = p_X;
-    Y   = p_Y;
-    Yp  = p_Yp;
-    Ypp = p_Ypp;
+    if ( !this->_external_alloc ) this->baseValue.free();
+    this->npts            = 0;
+    this->npts_reserved   = n;
+    this->_external_alloc = true;
+    this->X               = p_X;
+    this->Y               = p_Y;
+    this->Yp              = p_Yp;
+    this->Ypp             = p_Ypp;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   QuinticSplineBase::reserve( integer n ) {
-    if ( _external_alloc && n <= npts_reserved ) {
+    if ( this->_external_alloc && n <= this->npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      baseValue.allocate( size_t(4*n) );
-      npts_reserved   = n;
-      _external_alloc = false;
-      X   = baseValue( size_t(n) );
-      Y   = baseValue( size_t(n) );
-      Yp  = baseValue( size_t(n) );
-      Ypp = baseValue( size_t(n) );
+      this->baseValue.allocate( size_t(4*n) );
+      this->npts_reserved   = n;
+      this->_external_alloc = false;
+      this->X               = this->baseValue( size_t(n) );
+      this->Y               = this->baseValue( size_t(n) );
+      this->Yp              = this->baseValue( size_t(n) );
+      this->Ypp             = this->baseValue( size_t(n) );
     }
-    npts = lastInterval = 0;
+    this->npts = this->lastInterval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   QuinticSplineBase::clear(void) {
-    if ( !_external_alloc ) baseValue.free();
-    npts = npts_reserved = 0;
-    _external_alloc = false;
-    X = Y = Yp = Ypp = nullptr;
+    if ( !this->_external_alloc ) this->baseValue.free();
+    this->npts = this->npts_reserved = 0;
+    this->_external_alloc = false;
+    this->X = this->Y = this->Yp = this->Ypp = nullptr;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,13 +85,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::operator () ( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5( x-X[i], X[i+1]-X[i], base );
-    return base[0] * Y[i]    +
-           base[1] * Y[i+1]  +
-           base[2] * Yp[i]   +
-           base[3] * Yp[i+1] +
-           base[4] * Ypp[i]  +
-           base[5] * Ypp[i+1];
+    Hermite5( x-this->X[i], this->X[i+1]-this->X[i], this->base );
+    return this->base[0] * this->Y[i]    +
+           this->base[1] * this->Y[i+1]  +
+           this->base[2] * this->Yp[i]   +
+           this->base[3] * this->Yp[i+1] +
+           this->base[4] * this->Ypp[i]  +
+           this->base[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,13 +99,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::D( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5_D( x-X[i], X[i+1]-X[i], base_D );
-    return base_D[0] * Y[i]    +
-           base_D[1] * Y[i+1]  +
-           base_D[2] * Yp[i]   +
-           base_D[3] * Yp[i+1] +
-           base_D[4] * Ypp[i]  +
-           base_D[5] * Ypp[i+1];
+    Hermite5_D( x-this->X[i], this->X[i+1]-this->X[i], this->base_D );
+    return this->base_D[0] * this->Y[i]    +
+           this->base_D[1] * this->Y[i+1]  +
+           this->base_D[2] * this->Yp[i]   +
+           this->base_D[3] * this->Yp[i+1] +
+           this->base_D[4] * this->Ypp[i]  +
+           this->base_D[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,13 +113,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::DD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5_DD( x-X[i], X[i+1]-X[i], base_DD );
-    return base_DD[0] * Y[i]    +
-           base_DD[1] * Y[i+1]  +
-           base_DD[2] * Yp[i]   +
-           base_DD[3] * Yp[i+1] +
-           base_DD[4] * Ypp[i]  +
-           base_DD[5] * Ypp[i+1];
+    Hermite5_DD( x-this->X[i], this->X[i+1]-this->X[i], this->base_DD );
+    return this->base_DD[0] * this->Y[i]    +
+           this->base_DD[1] * this->Y[i+1]  +
+           this->base_DD[2] * this->Yp[i]   +
+           this->base_DD[3] * this->Yp[i+1] +
+           this->base_DD[4] * this->Ypp[i]  +
+           this->base_DD[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -127,13 +127,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5_DDD( x-X[i], X[i+1]-X[i], base_DDD );
-    return base_DDD[0] * Y[i]    +
-           base_DDD[1] * Y[i+1]  +
-           base_DDD[2] * Yp[i]   +
-           base_DDD[3] * Yp[i+1] +
-           base_DDD[4] * Ypp[i]  +
-           base_DDD[5] * Ypp[i+1];
+    Hermite5_DDD( x-this->X[i], this->X[i+1]-this->X[i], this->base_DDD );
+    return this->base_DDD[0] * this->Y[i]    +
+           this->base_DDD[1] * this->Y[i+1]  +
+           this->base_DDD[2] * this->Yp[i]   +
+           this->base_DDD[3] * this->Yp[i+1] +
+           this->base_DDD[4] * this->Ypp[i]  +
+           this->base_DDD[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,13 +141,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5_DDDD( x-X[i], X[i+1]-X[i], base_DDDD );
-    return base_DDDD[0] * Y[i]    +
-           base_DDDD[1] * Y[i+1]  +
-           base_DDDD[2] * Yp[i]   +
-           base_DDDD[3] * Yp[i+1] +
-           base_DDDD[4] * Ypp[i]  +
-           base_DDDD[5] * Ypp[i+1];
+    Hermite5_DDDD( x-this->X[i], this->X[i+1]-this->X[i], this->base_DDDD );
+    return this->base_DDDD[0] * this->Y[i]    +
+           this->base_DDDD[1] * this->Y[i+1]  +
+           this->base_DDDD[2] * this->Yp[i]   +
+           this->base_DDDD[3] * this->Yp[i+1] +
+           this->base_DDDD[4] * this->Ypp[i]  +
+           this->base_DDDD[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -155,13 +155,13 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
     size_t i = size_t(Spline::search( x ));
-    Hermite5_DDDDD( x-X[i], X[i+1]-X[i], base_DDDDD );
-    return base_DDDDD[0] * Y[i]    +
-           base_DDDDD[1] * Y[i+1]  +
-           base_DDDDD[2] * Yp[i]   +
-           base_DDDDD[3] * Yp[i+1] +
-           base_DDDDD[4] * Ypp[i]  +
-           base_DDDDD[5] * Ypp[i+1];
+    Hermite5_DDDDD( x-this->X[i], this->X[i+1]-this->X[i], this->base_DDDDD );
+    return this->base_DDDDD[0] * this->Y[i]    +
+           this->base_DDDDD[1] * this->Y[i+1]  +
+           this->base_DDDDD[2] * this->Yp[i]   +
+           this->base_DDDDD[3] * this->Yp[i+1] +
+           this->base_DDDDD[4] * this->Ypp[i]  +
+           this->base_DDDDD[5] * this->Ypp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
