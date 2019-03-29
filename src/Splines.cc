@@ -426,27 +426,29 @@ namespace Splines {
 
     // find the interval of the support of the B-spline
     real_type const * XL = X+lastInterval;
-    if ( XL[1] <= x ) { // x on the right
+    if ( XL[1] < x ) { // x on the right
       if ( x >= X[npts-2] ) { // x in [X[npt-2],X[npts-1]]
         lastInterval = npts-2; // last interval
-      } else if ( x < XL[2] ) { // x in [XL[1],XL[2])
+      } else if ( x < XL[2] ) { // x in (XL[1],XL[2])
         ++lastInterval;
       } else { // x >= XL[2] search the right interval
         real_type const * XE = X+npts;
         lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
-        if ( X[lastInterval] > x ) --lastInterval;
+        real_type const * XX = X+lastInterval;
+        if ( x < XX[0] || XX[0] == XX[1] ) --lastInterval;
       }
     } else if ( x < XL[0] ) { // on the left
-      if ( x < X[1] ) { // x in [X[0],X[1])
+      if ( x <= X[1] ) { // x in [X[0],X[1]]
         lastInterval = 0; // first interval
       } else if ( XL[-1] <= x ) { // x in [XL[-1],XL[0])
         --lastInterval;
       } else {
         lastInterval = integer(std::lower_bound( X, XL, x )-X);
-        if ( X[lastInterval] > x ) --lastInterval;
+        real_type const * XX = X+lastInterval;
+        if ( x < XX[0] || XX[0] == XX[1] ) --lastInterval;
       }
     } else {
-      // x in the interval [XL[0],XL[1]) nothing to do
+      // x in the interval [ XL[0], XL[1] ] nothing to do
     }
   }
 
