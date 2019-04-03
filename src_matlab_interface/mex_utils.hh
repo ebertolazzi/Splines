@@ -95,9 +95,7 @@ static
 inline
 bool
 getBool( mxArray const * arg, char const msg[] ) {
-  MEX_ASSERT( mxIsLogicalScalar(arg),
-              msg << " expected logical, found ``" <<
-              mxGetClassName(arg) << "`" );
+  MEX_ASSERT( mxIsLogicalScalar(arg), msg );
   return mxIsLogicalScalarTrue(arg);
 }
 
@@ -135,9 +133,7 @@ getInt( mxArray const * arg, char const msg[] ) {
       }
       break;
     default:
-      MEX_ASSERT (false,
-                  msg << " bad type " << mxGetClassName(arg) <<
-                  " for a scalar integer" );
+      MEX_ASSERT (false, msg << " bad type scalar" );
     break;
   }
   return res;
@@ -174,7 +170,7 @@ getMatrixPointer( mxArray const * arg, mwSize & nr, mwSize & nc,  char const msg
 static
 inline
 void
-setScalarValue( mxArray * & arg, double const & value ) {
+setScalarValue( mxArray * & arg, double value ) {
   arg = mxCreateNumericMatrix(1, 1, mxDOUBLE_CLASS, mxREAL);
   *mxGetPr(arg) = value;
 }
@@ -191,13 +187,21 @@ static
 inline
 void
 setScalarBool( mxArray * & arg, bool value ) {
-  arg = mxCreateLogicalScalar(value);
+  arg = mxCreateLogicalScalar( value );
+}
+
+static
+inline
+int32_t *
+createMatrixInt32( mxArray * & arg, mwSize nrow, mwSize ncol ) {
+  arg = mxCreateNumericMatrix( nrow, ncol, mxINT32_CLASS, mxREAL );
+  return static_cast<int32_t*>(mxGetData(arg));
 }
 
 static
 inline
 int64_t *
-createMatrixInt( mxArray * & arg, mwSize nrow, mwSize ncol ) {
+createMatrixInt64( mxArray * & arg, mwSize nrow, mwSize ncol ) {
   arg = mxCreateNumericMatrix( nrow, ncol, mxINT64_CLASS, mxREAL );
   return static_cast<int64_t*>(mxGetData(arg));
 }
@@ -287,6 +291,6 @@ destroyObject(const mxArray *in) {
   mexUnlock();
 }
 
-#endif // MEX_UTILS_HH
+#endif // __CLASS_HANDLE_HPP__
 
 #endif
