@@ -37,56 +37,51 @@ either expressed or implied, of the FreeBSD Project.
     mexErrMsgTxt(ost.str().c_str());              \
   }
 
-static
-void
-mexErrorMessage() {
-  // Check for proper number of arguments, etc
-  mexErrMsgTxt(
+#define MEX_ERROR_MESSAGE \
+"%======================================================================%\n" \
+"% Spline2DMexWrapper:  Compute spline curve                            %\n" \
+"%                                                                      %\n" \
+"% USAGE:                                                               %\n" \
+"%   obj = Spline2DMexWrapper( 'new', kind );                           %\n" \
+"%   Spline2DMexWrapper( 'delete', obj );                               %\n" \
+"%   Spline2DMexWrapper( 'build', obj, X, Y, Z );                       %\n" \
+"%   P    = Spline2DMexWrapper( 'eval', obj, X, Y );                    %\n" \
+"%   Dx   = Spline2DMexWrapper( 'eval_Dx', obj, X, Y );                 %\n" \
+"%   Dy   = Spline2DMexWrapper( 'eval_Dy', obj, X, Y );                 %\n" \
+"%   Dxx  = Spline2DMexWrapper( 'eval_Dxx', obj, X, Y );                %\n" \
+"%   Dxy  = Spline2DMexWrapper( 'eval_Dxy', obj, X, Y );                %\n" \
+"%   Dyy  = Spline2DMexWrapper( 'eval_Dyy', obj, X, Y );                %\n" \
+"%                                                                      %\n" \
+"% On input:                                                            %\n" \
+"%                                                                      %\n" \
+"%  kind = string with the kind of spline, any of:                      %\n" \
+"%         'bilinear', 'bicubic', 'akima', 'biquintic'                  %\n" \
+"%  X = vector of X coordinates                                         %\n" \
+"%  Y = vector of Y coordinates                                         %\n" \
+"%  Z = matrix of Z coordinates                                         %\n" \
+"%                                                                      %\n" \
+"% On output:                                                           %\n" \
+"%                                                                      %\n" \
+"%  P    = vector of Z values                                           %\n" \
+"%                                                                      %\n" \
+"%======================================================================%\n" \
+"%                                                                      %\n" \
+"%  Autor: Enrico Bertolazzi                                            %\n" \
+"%         Department of Industrial Engineering                         %\n" \
+"%         University of Trento                                         %\n" \
+"%         enrico.bertolazzi@unitn.it                                   %\n" \
+"%                                                                      %\n" \
 "%======================================================================%\n"
-"% Spline2DMexWrapper:  Compute spline curve                            %\n"
-"%                                                                      %\n"
-"% USAGE:                                                               %\n"
-"%   obj = Spline2DMexWrapper( 'new', kind );                           %\n"
-"%   Spline2DMexWrapper( 'delete', obj );                               %\n"
-"%   Spline2DMexWrapper( 'build', obj, X, Y, Z );                       %\n"
-"%   P    = Spline2DMexWrapper( 'eval', obj, X, Y );                    %\n"
-"%   Dx   = Spline2DMexWrapper( 'eval_Dx', obj, X, Y );                 %\n"
-"%   Dy   = Spline2DMexWrapper( 'eval_Dy', obj, X, Y );                 %\n"
-"%   Dxx  = Spline2DMexWrapper( 'eval_Dxx', obj, X, Y );                %\n"
-"%   Dxy  = Spline2DMexWrapper( 'eval_Dxy', obj, X, Y );                %\n"
-"%   Dyy  = Spline2DMexWrapper( 'eval_Dyy', obj, X, Y );                %\n"
-"%                                                                      %\n"
-"% On input:                                                            %\n"
-"%                                                                      %\n"
-"%  kind = string with the kind of spline, any of:                      %\n"
-"%         'bilinear', 'bicubic', 'akima', 'biquintic'                  %\n"
-"%  X = vector of X coordinates                                         %\n"
-"%  Y = vector of Y coordinates                                         %\n"
-"%  Z = matrix of Z coordinates                                         %\n"
-"%                                                                      %\n"
-"% On output:                                                           %\n"
-"%                                                                      %\n"
-"%  P    = vector of Z values                                           %\n"
-"%                                                                      %\n"
-"%======================================================================%\n"
-"%                                                                      %\n"
-"%  Autor: Enrico Bertolazzi                                            %\n"
-"%         Department of Industrial Engineering                         %\n"
-"%         University of Trento                                         %\n"
-"%         enrico.bertolazzi@unitn.it                                   %\n"
-"%                                                                      %\n"
-"%======================================================================%\n" );
-}
+
 
 using namespace std;
 
 namespace Splines {
 
   static
-  SplineSurf *
+  void
   DATA_NEW( mxArray * & mx_id, SplineSurf * ptr ) {
     mx_id = convertPtr2Mat<SplineSurf>(ptr);
-    return ptr;
   }
 
   static
@@ -102,259 +97,579 @@ namespace Splines {
     destroyObject<SplineSurf>(mx_id);
   }
 
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_new( int nlhs, mxArray       *plhs[],
+          int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper( 'new', kind ): "
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+
+    MEX_ASSERT( mxIsChar(arg_in_1),
+                CMD "second argument must be a string, found ``" <<
+                mxGetClassName(arg_in_1) << "''" );
+
+    string tname = mxArrayToString(arg_in_1);
+
+    SplineSurf * v = nullptr;
+
+    if      ( tname == "bilinear"  ) v = new Splines::BilinearSpline();
+    else if ( tname == "bicubic"   ) v = new Splines::BiCubicSpline();
+    else if ( tname == "akima"     ) v = new Splines::Akima2Dspline();
+    else if ( tname == "biquintic" ) v = new Splines::BiQuinticSpline();
+    else {
+      MEX_ASSERT(
+        false,
+        "Second argument must be one of the strings:\n" <<
+        "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
+      );
+    }
+
+    DATA_NEW( arg_out_0, v );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_delete( int nlhs, mxArray       *plhs[],
+             int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper( 'delete', OBJ ): "
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+
+    // Destroy the C++ object
+    DATA_DELETE(arg_in_1);
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_build( int nlhs, mxArray       *plhs[],
+            int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('build',OBJ,x,y,z): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected no output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 5, CMD "expected 5 input, nrhs = " << nrhs );
+
+    mwSize nx, ny, nnx, nny;
+    real_type const * x = getVectorPointer(
+      arg_in_2, nx, CMD "error in reading 'x'"
+    );
+    real_type const * y = getVectorPointer(
+      arg_in_3, ny, CMD "error in reading 'y'"
+    );
+    real_type const * z = getMatrixPointer(
+      arg_in_4, nnx, nny, CMD "error in reading 'z'"
+    );
+
+    MEX_ASSERT(
+      nx == nnx,
+      CMD "lenght of 'x' (" << nx << ") must be the number of row of 'z' (" << nnx << ")"
+    );
+
+    MEX_ASSERT(
+      ny == nny,
+      CMD "lenght of 'y' (" << ny << ") must be the number of column of 'z' (" << nny << ")"
+    );
+
+    bool fortran_storage = true;
+    bool transposed      = false;
+
+    integer ldZ = nx;
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    ptr->build ( x, 1, y, 1, z, ldZ, nx, ny, fortran_storage, transposed );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_nx( int nlhs, mxArray       *plhs[],
+         int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('nx',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarInt( arg_out_0, ptr->numPointX() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_ny( int nlhs, mxArray       *plhs[],
+         int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('nx',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarInt( arg_out_0, ptr->numPointY() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_xMin( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('xMin',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->xMin() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_xMax( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('xMax',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->xMax() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yMin( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('yMin',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->yMin() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yMax( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('yMax',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->yMax() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_zMin( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('zMin',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->zMin() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_zMax( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('zMax',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    setScalarValue( arg_out_0, ptr->zMax() );
+
+    #undef CMD
+
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval( int nlhs, mxArray       *plhs[],
+           int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = (*ptr)( *x++, *y++ );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_Dx( int nlhs, mxArray       *plhs[],
+              int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval_Dx',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = ptr->Dx( *x++, *y++ );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_Dy( int nlhs, mxArray       *plhs[],
+              int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval_Dy',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = ptr->Dy( *x++, *y++ );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_Dxx( int nlhs, mxArray       *plhs[],
+               int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval_Dxx',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = ptr->Dxx( *x++, *y++ );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_Dxy( int nlhs, mxArray       *plhs[],
+               int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval_Dxy',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = ptr->Dxy( *x++, *y++ );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_Dyy( int nlhs, mxArray       *plhs[],
+               int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline2DMexWrapper('eval_Dyy',OBJ,x,y): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx, mx, ny, my;
+    real_type const * x = getMatrixPointer(
+      arg_in_2, nx, mx, CMD "error in reading `x`"
+    );
+    real_type const * y = getMatrixPointer(
+      arg_in_3, ny, my, CMD "error in reading `y`"
+    );
+    MEX_ASSERT(
+      nx == ny && mx == my,
+      CMD "size(x) = " << nx << " x " << ny <<
+      " must be equal to size(y) = " << mx << " x " << my
+    );
+    real_type * z = createMatrixValue( arg_out_0, nx, mx );
+    for ( mwSize j = 0; j < mx*nx; ++j )
+      *z++ = ptr->Dyy( *x++, *y++ );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  typedef enum {
+    CMD_NEW,
+    CMD_DELETE,
+    CMD_BUILD,
+    CMD_NX,
+    CMD_NY,
+    CMD_XMIN,
+    CMD_XMAX,
+    CMD_YMIN,
+    CMD_YMAX,
+    CMD_ZMIN,
+    CMD_ZMAX,
+    CMD_EVAL,
+    CMD_EVAL_DX,
+    CMD_EVAL_DY,
+    CMD_EVAL_DXX,
+    CMD_EVAL_DXY,
+    CMD_EVAL_DYY
+  } CMD_LIST;
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static map<string,unsigned> cmd_to_idx = {
+    {"new",CMD_NEW},
+    {"delete",CMD_DELETE},
+    {"build",CMD_BUILD},
+    {"nx",CMD_NX},
+    {"ny",CMD_NY},
+    {"xMin",CMD_XMIN},
+    {"xMax",CMD_XMAX},
+    {"yMin",CMD_YMIN},
+    {"yMax",CMD_YMAX},
+    {"zMin",CMD_ZMIN},
+    {"zMax",CMD_ZMAX},
+    {"eval",CMD_EVAL},
+    {"eval_Dx",CMD_EVAL_DX},
+    {"eval_Dy",CMD_EVAL_DY},
+    {"eval_Dxx",CMD_EVAL_DXX},
+    {"eval_Dxy",CMD_EVAL_DXY},
+    {"eval_Dyy",CMD_EVAL_DYY}
+  };
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   extern "C"
   void
   mexFunction( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
-
     // the first argument must be a string
     if ( nrhs == 0 ) {
-      mexErrorMessage();
+      mexErrMsgTxt(MEX_ERROR_MESSAGE);
       return;
     }
 
     try {
 
-      MEX_ASSERT( mxIsChar(arg_in_0),
-                  "Spline2DMexWrapper: First argument must be a string" );
+      MEX_ASSERT( mxIsChar(arg_in_0), "First argument must be a string" );
       string cmd = mxArrayToString(arg_in_0);
 
-      bool do_new = cmd == "new";
-      SplineSurf * ptr = nullptr;
-
-      if ( !do_new ) ptr = DATA_GET(arg_in_1);
-
-      if ( do_new ) {
-
-        #define CMD "Spline2DMexWrapper('new',kind): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        MEX_ASSERT( mxIsChar(arg_in_1),
-                    CMD "second argument must be a string, found ``" <<
-                    mxGetClassName(arg_in_1) << "''" );
-
-        // the first argument must be a string
-        string tname = mxArrayToString(arg_in_1);
-
-        SplineSurf * p = nullptr;
-
-        if      ( tname == "bilinear"  ) p = new Splines::BilinearSpline();
-        else if ( tname == "bicubic"   ) p = new Splines::BiCubicSpline();
-        else if ( tname == "akima"     ) p = new Splines::Akima2Dspline();
-        else if ( tname == "biquintic" ) p = new Splines::BiQuinticSpline();
-        else {
-         ASSERT( false, "Second argument must be one of the strings:\n" <<
-                 "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'" );
-        }
-
-        ptr = DATA_NEW( arg_out_0, p );
-
-        #undef CMD
-
-    } else if ( cmd == "build" ) {
-
-        #define CMD "Spline2DMexWrapper('build',OBJ,x,y,z): "
-
-        MEX_ASSERT( nlhs == 0, CMD "expected no output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 5, CMD "expected 5 input, nrhs = " << nrhs );
-
-        mwSize nx, ny, nnx, nny;
-        real_type const * x = getVectorPointer( arg_in_2, nx,
-                                                CMD "error in reading 'x'");
-        real_type const * y = getVectorPointer( arg_in_3, ny,
-                                                CMD "error in reading 'y'");
-        real_type const * z = getMatrixPointer( arg_in_4, nnx, nny,
-                                                CMD "error in reading 'z'");
-
-        MEX_ASSERT( nx == nnx,
-                    CMD "lenght of 'x' (" << nx <<
-                    ") must be the number of row of 'z' (" << nnx << ")" );
-
-        MEX_ASSERT( ny == nny,
-                    CMD "lenght of 'y' (" << ny <<
-                    ") must be the number of column of 'z' (" << nny << ")" );
-
-        bool fortran_storage = true;
-        bool transposed      = false;
-
-        integer ldZ = nx;
-        ptr -> build ( x, 1, y, 1, z, ldZ, nx, ny,
-                       fortran_storage, transposed );
-
-        #undef CMD
-
-      } else if ( cmd == "nx" ) {
-
-        #define CMD "Spline2DMexWrapper('nx',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarInt( arg_out_0, ptr->numPointX() );
-
-        #undef CMD
-
-      } else if ( cmd == "ny" ) {
-
-        #define CMD "Spline2DMexWrapper('nx',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarInt( arg_out_0, ptr->numPointY() );
-
-        #undef CMD
-
-      } else if ( cmd == "xMin" ) {
-
-        #define CMD "Spline2DMexWrapper('xMin',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->xMin() );
-
-        #undef CMD
-
-      } else if ( cmd == "xMax" ) {
-
-        #define CMD "Spline2DMexWrapper('xMax',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->xMax() );
-
-        #undef CMD
-
-      } else if ( cmd == "yMin" ) {
-
-        #define CMD "Spline2DMexWrapper('yMin',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->yMin() );
-
-        #undef CMD
-
-      } else if ( cmd == "yMax" ) {
-
-        #define CMD "Spline2DMexWrapper('yMax',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->yMax() );
-
-        #undef CMD
-
-      } else if ( cmd == "zMin" ) {
-
-        #define CMD "Spline2DMexWrapper('zMin',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->zMin() );
-
-        #undef CMD
-
-      } else if ( cmd == "zMax" ) {
-
-        #define CMD "Spline2DMexWrapper('zMax',OBJ): "
-
-        MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-        MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
-
-        setScalarValue( arg_out_0, ptr->zMax() );
-
-        #undef CMD
-
-      } else if ( cmd == "eval" ) {
-
-#define EVAL_LOOP(EVAL) \
-MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs ); \
-MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs ); \
-\
-mwSize nx, mx, ny, my; \
-real_type const * x = getMatrixPointer( arg_in_2, nx, mx, \
-                                        CMD "error in reading `x`" ); \
-real_type const * y = getMatrixPointer( arg_in_3, ny, my, \
-                                        CMD "error in reading `y`" ); \
-\
-MEX_ASSERT( nx == ny && mx == my, \
-            CMD "size(x) = " << nx << " x " << ny << \
-            " must be equal to size(y) = " << mx << " x " << my ); \
-\
-real_type * z = createMatrixValue( arg_out_0, nx, mx ); \
-\
-for ( mwSize j = 0; j < mx; ++j ) \
-  for ( mwSize i = 0; i < nx; ++i ) \
-    *z++ = EVAL( *x++, *y++ );
-
-        #define CMD "Spline2DMexWrapper('eval',OBJ,x,y): "
-        EVAL_LOOP( (*ptr) );
-        #undef CMD
-
-      } else if ( cmd == "eval_Dx" ) {
-
-        #define CMD "Spline2DMexWrapper('eval_Dx',OBJ,x,y): "
-        EVAL_LOOP( ptr->Dx );
-        #undef CMD
-
-      } else if ( cmd == "eval_Dy" ) {
-
-        #define CMD "Spline2DMexWrapper('eval_Dy',OBJ,x,y): "
-        EVAL_LOOP( ptr->Dy );
-        #undef CMD
-
-      } else if ( cmd == "eval_Dxx" ) {
-
-        #define CMD "Spline2DMexWrapper('eval_Dxx',OBJ,x,y): "
-        EVAL_LOOP( ptr->Dxx );
-        #undef CMD
-
-      } else if ( cmd == "eval_Dxy" ) {
-
-        #define CMD "Spline2DMexWrapper('eval_Dxy',OBJ,x,y): "
-        EVAL_LOOP( ptr->Dxy );
-        #undef CMD
-
-      } else if ( cmd == "eval_Dyy" ) {
-
-        #define CMD "Spline2DMexWrapper('eval_Dyy',OBJ,x,y): "
-        EVAL_LOOP( ptr->Dyy );
-        #undef CMD
-
-      } else if ( cmd == "delete" ) {
-
-        #define CMD "Spline2DMexWrapper('delete',OBJ): "
-
-        MEX_ASSERT(nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-        MEX_ASSERT(nlhs == 0, CMD "expected no output, nlhs = " << nlhs );
-
-        // Destroy the C++ object
-        DATA_DELETE(arg_in_1);
-
-        // Warn if other commands were ignored
-
-        #undef CMD
-
-      } else {
-        MEX_ASSERT( false,
-                    "Spline2DMexWrapper('" << cmd <<
-                    "',...): Unknown command" );
+      switch ( cmd_to_idx.at(cmd) ) {
+      case CMD_NEW:
+        do_new( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_DELETE:
+        do_delete( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_BUILD:
+        do_build( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_NX:
+        do_nx( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_NY:
+        do_ny( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XMIN:
+        do_xMin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XMAX:
+        do_xMax( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YMIN:
+        do_yMin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YMAX:
+        do_yMax( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_ZMIN:
+        do_zMin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_ZMAX:
+        do_zMax( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL:
+        do_eval( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DX:
+        do_eval_Dx( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DY:
+        do_eval_Dy( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DXX:
+        do_eval_Dxx( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DXY:
+        do_eval_Dxy( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DYY:
+        do_eval_Dyy( nlhs, plhs, nrhs, prhs );
+        break;
       }
 
-    } catch ( std::exception const & e ) {
+    } catch ( exception const & e ) {
       mexErrMsgTxt(e.what());
-
     } catch (...) {
       mexErrMsgTxt("Spline2DMexWrapper failed\n");
-
     }
+
   }
+
+
 }
