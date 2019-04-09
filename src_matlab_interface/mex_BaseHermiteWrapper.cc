@@ -38,9 +38,9 @@
 "    dddddP = BaseHermite( 'eval5_DDDDD', t, P0, P1, T0, T1, J0, J1 [,H] );\n" \
 "    [ P0, P1, P2, P3 ]   = BaseHermite( 'hermite_to_bezier', P0, P1, T0, T1 );\n" \
 "    [ P0, P1, T0, T1 ]   = BaseHermite( 'bezier_to_hermite', P0, P1, P2, P3 );\n" \
-"    [ D1, sqrtD1 ]       = BaseHermite( 'L2_first_derivative' );\n" \
-"    [ D2, sqrtD2 ]       = BaseHermite( 'L2_second_derivative' );\n" \
-"    [ D3, sqrtD3 ]       = BaseHermite( 'L2_third_derivative' );\n" \
+"    sqrtD1 = BaseHermite( 'L2_first_derivative' );\n" \
+"    sqrtD2 = BaseHermite( 'L2_second_derivative' );\n" \
+"    sqrtD3 = BaseHermite( 'L2_third_derivative' );\n" \
 "    [ P0, P1, T0, T1 ]   = BaseHermite( 'cut', a, b, P0, P1, T0, T1, [,H] );\n" \
 "    len                  = BaseHermite( 'approximate_length', P0, P1, T0, T1, [,H] );\n" \
 "\n" \
@@ -404,45 +404,28 @@ namespace Splines {
                           int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_first_derivative'): "
     MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 2, CMD "expected 2 outputs, nlhs = " << nlhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
     #undef CMD
-    double * D1     = createMatrixValue( arg_out_0, 4, 4 );
-    double * sqrtD1 = createMatrixValue( arg_out_1, 3, 4 );
-    *D1++ = 36/30.0;
-    *D1++ = -36/30.0;
-    *D1++ = 3/30.0;
-    *D1++ = 3/30.0;
+    double * sqrtD1 = createMatrixValue( arg_out_0, 3, 4 );
 
-    *D1++ = 3/30.0;
-    *D1++ = 36/30.0;
-    *D1++ = -3/30.0;
-    *D1++ = -3/30.0;
+    double t1 = sqrt(5.0)/5.0;
+    double t2 = sqrt(3.0)/6.0;
 
-    *D1++ = 3/30.0;
-    *D1++ = -3/30.0;
-    *D1++ = 4/30.0;
-    *D1++ = -1/30.0;
-
-    *D1++ = 3/30.0;
-    *D1++ = -3/30.0;
-    *D1++ = -1/30.0;
-    *D1++ = 4/30.0;
-
-    *sqrtD1++ = sqrt(30.0)/5.0;
+    *sqrtD1++ =-1;
     *sqrtD1++ = 0;
-    *sqrtD1++ = 0;
+    *sqrtD1++ = t1;
 
-    *sqrtD1++ = -sqrt(30.0)/5.0;
+    *sqrtD1++ = 1;
     *sqrtD1++ = 0;
-    *sqrtD1++ = 0;
+    *sqrtD1++ = -t1;
 
-    *sqrtD1++ = sqrt(30.0)/60.0;
-    *sqrtD1++ = sqrt(2.0)/4.0;
     *sqrtD1++ = 0;
+    *sqrtD1++ = -t2;
+    *sqrtD1++ = t1/2;
 
-    *sqrtD1++ = sqrt(30.0)/60.0;
-    *sqrtD1++ = -sqrt(2.0)/12.0;
-    *sqrtD1++ = 1.0/3.0;
+    *sqrtD1++ = 0;
+    *sqrtD1++ = t2;
+    *sqrtD1++ = t1/2;
 
   }
 
@@ -454,41 +437,23 @@ namespace Splines {
                            int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_second_derivative','): "
     MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 2, CMD "expected 2 outputs, nlhs = " << nlhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
     #undef CMD
-    double * D2     = createMatrixValue( arg_out_0, 4, 4 );
-    double * sqrtD2 = createMatrixValue( arg_out_1, 2, 4 );
-    *D2++ = 12;
-    *D2++ = -12;
-    *D2++ = 6;
-    *D2++ = 6;
+    double * sqrtD2 = createMatrixValue( arg_out_0, 2, 4 );
 
-    *D2++ = -12;
-    *D2++ = 12;
-    *D2++ = -6;
-    *D2++ = -6;
+    double t1 = sqrt(3.0);
 
-    *D2++ = 6;
-    *D2++ = -6;
-    *D2++ = 4;
-    *D2++ = 2;
-
-    *D2++ = 6;
-    *D2++ = -6;
-    *D2++ = 2;
-    *D2++ = 4;
-
-    *sqrtD2++ = 2*sqrt(3.0);
     *sqrtD2++ = 0;
+    *sqrtD2++ = 2*t1;
 
-    *sqrtD2++ = -2*sqrt(3.0);
     *sqrtD2++ = 0;
+    *sqrtD2++ = -2*t1;
 
-    *sqrtD2++ = sqrt(3.0);
-    *sqrtD2++ = 1;
-
-    *sqrtD2++ = sqrt(3.0);
     *sqrtD2++ = -1;
+    *sqrtD2++ = t1;
+
+    *sqrtD2++ = 1;
+    *sqrtD2++ = t1;
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -499,29 +464,9 @@ namespace Splines {
                           int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_third_derivative','): "
     MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 2, CMD "expected 2 outputs, nlhs = " << nlhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
     #undef CMD
-    double * D3     = createMatrixValue( arg_out_0, 4, 4 );
-    double * sqrtD3 = createMatrixValue( arg_out_1, 1, 4 );
-    *D3++ = 144;
-    *D3++ = -144;
-    *D3++ = 72;
-    *D3++ = 72;
-
-    *D3++ = -144;
-    *D3++ = 144;
-    *D3++ = -72;
-    *D3++ = -72;
-
-    *D3++ = 72;
-    *D3++ = -72;
-    *D3++ = 36;
-    *D3++ = 36;
-
-    *D3++ = 72;
-    *D3++ = -72;
-    *D3++ = 36;
-    *D3++ = 36;
+    double * sqrtD3 = createMatrixValue( arg_out_0, 1, 4 );
 
     *sqrtD3++ = 12;
     *sqrtD3++ = -12;

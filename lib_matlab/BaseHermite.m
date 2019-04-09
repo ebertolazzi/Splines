@@ -109,15 +109,18 @@ classdef BaseHermite < handle
     % --------------------------------------------------------------------
     %
     function [D1,sqrtD1] = L2_first_derivative( ~ )
-      [D1,sqrtD1] = BaseHermiteWrapper('L2_first_derivative');
+      sqrtD1 = BaseHermiteWrapper('L2_first_derivative');
+      D1     = sqrtD1*sqrtD1.';
     end
     % --------------------------------------------------------------------
     function [D2,sqrtD2] = L2_second_derivative( ~ )
-      [D2,sqrtD2] = BaseHermiteWrapper('L2_second_derivative');
+      sqrtD2 = BaseHermiteWrapper('L2_second_derivative');
+      D2     = sqrtD2*sqrtD2.';
     end
     % --------------------------------------------------------------------
     function [D3,sqrtD3] = L2_third_derivative( ~ )
-      [D3,sqrtD3] = BaseHermiteWrapper('L2_third_derivative');
+      sqrtD3 = BaseHermiteWrapper('L2_third_derivative');
+      D3     = sqrtD3*sqrtD3.';
     end
     % --------------------------------------------------------------------
     function L = approximate_length( ~, varargin )

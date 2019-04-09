@@ -236,6 +236,27 @@ namespace Splines {
 
   static
   void
+  do_getNodes( int nlhs, mxArray       *plhs[],
+               int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "SplineVecMexWrapper( 'getNodes', obj ): "
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+
+    SplineVec * ptr = DATA_GET( arg_in_1 );
+
+    //! return the number of support points of the splines
+    integer N = ptr->numPoints();
+    real_type * X = createMatrixValue( arg_out_0, 1, N );
+    for ( integer i = 0; i < N; ++i ) X[i] = ptr->xNode( i );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_eval( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
 
@@ -386,6 +407,7 @@ namespace Splines {
     CMD_CHORD,
     CMD_CENTRIPETAL,
     CMD_CATMULL_ROM,
+    CMD_GET_NODES,
     CMD_EVAL,
     CMD_EVAL_D,
     CMD_EVAL_DD,
@@ -404,6 +426,7 @@ namespace Splines {
     {"chord",CMD_CHORD},
     {"centripetal",CMD_CENTRIPETAL},
     {"CatmullRom",CMD_CATMULL_ROM},
+    {"getNodes",CMD_GET_NODES},
     {"eval",CMD_EVAL},
     {"eval_D",CMD_EVAL_D},
     {"eval_DD",CMD_EVAL_DD},
@@ -450,6 +473,9 @@ namespace Splines {
         break;
       case CMD_CATMULL_ROM:
         do_CatmullRom( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_GET_NODES:
+        do_getNodes( nlhs, plhs, nrhs, prhs );
         break;
       case CMD_EVAL:
         do_eval( nlhs, plhs, nrhs, prhs );
