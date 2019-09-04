@@ -102,9 +102,10 @@ namespace Splines {
 
   void
   AkimaSpline::build() {
-    SPLINE_ASSERT( npts > 1,
-                   "AkimaSpline::build(): npts = " << npts <<
-                   " not enought points" );
+    SPLINE_ASSERT(
+      npts > 1,
+      "AkimaSpline::build(): npts = " << npts << " not enought points"
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -114,7 +115,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < npts );
     
-    SPLINE_CHECK_NAN(Yp,"AkimaSpline::build(): Yp",npts);
+    SPLINE_CHECK_NAN( Yp, "AkimaSpline::build(): Yp", npts );
   }
 
 }

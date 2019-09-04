@@ -739,6 +739,18 @@ namespace Splines {
     real_type
     DDD( real_type x ) const SPLINES_PURE_VIRTUAL;
 
+    //! 4th derivative
+    virtual
+    real_type
+    DDDD( real_type ) const
+    { return real_type(0); }
+
+    //! 4th derivative
+    virtual
+    real_type
+    DDDDD( real_type ) const
+    { return real_type(0); }
+
     //! Some aliases
     real_type
     eval( real_type x ) const
@@ -790,6 +802,18 @@ namespace Splines {
     friend class SplineSet;
 
   };
+
+  //! compute curvature of a planar curve
+  real_type
+  curvature( real_type s, Spline const & X, Spline const & Y );
+
+  //! compute curvature derivative of a planar curve
+  real_type
+  curvature_D( real_type s, Spline const & X, Spline const & Y );
+
+  //! compute curvature second derivative of a planar curve
+  real_type
+  curvature_DD( real_type s, Spline const & X, Spline const & Y );
 
   /*\
    |    ____      _     _        ____        _ _              ____

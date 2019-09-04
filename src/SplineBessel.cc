@@ -71,9 +71,10 @@ namespace Splines {
 
   void
   BesselSpline::build (void) {
-    SPLINE_ASSERT( this->npts > 1,
-                   "BesselSpline::build(): npts = " << npts <<
-                   " not enought points" );
+    SPLINE_ASSERT(
+      this->npts > 1,
+      "BesselSpline::build(): npts = " << npts << " not enought points"
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {

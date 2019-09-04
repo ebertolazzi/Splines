@@ -70,16 +70,18 @@ namespace Splines {
     for ( size_t i = 0; i < size_t(nx); ++i ) X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i < size_t(ny); ++i ) Y[i] = y[i*size_t(incy)];
     if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
-      SPLINE_ASSERT( ldZ >= ny,
-                     "SplineSurf::build, ldZ = " << ldZ <<
-                     " must be >= of nx = " << ny );
+      SPLINE_ASSERT(
+        ldZ >= ny,
+        "SplineSurf::build, ldZ = " << ldZ << " must be >= of nx = " << ny
+      );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_C(i,j,ldZ))];
     } else {
-      SPLINE_ASSERT( ldZ >= nx,
-                     "SplineSurf::build, ldZ = " << ldZ <<
-                     " must be >= of ny = " << nx );
+      SPLINE_ASSERT(
+        ldZ >= nx,
+        "SplineSurf::build, ldZ = " << ldZ << " must be >= of ny = " << nx
+      );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
@@ -103,11 +105,10 @@ namespace Splines {
     YY.resize( size_t(ny) ); // temporary vector
     for ( size_t i = 0; i < size_t(nx); ++i ) XX[i] = i;
     for ( size_t i = 0; i < size_t(ny); ++i ) YY[i] = i;
-    build ( &XX.front(), 1,
-            &YY.front(), 1,
-            z, ldZ,
-            nx, ny,
-            fortran_storage, transposed );
+    build(
+      &XX.front(), 1, &YY.front(), 1, z, ldZ, nx, ny,
+      fortran_storage, transposed
+    );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -435,12 +436,18 @@ namespace Splines {
     // gc["z"]
     //
     */
-    SPLINE_ASSERT( gc.exists("x"),
-                   "[SplineSurf[" << _name << "]::setup] missing `x` field!");
-    SPLINE_ASSERT( gc.exists("y"),
-                   "[SplineSurf[" << _name << "]::setup] missing `y` field!");
-    SPLINE_ASSERT( gc.exists("z"),
-                   "[SplineSurf[" << _name << "]::setup] missing `z` field!");
+    SPLINE_ASSERT(
+      gc.exists("x"),
+      "[SplineSurf[" << _name << "]::setup] missing `x` field!"
+    );
+    SPLINE_ASSERT(
+      gc.exists("y"),
+      "[SplineSurf[" << _name << "]::setup] missing `y` field!"
+    );
+    SPLINE_ASSERT(
+      gc.exists("z"),
+      "[SplineSurf[" << _name << "]::setup] missing `z` field!"
+    );
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");
@@ -462,25 +469,31 @@ namespace Splines {
     integer ny = integer(y.size());
 
     if ( GC_MAT_REAL == gc_z.get_type() ) {
-      build( &x.front(), 1,
-             &y.front(), 1,
-             &gc_z.get_mat_real().front(),
-             integer(gc_z.get_mat_real().numRows()),
-             nx, ny, fortran_storage, transposed );
+      build(
+        &x.front(), 1,
+        &y.front(), 1,
+        &gc_z.get_mat_real().front(),
+        integer(gc_z.get_mat_real().numRows()),
+        nx, ny, fortran_storage, transposed
+      );
     } else if ( GC_VEC_REAL == gc_z.get_type() ) {
       GenericContainer const & gc_ldz = gc("ldz");
       integer ldz = integer(gc_ldz.get_as_uint("SplineSurf::setup, field `ldz` expected to be and integer"));
       vec_real_type z;
       gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" );
-      build ( &x.front(), 1,
-              &y.front(), 1,
-              &z.front(), ldz,
-              nx, ny, fortran_storage, transposed );
+      build(
+        &x.front(), 1,
+        &y.front(), 1,
+        &z.front(), ldz,
+        nx, ny, fortran_storage, transposed
+      );
     } else {
-      SPLINE_ASSERT( false,
-                     "[SplineSurf[" << _name <<
-                     "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
-                     gc_z.get_type_name() << "`" );
+      SPLINE_ASSERT(
+        false,
+        "[SplineSurf[" << _name <<
+        "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
+        gc_z.get_type_name() << "`"
+      );
     }
 
   }

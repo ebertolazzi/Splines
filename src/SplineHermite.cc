@@ -249,7 +249,10 @@ namespace Splines {
     real_type const [], integer,
     integer
   ) {
-    SPLINE_ASSERT( false, "HermiteSpline::build(x,incx,y,incy,n) cannot be used");
+    SPLINE_ASSERT(
+      false,
+      "HermiteSpline::build(x,incx,y,incy,n) cannot be used"
+    );
   }
 
   #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
