@@ -41,16 +41,16 @@ ifneq (,$(findstring Darwin, $(OS)))
   CXX     = clang++
   VERSION = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
 ifneq (,$(findstring 10., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++ 
+  CXX += -std=c++11 -stdlib=libc++
 endif
 ifneq (,$(findstring 9., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++ 
+  CXX += -std=c++11 -stdlib=libc++
 endif
 ifneq (,$(findstring 8., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++ 
+  CXX += -std=c++11 -stdlib=libc++
 endif
 ifneq (,$(findstring 7., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++ 
+  CXX += -std=c++11 -stdlib=libc++
 endif
   CC  += $(WARN)
   CXX += $(WARN)
@@ -105,35 +105,35 @@ all: gc lib
 
 gc: lib/$(LIB_GC)
 
-lib: gc lib/$(LIB_SPLINE)
+lib: lib/$(LIB_SPLINE)
 
-include_local:
+include_local: gc
 	@rm -rf lib/include
 	$(MKDIR) lib
 	$(MKDIR) lib/include
 	@cp -f src/*.h* lib/include
 
-src/%.o: src/%.cc $(DEPS)
-	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@ 
+src/%.o: src/%.cc $(DEPS) gc
+	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
 
-src/%.o: src/%.c $(DEPS)
+src/%.o: src/%.c $(DEPS) gc
 	$(CC) $(INC) $(CFLAGS) $(DEFS) -c -o $@ $<
 
 lib/libSplines.a: $(OBJS) include_local
-	$(AR) lib/libSplines.a $(OBJS) 
+	$(AR) lib/libSplines.a $(OBJS)
 
 lib/libSplines.dylib: $(OBJS) include_local
-	$(CXX) -shared -o lib/libSplines.dylib $(OBJS) 
+	$(CXX) -shared -o lib/libSplines.dylib $(OBJS)
 
 lib/libSplines.so: $(OBJS) include_local
-	$(CXX) -shared -o lib/libSplines.so $(OBJS) 
+	$(CXX) -shared -o lib/libSplines.so $(OBJS)
 
 lib/$(LIB_GC):
 	rm -rf GC; git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC; ruby gcc_workaround.rb; cd ..
 endif
-	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib; 
+	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib;
 
 install_local: lib
 	$(MKDIR) ./lib/include

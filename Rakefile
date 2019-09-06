@@ -21,6 +21,8 @@ task :default => [:build]
 
 LIB_NAME="Splines"
 
+PARALLEL = " --parallel 8 "
+
 desc "run tests"
 task :run do
   sh "./bin/test1"
@@ -74,7 +76,7 @@ task :build, [:gc_dir] do |t, args|
   sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=lib -DGC_DIR:PATH=\"#{args.gc_dir}\" .."
 
   puts "\n\nCompile #{LIB_NAME} Debug".green
-  sh 'cmake --build . --config Debug  --target install'
+  sh 'cmake --build . --config Debug  --target install'+PARALLEL
   FileList["*#{LIB_NAME}*.*"].each do |f|
     puts "Copying #{f}".yellow
     ext = File.extname(f);
@@ -82,7 +84,7 @@ task :build, [:gc_dir] do |t, args|
   end
 
   puts "\n\nCompile Splines Release".green
-  sh 'cmake --build . --config Release --target install'
+  sh 'cmake --build . --config Release --target install'+PARALLEL
   FileList["*#{LIB_NAME}*.*"].each do |f|
     puts "Copying #{f}".yellow
     FileUtils.cp f, "../lib/#{File.basename(f)}"
@@ -149,12 +151,12 @@ task :build_win, [:year, :bits, :gc_dir] do |t, args|
   libname = "#{LIB_NAME}_vs#{args.year}_#{args.bits}"
 
   puts "\n\nCompile #{LIB_NAME} Debug".green
-  sh 'cmake --build . --config Debug --target install'
+  sh 'cmake --build . --config Debug --target install'+PARALLEL
   FileUtils.cp "Debug/#{LIB_NAME}.lib", "../lib/#{libname}_debug.lib"
 
   puts "\n\nCompile #{LIB_NAME} Release".green
-  sh 'cmake --build . --config Release  --target install'
-  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{libname}.lib"  
+  sh 'cmake --build . --config Release  --target install'+PARALLEL
+  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{libname}.lib"
 
   puts "\n\nCopy include".green
   FileUtils.cp_r "lib/lib/include", "../lib/include"
