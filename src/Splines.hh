@@ -1548,11 +1548,11 @@ namespace Splines {
 
     //! Fourth derivative
     real_type
-    DDDD( real_type x ) const;
+    DDDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Fifth derivative
     real_type
-    DDDDD( real_type x ) const;
+    DDDDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
     virtual

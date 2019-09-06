@@ -455,7 +455,7 @@ namespace Splines {
         real_type const * XE = X+npts;
         lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
         real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || XX[0] == XX[1] ) --lastInterval;
+        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
       }
     } else if ( x < XL[0] ) { // on the left
       if ( x <= X[1] ) { // x in [X[0],X[1]]
@@ -465,7 +465,7 @@ namespace Splines {
       } else {
         lastInterval = integer(std::lower_bound( X, XL, x )-X);
         real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || XX[0] == XX[1] ) --lastInterval;
+        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
       }
     } else {
       // x in the interval [ XL[0], XL[1] ] nothing to do
