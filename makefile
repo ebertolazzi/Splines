@@ -133,7 +133,7 @@ lib/$(LIB_GC):
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC; ruby gcc_workaround.rb; cd ..
 endif
-	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX=-"$(CXX)" lib;
+	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX="$(CXX)" lib;
 
 install_local: lib
 	$(MKDIR) ./lib/include
@@ -165,9 +165,8 @@ run:
 
 doc:
 	doxygen
-	
+
 clean:
 	rm -rf lib/libSplines.* lib/libGenericContainer.* lib/include src/*.o
 
 	rm -rf bin
-	
