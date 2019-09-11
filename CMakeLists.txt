@@ -11,32 +11,34 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-SET( SPLINES Splines )
-
-PROJECT( ${SPLINES} CXX C )
-
-FILE( GLOB S ./CMakeLists-cflags.txt )
-IF(EXISTS ${S})
-  INCLUDE( ${S} )
+IF ( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+  SET( DEBUG_SUFFIX "_debug" )
 ELSE()
-  SET( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE )
-  SET( CMAKE_VERBOSE_MAKEFILE            TRUE )
-  IF( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
-    SET( CMAKE_CXX_FLAGS "-std=c++11 " )
-    SET( CMAKE_CXX_FLAGS_RELEASE "-fPIC -Wall -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation -msse4.2 -msse4.1 -mssse3 -msse3 -msse2 -msse -mmmx -funroll-loops -O3 -g0 " )
-    SET( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -Wall -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation -O0 -g3 -DMECHATRONIX_DEBUG " )
-  ELSEIF( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    SET( CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ " )
-    SET( CMAKE_CXX_FLAGS_RELEASE "-fPIC -Weverything -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation -msse4.2 -msse4.1 -mssse3 -msse3 -msse2 -msse -mmmx -funroll-loops -O3 -g0 -fPIC -Weverything -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation " )
-    SET( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -Weverything -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation -O0 -gfull -DMECHATRONIX_DEBUG -fPIC -Weverything -Wno-weak-vtables -Wno-implicit-fallthrough -Wno-documentation-unknown-command -Wno-float-equal -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-reserved-id-macro -Wno-documentation " )
-  ELSEIF( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    SET( CMAKE_CXX_FLAGS_RELEASE "/nologo /GS /W3 /WX- /Gm- /Gd /fp:precise /EHsc /FS /D_WINDOWS /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC /O2 /MD " )
-    SET( CMAKE_CXX_FLAGS_DEBUG   "/nologo /GS /W3 /WX- /Gm- /Gd /fp:precise /EHsc /FS /D_WINDOWS /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC /Od /Ob0 /MDd /Zi /RTC1 /D_DEBUG " )
+  SET( DEBUG_SUFFIX )
+ENDIF()
+
+IF ( BUILD_SHARED )
+  IF ( APPLE )
+    SET( TARGET Splines_osx${DEBUG_SUFFIX} )
+  ELSEIF( LINUX OR UNIX )
+    SET( TARGET Splines_linux${DEBUG_SUFFIX} )
   ELSE()
-    MESSAGE( FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID}")
+    SET( TARGET Splines_win${BITS}${DEBUG_SUFFIX} )
+    SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
   ENDIF()
 ENDIF()
 
+IF ( APPLE )
+  SET( TARGETS Splines_osx_static${DEBUG_SUFFIX} )
+ELSEIF( LINUX OR UNIX )
+  SET( TARGETS Splines_linux_static${DEBUG_SUFFIX} )
+ELSE()
+  SET( TARGETS Splines_win${BITS}_static${DEBUG_SUFFIX} )
+ENDIF()
+
+PROJECT( Splines CXX C )
+
+INCLUDE( ./CMakeLists-cflags.txt )
 MESSAGE( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}")
 
 SET( CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} )
@@ -66,35 +68,57 @@ ENDIF()
 
 FILE( GLOB GC_DIR_GLOB ${GC_DIR} )
 INCLUDE_DIRECTORIES( src ${GC_DIR_GLOB}/lib/include )
-LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib )
-FIND_LIBRARY( GC_LIB NAMES GenericContainer libGenericContainer HINTS ${GC_DIR_GLOB}/lib )
+LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll )
+IF ( APPLE )
+  FIND_LIBRARY(
+    GC_LIB NAMES GenericContainer_osx_static
+    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+  )
+ELSEIF( LINUX OR UNIX )
+  FIND_LIBRARY(
+    GC_LIB NAMES GenericContainer_linux_static
+    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+  )
+ELSE()
+  FIND_LIBRARY(
+    GC_LIB NAMES GenericContainer_win${BITS}_static
+    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+  )
+ENDIF()
 
-ADD_LIBRARY( ${SPLINES} STATIC ${SOURCES} ${HEADERS} )
-SET( SPLINES_LIB ${SPLINES} )
+SET( CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lib )
 
-INSTALL( TARGETS ${TARGET}
-         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/dll
-         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX} )
+IF ( BUILD_SHARED )
+  ADD_LIBRARY( ${TARGETS} STATIC ${SOURCES} ${HEADERS} )
+  ADD_LIBRARY( ${TARGET}  SHARED ${SOURCES} ${HEADERS} )
+  TARGET_LINK_LIBRARIES( ${TARGET} ${GC_LIB} )
+  INSTALL(
+    TARGETS ${TARGET} ${TARGETS}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/dll
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+  )
+ELSE()
+  ADD_LIBRARY( ${TARGETS} STATIC ${SOURCES} ${HEADERS} )
+  INSTALL(
+    TARGETS ${TARGETS}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/dll
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+  )
+ENDIF()
 
-INSTALL( FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
-
-SET( BUILD_EXECUTABLE false )
 IF( BUILD_EXECUTABLE )
 
   SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
   FILE( MAKE_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/bin )
 
-  MESSAGE( STATUS )
-  MESSAGE( STATUS "GC_LIB = ${GC_LIB}" )
-  MESSAGE( STATUS )
-
   FILE( GLOB S ./tests/*.cc )
   FOREACH (F ${S})
     FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-    get_filename_component( TEXE ${RF} NAME_WE ) 
+    get_filename_component( TEXE ${RF} NAME_WE )
     ADD_EXECUTABLE( ${TEXE} ${RF} )
-    TARGET_LINK_LIBRARIES( ${TEXE} ${SPLINES_LIB} ${GC_LIB} )
+    TARGET_LINK_LIBRARIES( ${TEXE} ${TARGETS} ${GC_LIB} )
   ENDFOREACH (F ${S})
 ENDIF()
 
@@ -112,7 +136,8 @@ IF(APPLE)
   MESSAGE( STATUS "CMAKE_OSX_ARCHITECTURES     = ${CMAKE_OSX_ARCHITECTURES}" )
   MESSAGE( STATUS "CMAKE_OSX_DEPLOYMENT_TARGET = ${CMAKE_OSX_DEPLOYMENT_TARGET}" )
 ENDIF()
-MESSAGE( STATUS "Sources = ${SOURCES}" )
-MESSAGE( STATUS "Headers = ${HEADERS}" )
-MESSAGE( STATUS "SPLINES = ${SPLINES}" )
-MESSAGE( STATUS "GC_LIB  = ${GC_LIB}" )
+MESSAGE( STATUS "Sources      = ${SOURCES}" )
+MESSAGE( STATUS "Headers      = ${HEADERS}" )
+MESSAGE( STATUS "GC_LIB       = ${GC_LIB}" )
+MESSAGE( STATUS "GC_DIR       = ${GC_DIR}" )
+MESSAGE( STATUS "GC_DIR_GLOB  = ${GC_DIR_GLOB}" )

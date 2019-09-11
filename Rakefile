@@ -12,21 +12,11 @@
 end
 
 require "rake/clean"
+require_relative "./Rakefile_common.rb"
 
 CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build"]
 CLOBBER.include []
 CLEAN.exclude('**/[cC][oO][rR][eE]')
-
-task :default => [:build]
-
-LIB_NAME="Splines"
-
-cmakeversion = %x( cmake --version ).scan(/\d+\.\d+/).last
-if cmakeversion >= "3.12" then
-  PARALLEL = '--parallel 8 '
-else
-  PARALLEL = ''
-end
 
 desc "run tests"
 task :run do
@@ -54,118 +44,110 @@ task :run_win do
   sh "./bin/Release/test9"
 end
 
-desc "compile for UNIX/OSX [default GC='./GC']"
-task :build, [:gc_dir] do |t, args|
-
-  args.with_defaults( :gc_dir => './GC' )
-
-  if args.gc_dir == './GC' then
-    puts "\n\nBuild submodule GenericContainer".green
-    FileUtils.rm_rf "GC"
-    sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
-    FileUtils.cd "GC"
-    FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
-    sh "rake build"
-    FileUtils.cd ".."
-  else
-    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
-  end
-
-  FileUtils.rm_rf   "lib"
-  FileUtils.mkdir_p "lib"
-  FileUtils.rm_rf   "build"
-  FileUtils.mkdir_p "build"
-  FileUtils.cd      "build"
-
-  puts "\n\nPrepare #{LIB_NAME} project".green
-  sh "cmake -DCMAKE_INSTALL_PREFIX:PATH=lib -DGC_DIR:PATH=\"#{args.gc_dir}\" .."
-
-  puts "\n\nCompile #{LIB_NAME} Debug".green
-  sh 'cmake --build . --config Debug  --target install '+PARALLEL
-  FileList["*#{LIB_NAME}*.*"].each do |f|
-    puts "Copying #{f}".yellow
-    ext = File.extname(f);
-    FileUtils.cp f, "../lib/#{File.basename(f,ext)}_debug#{ext}"
-  end
-
-  puts "\n\nCompile Splines Release".green
-  sh 'cmake --build . --config Release --target install '+PARALLEL
-  FileList["*#{LIB_NAME}*.*"].each do |f|
-    puts "Copying #{f}".yellow
-    FileUtils.cp f, "../lib/#{File.basename(f)}"
-  end
-
-  puts "\n\nCopy include".green
-  FileUtils.cp_r "lib/lib/include", "../lib/include"
-
-  FileUtils.cd '..'
-
+desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
+task :build_GC, [:cmd] do |t, args|
+  args.with_defaults( :cmd => "build_osx" )
+  puts "\n\nBuild submodule GenericContainer".green
+  FileUtils.rm_rf "GC"
+  sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
+  FileUtils.cd "GC"
+  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
+  sh "rake #{args.cmd}"
+  FileUtils.cd ".."
 end
 
-desc "compile for Visual Studio [default year=2017 bits=x64 gc_dir='./GC']"
-task :build_win, [:year, :bits, :gc_dir] do |t, args|
-  args.with_defaults( :year => "2017", :bits => "x64", :gc_dir => './GC' )
+desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
+task :build_win, [:year, :bits, :gc_dir ] do |t, args|
+  args.with_defaults( :year => "2017", :bits => "x64", :gc_dir => "./GC" )
 
   if args.gc_dir == './GC' then
-    puts "\n\nBuild submodule GenericContainer".green
-    FileUtils.rm_rf "GC"
-    sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
-    FileUtils.cd "GC"
-    FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
-    sh "rake build_win[#{args.year},#{args.bits}]"
-    FileUtils.cd ".."
+    Rake::Task[:build_GC].invoke("build_win[#{args.year},#{args.bits}]")
   else
     puts "\n\nUse GenericContainer at #{args.gc_dir}".green
   end
 
-  puts "\n\nPrepare #{LIB_NAME} project".green
   dir = "vs_#{args.year}_#{args.bits}"
-
-  FileUtils.rm_rf   "lib"
-  FileUtils.mkdir_p "lib"
 
   FileUtils.rm_rf   dir
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  tmp = " -DBITS=#{args.bits} -DYEAR=#{args.year} " +
-        ' -DCMAKE_INSTALL_PREFIX:PATH=lib' +
-        " -DGC_DIR:PATH=\"#{args.gc_dir}\" .."
-
-  win32_64 = ''
-  case args.bits
-  when /x64/
-    win32_64 = ' Win64'
-  end
-
-  case args.year
-  when "2010"
-    sh 'cmake -G "Visual Studio 10 2010' + win32_64 +'" ' + tmp
-  when "2012"
-    sh 'cmake -G "Visual Studio 11 2012' + win32_64 +'" ' + tmp
-  when "2013"
-    sh 'cmake -G "Visual Studio 12 2013' + win32_64 +'" ' + tmp
-  when "2015"
-    sh 'cmake -G "Visual Studio 14 2015' + win32_64 +'" ' + tmp
-  when "2017"
-    sh 'cmake -G "Visual Studio 15 2017' + win32_64 +'" ' + tmp
+  cmake_cmd = win_vs(args.bits,args.year)
+  if COMPILE_EXECUTABLE then
+    cmake_cmd += ' -DBUILD_EXECUTABLE:VAR=true '
   else
-    puts "Visual Studio year #{year} not supported!\n";
+    cmake_cmd += ' -DBUILD_EXECUTABLE:VAR=false '
+  end
+  if COMPILE_DYNAMIC then
+    cmake_cmd += ' -DBUILD_SHARED:VAR=true '
+  else
+    cmake_cmd += ' -DBUILD_SHARED:VAR=false '
   end
 
-  libname = "#{LIB_NAME}_vs#{args.year}_#{args.bits}"
+  FileUtils.mkdir_p "../lib/lib"
+  FileUtils.mkdir_p "../lib/bin"
+  FileUtils.mkdir_p "../lib/bin/"+args.bits
+  FileUtils.mkdir_p "../lib/dll"
+  FileUtils.mkdir_p "../lib/include"
 
-  puts "\n\nCompile #{LIB_NAME} Debug".green
-  sh 'cmake --build . --config Debug --target install '+PARALLEL
-  FileUtils.cp "Debug/#{LIB_NAME}.lib", "../lib/#{libname}_debug.lib"
+  if COMPILE_DEBUG then
+    sh cmake_cmd + ' -DCMAKE_BUILD_TYPE:VAR=Debug ..'
+    sh 'cmake --build . --config Debug --target install '+PARALLEL
+  end
 
-  puts "\n\nCompile #{LIB_NAME} Release".green
-  sh 'cmake --build . --config Release  --target install '+PARALLEL
-  FileUtils.cp "Release/#{LIB_NAME}.lib", "../lib/#{libname}.lib"
-
-  puts "\n\nCopy include".green
-  FileUtils.cp_r "lib/lib/include", "../lib/include"
-
+  sh cmake_cmd + ' -DCMAKE_BUILD_TYPE:VAR=Release ..'
+  sh 'cmake  --build . --config Release  --target install '+PARALLEL
   FileUtils.cd '..'
 
+end
+
+desc "compile for OSX [default GC='./GC']"
+task :build, [:gc_dir,:os] do |t, args|
+  args.with_defaults( :gc_dir => "./GC" )
+
+  if args.gc_dir == './GC' then
+    Rake::Task[:build_GC].invoke("build_#{args.os}")
+  else
+    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
+  end
+
+  dir = "build"
+
+  FileUtils.rm_rf   dir
+  FileUtils.mkdir_p dir
+  FileUtils.cd      dir
+
+  cmake_cmd = 'cmake '
+
+  if COMPILE_EXECUTABLE then
+    cmake_cmd += '-DBUILD_EXECUTABLE:VAR=true '
+  else
+    cmake_cmd += '-DBUILD_EXECUTABLE:VAR=false '
+  end
+  if COMPILE_DYNAMIC then
+    cmake_cmd += '-DBUILD_SHARED:VAR=true '
+  else
+    cmake_cmd += '-DBUILD_SHARED:VAR=false '
+  end
+
+  if COMPILE_DEBUG then
+    sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Debug ..'
+    sh 'cmake --build . --config Debug --target install '+PARALLEL
+  end
+  sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Release ..'
+  sh 'cmake --build . --config Release --target install '+PARALLEL
+
+  FileUtils.cd '..'
+end
+
+desc "compile for LINUX [default GC='./GC']"
+task :build_linux, [:gc_dir ] do |t, args|
+  args.with_defaults( :gc_dir => "./GC" )
+  Rake::Task[:build].invoke(args.gc_dir,"linux")
+end
+
+desc "compile for OSX [default GC='./GC']"
+task :build_osx, [:gc_dir ] do |t, args|
+  args.with_defaults( :gc_dir => "./GC" )
+  Rake::Task[:build].invoke(args.gc_dir,"osx")
 end
