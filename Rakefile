@@ -73,6 +73,7 @@ task :build_win, [:year, :bits, :gc_dir ] do |t, args|
   FileUtils.cd      dir
 
   cmake_cmd = win_vs(args.bits,args.year)
+  cmake_cmd += " -DGC_DIR:VAR=#{args.gc_dir} "
   if COMPILE_EXECUTABLE then
     cmake_cmd += ' -DBUILD_EXECUTABLE:VAR=true '
   else
@@ -118,6 +119,7 @@ task :build, [:gc_dir,:os] do |t, args|
   FileUtils.cd      dir
 
   cmake_cmd = 'cmake '
+  cmake_cmd += ' -DGC_DIR:VAR=#{args.gc_dir} '
 
   if COMPILE_EXECUTABLE then
     cmake_cmd += '-DBUILD_EXECUTABLE:VAR=true '
