@@ -23,7 +23,7 @@ IF ( BUILD_SHARED )
   ELSEIF( LINUX OR UNIX )
     SET( TARGET Splines_linux${DEBUG_SUFFIX} )
   ELSE()
-    SET( TARGET Splines_win${BITS}${DEBUG_SUFFIX} )
+    SET( TARGET Splines_win_${BITS}${DEBUG_SUFFIX} )
     SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
   ENDIF()
 ENDIF()
@@ -33,7 +33,7 @@ IF ( APPLE )
 ELSEIF( LINUX OR UNIX )
   SET( TARGETS Splines_linux_static${DEBUG_SUFFIX} )
 ELSE()
-  SET( TARGETS Splines_win${BITS}_static${DEBUG_SUFFIX} )
+  SET( TARGETS Splines_win_${BITS}_static${DEBUG_SUFFIX} )
 ENDIF()
 
 PROJECT( Splines CXX C )
@@ -81,7 +81,7 @@ ELSEIF( LINUX OR UNIX )
   )
 ELSE()
   FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_win${BITS}_static
+    GC_LIB NAMES GenericContainer_win_${BITS}_static
     HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
   )
 ENDIF()
