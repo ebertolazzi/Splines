@@ -119,7 +119,7 @@ task :build, [:gc_dir,:os] do |t, args|
   FileUtils.cd      dir
 
   cmake_cmd = 'cmake '
-  cmake_cmd += ' -DGC_DIR:VAR=#{args.gc_dir} '
+  cmake_cmd += " -DGC_DIR:VAR=#{args.gc_dir} "
 
   if COMPILE_EXECUTABLE then
     cmake_cmd += '-DBUILD_EXECUTABLE:VAR=true '
