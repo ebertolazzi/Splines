@@ -57,8 +57,8 @@ task :build_GC, [:cmd] do |t, args|
 end
 
 desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
-task :build_win, [:year, :bits, :gc_dir ] do |t, args|
-  args.with_defaults( :year => "2017", :bits => "x64", :gc_dir => "./GC" )
+task :build_win, [:gc_dir, :year, :bits] do |t, args|
+  args.with_defaults( :gc_dir => "./GC", :year => "2017", :bits => "x64")
 
   if args.gc_dir == './GC' then
     Rake::Task[:build_GC].invoke("build_win[#{args.year},#{args.bits}]")
@@ -143,13 +143,13 @@ task :build, [:gc_dir,:os] do |t, args|
 end
 
 desc "compile for LINUX [default GC='./GC']"
-task :build_linux, [:gc_dir ] do |t, args|
+task :build_linux, [:gc_dir] do |t, args|
   args.with_defaults( :gc_dir => "./GC" )
   Rake::Task[:build].invoke(args.gc_dir,"linux")
 end
 
 desc "compile for OSX [default GC='./GC']"
-task :build_osx, [:gc_dir ] do |t, args|
+task :build_osx, [:gc_dir] do |t, args|
   args.with_defaults( :gc_dir => "./GC" )
   Rake::Task[:build].invoke(args.gc_dir,"osx")
 end
