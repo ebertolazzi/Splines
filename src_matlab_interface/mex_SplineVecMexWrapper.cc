@@ -241,7 +241,7 @@ namespace Splines {
 
     #define CMD "SplineVecMexWrapper( 'getNodes', obj ): "
     MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 

@@ -23,6 +23,10 @@ classdef SplineVec < handle
       SplineVecMexWrapper( 'knots', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function k = get_knots( self )
+      k = SplineVecMexWrapper( 'getNodes', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function chord( self )
       SplineVecMexWrapper( 'chord', self.objectHandle );
     end
@@ -51,11 +55,11 @@ classdef SplineVec < handle
       dddp = SplineVecMexWrapper( 'eval_DDD', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function cur = eval_curvature( self, x )
+    function cur = curvature( self, x )
       cur = SplineVecMexWrapper( 'eval_curvature', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function cur_D = eval_curvature_D( self, x )
+    function cur_D = curvature_D( self, x )
       cur_D = SplineVecMexWrapper( 'eval_curvature_D', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
