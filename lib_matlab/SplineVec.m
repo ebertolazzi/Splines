@@ -55,7 +55,7 @@ classdef SplineVec < handle
       cur = SplineVecMexWrapper( 'eval_curvature', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function cur_D = eval_curvature( self, x )
+    function cur_D = eval_curvature_D( self, x )
       cur_D = SplineVecMexWrapper( 'eval_curvature_D', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
