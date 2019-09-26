@@ -97,11 +97,14 @@ namespace Splines {
   void
   SplineVec::allocate( integer dim, integer npts ) {
 
-    SPLINE_ASSERT( dim > 0,
-                   "SplineVec::build expected positive dim = " << dim );
-    SPLINE_ASSERT( npts > 1,
-                   "SplineVec::build expected npts = " << npts <<
-                   " greather than 1" );
+    SPLINE_ASSERT(
+      dim > 0,
+      "SplineVec::build expected positive dim = " << dim
+    )
+    SPLINE_ASSERT(
+      npts > 1,
+      "SplineVec::build expected npts = " << npts << " greather than 1"
+    )
     _dim  = dim;
     _npts = npts;
 
@@ -415,6 +418,51 @@ namespace Splines {
   SplineVec::eval_DDD( real_type x, vector<real_type> & vals ) const {
     vals.resize(size_t(this->_dim));
     eval_DDD( x, &vals.front(), 1 );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  SplineVec::curvature( real_type x ) const {
+    real_type D[10], DD[10];
+    this->eval_D( x, D, 1 );
+    this->eval_DD( x, DD, 1 );
+    real_type x_1 = D[0];
+    real_type x_2 = DD[0];
+    real_type y_1 = D[1];
+    real_type y_2 = DD[1];
+    real_type t4  = x_1 * x_1;
+    real_type t5  = y_1 * y_1;
+    real_type t6  = t4 + t5;
+    real_type t7  = sqrt(t6);
+    return (x_1 * y_2 - y_1 * x_2) / ( t6 * t7 );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  SplineVec::curvature_D( real_type x ) const {
+    real_type D[10], DD[10], DDD[10];
+    this->eval_D( x, D, 1 );
+    this->eval_DD( x, DD, 1 );
+    this->eval_DDD( x, DDD, 1 );
+    real_type x_1 = D[0];
+    real_type x_2 = DD[0];
+    real_type x_3 = DDD[0];
+    real_type y_1 = D[1];
+    real_type y_2 = DD[1];
+    real_type y_3 = DDD[1];
+    real_type t1  = x_1 * x_1;
+    real_type t9  = x_2 * x_2;
+    real_type t13 = y_1 * y_1;
+    real_type t17 = y_2 * y_2;
+    real_type t26 = t1 + t13;
+    real_type t27 = t26 * t26;
+    real_type t28 = sqrt(t26);
+    real_type aa  = y_3 * x_1 - y_1 * x_3;
+    real_type bb  = 3 * y_2 * x_2;
+    return ( t1 * ( aa - bb ) + t13 * ( aa + bb )
+           + 3 * x_1 * y_1 * ( t9 - t17 ) ) / ( t28 * t27 );
   }
 
   #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER

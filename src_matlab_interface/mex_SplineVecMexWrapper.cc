@@ -365,6 +365,58 @@ namespace Splines {
 
   static
   void
+  do_eval_curvature( int nlhs, mxArray       *plhs[],
+                     int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "SplineVecMexWrapper( 'eval_curvature', obj, x ): "
+    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+
+    SplineVec * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx;
+    real_type const * x = getVectorPointer(
+      arg_in_2, nx, CMD "error in reading `x`"
+    );
+
+    real_type * curvature = createMatrixValue( arg_out_0, 1, nx );
+
+    for ( mwSize i = 0; i < nx; ++i )
+      curvature[i] = ptr->curvature( x[i] );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_curvature_D( int nlhs, mxArray       *plhs[],
+                       int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "SplineVecMexWrapper( 'eval_curvature', obj, x ): "
+    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+
+    SplineVec * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx;
+    real_type const * x = getVectorPointer(
+      arg_in_2, nx, CMD "error in reading `x`"
+    );
+
+    real_type * curvature_D = createMatrixValue( arg_out_0, 1, nx );
+
+    for ( mwSize i = 0; i < nx; ++i )
+      curvature_D[i] = ptr->curvature_D( x[i] );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_tmin( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
 
@@ -412,6 +464,8 @@ namespace Splines {
     CMD_EVAL_D,
     CMD_EVAL_DD,
     CMD_EVAL_DDD,
+    CMD_EVAL_CURVATURE,
+    CMD_EVAL_CURVATURE_D,
     CMD_TMIN,
     CMD_TMAX
   } CMD_LIST;
@@ -431,6 +485,8 @@ namespace Splines {
     {"eval_D",CMD_EVAL_D},
     {"eval_DD",CMD_EVAL_DD},
     {"eval_DDD",CMD_EVAL_DDD},
+    {"eval_curvature",CMD_EVAL_CURVATURE},
+    {"eval_curvature_D",CMD_EVAL_CURVATURE_D},
     {"tmin",CMD_TMIN},
     {"tmax",CMD_TMAX}
   };
@@ -488,6 +544,12 @@ namespace Splines {
         break;
       case CMD_EVAL_DDD:
         do_eval_DDD( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_CURVATURE:
+        do_eval_curvature( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_CURVATURE_D:
+        do_eval_curvature_D( nlhs, plhs, nrhs, prhs );
         break;
       case CMD_TMIN:
         do_tmin( nlhs, plhs, nrhs, prhs );

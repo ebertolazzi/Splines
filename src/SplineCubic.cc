@@ -98,12 +98,12 @@ namespace Splines {
       this->npts > 1,
       "CubicSpline::build(): npts = " << this->npts <<
       " not enought points"
-    );
+    )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {};
+      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
       real_type d0 = ibegin == 0          ? ddy0 : 0;
       real_type d1 = iend   == this->npts ? ddyn : 0;
       CubicSpline_build(
@@ -135,11 +135,11 @@ namespace Splines {
     SPLINE_ASSERT(
       gc.exists("x"),
       "CubicSpline[" << this->_name << "]::setup missing `x` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("y"),
       "CubicSpline[" << this->_name << "]::setup missing `y` field!"
-    );
+    )
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");

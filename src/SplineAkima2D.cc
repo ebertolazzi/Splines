@@ -126,9 +126,11 @@ namespace Splines {
     real_type & DXY
   ) {
 
-    integer stencil[3][4] = { { -3, -2, -1, 1 },
-                              { -2, -1,  1, 2 },
-                              { -1,  1,  2, 3 } };
+    integer stencil[3][4] = {
+      { -3, -2, -1, 1 },
+      { -2, -1,  1, 2 },
+      { -1,  1,  2, 3 }
+    };
 
     real_type by0[4], by1[4], CY1A[4], CY2A[4], CY3A[4], SYA[4], SYYA[4];
 
@@ -149,10 +151,12 @@ namespace Splines {
       int j2 = 4 + stencil[1][k];
       int j3 = 4 + stencil[2][k];
       if ( j1 >= int(jmin) && j3 <= int(jmax) )
-        estimate( Z00, Z[4][j1], Z[4][j2], Z[4][j3],
-                  Y[j1] - Y0, Y[j2] - Y0, Y[j3] - Y0,
-                  CY1A[k], CY2A[k], CY3A[k], SYA[k], SYYA[k],
-                  by0[k], by1[k], DYF, DYI );
+        estimate(
+          Z00, Z[4][j1], Z[4][j2], Z[4][j3],
+          Y[j1] - Y0, Y[j2] - Y0, Y[j3] - Y0,
+          CY1A[k], CY2A[k], CY3A[k], SYA[k], SYYA[k],
+          by0[k], by1[k], DYF, DYI
+        );
     }
 
     for ( integer kx = 0; kx < 4; ++kx ) {
@@ -169,11 +173,13 @@ namespace Splines {
       real_type Z20 = Z[i2][4];
       real_type Z30 = Z[i3][4];
       real_type CX1, CX2, CX3, SX, SXX, B00X, B10;
-      estimate( Z00, Z10, Z20, Z30,
-                X1, X2, X3,
-                CX1, CX2, CX3,
-                SX, SXX,
-                B00X, B10, DXF, DXI );
+      estimate(
+        Z00, Z10, Z20, Z30,
+        X1, X2, X3,
+        CX1, CX2, CX3,
+        SX, SXX,
+        B00X, B10, DXF, DXI
+      );
 
       for ( int ky = 0; ky < 4; ++ky ) {
         int j1 = 4 + stencil[0][ky];

@@ -249,10 +249,9 @@ namespace Splines {
     real_type const [], integer,
     integer
   ) {
-    SPLINE_ASSERT(
-      false,
+    SPLINE_DO_ERROR(
       "HermiteSpline::build(x,incx,y,incy,n) cannot be used"
-    );
+    )
   }
 
   #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -270,15 +269,15 @@ namespace Splines {
     SPLINE_ASSERT(
       gc.exists("x"),
       "HermiteSpline[" << _name << "]::setup missing `x` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("y"),
       "HermiteSpline[" << _name << "]::setup missing `y` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("yp"),
       "HermiteSpline[" << _name << "]::setup missing `yp` field!"
-    );
+    )
 
     GenericContainer const & gc_x  = gc("x");
     GenericContainer const & gc_y  = gc("y");

@@ -50,18 +50,24 @@ either expressed or implied, of the FreeBSD Project.
 
 #include "SplinesConfig.hh"
 
+#ifndef SPLINE_DO_ERROR
+  #include <stdexcept>
+  #include <sstream>
+  #define SPLINE_DO_ERROR(MSG)           \
+  {                                      \
+    std::ostringstream ost;              \
+    ost << "In spline: " << name()       \
+        << " line: " << __LINE__         \
+        << " file: " << __FILE__         \
+        << '\n' << MSG << '\n';          \
+    throw std::runtime_error(ost.str()); \
+  }
+#endif
+
 #ifndef SPLINE_ASSERT
   #include <stdexcept>
   #include <sstream>
-  #define SPLINE_ASSERT(COND,MSG)          \
-    if ( !(COND) ) {                       \
-      std::ostringstream ost;              \
-      ost << "In spline: " << name()       \
-          << " line: " << __LINE__         \
-          << " file: " << __FILE__         \
-          << '\n' << MSG << '\n';          \
-      throw std::runtime_error(ost.str()); \
-    }
+  #define SPLINE_ASSERT(COND,MSG) if ( !(COND) ) SPLINE_DO_ERROR(MSG)
 #endif
 
 #ifndef SPLINE_WARNING
@@ -514,13 +520,15 @@ namespace Splines {
 
     integer
     search( real_type x ) const {
-      SPLINE_ASSERT( npts > 1, "\nsearch(" << x << ") empty spline");
+      SPLINE_ASSERT( npts > 1, "\nsearch(" << x << ") empty spline")
       if ( _check_range ) {
         real_type xl = X[0];
         real_type xr = X[npts-1];
-        SPLINE_ASSERT( x >= xl && x <= xr,
-                       "method search( " << x << " ) out of range: [" <<
-                       xl << ", " << xr << "]" );
+        SPLINE_ASSERT(
+          x >= xl && x <= xr,
+          "method search( " << x << " ) out of range: [" <<
+          xl << ", " << xr << "]"
+        )
       }
       Splines::updateInterval( lastInterval, x, X, npts );
       return lastInterval;
@@ -1218,7 +1226,9 @@ namespace Splines {
     virtual
     real_type
     operator () ( real_type x ) const SPLINES_OVERRIDE {
-      SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!");
+      SPLINE_ASSERT(
+        this->npts > 0, "in LinearSpline::operator(), npts == 0!"
+      )
       if ( x < this->X[0]      ) return this->Y[0];
       if ( x > this->X[npts-1] ) return this->Y[this->npts-1];
       integer   i = this->search(x);
@@ -1230,7 +1240,9 @@ namespace Splines {
     virtual
     real_type
     D( real_type x ) const SPLINES_OVERRIDE {
-      SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!");
+      SPLINE_ASSERT(
+        this->npts > 0, "in LinearSpline::operator(), npts == 0!"
+      )
       if ( x < this->X[0]      ) return 0;
       if ( x > this->X[npts-1] ) return 0;
       integer i = this->search(x);
@@ -1657,7 +1669,9 @@ namespace Splines {
 
     integer
     search( real_type x ) const {
-      SPLINE_ASSERT( this->_npts > 1, "\nsearch(" << x << ") empty spline");
+      SPLINE_ASSERT(
+        this->_npts > 1, "\nsearch(" << x << ") empty spline"
+      )
       if ( this->_check_range ) {
         real_type xl = this->_X[0];
         real_type xr = this->_X[this->_npts-1];
@@ -1665,7 +1679,7 @@ namespace Splines {
           x >= xl && x <= xr,
           "method search( " << x << " ) out of range: [" <<
           xl << ", " << xr << "]"
-        );
+        )
       }
       Splines::updateInterval( this->lastInterval, x, this->_X, this->_npts );
       return lastInterval;
@@ -1874,6 +1888,12 @@ namespace Splines {
     void
     CatmullRom();
 
+    real_type
+    curvature( real_type x ) const;
+
+    real_type
+    curvature_D( real_type x ) const;
+
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
@@ -1994,7 +2014,7 @@ namespace Splines {
         i >=0 && i < this->_nspl,
         "SplineSet::yNodes( " << i <<
         ") argument out of range [0," << this->_nspl-1 << "]"
-      );
+      )
       return this->_Y[size_t(i)];
     }
 
@@ -2045,7 +2065,7 @@ namespace Splines {
         i < _nspl,
         "SplineSet::getSpline( " << i <<
         ") argument out of range [0," << this->_nspl-1 << "]"
-      );
+      )
       return this->splines[size_t(i)];
     }
 
@@ -3008,7 +3028,7 @@ namespace Splines {
     integer
     search_x( real_type x ) const {
       integer npts_x = integer(this->X.size());
-      SPLINE_ASSERT( npts_x > 1, "\nsearch_x(" << x << ") empty spline");
+      SPLINE_ASSERT( npts_x > 1, "\nsearch_x(" << x << ") empty spline" )
       if ( this->_check_range ) {
         real_type xl = this->X.front();
         real_type xr = this->X.back();
@@ -3016,7 +3036,7 @@ namespace Splines {
           x >= xl && x <= xr,
           "method search_x( " << x << " ) out of range: [" <<
           xl << ", " << xr << "]"
-        );
+        )
       }
       Splines::updateInterval( this->lastInterval_x, x, &this->X.front(), npts_x );
       return this->lastInterval_x;
@@ -3027,7 +3047,7 @@ namespace Splines {
     integer
     search_y( real_type y ) const {
       integer npts_y = integer(this->Y.size());
-      SPLINE_ASSERT( npts_y > 1, "\nsearch_y(" << y << ") empty spline");
+      SPLINE_ASSERT( npts_y > 1, "\nsearch_y(" << y << ") empty spline" )
       if ( this->_check_range ) {
         real_type yl = this->Y.front();
         real_type yr = this->Y.back();
@@ -3035,7 +3055,7 @@ namespace Splines {
           y >= yl && y <= yr,
           "method search_y( " << y << " ) out of range: [" <<
           yl << ", " << yr << "]"
-        );
+        )
       }
       Splines::updateInterval( this->lastInterval_y, y, &this->Y.front(), npts_y );
       return this->lastInterval_y;

@@ -39,6 +39,7 @@
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
 //! Various kind of splines
@@ -510,7 +511,7 @@ namespace Splines {
         "Spline::pushBack, non monotone insert at insert N. " << npts <<
         "\nX[ " << npts-1 << "] = " << X[size_t(npts-1)] <<
         "\nX[ " << npts   << "] = " << x
-      );
+      )
     }
     if ( npts_reserved == 0 ) {
       reserve( 2 );

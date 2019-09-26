@@ -77,7 +77,10 @@ namespace Splines {
         case -1: s << " is NOT monotone\n";        break;
         case  0: s << " is monotone\n";            break;
         case  1: s << " is strictly monotone\n";   break;
-        default: SPLINE_ASSERT( false, "SplineSet::info classification: " << is_monotone[i] << " not in range {-2,-1,0,1}" );
+        default: SPLINE_DO_ERROR(
+          "SplineSet::info classification: " << is_monotone[i] <<
+          " not in range {-2,-1,0,1}"
+        )
       }
       splines[i]->info(s);
     }
@@ -108,7 +111,10 @@ namespace Splines {
   integer
   SplineSet::getPosition( char const * hdr ) const {
     map<string,integer>::const_iterator it = header_to_position.find(hdr);
-    SPLINE_ASSERT( it != header_to_position.end(), "SplineSet::getPosition(\"" << hdr << "\") not found!" );
+    SPLINE_ASSERT(
+      it != header_to_position.end(),
+      "SplineSet::getPosition(\"" << hdr << "\") not found!"
+    )
     return it->second;
   }
 
@@ -127,11 +133,11 @@ namespace Splines {
     SPLINE_ASSERT(
       nspl > 0,
       "SplineSet::build expected positive nspl = " << nspl
-    );
+    )
     SPLINE_ASSERT(
       npts > 1,
       "SplineSet::build expected npts = " << npts << " greather than 1"
-    );
+    )
     this->_nspl = nspl;
     this->_npts = npts;
     // allocate memory
@@ -160,7 +166,7 @@ namespace Splines {
           "SplineSet::build\nAt spline n. " << spl <<
           " named " << headers[spl] <<
           " cannot be done for type = " << stype[spl]
-        );
+        )
       }
     }
 
@@ -203,7 +209,7 @@ namespace Splines {
             Yp != nullptr && Yp[spl] != nullptr,
             "SplineSet::build\nAt spline n. " << spl <<
             " named " << headers[spl] << "\nexpect to find derivative values"
-          );
+          )
           std::copy( Yp[spl], Yp[spl]+npts, pYp );
         }
       case CONSTANT_TYPE:
@@ -296,7 +302,7 @@ namespace Splines {
           "\n" << stype[size_t(spl)] <<
           " not allowed as spline type\nin SplineSet::build for " << spl <<
           "-th spline"
-        );
+        )
       }
       this->header_to_position[s->name()] = integer(spl);
     }
@@ -399,12 +405,12 @@ namespace Splines {
     SPLINE_ASSERT(
       spl >= 0 && spl < _nspl,
       "Spline n." << spl << " is not in SplineSet"
-    );
+    )
     SPLINE_ASSERT(
       this->is_monotone[size_t(spl)]>0,
       "Spline n." << spl <<
       " is not monotone and can't be used as independent"
-    );
+    )
     Spline const * S = this->splines[size_t(spl)];
     // cerco intervallo intersezione
     real_type const * X = this->_Y[size_t(spl)];
@@ -413,7 +419,7 @@ namespace Splines {
       "SplineSet, evaluation at zeta = " << zeta <<
       " is out of range: [" << X[0] <<
       ", " << X[size_t(_npts-1)] << "]"
-    );
+    )
 
     integer interval = integer(lower_bound( X, X+this->_npts, zeta ) - X);
     if ( interval > 0 ) --interval;
@@ -430,11 +436,11 @@ namespace Splines {
     SPLINE_ASSERT(
       zeta >= ya && zeta <= yb,
       "SplineSet, Bad interval [ " << ya << "," << yb << "] for zeta = " << zeta
-    );
+    )
     SPLINE_ASSERT(
       a < b,
       "SplineSet, Bad x interval [ " << a << "," << b << "]"
-    );
+    )
     if ( S->type() == LINEAR_TYPE ) {
       x = a + (b-a)*(zeta-ya)/(yb-ya);
     } else {
@@ -447,7 +453,7 @@ namespace Splines {
       SPLINE_ASSERT(
         icase.first > 0,
         "SplineSet, No intersection found with independent spline at zeta = " << zeta
-      );
+      )
       // cerca radice buona
       bool ok = false;
       for ( integer i = 0; i < icase.first && !ok; ++i ) {
@@ -457,7 +463,7 @@ namespace Splines {
       SPLINE_ASSERT(
         ok,
         "SplineSet, failed to find intersection with independent spline at zeta = " << zeta
-      );
+      )
     }
     return S;
   }

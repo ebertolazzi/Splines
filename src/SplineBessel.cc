@@ -74,12 +74,12 @@ namespace Splines {
     SPLINE_ASSERT(
       this->npts > 1,
       "BesselSpline::build(): npts = " << npts << " not enought points"
-    );
+    )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {};
+      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
       Bessel_build( this->X+ibegin, this->Y+ibegin, this->Yp+ibegin, iend-ibegin );
       ibegin = iend;
     } while ( iend < this->npts );

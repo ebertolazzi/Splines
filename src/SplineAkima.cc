@@ -105,12 +105,12 @@ namespace Splines {
     SPLINE_ASSERT(
       npts > 1,
       "AkimaSpline::build(): npts = " << npts << " not enought points"
-    );
+    )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < npts && X[iend-1] < X[iend] ) {};
+      while ( ++iend < npts && X[iend-1] < X[iend] ) {}
       Akima_build( X+ibegin, Y+ibegin, Yp+ibegin, iend-ibegin );
       ibegin = iend;
     } while ( iend < npts );

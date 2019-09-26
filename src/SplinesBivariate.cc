@@ -73,7 +73,7 @@ namespace Splines {
       SPLINE_ASSERT(
         ldZ >= ny,
         "SplineSurf::build, ldZ = " << ldZ << " must be >= of nx = " << ny
-      );
+      )
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_C(i,j,ldZ))];
@@ -81,7 +81,7 @@ namespace Splines {
       SPLINE_ASSERT(
         ldZ >= nx,
         "SplineSurf::build, ldZ = " << ldZ << " must be >= of ny = " << nx
-      );
+      )
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
@@ -103,8 +103,8 @@ namespace Splines {
     vector<real_type> XX, YY; // temporary vector
     XX.resize( size_t(nx) );
     YY.resize( size_t(ny) ); // temporary vector
-    for ( size_t i = 0; i < size_t(nx); ++i ) XX[i] = i;
-    for ( size_t i = 0; i < size_t(ny); ++i ) YY[i] = i;
+    for ( size_t i = 0; i < size_t(nx); ++i ) XX[i] = real_type(i);
+    for ( size_t i = 0; i < size_t(ny); ++i ) YY[i] = real_type(i);
     build(
       &XX.front(), 1, &YY.front(), 1, z, ldZ, nx, ny,
       fortran_storage, transposed
@@ -439,15 +439,15 @@ namespace Splines {
     SPLINE_ASSERT(
       gc.exists("x"),
       "[SplineSurf[" << _name << "]::setup] missing `x` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("y"),
       "[SplineSurf[" << _name << "]::setup] missing `y` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("z"),
       "[SplineSurf[" << _name << "]::setup] missing `z` field!"
-    );
+    )
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");
@@ -493,7 +493,7 @@ namespace Splines {
         "[SplineSurf[" << _name <<
         "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
         gc_z.get_type_name() << "`"
-      );
+      )
     }
 
   }
