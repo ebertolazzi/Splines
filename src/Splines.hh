@@ -56,6 +56,7 @@ either expressed or implied, of the FreeBSD Project.
   #define SPLINE_DO_ERROR(MSG)           \
   {                                      \
     std::ostringstream ost;              \
+    Splines::backtrace( ost );           \
     ost << "In spline: " << name()       \
         << " line: " << __LINE__         \
         << " file: " << __FILE__         \
@@ -112,6 +113,8 @@ namespace Splines {
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
   typedef basic_ostream<char> ostream_type;
+
+  void backtrace( ostream_type & );
 
   static
   inline

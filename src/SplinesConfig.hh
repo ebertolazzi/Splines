@@ -73,7 +73,10 @@ either expressed or implied, of the FreeBSD Project.
 // file: Splines
 //
 // if C++ < C++11 define nullptr
+// select computer architecture
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
+  // windows architecture
+  #define SPLINES_OS_WINDOWS 1
   #if _MSC_VER >= 1900
     #ifndef DO_NOT_USE_CXX11
       #define SPLINES_USE_CXX11
@@ -89,6 +92,13 @@ either expressed or implied, of the FreeBSD Project.
     #include <math.h>
   #endif
 #else
+  #if defined(__APPLE__) && defined(__MACH__)
+    // osx architecture
+    #define SPLINES_OS_OSX 1
+  #elif defined(__unix__)
+    // linux architecture
+    #define SPLINES_OS_LINUX 1
+  #endif
   #include <cmath>
   #include <cfloat>
   #if __cplusplus > 199711L
