@@ -51,9 +51,9 @@ disp('---------------------------------------------------------');
 CMD = 'mex -c  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src ';
 if isunix
   if ismac
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0" '];
+    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g" '];
   else
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0" '];
+    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g" '];
   end
 elseif ispc
 end
@@ -75,9 +75,9 @@ for k=1:length(NAMES)
   CMD = [ CMD, '.cc ', LIB_OBJS ];
   if isunix
     if ismac
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'];
+      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
     else
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g0"'];
+      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
     end
   elseif ispc
   end

@@ -30,7 +30,7 @@ endif
   CC  += $(WARN)
   CXX += $(WARN)
   LIBS     = -static -L./lib -L./GC/lib  -lSplines -lGenericContainer
-  CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
+  CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif
 
@@ -55,7 +55,7 @@ endif
   CC  += $(WARN)
   CXX += $(WARN)
   LIBS     = -L./lib -L./GC/lib -lSplines -lGenericContainer
-  CXXFLAGS = -Wall -O3 -fPIC -Wno-sign-compare
+  CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
   AR       = libtool -static -o
 endif
 
