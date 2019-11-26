@@ -76,7 +76,8 @@ namespace Splines {
       this->Yp = this->baseValue( size_t(n) );
       this->_external_alloc = false;
     }
-    npts = lastInterval = 0;
+    integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+    this->npts = lastInterval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -92,7 +93,8 @@ namespace Splines {
     this->X    = p_x;
     this->Y    = p_y;
     this->Yp   = p_dy;
-    this->npts = this->lastInterval = 0;
+    integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+    this->npts = lastInterval = 0;
     this->_external_alloc = true;
   }
 

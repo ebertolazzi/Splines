@@ -84,11 +84,7 @@ either expressed or implied, of the FreeBSD Project.
 #endif
 
 #ifndef SPLINES_OVERRIDE
-  #ifdef SPLINES_USE_CXX11
-    #define SPLINES_OVERRIDE override
-  #else
-    #define SPLINES_OVERRIDE
-  #endif
+  #define SPLINES_OVERRIDE override
 #endif
 
 #ifndef SPLINES_PURE_VIRTUAL
@@ -519,7 +515,7 @@ namespace Splines {
     real_type *X; // allocated in the derived class!
     real_type *Y; // allocated in the derived class!
 
-    mutable integer lastInterval;
+    mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
     search( real_type x ) const {
@@ -533,6 +529,7 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
+      integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
       Splines::updateInterval( lastInterval, x, X, npts );
       return lastInterval;
     }
@@ -550,8 +547,9 @@ namespace Splines {
     , npts_reserved(0)
     , X(nullptr)
     , Y(nullptr)
-    , lastInterval(0)
-    {}
+    {
+      lastInterval_by_thread[std::this_thread::get_id()] = 0;
+    }
 
     //! spline destructor
     virtual 
@@ -1668,7 +1666,7 @@ namespace Splines {
     real_type ** _Y;
     real_type ** _Yp;
 
-    mutable integer lastInterval;
+    mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
     search( real_type x ) const {
@@ -1684,7 +1682,8 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
-      Splines::updateInterval( this->lastInterval, x, this->_X, this->_npts );
+      integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+      Splines::updateInterval( lastInterval, x, this->_X, this->_npts );
       return lastInterval;
     }
 
@@ -1953,7 +1952,8 @@ namespace Splines {
     real_type *  _Ymin;
     real_type *  _Ymax;
 
-    mutable integer lastInterval;
+    mutable map<std::thread::id,integer> lastInterval_by_thread;
+
     integer search( real_type x ) const;
     
     vector<Spline*>     splines;
@@ -3026,7 +3026,7 @@ namespace Splines {
     
     real_type Z_min, Z_max;
 
-    mutable integer lastInterval_x;
+    mutable map<std::thread::id,integer> lastInterval_x_by_thread;
 
     integer
     search_x( real_type x ) const {
@@ -3041,11 +3041,12 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
-      Splines::updateInterval( this->lastInterval_x, x, &this->X.front(), npts_x );
-      return this->lastInterval_x;
+      integer & lastInterval_x = lastInterval_x_by_thread[std::this_thread::get_id()];
+      Splines::updateInterval( lastInterval_x, x, &this->X.front(), npts_x );
+      return lastInterval_x;
     }
 
-    mutable integer lastInterval_y;
+    mutable map<std::thread::id,integer> lastInterval_y_by_thread;
 
     integer
     search_y( real_type y ) const {
@@ -3060,8 +3061,9 @@ namespace Splines {
           yl << ", " << yr << "]"
         )
       }
-      Splines::updateInterval( this->lastInterval_y, y, &this->Y.front(), npts_y );
-      return this->lastInterval_y;
+      integer & lastInterval_y = lastInterval_y_by_thread[std::this_thread::get_id()];
+      Splines::updateInterval( lastInterval_y, y, &this->Y.front(), npts_y );
+      return lastInterval_y;
     }
 
     integer
@@ -3093,9 +3095,10 @@ namespace Splines {
     , Z()
     , Z_min(0)
     , Z_max(0)
-    , lastInterval_x(0)
-    , lastInterval_y(0)
-    {}
+    {
+      lastInterval_x_by_thread[std::this_thread::get_id()] = 0;
+      lastInterval_y_by_thread[std::this_thread::get_id()] = 0;
+    }
 
     //! spline destructor
     virtual

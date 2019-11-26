@@ -68,6 +68,8 @@ either expressed or implied, of the FreeBSD Project.
 #include <map>
 #include <utility>      // std::pair
 #include <algorithm>
+#include <thread>
+#include <mutex>
 
 //
 // file: Splines
@@ -77,16 +79,8 @@ either expressed or implied, of the FreeBSD Project.
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
   // windows architecture
   #define SPLINES_OS_WINDOWS 1
-  #if _MSC_VER >= 1900
-    #ifndef DO_NOT_USE_CXX11
-      #define SPLINES_USE_CXX11
-    #endif
-  #else
-    #include <cstdlib>
-    #ifndef nullptr
-      #include <cstddef>
-      #define nullptr NULL
-    #endif
+  #if _MSC_VER < 1900
+    #error "Splines need a C++11 compiler"
   #endif
   #ifdef _MSC_VER
     #include <math.h>
@@ -101,16 +95,8 @@ either expressed or implied, of the FreeBSD Project.
   #endif
   #include <cmath>
   #include <cfloat>
-  #if __cplusplus > 199711L
-    #ifndef DO_NOT_USE_CXX11
-      #define SPLINES_USE_CXX11
-    #endif
-  #else
-    #include <cstdlib>
-    #ifndef nullptr
-      #include <cstddef>
-      #define nullptr NULL
-    #endif
+  #if __cplusplus < 199711L
+    #error "Splines need a C++11 compiler"
   #endif
 #endif
 

@@ -98,23 +98,11 @@ namespace Splines {
   #ifdef _MSC_VER
     using std::sqrt;
     using std::pow;
-    static
-    inline
-    real_type
-    cbrt( real_type x )
-    { return pow( x, 1.0/3.0 ); }
+    static inline real_type cbrt( real_type x ) { return pow( x, 1.0/3.0 ); }
   #else
     using std::sqrt;
     using std::pow;
-    #if __cplusplus <= 199711L
-      static
-      inline
-      real_type
-      cbrt( real_type x )
-      { return pow( x, 1.0/3.0 ); }
-    #else
-      using std::pow;
-    #endif
+    using std::cbrt;
   #endif
 
   /*\

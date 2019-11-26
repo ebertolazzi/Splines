@@ -36,24 +36,12 @@ endif
 
 # check if the OS string contains 'Darwin'
 ifneq (,$(findstring Darwin, $(OS)))
-  WARN    = -Weverything -Wno-reserved-id-macro -Wno-padded
-  CC      = clang
-  CXX     = clang++
-  VERSION = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
-ifneq (,$(findstring 10., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++
-endif
-ifneq (,$(findstring 9., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++
-endif
-ifneq (,$(findstring 8., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++
-endif
-ifneq (,$(findstring 7., $(VERSION)))
-  CXX += -std=c++11 -stdlib=libc++
-endif
-  CC  += $(WARN)
-  CXX += $(WARN)
+  WARN     = -Weverything -Wno-reserved-id-macro -Wno-padded
+  CC       = clang
+  CXX      = clang++ -std=c++11 -stdlib=libc++
+  VERSION  = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
+  CC      += $(WARN)
+  CXX     += $(WARN)
   LIBS     = -L./lib -L./GC/lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
   AR       = libtool -static -o

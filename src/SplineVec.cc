@@ -55,8 +55,9 @@ namespace Splines {
   , _X(nullptr)
   , _Y(nullptr)
   , _Yp(nullptr)
-  , lastInterval(0)
-  {}
+  {
+    lastInterval_by_thread[std::this_thread::get_id()] = 0;
+  }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

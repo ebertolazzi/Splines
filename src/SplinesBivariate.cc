@@ -49,6 +49,8 @@ namespace Splines {
     Y.clear();
     Z.clear();
     Z_min = Z_max = 0;
+    integer & lastInterval_x = lastInterval_x_by_thread[std::this_thread::get_id()];
+    integer & lastInterval_y = lastInterval_y_by_thread[std::this_thread::get_id()];
     lastInterval_x = 0;
     lastInterval_y = 0;
   }
