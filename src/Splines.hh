@@ -842,10 +842,6 @@ namespace Splines {
   class CubicSplineBase : public Spline {
   protected:
     SplineMalloc<real_type> baseValue;
-    mutable real_type base[4];
-    mutable real_type base_D[4];
-    mutable real_type base_DD[4];
-    mutable real_type base_DDD[4];
 
     real_type * Yp;
     bool        _external_alloc;
@@ -1488,12 +1484,6 @@ namespace Splines {
   class QuinticSplineBase : public Spline {
   protected:
     SplineMalloc<real_type> baseValue;
-    mutable real_type base[6];
-    mutable real_type base_D[6];
-    mutable real_type base_DD[6];
-    mutable real_type base_DDD[6];
-    mutable real_type base_DDDD[6];
-    mutable real_type base_DDDDD[6];
 
     real_type * Yp;
     real_type * Ypp;
