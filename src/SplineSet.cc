@@ -54,6 +54,7 @@ namespace Splines {
   , _Ymin(nullptr)
   , _Ymax(nullptr)
   {
+    std::unique_lock<std::mutex> lck(lastInterval_mutex);
     lastInterval_by_thread[std::this_thread::get_id()] = 0;
   }
 

@@ -515,6 +515,7 @@ namespace Splines {
     real_type *X; // allocated in the derived class!
     real_type *Y; // allocated in the derived class!
 
+    mutable std::mutex                   lastInterval_mutex;
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
@@ -529,8 +530,16 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
-      integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+      integer lastInterval;
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_mutex);
+        lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+      }
       Splines::updateInterval( lastInterval, x, X, npts );
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_mutex);
+        lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
+      }
       return lastInterval;
     }
 
@@ -548,9 +557,9 @@ namespace Splines {
     , X(nullptr)
     , Y(nullptr)
     {
+      std::unique_lock<std::mutex> lck(lastInterval_mutex);
       lastInterval_by_thread[std::this_thread::get_id()] = 0;
     }
-
     //! spline destructor
     virtual 
     ~Spline()
@@ -1666,6 +1675,7 @@ namespace Splines {
     real_type ** _Y;
     real_type ** _Yp;
 
+    mutable std::mutex                   lastInterval_mutex;
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
@@ -1682,8 +1692,16 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
-      integer & lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+      integer lastInterval;
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_mutex);
+        lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
+      }
       Splines::updateInterval( lastInterval, x, this->_X, this->_npts );
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_mutex);
+        lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
+      }
       return lastInterval;
     }
 
@@ -1952,6 +1970,7 @@ namespace Splines {
     real_type *  _Ymin;
     real_type *  _Ymax;
 
+    mutable std::mutex                   lastInterval_mutex;
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer search( real_type x ) const;
@@ -3026,6 +3045,7 @@ namespace Splines {
     
     real_type Z_min, Z_max;
 
+    mutable std::mutex                   lastInterval_x_mutex;
     mutable map<std::thread::id,integer> lastInterval_x_by_thread;
 
     integer
@@ -3041,11 +3061,20 @@ namespace Splines {
           xl << ", " << xr << "]"
         )
       }
-      integer & lastInterval_x = lastInterval_x_by_thread[std::this_thread::get_id()];
+      integer lastInterval_x;
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_x_mutex);
+        lastInterval_x = lastInterval_x_by_thread[std::this_thread::get_id()];
+      }
       Splines::updateInterval( lastInterval_x, x, &this->X.front(), npts_x );
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_x_mutex);
+        lastInterval_x_by_thread[std::this_thread::get_id()] = lastInterval_x;
+      }
       return lastInterval_x;
     }
 
+    mutable std::mutex                   lastInterval_y_mutex;
     mutable map<std::thread::id,integer> lastInterval_y_by_thread;
 
     integer
@@ -3061,8 +3090,16 @@ namespace Splines {
           yl << ", " << yr << "]"
         )
       }
-      integer & lastInterval_y = lastInterval_y_by_thread[std::this_thread::get_id()];
+      integer lastInterval_y;
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_y_mutex);
+        lastInterval_y = lastInterval_y_by_thread[std::this_thread::get_id()];
+      }
       Splines::updateInterval( lastInterval_y, y, &this->Y.front(), npts_y );
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_y_mutex);
+        lastInterval_y_by_thread[std::this_thread::get_id()] = lastInterval_y;
+      }
       return lastInterval_y;
     }
 
@@ -3096,8 +3133,14 @@ namespace Splines {
     , Z_min(0)
     , Z_max(0)
     {
-      lastInterval_x_by_thread[std::this_thread::get_id()] = 0;
-      lastInterval_y_by_thread[std::this_thread::get_id()] = 0;
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_x_mutex);
+        lastInterval_x_by_thread[std::this_thread::get_id()] = 0;
+      }
+      {
+        std::unique_lock<std::mutex> lck(lastInterval_y_mutex);
+        lastInterval_y_by_thread[std::this_thread::get_id()] = 0;
+      }
     }
 
     //! spline destructor
