@@ -327,11 +327,8 @@ namespace Splines {
     size_t      numAllocated;
     valueType * pMalloc;
 
-    SplineMalloc( SplineMalloc<T> const & )
-    {} // block copy constructor
-
-    SplineMalloc<T> const & operator = ( SplineMalloc<T> & ) const
-    {} // block copy operator
+    SplineMalloc( SplineMalloc<T> const & ) = delete;
+    SplineMalloc<T> const & operator = ( SplineMalloc<T> & ) const = delete ;
 
   public:
 
@@ -543,8 +540,8 @@ namespace Splines {
       return lastInterval;
     }
 
-    Spline( Spline const & ); // block copy constructor
-    Spline const & operator = ( Spline const & ); // block copy method
+    Spline( Spline const & ) = delete;
+    Spline const & operator = ( Spline const & ) = delete;
 
   public:
 
@@ -1657,8 +1654,8 @@ namespace Splines {
   //! Splines Management Class
   class SplineVec {
 
-    SplineVec( SplineVec const & ); // block copy constructor
-    SplineVec const & operator = ( SplineVec const & ); // block copy method
+    SplineVec( SplineVec const & ) = delete;
+    SplineVec const & operator = ( SplineVec const & ) = delete;
 
   protected:
 
@@ -1950,8 +1947,8 @@ namespace Splines {
   //! Splines Management Class
   class SplineSet {
 
-    SplineSet( SplineSet const & ); // block copy constructor
-    SplineSet const & operator = ( SplineSet const & ); // block copy method
+    SplineSet( SplineSet const & ) = delete;
+    SplineSet const & operator = ( SplineSet const & ) = delete;
 
   protected:
 
@@ -3033,8 +3030,8 @@ namespace Splines {
   //! Spline Management Class
   class SplineSurf {
 
-    SplineSurf( SplineSurf const & ); // block copy constructor
-    SplineSurf const & operator = ( SplineSurf const & ); // block copy method
+    SplineSurf( SplineSurf const & ) = delete; // block copy constructor
+    SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
 
   protected:
   

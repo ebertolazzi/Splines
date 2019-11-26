@@ -92,15 +92,15 @@ namespace Splines {
     real_type *& p_y,
     real_type *& p_dy
   ) {
-    this->npts_reserved = n;
-    this->X    = p_x;
-    this->Y    = p_y;
-    this->Yp   = p_dy;
+    this->npts_reserved   = n;
+    this->X               = p_x;
+    this->Y               = p_y;
+    this->Yp              = p_dy;
+    this->_external_alloc = true;
     {
       std::unique_lock<std::mutex> lck(lastInterval_mutex);
       lastInterval_by_thread[std::this_thread::get_id()] = 0;
     }
-    this->_external_alloc = true;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

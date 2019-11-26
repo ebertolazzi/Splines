@@ -586,7 +586,7 @@ namespace Splines {
       xmax > xmin,
       "Spline::setRange( " << xmin <<
       " , " << xmax << " ) bad range "
-    );
+    )
     real_type S  = (xmax - xmin) / ( X[npts-1] - X[0] );
     real_type Tx = xmin - S * X[0];
     for( real_type *ix = X; ix < X+npts; ++ix ) *ix = *ix * S + Tx;
@@ -712,11 +712,11 @@ namespace Splines {
     SPLINE_ASSERT(
       gc.exists("x"),
       "Spline[" << _name << "]::setup missing `x` field!"
-    );
+    )
     SPLINE_ASSERT(
       gc.exists("y"),
       "Spline[" << _name << "]::setup missing `y` field!"
-    );
+    )
 
     GenericContainer const & gc_x = gc("x");
     GenericContainer const & gc_y = gc("y");
