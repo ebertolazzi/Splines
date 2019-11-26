@@ -3471,15 +3471,7 @@ namespace Splines {
   protected:
   
     vector<real_type> DX, DY, DXY;
-    mutable real_type u[4];
-    mutable real_type u_D[4];
-    mutable real_type u_DD[4];
-    mutable real_type v[4];
-    mutable real_type v_D[4];
-    mutable real_type v_DD[4];
-    mutable real_type bili3[4][4];
-
-    void load( integer i, integer j ) const;
+    void load( integer i, integer j, real_type bili3[4][4] ) const;
 
   public:
   
@@ -3625,15 +3617,7 @@ namespace Splines {
   protected:
 
     vector<real_type> DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY;
-    mutable real_type u[6];
-    mutable real_type u_D[6];
-    mutable real_type u_DD[6];
-    mutable real_type v[6];
-    mutable real_type v_D[6];
-    mutable real_type v_DD[6];
-    mutable real_type bili5[6][6];
-
-    void load( integer i, integer j ) const;
+    void load( integer i, integer j, real_type bili5[6][6] ) const;
 
   public:
   
