@@ -63,7 +63,7 @@ namespace Splines {
       this->Y               = this->baseValue( size_t(n) );
     }
     {
-      std::unique_lock<std::mutex> lck(lastInterval_mutex);
+      std::lock_guard<std::mutex> lck(lastInterval_mutex);
       lastInterval_by_thread[std::this_thread::get_id()] = 0;
     }
     this->npts = 0;

@@ -77,7 +77,7 @@ namespace Splines {
       this->_external_alloc = false;
     }
     {
-      std::unique_lock<std::mutex> lck(lastInterval_mutex);
+      std::lock_guard<std::mutex> lck(lastInterval_mutex);
       lastInterval_by_thread[std::this_thread::get_id()] = 0;
     }
     this->npts = 0;
@@ -98,7 +98,7 @@ namespace Splines {
     this->Yp              = p_dy;
     this->_external_alloc = true;
     {
-      std::unique_lock<std::mutex> lck(lastInterval_mutex);
+      std::lock_guard<std::mutex> lck(lastInterval_mutex);
       lastInterval_by_thread[std::this_thread::get_id()] = 0;
     }
   }

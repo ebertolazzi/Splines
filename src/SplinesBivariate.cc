@@ -50,11 +50,11 @@ namespace Splines {
     Z.clear();
     Z_min = Z_max = 0;
     {
-      std::unique_lock<std::mutex> lck(lastInterval_x_mutex);
+      std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
       lastInterval_x_by_thread[std::this_thread::get_id()] = 0;
     }
     {
-      std::unique_lock<std::mutex> lck(lastInterval_y_mutex);
+      std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
       lastInterval_y_by_thread[std::this_thread::get_id()] = 0;
     }
   }
