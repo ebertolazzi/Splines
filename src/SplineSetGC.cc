@@ -65,13 +65,11 @@ namespace Splines {
     vec_real_type         X;
     vector<SplineType>    stype;
     vec_string_type       headers;
-    vector<vec_real_type> Y;
-    vector<vec_real_type> Yp;
-    
+    vector<vec_real_type> Y, Yp;
+
     SPLINE_ASSERT(
       gc.exists("spline_type"),
-      "[SplineSet[" << _name <<
-      "]::setup] missing `spline_type` field!"
+      "[SplineSet[" << _name << "]::setup] missing `spline_type` field!"
     )
     gc("spline_type").copyto_vec_string(
       spline_type_vec,
@@ -82,17 +80,14 @@ namespace Splines {
     headers.resize( size_t(this->_nspl) );
     for ( size_t spl = 0; spl < size_t(this->_nspl); ++spl )
       stype[spl] = string_to_splineType( spline_type_vec[spl] );
-    
+
     SPLINE_ASSERT(
       gc.exists("xdata"),
       "[SplineSet[" << this->_name << "]::setup] missing `xdata` field!"
     )
-    gc("xdata").copyto_vec_real(
-      X,
-      "SplineSet::setup reading `xdata'"
-    );
+    gc("xdata").copyto_vec_real( X, "SplineSet::setup reading `xdata'" );
     this->_npts = integer( X.size() );
-    
+
     SPLINE_ASSERT(
       gc.exists("ydata"),
       "[SplineSet[" << this->_name << "]::setup] missing `ydata` field!"
@@ -102,7 +97,7 @@ namespace Splines {
     // allocate for _nspl splines
     Y  . resize( size_t(this->_nspl) );
     Yp . resize( size_t(this->_nspl) );
-    
+
     // se tipo vettore o matrice deve esserci headers
     if ( GC_MAT_REAL == gc_ydata.get_type() ||
          GC_VECTOR   == gc_ydata.get_type() ) {
@@ -112,8 +107,7 @@ namespace Splines {
       )
       GenericContainer const & gc_headers = gc("headers");
       gc_headers.copyto_vec_string(
-        headers,
-        "SplineSet::setup reading `headers'\n"
+        headers, "SplineSet::setup reading `headers'\n"
       );
       SPLINE_ASSERT(
         headers.size() == size_t(this->_nspl),
@@ -122,7 +116,7 @@ namespace Splines {
         " found of size " << headers.size()
       )
     }
-    
+
     if ( GC_MAT_REAL == gc_ydata.get_type() ) {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
@@ -181,7 +175,7 @@ namespace Splines {
         "found: `" << gc_ydata.get_type_name() << "`"
       )
     }
-    
+
     if ( gc.exists("ypdata") ) { // yp puo essere solo tipo map
       GenericContainer const & gc_ypdata = gc("ypdata");
       SPLINE_ASSERT(
@@ -200,8 +194,7 @@ namespace Splines {
         integer nrow = _npts;
         if ( stype[size_t(spl)] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real(
-          Yp[size_t(spl)],
-          "SplineSet::setup reading `ypdata'"
+          Yp[size_t(spl)], "SplineSet::setup reading `ypdata'"
         );
       }
     }
@@ -218,7 +211,7 @@ namespace Splines {
       __Y[spl]       = &Y[spl].front();
       __Yp[spl]      = Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr;
     }
-    
+
     SplineSet::build(
       this->_nspl, this->_npts,
       &__headers.front(),

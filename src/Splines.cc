@@ -710,12 +710,10 @@ namespace Splines {
     //
     */
     SPLINE_ASSERT(
-      gc.exists("x"),
-      "Spline[" << _name << "]::setup missing `x` field!"
+      gc.exists("x"), "Spline[" << _name << "]::setup missing `x` field!"
     )
     SPLINE_ASSERT(
-      gc.exists("y"),
-      "Spline[" << _name << "]::setup missing `y` field!"
+      gc.exists("y"), "Spline[" << _name << "]::setup missing `y` field!"
     )
 
     GenericContainer const & gc_x = gc("x");

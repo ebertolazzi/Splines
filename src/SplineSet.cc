@@ -97,7 +97,7 @@ namespace Splines {
     for ( integer i = 0; i < numSplines(); ++i )
       stream << '\t' << header(i);
     stream << '\n';
-  
+
     for ( integer j = 0; j < num_points; ++j ) {
       real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
       this->eval( s, vals );
@@ -112,6 +112,7 @@ namespace Splines {
 
   integer
   SplineSet::getPosition( char const * hdr ) const {
+    std::lock_guard<std::mutex> lck(getPosition_mutex);
     map<string,integer>::const_iterator it = header_to_position.find(hdr);
     SPLINE_ASSERT(
       it != header_to_position.end(),
@@ -223,7 +224,7 @@ namespace Splines {
       }
       string h = headers[spl];
       Spline * & s = splines[spl];
-      
+
       is_monotone[spl] = -1;
       switch (stype[size_t(spl)]) {
       case CONSTANT_TYPE:
@@ -397,7 +398,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // vectorial values
-  
+
   Spline const *
   SplineSet::intersect(
     integer     spl,
@@ -410,8 +411,7 @@ namespace Splines {
     )
     SPLINE_ASSERT(
       this->is_monotone[size_t(spl)]>0,
-      "Spline n." << spl <<
-      " is not monotone and can't be used as independent"
+      "Spline n." << spl << " is not monotone and can't be used as independent"
     )
     Spline const * S = this->splines[size_t(spl)];
     // cerco intervallo intersezione
@@ -549,8 +549,7 @@ namespace Splines {
     real_type ddt = -S->DD(x)*(dt*dt2);
     vals.resize(size_t(this->_nspl));
     for ( size_t i = 0; i < size_t(this->_nspl); ++i )
-      vals[i] = this->splines[i]->DD(x)*dt2 +
-                this->splines[i]->D(x)*ddt;
+      vals[i] = this->splines[i]->DD(x)*dt2 + this->splines[i]->D(x)*ddt;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -569,8 +568,7 @@ namespace Splines {
     real_type ddt = -S->DD(x)*(dt*dt2);
     size_t ii = 0;
     for ( size_t i = 0; i < size_t(this->_nspl); ++i, ii += size_t(incy) )
-      vals[ii] = this->splines[i]->DD(x)*dt2 +
-                 this->splines[i]->D(x)*ddt;
+      vals[ii] = this->splines[i]->DD(x)*dt2 + this->splines[i]->D(x)*ddt;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

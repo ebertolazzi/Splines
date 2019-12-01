@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -152,7 +152,7 @@ namespace Splines {
   } SplineType;
 
   extern char const *spline_type[];
-  
+
   extern SplineType string_to_splineType( string const & n );
 
   #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -191,81 +191,23 @@ namespace Splines {
   );
 
   /*
-  //   _   _                     _ _       
-  //  | | | | ___ _ __ _ __ ___ (_) |_ ___ 
+  //   _   _                     _ _
+  //  | | | | ___ _ __ _ __ ___ (_) |_ ___
   //  | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \
   //  |  _  |  __/ |  | | | | | | | ||  __/
   //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
   */
-  void
-  Hermite3(
-    real_type x,
-    real_type H,
-    real_type base[4]
-  );
+  void Hermite3( real_type x, real_type H, real_type base[4] );
+  void Hermite3_D( real_type x, real_type H, real_type base_D[4] );
+  void Hermite3_DD( real_type x, real_type H, real_type base_DD[4] );
+  void Hermite3_DDD( real_type x, real_type H, real_type base_DDD[4] );
 
-  void
-  Hermite3_D(
-    real_type x,
-    real_type H,
-    real_type base_D[4]
-  );
-
-  void
-  Hermite3_DD(
-    real_type x,
-    real_type H,
-    real_type base_DD[4]
-  );
-
-  void
-  Hermite3_DDD(
-    real_type x,
-    real_type H,
-    real_type base_DDD[4]
-  );
-
-  void
-  Hermite5(
-    real_type x,
-    real_type H,
-    real_type base[6]
-  );
-
-  void
-  Hermite5_D(
-    real_type x,
-    real_type H,
-    real_type base_D[6]
-  );
-
-  void
-  Hermite5_DD(
-    real_type x,
-    real_type H,
-    real_type base_DD[6]
-  );
-
-  void
-  Hermite5_DDD(
-    real_type x,
-    real_type H,
-    real_type base_DDD[6]
-  );
-
-  void
-  Hermite5_DDDD(
-    real_type x,
-    real_type H,
-    real_type base_DDDD[6]
-  );
-
-  void
-  Hermite5_DDDDD(
-    real_type x,
-    real_type H,
-    real_type base_DDDDD[6]
-  );
+  void Hermite5( real_type x, real_type H, real_type base[6] );
+  void Hermite5_D( real_type x, real_type H, real_type base_D[6] );
+  void Hermite5_DD( real_type x, real_type H, real_type base_DD[6] );
+  void Hermite5_DDD( real_type x, real_type H, real_type base_DDD[6] );
+  void Hermite5_DDDD( real_type x, real_type H, real_type base_DDDD[6] );
+  void Hermite5_DDDDD( real_type x, real_type H, real_type base_DDDDD[6] );
 
   /*
   //   ____  _ _ _
@@ -540,6 +482,12 @@ namespace Splines {
       return lastInterval;
     }
 
+    void
+    initLastInterval() {
+      std::lock_guard<std::mutex> lck(lastInterval_mutex);
+      lastInterval_by_thread[std::this_thread::get_id()] = 0;
+    }
+
     Spline( Spline const & ) = delete;
     Spline const & operator = ( Spline const & ) = delete;
 
@@ -554,53 +502,38 @@ namespace Splines {
     , X(nullptr)
     , Y(nullptr)
     {
-      std::lock_guard<std::mutex> lck(lastInterval_mutex);
-      lastInterval_by_thread[std::this_thread::get_id()] = 0;
+      this->initLastInterval();
     }
     //! spline destructor
-    virtual 
+    virtual
     ~Spline()
     {}
-    
+
     string const & name() const { return _name; }
 
     void setCheckRange( bool ck ) { _check_range = ck; }
     bool getCheckRange() const { return _check_range; }
 
     //! return the number of support points of the spline.
-    integer
-    numPoints(void) const
-    { return this->npts; }
+    integer numPoints(void) const { return this->npts; }
 
     //! return the i-th node of the spline (x component).
-    real_type
-    xNode( integer i ) const
-    { return this->X[size_t(i)]; }
+    real_type xNode( integer i ) const { return this->X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type
-    yNode( integer i ) const
-    { return this->Y[size_t(i)]; }
+    real_type yNode( integer i ) const { return this->Y[size_t(i)]; }
 
     //! return first node of the spline (x component).
-    real_type
-    xBegin() const
-    { return this->X[0]; }
+    real_type xBegin() const { return this->X[0]; }
 
     //! return first node of the spline (y component).
-    real_type
-    yBegin() const
-    { return this->Y[0]; }
+    real_type yBegin() const { return this->Y[0]; }
 
     //! return last node of the spline (x component).
-    real_type
-    xEnd() const
-    { return this->X[this->npts-1]; }
+    real_type xEnd() const { return this->X[size_t(this->npts-1)]; }
 
     //! return last node of the spline (y component).
-    real_type
-    yEnd() const
-    { return this->Y[this->npts-1]; }
+    real_type yEnd() const { return this->Y[size_t(this->npts-1)]; }
 
     //! Allocate memory for `npts` points
     virtual
@@ -608,13 +541,10 @@ namespace Splines {
     reserve( integer npts ) SPLINES_PURE_VIRTUAL;
 
     //! Add a support point (x,y) to the spline.
-    void
-    pushBack( real_type x, real_type y );
+    void pushBack( real_type x, real_type y );
 
     //! Drop a support point to the spline.
-    void
-    dropBack()
-    { if ( npts > 0 ) --npts; }
+    void dropBack() { if ( npts > 0 ) --npts; }
 
     //! Build a spline.
     // must be defined in derived classes
@@ -679,14 +609,10 @@ namespace Splines {
     clear(void) SPLINES_PURE_VIRTUAL;
 
     //! return x-minumum spline value
-    real_type
-    xMin() const
-    { return this->X[0]; }
+    real_type xMin() const { return this->X[0]; }
 
     //! return x-maximum spline value
-    real_type
-    xMax() const
-    { return this->X[npts-1]; }
+    real_type xMax() const { return this->X[npts-1]; }
 
     //! return y-minumum spline value
     real_type
@@ -706,12 +632,10 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline
-    void
-    setOrigin( real_type x0 );
+    void setOrigin( real_type x0 );
 
     //! change X-range of the spline
-    void
-    setRange( real_type xmin, real_type xmax );
+    void setRange( real_type xmin, real_type xmax );
 
     ///////////////////////////////////////////////////////////////////////////
     //! dump a sample of the spline
@@ -767,21 +691,10 @@ namespace Splines {
     { return real_type(0); }
 
     //! Some aliases
-    real_type
-    eval( real_type x ) const
-    { return (*this)(x); }
-
-    real_type
-    eval_D( real_type x ) const
-    { return this->D(x); }
-
-    real_type
-    eval_DD( real_type x ) const
-    { return this->DD(x); }
-
-    real_type
-    eval_DDD( real_type x ) const
-    { return this->DDD(x); }
+    real_type eval( real_type x ) const { return (*this)(x); }
+    real_type eval_D( real_type x ) const { return this->D(x); }
+    real_type eval_DD( real_type x ) const { return this->DD(x); }
+    real_type eval_DDD( real_type x ) const { return this->DDD(x); }
 
     //! get the piecewise polinomials of the spline
     virtual
@@ -857,7 +770,7 @@ namespace Splines {
     , Yp(nullptr)
     , _external_alloc(false)
     {}
-    
+
     virtual
     ~CubicSplineBase() SPLINES_OVERRIDE
     {}
@@ -1957,11 +1870,12 @@ namespace Splines {
     real_type *  _Ymin;
     real_type *  _Ymax;
 
+    mutable std::mutex                   getPosition_mutex;
     mutable std::mutex                   lastInterval_mutex;
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
-    integer search( real_type x ) const;
-    
+    //integer search( real_type x ) const;
+
     vector<Spline*>     splines;
     vector<int>         is_monotone;
     map<string,integer> header_to_position;
@@ -1984,9 +1898,7 @@ namespace Splines {
     virtual
     ~SplineSet();
 
-    string const &
-    name() const
-    { return _name; }
+    string const & name() const { return _name; }
 
     string const &
     header( integer i ) const
@@ -3024,12 +2936,12 @@ namespace Splines {
     SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
 
   protected:
-  
+
     string const _name;
     bool         _check_range;
 
     vector<real_type> X, Y, Z;
-    
+
     real_type Z_min, Z_max;
 
     mutable std::mutex                   lastInterval_x_mutex;
@@ -3398,12 +3310,12 @@ namespace Splines {
   class BilinearSpline : public SplineSurf {
     virtual void makeSpline() SPLINES_OVERRIDE {}
   public:
-  
+
     //! spline constructor
     BilinearSpline( string const & name = "Spline", bool ck = false )
     : SplineSurf(name,ck)
     {}
-    
+
     virtual
     ~BilinearSpline() SPLINES_OVERRIDE
     {}
@@ -3469,19 +3381,19 @@ namespace Splines {
   //! Bi-cubic spline base class
   class BiCubicSplineBase : public SplineSurf {
   protected:
-  
+
     vector<real_type> DX, DY, DXY;
     void load( integer i, integer j, real_type bili3[4][4] ) const;
 
   public:
-  
+
     //! spline constructor
     BiCubicSplineBase( string const & name = "Spline", bool ck = false )
     : SplineSurf( name, ck )
     , DX()
     , DY()
     {}
-    
+
     virtual
     ~BiCubicSplineBase() SPLINES_OVERRIDE
     {}
@@ -3547,12 +3459,12 @@ namespace Splines {
     virtual void makeSpline() SPLINES_OVERRIDE;
 
   public:
-  
+
     //! spline constructor
     BiCubicSpline( string const & name = "Spline", bool ck = false )
     : BiCubicSplineBase( name, ck )
     {}
-    
+
     virtual
     ~BiCubicSpline() SPLINES_OVERRIDE
     {}
@@ -3582,12 +3494,12 @@ namespace Splines {
     virtual void makeSpline() SPLINES_OVERRIDE;
 
   public:
-  
+
     //! spline constructor
     Akima2Dspline( string const & name = "Spline", bool ck = false )
     : BiCubicSplineBase( name, ck )
     {}
-    
+
     virtual
     ~Akima2Dspline() SPLINES_OVERRIDE
     {}
@@ -3603,7 +3515,7 @@ namespace Splines {
     type_name() const SPLINES_OVERRIDE;
 
   };
-  
+
   /*\
    |   ____  _  ___        _       _   _      ____        _ _            ____
    |  | __ )(_)/ _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___
@@ -3620,7 +3532,7 @@ namespace Splines {
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
   public:
-  
+
     //! spline constructor
     BiQuinticSplineBase( string const & name = "Spline", bool ck = false )
     : SplineSurf( name, ck )
@@ -3630,7 +3542,7 @@ namespace Splines {
     , DYY()
     , DXY()
     {}
-    
+
     virtual
     ~BiQuinticSplineBase() SPLINES_OVERRIDE
     {}
@@ -3703,12 +3615,12 @@ namespace Splines {
   class BiQuinticSpline : public BiQuinticSplineBase {
     virtual void makeSpline() SPLINES_OVERRIDE;
   public:
-  
+
     //! spline constructor
     BiQuinticSpline( string const & name = "Spline", bool ck = false )
     : BiQuinticSplineBase( name, ck )
     {}
-    
+
     virtual
     ~BiQuinticSpline() SPLINES_OVERRIDE
     {}

@@ -100,12 +100,10 @@ namespace Splines {
   SplineVec::allocate( integer dim, integer npts ) {
 
     SPLINE_ASSERT(
-      dim > 0,
-      "SplineVec::build expected positive dim = " << dim
+      dim > 0, "SplineVec::build expected positive dim = " << dim
     )
     SPLINE_ASSERT(
-      npts > 1,
-      "SplineVec::build expected npts = " << npts << " greather than 1"
+      npts > 1, "SplineVec::build expected npts = " << npts << " greather than 1"
     )
     _dim  = dim;
     _npts = npts;
