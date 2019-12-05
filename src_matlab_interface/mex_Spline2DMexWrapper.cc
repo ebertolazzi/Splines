@@ -550,6 +550,222 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+  static
+  void
+  do_make_x_closed( int nlhs, mxArray       *plhs[],
+                    int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_x_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_x_closed();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_x_opened( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_x_opened',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_x_opened();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_x_closed( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_x_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_x_closed() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_x_bounded( int nlhs, mxArray       *plhs[],
+                     int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_x_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_y_bounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_x_unbounded( int nlhs, mxArray       *plhs[],
+                       int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_x_unbounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_x_unbounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_x_bounded( int nlhs, mxArray       *plhs[],
+                   int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_x_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_x_bounded() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_y_closed( int nlhs, mxArray       *plhs[],
+                    int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_y_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_y_closed();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_y_opened( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_y_opened',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_y_opened();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_y_closed( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_y_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_y_closed() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_y_bounded( int nlhs, mxArray       *plhs[],
+                     int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_y_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_y_bounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_y_unbounded( int nlhs, mxArray       *plhs[],
+                       int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_y_unbounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    ptr->make_y_unbounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_y_bounded( int nlhs, mxArray       *plhs[],
+                   int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_y_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    SplineSurf * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_y_bounded() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   typedef enum {
     CMD_NEW,
     CMD_DELETE,
@@ -567,7 +783,19 @@ namespace Splines {
     CMD_EVAL_DY,
     CMD_EVAL_DXX,
     CMD_EVAL_DXY,
-    CMD_EVAL_DYY
+    CMD_EVAL_DYY,
+    CMD_MAKE_X_CLOSED,
+    CMD_MAKE_X_OPENED,
+    CMD_IS_X_CLOSED,
+    CMD_MAKE_X_BOUNDED,
+    CMD_MAKE_X_UNBOUNDED,
+    CMD_IS_X_BOUNDED,
+    CMD_MAKE_Y_CLOSED,
+    CMD_MAKE_Y_OPENED,
+    CMD_IS_Y_CLOSED,
+    CMD_MAKE_Y_BOUNDED,
+    CMD_MAKE_Y_UNBOUNDED,
+    CMD_IS_Y_BOUNDED
   } CMD_LIST;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -589,7 +817,19 @@ namespace Splines {
     {"eval_Dy",CMD_EVAL_DY},
     {"eval_Dxx",CMD_EVAL_DXX},
     {"eval_Dxy",CMD_EVAL_DXY},
-    {"eval_Dyy",CMD_EVAL_DYY}
+    {"eval_Dyy",CMD_EVAL_DYY},
+    {"make_x_closed",CMD_MAKE_X_CLOSED},
+    {"make_x_opened",CMD_MAKE_X_OPENED},
+    {"is_x_closed",CMD_IS_X_CLOSED},
+    {"make_x_bounded",CMD_MAKE_X_BOUNDED},
+    {"make_x_unbounded",CMD_MAKE_X_UNBOUNDED},
+    {"is_x_bounded",CMD_IS_X_BOUNDED},
+    {"make_y_closed",CMD_MAKE_Y_CLOSED},
+    {"make_y_opened",CMD_MAKE_Y_OPENED},
+    {"is_y_closed",CMD_IS_Y_CLOSED},
+    {"make_y_bounded",CMD_MAKE_Y_BOUNDED},
+    {"make_y_unbounded",CMD_MAKE_Y_UNBOUNDED},
+    {"is_y_bounded",CMD_IS_Y_BOUNDED}
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -661,8 +901,47 @@ namespace Splines {
       case CMD_EVAL_DYY:
         do_eval_Dyy( nlhs, plhs, nrhs, prhs );
         break;
-      }
 
+      case CMD_MAKE_X_CLOSED:
+        do_make_x_closed( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_X_OPENED:
+        do_make_x_opened( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_X_CLOSED:
+        do_is_x_closed( nlhs, plhs, nrhs, prhs );
+        break;
+
+      case CMD_MAKE_X_BOUNDED:
+        do_make_x_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_X_UNBOUNDED:
+        do_make_x_unbounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_X_BOUNDED:
+        do_is_x_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+
+      case CMD_MAKE_Y_CLOSED:
+        do_make_y_closed( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_Y_OPENED:
+        do_make_y_opened( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_Y_CLOSED:
+        do_is_y_closed( nlhs, plhs, nrhs, prhs );
+        break;
+
+      case CMD_MAKE_Y_BOUNDED:
+        do_make_y_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_Y_UNBOUNDED:
+        do_make_y_unbounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_Y_BOUNDED:
+        do_is_y_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      }
     } catch ( exception const & e ) {
       mexErrMsgTxt(e.what());
     } catch (...) {

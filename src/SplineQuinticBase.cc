@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -89,7 +89,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::operator () ( real_type x ) const {
     real_type base[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5( x-this->X[i], this->X[i+1]-this->X[i], base );
     return base[0] * this->Y[i]    +
            base[1] * this->Y[i+1]  +
@@ -104,7 +104,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::D( real_type x ) const {
     real_type base_D[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5_D( x-this->X[i], this->X[i+1]-this->X[i], base_D );
     return base_D[0] * this->Y[i]    +
            base_D[1] * this->Y[i+1]  +
@@ -119,7 +119,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DD( real_type x ) const {
     real_type base_DD[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5_DD( x-this->X[i], this->X[i+1]-this->X[i], base_DD );
     return base_DD[0] * this->Y[i]    +
            base_DD[1] * this->Y[i+1]  +
@@ -134,7 +134,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
     real_type base_DDD[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5_DDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDD );
     return base_DDD[0] * this->Y[i]    +
            base_DDD[1] * this->Y[i+1]  +
@@ -149,7 +149,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
     real_type base_DDDD[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5_DDDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDDD );
     return base_DDDD[0] * this->Y[i]    +
            base_DDDD[1] * this->Y[i+1]  +
@@ -164,7 +164,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
     real_type base_DDDDD[6];
-    size_t i = size_t(Spline::search( x ));
+    size_t i = size_t(this->search( x ));
     Hermite5_DDDDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDDDD );
     return base_DDDDD[0] * this->Y[i]    +
            base_DDDDD[1] * this->Y[i+1]  +

@@ -51,7 +51,8 @@ namespace Splines {
   , basePointer(name+"_pointers")
   , _dim(0)
   , _npts(0)
-  , _check_range(true)
+  , _curve_is_closed(false)
+  , _curve_can_extend(true)
   , _X(nullptr)
   , _Y(nullptr)
   , _Yp(nullptr)
@@ -264,7 +265,7 @@ namespace Splines {
 
   real_type
   SplineVec::operator () ( real_type x, integer j ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base[4];
     Hermite3( x-this->_X[i], this->_X[i+1]-this->_X[i], base );
     return base[0] * this->_Y[size_t(j)][i]   +
@@ -277,7 +278,7 @@ namespace Splines {
 
   real_type
   SplineVec::D( real_type x, integer j ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_D[4];
     Hermite3_D( x-this->_X[i], this->_X[i+1]-this->_X[i], base_D );
     return base_D[0] * this->_Y[size_t(j)][i]   +
@@ -290,7 +291,7 @@ namespace Splines {
 
   real_type
   SplineVec::DD( real_type x, integer j ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_DD[4];
     Hermite3_DD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DD );
     return base_DD[0] * this->_Y[size_t(j)][i]   +
@@ -303,7 +304,7 @@ namespace Splines {
 
   real_type
   SplineVec::DDD( real_type x, integer j ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_DDD[4];
     Hermite3_DDD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DDD );
     return base_DDD[0] * this->_Y[size_t(j)][i]   +
@@ -320,7 +321,7 @@ namespace Splines {
     real_type vals[],
     integer   inc
   ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base[4];
     Hermite3( x-this->_X[i], this->_X[i+1]-this->_X[i], base );
     real_type * v = vals;
@@ -339,7 +340,7 @@ namespace Splines {
     real_type vals[],
     integer   inc
   ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_D[4];
     Hermite3_D( x-this->_X[i], this->_X[i+1]-this->_X[i], base_D );
     real_type * v = vals;
@@ -358,7 +359,7 @@ namespace Splines {
     real_type vals[],
     integer   inc
   ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_DD[4];
     Hermite3_DD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DD );
     real_type * v = vals;
@@ -377,7 +378,7 @@ namespace Splines {
     real_type vals[],
     integer   inc
   ) const {
-    size_t i = size_t(search( x ));
+    size_t i = size_t(this->search( x ));
     real_type base_DDD[4];
     Hermite3_DDD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DDD );
     real_type * v = vals;

@@ -29,8 +29,8 @@
     using Spline::build;
 
     //! spline constructor
-    BSpline( string const & name = "BSpline", bool ck = false )
-    : Spline(name,ck)
+    BSpline( string const & name = "BSpline" )
+    : Spline(name)
     , baseValue(name+"_memory")
     , knots(nullptr)
     , yPolygon(nullptr)
@@ -524,9 +524,11 @@ namespace Splines {
     SPLINE_ASSERT( npts > 0, "\nknot_search(" << x << ") empty spline");
     if ( x < knots[lastInterval] || knots[lastInterval+1] < x ) {
       if ( _check_range ) {
-        SPLINE_ASSERT( x >= X[0] && x <= X[npts-1],
-                       "method search( " << x << " ) out of range: [" <<
-                       X[0] << ", " << X[npts-1] << "]" );
+        SPLINE_ASSERT(
+          x >= X[0] && x <= X[npts-1],
+          "method search( " << x << " ) out of range: [" <<
+          X[0] << ", " << X[npts-1] << "]"
+        );
       }
       // 0 1 2 3
       lastInterval = integer(lower_bound( knots+_degree, knots+npts+1, x ) - knots);

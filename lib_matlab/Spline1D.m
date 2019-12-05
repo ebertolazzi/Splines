@@ -47,5 +47,28 @@ classdef Spline1D < handle
       dddp = Spline1DMexWrapper( 'eval_DDD', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_closed( self )
+      Spline1DMexWrapper( 'make_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_opened( self )
+      Spline1DMexWrapper( 'make_opened', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_closed( self )
+      ok = Spline1DMexWrapper( 'is_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_bounded( self )
+      Spline1DMexWrapper( 'make_bounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_unbounded( self )
+      Spline1DMexWrapper( 'make_unbounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_bounded( self )
+      ok = Spline1DMexWrapper( 'is_bounded', self.objectHandle );
+    end
   end
 end

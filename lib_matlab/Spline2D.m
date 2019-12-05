@@ -59,5 +59,53 @@ classdef Spline2D < handle
       Dyy = Spline2DMexWrapper( 'eval_Dyy', self.objectHandle, x, y );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_x_closed( self )
+      Spline2DMexWrapper( 'make_x_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_x_opened( self )
+      Spline2DMexWrapper( 'make_x_opened', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_x_closed( self )
+      ok = Spline2DMexWrapper( 'is_x_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_x_bounded( self )
+      Spline2DMexWrapper( 'make_x_bounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_x_unbounded( self )
+      Spline2DMexWrapper( 'make_x_unbounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_x_bounded( self )
+      ok = Spline2DMexWrapper( 'is_x_bounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_y_closed( self )
+      Spline2DMexWrapper( 'make_y_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_y_opened( self )
+      Spline2DMexWrapper( 'make_y_opened', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_y_closed( self )
+      ok = Spline2DMexWrapper( 'is_y_closed', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_y_bounded( self )
+      Spline2DMexWrapper( 'make_y_bounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_y_unbounded( self )
+      Spline2DMexWrapper( 'make_y_unbounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_y_bounded( self )
+      ok = Spline2DMexWrapper( 'is_y_bounded', self.objectHandle );
+    end
   end
 end
