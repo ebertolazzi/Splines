@@ -314,6 +314,114 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+  static
+  void
+  do_make_closed( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_closed();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_opened( int nlhs, mxArray       *plhs[],
+                  int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_opened',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_opened();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_closed( int nlhs, mxArray       *plhs[],
+                int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_closed',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_closed() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_bounded( int nlhs, mxArray       *plhs[],
+                   int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_bounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_unbounded( int nlhs, mxArray       *plhs[],
+                     int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('make_unbounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_unbounded();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_bounded( int nlhs, mxArray       *plhs[],
+                 int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('is_bounded',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_bounded() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   typedef enum {
     CMD_NEW,
     CMD_DELETE,
@@ -323,7 +431,13 @@ namespace Splines {
     CMD_EVAL,
     CMD_EVAL_D,
     CMD_EVAL_DD,
-    CMD_EVAL_DDD
+    CMD_EVAL_DDD,
+    CMD_MAKE_CLOSED,
+    CMD_MAKE_OPENED,
+    CMD_IS_CLOSED,
+    CMD_MAKE_BOUNDED,
+    CMD_MAKE_UNBOUNDED,
+    CMD_IS_BOUNDED
   } CMD_LIST;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -337,7 +451,13 @@ namespace Splines {
     {"eval",CMD_EVAL},
     {"eval_D",CMD_EVAL_D},
     {"eval_DD",CMD_EVAL_DD},
-    {"eval_DDD",CMD_EVAL_DDD}
+    {"eval_DDD",CMD_EVAL_DDD},
+    {"make_closed",CMD_MAKE_CLOSED},
+    {"make_opened",CMD_MAKE_OPENED},
+    {"is_closed",CMD_IS_CLOSED},
+    {"make_bounded",CMD_MAKE_BOUNDED},
+    {"make_unbounded",CMD_MAKE_UNBOUNDED},
+    {"is_bounded",CMD_IS_BOUNDED}
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -385,8 +505,25 @@ namespace Splines {
       case CMD_ORDER:
         do_order( nlhs, plhs, nrhs, prhs );
         break;
+      case CMD_MAKE_CLOSED:
+        do_make_closed( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_OPENED:
+        do_make_opened( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_CLOSED:
+        do_is_closed( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_BOUNDED:
+        do_make_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_UNBOUNDED:
+        do_make_unbounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_BOUNDED:
+        do_is_bounded( nlhs, plhs, nrhs, prhs );
+        break;
       }
-
     } catch ( exception const & e ) {
       mexErrMsgTxt(e.what());
     } catch (...) {

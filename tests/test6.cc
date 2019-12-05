@@ -102,9 +102,7 @@ main() {
   }
   file   << '\n';
   file_D << '\n';
-  for ( real_type x = xmin-(xmax-xmin)*0.01;
-        x <= xmax+(xmax-xmin)*0.01;
-        x += (xmax-xmin)/1000 ) {
+  for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 ) {
     file   << x;
     file_D << x;
     ss.eval( x, val );

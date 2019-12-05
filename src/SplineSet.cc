@@ -419,8 +419,7 @@ namespace Splines {
     SPLINE_ASSERT(
       zeta >= X[0] && zeta <= X[size_t(this->_npts-1)],
       "SplineSet, evaluation at zeta = " << zeta <<
-      " is out of range: [" << X[0] <<
-      ", " << X[size_t(_npts-1)] << "]"
+      " is out of range: [" << X[0] << ", " << X[size_t(_npts-1)] << "]"
     )
 
     integer interval = integer(lower_bound( X, X+this->_npts, zeta ) - X);

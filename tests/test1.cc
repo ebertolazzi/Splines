@@ -107,7 +107,7 @@ main() {
     cout << #S": xx[0]   = " << xx[0]      << '\n'; \
     cout << #S": xx[end] = " << xx[n[k]-1] << '\n'; \
     file_##S << "x\ty\tDy\tDDy\n"; \
-    for ( real_type x = xmin-(xmax-xmin)*0.01; x <= xmax+(xmax-xmin)*0.01; x += (xmax-xmin)/1000 ) \
+    for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 ) \
       file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n'; \
     file_##S.close()
     

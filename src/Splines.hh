@@ -239,14 +239,6 @@ namespace Splines {
     integer         npts
   );
 
-  void
-  updateInterval(
-    integer       & lastInterval,
-    real_type       x,
-    real_type const X[],
-    integer         npts
-  );
-
   /*
   //   __  __       _ _
   //  |  \/  | __ _| | | ___   ___
@@ -296,7 +288,7 @@ namespace Splines {
           delete [] pMalloc;
           numTotValues   = n;
           numTotReserved = n + (n>>3); // 12% more values
-          pMalloc = new T[numTotReserved];
+          pMalloc        = new T[numTotReserved];
         }
       }
       catch ( std::exception const & exc ) {
@@ -435,6 +427,16 @@ namespace Splines {
     real_type       t[]
   );
 
+  void
+  searchInterval(
+    integer         npts,
+    real_type const X[],
+    real_type     & x,
+    integer       & lastInterval,
+    bool            _curve_is_closed,
+    bool            _curve_can_extend
+  );
+
   /*\
    |   ____        _ _
    |  / ___| _ __ | (_)_ __   ___
@@ -448,7 +450,8 @@ namespace Splines {
   protected:
 
     string _name;
-    bool   _check_range;
+    bool   _curve_is_closed;
+    bool   _curve_can_extend;
 
     integer   npts, npts_reserved;
     real_type *X; // allocated in the derived class!
@@ -458,23 +461,20 @@ namespace Splines {
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
-    search( real_type x ) const {
-      SPLINE_ASSERT( npts > 1, "\nsearch(" << x << ") empty spline")
-      if ( _check_range ) {
-        real_type xl = X[0];
-        real_type xr = X[npts-1];
-        SPLINE_ASSERT(
-          x >= xl && x <= xr,
-          "method search( " << x << " ) out of range: [" <<
-          xl << ", " << xr << "]"
-        )
-      }
+    search( real_type & x ) const {
       integer lastInterval;
       {
         std::lock_guard<std::mutex> lck(lastInterval_mutex);
         lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
       }
-      Splines::updateInterval( lastInterval, x, X, npts );
+      searchInterval(
+        this->npts,
+        this->X,
+        x,
+        lastInterval,
+        this->_curve_is_closed,
+        this->_curve_can_extend
+      );
       {
         std::lock_guard<std::mutex> lck(lastInterval_mutex);
         lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
@@ -494,9 +494,10 @@ namespace Splines {
   public:
 
     //! spline constructor
-    Spline( string const & name = "Spline", bool ck = false )
+    Spline( string const & name = "Spline" )
     : _name(name)
-    , _check_range(ck)
+    , _curve_is_closed(false)
+    , _curve_can_extend(true)
     , npts(0)
     , npts_reserved(0)
     , X(nullptr)
@@ -511,8 +512,13 @@ namespace Splines {
 
     string const & name() const { return _name; }
 
-    void setCheckRange( bool ck ) { _check_range = ck; }
-    bool getCheckRange() const { return _check_range; }
+    bool is_closed() const { return this->_curve_is_closed; }
+    void make_closed() { this->_curve_is_closed = true; }
+    void make_opened() { this->_curve_is_closed = false; }
+
+    bool is_bounded() const { return !this->_curve_can_extend; }
+    void make_unbounded() { this->_curve_can_extend = true; }
+    void make_bounded()   { this->_curve_can_extend = false; }
 
     //! return the number of support points of the spline.
     integer numPoints(void) const { return this->npts; }
@@ -764,8 +770,8 @@ namespace Splines {
     using Spline::build;
 
     //! spline constructor
-    CubicSplineBase( string const & name = "CubicSplineBase", bool ck = false )
-    : Spline(name,ck)
+    CubicSplineBase( string const & name = "CubicSplineBase")
+    : Spline(name)
     , baseValue(name+"_memory")
     , Yp(nullptr)
     , _external_alloc(false)
@@ -928,8 +934,8 @@ namespace Splines {
     using CubicSplineBase::reserve;
 
     //! spline constructor
-    CubicSpline( string const & name = "CubicSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
+    CubicSpline( string const & name = "CubicSpline" )
+    : CubicSplineBase( name )
     , ddy0(0)
     , ddyn(0)
     {}
@@ -992,8 +998,8 @@ namespace Splines {
     using CubicSplineBase::reserve;
 
     //! spline constructor
-    AkimaSpline( string const & name = "AkimaSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
+    AkimaSpline( string const & name = "AkimaSpline" )
+    : CubicSplineBase( name )
     {}
 
     //! spline destructor
@@ -1032,8 +1038,8 @@ namespace Splines {
     using CubicSplineBase::reserve;
 
     //! spline constructor
-    BesselSpline( string const & name = "BesselSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
+    BesselSpline( string const & name = "BesselSpline" )
+    : CubicSplineBase( name )
     {}
 
     //! spline destructor
@@ -1079,8 +1085,8 @@ namespace Splines {
     using CubicSplineBase::reserve;
 
     //! spline constructor
-    PchipSpline( string const & name = "PchipSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
+    PchipSpline( string const & name = "PchipSpline" )
+    : CubicSplineBase( name )
     {}
 
     //! spline destructor
@@ -1118,8 +1124,8 @@ namespace Splines {
 
     using Spline::build;
 
-    LinearSpline( string const & name = "LinearSpline", bool ck = false )
-    : Spline(name,ck)
+    LinearSpline( string const & name = "LinearSpline" )
+    : Spline(name)
     , baseValue( name+"_memory")
     , _external_alloc(false)
     {}
@@ -1237,8 +1243,8 @@ namespace Splines {
 
     using Spline::build;
 
-    ConstantSpline( string const & name = "ConstantSpline", bool ck = false )
-    : Spline(name,ck)
+    ConstantSpline( string const & name = "ConstantSpline" )
+    : Spline(name)
     , baseValue(name+"_memory")
     , _external_alloc(false)
     {}
@@ -1279,7 +1285,7 @@ namespace Splines {
     real_type
     D( real_type ) const SPLINES_OVERRIDE
     { return 0; }
-    
+
     //! Second derivative
     virtual
     real_type
@@ -1329,7 +1335,7 @@ namespace Splines {
     order() const SPLINES_OVERRIDE;
 
   };
-  
+
   /*\
    |    _   _                     _ _       ____        _ _
    |   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
@@ -1346,8 +1352,8 @@ namespace Splines {
     using CubicSplineBase::reserve;
 
     //! spline constructor
-    HermiteSpline( string const & name = "HermiteSpline", bool ck = false )
-    : CubicSplineBase( name, ck )
+    HermiteSpline( string const & name = "HermiteSpline" )
+    : CubicSplineBase( name )
     {}
 
     //! spline destructor
@@ -1407,14 +1413,14 @@ namespace Splines {
     using Spline::build;
 
     //! spline constructor
-    QuinticSplineBase( string const & name = "Spline", bool ck = false )
-    : Spline(name,ck)
+    QuinticSplineBase( string const & name = "Spline" )
+    : Spline(name)
     , baseValue(name+"_memeory")
     , Yp(nullptr)
     , Ypp(nullptr)
     , _external_alloc(false)
     {}
-    
+
     virtual
     ~QuinticSplineBase() SPLINES_OVERRIDE
     {}
@@ -1511,7 +1517,7 @@ namespace Splines {
     order() const SPLINES_OVERRIDE;
 
   };
- 
+
   /*\
    |    ___        _       _   _      ____        _ _
    |   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
@@ -1529,8 +1535,8 @@ namespace Splines {
     using QuinticSplineBase::reserve;
 
     //! spline constructor
-    QuinticSpline( string const & name = "Spline", bool ck = false )
-    : QuinticSplineBase( name, ck )
+    QuinticSpline( string const & name = "Spline" )
+    : QuinticSplineBase( name )
     {}
 
     //! spline destructor
@@ -1569,7 +1575,8 @@ namespace Splines {
 
     integer _dim;
     integer _npts;
-    bool    _check_range;
+    bool    _curve_is_closed;
+    bool    _curve_can_extend;
 
     real_type *  _X;
     real_type ** _Y;
@@ -1579,25 +1586,20 @@ namespace Splines {
     mutable map<std::thread::id,integer> lastInterval_by_thread;
 
     integer
-    search( real_type x ) const {
-      SPLINE_ASSERT(
-        this->_npts > 1, "\nsearch(" << x << ") empty spline"
-      )
-      if ( this->_check_range ) {
-        real_type xl = this->_X[0];
-        real_type xr = this->_X[this->_npts-1];
-        SPLINE_ASSERT(
-          x >= xl && x <= xr,
-          "method search( " << x << " ) out of range: [" <<
-          xl << ", " << xr << "]"
-        )
-      }
+    search( real_type & x ) const {
       integer lastInterval;
       {
         std::lock_guard<std::mutex> lck(lastInterval_mutex);
         lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
       }
-      Splines::updateInterval( lastInterval, x, this->_X, this->_npts );
+      searchInterval(
+        this->_npts,
+        this->_X,
+        x,
+        lastInterval,
+        this->_curve_is_closed,
+        this->_curve_can_extend
+      );
       {
         std::lock_guard<std::mutex> lck(lastInterval_mutex);
         lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
@@ -1620,6 +1622,14 @@ namespace Splines {
     //! spline destructor
     virtual
     ~SplineVec();
+
+    bool is_closed() const { return this->_curve_is_closed; }
+    void make_closed() { this->_curve_is_closed = true; }
+    void make_open()   { this->_curve_is_closed = false; }
+
+    bool can_extend() const { return this->_curve_can_extend; }
+    void make_unbounded() { this->_curve_can_extend = true; }
+    void make_buonded()   { this->_curve_can_extend = false; }
 
     string const &
     name() const
@@ -1873,8 +1883,6 @@ namespace Splines {
     mutable std::mutex                   getPosition_mutex;
     mutable std::mutex                   lastInterval_mutex;
     mutable map<std::thread::id,integer> lastInterval_by_thread;
-
-    //integer search( real_type x ) const;
 
     vector<Spline*>     splines;
     vector<int>         is_monotone;
@@ -2938,7 +2946,10 @@ namespace Splines {
   protected:
 
     string const _name;
-    bool         _check_range;
+    bool         _x_closed;
+    bool         _y_closed;
+    bool         _x_can_extend;
+    bool         _y_can_extend;
 
     vector<real_type> X, Y, Z;
 
@@ -2948,58 +2959,54 @@ namespace Splines {
     mutable map<std::thread::id,integer> lastInterval_x_by_thread;
 
     integer
-    search_x( real_type x ) const {
-      integer npts_x = integer(this->X.size());
-      SPLINE_ASSERT( npts_x > 1, "\nsearch_x(" << x << ") empty spline" )
-      if ( this->_check_range ) {
-        real_type xl = this->X.front();
-        real_type xr = this->X.back();
-        SPLINE_ASSERT(
-          x >= xl && x <= xr,
-          "method search_x( " << x << " ) out of range: [" <<
-          xl << ", " << xr << "]"
-        )
-      }
-      integer lastInterval_x;
+    search_x( real_type & x ) const {
+      integer lastInterval;
       {
         std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
-        lastInterval_x = lastInterval_x_by_thread[std::this_thread::get_id()];
+        lastInterval = lastInterval_x_by_thread[std::this_thread::get_id()];
       }
-      Splines::updateInterval( lastInterval_x, x, &this->X.front(), npts_x );
+      integer       npts_x = integer(this->X.size());
+      real_type const * pX = &this->X.front();
+      searchInterval(
+        npts_x,
+        pX,
+        x,
+        lastInterval,
+        this->_x_closed,
+        this->_x_can_extend
+      );
       {
         std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
-        lastInterval_x_by_thread[std::this_thread::get_id()] = lastInterval_x;
+        lastInterval_x_by_thread[std::this_thread::get_id()] = lastInterval;
       }
-      return lastInterval_x;
+      return lastInterval;
     }
 
     mutable std::mutex                   lastInterval_y_mutex;
     mutable map<std::thread::id,integer> lastInterval_y_by_thread;
 
     integer
-    search_y( real_type y ) const {
-      integer npts_y = integer(this->Y.size());
-      SPLINE_ASSERT( npts_y > 1, "\nsearch_y(" << y << ") empty spline" )
-      if ( this->_check_range ) {
-        real_type yl = this->Y.front();
-        real_type yr = this->Y.back();
-        SPLINE_ASSERT(
-          y >= yl && y <= yr,
-          "method search_y( " << y << " ) out of range: [" <<
-          yl << ", " << yr << "]"
-        )
-      }
-      integer lastInterval_y;
+    search_y( real_type & y ) const {
+      integer lastInterval;
       {
         std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
-        lastInterval_y = lastInterval_y_by_thread[std::this_thread::get_id()];
+        lastInterval = lastInterval_y_by_thread[std::this_thread::get_id()];
       }
-      Splines::updateInterval( lastInterval_y, y, &this->Y.front(), npts_y );
+      integer       npts_y = integer(this->Y.size());
+      real_type const * pY = &this->Y.front();
+      searchInterval(
+        npts_y,
+        pY,
+        y,
+        lastInterval,
+        this->_y_closed,
+        this->_y_can_extend
+      );
       {
         std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
-        lastInterval_y_by_thread[std::this_thread::get_id()] = lastInterval_y;
+        lastInterval_y_by_thread[std::this_thread::get_id()] = lastInterval;
       }
-      return lastInterval_y;
+      return lastInterval;
     }
 
     integer
@@ -3023,9 +3030,12 @@ namespace Splines {
   public:
 
     //! spline constructor
-    SplineSurf( string const & name = "Spline", bool ck = false )
+    SplineSurf( string const & name = "Spline" )
     : _name(name)
-    , _check_range(ck)
+    , _x_closed(false)
+    , _y_closed(false)
+    , _x_can_extend(true)
+    , _y_can_extend(true)
     , X()
     , Y()
     , Z()
@@ -3046,17 +3056,25 @@ namespace Splines {
     virtual
     ~SplineSurf();
 
+    bool is_x_closed() const { return this->_x_closed; }
+    void make_x_closed()     { this->_x_closed = true; }
+    void make_x_opened()     { this->_x_closed = false; }
+
+    bool is_y_closed() const { return this->_y_closed; }
+    void make_y_closed()     { this->_y_closed = true; }
+    void make_y_opened()     { this->_y_closed = false; }
+
+    bool is_x_bounded() const { return this->_x_can_extend; }
+    void make_x_unbounded()   { this->_x_can_extend = true; }
+    void make_x_bounded()     { this->_x_can_extend = false; }
+
+    bool is_y_bounded() const { return this->_y_can_extend; }
+    void make_y_unbounded()   { this->_y_can_extend = true; }
+    void make_y_bounded()     { this->_y_can_extend = false; }
+
     string const &
     name() const
     { return this->_name; }
-
-    void
-    setCheckRange( bool ck )
-    { this->_check_range = ck; }
-
-    bool
-    getCheckRange() const
-    { return this->_check_range; }
 
     //! Cancel the support points, empty the spline.
     void
@@ -3312,8 +3330,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BilinearSpline( string const & name = "Spline", bool ck = false )
-    : SplineSurf(name,ck)
+    BilinearSpline( string const & name = "Spline" )
+    : SplineSurf(name)
     {}
 
     virtual
@@ -3388,8 +3406,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiCubicSplineBase( string const & name = "Spline", bool ck = false )
-    : SplineSurf( name, ck )
+    BiCubicSplineBase( string const & name = "Spline" )
+    : SplineSurf( name )
     , DX()
     , DY()
     {}
@@ -3461,8 +3479,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiCubicSpline( string const & name = "Spline", bool ck = false )
-    : BiCubicSplineBase( name, ck )
+    BiCubicSpline( string const & name = "Spline" )
+    : BiCubicSplineBase( name )
     {}
 
     virtual
@@ -3496,8 +3514,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    Akima2Dspline( string const & name = "Spline", bool ck = false )
-    : BiCubicSplineBase( name, ck )
+    Akima2Dspline( string const & name = "Spline" )
+    : BiCubicSplineBase( name )
     {}
 
     virtual
@@ -3534,8 +3552,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiQuinticSplineBase( string const & name = "Spline", bool ck = false )
-    : SplineSurf( name, ck )
+    BiQuinticSplineBase( string const & name = "Spline" )
+    : SplineSurf( name )
     , DX()
     , DXX()
     , DY()
@@ -3617,8 +3635,8 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiQuinticSpline( string const & name = "Spline", bool ck = false )
-    : BiQuinticSplineBase( name, ck )
+    BiQuinticSpline( string const & name = "Spline" )
+    : BiQuinticSplineBase( name )
     {}
 
     virtual

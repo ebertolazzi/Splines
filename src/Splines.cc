@@ -245,12 +245,72 @@ namespace Splines {
   static real_type const machineEps = std::numeric_limits<real_type>::epsilon();
   static real_type const m_2pi      = 6.28318530717958647692528676656; // 2*pi
 
+  void
+  searchInterval(
+    integer         npts,
+    real_type const X[],
+    real_type     & x,
+    integer       & lastInterval,
+    bool            _curve_is_closed,
+    bool            _curve_can_extend
+  ) {
+    if ( npts <= 2 ) { lastInterval = 0; return; } // nothing to search
+    real_type xl = X[0];
+    real_type xr = X[npts-1];
+    if ( _curve_is_closed ) {
+      real_type L = xr-xl;
+      x -= xl;
+      x  = fmod( x, L );
+      if ( x < 0 ) x += L;
+      x += xl;
+    } else if ( _curve_can_extend ) {
+      if ( x <= xl ) { lastInterval = 0; return; }
+      if ( x >= xr ) { lastInterval = npts-2; return; }
+    } else if ( x < xl || x > xr ) {
+      std::ostringstream ost;
+      Splines::backtrace( ost );
+      ost << "In searchInterval( npts = " << npts << ", X, x = " << x
+          << ", lastInterval = " << lastInterval << ", closed = "
+          << (_curve_is_closed?"true":"false") << ")\n"
+          << "line: " << __LINE__ << " file: " << __FILE__
+          << "\nout of range: [" << xl << ", " << xr << "]\n";
+      throw std::runtime_error(ost.str());
+    }
+
+    // find the interval of the support of the B-spline
+    real_type const * XL = X+lastInterval;
+    if ( XL[1] < x ) { // x on the right
+      if ( x >= X[npts-2] ) { // x in [X[npt-2],X[npts-1]]
+        lastInterval = npts-2; // last interval
+      } else if ( x < XL[2] ) { // x in (XL[1],XL[2])
+        ++lastInterval;
+      } else { // x >= XL[2] search the right interval
+        real_type const * XE = X+npts;
+        lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
+        real_type const * XX = X+lastInterval;
+        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
+      }
+    } else if ( x < XL[0] ) { // on the left
+      if ( x <= X[1] ) { // x in [X[0],X[1]]
+        lastInterval = 0; // first interval
+      } else if ( XL[-1] <= x ) { // x in [XL[-1],XL[0])
+        --lastInterval;
+      } else {
+        lastInterval = integer(std::lower_bound( X, XL, x )-X);
+        real_type const * XX = X+lastInterval;
+        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
+      }
+    } else {
+      // x in the interval [ XL[0], XL[1] ] nothing to do
+    }
+  }
+
   //! quadratic polinomial roots
   /*!
     Compute the roots of the polynomial
-    
+
     \f[ a_0 + a_1 z + a_2 z^2 \f]
-    
+
     and store the results is `real` and `imag`.
     It is assumed that \f$ a_2 \f$ is nonzero.
   */
@@ -284,7 +344,7 @@ namespace Splines {
       real_type twoA = 2*A;
       real_type d    = B*B - 4*A*C;
       real_type absd = abs(d);
-      if ( absd <= 2*machineEps*B*B ) { 
+      if ( absd <= 2*machineEps*B*B ) {
         real[0] = -B/twoA; // EQUAL REAL ROOTS
         res.first = 1; // 2 radici reali coincidenti
       } else {
@@ -312,13 +372,13 @@ namespace Splines {
     }
     return res;
   }
-  
+
   //! cubic polinomial roots
   /*!
     Compute the roots of the polynomial
-    
+
     \f[ a_0 + a_1 z + a_2 z^2 + a_3 z^3 \f]
-    
+
     and store the results is `real` and `imag`.
     It is assumed that \f$ a_3 \f$ is nonzero.
   */
@@ -331,7 +391,7 @@ namespace Splines {
   ) {
 
     // initialize roots
-    real[0] = real[1] = real[2] = 
+    real[0] = real[1] = real[2] =
     imag[0] = imag[1] = imag[2] = 0;
 
     // trivial case
@@ -348,12 +408,12 @@ namespace Splines {
     real_type const C = a[0]/a[3];
     real_type const B = a[1]/a[3];
     real_type const A = a[2]/a[3];
-    
+
     // p(y-A/3) = y^3 + p*y + q
     real_type const A3 = A/3;
     real_type const p  = B-A*A3;
     real_type const q  = C+A3*(2*(A3*A3)-B);
-    
+
     // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
     real_type const S = max( sqrt(abs(p)), cbrt(abs(q)) );
 
@@ -466,46 +526,6 @@ namespace Splines {
       }
     }
     return flag; // passed all check
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  updateInterval(
-    integer       & lastInterval,
-    real_type       x,
-    real_type const X[],
-    integer         npts
-  ) {
-
-    if ( npts <= 2 ) { lastInterval = 0; return; } // nothing to search
-
-    // find the interval of the support of the B-spline
-    real_type const * XL = X+lastInterval;
-    if ( XL[1] < x ) { // x on the right
-      if ( x >= X[npts-2] ) { // x in [X[npt-2],X[npts-1]]
-        lastInterval = npts-2; // last interval
-      } else if ( x < XL[2] ) { // x in (XL[1],XL[2])
-        ++lastInterval;
-      } else { // x >= XL[2] search the right interval
-        real_type const * XE = X+npts;
-        lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
-        real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
-      }
-    } else if ( x < XL[0] ) { // on the left
-      if ( x <= X[1] ) { // x in [X[0],X[1]]
-        lastInterval = 0; // first interval
-      } else if ( XL[-1] <= x ) { // x in [XL[-1],XL[0])
-        --lastInterval;
-      } else {
-        lastInterval = integer(std::lower_bound( X, XL, x )-X);
-        real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
-      }
-    } else {
-      // x in the interval [ XL[0], XL[1] ] nothing to do
-    }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
