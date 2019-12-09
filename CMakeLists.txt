@@ -73,19 +73,37 @@ INCLUDE_DIRECTORIES( src ${GC_DIR_GLOB}/lib/include )
 LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll )
 IF ( APPLE )
   FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_osx_static
+    GC_LIB NAMES GenericContainer_osx_static${DEBUG_SUFFIX}
     HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
   )
 ELSEIF( LINUX OR UNIX )
   FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_linux_static
+    GC_LIB NAMES GenericContainer_linux_static${DEBUG_SUFFIX}
     HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
   )
 ELSE()
   FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_win_${BITS}_static
+    GC_LIB NAMES GenericContainer_win_${BITS}_static${DEBUG_SUFFIX}
     HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
   )
+ENDIF()
+IF ( BUILD_SHARED )
+  IF ( APPLE )
+    FIND_LIBRARY(
+      GC_LIB_SHARED NAMES GenericContainer_osx_${DEBUG_SUFFIX}
+      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    )
+  ELSEIF( LINUX OR UNIX )
+    FIND_LIBRARY(
+      GC_LIB_SHARED NAMES GenericContainer_linux_${DEBUG_SUFFIX}
+      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    )
+  ELSE()
+    FIND_LIBRARY(
+      GC_LIB_SHARED NAMES GenericContainer_win_${BITS}${DEBUG_SUFFIX}
+      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    )
+  ENDIF()
 ENDIF()
 
 SET( CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lib )
@@ -93,7 +111,7 @@ SET( CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lib )
 IF ( BUILD_SHARED )
   ADD_LIBRARY( ${TARGETS} STATIC ${SOURCES} ${HEADERS} )
   ADD_LIBRARY( ${TARGET}  SHARED ${SOURCES} ${HEADERS} )
-  TARGET_LINK_LIBRARIES( ${TARGET} ${GC_LIB} )
+  TARGET_LINK_LIBRARIES( ${TARGET} ${GC_LIB_SHARED} )
   INSTALL(
     TARGETS ${TARGET} ${TARGETS}
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
