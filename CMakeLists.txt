@@ -69,6 +69,8 @@ IF( NOT DEFINED GC_DIR )
 ENDIF()
 
 FILE( GLOB GC_DIR_GLOB ${GC_DIR} )
+MESSAGE( STATUS "GC_DIR_GLOB = ${GC_DIR_GLOB}" )
+
 INCLUDE_DIRECTORIES( src ${GC_DIR_GLOB}/lib/include )
 LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll )
 IF ( APPLE )
@@ -87,15 +89,16 @@ ELSE()
     HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
   )
 ENDIF()
+
 IF ( BUILD_SHARED )
   IF ( APPLE )
     FIND_LIBRARY(
-      GC_LIB_SHARED NAMES GenericContainer_osx_${DEBUG_SUFFIX}
+      GC_LIB_SHARED NAMES GenericContainer_osx${DEBUG_SUFFIX}
       HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
     )
   ELSEIF( LINUX OR UNIX )
     FIND_LIBRARY(
-      GC_LIB_SHARED NAMES GenericContainer_linux_${DEBUG_SUFFIX}
+      GC_LIB_SHARED NAMES GenericContainer_linux${DEBUG_SUFFIX}
       HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
     )
   ELSE()

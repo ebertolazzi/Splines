@@ -118,8 +118,7 @@ task :build, [:gc_dir,:os] do |t, args|
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  cmake_cmd = 'cmake '
-  cmake_cmd += " -DGC_DIR:VAR=#{args.gc_dir} "
+  cmake_cmd = "cmake -DGC_DIR:VAR=#{args.gc_dir} "
 
   if COMPILE_EXECUTABLE then
     cmake_cmd += '-DBUILD_EXECUTABLE:VAR=true '
@@ -133,10 +132,10 @@ task :build, [:gc_dir,:os] do |t, args|
   end
 
   if COMPILE_DEBUG then
-    sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Debug --loglevel=WARNING ..'
+    sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Debug .. ' #--loglevel=WARNING ..'
     sh 'cmake --build . --config Debug --target install '+PARALLEL+QUIET
   else
-    sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Release --loglevel=WARNING ..'
+    sh cmake_cmd + '-DCMAKE_BUILD_TYPE:VAR=Release .. ' #--loglevel=WARNING ..'
     sh 'cmake --build . --config Release --target install '+PARALLEL+QUIET
   end
 
