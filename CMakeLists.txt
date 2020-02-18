@@ -9,7 +9,10 @@
 #                                                                          #
 ############################################################################
 
-cmake_minimum_required(VERSION 3.5)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+
+PROJECT( Splines CXX C )
+
 SET( CMAKE_VERBOSE_MAKEFILE OFF )
 SET( CMAKE_INSTALL_MESSAGE NEVER )
 
@@ -37,8 +40,6 @@ ELSEIF( LINUX OR UNIX )
 ELSE()
   SET( TARGETS Splines_win_${BITS}_static${DEBUG_SUFFIX} )
 ENDIF()
-
-PROJECT( Splines CXX C )
 
 INCLUDE( ./CMakeLists-cflags.txt )
 MESSAGE( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}")
@@ -73,6 +74,7 @@ MESSAGE( STATUS "GC_DIR_GLOB = ${GC_DIR_GLOB}" )
 
 INCLUDE_DIRECTORIES( src ${GC_DIR_GLOB}/lib/include )
 LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll )
+
 IF ( APPLE )
   FIND_LIBRARY(
     GC_LIB NAMES GenericContainer_osx_static${DEBUG_SUFFIX}
@@ -130,6 +132,8 @@ ELSE()
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
   )
 ENDIF()
+
+SET_PROPERTY( TARGET ${TARGETS} PROPERTY POSITION_INDEPENDENT_CODE ON )
 
 INSTALL( FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
 
