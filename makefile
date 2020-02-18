@@ -6,7 +6,7 @@ LIB_SPLINE = libSplines.a
 LIB_GC     = libGenericContainer.a
 
 CC   = gcc
-CXX  = g++
+CXX  = g++ -std=c++11 -pthread
 INC  = -I./src -I./include -I./GC/lib/include
 LIBS = -L./lib -L./GC/lib -lSplines -lGenericContainer
 DEFS =
@@ -14,21 +14,10 @@ DEFS =
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
   WARN = -Wall
-  CC  = gcc
-  CXX = g++
   # activate C++11 for g++ >= 4.9
   VERSION  = $(shell $(CC) -dumpversion)
-ifneq (,$(findstring 4.9, $(VERSION)))
-  CXX += -std=c++11 -pthread
-endif
-ifneq (,$(findstring 5., $(VERSION)))
-  CXX += -std=c++11 -pthread
-endif
-ifneq (,$(findstring 6., $(VERSION)))
-  CXX += -std=c++11 -pthread
-endif
-  CC  += $(WARN)
-  CXX += $(WARN)
+  CC      += $(WARN)
+  CXX     += $(WARN)
   LIBS     = -static -L./lib -L./GC/lib  -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
