@@ -34,7 +34,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  static
   void
   Bessel_build(
     real_type const X[],

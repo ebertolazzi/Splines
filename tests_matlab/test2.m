@@ -20,12 +20,14 @@ XXX = { xx1, xx2, xx3, xx4, xx5, xx0 };
 YYY = { yy1, yy2, yy3, yy4, yy5, yy0 };
 LOC = {'northwest','northwest','southeast','northwest','northwest','northwest'};
 
+close all;
+
 for k=1:6
   X = XXX{k};
   Y = YYY{k};
 
   pc = Spline1D('pchip',X,Y);
-  qu = Spline1D('quintic',X,Y);
+  qu = Spline1D('quintic',X,Y,'pchip');
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 
@@ -33,12 +35,35 @@ for k=1:6
   Y2 = qu.eval(XX);
 	
   subplot(2,3,k);
-
-  plot( X,  Y, 'o', ...
-        XX, Y1, ...
-        XX, Y2 );
+  hold off;
+  plot( X,  Y, 'o' );
+  hold on;
+  plot( XX, Y1, XX, Y2, 'LineWidth', 3 );
 
   legend('data','pchip','quintic');
+  legend('boxoff');
+  legend('Location',LOC{k});
+
+end
+
+figure();
+
+for k=1:6
+  X = XXX{k};
+  Y = YYY{k};
+
+  pc = Spline1D('pchip',X,Y);
+  qu = Spline1D('quintic',X,Y,'pchip');
+
+  XX = X(1):(X(end)-X(1))/1000:X(end);
+
+  Y1 = pc.eval_DD(XX);
+  Y2 = qu.eval_DD(XX);
+	
+  subplot(2,3,k);
+  plot( XX, Y1, XX, Y2, 'LineWidth', 3 );
+
+  legend('pchip','quintic');
   legend('boxoff');
   legend('Location',LOC{k});
 

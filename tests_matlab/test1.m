@@ -31,7 +31,7 @@ for k=1:4
   ak = Spline1D('akima',X,Y);
   be = Spline1D('bessel',X,Y);
   pc = Spline1D('pchip',X,Y);
-  qu = Spline1D('quintic',X,Y);
+  qu = Spline1D('quintic',X,Y,'pchip');
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 

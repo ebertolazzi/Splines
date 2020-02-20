@@ -44,11 +44,13 @@ either expressed or implied, of the FreeBSD Project.
 "% USAGE:                                                               %\n" \
 "%   obj = Spline1DMexWrapper( 'new', kind );                           %\n" \
 "%   Spline1DMexWrapper( 'delete', obj );                               %\n" \
-"%   Spline1DMexWrapper( 'build', obj, X, Y );                          %\n" \
-"%   P    = Spline1DMexWrapper( 'eval', obj, X );                       %\n" \
-"%   DP   = Spline1DMexWrapper( 'eval_D', obj, X );                     %\n" \
-"%   DDP  = Spline1DMexWrapper( 'eval_DD', obj, X );                    %\n" \
-"%   DDDP = Spline1DMexWrapper( 'eval_DDD', obj, X );                   %\n" \
+"%   Spline1DMexWrapper( 'build', obj, X, Y, subtype );                 %\n" \
+"%   P      = Spline1DMexWrapper( 'eval', obj, X );                     %\n" \
+"%   DP     = Spline1DMexWrapper( 'eval_D', obj, X );                   %\n" \
+"%   DDP    = Spline1DMexWrapper( 'eval_DD', obj, X );                  %\n" \
+"%   DDDP   = Spline1DMexWrapper( 'eval_DDD', obj, X );                 %\n" \
+"%   DDDDP  = Spline1DMexWrapper( 'eval_DDDD', obj, X );                %\n" \
+"%   DDDDDP = Spline1DMexWrapper( 'eval_DDDDD', obj, X );               %\n" \
 "%                                                                      %\n" \
 "% On input:                                                            %\n" \
 "%                                                                      %\n" \
@@ -59,10 +61,12 @@ either expressed or implied, of the FreeBSD Project.
 "%                                                                      %\n" \
 "% On output:                                                           %\n" \
 "%                                                                      %\n" \
-"%  P    = vector of Y values                                           %\n" \
-"%  DP   = vector of dimension size(X) with derivative                  %\n" \
-"%  DDP  = vector of dimension size(X) with second derivative           %\n" \
-"%  DDDP = vector of dimension size(X) with third derivative            %\n" \
+"%  P      = vector of Y values                                         %\n" \
+"%  DP     = vector of dimension size(X) with derivative                %\n" \
+"%  DDP    = vector of dimension size(X) with second derivative         %\n" \
+"%  DDDP   = vector of dimension size(X) with third derivative          %\n" \
+"%  DDDDP  = vector of dimension size(X) with 4th derivative            %\n" \
+"%  DDDDDP = vector of dimension size(X) with 5th derivative            %\n" \
 "%                                                                      %\n" \
 "%======================================================================%\n" \
 "%                                                                      %\n" \
@@ -156,10 +160,13 @@ namespace Splines {
   do_build( int nlhs, mxArray       *plhs[],
             int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "Spline1DMexWrapper('build',OBJ,x,y): "
+    #define CMD "Spline1DMexWrapper('build',OBJ,x,y[,subtype]): "
 
     MEX_ASSERT( nlhs == 0, CMD "expected no output, nlhs = " << nlhs );
-    MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = " << nrhs );
+    MEX_ASSERT(
+      nrhs == 4 || nrhs == 5,
+      CMD "expected 4 or 5 input, nrhs = " << nrhs
+    );
 
     mwSize nx, ny;
     real_type const * x = getVectorPointer(
@@ -173,8 +180,54 @@ namespace Splines {
 
     Spline * ptr = DATA_GET( arg_in_1 );
 
+    if ( nrhs == 5 ) {
+      MEX_ASSERT(
+        mxIsChar(arg_in_4), CMD "subtype must be a string"
+      );
+      string subtype = mxArrayToString(arg_in_4);
+      switch ( ptr->type() ) {
+      case CONSTANT_TYPE:
+      case LINEAR_TYPE:
+      case AKIMA_TYPE:
+      case BESSEL_TYPE:
+      case PCHIP_TYPE:
+        break;
+      case CUBIC_TYPE:
+        if ( subtype == "natural" ) {
+          static_cast<CubicSpline*>(ptr)->setInitialBC( NATURAL_BC );
+          static_cast<CubicSpline*>(ptr)->setFinalBC( NATURAL_BC );
+        } else if ( subtype == "parabolic"  ) {
+          static_cast<CubicSpline*>(ptr)->setInitialBC( PARABOLIC_RUNOUT_BC );
+          static_cast<CubicSpline*>(ptr)->setFinalBC( PARABOLIC_RUNOUT_BC );
+        } else if ( subtype == "not_a_knot" ) {
+          static_cast<CubicSpline*>(ptr)->setInitialBC( NOT_A_KNOT );
+          static_cast<CubicSpline*>(ptr)->setFinalBC( NOT_A_KNOT );
+        } else {
+          MEX_ASSERT(
+            false,
+            CMD "subtype: " <<  subtype << " must be in ['natural','parabolic','not_a_knot']"
+          );
+        }
+        break;
+      case QUINTIC_TYPE:
+        if ( subtype == "cubic" ) {
+          static_cast<QuinticSpline*>(ptr)->setQuinticType( CUBIC_QUINTIC );
+        } else if ( subtype == "pchip"  ) {
+          static_cast<QuinticSpline*>(ptr)->setQuinticType( PCHIP_QUINTIC );
+        } else if ( subtype == "akima" ) {
+          static_cast<QuinticSpline*>(ptr)->setQuinticType( AKIMA_QUINTIC );
+        } else if ( subtype == "bessel" ) {
+          static_cast<QuinticSpline*>(ptr)->setQuinticType( BESSEL_QUINTIC );
+        } else {
+          MEX_ASSERT(
+            false,
+            CMD "subtype: " <<  subtype << " must be in ['cubic','pchip','akima','bessel']"
+          );
+        }
+        break;
+      }
+    }
     ptr->build( x, y, nx );
-
     #undef CMD
   }
 
@@ -316,6 +369,56 @@ namespace Splines {
 
   static
   void
+  do_eval_DDDD( int nlhs, mxArray       *plhs[],
+                int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('eval_DDDD',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx;
+    real_type const * x = getVectorPointer(
+      arg_in_2, nx, CMD "error in reading `x`"
+    );
+    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+
+    for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDDD( *x++ );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_eval_DDDDD( int nlhs, mxArray       *plhs[],
+                 int nrhs, mxArray const *prhs[] ) {
+
+    #define CMD "Spline1DMexWrapper('eval_DDDDD',OBJ): "
+
+    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+
+    mwSize nx;
+    real_type const * x = getVectorPointer(
+      arg_in_2, nx, CMD "error in reading `x`"
+    );
+    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+
+    for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDDDD( *x++ );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_make_closed( int nlhs, mxArray       *plhs[],
                   int nrhs, mxArray const *prhs[] ) {
 
@@ -432,6 +535,8 @@ namespace Splines {
     CMD_EVAL_D,
     CMD_EVAL_DD,
     CMD_EVAL_DDD,
+    CMD_EVAL_DDDD,
+    CMD_EVAL_DDDDD,
     CMD_MAKE_CLOSED,
     CMD_MAKE_OPENED,
     CMD_IS_CLOSED,
@@ -452,6 +557,8 @@ namespace Splines {
     {"eval_D",CMD_EVAL_D},
     {"eval_DD",CMD_EVAL_DD},
     {"eval_DDD",CMD_EVAL_DDD},
+    {"eval_DDDD",CMD_EVAL_DDDD},
+    {"eval_DDDDD",CMD_EVAL_DDDDD},
     {"make_closed",CMD_MAKE_CLOSED},
     {"make_opened",CMD_MAKE_OPENED},
     {"is_closed",CMD_IS_CLOSED},
@@ -498,6 +605,12 @@ namespace Splines {
         break;
       case CMD_EVAL_DDD:
         do_eval_DDD( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DDDD:
+        do_eval_DDDD( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_EVAL_DDDDD:
+        do_eval_DDDDD( nlhs, plhs, nrhs, prhs );
         break;
       case CMD_DEGREE:
         do_degree( nlhs, plhs, nrhs, prhs );

@@ -7,9 +7,10 @@ classdef Spline1D < handle
   methods
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function self = Spline1D( kind, varargin )
+      % kind, t, pnts, subtype
       self.objectHandle = Spline1DMexWrapper( 'new', kind );
       if nargin > 1
-        Spline1DMexWrapper( 'build', self.objectHandle, varargin{1}, varargin{2} );
+        Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
       end
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -18,8 +19,9 @@ classdef Spline1D < handle
       Spline1DMexWrapper( 'delete', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function build( self, x, y )
-      Spline1DMexWrapper( 'build', self.objectHandle, x, y );
+    function build( self, varargin )
+      % x, y, [subtype]
+      Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function varargout = eval( self, x )
@@ -30,8 +32,14 @@ classdef Spline1D < handle
       if nargout >= 3
         varargout{3} = Spline1DMexWrapper( 'eval_DD', self.objectHandle, x );
       end
+      if nargout >= 4
+        varargout{4} = Spline1DMexWrapper( 'eval_DDD', self.objectHandle, x );
+      end
+      if nargout >= 5
+        varargout{5} = Spline1DMexWrapper( 'eval_DDDD', self.objectHandle, x );
+      end
       if ~( nargout == 1 || nargout == 2 || nargout == 3 ) 
-        error( 'Spline2D.eval, nargout = %d must be 1, 2 or 3\n', nargout);
+        error( 'Spline1D.eval, nargout = %d must be 1, 2, 3, 4 or 5\n', nargout );
       end
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,6 +53,14 @@ classdef Spline1D < handle
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function dddp = eval_DDD( self, x )
       dddp = Spline1DMexWrapper( 'eval_DDD', self.objectHandle, x );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ddddp = eval_DDSD( self, x )
+      ddddp = Spline1DMexWrapper( 'eval_DDDD', self.objectHandle, x );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function dddddp = eval_DDDDD( self, x )
+      dddddp = Spline1DMexWrapper( 'eval_DDDDD', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function make_closed( self )

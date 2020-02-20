@@ -58,7 +58,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  static
   void
   Akima_build(
     real_type const X[],

@@ -701,6 +701,8 @@ namespace Splines {
     real_type eval_D( real_type x ) const { return this->D(x); }
     real_type eval_DD( real_type x ) const { return this->DD(x); }
     real_type eval_DDD( real_type x ) const { return this->DDD(x); }
+    real_type eval_DDDD( real_type x ) const { return this->DDDD(x); }
+    real_type eval_DDDDD( real_type x ) const { return this->DDDDD(x); }
 
     //! get the piecewise polinomials of the spline
     virtual
@@ -923,11 +925,27 @@ namespace Splines {
    |   \____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
    |                                |_|
   \*/
+
+  typedef enum {
+    NATURAL_BC = 0,
+    PARABOLIC_RUNOUT_BC,
+    NOT_A_KNOT
+  } CUBIC_SPLINE_TYPE_BC;
+
+  void
+  CubicSpline_build(
+    real_type const      X[],
+    real_type const      Y[],
+    real_type            Yp[],
+    integer              npts,
+    CUBIC_SPLINE_TYPE_BC bc0,
+    CUBIC_SPLINE_TYPE_BC bcn
+  );
+
   //! Cubic Spline Management Class
   class CubicSpline : public CubicSplineBase {
   private:
-    real_type ddy0;
-    real_type ddyn;
+    CUBIC_SPLINE_TYPE_BC bc0, bcn;
   public:
 
     using CubicSplineBase::build;
@@ -936,8 +954,8 @@ namespace Splines {
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
-    , ddy0(0)
-    , ddyn(0)
+    , bc0(NOT_A_KNOT)
+    , bcn(NOT_A_KNOT)
     {}
 
     //! spline destructor
@@ -946,16 +964,18 @@ namespace Splines {
     {}
 
     /*!
-     | \param _ddy0  first boundary condition.
-     |               The second derivative at initial point.
-     | \param _ddyn  second boundary condition.
-     |               The second derivative at final point.
+     | \param _bc0  initial boundary condition.
     \*/
     void
-    setbc( real_type _ddy0, real_type _ddyn ) {
-      this->ddy0 = _ddy0;
-      this->ddyn = _ddyn;
-    }
+    setInitialBC( CUBIC_SPLINE_TYPE_BC _bc0 )
+    { this->bc0 = _bc0; }
+
+    /*!
+     | \param _bcn final boundary condition.
+    \*/
+    void
+    setFinalBC( CUBIC_SPLINE_TYPE_BC _bcn )
+    { this->bcn = _bcn; }
 
     //! Return spline type (as number)
     virtual
@@ -985,6 +1005,15 @@ namespace Splines {
    |  /_/   \_\_|\_\_|_| |_| |_|\__,_| |____/| .__/|_|_|_| |_|\___|
    |                                         |_|
   \*/
+
+  void
+  Akima_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
+  );
+
   //! Akima spline class
   /*!
    |  Reference
@@ -1030,6 +1059,15 @@ namespace Splines {
    |  |____/ \___||___/___/\___|_|____/| .__/|_|_|_| |_|\___|
    |                                   |_|
   \*/
+
+  void
+  Bessel_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
+  );
+
   //! Bessel spline class
   class BesselSpline : public CubicSplineBase {
   public:
@@ -1070,11 +1108,11 @@ namespace Splines {
    |                    |_|        |_|
   \*/
   void
-  pchip(
+  Pchip_build(
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         n
+    integer         npts
   );
 
   //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
@@ -1527,8 +1565,17 @@ namespace Splines {
    |                                       |_|
    |
   \*/
+
+  typedef enum {
+    CUBIC_QUINTIC = 0,
+    PCHIP_QUINTIC,
+    AKIMA_QUINTIC,
+    BESSEL_QUINTIC
+  } QUINTIC_SPLINE_TYPE;
+
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
+    QUINTIC_SPLINE_TYPE q_sub_type;
   public:
 
     using Spline::build;
@@ -1537,12 +1584,17 @@ namespace Splines {
     //! spline constructor
     QuinticSpline( string const & name = "Spline" )
     : QuinticSplineBase( name )
+    , q_sub_type(CUBIC_QUINTIC)
     {}
 
     //! spline destructor
     virtual
     ~QuinticSpline() SPLINES_OVERRIDE
     {}
+
+    void
+    setQuinticType( QUINTIC_SPLINE_TYPE qt )
+    { this->q_sub_type = qt; }
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a Monotone quintic spline from previously inserted points
@@ -1702,6 +1754,22 @@ namespace Splines {
     eval_DDD( real_type x, integer i ) const
     { return this->DDD(x,i); }
 
+    //! 4th derivative
+    real_type
+    DDDD( real_type x, integer i ) const;
+
+    real_type
+    eval_DDDD( real_type x, integer i ) const
+    { return this->DDDD(x,i); }
+
+    //! 5th derivative
+    real_type
+    DDDDD( real_type x, integer i ) const;
+
+    real_type
+    eval_DDDDD( real_type x, integer i ) const
+    { return this->DDDDD(x,i); }
+
     //! Evaluate all the splines at `x`
     void
     eval(
@@ -1734,6 +1802,22 @@ namespace Splines {
       integer   inc
     ) const;
 
+    //! Evaluate the 4th derivative of all the splines at `x`
+    void
+    eval_DDDD(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
+
+    //! Evaluate the 5th derivative of all the splines at `x`
+    void
+    eval_DDDDD(
+      real_type x,
+      real_type vals[],
+      integer   inc
+    ) const;
+
     //! Evaluate all the splines at `x`
     void
     eval( real_type x, vector<real_type> & vals ) const;
@@ -1749,6 +1833,14 @@ namespace Splines {
     //! Evaluate the third derivative of all the splines at `x`
     void
     eval_DDD( real_type x, vector<real_type> & vals ) const;
+
+    //! Evaluate the 4th derivative of all the splines at `x`
+    void
+    eval_DDDD( real_type x, vector<real_type> & vals ) const;
+
+    //! Evaluate the 5th derivative of all the splines at `x`
+    void
+    eval_DDDDD( real_type x, vector<real_type> & vals ) const;
 
     // interface with GenericContainer
     #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
@@ -1771,6 +1863,14 @@ namespace Splines {
     eval_DDD( real_type x, GenericContainer & vals ) const
     { eval_DDD( x, vals.set_vec_real() ); }
 
+    void
+    eval_DDDD( real_type x, GenericContainer & vals ) const
+    { eval_DDDD( x, vals.set_vec_real() ); }
+
+    void
+    eval_DDDDD( real_type x, GenericContainer & vals ) const
+    { eval_DDDDD( x, vals.set_vec_real() ); }
+
     /*!
      | Evaluate at `x` and fill a GenericContainer
     \*/
@@ -1785,6 +1885,12 @@ namespace Splines {
 
     void
     eval_DDD( vec_real_type const & x, GenericContainer & vals ) const;
+
+    void
+    eval_DDDD( vec_real_type const & x, GenericContainer & vals ) const;
+
+    void
+    eval_DDDDD( vec_real_type const & x, GenericContainer & vals ) const;
 
     #endif
 
@@ -2040,6 +2146,24 @@ namespace Splines {
     eval_DDD( real_type x, integer spl ) const
     { return this->getSpline(spl)->DDD(x); }
 
+    //! 4th derivative
+    real_type
+    DDDD( real_type x, integer spl ) const
+    { return this->getSpline(spl)->DDDD(x); }
+
+    real_type
+    eval_DDDD( real_type x, integer spl ) const
+    { return this->getSpline(spl)->DDDD(x); }
+
+    //! 5th derivative
+    real_type
+    DDDDD( real_type x, integer spl ) const
+    { return this->getSpline(spl)->DDDDD(x); }
+
+    real_type
+    eval_DDDDD( real_type x, integer spl ) const
+    { return this->getSpline(spl)->DDDDD(x); }
+
     //! Evaluate spline value
     real_type
     eval( real_type x, char const * name ) const
@@ -2059,6 +2183,16 @@ namespace Splines {
     real_type
     eval_DDD( real_type x, char const * name ) const
     { return this->getSpline(name)->DDD(x); }
+
+    //! 4th derivative
+    real_type
+    eval_DDDD( real_type x, char const * name ) const
+    { return this->getSpline(name)->DDDD(x); }
+
+    //! 5th derivative
+    real_type
+    eval_DDDDD( real_type x, char const * name ) const
+    { return this->getSpline(name)->DDDDD(x); }
 
     // vectorial values
     //! fill a vector of strings with the names of the splines
@@ -2120,6 +2254,36 @@ namespace Splines {
     //! Evaluate the third derivative of all the splines at `x`
     void
     eval_DDD(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
+
+    //! Evaluate the 4th derivative of all the splines at `x`
+    void
+    eval_DDDD(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
+
+    //! Evaluate the 4th derivative of all the splines at `x`
+    void
+    eval_DDDD(
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
+    ) const;
+
+    //! Evaluate the 5th derivative of all the splines at `x`
+    void
+    eval_DDDDD(
+      real_type           x,
+      vector<real_type> & vals
+    ) const;
+
+    //! Evaluate the 5th derivative of all the splines at `x`
+    void
+    eval_DDDDD(
       real_type x,
       real_type vals[],
       integer   incy = 1
@@ -2837,7 +3001,7 @@ namespace Splines {
       char const       * indep,
       GenericContainer & vals
     ) const {
-      this->eval2_DD( zeta, this->getPosition(indep), vals );
+      this->eval2_DDD( zeta, this->getPosition(indep), vals );
     }
 
     /*!
@@ -2851,7 +3015,7 @@ namespace Splines {
       char          const * indep,
       GenericContainer    & vals
     ) const {
-      this->eval2_DD( zetas, this->getPosition(indep), vals );
+      this->eval2_DDD( zetas, this->getPosition(indep), vals );
     }
 
     /*!
@@ -2866,7 +3030,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DD( zeta, this->getPosition(indep), columns, vals );
+      this->eval2_DDD( zeta, this->getPosition(indep), columns, vals );
     }
 
     /*!
@@ -2881,7 +3045,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DD( zetas, this->getPosition(indep), columns, vals );
+      this->eval2_DDD( zetas, this->getPosition(indep), columns, vals );
     }
 
     #endif

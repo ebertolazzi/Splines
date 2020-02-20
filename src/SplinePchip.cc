@@ -86,12 +86,14 @@ namespace Splines {
    | SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
   \*/
   void
-  pchip(
+  Pchip_build(
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         n
+    integer         npts
   ) {
+
+    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
 
     integer ierr = 0;
 
@@ -121,7 +123,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( integer i = 1; i < n; ++i ) {
+    for ( size_t i = 1; i < n; ++i ) {
       if ( i > 1 ) {
         h1   = h2;
         h2   = X[i+1] - X[i];
@@ -143,10 +145,10 @@ namespace Splines {
         dsave = del2;
         break;
       case 1: // use brodlie modification of butland formula.
-        w1    = (1+h1/hsum)/3;
-        w2    = (1+h2/hsum)/3;
-        dmax  = max_abs( del1, del2 );
-        dmin  = min_abs( del1, del2 );
+        w1   = (1+h1/hsum)/3;
+        w2   = (1+h2/hsum)/3;
+        dmax = max_abs( del1, del2 );
+        dmin = min_abs( del1, del2 );
         real_type drat1 = del1/dmax;
         real_type drat2 = del2/dmax;
         Yp[i] = dmin/(w1*drat1 + w2*drat2);
@@ -180,7 +182,12 @@ namespace Splines {
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
-      pchip( this->X+ibegin, this->Y+ibegin, this->Yp+ibegin, (iend-ibegin)-1 );
+      Pchip_build(
+        this->X+ibegin,
+        this->Y+ibegin,
+        this->Yp+ibegin,
+        iend-ibegin
+      );
       ibegin = iend;
     } while ( iend < this->npts );
     

@@ -76,6 +76,12 @@ extern "C" {
   /*! Evaluate spline third derivative at x */
   double SPLINE_eval_DDD( double const x );
 
+  /*! Evaluate spline 4th derivative at x */
+  double SPLINE_eval_DDDD( double const x );
+
+  /*! Evaluate spline 5th derivative at x */
+  double SPLINE_eval_DDDDD( double const x );
+
 #ifdef __cplusplus
 }
 #endif

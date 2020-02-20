@@ -217,6 +217,26 @@ SPLINE_eval_DDD( double const x ) {
   }
 }
 
+EXTERN_C
+double
+SPLINE_eval_DDDD( double const x ) {
+  if ( head != nullptr ) {
+    return head -> DDDD(x);
+  } else {
+    return 0;
+  }
+}
+
+EXTERN_C
+double
+SPLINE_eval_DDDDD( double const x ) {
+  if ( head != nullptr ) {
+    return head -> DDDDD(x);
+  } else {
+    return 0;
+  }
+}
+
 //
 // eof: SplineCinterface.cc
 //
