@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "SplinesUtils.hh"
 #include <cmath>
 #include <iomanip>
 

@@ -44,6 +44,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 \****************************************************************************/
+#pragma once
 
 #ifndef SPLINES_HH
 #define SPLINES_HH
@@ -111,31 +112,6 @@ namespace Splines {
   typedef basic_ostream<char> ostream_type;
 
   void backtrace( ostream_type & );
-
-  static
-  inline
-  bool
-  isZero( real_type x )
-  { return FP_ZERO == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isInfinite( real_type x )
-  { return FP_INFINITE == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isNaN( real_type x )
-  { return FP_NAN == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isRegular( real_type x )
-  { return !( FP_INFINITE == fpclassify(x) ||
-              FP_NAN      == fpclassify(x) ); }
 
   //! Associate a number for each type of splines implemented
   typedef enum {
@@ -927,7 +903,8 @@ namespace Splines {
   \*/
 
   typedef enum {
-    NATURAL_BC = 0,
+    EXTRAPOLATE_BC = 0,
+    NATURAL_BC,
     PARABOLIC_RUNOUT_BC,
     NOT_A_KNOT
   } CUBIC_SPLINE_TYPE_BC;
@@ -937,6 +914,20 @@ namespace Splines {
     real_type const      X[],
     real_type const      Y[],
     real_type            Yp[],
+    integer              npts,
+    CUBIC_SPLINE_TYPE_BC bc0,
+    CUBIC_SPLINE_TYPE_BC bcn
+  );
+
+  void
+  CubicSpline_build(
+    real_type const      X[],
+    real_type const      Y[],
+    real_type            Yp[],
+    real_type            Ypp[],
+    real_type            L[],
+    real_type            D[],
+    real_type            U[],
     integer              npts,
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
@@ -954,8 +945,8 @@ namespace Splines {
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
-    , bc0(NOT_A_KNOT)
-    , bcn(NOT_A_KNOT)
+    , bc0( EXTRAPOLATE_BC )
+    , bcn( EXTRAPOLATE_BC )
     {}
 
     //! spline destructor

@@ -193,7 +193,10 @@ namespace Splines {
       case PCHIP_TYPE:
         break;
       case CUBIC_TYPE:
-        if ( subtype == "natural" ) {
+        if ( subtype == "extrapolate" ) {
+          static_cast<CubicSpline*>(ptr)->setInitialBC( EXTRAPOLATE_BC );
+          static_cast<CubicSpline*>(ptr)->setFinalBC( EXTRAPOLATE_BC );
+        } else if ( subtype == "natural" ) {
           static_cast<CubicSpline*>(ptr)->setInitialBC( NATURAL_BC );
           static_cast<CubicSpline*>(ptr)->setFinalBC( NATURAL_BC );
         } else if ( subtype == "parabolic"  ) {
@@ -205,7 +208,7 @@ namespace Splines {
         } else {
           MEX_ASSERT(
             false,
-            CMD "subtype: " <<  subtype << " must be in ['natural','parabolic','not_a_knot']"
+            CMD "subtype: " <<  subtype << " must be in ['extrapolate','natural','parabolic','not_a_knot']"
           );
         }
         break;

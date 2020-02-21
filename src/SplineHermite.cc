@@ -81,128 +81,131 @@ namespace Splines {
   void
   Hermite5( real_type t, real_type h, real_type base[6] ) {
     real_type t1  = h*h;
-    real_type t2  = 6 * t;
-    real_type t3  = h - t;
-    real_type t4  = 3 * t;
-    real_type t5  = 1 / h;
-    real_type t6  = t5 * t5;
-    real_type t7  = t6 * t6;
-    real_type t8  = t5 * t7;
-              t5 *= t6;
-              t6  = t3 * t3;
-    real_type t9  = t3 * t6;
-    real_type t10 = t * t;
-    real_type t11 = t * t10;
-    base[0] = (t1 + (3 * h + t2) * t) * t9 * t8;
-    base[1] = t11 * (10 * t1 + (-15 * h + t2) * t) * t8;
-    base[2] = t * (h + t4) * t9 * t7;
-    base[3] = -t11 * (4 * h - t4) * t3 * t7;
-    base[4] = 0.5 * (t10 * t9 * t5);
-    base[5] = 0.5 * (t11 * t6 * t5);
+    real_type t4  = t*t;
+    real_type t7  = h-t;
+    real_type t8  = t7*t7;
+    real_type t9  = t8*t7;
+    real_type t11 = t1*t1;
+    real_type t2  = 1/t11;
+    real_type t3  = 1/h;
+    real_type t13 = t3*t2;
+    real_type t14 = t4*t;
+    real_type t17 = t4*t4;
+    base[0] = t13*t9*(3.0*t*h+t1+6.0*t4);
+    base[1] = t13*(-15.0*h*t17+6.0*t17*t+10.0*t1*t14);
+    base[2] = t2*t9*t*(h+3*t);
+    base[3] = t2*(3*t-4*h)*t7*t14;
+    real_type t36 = t3/t1/2;
+    base[4] = t36*t9*t4;
+    base[5] = t36*t8*t14;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_D( real_type t, real_type h, real_type base_D[6] ) {
-    real_type t1  = h - t;
-    real_type t2  = 5 * t;
-    real_type t3  = 3 * t;
-    real_type t4  = 2 * h;
-    real_type t5  = 1 / h;
-    real_type t6  = t5 * t5;
-    real_type t7  = t6 * t6;
-              t6 *= t5;
-    real_type t8  = t1 * t1;
-    real_type t9  = t * t;
-              t5 *= 30 * t8 * t9 * t7;
-    base_D[0] = -t5;
-    base_D[1] =  t5;
-    base_D[2] = t8 * (h + t2) * (h - t3) * t7;
-    base_D[3] = -t9 * (6 * h - t2) * (t4 - t3) * t7;
-    base_D[4] = 0.5 * t * t8 * (t4 - t2) * t6;
-    base_D[5] = 0.5 * t1 * t9 * (3 * h - t2) * t6;
+    real_type t1 = h-t;
+    real_type t2 = t1*t1;
+    real_type t3 = t*t;
+    real_type t5 = h*h;
+    real_type t6 = t5*t5;
+    real_type t4 = 1/t6;
+    real_type t7 = 1/h;
+    real_type t10 = 30.0*t3*t2*t7*t4;
+    real_type t11 = 5.0*t;
+    real_type t23 = t3*t3;
+    real_type t30 = t7/t5/2;
+    base_D[0] = -t10;
+    base_D[1] = t10;
+    base_D[2] = t4*(h-3.0*t)*(h+t11)*t2;
+    base_D[3] = t4*(t3*(28*t*h-12*t5)-15*t23);
+    base_D[4] = t30*(2*h-t11)*t2*t;
+    base_D[5] = t30*(3*h-t11)*t3*t1;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DD( real_type t, real_type h, real_type base_DD[6] ) {
-    real_type t1 = h - t;
-    real_type t2 = -5 * t;
-    real_type t3 = h * h;
-    real_type t4 = 10 * t;
-    real_type t5 = 1 / h;
-    real_type t6 = t5 * t5;
-    real_type t7 = t6 * t6;
-              t6 *= t5;
-              t5 *= 60 * t * t1 * (h - 2 * t ) * t7;
-    real_type t8 = -12 * t * t1;
-    base_DD[0] = -t5;
-    base_DD[1] = t5;
-    base_DD[2] = t8 * (3 * h + t2) * t7;
-    base_DD[3] = t8 * (2 * h + t2) * t7;
-    base_DD[4] = t1 * (t3 + (t4 - 8 * h) * t) * t6;
-    base_DD[5] = t * (3 * t3 + (t4 - 12 * h) * t) * t6;
+    real_type t1 = h-t;
+    real_type t2 = t*t1;
+    real_type t5 = h*h;
+    real_type t6 = t5*t5;
+    real_type t3 = 1/t6;
+    real_type t4 = 1/h;
+    real_type t11 = 60*(h-2*t)*t2*t4*t3;
+    real_type t26 = t*t;
+    real_type t31 = t4/t5;
+    base_DD[0] = -t11;
+    base_DD[1] = t11;
+    base_DD[2] = 12*t3*t1*(5*t-3*h)*t;
+    base_DD[3] = 12*t3*t2*(5*t-2*h);
+    base_DD[4] = t31*(10*t26+t5-8*h*t)*t1;
+    base_DD[5] = t31*(t26*(10*t-12*h)+3*t*t5);
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DDD( real_type t, real_type h, real_type base_DDD[6] ) {
-    real_type t1 = h * h;
-    real_type t2 = 15 * t;
-    real_type t3 = 3 * t1;
-    real_type t4 = -12;
-    real_type t5 = 10 * t;
-    real_type t6 = 1 / h;
-    real_type t7 = t6 * t6;
-    real_type t8 = t7 * t7;
-              t7 *= t6;
-              t6 *= 60 * ( t1 + 6 * t * (t-h) ) * t8;
-    base_DDD[0] = -t6;
-    base_DDD[1] =  t6;
-    base_DDD[2] =  t4 * (t3 + (t2 - 16 * h) * t) * t8;
-    base_DDD[3] =  t4 * (2 * t1 + (t2 - 14 * h) * t) * t8;
-    base_DDD[4] = -3*(t3 + (t4 * h + t5) * t) * t7;
-    base_DDD[5] =  3*(t1 + (t5 - 8 * h) * t) * t7;
+    real_type t1  = h*h;
+    real_type t3  = h*t;
+    real_type t5  = t*t;
+    real_type t7  = 360*t3-60*t1-360*t5;
+    real_type t8  = t1*t1;
+    real_type t9  = 1/t8;
+    real_type t11 = 1/h;
+    real_type t10 = t11*t9;
+    real_type t14 = 180.0*t5;
+    real_type t22 = 30.0*t5;
+    real_type t25 = t11/t1;
+    base_DDD[0] = t7*t10;
+    base_DDD[1] = -base_DDD[0];
+    base_DDD[2] = t9*(192*t3-36*t1-t14);
+    base_DDD[3] = t9*(168*t3-24*t1-t14);
+    base_DDD[4] = t25*(36*t3-9*t1-t22);
+    base_DDD[5] = t25*(3*t1-24*t3+t22);
+
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DDDD( real_type t, real_type h, real_type base_DDDD[6] ) {
-    real_type t1 = -15 * t;
-    real_type t2 = -5 * t;
-    real_type t3 = 1 / h;
-    real_type t4 = t3 * t3;
-    real_type t5 = t4 * t4;
-    t4 *= t3;
-    t3 *= (-720 * t + 360 * h) * t5;
-    base_DDDD[0] =  t3;
-    base_DDDD[1] = -t3;
-    base_DDDD[2] =  (192 * h + 24 * t1) * t5;
-    base_DDDD[3] =  (168 * h + 24 * t1) * t5;
-    base_DDDD[4] =  (36 * h + 12 * t2) * t4;
-    base_DDDD[5] = -(24 * h + 12 * t2) * t4;
+    real_type t3 = 360.0*h-720.0*t;
+    real_type t4 = h*h;
+    real_type t5 = t4*t4;
+    real_type t6 = 1/t5;
+    real_type t8 = 1/h;
+    real_type t7 = t8*t6;
+    real_type t10 = 360*t;
+    real_type t16 = 60*t;
+    real_type t19 = t8/t4;
+    base_DDDD[0] = t7*t3;
+    base_DDDD[1] = -base_DDDD[0];
+    base_DDDD[2] = t6*(192*h-t10);
+    base_DDDD[3] = t6*(168*h-t10);
+    base_DDDD[4] = t19*(36*h-t16);
+    base_DDDD[5] = t19*(t16-24*h);
+
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Hermite5_DDDDD( real_type, real_type h, real_type base_DDDDD[6] ) {
-    real_type t1 = 1 / h;
-    real_type t2 = t1 * t1;
-    real_type t3 = t2 * t2;
-    real_type t4 = 720 * t1 * t3;
-              t3 *= -360;
-              t1 *= 60 * t2;
-    base_DDDDD[0] = -t4;
-    base_DDDDD[1] =  t4;
-    base_DDDDD[2] =  t3;
-    base_DDDDD[3] =  t3;
-    base_DDDDD[4] = -t1;
-    base_DDDDD[5] =  t1;
+    real_type t1  = h*h;
+    real_type t2  = t1*t1;
+    real_type t3  = 1/t2;
+    real_type t4  = 1/h;
+    real_type t5  = 720.0*t4*t3;
+    real_type t10 = 60.0*t4/t1;
+    base_DDDDD[0] = -t5;
+    base_DDDDD[1] = t5;
+    base_DDDDD[2] = -360.0*t3;
+    base_DDDDD[3] = base_DDDDD[2];
+    base_DDDDD[4] = -t10;
+    base_DDDDD[5] = t10;
   }
 
   /*

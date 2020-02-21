@@ -1,3 +1,5 @@
+addpath('../lib_matlab');
+
 xx0 = [  0,  1,  2,  3,  4,  5,    6,  7,  8,  9, 10 ]; 
 yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ];
 
@@ -22,12 +24,14 @@ LOC = {'northwest','northwest','southeast','northwest','northwest','northwest'};
 
 close all;
 
+subtype = 'pchip';
+
 for k=1:6
   X = XXX{k};
   Y = YYY{k};
 
   pc = Spline1D('pchip',X,Y);
-  qu = Spline1D('quintic',X,Y,'pchip');
+  qu = Spline1D('quintic',X,Y,subtype);
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 
@@ -53,7 +57,7 @@ for k=1:6
   Y = YYY{k};
 
   pc = Spline1D('pchip',X,Y);
-  qu = Spline1D('quintic',X,Y,'pchip');
+  qu = Spline1D('quintic',X,Y,subtype);
 
   XX = X(1):(X(end)-X(1))/1000:X(end);
 
@@ -63,7 +67,7 @@ for k=1:6
   subplot(2,3,k);
   plot( XX, Y1, XX, Y2, 'LineWidth', 3 );
 
-  legend('pchip','quintic');
+  legend('pchip (y'''')','quintic (y'''')');
   legend('boxoff');
   legend('Location',LOC{k});
 

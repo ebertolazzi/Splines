@@ -6,7 +6,7 @@ LIB_SPLINE = libSplines.a
 LIB_GC     = libGenericContainer.a
 
 CC   = gcc
-CXX  = g++ -std=c++11 -pthread
+CXX  = g++
 INC  = -I./src -I./include -I./GC/lib/include
 LIBS = -L./lib -L./GC/lib -lSplines -lGenericContainer
 DEFS =
@@ -19,7 +19,7 @@ ifneq (,$(findstring Linux, $(OS)))
   CC      += $(WARN)
   CXX     += $(WARN)
   LIBS     = -static -L./lib -L./GC/lib  -lSplines -lGenericContainer
-  CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
+  CXXFLAGS = -std=c++11 -pthread -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif
 

@@ -55,7 +55,7 @@ classdef Spline1D < handle
       dddp = Spline1DMexWrapper( 'eval_DDD', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function ddddp = eval_DDSD( self, x )
+    function ddddp = eval_DDDD( self, x )
       ddddp = Spline1DMexWrapper( 'eval_DDDD', self.objectHandle, x );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

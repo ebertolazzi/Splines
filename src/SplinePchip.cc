@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "SplinesUtils.hh"
 
 #include <cmath>
 
@@ -28,6 +29,34 @@
 namespace Splines {
 
   using namespace std; // load standard namspace
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  typedef enum {
+    region_A = 0,
+    region_B,
+    region_C,
+    region_D,
+    region_E,
+    region_M
+  } REGION_ABCDEM;
+
+  static
+  REGION_ABCDEM
+  get_region( real_type alpha, real_type beta ) {
+    // assuming alpha >= 0, beta >= 0
+    real_type apb = alpha+beta;
+    if ( apb <= 3 ) return region_M;
+    real_type r = alpha * alpha + beta * beta + alpha * beta - 6*apb + 9;
+    if ( r <= 0 ) return region_M;
+    if ( apb <= 4 ) {
+      if ( beta >= alpha ) return region_A;
+      else                 return region_E;
+    }
+    if ( alpha >= 3 && beta >= 3 ) return region_C;
+    if ( beta >= alpha ) return region_B;
+    else                 return region_D;
+  }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -167,6 +196,47 @@ namespace Splines {
       if ( abs(Yp[n]) > abs(dmax) ) Yp[n] = dmax;
     }
     // cout << "ierr = " << ierr << '\n';
+  }
+
+  void
+  Pchip_build_new(
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
+  ) {
+
+    first_derivative_build( X, Y, Yp, npts );
+
+    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
+
+    // loop through interior points.
+    for ( size_t i = 1; i < n ; ++i ) {
+
+      real_type hL = X[i+0] - X[i-1];
+      real_type hR = X[i+1] - X[i+0];
+
+      real_type SL = (Y[i+0]-Y[i-1])/hL;
+      real_type SR = (Y[i+1]-Y[i+0])/hR;
+
+      real_type fp = Yp[i];
+
+      real_type sigma = 0;
+      if ( SL*SR > 0 ) sigma = SR > 0 ? 1 : -1;
+      real_type absSL = SL < 0 ? -SL: SL;
+      real_type absSR = SR < 0 ? -SR: SR;
+      real_type Delta = 3*std::min(absSL,absSR);
+      if ( sigma > 0 ) {
+        if ( fp < 0     ) fp = 0;
+        if ( fp > Delta ) fp = Delta;
+      } else if ( sigma < 0 ) {
+        if ( fp > 0      ) fp = 0;
+        if ( fp < -Delta ) fp = -Delta;
+      } else {
+        fp = 0;
+      }
+      Yp[i] = fp;
+    }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

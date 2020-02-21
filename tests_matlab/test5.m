@@ -2,7 +2,7 @@ addpath('../lib_matlab');
 
 close all;
 
-h = pi/8;
+h = pi/16;
 s = 0:h:4*pi;
 
 c = 1/4;
@@ -34,11 +34,12 @@ type = 'quintic';
 %type = 'pchip';
 %type = 'akima';
 %type = 'bessel';
-subtype = 'bessel';
+subtype = 'pchip';
+%subtype = 'extrapolate';
 Xs = Spline1D( type, t, PNTS(1,:), subtype );
 Ys = Spline1D( type, t, PNTS(2,:), subtype );
 Zs = Spline1D( type, t, PNTS(3,:), subtype );
-plot3( Xs.eval(tt), Ys.eval(tt), Zs.eval(tt),  fmt3{:} ) ;
+plot3( Xs.eval(tt), Ys.eval(tt), Zs.eval(tt), fmt3{:} ) ;
 
 figure();
 
@@ -88,3 +89,7 @@ ylim([-2,2]);
 
 %plot( tt, Xs.eval_DD(tt) ) ;
 %plot( tt, Xs.eval_D(tt) ) ;
+
+figure();
+%plot( tt, Xs.eval(tt), t, PNTS(1,:) );
+plot( tt, Xs.eval_DD(tt) );

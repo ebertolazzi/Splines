@@ -33,7 +33,8 @@
  |
 \*/
 
-#include "Splines.hh"
+#include "SplinesUtils.hh"
+
 #include <cmath>
 #include <limits> // std::numeric_limits
 

@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "SplinesUtils.hh"
 #include <cmath>
 
 /**
@@ -46,12 +47,13 @@ namespace Splines {
 
   static
   void
-  QuinticSpline_build(
+  QuinticSpline_Yppp_continuous(
     real_type const X[],
     real_type const Y[],
     real_type const Yp[],
     real_type       Ypp[],
-    integer         npts
+    integer         npts,
+    bool            setbc
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
@@ -65,43 +67,44 @@ namespace Splines {
 
     size_t i;
     for ( i = 1; i < n; ++i ) {
-      real_type h__L = X[i] - X[i-1];
-      real_type h__R = X[i+1] - X[i];
-      real_type p0   = Y[i-1];
-      real_type p1   = Y[i];
-      real_type p2   = Y[i+1];
-      real_type dp0  = Yp[i-1];
-      real_type dp1  = Yp[i];
-      real_type dp2  = Yp[i+1];
-      real_type t12  = 1/h__L;
-      real_type t13 = 1/h__R;
-      L[i] = -t12;
-      D[i] = 3*(t13+t12);
-      U[i] = -t13;
-      real_type t15 = h__L*h__L;
-      real_type t16 = 1/t15;
-      real_type t19 = h__R*h__R;
-      real_type t20 = 1/t19;
-      real_type t27 = t16/h__L;
-      real_type t31 = t20/h__R;
-      Z[i] = 8*(dp0*t16-dp2*t20) - 12*dp1*(t20-t16) + 20*(p0*t27-p1*(t31+t27)+p2*t31);
+      real_type hL  = X[i] - X[i-1];
+      real_type hL2 = hL*hL;
+      real_type hL3 = hL*hL2;
+      real_type hR  = X[i+1] - X[i];
+      real_type hR2 = hR*hR;
+      real_type hR3 = hR*hR2;
+      real_type DL  = 60*(Y[i]-Y[i-1])/hL3;
+      real_type DR  = 60*(Y[i+1]-Y[i])/hR3;
+      real_type DDL = (36*Yp[i]+24*Yp[i-1])/hL2;
+      real_type DDR = (36*Yp[i]+24*Yp[i+1])/hR2;
+      L[i] = -3/hL;
+      D[i] = 9/hL+9/hR;
+      U[i] = -3/hR;
+      Z[i] = DR-DL+DDL-DDR;
     }
     L[0] = U[0] = 0; D[0] = 1;
     L[n] = U[n] = 0; D[n] = 1;
-
-    {
-      real_type H = X[1] - X[0];
-      real_type base_DD[4];
-      Hermite3_DD( 0, H, base_DD );
-      Z[0] = base_DD[0] * Y[0]  + base_DD[1] * Y[1] +
-             base_DD[2] * Yp[0] + base_DD[3] * Yp[1];
-    }
-    {
-      real_type H = X[n] - X[n-1];
-      real_type base_DD[4];
-      Hermite3_DD( H, H, base_DD );
-      Z[n] = base_DD[0] * Y[n-1]  + base_DD[1] * Y[n] +
-             base_DD[2] * Yp[n-1] + base_DD[3] * Yp[n];
+    if ( setbc ) {
+      {
+        real_type hL = X[1] - X[0];
+        real_type hR = X[2] - X[1];
+        real_type SL = (Y[1]-Y[0])/hL;
+        real_type SR = (Y[2]-Y[1])/hR;
+        real_type dp0 = Yp[1];
+        real_type dpL = Yp[0];
+        real_type dpR = Yp[2];
+        Z[0] = second_deriv3p_L( SL, hL, SR, hR, dpL, dp0, dpR );
+      }
+      {
+        real_type hL = X[n-1] - X[n-2];
+        real_type hR = X[n] - X[n-1];
+        real_type SL = (Y[n-1]-Y[n-2])/hL;
+        real_type SR = (Y[n]-Y[n-1])/hR;
+        real_type dp0 = Yp[n-1];
+        real_type dpL = Yp[n-2];
+        real_type dpR = Yp[n];
+        Z[n] = second_deriv3p_R( SL, hL, SR, hR, dpL, dp0, dpR );
+      }
     }
 
     i = 0;
@@ -118,6 +121,67 @@ namespace Splines {
       --i;
       Z[i] -= U[i] * Z[i+1];
     } while ( i > 0 );
+  }
+
+  static
+  void
+  QuinticSpline_Ypp_build(
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    real_type       Ypp[],
+    integer         npts
+  ) {
+
+    size_t n = size_t(npts > 0 ? npts-1 : 0);
+
+    if ( n == 1 ) { Ypp[0] = Ypp[1] = 0; return; }
+
+    {
+      real_type hL = X[1] - X[0];
+      real_type hR = X[2] - X[1];
+      real_type SL = (Y[1] - Y[0])/hL;
+      real_type SR = (Y[2] - Y[1])/hR;
+      //Ypp[0] = (2*SL-SR)*al+SL*be;
+      //Ypp[0] = second_deriv3p_L( SL, hL, SR, hR, Yp[0] );
+      Ypp[0] = second_deriv3p_L( SL, hL, SR, hR, Yp[0], Yp[1], Yp[2] );
+    }
+    {
+      real_type hL = X[n-1] - X[n-2];
+      real_type hR = X[n] - X[n-1];
+      real_type SL = (Y[n-1] - Y[n-2])/hL;
+      real_type SR = (Y[n] - Y[n-1])/hR;
+      //Ypp[n] = (2*SR-SL)*be+SR*al;
+      //Ypp[n] = second_deriv3p_R( SL, hL, SR, hR, Yp[n] );
+      Ypp[n] = second_deriv3p_R( SL, hL, SR, hR, Yp[n-2], Yp[n-1], Yp[n] );
+    }
+
+    size_t i;
+    for ( i = 1; i < n; ++i ) {
+      real_type hL = X[i] - X[i-1];
+      real_type hR = X[i+1] - X[i];
+      real_type SL = (Y[i] - Y[i-1])/hL;
+      real_type SR = (Y[i+1] - Y[i])/hR;
+      //Ypp[i] = second_deriv3p_C( SL, hL, SR, hR, Yp[i] );
+      real_type ddC = second_deriv3p_C( SL, hL, SR, hR, Yp[i-1], Yp[i], Yp[i+1] );
+      if ( i > 1 ) {
+        real_type hLL = X[i-1] - X[i-2];
+        real_type SLL = (Y[i-1] - Y[i-2])/hLL;
+        //real_type dd  = second_deriv3p_R( SLL, hLL, SL, hR, Yp[i] );
+        real_type ddL = second_deriv3p_R( SLL, hLL, SL, hR, Yp[i-2], Yp[i-1], Yp[i] );
+        if      ( ddL * ddC < 0 ) ddC = 0;
+        else if ( std::abs(ddL) < std::abs(ddC) ) ddC = ddL;
+      }
+      if ( i < n-1 ) {
+        real_type hRR = X[i+2] - X[i+1];
+        real_type SRR = (Y[i+2] - Y[i+1])/hRR;
+        //real_type dd = second_deriv3p_L( SR, hR, SRR, hRR, Yp[i] );
+        real_type ddR = second_deriv3p_L( SR, hR, SRR, hRR, Yp[i], Yp[i+1], Yp[i+2] );
+        if      ( ddR * ddC < 0 ) ddC = 0;
+        else if ( std::abs(ddR) < std::abs(ddC) ) ddC = ddR;
+      }
+      Ypp[i] = ddC;
+    }
   }
 
   /*\
@@ -142,11 +206,21 @@ namespace Splines {
     real_type           Ypp[],
     integer             npts
   ) {
-
     switch ( q_sub_type ) {
     case CUBIC_QUINTIC:
-      CubicSpline_build( X, Y, Yp, npts, NOT_A_KNOT, NOT_A_KNOT );
-      break;
+      {
+        size_t n = size_t(npts > 0 ? npts-1 : 0);
+        vector<real_type> buffer(3*(n+1));
+        real_type * ptr = &buffer.front();
+        real_type * L   = ptr; ptr += npts;
+        real_type * D   = ptr; ptr += npts;
+        real_type * U   = ptr;
+        CubicSpline_build(
+          X, Y, Yp, Ypp, L, D, U, npts, EXTRAPOLATE_BC, EXTRAPOLATE_BC
+        );
+        QuinticSpline_Yppp_continuous( X, Y, Yp, Ypp, npts, false );
+      }
+      return;
     case PCHIP_QUINTIC:
       Pchip_build( X, Y, Yp, npts );
       break;
@@ -157,7 +231,7 @@ namespace Splines {
       Bessel_build( X, Y, Yp, npts );
       break;
     }
-    QuinticSpline_build( X, Y, Yp, Ypp, npts );
+    QuinticSpline_Ypp_build( X, Y, Yp, Ypp, npts );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

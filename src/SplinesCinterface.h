@@ -26,6 +26,7 @@
 \*/
 
 /* @{ */
+#pragma once
 
 #ifndef SPLINES_C_INTERFACE_H
 #define SPLINES_C_INTERFACE_H
