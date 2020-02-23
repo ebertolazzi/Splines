@@ -412,33 +412,35 @@ namespace Splines {
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
 
     // special case n=2 -- use linear interpolation.
-    real_type hL = X[1] - X[0];
-    real_type SL = (Y[1] - Y[0])/hL;
-    switch ( npts ) {
-    case 2:
-      Yp[0] = Yp[1] = SL;
-      return;
-    case 3:
-      {
-        real_type hR = X[2] - X[1];
-        real_type SR = (Y[2] - Y[1])/hR;
-        Yp[0] = first_deriv3p_L( SL, hL, SR, hR );
-        Yp[1] = first_deriv3p_C( SL, hL, SR, hR );
-        Yp[2] = first_deriv3p_R( SL, hL, SR, hR );
+    {
+      real_type hL = X[1] - X[0];
+      real_type SL = (Y[1] - Y[0])/hL;
+      switch ( npts ) {
+      case 2:
+        Yp[0] = Yp[1] = SL;
+        return;
+      case 3:
+        {
+          real_type hR = X[2] - X[1];
+          real_type SR = (Y[2] - Y[1])/hR;
+          Yp[0] = first_deriv3p_L( SL, hL, SR, hR );
+          Yp[1] = first_deriv3p_C( SL, hL, SR, hR );
+          Yp[2] = first_deriv3p_R( SL, hL, SR, hR );
+        }
+        return;
+      case 4:
+        {
+          real_type hC = X[2] - X[1];
+          real_type SC = (Y[2] - Y[1])/hC;
+          real_type hR = X[3] - X[2];
+          real_type SR = (Y[3] - Y[2])/hR;
+          Yp[0] = first_deriv4p_L( SL, hL, SC, hC, SR, hR );
+          Yp[1] = first_deriv3p_C( SL, hL, SC, hC );
+          Yp[2] = first_deriv3p_C( SC, hC, SR, hR );
+          Yp[3] = first_deriv4p_R( SL, hL, SC, hC, SR, hR );
+        }
+        return;
       }
-      return;
-    case 4:
-      {
-        real_type hC = X[2] - X[1];
-        real_type SC = (Y[2] - Y[1])/hC;
-        real_type hR = X[3] - X[2];
-        real_type SR = (Y[3] - Y[2])/hR;
-        Yp[0] = first_deriv4p_L( SL, hL, SC, hC, SR, hR );
-        Yp[1] = first_deriv3p_C( SL, hL, SC, hC );
-        Yp[2] = first_deriv3p_C( SC, hC, SR, hR );
-        Yp[3] = first_deriv4p_R( SL, hL, SC, hC, SR, hR );
-      }
-      return;
     }
 
     // loop through interior points.
