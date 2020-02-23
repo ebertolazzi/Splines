@@ -225,7 +225,7 @@ namespace Splines {
       if ( SL*SR > 0 ) sigma = SR > 0 ? 1 : -1;
       real_type absSL = SL < 0 ? -SL: SL;
       real_type absSR = SR < 0 ? -SR: SR;
-      real_type Delta = 3*std::min(absSL,absSR);
+      real_type Delta = 3*( absSL < absSR ? absSL : absSR );
       if ( sigma > 0 ) {
         if ( fp < 0     ) fp = 0;
         if ( fp > Delta ) fp = Delta;
