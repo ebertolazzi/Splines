@@ -85,6 +85,8 @@ gc: lib/$(LIB_GC)
 
 lib: lib/$(LIB_SPLINE)
 
+travis: all run
+
 include_local: gc
 	@rm -rf lib/include
 	$(MKDIR) lib
