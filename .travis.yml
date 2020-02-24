@@ -60,7 +60,6 @@ matrix:
       osx_image: xcode10
       script: make travis
     - os: windows
-      before_install: alias make mingw32-make
       install: choco install mingw
       script: make travis
     - os: windows
