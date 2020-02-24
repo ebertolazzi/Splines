@@ -18,7 +18,7 @@ ifneq (,$(findstring Linux, $(OS)))
   VERSION  = $(shell $(CC) -dumpversion)
   CC      += $(WARN)
   CXX     += $(WARN)
-  LIBS     = -static -L./lib -L./GC/lib  -lSplines -lGenericContainer
+  LIBS     = -L./lib -L./GC/lib  -lSplines -lGenericContainer
   CXXFLAGS = -std=c++11 -pthread -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif

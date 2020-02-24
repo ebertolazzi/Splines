@@ -60,8 +60,9 @@ matrix:
       osx_image: xcode10
       script: make travis
     - os: windows
+      before_install: Set-Alias -Name make -Value mingw32-make
       install: choco install mingw
-      script: mingw32-make travis
+      script: make travis
     - os: windows
       env:
         - CMAKE_PATH="/c/Program Files/CMake/bin"
