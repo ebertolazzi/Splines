@@ -21,9 +21,6 @@
 #include <limits>
 #include <cmath>
 
-#ifdef __GNUC__
-#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
-#endif
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #pragma clang diagnostic ignored "-Wimplicit-fallthrough"
