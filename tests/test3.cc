@@ -101,7 +101,7 @@ main() {
       "SPLINE_QUINTIC"
     };
     
-    SplineType const stype[] = {
+    SplineType1D const stype[] = {
        Splines::CONSTANT_TYPE,
        Splines::LINEAR_TYPE,
        Splines::CUBIC_TYPE,
