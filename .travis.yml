@@ -74,4 +74,4 @@ matrix:
       script:
         - export PATH=$CMAKE_PATH:$PATH
         - rake build_win
-        - rake run
+        - rake run_win
