@@ -68,7 +68,6 @@ matrix:
         - choco install ruby
         - gem install colorize
         - gem install fileutils
-        - gem install pathname
         - gem install zip
       env:
         - CMAKE_PATH="/c/Program Files/CMake/bin"
