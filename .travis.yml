@@ -68,6 +68,11 @@ matrix:
         - choco install ruby
         - gem install colorize
         - gem install fileutils
+        - gem install pathname
+        - gem install rubygems/package
+        - gem install net/http
+        - gem install zlib
+        - gem install uri
       env:
         - CMAKE_PATH="/c/Program Files/CMake/bin"
       script:
