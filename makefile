@@ -10,6 +10,7 @@ CXX  = g++
 INC  = -I./src -I./include -I./GC/lib/include
 LIBS = -L./lib -L./GC/lib -lSplines -lGenericContainer
 DEFS =
+MAKE = make
 
 # check if the OS string contains 'Linux'
 ifneq (,$(findstring Linux, $(OS)))
@@ -118,7 +119,7 @@ lib/$(LIB_GC):
 ifneq (,$(findstring Linux, $(OS)))
 	cd GC; ruby gcc_workaround.rb; cd ..
 endif
-	$(MKDIR) include; cd GC; make CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX="$(CXX)" lib;
+	$(MKDIR) include; cd GC; ${MAKE} CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX="$(CXX)" lib;
 
 install_local: lib
 	$(MKDIR) ./lib/include
