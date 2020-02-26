@@ -61,12 +61,11 @@ matrix:
       script: make travis
     - os: windows
       install: choco install mingw
-      script: mingw32-make MAKE="mingw32-make" AR="ar rcs -o"  travis
+      script: mingw32-make MAKE="mingw32-make" AR="ar rcs "  travis
     - os: windows
       install:
         - choco install mingw
         - choco install ruby
-        - gem install rake
       env:
         - CMAKE_PATH="/c/Program Files/CMake/bin"
       script:
