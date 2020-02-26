@@ -71,7 +71,10 @@ either expressed or implied, of the FreeBSD Project.
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
   // windows architecture
   #define SPLINES_OS_WINDOWS 1
-  #if _MSC_VER < 1900
+  #if defined(_MSC_VER) && _MSC_VER < 1900
+    #error "Splines need a C++11 compiler"
+  #endif
+  #if defined(__cplusplus) && __cplusplus < 199711L
     #error "Splines need a C++11 compiler"
   #endif
   #ifdef _MSC_VER

@@ -66,6 +66,8 @@ matrix:
       install:
         - choco install mingw
         - choco install ruby
+        - gem install colorize
+        - gem install fileutils
       env:
         - CMAKE_PATH="/c/Program Files/CMake/bin"
       script:
