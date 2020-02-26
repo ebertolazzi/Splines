@@ -726,29 +726,29 @@ namespace Splines {
   void
   Spline::setup( GenericContainer const & gc ) {
     /*
-    // gc["x"]
-    // gc["y"]
+    // gc["xdata"]
+    // gc["ydata"]
     //
     */
     SPLINE_ASSERT(
-      gc.exists("x"), "Spline[" << _name << "]::setup missing `x` field!"
+      gc.exists("xdata"), "Spline[" << _name << "]::setup missing `xdata` field!"
     )
     SPLINE_ASSERT(
-      gc.exists("y"), "Spline[" << _name << "]::setup missing `y` field!"
+      gc.exists("ydata"), "Spline[" << _name << "]::setup missing `ydata` field!"
     )
 
-    GenericContainer const & gc_x = gc("x");
-    GenericContainer const & gc_y = gc("y");
+    GenericContainer const & gc_x = gc("xdata");
+    GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "Spline[" << _name << "]::setup, field `x'";
+      ost << "Spline[" << _name << "]::setup, field `xdata'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "Spline[" << _name << "]::setup, field `y'";
+      ost << "Spline[" << _name << "]::setup, field `ydata'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     build( x, y );

@@ -117,4 +117,44 @@ namespace Splines {
   integer
   LinearSpline::order( ) const { return 2; }
 
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamespace::GC_VEC_REAL;
+  using GenericContainerNamespace::vec_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  LinearSpline::setup( GenericContainer const & gc ) {
+    /*
+    // gc["xdata"]
+    // gc["ydata"]
+    //
+    */
+    SPLINE_ASSERT(
+      gc.exists("xdata"),
+      "LinearSpline[" << this->_name << "]::setup missing `xdata` field!"
+    )
+    SPLINE_ASSERT(
+      gc.exists("ydata"),
+      "LinearSpline[" << this->_name << "]::setup missing `ydata` field!"
+    )
+
+    GenericContainer const & gc_x = gc("xdata");
+    GenericContainer const & gc_y = gc("ydata");
+
+    vec_real_type x, y;
+    {
+      std::ostringstream ost;
+      ost << "LinearSpline[" << this->_name << "]::setup, field `xdata'";
+      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+    }
+    {
+      std::ostringstream ost;
+      ost << "LinearSpline[" << this->_name << "]::setup, field `ydata'";
+      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+    }
+    this->build( x, y );
+  }
+  #endif
 }

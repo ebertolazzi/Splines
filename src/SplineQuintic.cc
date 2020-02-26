@@ -255,8 +255,63 @@ namespace Splines {
       );
       ibegin = iend;
     } while ( iend < this->npts );
-    
+
     SPLINE_CHECK_NAN( this->Yp,  "QuinticSpline::build(): Yp",  this->npts );
     SPLINE_CHECK_NAN( this->Ypp, "QuinticSpline::build(): Ypp", this->npts );
   }
+
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamespace::GC_VEC_REAL;
+  using GenericContainerNamespace::vec_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  QuinticSpline::setup( GenericContainer const & gc ) {
+    /*
+    // gc["xdata"]
+    // gc["ydata"]
+    //
+    */
+    SPLINE_ASSERT(
+      gc.exists("xdata"),
+      "QuinticSpline[" << this->_name << "]::setup missing `xdata` field!"
+    )
+    SPLINE_ASSERT(
+      gc.exists("ydata"),
+      "QuinticSpline[" << this->_name << "]::setup missing `ydata` field!"
+    )
+
+    GenericContainer const & gc_x = gc("xdata");
+    GenericContainer const & gc_y = gc("ydata");
+
+    vec_real_type x, y;
+    {
+      std::ostringstream ost;
+      ost << "QuinticSpline[" << this->_name << "]::setup, field `xdata'";
+      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+    }
+    {
+      std::ostringstream ost;
+      ost << "QuinticSpline[" << this->_name << "]::setup, field `ydata'";
+      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+    }
+    if ( gc.exists("spline_sub_type") ) {
+      std::string const & st = gc("spline_sub_type").get_string();
+      if      ( st == "cubic"  ) this->q_sub_type = CUBIC_QUINTIC;
+      else if ( st == "pchip"  ) this->q_sub_type = PCHIP_QUINTIC;
+      else if ( st == "akima"  ) this->q_sub_type = AKIMA_QUINTIC;
+      else if ( st == "bessel" ) this->q_sub_type = BESSEL_QUINTIC;
+      else {
+        SPLINE_DO_ERROR(
+          "QuinticSpline[" << this->_name << "]::setup unknow sub type:" << st
+        )
+      }
+    } else {
+      SPLINE_WARNING( false, "QuinticSpline::setup, missing field `spline_sub_type` using `cubic` as default value")
+    }
+    this->build( x, y );
+  }
+  #endif
 }

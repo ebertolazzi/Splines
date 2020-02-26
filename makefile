@@ -55,6 +55,7 @@ src/SplineSet.cc \
 src/SplineSetGC.cc \
 src/SplineVec.cc \
 src/Splines.cc \
+src/Splines1D.cc \
 src/SplinesUtils.cc \
 src/SplinesBivariate.cc \
 src/SplinesCinterface.cc \

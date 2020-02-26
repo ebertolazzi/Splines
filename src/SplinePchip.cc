@@ -81,12 +81,12 @@ namespace Splines {
   }
 
   /*
-  //   ____      _     _      ____        _ _            
-  //  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___ 
+  //   ____      _     _      ____        _ _
+  //  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___
   //  | |_) / __| '_ \| | '_ \___ \| '_ \| | | '_ \ / _ \
   //  |  __/ (__| | | | | |_) |__) | |_) | | | | | |  __/
   //  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
-  //                    |_|        |_|                   
+  //                    |_|        |_|
   */
 
   static
@@ -260,9 +260,50 @@ namespace Splines {
       );
       ibegin = iend;
     } while ( iend < this->npts );
-    
+
     SPLINE_CHECK_NAN(this->Yp,"PchipSpline::build(): Yp",this->npts);
     //pchip( X, Y, Yp, npts -1 );
   }
+
+  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+
+  using GenericContainerNamespace::GC_VEC_REAL;
+  using GenericContainerNamespace::vec_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  PchipSpline::setup( GenericContainer const & gc ) {
+    /*
+    // gc["xdata"]
+    // gc["ydata"]
+    //
+    */
+    SPLINE_ASSERT(
+      gc.exists("xdata"),
+      "PchipSpline[" << this->_name << "]::setup missing `xdata` field!"
+    )
+    SPLINE_ASSERT(
+      gc.exists("ydata"),
+      "PchipSpline[" << this->_name << "]::setup missing `ydata` field!"
+    )
+
+    GenericContainer const & gc_x = gc("xdata");
+    GenericContainer const & gc_y = gc("ydata");
+
+    vec_real_type x, y;
+    {
+      std::ostringstream ost;
+      ost << "PchipSpline[" << this->_name << "]::setup, field `xdata'";
+      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+    }
+    {
+      std::ostringstream ost;
+      ost << "PchipSpline[" << this->_name << "]::setup, field `ydata'";
+      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+    }
+    this->build( x, y );
+  }
+  #endif
 
 }

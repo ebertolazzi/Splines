@@ -456,31 +456,31 @@ namespace Splines {
   void
   SplineSurf::setup( GenericContainer const & gc ) {
     /*
-    // gc["x"]
-    // gc["y"]
-    // gc["z"]
+    // gc["xdata"]
+    // gc["ydata"]
+    // gc["zdata"]
     //
     */
     SPLINE_ASSERT(
-      gc.exists("x"),
-      "[SplineSurf[" << _name << "]::setup] missing `x` field!"
+      gc.exists("xdata"),
+      "[SplineSurf[" << _name << "]::setup] missing `xdata` field!"
     )
     SPLINE_ASSERT(
-      gc.exists("y"),
-      "[SplineSurf[" << _name << "]::setup] missing `y` field!"
+      gc.exists("ydata"),
+      "[SplineSurf[" << _name << "]::setup] missing `ydata` field!"
     )
     SPLINE_ASSERT(
-      gc.exists("z"),
-      "[SplineSurf[" << _name << "]::setup] missing `z` field!"
+      gc.exists("zdata"),
+      "[SplineSurf[" << _name << "]::setup] missing `zdata` field!"
     )
 
-    GenericContainer const & gc_x = gc("x");
-    GenericContainer const & gc_y = gc("y");
-    GenericContainer const & gc_z = gc("z");
+    GenericContainer const & gc_x = gc("xdata");
+    GenericContainer const & gc_y = gc("ydata");
+    GenericContainer const & gc_z = gc("zdata");
 
     vec_real_type x, y;
-    gc_x.copyto_vec_real( x, "SplineSurf::setup, field `x'" );
-    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `y'" );
+    gc_x.copyto_vec_real( x, "SplineSurf::setup, field `xdata'" );
+    gc_y.copyto_vec_real( y, "SplineSurf::setup, field `ydata'" );
 
     bool fortran_storage = false;
     if ( gc.exists("fortran_storage") )
