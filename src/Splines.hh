@@ -125,19 +125,25 @@ namespace Splines {
     HERMITE_TYPE    = 7,
     SPLINE_SET_TYPE = 8,
     SPLINE_VEC_TYPE = 9
-  } SplineType;
+  } SplineType1D;
 
-  extern char const *spline_type[];
+  //! Associate a number for each type of splines implemented
+  typedef enum {
+    BILINEAR_TYPE  = 0,
+    BICUBIC_TYPE   = 1,
+    BIQUINTIC_TYPE = 2,
+    AKIMA2D_TYPE   = 3
+  } SplineType2D;
 
-  extern SplineType string_to_splineType( string const & n );
+  extern char const *spline_type_1D[];
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
+  extern SplineType1D string_to_splineType( string const & n );
+
   using GenericContainerNamespace::GenericContainer;
   using GenericContainerNamespace::vec_real_type;
   using GenericContainerNamespace::vec_string_type;
   using GenericContainerNamespace::vector_type;
   using GenericContainerNamespace::map_type;
-  #endif
 
   pair<int,int>
   quadraticRoots(
@@ -497,25 +503,32 @@ namespace Splines {
     void make_bounded()   { this->_curve_can_extend = false; }
 
     //! return the number of support points of the spline.
-    integer numPoints(void) const { return this->npts; }
+    integer
+    numPoints(void) const { return this->npts; }
 
     //! return the i-th node of the spline (x component).
-    real_type xNode( integer i ) const { return this->X[size_t(i)]; }
+    real_type
+    xNode( integer i ) const { return this->X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type yNode( integer i ) const { return this->Y[size_t(i)]; }
+    real_type
+    yNode( integer i ) const { return this->Y[size_t(i)]; }
 
     //! return first node of the spline (x component).
-    real_type xBegin() const { return this->X[0]; }
+    real_type
+    xBegin() const { return this->X[0]; }
 
     //! return first node of the spline (y component).
-    real_type yBegin() const { return this->Y[0]; }
+    real_type
+    yBegin() const { return this->Y[0]; }
 
     //! return last node of the spline (x component).
-    real_type xEnd() const { return this->X[size_t(this->npts-1)]; }
+    real_type
+    xEnd() const { return this->X[size_t(this->npts-1)]; }
 
     //! return last node of the spline (y component).
-    real_type yEnd() const { return this->Y[size_t(this->npts-1)]; }
+    real_type
+    yEnd() const { return this->Y[size_t(this->npts-1)]; }
 
     //! Allocate memory for `npts` points
     virtual
@@ -534,7 +547,6 @@ namespace Splines {
     void
     build(void) SPLINES_PURE_VIRTUAL;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc );
@@ -542,7 +554,6 @@ namespace Splines {
     void
     build( GenericContainer const & gc )
     { setup(gc); }
-    #endif
 
     //! Build a spline.
     /*!
@@ -701,7 +712,7 @@ namespace Splines {
     //! Return spline typename
     char const *
     type_name() const
-    { return Splines::spline_type[type()]; }
+    { return Splines::spline_type_1D[type()]; }
 
     //! Return spline type (as number)
     virtual
@@ -980,11 +991,9 @@ namespace Splines {
     void
     build(void) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
 
   };
 
@@ -1040,11 +1049,9 @@ namespace Splines {
     void
     build(void) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
 
   };
 
@@ -1095,11 +1102,9 @@ namespace Splines {
     void
     build (void) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
   };
 
   /*\
@@ -1148,11 +1153,10 @@ namespace Splines {
     void
     build(void) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
+
   };
 
   /*\
@@ -1272,11 +1276,9 @@ namespace Splines {
     integer // order
     order() const SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
 
   };
 
@@ -1387,11 +1389,9 @@ namespace Splines {
     integer // order
     order() const SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
 
   };
 
@@ -1442,11 +1442,10 @@ namespace Splines {
       integer
     ) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
+
   };
 
   /*\
@@ -1623,11 +1622,10 @@ namespace Splines {
     void
     build(void) SPLINES_OVERRIDE;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc ) SPLINES_OVERRIDE;
-    #endif
+
   };
 
 
@@ -1706,10 +1704,8 @@ namespace Splines {
     // must be defined in derived classes
     void build(void) { pSpline->build(); }
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     void setup( GenericContainer const & gc );
     void build( GenericContainer const & gc ) { setup(gc); }
-    #endif
 
     //! Build a spline.
     /*!
@@ -1722,7 +1718,7 @@ namespace Splines {
     // must be defined in derived classes
     void
     build(
-      SplineType tp,
+      SplineType1D tp,
       real_type const x[], integer incx,
       real_type const y[], integer incy,
       integer n
@@ -1736,7 +1732,7 @@ namespace Splines {
     \*/
     void
     build(
-      SplineType      tp,
+      SplineType1D    tp,
       real_type const x[],
       real_type const y[],
       integer         n
@@ -1751,7 +1747,7 @@ namespace Splines {
     \*/
     void
     build(
-      SplineType                tp,
+      SplineType1D              tp,
       vector<real_type> const & x,
       vector<real_type> const & y
     ) {
@@ -2111,8 +2107,6 @@ namespace Splines {
     void
     eval_DDDDD( real_type x, vector<real_type> & vals ) const;
 
-    // interface with GenericContainer
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     /*!
      | Evaluate at `x` and fill a GenericContainer
     \*/
@@ -2161,8 +2155,6 @@ namespace Splines {
     void
     eval_DDDDD( vec_real_type const & x, GenericContainer & vals ) const;
 
-    #endif
-
     void
     setup(
       integer           dim,
@@ -2199,7 +2191,6 @@ namespace Splines {
     real_type
     curvature_D( real_type x ) const;
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     virtual
     void
     setup( GenericContainer const & gc );
@@ -2207,7 +2198,6 @@ namespace Splines {
     void
     build( GenericContainer const & gc )
     { setup(gc); }
-    #endif
 
     //! Return spline type (as number)
     virtual
@@ -2730,8 +2720,6 @@ namespace Splines {
       integer   spl
     ) const;
 
-    // interface with GenericContainer
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     /*!
      | Evaluate all the splines at `x`
      | and fill a map of values in a GenericContainer
@@ -3317,8 +3305,6 @@ namespace Splines {
       this->eval2_DDD( zetas, this->getPosition(indep), columns, vals );
     }
 
-    #endif
-
     ///////////////////////////////////////////////////////////////////////////
     /*! Build a set of splines
      | \param nspl       the number of splines
@@ -3331,23 +3317,21 @@ namespace Splines {
 
     void
     build(
-      integer          nspl,
-      integer          npts,
-      char       const *headers[],
-      SplineType const stype[],
-      real_type  const X[],
-      real_type  const *Y[],
-      real_type  const *Yp[] = nullptr
+      integer            nspl,
+      integer            npts,
+      char         const *headers[],
+      SplineType1D const stype[],
+      real_type    const X[],
+      real_type    const *Y[],
+      real_type    const *Yp[] = nullptr
     );
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     void
     setup( GenericContainer const & gc );
 
     void
     build( GenericContainer const & gc )
     { this->setup(gc); }
-    #endif
 
     //! Return spline type (as number)
     unsigned
@@ -3663,14 +3647,12 @@ namespace Splines {
         this->build( &z.front(), ny, nx, ny, fortran_storage, transposed );
     }
 
-    #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
     void
     setup( GenericContainer const & gc );
 
     void
     build ( GenericContainer const & gc )
     { setup(gc); }
-    #endif
 
     //! Evaluate spline value
     virtual
@@ -4088,6 +4070,246 @@ namespace Splines {
 
   };
 
+  /*\
+   |   ____        _ _            ____  ____
+   |  / ___| _ __ | (_)_ __   ___|___ \|  _ \
+   |  \___ \| '_ \| | | '_ \ / _ \ __) | | | |
+   |   ___) | |_) | | | | | |  __// __/| |_| |
+   |  |____/| .__/|_|_|_| |_|\___|_____|____/
+   |        |_|
+  \*/
+
+  //! Bi-quintic spline base class
+  class Spline2D {
+  protected:
+    std::string  _name;
+    SplineSurf * pSpline2D;
+  public:
+
+    //! spline constructor
+    Spline2D( string const & name = "Spline2D" )
+    : _name(name)
+    , pSpline2D( nullptr )
+    {}
+
+    ~Spline2D()
+    {}
+
+    bool is_x_closed() const { return pSpline2D->is_x_closed(); }
+    void make_x_closed()     { pSpline2D->make_x_closed(); }
+    void make_x_opened()     { pSpline2D->make_x_opened(); }
+
+    bool is_y_closed() const { return pSpline2D->is_y_closed(); }
+    void make_y_closed()     { pSpline2D->make_y_closed(); }
+    void make_y_opened()     { pSpline2D->make_y_opened(); }
+
+    bool is_x_bounded() const { return pSpline2D->is_x_bounded(); }
+    void make_x_unbounded()   { pSpline2D->make_x_unbounded(); }
+    void make_x_bounded()     { pSpline2D->make_x_bounded(); }
+
+    bool is_y_bounded() const { return pSpline2D->is_y_bounded(); }
+    void make_y_unbounded()   { pSpline2D->make_y_unbounded(); }
+    void make_y_bounded()     { pSpline2D->make_y_bounded(); }
+
+    string const & name() const { return pSpline2D->name(); }
+
+    //! Cancel the support points, empty the spline.
+    void clear(void) { pSpline2D->clear(); }
+
+    //! return the number of support points of the spline along x direction
+    integer
+    numPointX(void) const { return pSpline2D->numPointX(); }
+
+    //! return the number of support points of the spline along y direction
+    integer
+    numPointY(void) const { return pSpline2D->numPointY(); }
+
+    //! return the i-th node of the spline (x component).
+    real_type
+    xNode( integer i ) const { return pSpline2D->xNode(i); }
+
+    //! return the i-th node of the spline (y component).
+    real_type
+    yNode( integer i ) const { return pSpline2D->yNode(i); }
+
+    //! return the i-th node of the spline (y component).
+    real_type
+    zNode( integer i, integer j ) const { return pSpline2D->zNode(i,j); }
+
+    //! return x-minumum spline value
+    real_type
+    xMin() const { return pSpline2D->xMin(); }
+
+    //! return x-maximum spline value
+    real_type
+    xMax() const { return pSpline2D->xMax(); }
+
+    //! return y-minumum spline value
+    real_type
+    yMin() const { return pSpline2D->yMin(); }
+
+    //! return y-maximum spline value
+    real_type
+    yMax() const { return pSpline2D->yMax(); }
+
+    //! return z-minumum spline value
+    real_type
+    zMin() const { return pSpline2D->zMin(); }
+
+    //! return z-maximum spline value
+    real_type
+    zMax() const { return pSpline2D->zMax(); }
+
+    void
+    build(
+      SplineType2D    tp,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
+      real_type const z[], integer ldZ,
+      integer nx, integer ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
+
+    /*! Build surface spline
+     | \param x       vector of x-coordinates, nx = x.size()
+     | \param y       vector of y-coordinates, ny = y.size()
+     | \param z       matrix of z-values. Elements are stored
+     |                by row Z(i,j) = z[i*ny+j] as C-matrix
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
+    void
+    build(
+      SplineType2D              tp,
+      vector<real_type> const & x,
+      vector<real_type> const & y,
+      vector<real_type> const & z,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
+
+    /*! Build surface spline
+     | \param z               matrix of z-values. Elements are stored
+     |                        by row Z(i,j) = z[i*ny+j] as C-matrix
+     | \param ldZ             leading dimension of the matrix. Elements are stored
+     |                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
+    void
+    build(
+      SplineType2D    tp,
+      real_type const z[],
+      integer         ldZ,
+      integer         nx,
+      integer         ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
+
+    /*! Build surface spline
+     | \param z               matrix of z-values. Elements are stored
+     |                        by row Z(i,j) = z[i*ny+j] as C-matrix.
+     |                        ldZ leading dimension of the matrix is ny for C-storage
+     |                        and nx for Fortran storage.
+     | \param fortran_storage if true elements are stored by column
+     |                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+     | \param transposed      if true matrix Z is stored transposed
+    \*/
+    void
+    build(
+      SplineType2D              tp,
+      vector<real_type> const & z,
+      integer                   nx,
+      integer                   ny,
+      bool fortran_storage = false,
+      bool transposed      = false
+    );
+
+    void
+    setup( GenericContainer const & gc );
+
+    void
+    build( GenericContainer const & gc )
+    { setup(gc); }
+
+    //! Evaluate spline value
+    real_type
+    operator () ( real_type x, real_type y ) const
+    { return (*pSpline2D)( x, y ); }
+
+    //! First derivative
+    void
+    D( real_type x, real_type y, real_type d[3] ) const
+    { return pSpline2D->D( x, y, d ); }
+
+    real_type
+    Dx( real_type x, real_type y ) const
+    { return pSpline2D->Dx( x, y ); }
+
+    real_type
+    Dy( real_type x, real_type y ) const
+    { return pSpline2D->Dy( x, y ); }
+
+    //! Second derivative
+    void
+    DD( real_type x, real_type y, real_type dd[6] ) const
+    { return pSpline2D->DD( x, y, dd ); }
+
+    real_type
+    Dxx( real_type x, real_type y ) const
+    { return pSpline2D->Dxx( x, y ); }
+
+    real_type
+    Dxy( real_type x, real_type y ) const
+    { return pSpline2D->Dxy( x, y ); }
+
+    real_type
+    Dyy( real_type x, real_type y ) const
+    { return pSpline2D->Dyy( x, y ); }
+
+    //! Evaluate spline value
+    real_type
+    eval( real_type x, real_type y ) const
+    { return (*this)(x,y); }
+
+    //! First derivative
+    real_type
+    eval_D_1( real_type x, real_type y ) const
+    { return this->Dx(x,y); }
+
+    real_type
+    eval_D_2( real_type x, real_type y ) const
+    { return this->Dy(x,y); }
+
+    //! Second derivative
+    real_type
+    eval_D_1_1( real_type x, real_type y ) const
+    { return this->Dxx(x,y); }
+
+    real_type
+    eval_D_1_2( real_type x, real_type y ) const
+    { return this->Dxy(x,y); }
+
+    real_type
+    eval_D_2_2( real_type x, real_type y ) const
+    { return this->Dyy(x,y); }
+
+    //! Print spline coefficients
+    void
+    writeToStream( ostream_type & s ) const
+    { return pSpline2D->writeToStream( s ); }
+
+    //! Return spline typename
+    char const * type_name() const { return pSpline2D->type_name(); }
+
+    void info( ostream & s ) const { pSpline2D->info( s ); }
+
+  };
+
 }
 
 namespace SplinesLoad {
@@ -4107,10 +4329,13 @@ namespace SplinesLoad {
   using Splines::BiCubicSpline;
   using Splines::BiQuinticSpline;
   using Splines::Akima2Dspline;
+  using Splines::Spline2D;
 
   using Splines::SplineVec;
   using Splines::SplineSet;
-  using Splines::SplineType;
+
+  using Splines::SplineType1D;
+  using Splines::SplineType2D;
 
   using Splines::quadraticRoots;
   using Splines::cubicRoots;

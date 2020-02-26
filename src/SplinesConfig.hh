@@ -49,19 +49,10 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_CONFIG_HH
 #define SPLINES_CONFIG_HH
 
-// Uncomment this if you do not want that Splines uses GenericContainer
-// #define SPLINES_DO_NOT_USE_GENERIC_CONTAINER 1
-
 // Uncomment this if you want to enable debugging
 // #define DEBUG
 
-// Uncomment this if you want that Spline is forced to compile without c++11 capability
-// #define DO_NOT_USE_CXX11
-
-// some one may force the use of GenericContainer
-#ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-  #include "GenericContainer.hh"
-#endif
+#include "GenericContainer.hh"
 
 #include <iostream>
 #include <fstream>

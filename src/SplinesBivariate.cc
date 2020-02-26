@@ -446,7 +446,6 @@ namespace Splines {
     d[5] = bilinear5( u, bili5, v_DD );
   }
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::GC_VEC_INTEGER;
   using GenericContainerNamespace::GC_MAT_REAL;
@@ -522,6 +521,5 @@ namespace Splines {
     }
 
   }
-  #endif
 
 }

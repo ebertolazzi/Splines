@@ -86,8 +86,6 @@ namespace Splines {
     SPLINE_CHECK_NAN( this->Yp, "BesselSpline::build(): Yp", this->npts );
   }
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
 
@@ -125,6 +123,5 @@ namespace Splines {
     }
     this->build( x, y );
   }
-  #endif
 
 }

@@ -29,8 +29,6 @@
  * 
  */
 
-// interface with GenericContainer
-#ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
 
 namespace Splines {
 
@@ -63,7 +61,7 @@ namespace Splines {
     */
     vec_string_type       spline_type_vec;
     vec_real_type         X;
-    vector<SplineType>    stype;
+    vector<SplineType1D>  stype;
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
@@ -913,5 +911,3 @@ namespace Splines {
     }
   }
 }
-
-#endif

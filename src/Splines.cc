@@ -215,7 +215,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  char const * spline_type[] = {
+  char const * spline_type_1D[] = {
     "constant",    // 0
     "linear",      // 1
     "cubic",       // 2
@@ -231,12 +231,12 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  SplineType
+  SplineType1D
   string_to_splineType( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-    for ( size_t j = 0; spline_type[j] != nullptr; ++j ) {
-      if ( Splines::spline_type[j] == n ) return SplineType(j);
+    for ( size_t j = 0; spline_type_1D[j] != nullptr; ++j ) {
+      if ( spline_type_1D[j] == n ) return SplineType1D(j);
     }
     std::ostringstream ost;
     ost << "string_to_splineType(" << n << ") unknown type\n";
@@ -716,8 +716,6 @@ namespace Splines {
   //                            |_|   |_|
   */
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
-
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
 
@@ -753,6 +751,5 @@ namespace Splines {
     }
     build( x, y );
   }
-  #endif
 
 }

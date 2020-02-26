@@ -124,13 +124,13 @@ namespace Splines {
 
   void
   SplineSet::build(
-    integer          nspl,
-    integer          npts,
-    char       const *headers[],
-    SplineType const stype[],
-    real_type  const X[],
-    real_type  const *Y[],
-    real_type  const *Yp[]
+    integer            nspl,
+    integer            npts,
+    char         const *headers[],
+    SplineType1D const stype[],
+    real_type    const X[],
+    real_type    const *Y[],
+    real_type    const *Yp[]
   ) {
     SPLINE_ASSERT(
       nspl > 0,

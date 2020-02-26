@@ -59,19 +59,19 @@ SPLINE_new( char const id[], char const type[] ) {
   MAP_SPLINE::iterator it = spline_stored.find(id);
   if ( it != spline_stored.end() ) delete it->second;
   int ok = 0;
-  if ( strcmp( type, Splines::spline_type[Splines::AKIMA_TYPE]) == 0 ) {
+  if ( strcmp( type, Splines::spline_type_1D[Splines::AKIMA_TYPE]) == 0 ) {
     head = spline_stored[id] = new AkimaSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::BESSEL_TYPE]) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::BESSEL_TYPE]) == 0 ) {
     head = spline_stored[id] = new BesselSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::PCHIP_TYPE]) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::PCHIP_TYPE]) == 0 ) {
     head = spline_stored[id] = new PchipSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::CUBIC_TYPE] ) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::CUBIC_TYPE] ) == 0 ) {
     head = spline_stored[id] = new CubicSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::LINEAR_TYPE] ) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::LINEAR_TYPE] ) == 0 ) {
     head = spline_stored[id] = new LinearSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::CONSTANT_TYPE] ) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::CONSTANT_TYPE] ) == 0 ) {
     head = spline_stored[id] = new ConstantSpline;
-  } else if ( strcmp( type, Splines::spline_type[Splines::QUINTIC_TYPE]) == 0 ) {
+  } else if ( strcmp( type, Splines::spline_type_1D[Splines::QUINTIC_TYPE]) == 0 ) {
     head = spline_stored[id] = new QuinticSpline;
   } else {
     head = nullptr;

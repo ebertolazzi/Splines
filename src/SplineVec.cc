@@ -35,9 +35,7 @@ namespace Splines {
   using std::abs;
   using std::sqrt;
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   using GenericContainerNamespace::mat_real_type;
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -463,7 +461,6 @@ namespace Splines {
            + 3 * x_1 * y_1 * ( t9 - t17 ) ) / ( t28 * t27 );
   }
 
-  #ifndef SPLINES_DO_NOT_USE_GENERIC_CONTAINER
   /*!
    | Evaluate at `x` and fill a GenericContainer
   \*/
@@ -529,7 +526,5 @@ namespace Splines {
     //allocate( integer dim, integer npts );
     // DA COMPLETARE
   }
-
-  #endif
 
 }
