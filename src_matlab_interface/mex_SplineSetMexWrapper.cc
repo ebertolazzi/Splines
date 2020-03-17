@@ -154,12 +154,12 @@ namespace Splines {
 
     MEX_ASSERT( n == nn, CMD "lenght of 'x' must be the numnber of rows of 'y'" );
 
-    std::vector<SplineType> types;
+    std::vector<Splines::SplineType1D> types;
     types.reserve(nspl);
 
     if ( mxIsChar(arg_in_2) ) {
       string tname = mxArrayToString(arg_in_2);
-      Splines::SplineType st;
+      Splines::SplineType1D st;
       if      ( tname == "linear"  ) st = LINEAR_TYPE;
       else if ( tname == "cubic"   ) st = CUBIC_TYPE;
       else if ( tname == "akima"   ) st = AKIMA_TYPE;
@@ -191,7 +191,7 @@ namespace Splines {
           CMD "Third argument expected to be cell array of strings"
         );
         string tname = mxArrayToString(cell);
-        Splines::SplineType st;
+        Splines::SplineType1D st;
         if      ( tname == "linear"  ) st = LINEAR_TYPE;
         else if ( tname == "cubic"   ) st = CUBIC_TYPE;
         else if ( tname == "akima"   ) st = AKIMA_TYPE;

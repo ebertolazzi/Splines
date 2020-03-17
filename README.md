@@ -1,7 +1,7 @@
 Splines [![Build Status](https://travis-ci.org/ebertolazzi/Splines.svg?branch=master)](https://travis-ci.org/ebertolazzi/Splines)
 =======
 
-`Splines` is a set of C++ classes which implements varios spline interpolation.
+`Splines` is a set of C++ classes (with MATLAB mex interface) which implements varios spline interpolation.
 The classes are the following:
  
   - ConstantSpline, for piecewise constants functions
@@ -10,8 +10,7 @@ The classes are the following:
   - AkimaSpline, for Akima "non oscillatory" spline interpolation 
   - BesselSpline, for Bessel "non oscillatory" spline interpolation 
   - PchipSpline, 
-  - QuinticSpline, Simple quintic spline based oin PCHIP with 4th
-    derivative set to 0 at nodal points
+  - QuinticSpline, Simple quintic spline based on PCHIP
 
 **References**
 

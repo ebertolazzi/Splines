@@ -59,3 +59,11 @@ include
 *.mexmaci64
 build
 lib
+
+toolbox/doc
+toolbox/src
+toolbox/src_mex
+toolbox/tests
+toolbox/licence.txt
+
+*.mltbx
