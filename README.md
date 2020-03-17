@@ -19,8 +19,13 @@ The classes are the following:
   Monotone Piecewise Cubic Interpolation,
   SIAM Journal of Numerical Analysis, Vol. 17, No. 2, pp. 238-246,
   April 1980.
+  
+**Matlab**
+
+To use in MATLAB install the toolbox `Splines.mltbx` then compile the files running `CompileSplinesLib`.
+
  
-**Usage**
+**C++ Usage**
 
 The usage is simple:
 
