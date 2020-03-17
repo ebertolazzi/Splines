@@ -48,7 +48,7 @@ for k=1:length(NAMES)
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
 
-  CMD = [ 'mex  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -output lib/', N ];
+  CMD = [ 'mex  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -output bin/', N ];
   CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N ];
   CMD = [ CMD, '.cc ', LIB_OBJS ];
   if isunix

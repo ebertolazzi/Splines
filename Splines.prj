@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="512672137" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="1665682773" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -18,9 +18,15 @@ The classes are the following:
     <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
     <param.version>1.0</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
-    <param.products.name />
-    <param.products.id />
-    <param.products.version />
+    <param.products.name>
+      <item>MATLAB</item>
+    </param.products.name>
+    <param.products.id>
+      <item>1</item>
+    </param.products.id>
+    <param.products.version>
+      <item>9.7</item>
+    </param.products.version>
     <param.platforms />
     <param.guid>0dba433b-d115-42b4-a271-d863497f90fb</param.guid>
     <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
@@ -45,7 +51,36 @@ The classes are the following:
 .DS_Store
 populate_toolbox.rb</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
-    <param.examples />
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples&gt;
+   &lt;exampleCategory name="tests"&gt;
+      &lt;example name="test1" type="html"&gt;
+         &lt;file type="source"&gt;/tests/html/test1.html&lt;/file&gt;
+         &lt;file type="main"&gt;/tests/test1.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/tests/html/test1.png&lt;/file&gt;
+         &lt;file type="image"&gt;/tests/html/test1_01.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="test2" type="html"&gt;
+         &lt;file type="source"&gt;/tests/html/test2.html&lt;/file&gt;
+         &lt;file type="main"&gt;/tests/test2.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/tests/html/test2.png&lt;/file&gt;
+         &lt;file type="image"&gt;/tests/html/test2_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/tests/html/test2_02.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="test3" type="html"&gt;
+         &lt;file type="source"&gt;/tests/html/test3.html&lt;/file&gt;
+         &lt;file type="main"&gt;/tests/test3.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/tests/html/test3.png&lt;/file&gt;
+         &lt;file type="image"&gt;/tests/html/test3_01.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="test4" type="html"&gt;
+         &lt;file type="source"&gt;/tests/html/test4.html&lt;/file&gt;
+         &lt;file type="main"&gt;/tests/test4.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/tests/html/test4.png&lt;/file&gt;
+         &lt;file type="image"&gt;/tests/html/test4_01.png&lt;/file&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+&lt;/examples&gt;</param.examples>
     <param.demosxml />
     <param.apps />
     <param.registered.apps />
@@ -54,7 +89,9 @@ populate_toolbox.rb</param.exclude.filters>
     <param.matlabpath.excludes />
     <param.javaclasspath.excludes />
     <param.exported.on.package>false</param.exported.on.package>
-    <param.required.addons />
+    <param.required.addons>
+      <requiredaddons />
+    </param.required.addons>
     <param.matlab.project.id />
     <param.matlab.project.name />
     <param.release.start />
@@ -73,12 +110,8 @@ populate_toolbox.rb</param.exclude.filters>
     <unset>
       <param.version />
       <param.output />
-      <param.products.name />
-      <param.products.id />
-      <param.products.version />
       <param.platforms />
       <param.exclude.pcodedmfiles />
-      <param.examples />
       <param.demosxml />
       <param.apps />
       <param.registered.apps />
@@ -86,7 +119,6 @@ populate_toolbox.rb</param.exclude.filters>
       <param.matlabpath.excludes />
       <param.javaclasspath.excludes />
       <param.exported.on.package />
-      <param.required.addons />
       <param.matlab.project.id />
       <param.matlab.project.name />
       <param.release.start />
@@ -108,8 +140,12 @@ populate_toolbox.rb</param.exclude.filters>
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/CompileLib.m</file>
+      <file>${PROJECT_ROOT}/toolbox/GenericContainer-a7514bc5.o.tmp</file>
+      <file>${PROJECT_ROOT}/toolbox/bin</file>
+      <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/doc</file>
       <file>${PROJECT_ROOT}/toolbox/lib</file>
+      <file>${PROJECT_ROOT}/toolbox/licence.txt</file>
       <file>${PROJECT_ROOT}/toolbox/src</file>
       <file>${PROJECT_ROOT}/toolbox/src_mex</file>
       <file>${PROJECT_ROOT}/toolbox/tests</file>

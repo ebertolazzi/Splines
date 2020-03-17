@@ -56,7 +56,6 @@ Thumbs.db
 out
 DerivedData
 include
-*.mexmaci64
 build
 lib
 
