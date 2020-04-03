@@ -63,6 +63,6 @@ toolbox/doc
 toolbox/src
 toolbox/src_mex
 toolbox/tests
-toolbox/licence.txt
+toolbox/license.txt
 
 *.mltbx

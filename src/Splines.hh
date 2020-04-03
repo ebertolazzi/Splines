@@ -21,7 +21,7 @@
 \mainpage  Spline class
 \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
 \date      2016
-\copyright 2-Clause BSD License, see file license.txt
+\copyright see file license.txt
 */
 
 #pragma once

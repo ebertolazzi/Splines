@@ -51,4 +51,4 @@ lst.each do |filename|
   FileUtils.cp filename, "./tests/" + File.basename(filename);
 end
 
-FileUtils.cp "../licence.txt", "licence.txt"
+FileUtils.cp "../license.txt", "license.txt"

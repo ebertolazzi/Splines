@@ -52,7 +52,7 @@ either expressed or implied, of the FreeBSD Project.
 \version   1.0.0
 \note      first release Jan 12, 1998
 \date      2016
-\copyright GNU Public License.
+\copyright see License.txt.
 \par       Affiliation:
            Department of Industrial Engineering<br>
            University of Trento<br>

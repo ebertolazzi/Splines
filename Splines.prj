@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="4199420906" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="527695793" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -144,7 +144,7 @@ populate_toolbox.rb</param.exclude.filters>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/doc</file>
       <file>${PROJECT_ROOT}/toolbox/lib</file>
-      <file>${PROJECT_ROOT}/toolbox/licence.txt</file>
+      <file>${PROJECT_ROOT}/toolbox/license.txt</file>
       <file>${PROJECT_ROOT}/toolbox/src</file>
       <file>${PROJECT_ROOT}/toolbox/src_mex</file>
       <file>${PROJECT_ROOT}/toolbox/tests</file>
@@ -169,7 +169,7 @@ populate_toolbox.rb</param.exclude.filters>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.15.3</osver>
+      <osver>10.15.4</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>
