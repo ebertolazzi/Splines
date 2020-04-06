@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="527695793" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="1542407180" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -16,7 +16,7 @@ The classes are the following:
   - PchipSpline, 
   - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
     <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
-    <param.version>1.0.1</param.version>
+    <param.version>1.0.2</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
