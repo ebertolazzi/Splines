@@ -54,6 +54,8 @@ either expressed or implied, of the FreeBSD Project.
 //! Various kind of splines
 namespace Splines {
 
+  using std::fpclassify;
+
   void backtrace( ostream_type & );
 
   static
