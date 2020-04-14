@@ -39,6 +39,67 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  integer
+  SplineSet::Treap::search( std::string const & id ) const {
+    size_t pos   = 0;
+    size_t nelem = data.size();
+    while ( pos < nelem ) {
+      std::string const & id1 = data[pos].first;
+      if ( id1 < id ) { // Dispari >
+        pos = 2*pos+1;
+      } else if ( id < id1 ) { // Pari
+        pos = 2*pos+2;
+      } else {
+        return data[pos].second;
+      }
+    }
+    return -1; // non trovato
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  SplineSet::Treap::insert( std::string const & id, integer position ) {
+    size_t pos = data.size();
+    size_t sz  = pos+1;
+    data.resize(sz);
+    data[pos]  = DATA_TYPE(id,position);
+    // inserisce verso alto
+    while ( pos > 0 ) {
+      size_t      pos1 = pos>>1; // pos/2;
+      std::string id1  = data[pos1].first;
+      if ( (pos & 0x01) == 0x01 ) { // id deve essere > id1
+        if ( id1 < id ) break;
+      } else {
+        if ( id1 > id ) break;
+      }
+      std::swap( data[pos].first,  data[pos1].first  );
+      std::swap( data[pos].second, data[pos1].second );
+      pos = pos1;
+    }
+    // propaga verso basso
+    size_t pos_L, pos_R;
+    while ( pos < sz ) {
+      pos_R = 2*pos+1;
+      if ( pos_R < sz && data[pos_R].first < id ) {
+        std::swap( data[pos].first,  data[pos_R].first  );
+        std::swap( data[pos].second, data[pos_R].second );
+        pos = pos_R;
+        continue;
+      }
+      pos_L = 2*pos+2;
+      if ( pos_L < sz && data[pos_L].first > id ) {
+        std::swap( data[pos].first,  data[pos_L].first  );
+        std::swap( data[pos].second, data[pos_L].second );
+        pos = pos_L;
+        continue;
+      }
+      break;
+    }
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   //! spline constructor
   SplineSet::SplineSet( string const & name )
   : _name(name)
@@ -53,8 +114,6 @@ namespace Splines {
   , _Ymin(nullptr)
   , _Ymax(nullptr)
   {
-    std::lock_guard<std::mutex> lck(lastInterval_mutex);
-    lastInterval_by_thread[std::this_thread::get_id()] = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,13 +170,12 @@ namespace Splines {
 
   integer
   SplineSet::getPosition( char const * hdr ) const {
-    std::lock_guard<std::mutex> lck(getPosition_mutex);
-    map<string,integer>::const_iterator it = header_to_position.find(hdr);
+    integer pos = header_to_position.search(hdr);
     SPLINE_ASSERT(
-      it != header_to_position.end(),
+      pos >= 0,
       "SplineSet::getPosition(\"" << hdr << "\") not found!"
     )
-    return it->second;
+    return pos;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -306,7 +364,7 @@ namespace Splines {
           "-th spline"
         )
       }
-      this->header_to_position[s->name()] = integer(spl);
+      this->header_to_position.insert( s->name(), integer(spl) );
     }
 
     this->baseValue   . must_be_empty( "SplineSet::build, baseValue" );

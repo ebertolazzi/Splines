@@ -61,7 +61,7 @@ either expressed or implied, of the FreeBSD Project.
 #include <utility>      // std::pair
 #include <algorithm>
 #include <thread>
-#include <mutex>
+#include <atomic>
 
 //
 // file: Splines

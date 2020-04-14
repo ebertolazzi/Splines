@@ -35,7 +35,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::info( ostream & s ) const {
+  SplineSurf::info( ostream_type & s ) const {
     s << "Bivariate spline [" << name() << "] of type = "
       << type_name()
       << '\n';

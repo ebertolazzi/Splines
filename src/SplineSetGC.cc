@@ -183,7 +183,8 @@ namespace Splines {
         "`map_type` found: ` " << gc_ypdata.get_type_name() << "`"
       )
       for ( integer spl = 0; spl < this->_nspl; ++spl )
-        header_to_position[headers[size_t(spl)]] = spl;
+        header_to_position.insert( headers[size_t(spl)], spl );
+
       map_type const & data = gc_ypdata.get_map();
       map_type::const_iterator im = data.begin();
       for (; im != data.end(); ++im ) {
@@ -227,9 +228,9 @@ namespace Splines {
   void
   SplineSet::eval( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval(x);
     }
   }
 
@@ -241,10 +242,10 @@ namespace Splines {
   SplineSet::eval( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vec_real_type & v = vals[s_to_pos->first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(s_to_pos->second)];
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
+      Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
@@ -300,9 +301,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval(x);
     }
   }
 
@@ -321,17 +322,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos )
-      vals[s_to_pos->first].set_vec_real(unsigned(npts));
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first].set_vec_real(unsigned(npts));
+    }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-            s_to_pos != header_to_position.end(); ++s_to_pos ) {
-        vec_real_type & v = vals[s_to_pos->first].get_vec_real();
-        v[i] = splines[size_t(s_to_pos->second)]->eval(x);
+      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        vec_real_type & v = vals[D.first].get_vec_real();
+        v[i] = splines[size_t(D.second)]->eval(x);
       }
     }
   }
@@ -400,9 +402,9 @@ namespace Splines {
   void
   SplineSet::eval_D( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_D(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_D(x);
     }
   }
 
@@ -414,10 +416,10 @@ namespace Splines {
   SplineSet::eval_D( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vec_real_type & v = vals[s_to_pos->first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(s_to_pos->second)];
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
+      Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
@@ -473,9 +475,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_D(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_D(x);
     }
   }
 
@@ -494,17 +496,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos )
-      vals[s_to_pos->first].set_vec_real(unsigned(npts));
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first].set_vec_real(unsigned(npts));
+    }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-            s_to_pos != header_to_position.end(); ++s_to_pos ) {
-        vec_real_type & v = vals[s_to_pos->first].get_vec_real();
-        v[i] = splines[size_t(s_to_pos->second)]->eval_D(x);
+      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        vec_real_type & v = vals[D.first].get_vec_real();
+        v[i] = splines[size_t(D.second)]->eval_D(x);
       }
     }
   }
@@ -572,9 +575,9 @@ namespace Splines {
   void
   SplineSet::eval_DD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_DD(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
     }
   }
 
@@ -586,10 +589,10 @@ namespace Splines {
   SplineSet::eval_DD( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vec_real_type & v = vals[s_to_pos->first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(s_to_pos->second)];
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
+      Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
@@ -645,9 +648,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_DD(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
     }
   }
 
@@ -666,17 +669,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos )
-      vals[s_to_pos->first].set_vec_real(unsigned(npts));
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first].set_vec_real(unsigned(npts));
+    }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-            s_to_pos != header_to_position.end(); ++s_to_pos ) {
-        vec_real_type & v = vals[s_to_pos->first].get_vec_real();
-        v[i] = splines[size_t(s_to_pos->second)]->eval_DD(x);
+      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        vec_real_type & v = vals[D.first].get_vec_real();
+        v[i] = splines[size_t(D.second)]->eval_DD(x);
       }
     }
   }
@@ -745,9 +749,9 @@ namespace Splines {
   void
   SplineSet::eval_DDD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_DDD(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
     }
   }
 
@@ -762,10 +766,10 @@ namespace Splines {
   ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vec_real_type & v = vals[s_to_pos->first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(s_to_pos->second)];
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
+      Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
@@ -821,9 +825,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos ) {
-      vals[s_to_pos->first] = splines[size_t(s_to_pos->second)]->eval_DDD(x);
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
     }
   }
 
@@ -842,17 +846,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-          s_to_pos != header_to_position.end(); ++s_to_pos )
-      vals[s_to_pos->first].set_vec_real(unsigned(npts));
+    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      vals[D.first].set_vec_real(unsigned(npts));
+    }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( map<string,integer>::const_iterator s_to_pos = header_to_position.begin();
-            s_to_pos != header_to_position.end(); ++s_to_pos ) {
-        vec_real_type & v = vals[s_to_pos->first].get_vec_real();
-        v[i] = splines[size_t(s_to_pos->second)]->eval_DDD(x);
+      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
+        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        vec_real_type & v = vals[D.first].get_vec_real();
+        v[i] = splines[size_t(D.second)]->eval_DDD(x);
       }
     }
   }

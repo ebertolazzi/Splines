@@ -53,6 +53,8 @@
 namespace Splines {
 
   using std::abs;
+  using std::max;
+  using std::min;
 
   /*
    backtrace() from:

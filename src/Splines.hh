@@ -85,7 +85,15 @@
 //! Various kind of splines
 namespace Splines {
 
-  using namespace ::std; // load standard namespace
+  using std::vector;
+  using std::string;
+  using std::exception;
+  using std::runtime_error;
+  using std::basic_ostream;
+  using std::ostringstream;
+  using std::lower_bound;
+  using std::pair;
+  using std::cerr;
 
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
@@ -253,15 +261,15 @@ namespace Splines {
           pMalloc        = new T[numTotReserved];
         }
       }
-      catch ( std::exception const & exc ) {
-        std::cerr
+      catch ( exception const & exc ) {
+        cerr
           << "Memory allocation failed: " << exc.what()
           << "\nTry to allocate " << n << " bytes for " << _name
           << '\n';
         exit(0);
       }
       catch (...) {
-        std::cerr
+        cerr
           << "SplineMalloc allocation failed for " << _name << ": memory exausted\n"
           << "Requesting " << n << " blocks\n";
         exit(0);
@@ -291,7 +299,7 @@ namespace Splines {
       size_t offs = numAllocated;
       numAllocated += sz;
       if ( numAllocated > numTotValues ) {
-        std::ostringstream ost;
+        ostringstream ost;
         ost
           << "\nMalloc<" << _name
           << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
@@ -305,16 +313,16 @@ namespace Splines {
     void
     must_be_empty( char const where[] ) const {
       if ( numAllocated < numTotValues ) {
-        std::ostringstream ost;
+        ostringstream ost;
         ost
           << "\nMalloc<" << _name << ">\n"
           << "in " << _name << " " << where
           << ": not fully used!\nUnused: "
           << numTotValues - numAllocated << " values\n";
-        throw std::runtime_error(ost.str());
+        throw runtime_error(ost.str());
       }
       if ( numAllocated > numTotValues ) {
-        std::ostringstream ost;
+        ostringstream ost;
         ost
           << "\nMalloc<" << _name << ">\n"
           << "in " << _name << " " << where
@@ -400,7 +408,7 @@ namespace Splines {
   class SpinLock {
     // see https://geidav.wordpress.com/2016/03/23/test-and-set-spinlocks/
   private:
-    std::atomic_bool Locked = {false};
+    std::atomic<bool> Locked = {false};
   public:
     void wait() { while (Locked.load(std::memory_order_relaxed) == true); }
     void lock() { do { wait(); } while (Locked.exchange(true, std::memory_order_acquire) == true); }
@@ -656,7 +664,7 @@ namespace Splines {
       integer    nintervals,
       char const header[] = "x\ty"
     ) const {
-      ofstream file(fname);
+      std::ofstream file(fname);
       this->dump( file, nintervals, header );
       file.close();
     }
@@ -2221,6 +2229,24 @@ namespace Splines {
     SplineSet( SplineSet const & ) = delete;
     SplineSet const & operator = ( SplineSet const & ) = delete;
 
+    class Treap {
+    public:
+      typedef std::pair<std::string,integer> DATA_TYPE;
+    private:
+      mutable std::vector<DATA_TYPE> data;
+    public:
+      Treap() { data.clear(); data.reserve(256); }
+      ~Treap() { data.clear(); }
+
+      integer n_elem() const { return integer(data.size()); }
+
+      DATA_TYPE const &
+      get_elem( integer i ) const { return data[size_t(i)]; }
+
+      integer search( std::string const & id ) const;
+      void    insert( std::string const & id, integer position );
+    };
+
   protected:
 
     string const _name;
@@ -2238,13 +2264,9 @@ namespace Splines {
     real_type *  _Ymin;
     real_type *  _Ymax;
 
-    mutable std::mutex                   getPosition_mutex;
-    mutable std::mutex                   lastInterval_mutex;
-    mutable map<std::thread::id,integer> lastInterval_by_thread;
-
-    vector<Spline*>     splines;
-    vector<int>         is_monotone;
-    map<string,integer> header_to_position;
+    vector<Spline*> splines;
+    vector<int>     is_monotone;
+    Treap           header_to_position;
 
   private:
 
@@ -3675,7 +3697,7 @@ namespace Splines {
     type_name() const SPLINES_PURE_VIRTUAL;
 
     void
-    info( ostream & s ) const;
+    info( ostream_type & s ) const;
 
   };
 
@@ -4254,7 +4276,7 @@ namespace Splines {
     //! Return spline typename
     char const * type_name() const { return pSpline2D->type_name(); }
 
-    void info( ostream & s ) const { pSpline2D->info( s ); }
+    void info( ostream_type & s ) const { pSpline2D->info( s ); }
 
   };
 
