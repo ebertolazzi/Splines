@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="1542407180" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="3259672561" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -16,7 +16,7 @@ The classes are the following:
   - PchipSpline, 
   - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
     <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
-    <param.version>1.0.2</param.version>
+    <param.version>1.0.3</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -49,38 +49,10 @@ The classes are the following:
 % **/*.bak
 %
 .DS_Store
-populate_toolbox.rb</param.exclude.filters>
+populate_toolbox.rb
+setup.m</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
-    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;examples&gt;
-   &lt;exampleCategory name="tests"&gt;
-      &lt;example name="test1" type="html"&gt;
-         &lt;file type="source"&gt;/tests/html/test1.html&lt;/file&gt;
-         &lt;file type="main"&gt;/tests/test1.m&lt;/file&gt;
-         &lt;file type="thumbnail"&gt;/tests/html/test1.png&lt;/file&gt;
-         &lt;file type="image"&gt;/tests/html/test1_01.png&lt;/file&gt;
-      &lt;/example&gt;
-      &lt;example name="test2" type="html"&gt;
-         &lt;file type="source"&gt;/tests/html/test2.html&lt;/file&gt;
-         &lt;file type="main"&gt;/tests/test2.m&lt;/file&gt;
-         &lt;file type="thumbnail"&gt;/tests/html/test2.png&lt;/file&gt;
-         &lt;file type="image"&gt;/tests/html/test2_01.png&lt;/file&gt;
-         &lt;file type="image"&gt;/tests/html/test2_02.png&lt;/file&gt;
-      &lt;/example&gt;
-      &lt;example name="test3" type="html"&gt;
-         &lt;file type="source"&gt;/tests/html/test3.html&lt;/file&gt;
-         &lt;file type="main"&gt;/tests/test3.m&lt;/file&gt;
-         &lt;file type="thumbnail"&gt;/tests/html/test3.png&lt;/file&gt;
-         &lt;file type="image"&gt;/tests/html/test3_01.png&lt;/file&gt;
-      &lt;/example&gt;
-      &lt;example name="test4" type="html"&gt;
-         &lt;file type="source"&gt;/tests/html/test4.html&lt;/file&gt;
-         &lt;file type="main"&gt;/tests/test4.m&lt;/file&gt;
-         &lt;file type="thumbnail"&gt;/tests/html/test4.png&lt;/file&gt;
-         &lt;file type="image"&gt;/tests/html/test4_01.png&lt;/file&gt;
-      &lt;/example&gt;
-   &lt;/exampleCategory&gt;
-&lt;/examples&gt;</param.examples>
+    <param.examples />
     <param.demosxml />
     <param.apps />
     <param.registered.apps />
@@ -111,6 +83,7 @@ populate_toolbox.rb</param.exclude.filters>
       <param.output />
       <param.platforms />
       <param.exclude.pcodedmfiles />
+      <param.examples />
       <param.demosxml />
       <param.apps />
       <param.registered.apps />
@@ -139,7 +112,6 @@ populate_toolbox.rb</param.exclude.filters>
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainer-a7514bc5.o.tmp</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/doc</file>

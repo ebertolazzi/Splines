@@ -152,7 +152,7 @@ namespace Splines {
       arg_in_4, nn, nspl, CMD "error in reading 'y'"
     );
 
-    MEX_ASSERT( n == nn, CMD "lenght of 'x' must be the numnber of rows of 'y'" );
+    MEX_ASSERT( n == nn, CMD "lenght of 'x' must be the number of rows of 'y'" );
 
     std::vector<Splines::SplineType1D> types;
     types.reserve(nspl);

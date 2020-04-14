@@ -76,10 +76,7 @@ namespace Splines {
       this->Yp = this->baseValue( size_t(n) );
       this->_external_alloc = false;
     }
-    {
-      std::lock_guard<std::mutex> lck(lastInterval_mutex);
-      lastInterval_by_thread[std::this_thread::get_id()] = 0;
-    }
+    initLastInterval();
     this->npts = 0;
   }
 
@@ -97,10 +94,7 @@ namespace Splines {
     this->Y               = p_y;
     this->Yp              = p_dy;
     this->_external_alloc = true;
-    {
-      std::lock_guard<std::mutex> lck(lastInterval_mutex);
-      lastInterval_by_thread[std::this_thread::get_id()] = 0;
-    }
+    initLastInterval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

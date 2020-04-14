@@ -198,6 +198,7 @@ namespace Splines {
     // cout << "ierr = " << ierr << '\n';
   }
 
+  static // non usata per ora
   void
   Pchip_build_new(
     real_type const X[],

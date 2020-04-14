@@ -389,6 +389,61 @@ namespace Splines {
     real_type       t[]
   );
 
+  /*\
+   |   _____ _                        _
+   |  |_   _| |__  _ __ ___  __ _  __| |___
+   |    | | | '_ \| '__/ _ \/ _` |/ _` / __|
+   |    | | | | | | | |  __/ (_| | (_| \__ \
+   |    |_| |_| |_|_|  \___|\__,_|\__,_|___/
+  \*/
+
+  class SpinLock {
+    // see https://geidav.wordpress.com/2016/03/23/test-and-set-spinlocks/
+  private:
+    std::atomic_bool Locked = {false};
+  public:
+    void wait() { while (Locked.load(std::memory_order_relaxed) == true); }
+    void lock() { do { wait(); } while (Locked.exchange(true, std::memory_order_acquire) == true); }
+    void unlock() { Locked.store(false, std::memory_order_release); }
+  };
+
+  class WaitWorker {
+  private:
+    std::atomic<int> n_worker = {0};
+  public:
+    void wait() { while (n_worker.load(std::memory_order_relaxed) != 0 ); }
+    void enter() { ++n_worker; }
+    void leave() { --n_worker; }
+  };
+
+  class Treap {
+  private:
+    typedef std::pair<std::thread::id,integer> DATA_TYPE;
+    mutable std::vector<DATA_TYPE> data;
+  public:
+    Treap() { data.clear(); data.reserve(64); }
+    ~Treap() { data.clear(); }
+
+    integer *
+    search( std::thread::id const & id ) const {
+      size_t pos   = 0;
+      size_t nelem = data.size();
+      while ( pos < nelem ) {
+        std::thread::id const & id1 = data[pos].first;
+        if ( id1 < id ) { // Dispari >
+          pos = 2*pos+1;
+        } else if ( id < id1 ) { // Pari
+          pos = 2*pos+2;
+        } else {
+          return &data[pos].second;
+        }
+      }
+      return nullptr;
+    }
+
+    integer * insert( std::thread::id const & id );
+  };
+
   void
   searchInterval(
     integer         npts,
@@ -419,36 +474,12 @@ namespace Splines {
     real_type *X; // allocated in the derived class!
     real_type *Y; // allocated in the derived class!
 
-    mutable std::mutex                   lastInterval_mutex;
-    mutable map<std::thread::id,integer> lastInterval_by_thread;
+    mutable Treap      tp;
+    mutable WaitWorker worker_read;
+    mutable SpinLock   spin_write;
 
-    integer
-    search( real_type & x ) const {
-      integer lastInterval;
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_mutex);
-        lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
-      }
-      searchInterval(
-        this->npts,
-        this->X,
-        x,
-        lastInterval,
-        this->_curve_is_closed,
-        this->_curve_can_extend
-      );
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_mutex);
-        lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
-      }
-      return lastInterval;
-    }
-
-    void
-    initLastInterval() {
-      std::lock_guard<std::mutex> lck(lastInterval_mutex);
-      lastInterval_by_thread[std::this_thread::get_id()] = 0;
-    }
+    integer search( real_type & x ) const;
+    void initLastInterval();
 
     Spline( Spline const & ) = delete;
     Spline const & operator = ( Spline const & ) = delete;
@@ -1879,30 +1910,12 @@ namespace Splines {
     real_type ** _Y;
     real_type ** _Yp;
 
-    mutable std::mutex                   lastInterval_mutex;
-    mutable map<std::thread::id,integer> lastInterval_by_thread;
+    mutable Treap      tp;
+    mutable WaitWorker worker_read;
+    mutable SpinLock   spin_write;
 
-    integer
-    search( real_type & x ) const {
-      integer lastInterval;
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_mutex);
-        lastInterval = lastInterval_by_thread[std::this_thread::get_id()];
-      }
-      searchInterval(
-        this->_npts,
-        this->_X,
-        x,
-        lastInterval,
-        this->_curve_is_closed,
-        this->_curve_can_extend
-      );
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_mutex);
-        lastInterval_by_thread[std::this_thread::get_id()] = lastInterval;
-      }
-      return lastInterval;
-    }
+    integer search( real_type & x ) const;
+    void initLastInterval();
 
     ///////////////////////////////////////////////////////////////////////////
     void
@@ -3352,59 +3365,20 @@ namespace Splines {
 
     real_type Z_min, Z_max;
 
-    mutable std::mutex                   lastInterval_x_mutex;
-    mutable map<std::thread::id,integer> lastInterval_x_by_thread;
 
-    integer
-    search_x( real_type & x ) const {
-      integer lastInterval;
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
-        lastInterval = lastInterval_x_by_thread[std::this_thread::get_id()];
-      }
-      integer       npts_x = integer(this->X.size());
-      real_type const * pX = &this->X.front();
-      searchInterval(
-        npts_x,
-        pX,
-        x,
-        lastInterval,
-        this->_x_closed,
-        this->_x_can_extend
-      );
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
-        lastInterval_x_by_thread[std::this_thread::get_id()] = lastInterval;
-      }
-      return lastInterval;
-    }
+    mutable Treap      tp_x;
+    mutable WaitWorker worker_read_x;
+    mutable SpinLock   spin_write_x;
 
-    mutable std::mutex                   lastInterval_y_mutex;
-    mutable map<std::thread::id,integer> lastInterval_y_by_thread;
+    integer search_x( real_type & x ) const;
+    void initLastInterval_x();
 
-    integer
-    search_y( real_type & y ) const {
-      integer lastInterval;
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
-        lastInterval = lastInterval_y_by_thread[std::this_thread::get_id()];
-      }
-      integer       npts_y = integer(this->Y.size());
-      real_type const * pY = &this->Y.front();
-      searchInterval(
-        npts_y,
-        pY,
-        y,
-        lastInterval,
-        this->_y_closed,
-        this->_y_can_extend
-      );
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
-        lastInterval_y_by_thread[std::this_thread::get_id()] = lastInterval;
-      }
-      return lastInterval;
-    }
+    mutable Treap      tp_y;
+    mutable WaitWorker worker_read_y;
+    mutable SpinLock   spin_write_y;
+
+    integer search_y( real_type & y ) const;
+    void initLastInterval_y();
 
     integer
     ipos_C( integer i, integer j, integer ldZ ) const
@@ -3439,14 +3413,8 @@ namespace Splines {
     , Z_min(0)
     , Z_max(0)
     {
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_x_mutex);
-        lastInterval_x_by_thread[std::this_thread::get_id()] = 0;
-      }
-      {
-        std::lock_guard<std::mutex> lck(lastInterval_y_mutex);
-        lastInterval_y_by_thread[std::this_thread::get_id()] = 0;
-      }
+      this->initLastInterval_x();
+      this->initLastInterval_y();
     }
 
     //! spline destructor

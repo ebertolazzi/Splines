@@ -306,6 +306,203 @@ namespace Splines {
     }
   }
 
+  /*\
+   |   ____        _ _
+   |  / ___| _ __ | (_)_ __   ___
+   |  \___ \| '_ \| | | '_ \ / _ \
+   |   ___) | |_) | | | | | |  __/
+   |  |____/| .__/|_|_|_| |_|\___|
+   |        |_|
+  \*/
+
+  integer *
+  Treap::insert( std::thread::id const & id ) {
+    size_t pos = data.size();
+    size_t sz  = pos+1;
+    data.resize(sz);
+    data[pos]  = DATA_TYPE(id,0);
+    // inserisce verso alto
+    while ( pos > 0 ) {
+      size_t          pos1 = pos>>1; // pos/2;
+      std::thread::id id1  = data[pos1].first;
+      if ( (pos & 0x01) == 0x01 ) { // id deve essere > id1
+        if ( id1 < id ) break;
+      } else {
+        if ( id1 > id ) break;
+      }
+      std::swap( data[pos], data[pos1] );
+      pos = pos1;
+    }
+    // propaga verso basso
+    size_t pos_L, pos_R;
+    while ( pos < sz ) {
+      pos_R = 2*pos+1;
+      if ( pos_R < sz && data[pos_R].first < id ) {
+        std::swap( data[pos], data[pos_R] ); pos = pos_R; continue;
+      }
+      pos_L = 2*pos+2;
+      if ( pos_L < sz && data[pos_L].first > id ) {
+        std::swap( data[pos], data[pos_L] ); pos = pos_L; continue;
+      }
+      break;
+    }
+    return &data[pos].second;
+  }
+
+  integer
+  Spline::search( real_type & x ) const {
+    // mark use read
+    spin_write.wait();
+    worker_read.enter();
+    std::thread::id th_id = std::this_thread::get_id();
+    integer * p_lastInterval = tp.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read.leave();
+      spin_write.lock();
+      worker_read.wait(); // wait all read finished
+      p_lastInterval = tp.insert( th_id );
+      *p_lastInterval = 0;
+      worker_read.enter(); // avoid writing until finished
+      spin_write.unlock();
+    }
+    searchInterval(
+      this->npts,
+      this->X,
+      x,
+      *p_lastInterval,
+      this->_curve_is_closed,
+      this->_curve_can_extend
+    );
+    integer ret = *p_lastInterval;
+    worker_read.leave();
+    return ret;
+  }
+
+  void
+  Spline::initLastInterval() {
+    std::thread::id th_id = std::this_thread::get_id();
+    // mark use read
+    spin_write.wait();
+    worker_read.enter();
+    integer * p_lastInterval = tp.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read.leave();
+      spin_write.lock();
+      worker_read.wait(); // wait all read finished
+      p_lastInterval = tp.insert( th_id );
+      worker_read.enter();
+      spin_write.unlock();
+    }
+    *p_lastInterval = 0;
+    worker_read.leave();
+  }
+
+  integer
+  SplineSurf::search_x( real_type & x ) const {
+    // mark use read
+    spin_write_x.wait();
+    worker_read_x.enter();
+    std::thread::id th_id = std::this_thread::get_id();
+    integer * p_lastInterval = tp_x.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read_x.leave();
+      spin_write_x.lock();
+      worker_read_x.wait(); // wait all read finished
+      p_lastInterval = tp_x.insert( th_id );
+      *p_lastInterval = 0;
+      worker_read_x.enter(); // avoid writing until finished
+      spin_write_x.unlock();
+    }
+    integer       npts_x = integer(this->X.size());
+    real_type const * pX = &this->X.front();
+    searchInterval(
+      npts_x,
+      pX,
+      x,
+      *p_lastInterval,
+      this->_x_closed,
+      this->_x_can_extend
+    );
+    integer ret = *p_lastInterval;
+    worker_read_x.leave();
+    return ret;
+  }
+
+  void
+  SplineSurf::initLastInterval_x() {
+    std::thread::id th_id = std::this_thread::get_id();
+    // mark use read
+    spin_write_x.wait();
+    worker_read_x.enter();
+    integer * p_lastInterval = tp_x.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read_x.leave();
+      spin_write_x.lock();
+      worker_read_x.wait(); // wait all read finished
+      p_lastInterval = tp_x.insert( th_id );
+      worker_read_x.enter();
+      spin_write_x.unlock();
+    }
+    *p_lastInterval = 0;
+    worker_read_x.leave();
+  }
+
+  integer
+  SplineSurf::search_y( real_type & y ) const {
+    // mark use read
+    spin_write_y.wait();
+    worker_read_y.enter();
+    std::thread::id th_id = std::this_thread::get_id();
+    integer * p_lastInterval = tp_y.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read_y.leave();
+      spin_write_y.lock();
+      worker_read_y.wait(); // wait all read finished
+      p_lastInterval = tp_y.insert( th_id );
+      *p_lastInterval = 0;
+      worker_read_y.enter(); // avoid writing until finished
+      spin_write_y.unlock();
+    }
+    integer       npts_y = integer(this->Y.size());
+    real_type const * pY = &this->Y.front();
+    searchInterval(
+      npts_y,
+      pY,
+      y,
+      *p_lastInterval,
+      this->_y_closed,
+      this->_y_can_extend
+    );
+    integer ret = *p_lastInterval;
+    worker_read_y.leave();
+    return ret;
+  }
+
+  void
+  SplineSurf::initLastInterval_y() {
+    std::thread::id th_id = std::this_thread::get_id();
+    // mark use read
+    spin_write_y.wait();
+    worker_read_y.enter();
+    integer * p_lastInterval = tp_y.search( th_id );
+    if ( p_lastInterval == nullptr ) {
+      // non trovato
+      worker_read_y.leave();
+      spin_write_y.lock();
+      worker_read_y.wait(); // wait all read finished
+      p_lastInterval = tp_y.insert( th_id );
+      worker_read_y.enter();
+      spin_write_y.unlock();
+    }
+    *p_lastInterval = 0;
+    worker_read_y.leave();
+  }
+
   //! quadratic polinomial roots
   /*!
     Compute the roots of the polynomial
