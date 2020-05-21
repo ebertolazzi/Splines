@@ -77,7 +77,7 @@ namespace Splines {
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval = tp.insert( th_id );
+      p_lastInterval  = tp.insert( th_id );
       *p_lastInterval = 0;
       worker_read.enter(); // avoid writing until finished
       spin_write.unlock();

@@ -317,39 +317,47 @@ namespace Splines {
    |        |_|
   \*/
 
+  /*\
+                R(0)
+              /      \
+           A(1)       B(2)
+          /    \     /    \
+        C(3)  D(4) E(5)   F(6)
+  \*/
+
+  integer *
+  Treap::search( std::thread::id const & id ) const {
+    // binary search
+    size_t U = data.size();
+    size_t L = 0;
+    while ( U-L > 1 ) {
+      size_t pos = (L+U)>>1;
+      std::thread::id const & id_pos = data[pos].first;
+      if ( id_pos < id ) L = pos; else U = pos;
+    }
+    if ( data[L].first == id ) return &data[L].second;
+    if ( data[U].first == id ) return &data[U].second;
+    return nullptr; // non trovato
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   integer *
   Treap::insert( std::thread::id const & id ) {
     size_t pos = data.size();
-    size_t sz  = pos+1;
-    data.resize(sz);
-    data[pos]  = DATA_TYPE(id,0);
-    // inserisce verso alto
+    data.push_back(DATA_TYPE(id,0));
     while ( pos > 0 ) {
-      size_t          pos1 = pos>>1; // pos/2;
-      std::thread::id id1  = data[pos1].first;
-      if ( (pos & 0x01) == 0x01 ) { // id deve essere > id1
-        if ( id1 < id ) break;
-      } else {
-        if ( id1 > id ) break;
-      }
-      std::swap( data[pos], data[pos1] );
+      size_t pos1 = pos-1;
+      data[pos].first  = data[pos1].first;
+      data[pos].second = data[pos1].second;
+      if ( data[pos1].first < id ) break;
       pos = pos1;
     }
-    // propaga verso basso
-    size_t pos_L, pos_R;
-    while ( pos < sz ) {
-      pos_R = 2*pos+1;
-      if ( pos_R < sz && data[pos_R].first < id ) {
-        std::swap( data[pos], data[pos_R] ); pos = pos_R; continue;
-      }
-      pos_L = 2*pos+2;
-      if ( pos_L < sz && data[pos_L].first > id ) {
-        std::swap( data[pos], data[pos_L] ); pos = pos_L; continue;
-      }
-      break;
-    }
+    data[pos] = DATA_TYPE(id,0);
     return &data[pos].second;
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
   Spline::search( real_type & x ) const {
@@ -363,7 +371,7 @@ namespace Splines {
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval = tp.insert( th_id );
+      p_lastInterval  = tp.insert( th_id );
       *p_lastInterval = 0;
       worker_read.enter(); // avoid writing until finished
       spin_write.unlock();
@@ -413,7 +421,7 @@ namespace Splines {
       worker_read_x.leave();
       spin_write_x.lock();
       worker_read_x.wait(); // wait all read finished
-      p_lastInterval = tp_x.insert( th_id );
+      p_lastInterval  = tp_x.insert( th_id );
       *p_lastInterval = 0;
       worker_read_x.enter(); // avoid writing until finished
       spin_write_x.unlock();
@@ -465,7 +473,7 @@ namespace Splines {
       worker_read_y.leave();
       spin_write_y.lock();
       worker_read_y.wait(); // wait all read finished
-      p_lastInterval = tp_y.insert( th_id );
+      p_lastInterval  = tp_y.insert( th_id );
       *p_lastInterval = 0;
       worker_read_y.enter(); // avoid writing until finished
       spin_write_y.unlock();

@@ -432,23 +432,7 @@ namespace Splines {
     Treap() { data.clear(); data.reserve(64); }
     ~Treap() { data.clear(); }
 
-    integer *
-    search( std::thread::id const & id ) const {
-      size_t pos   = 0;
-      size_t nelem = data.size();
-      while ( pos < nelem ) {
-        std::thread::id const & id1 = data[pos].first;
-        if ( id1 < id ) { // Dispari >
-          pos = 2*pos+1;
-        } else if ( id < id1 ) { // Pari
-          pos = 2*pos+2;
-        } else {
-          return &data[pos].second;
-        }
-      }
-      return nullptr;
-    }
-
+    integer * search( std::thread::id const & id ) const;
     integer * insert( std::thread::id const & id );
   };
 
@@ -2238,13 +2222,22 @@ namespace Splines {
       Treap() { data.clear(); data.reserve(256); }
       ~Treap() { data.clear(); }
 
+      /*
       string
       name_list() const {
         string tmp = "[ ";
-        for ( auto e : data ) tmp += e.first + " ";
+        for ( auto e : data ) tmp += "'" + e.first + "' ";
         tmp += "]";
         return tmp;
       }
+
+      void
+      get_names( std::vector<std::string> & names ) const {
+        names.clear();
+        names.reserve(data.size());
+        for ( auto e : data ) names.push_back(e.first);
+      }
+      */
 
       integer n_elem() const { return integer(data.size()); }
 
@@ -2299,6 +2292,21 @@ namespace Splines {
     string const &
     header( integer i ) const
     { return this->splines[size_t(i)]->name(); }
+
+    void
+    get_headers( std::vector<std::string> & names ) const {
+      names.clear();
+      names.reserve(splines.size());
+      for ( auto e : splines ) names.push_back(e->name());
+    }
+
+    string
+    name_list() const {
+      string tmp = "[ ";
+      for ( auto e : splines ) tmp += "'" + e->name() + "' ";
+      tmp += "]";
+      return tmp;
+    }
 
     // return +1 = strict monotone, 0 weak monotone, -1 non monotone
     int

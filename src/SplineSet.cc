@@ -41,18 +41,16 @@ namespace Splines {
 
   integer
   SplineSet::Treap::search( std::string const & id ) const {
-    size_t pos   = 0;
-    size_t nelem = data.size();
-    while ( pos < nelem ) {
-      std::string const & id1 = data[pos].first;
-      if ( id1 < id ) { // Dispari >
-        pos = 2*pos+1;
-      } else if ( id < id1 ) { // Pari
-        pos = 2*pos+2;
-      } else {
-        return data[pos].second;
-      }
+    // binary search
+    size_t U = data.size();
+    size_t L = 0;
+    while ( U-L > 1 ) {
+      size_t pos = (L+U)>>1;
+      std::string const & id_pos = data[pos].first;
+      if ( id_pos < id ) L = pos; else U = pos;
     }
+    if ( data[L].first == id ) return integer(L);
+    if ( data[U].first == id ) return integer(U);
     return -1; // non trovato
   }
 
@@ -61,41 +59,15 @@ namespace Splines {
   void
   SplineSet::Treap::insert( std::string const & id, integer position ) {
     size_t pos = data.size();
-    size_t sz  = pos+1;
-    data.resize(sz);
-    data[pos]  = DATA_TYPE(id,position);
-    // inserisce verso alto
+    data.push_back(DATA_TYPE(id,position));
     while ( pos > 0 ) {
-      size_t      pos1 = pos>>1; // pos/2;
-      std::string id1  = data[pos1].first;
-      if ( (pos & 0x01) == 0x01 ) { // id deve essere > id1
-        if ( id1 < id ) break;
-      } else {
-        if ( id1 > id ) break;
-      }
-      std::swap( data[pos].first,  data[pos1].first  );
-      std::swap( data[pos].second, data[pos1].second );
+      size_t pos1 = pos-1;
+      data[pos].first  = data[pos1].first;
+      data[pos].second = data[pos1].second;
+      if ( data[pos1].first < id ) break;
       pos = pos1;
     }
-    // propaga verso basso
-    size_t pos_L, pos_R;
-    while ( pos < sz ) {
-      pos_R = 2*pos+1;
-      if ( pos_R < sz && data[pos_R].first < id ) {
-        std::swap( data[pos].first,  data[pos_R].first  );
-        std::swap( data[pos].second, data[pos_R].second );
-        pos = pos_R;
-        continue;
-      }
-      pos_L = 2*pos+2;
-      if ( pos_L < sz && data[pos_L].first > id ) {
-        std::swap( data[pos].first,  data[pos_L].first  );
-        std::swap( data[pos].second, data[pos_L].second );
-        pos = pos_L;
-        continue;
-      }
-      break;
-    }
+    data[pos] = DATA_TYPE(id,position);
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -174,7 +146,7 @@ namespace Splines {
     SPLINE_ASSERT(
       pos >= 0,
       "SplineSet::getPosition(\"" << hdr << "\") not found!\n" <<
-      "available keys: " << header_to_position.name_list()
+      "available keys: " << name_list()
     )
     return pos;
   }
