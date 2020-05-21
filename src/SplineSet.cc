@@ -173,7 +173,8 @@ namespace Splines {
     integer pos = header_to_position.search(hdr);
     SPLINE_ASSERT(
       pos >= 0,
-      "SplineSet::getPosition(\"" << hdr << "\") not found!"
+      "SplineSet::getPosition(\"" << hdr << "\") not found!\n" <<
+      "available keys: " << header_to_position.name_list()
     )
     return pos;
   }

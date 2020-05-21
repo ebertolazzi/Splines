@@ -2238,6 +2238,14 @@ namespace Splines {
       Treap() { data.clear(); data.reserve(256); }
       ~Treap() { data.clear(); }
 
+      string
+      name_list() const {
+        string tmp = "[ ";
+        for ( auto e : data ) tmp += e.first + " ";
+        tmp += "]";
+        return tmp;
+      }
+
       integer n_elem() const { return integer(data.size()); }
 
       DATA_TYPE const &
