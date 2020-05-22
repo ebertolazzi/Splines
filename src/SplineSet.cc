@@ -40,7 +40,9 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::Treap::search( std::string const & id ) const {
+  SplineSet::Treap::search( std::string const & id ) const {\
+    //for ( auto e : data )
+    //  std::cout << e.first << " -> " << e.second << '\n';
     // binary search
     size_t U = data.size();
     size_t L = 0;
@@ -49,8 +51,8 @@ namespace Splines {
       std::string const & id_pos = data[pos].first;
       if ( id_pos < id ) L = pos; else U = pos;
     }
-    if ( data[L].first == id ) return integer(L);
-    if ( data[U].first == id ) return integer(U);
+    if ( data[L].first == id ) return data[L].second;
+    if ( data[U].first == id ) return data[U].second;
     return -1; // non trovato
   }
 

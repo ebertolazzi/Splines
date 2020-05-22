@@ -84,6 +84,16 @@ main() {
   ss.build( nspl, npts, headers, stype, xx, Y );
   ss.info(cout);
 
+
+  std::cout << "position = " << ss.getPosition("SPLINE_CONSTANT") << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_LINEAR")   << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_CUBIC")    << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_AKIMA")    << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_BESSEL")   << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_PCHIP")    << '\n';
+  std::cout << "position = " << ss.getPosition("SPLINE_QUINTIC")  << '\n';
+
+
   file   << "x";
   file_D << "x";
   for ( integer i = 0; i < nspl; ++i ) {
