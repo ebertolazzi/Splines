@@ -19,7 +19,13 @@ find_package(pybind11)
 	set(SOURCES
 		"src/py-Splines.cc"
 		"src/py-CubicSplines.cc"
-		"src/py-ConstantSplines.cc")
+		"src/py-ConstantSplines.cc"
+		"src/py-LinearSplines.cc"
+		"src/py-AkimaSplines.cc"
+		"src/py-BesselSplines.cc"
+		"src/py-HermiteSplines.cc"
+		"src/py-PchipSplines.cc"
+		"src/py-QuinticSplines.cc")
 
 pybind11_add_module(${PROJECT_NAME} MODULE ${SOURCES} NO_EXTRAS)
 

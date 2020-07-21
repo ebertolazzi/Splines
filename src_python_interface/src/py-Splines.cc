@@ -8,6 +8,13 @@
 #include "py-Splines.hh"
 #include "py-CubicSplines.hh"
 #include "py-ConstantSplines.hh"
+#include "py-AkimaSplines.hh"
+#include "py-BesselSplines.hh"
+#include "py-HermiteSplines.hh"
+#include "py-LinearSplines.hh"
+#include "py-PchipSplines.hh"
+#include "py-QuinticSplines.hh"
+
 #include <pybind11/stl.h>
 #include <tuple>
 
@@ -135,5 +142,12 @@ PYBIND11_MODULE(Splines, m) {
   pySpline::python_register_splines_class(m);
   pySpline::python_register_cubic_splines_base_class(m);
   pySpline::python_register_cubic_splines_class(m);
-  pySpline::python_register_constant_spline_class(m);
+  pySpline::python_register_constant_splines_class(m);
+  pySpline::python_register_akima_splines_class(m);
+  pySpline::python_register_bessel_splines_class(m); 
+  pySpline::python_register_hermite_splines_class(m);
+  pySpline::python_register_linear_splines_class(m);
+  pySpline::python_register_pchip_splines_class(m);
+  pySpline::python_register_quintic_splines_base_class(m);
+  pySpline::python_register_quintic_splines_class(m);
 }

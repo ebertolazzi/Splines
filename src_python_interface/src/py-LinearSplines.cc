@@ -8,17 +8,17 @@
 #include <string>
 
 #include <Splines.hh>
-#include "py-ConstantSplines.hh"
+#include "py-LinearSplines.hh"
 
 namespace pySpline {
   namespace py = pybind11;
 
   using Splines::Spline;
-  using Splines::ConstantSpline;
+  using Splines::LinearSpline;
 
-  void python_register_constant_splines_class(py::module & m) {
-    py::class_<ConstantSpline, Spline>(m, "ConstantSpline")
-      .def(py::init<std::string const &>(), py::arg("name") = "ConstantSpline");
+  void python_register_linear_splines_class(py::module & m) {
+    py::class_<LinearSpline, Spline>(m, "LinearSpline")
+      .def(py::init<std::string const &>(), py::arg("name") = "LinearSpline");
   }
   
 }

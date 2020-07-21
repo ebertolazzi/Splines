@@ -8,17 +8,17 @@
 #include <string>
 
 #include <Splines.hh>
-#include "py-ConstantSplines.hh"
+#include "py-HermiteSplines.hh"
 
 namespace pySpline {
   namespace py = pybind11;
 
   using Splines::Spline;
-  using Splines::ConstantSpline;
+  using Splines::HermiteSpline;
 
-  void python_register_constant_splines_class(py::module & m) {
-    py::class_<ConstantSpline, Spline>(m, "ConstantSpline")
-      .def(py::init<std::string const &>(), py::arg("name") = "ConstantSpline");
+  void python_register_hermite_splines_class(py::module & m) {
+    py::class_<HermiteSpline, Spline>(m, "HermiteSpline")
+      .def(py::init<std::string const &>(), py::arg("name") = "HermiteSpline");
   }
   
 }
