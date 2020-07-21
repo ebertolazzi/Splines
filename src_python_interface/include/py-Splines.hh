@@ -93,6 +93,7 @@ namespace pySpline {
   };
 
   void python_register_splines_class(module & m);
+  void python_register_hermite_functions(module & m);
 }
 
 #endif /* PY_SPLINES_HH */

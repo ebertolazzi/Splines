@@ -136,6 +136,69 @@ namespace pySpline {
       }, py::arg("nintervals"), py::arg("header") = "x\ty");
   }
 
+  void python_register_hermite_functions(module & m) {
+    m.def("Hermite3", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(4);
+      Splines::Hermite3(x, H, result.data());
+      return result;
+    })
+    .def("Hermite3_D", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(4);
+      Splines::Hermite3_D(x, H, result.data());
+      return result;
+    })
+    .def("Hermite3_DD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(4);
+      Splines::Hermite3_DD(x, H, result.data());
+      return result;
+    })
+    .def("Hermite3_DDD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(4);
+      Splines::Hermite3_DDD(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5_D", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5_D(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5_DD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5_DD(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5_DDD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5_DDD(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5_DDDD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5_DDDD(x, H, result.data());
+      return result;
+    })
+    .def("Hermite5_DDDDD", [](real_type const x, real_type const H)
+    -> std::vector<real_type> {
+      std::vector<real_type> result(6);
+      Splines::Hermite5_DDDDD(x, H, result.data());
+      return result;
+    });
+  }
+
 }
 
 PYBIND11_MODULE(Splines, m) {
@@ -150,4 +213,5 @@ PYBIND11_MODULE(Splines, m) {
   pySpline::python_register_pchip_splines_class(m);
   pySpline::python_register_quintic_splines_base_class(m);
   pySpline::python_register_quintic_splines_class(m);
+  pySpline::python_register_hermite_functions(m);
 }
