@@ -66,3 +66,4 @@ toolbox/tests
 toolbox/license.txt
 
 *.mltbx
+!src_python_interface/include

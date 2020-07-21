@@ -7,7 +7,6 @@
 
 #include <string>
 
-#include <Splines.hh>
 #include "py-CubicSplines.hh"
 
 namespace pySpline {
@@ -21,8 +20,8 @@ namespace pySpline {
   using Splines::CubicSpline;
 
   void python_register_cubic_splines_base_class(py::module & m) {
-    py::class_<CubicSplineBase, Spline>(m, "CubicSplineBase")
-      // .def(py::init<std::string const &>(), py::arg("name") = "CubicSplineBase")
+    py::class_<CubicSplineBase, PythonicCubicSplineBase, Spline>(m, "CubicSplineBase")
+      .def(py::init<std::string const &>(), py::arg("name") = "CubicSplineBase")
       .def("copySpline", &CubicSplineBase::copySpline)
       .def("ypNode", &CubicSplineBase::ypNode);
   }

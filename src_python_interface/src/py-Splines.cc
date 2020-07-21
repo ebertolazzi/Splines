@@ -7,6 +7,7 @@
 
 #include "py-Splines.hh"
 #include "py-CubicSplines.hh"
+#include "py-ConstantSplines.hh"
 #include <pybind11/stl.h>
 #include <tuple>
 
@@ -134,4 +135,5 @@ PYBIND11_MODULE(Splines, m) {
   pySpline::python_register_splines_class(m);
   pySpline::python_register_cubic_splines_base_class(m);
   pySpline::python_register_cubic_splines_class(m);
+  pySpline::python_register_constant_spline_class(m);
 }

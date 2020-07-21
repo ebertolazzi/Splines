@@ -18,21 +18,24 @@ find_package(pybind11)
 
 	set(SOURCES
 		"src/py-Splines.cc"
-		"src/py-CubicSplines.cc")
+		"src/py-CubicSplines.cc"
+		"src/py-ConstantSplines.cc")
 
 pybind11_add_module(${PROJECT_NAME} MODULE ${SOURCES} NO_EXTRAS)
 
-	target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 
-	target_include_directories(${PROJECT_NAME}
-			PUBLIC "${SPLINES}/include"
-			PUBLIC "${GENERIC_CONTAINER}/include"
-			PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(${PROJECT_NAME}
+	PUBLIC "${SPLINES}/include"
+	PUBLIC "${GENERIC_CONTAINER}/include"
+	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-	set_property(TARGET ${PROJECT_NAME} PROPERTY
-			POSITION_INDEPENDENT_CODE 1)
+set_property(TARGET ${PROJECT_NAME} PROPERTY
+		POSITION_INDEPENDENT_CODE 1)
 
 if(APPLE)
+  set_property(TARGET ${PROJECT_NAME} 
+    PROPERTY CXX_VISIBILITY_PRESET default)
   target_link_libraries(${PROJECT_NAME} 
     PUBLIC "${GENERIC_CONTAINER}/lib/libGenericContainer_osx_static.a")
   target_link_libraries(${PROJECT_NAME} 
