@@ -229,7 +229,7 @@ namespace Splines {
   SplineSet::eval( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval(x);
     }
   }
@@ -243,7 +243,7 @@ namespace Splines {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
       Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
@@ -302,7 +302,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval(x);
     }
   }
@@ -323,7 +323,7 @@ namespace Splines {
 
     // preallocation
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
@@ -331,7 +331,7 @@ namespace Splines {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
         v[i] = splines[size_t(D.second)]->eval(x);
       }
@@ -403,7 +403,7 @@ namespace Splines {
   SplineSet::eval_D( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_D(x);
     }
   }
@@ -417,7 +417,7 @@ namespace Splines {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
       Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
@@ -476,7 +476,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_D(x);
     }
   }
@@ -497,7 +497,7 @@ namespace Splines {
 
     // preallocation
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
@@ -505,7 +505,7 @@ namespace Splines {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
         v[i] = splines[size_t(D.second)]->eval_D(x);
       }
@@ -576,7 +576,7 @@ namespace Splines {
   SplineSet::eval_DD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
     }
   }
@@ -590,7 +590,7 @@ namespace Splines {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
       Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
@@ -649,7 +649,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
     }
   }
@@ -670,7 +670,7 @@ namespace Splines {
 
     // preallocation
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
@@ -678,7 +678,7 @@ namespace Splines {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
         v[i] = splines[size_t(D.second)]->eval_DD(x);
       }
@@ -750,7 +750,7 @@ namespace Splines {
   SplineSet::eval_DDD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
     }
   }
@@ -767,7 +767,7 @@ namespace Splines {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
       Spline const * p_spl = splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
@@ -826,7 +826,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
     }
   }
@@ -847,7 +847,7 @@ namespace Splines {
 
     // preallocation
     for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
@@ -855,7 +855,7 @@ namespace Splines {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        Treap::DATA_TYPE const & D = header_to_position.get_elem( pos );
+        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
         v[i] = splines[size_t(D.second)]->eval_DDD(x);
       }

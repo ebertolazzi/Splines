@@ -7,7 +7,7 @@ classdef Spline1D < handle
   methods
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function self = Spline1D( kind, varargin )
-      % kind, t, pnts, subtype
+      % kind [, t, pnts, subtype ]
       self.objectHandle = Spline1DMexWrapper( 'new', kind );
       if nargin > 1
         Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
@@ -20,7 +20,7 @@ classdef Spline1D < handle
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function build( self, varargin )
-      % x, y, [subtype]
+      % x, y [, yp or subtype]
       Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

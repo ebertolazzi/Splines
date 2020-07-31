@@ -105,8 +105,10 @@ namespace Splines {
 
   static
   void
-  do_new( int nlhs, mxArray       *plhs[],
-          int nrhs, mxArray const *prhs[] ) {
+  do_new(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper( 'new', kind ): "
     MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
@@ -124,12 +126,13 @@ namespace Splines {
     else if ( tname == "akima"   ) DATA_NEW( arg_out_0, new Splines::AkimaSpline()  );
     else if ( tname == "bessel"  ) DATA_NEW( arg_out_0, new Splines::BesselSpline() );
     else if ( tname == "pchip"   ) DATA_NEW( arg_out_0, new Splines::PchipSpline()  );
+    else if ( tname == "hermite" ) DATA_NEW( arg_out_0, new Splines::HermiteSpline());
     else if ( tname == "quintic" ) DATA_NEW( arg_out_0, new Splines::QuinticSpline());
     else {
       MEX_ASSERT(
         false,
         "Second argument must be one of the strings:\n" <<
-        "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
+        "'linear', 'cubic', 'akima', 'bessel', 'hermite', 'pchip', 'quintic'"
       );
     }
 
@@ -140,8 +143,10 @@ namespace Splines {
 
   static
   void
-  do_delete( int nlhs, mxArray       *plhs[],
-             int nrhs, mxArray const *prhs[] ) {
+  do_delete(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper( 'delete', OBJ ): "
     MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
@@ -157,10 +162,12 @@ namespace Splines {
 
   static
   void
-  do_build( int nlhs, mxArray       *plhs[],
-            int nrhs, mxArray const *prhs[] ) {
+  do_build(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
-    #define CMD "Spline1DMexWrapper('build',OBJ,x,y[,subtype]): "
+    #define CMD "Spline1DMexWrapper('build',OBJ,x,y[,yp or subtype]): "
 
     MEX_ASSERT( nlhs == 0, CMD "expected no output, nlhs = " << nlhs );
     MEX_ASSERT(
@@ -169,28 +176,32 @@ namespace Splines {
     );
 
     mwSize nx, ny;
-    real_type const * x = getVectorPointer(
-      arg_in_2, nx, CMD "error in reading 'x'"
-    );
-    real_type const * y = getVectorPointer(
-      arg_in_3, ny, CMD "error in reading 'y'"
-    );
+    real_type const * x  = nullptr;
+    real_type const * y  = nullptr;
+    real_type const * yp = nullptr;
+    x = getVectorPointer( arg_in_2, nx, CMD "error in reading 'x'" );
+    y = getVectorPointer( arg_in_3, ny, CMD "error in reading 'y'" );
 
     MEX_ASSERT( nx == ny, "lenght of 'x' must be the lenght of 'y'" );
 
     Spline * ptr = DATA_GET( arg_in_1 );
 
     if ( nrhs == 5 ) {
-      MEX_ASSERT(
-        mxIsChar(arg_in_4), CMD "subtype must be a string"
-      );
       string subtype = mxArrayToString(arg_in_4);
+      if ( mxIsChar(arg_in_4) ) {
+        subtype = mxArrayToString(arg_in_4);
+      } else {
+        mwSize nyp;
+        yp = getVectorPointer( arg_in_4, nyp, CMD "error in reading 'yp'" );
+        MEX_ASSERT( ny == nyp, "lenght of 'yp' must be the lenght of 'y'" );
+      }
       switch ( ptr->type() ) {
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
+      case HERMITE_TYPE:
         break;
       case CUBIC_TYPE:
         if ( subtype == "extrapolate" ) {
@@ -230,7 +241,14 @@ namespace Splines {
         break;
       }
     }
-    ptr->build( x, y, nx );
+    switch ( ptr->type() ) {
+    case HERMITE_TYPE:
+      ptr->build( x, y, yp, nx );
+      break;
+    default:
+      ptr->build( x, y, nx );
+      break;
+    }
     #undef CMD
   }
 
@@ -238,8 +256,10 @@ namespace Splines {
 
   static
   void
-  do_degree( int nlhs, mxArray       *plhs[],
-             int nrhs, mxArray const *prhs[] ) {
+  do_degree(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('degree',OBJ): "
 
@@ -255,8 +275,10 @@ namespace Splines {
 
   static
   void
-  do_order( int nlhs, mxArray       *plhs[],
-            int nrhs, mxArray const *prhs[] ) {
+  do_order(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('order',OBJ): "
 
@@ -272,8 +294,10 @@ namespace Splines {
 
   static
   void
-  do_eval( int nlhs, mxArray       *plhs[],
-           int nrhs, mxArray const *prhs[] ) {
+  do_eval(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval',OBJ): "
 
@@ -297,8 +321,10 @@ namespace Splines {
 
   static
   void
-  do_eval_D( int nlhs, mxArray       *plhs[],
-             int nrhs, mxArray const *prhs[] ) {
+  do_eval_D(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval_D',OBJ): "
 
@@ -322,8 +348,10 @@ namespace Splines {
 
   static
   void
-  do_eval_DD( int nlhs, mxArray       *plhs[],
-              int nrhs, mxArray const *prhs[] ) {
+  do_eval_DD(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval_DD',OBJ): "
 
@@ -347,8 +375,10 @@ namespace Splines {
 
   static
   void
-  do_eval_DDD( int nlhs, mxArray       *plhs[],
-               int nrhs, mxArray const *prhs[] ) {
+  do_eval_DDD(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval_DDD',OBJ): "
 
@@ -372,8 +402,10 @@ namespace Splines {
 
   static
   void
-  do_eval_DDDD( int nlhs, mxArray       *plhs[],
-                int nrhs, mxArray const *prhs[] ) {
+  do_eval_DDDD(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval_DDDD',OBJ): "
 
@@ -397,8 +429,10 @@ namespace Splines {
 
   static
   void
-  do_eval_DDDDD( int nlhs, mxArray       *plhs[],
-                 int nrhs, mxArray const *prhs[] ) {
+  do_eval_DDDDD(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('eval_DDDDD',OBJ): "
 
@@ -422,8 +456,10 @@ namespace Splines {
 
   static
   void
-  do_make_closed( int nlhs, mxArray       *plhs[],
-                  int nrhs, mxArray const *prhs[] ) {
+  do_make_closed(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('make_closed',OBJ): "
 
@@ -440,8 +476,10 @@ namespace Splines {
 
   static
   void
-  do_make_opened( int nlhs, mxArray       *plhs[],
-                  int nrhs, mxArray const *prhs[] ) {
+  do_make_opened(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('make_opened',OBJ): "
 
@@ -458,8 +496,10 @@ namespace Splines {
 
   static
   void
-  do_is_closed( int nlhs, mxArray       *plhs[],
-                int nrhs, mxArray const *prhs[] ) {
+  do_is_closed(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('is_closed',OBJ): "
 
@@ -476,8 +516,10 @@ namespace Splines {
 
   static
   void
-  do_make_bounded( int nlhs, mxArray       *plhs[],
-                   int nrhs, mxArray const *prhs[] ) {
+  do_make_bounded(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('make_bounded',OBJ): "
 
@@ -494,8 +536,10 @@ namespace Splines {
 
   static
   void
-  do_make_unbounded( int nlhs, mxArray       *plhs[],
-                     int nrhs, mxArray const *prhs[] ) {
+  do_make_unbounded(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('make_unbounded',OBJ): "
 
@@ -512,8 +556,10 @@ namespace Splines {
 
   static
   void
-  do_is_bounded( int nlhs, mxArray       *plhs[],
-                 int nrhs, mxArray const *prhs[] ) {
+  do_is_bounded(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
 
     #define CMD "Spline1DMexWrapper('is_bounded',OBJ): "
 

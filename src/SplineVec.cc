@@ -71,13 +71,13 @@ namespace Splines {
     spin_write.wait();
     worker_read.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = tp.search( th_id );
+    integer * p_lastInterval = bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval  = tp.insert( th_id );
+      p_lastInterval  = bs.insert( th_id );
       *p_lastInterval = 0;
       worker_read.enter(); // avoid writing until finished
       spin_write.unlock();
@@ -103,13 +103,13 @@ namespace Splines {
     // mark use read
     spin_write.wait();
     worker_read.enter();
-    integer * p_lastInterval = tp.search( th_id );
+    integer * p_lastInterval = bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval = tp.insert( th_id );
+      p_lastInterval = bs.insert( th_id );
       worker_read.enter();
       spin_write.unlock();
     }

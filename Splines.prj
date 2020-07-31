@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="3259672561" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="336032325" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -12,11 +12,12 @@ The classes are the following:
   - LinearSpline, for piecewise linear interpolation
   - CubicSpline, for classical cubic spline interpolation
   - AkimaSpline, for Akima "non oscillatory" spline interpolation 
-  - BesselSpline, for Bessel "non oscillatory" spline interpolation 
-  - PchipSpline, 
+  - BesselSpline, for Bessel "non oscillatory" spline interpolation
+  - HermiteSpline
+  - PchipSpline
   - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
     <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
-    <param.version>1.0.3</param.version>
+    <param.version>1.0.4</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -25,7 +26,7 @@ The classes are the following:
       <item>1</item>
     </param.products.id>
     <param.products.version>
-      <item>9.7</item>
+      <item>9.8</item>
     </param.products.version>
     <param.platforms />
     <param.guid>0dba433b-d115-42b4-a271-d863497f90fb</param.guid>
@@ -80,6 +81,7 @@ setup.m</param.exclude.filters>
     <param.additional.sw.mac.url />
     <param.additional.sw.linux.url />
     <unset>
+      <param.authnamewatermark />
       <param.output />
       <param.platforms />
       <param.exclude.pcodedmfiles />
@@ -129,7 +131,7 @@ setup.m</param.exclude.filters>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>/Applications/MATLAB_R2019b.app</root>
+      <root>/Applications/MATLAB_R2020a.app</root>
       <toolboxes />
     </matlab>
     <platform>
@@ -141,7 +143,7 @@ setup.m</param.exclude.filters>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.15.4</osver>
+      <osver>10.15.6</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>

@@ -55,6 +55,25 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
+  CubicSplineBase::build(
+    vector<real_type> const & x,
+    vector<real_type> const & y,
+    vector<real_type> const & yp
+  ) {
+    integer N = integer(x.size());
+    if ( N > integer(y.size())  ) N = integer(y.size());
+    if ( N > integer(yp.size()) ) N = integer(yp.size());
+    this->build (
+      &x.front(),  1,
+      &y.front(),  1,
+      &yp.front(), 1,
+      N
+    );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
   CubicSplineBase::clear(void) {
     if ( !this->_external_alloc ) this->baseValue.free();
     this->npts = this->npts_reserved = 0;

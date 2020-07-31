@@ -317,16 +317,8 @@ namespace Splines {
    |        |_|
   \*/
 
-  /*\
-                R(0)
-              /      \
-           A(1)       B(2)
-          /    \     /    \
-        C(3)  D(4) E(5)   F(6)
-  \*/
-
   integer *
-  Treap::search( std::thread::id const & id ) const {
+  BinarySearch::search( std::thread::id const & id ) const {
     // binary search
     size_t U = data.size();
     size_t L = 0;
@@ -343,7 +335,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer *
-  Treap::insert( std::thread::id const & id ) {
+  BinarySearch::insert( std::thread::id const & id ) {
     size_t pos = data.size();
     data.push_back(DATA_TYPE(id,0));
     while ( pos > 0 ) {
@@ -365,13 +357,13 @@ namespace Splines {
     spin_write.wait();
     worker_read.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = tp.search( th_id );
+    integer * p_lastInterval = bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval  = tp.insert( th_id );
+      p_lastInterval  = bs.insert( th_id );
       *p_lastInterval = 0;
       worker_read.enter(); // avoid writing until finished
       spin_write.unlock();
@@ -395,13 +387,13 @@ namespace Splines {
     // mark use read
     spin_write.wait();
     worker_read.enter();
-    integer * p_lastInterval = tp.search( th_id );
+    integer * p_lastInterval = bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read.leave();
       spin_write.lock();
       worker_read.wait(); // wait all read finished
-      p_lastInterval = tp.insert( th_id );
+      p_lastInterval = bs.insert( th_id );
       worker_read.enter();
       spin_write.unlock();
     }
@@ -415,13 +407,13 @@ namespace Splines {
     spin_write_x.wait();
     worker_read_x.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = tp_x.search( th_id );
+    integer * p_lastInterval = bs_x.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read_x.leave();
       spin_write_x.lock();
       worker_read_x.wait(); // wait all read finished
-      p_lastInterval  = tp_x.insert( th_id );
+      p_lastInterval  = bs_x.insert( th_id );
       *p_lastInterval = 0;
       worker_read_x.enter(); // avoid writing until finished
       spin_write_x.unlock();
@@ -447,13 +439,13 @@ namespace Splines {
     // mark use read
     spin_write_x.wait();
     worker_read_x.enter();
-    integer * p_lastInterval = tp_x.search( th_id );
+    integer * p_lastInterval = bs_x.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read_x.leave();
       spin_write_x.lock();
       worker_read_x.wait(); // wait all read finished
-      p_lastInterval = tp_x.insert( th_id );
+      p_lastInterval = bs_x.insert( th_id );
       worker_read_x.enter();
       spin_write_x.unlock();
     }
@@ -467,13 +459,13 @@ namespace Splines {
     spin_write_y.wait();
     worker_read_y.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = tp_y.search( th_id );
+    integer * p_lastInterval = bs_y.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read_y.leave();
       spin_write_y.lock();
       worker_read_y.wait(); // wait all read finished
-      p_lastInterval  = tp_y.insert( th_id );
+      p_lastInterval  = bs_y.insert( th_id );
       *p_lastInterval = 0;
       worker_read_y.enter(); // avoid writing until finished
       spin_write_y.unlock();
@@ -499,13 +491,13 @@ namespace Splines {
     // mark use read
     spin_write_y.wait();
     worker_read_y.enter();
-    integer * p_lastInterval = tp_y.search( th_id );
+    integer * p_lastInterval = bs_y.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
       worker_read_y.leave();
       spin_write_y.lock();
       worker_read_y.wait(); // wait all read finished
-      p_lastInterval = tp_y.insert( th_id );
+      p_lastInterval = bs_y.insert( th_id );
       worker_read_y.enter();
       spin_write_y.unlock();
     }
