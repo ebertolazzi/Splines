@@ -67,3 +67,4 @@ toolbox/license.txt
 
 *.mltbx
 *.mexmaci64
+!src_python_interface/include
