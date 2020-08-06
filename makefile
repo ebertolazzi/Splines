@@ -58,10 +58,10 @@ src/SplineVec.cc \
 src/Splines.cc \
 src/Splines1D.cc \
 src/Splines2D.cc \
-src/SplinesUtils.cc \
 src/SplinesBivariate.cc \
 src/SplinesCinterface.cc \
-src/SplinesUnivariate.cc
+src/SplinesUnivariate.cc \
+src/SplinesUtils.cc
 
 OBJS  = $(SRCS:.cc=.o)
 DEPS  = src/Splines.hh src/SplinesCinterface.h

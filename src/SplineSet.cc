@@ -40,7 +40,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::Treap::search( std::string const & id ) const {\
+  SplineSet::BinarySearch::search( std::string const & id ) const {\
     //for ( auto e : data )
     //  std::cout << e.first << " -> " << e.second << '\n';
     // binary search
@@ -59,7 +59,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::Treap::insert( std::string const & id, integer position ) {
+  SplineSet::BinarySearch::insert( std::string const & id, integer position ) {
     size_t pos = data.size();
     data.push_back(DATA_TYPE(id,position));
     while ( pos > 0 ) {

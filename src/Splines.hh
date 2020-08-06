@@ -424,13 +424,13 @@ namespace Splines {
     void leave() { --n_worker; }
   };
 
-  class Treap {
+  class BinarySearch {
   private:
     typedef std::pair<std::thread::id,integer> DATA_TYPE;
     mutable std::vector<DATA_TYPE> data;
   public:
-    Treap() { data.clear(); data.reserve(64); }
-    ~Treap() { data.clear(); }
+    BinarySearch() { data.clear(); data.reserve(64); }
+    ~BinarySearch() { data.clear(); }
 
     integer * search( std::thread::id const & id ) const;
     integer * insert( std::thread::id const & id );
@@ -466,9 +466,9 @@ namespace Splines {
     real_type *X; // allocated in the derived class!
     real_type *Y; // allocated in the derived class!
 
-    mutable Treap      tp;
-    mutable WaitWorker worker_read;
-    mutable SpinLock   spin_write;
+    mutable BinarySearch bs;
+    mutable WaitWorker   worker_read;
+    mutable SpinLock     spin_write;
 
     integer search( real_type & x ) const;
     void initLastInterval();
@@ -563,7 +563,7 @@ namespace Splines {
      | \param x    vector of x-coordinates
      | \param incx access elements as x[0], x[incx], x[2*incx],...
      | \param y    vector of y-coordinates
-     | \param incy access elements as y[0], y[incy], x[2*incy],...
+     | \param incy access elements as y[0], y[incy], y[2*incy],...
      | \param n    total number of points
     \*/
     // must be defined in derived classes
@@ -830,13 +830,14 @@ namespace Splines {
     //! Build a spline.
     /*!
      | \param x     vector of x-coordinates
-     | \param incx  access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+     | \param incx  access elements as x[0], x[incx], x[2*incx],...
      | \param y     vector of y-coordinates
-     | \param incy  access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
-     | \param yp    vector of y'-coordinates
-     | \param incyp access elements as `yp[0]`, `yp[incy]`, `xp[2*incy]`,...
+     | \param incy  access elements as y[0], y[incy], y[2*incy],...
+     | \param yp    vector of y-defivative
+     | \param incyp access elements as yp[0], yp[incyp], yp[2*incyy],...
      | \param n     total number of points
     \*/
+    // must be defined in derived classes
     void
     build(
       real_type const x[],  integer incx,
@@ -869,23 +870,12 @@ namespace Splines {
      | \param y  vector of y-coordinates
      | \param yp vector of y'-coordinates
     \*/
-    inline
     void
     build(
       vector<real_type> const & x,
       vector<real_type> const & y,
       vector<real_type> const & yp
-    ) {
-      integer N = integer(x.size());
-      if ( N > integer(y.size())  ) N = integer(y.size());
-      if ( N > integer(yp.size()) ) N = integer(yp.size());
-      this->build (
-        &x.front(),  1,
-        &y.front(),  1,
-        &yp.front(), 1,
-        N
-      );
-    }
+    );
 
     //! Cancel the support points, empty the spline.
     virtual
@@ -1902,9 +1892,9 @@ namespace Splines {
     real_type ** _Y;
     real_type ** _Yp;
 
-    mutable Treap      tp;
-    mutable WaitWorker worker_read;
-    mutable SpinLock   spin_write;
+    mutable BinarySearch bs;
+    mutable WaitWorker   worker_read;
+    mutable SpinLock     spin_write;
 
     integer search( real_type & x ) const;
     void initLastInterval();
@@ -2213,31 +2203,14 @@ namespace Splines {
     SplineSet( SplineSet const & ) = delete;
     SplineSet const & operator = ( SplineSet const & ) = delete;
 
-    class Treap {
+    class BinarySearch {
     public:
       typedef std::pair<std::string,integer> DATA_TYPE;
     private:
       mutable std::vector<DATA_TYPE> data;
     public:
-      Treap() { data.clear(); data.reserve(256); }
-      ~Treap() { data.clear(); }
-
-      /*
-      string
-      name_list() const {
-        string tmp = "[ ";
-        for ( auto e : data ) tmp += "'" + e.first + "' ";
-        tmp += "]";
-        return tmp;
-      }
-
-      void
-      get_names( std::vector<std::string> & names ) const {
-        names.clear();
-        names.reserve(data.size());
-        for ( auto e : data ) names.push_back(e.first);
-      }
-      */
+      BinarySearch() { data.clear(); data.reserve(256); }
+      ~BinarySearch() { data.clear(); }
 
       integer n_elem() const { return integer(data.size()); }
 
@@ -2267,7 +2240,7 @@ namespace Splines {
 
     vector<Spline*> splines;
     vector<int>     is_monotone;
-    Treap           header_to_position;
+    BinarySearch    header_to_position;
 
   private:
 
@@ -3404,16 +3377,16 @@ namespace Splines {
     real_type Z_min, Z_max;
 
 
-    mutable Treap      tp_x;
-    mutable WaitWorker worker_read_x;
-    mutable SpinLock   spin_write_x;
+    mutable BinarySearch bs_x;
+    mutable WaitWorker   worker_read_x;
+    mutable SpinLock     spin_write_x;
 
     integer search_x( real_type & x ) const;
     void initLastInterval_x();
 
-    mutable Treap      tp_y;
-    mutable WaitWorker worker_read_y;
-    mutable SpinLock   spin_write_y;
+    mutable BinarySearch bs_y;
+    mutable WaitWorker   worker_read_y;
+    mutable SpinLock     spin_write_y;
 
     integer search_y( real_type & y ) const;
     void initLastInterval_y();
