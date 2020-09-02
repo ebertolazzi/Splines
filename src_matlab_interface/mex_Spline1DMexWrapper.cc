@@ -44,7 +44,7 @@ either expressed or implied, of the FreeBSD Project.
 "% USAGE:                                                               %\n" \
 "%   obj = Spline1DMexWrapper( 'new', kind );                           %\n" \
 "%   Spline1DMexWrapper( 'delete', obj );                               %\n" \
-"%   Spline1DMexWrapper( 'build', obj, X, Y, subtype );                 %\n" \
+"%   Spline1DMexWrapper( 'build', obj, X, Y, [Yp or subtype] );         %\n" \
 "%   P      = Spline1DMexWrapper( 'eval', obj, X );                     %\n" \
 "%   DP     = Spline1DMexWrapper( 'eval_D', obj, X );                   %\n" \
 "%   DDP    = Spline1DMexWrapper( 'eval_DD', obj, X );                  %\n" \
@@ -187,65 +187,82 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     if ( nrhs == 5 ) {
-      string subtype = mxArrayToString(arg_in_4);
       if ( mxIsChar(arg_in_4) ) {
-        subtype = mxArrayToString(arg_in_4);
+        MEX_ASSERT(
+          ptr->type() == CUBIC_TYPE || ptr->type() == QUINTIC_TYPE,
+          "subtype can be specifiewd only for Cubic or Quintic spline"
+        );
+        string subtype = mxArrayToString(arg_in_4);
+        switch ( ptr->type() ) {
+        case CONSTANT_TYPE:
+        case LINEAR_TYPE:
+        case AKIMA_TYPE:
+        case BESSEL_TYPE:
+        case PCHIP_TYPE:
+        case HERMITE_TYPE:
+          break;
+        case CUBIC_TYPE:
+          if ( subtype == "extrapolate" ) {
+            static_cast<CubicSpline*>(ptr)->setInitialBC( EXTRAPOLATE_BC );
+            static_cast<CubicSpline*>(ptr)->setFinalBC( EXTRAPOLATE_BC );
+          } else if ( subtype == "natural" ) {
+            static_cast<CubicSpline*>(ptr)->setInitialBC( NATURAL_BC );
+            static_cast<CubicSpline*>(ptr)->setFinalBC( NATURAL_BC );
+          } else if ( subtype == "parabolic"  ) {
+            static_cast<CubicSpline*>(ptr)->setInitialBC( PARABOLIC_RUNOUT_BC );
+            static_cast<CubicSpline*>(ptr)->setFinalBC( PARABOLIC_RUNOUT_BC );
+          } else if ( subtype == "not_a_knot" ) {
+            static_cast<CubicSpline*>(ptr)->setInitialBC( NOT_A_KNOT );
+            static_cast<CubicSpline*>(ptr)->setFinalBC( NOT_A_KNOT );
+          } else {
+            MEX_ASSERT(
+              false,
+              CMD "subtype: " <<  subtype <<
+              " must be in ['extrapolate','natural','parabolic','not_a_knot']"
+            );
+          }
+          break;
+        case QUINTIC_TYPE:
+          if ( subtype == "cubic" ) {
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( CUBIC_QUINTIC );
+          } else if ( subtype == "pchip"  ) {
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( PCHIP_QUINTIC );
+          } else if ( subtype == "akima" ) {
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( AKIMA_QUINTIC );
+          } else if ( subtype == "bessel" ) {
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( BESSEL_QUINTIC );
+          } else {
+            MEX_ASSERT(
+              false,
+              CMD "subtype: " <<  subtype <<
+              " must be in ['cubic','pchip','akima','bessel']"
+            );
+          }
+          break;
+        }
       } else {
+        MEX_ASSERT(
+          ptr->type() == HERMITE_TYPE,
+          "yp can be specified only for Hermite type Spline"
+        );
         mwSize nyp;
         yp = getVectorPointer( arg_in_4, nyp, CMD "error in reading 'yp'" );
         MEX_ASSERT( ny == nyp, "lenght of 'yp' must be the lenght of 'y'" );
       }
-      switch ( ptr->type() ) {
-      case CONSTANT_TYPE:
-      case LINEAR_TYPE:
-      case AKIMA_TYPE:
-      case BESSEL_TYPE:
-      case PCHIP_TYPE:
-      case HERMITE_TYPE:
-        break;
-      case CUBIC_TYPE:
-        if ( subtype == "extrapolate" ) {
-          static_cast<CubicSpline*>(ptr)->setInitialBC( EXTRAPOLATE_BC );
-          static_cast<CubicSpline*>(ptr)->setFinalBC( EXTRAPOLATE_BC );
-        } else if ( subtype == "natural" ) {
-          static_cast<CubicSpline*>(ptr)->setInitialBC( NATURAL_BC );
-          static_cast<CubicSpline*>(ptr)->setFinalBC( NATURAL_BC );
-        } else if ( subtype == "parabolic"  ) {
-          static_cast<CubicSpline*>(ptr)->setInitialBC( PARABOLIC_RUNOUT_BC );
-          static_cast<CubicSpline*>(ptr)->setFinalBC( PARABOLIC_RUNOUT_BC );
-        } else if ( subtype == "not_a_knot" ) {
-          static_cast<CubicSpline*>(ptr)->setInitialBC( NOT_A_KNOT );
-          static_cast<CubicSpline*>(ptr)->setFinalBC( NOT_A_KNOT );
-        } else {
-          MEX_ASSERT(
-            false,
-            CMD "subtype: " <<  subtype << " must be in ['extrapolate','natural','parabolic','not_a_knot']"
-          );
-        }
-        break;
-      case QUINTIC_TYPE:
-        if ( subtype == "cubic" ) {
-          static_cast<QuinticSpline*>(ptr)->setQuinticType( CUBIC_QUINTIC );
-        } else if ( subtype == "pchip"  ) {
-          static_cast<QuinticSpline*>(ptr)->setQuinticType( PCHIP_QUINTIC );
-        } else if ( subtype == "akima" ) {
-          static_cast<QuinticSpline*>(ptr)->setQuinticType( AKIMA_QUINTIC );
-        } else if ( subtype == "bessel" ) {
-          static_cast<QuinticSpline*>(ptr)->setQuinticType( BESSEL_QUINTIC );
-        } else {
-          MEX_ASSERT(
-            false,
-            CMD "subtype: " <<  subtype << " must be in ['cubic','pchip','akima','bessel']"
-          );
-        }
-        break;
-      }
     }
     switch ( ptr->type() ) {
     case HERMITE_TYPE:
-      ptr->build( x, y, yp, nx );
+      MEX_ASSERT(
+        x != nullptr && y != nullptr && yp != nullptr,
+        CMD "something go wrong in reading x, y, or yp"
+      );
+      static_cast<HermiteSpline*>(ptr)->build( x, y, yp, nx );
       break;
     default:
+      MEX_ASSERT(
+        x != nullptr && y != nullptr,
+        CMD "something go wrong in reading x or y"
+      );
       ptr->build( x, y, nx );
       break;
     }
@@ -574,6 +591,166 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+  static
+  void
+  do_xBegin(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('xBegin',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->xBegin() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yBegin(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('yBegin',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->yBegin() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_xEnd(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('xEnd',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->xEnd() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yEnd(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('yEnd',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->yEnd() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_xMin(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('xMin',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->xMin() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yMin(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('yMin',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->yMin() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_xMax(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('xMax',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->xMax() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_yMax(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('yMax',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->yMax() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   typedef enum {
     CMD_NEW,
     CMD_DELETE,
@@ -591,7 +768,15 @@ namespace Splines {
     CMD_IS_CLOSED,
     CMD_MAKE_BOUNDED,
     CMD_MAKE_UNBOUNDED,
-    CMD_IS_BOUNDED
+    CMD_IS_BOUNDED,
+    CMD_XBEGIN,
+    CMD_YBEGIN,
+    CMD_XEND,
+    CMD_YEND,
+    CMD_XMIN,
+    CMD_YMIN,
+    CMD_XMAX,
+    CMD_YMAX
   } CMD_LIST;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -613,7 +798,15 @@ namespace Splines {
     {"is_closed",CMD_IS_CLOSED},
     {"make_bounded",CMD_MAKE_BOUNDED},
     {"make_unbounded",CMD_MAKE_UNBOUNDED},
-    {"is_bounded",CMD_IS_BOUNDED}
+    {"is_bounded",CMD_IS_BOUNDED},
+    {"xBegin",CMD_XBEGIN},
+    {"yBegin",CMD_YBEGIN},
+    {"xEnd",CMD_XEND},
+    {"yEnd",CMD_YEND},
+    {"xMin",CMD_XMIN},
+    {"yMin",CMD_YMIN},
+    {"xMax",CMD_XMAX},
+    {"yMax",CMD_YMAX}
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -684,6 +877,30 @@ namespace Splines {
         break;
       case CMD_IS_BOUNDED:
         do_is_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XBEGIN:
+        do_xBegin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YBEGIN:
+        do_yBegin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XEND:
+        do_xEnd( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YEND:
+        do_yEnd( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XMIN:
+        do_xMin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YMIN:
+        do_yMin( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_XMAX:
+        do_xMax( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_YMAX:
+        do_yMax( nlhs, plhs, nrhs, prhs );
         break;
       }
     } catch ( exception const & e ) {

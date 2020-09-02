@@ -86,5 +86,37 @@ classdef Spline1D < handle
     function ok = is_bounded( self )
       ok = Spline1DMexWrapper( 'is_bounded', self.objectHandle );
     end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function x = xBegin( self )
+      x = Spline1DMexWrapper( 'xBegin', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function x = xEnd( self )
+      x = Spline1DMexWrapper( 'xEnd', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function y = yBegin( self )
+      y = Spline1DMexWrapper( 'yBegin', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function y = yEnd( self )
+      y = Spline1DMexWrapper( 'yEnd', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function x = xMin( self )
+      x = Spline1DMexWrapper( 'xMin', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function x = xMax( self )
+      x = Spline1DMexWrapper( 'xMax', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function y = yMin( self )
+      y = Spline1DMexWrapper( 'yMin', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function y = yMax( self )
+      y = Spline1DMexWrapper( 'yMax', self.objectHandle );
+    end
   end
 end

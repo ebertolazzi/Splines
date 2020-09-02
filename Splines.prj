@@ -17,7 +17,7 @@ The classes are the following:
   - PchipSpline
   - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
     <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
-    <param.version>1.0.4</param.version>
+    <param.version>1.0.5</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -114,6 +114,7 @@ setup.m</param.exclude.filters>
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
+      <file>${PROJECT_ROOT}/toolbox/GenericContainer-8d0afcaa.o.tmp</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/doc</file>
