@@ -38,11 +38,21 @@ LIB_NAMES = {
 LIB_SRCS = '';
 LIB_OBJS = '';
 for k=1:length(LIB_NAMES)
-  LIB_SRCS = [ LIB_SRCS, ' ../src/', LIB_NAMES{k}, '.cc' ];
+  n        = LIB_NAMES{k};
+  LIB_SRCS = [ LIB_SRCS, ' ../src/', n, '.cc' ];
   if isunix
-    LIB_OBJS = [ LIB_OBJS, LIB_NAMES{k}, '.o ' ];
+    LIB_OBJS = [ LIB_OBJS, n, '.o ' ];
   elseif ispc
-    LIB_OBJS = [ LIB_OBJS, LIB_NAMES{k}, '.obj ' ];
+    LIB_OBJS = [ LIB_OBJS, n, '.obj ' ];
+  end
+end
+for k=1:length(NAMES)
+  n        = NAMES{k};
+  LIB_SRCS = [ LIB_SRCS, ' ../src_matlab_interface/mex_', n, '.cc' ];
+  if isunix
+    LIB_OBJS = [ LIB_OBJS, n, '.o ' ];
+  elseif ispc
+    LIB_OBJS = [ LIB_OBJS, n, '.obj ' ];
   end
 end
 
@@ -73,15 +83,17 @@ for k=1:length(NAMES)
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
 
-  CMD = [ 'mex  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -I../src -output ../lib_matlab/', N ];
-  CMD = [ CMD, ' -largeArrayDims ../src_matlab_interface/mex_', N ];
-  CMD = [ CMD, '.cc ', LIB_OBJS ];
+  CMD = [ 'mex  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -I../src -output ../lib_matlab/' ];
+  CMD = [ CMD , N, ' -largeArrayDims ' ];
   if isunix
-    if ismac
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
-    else
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
-    end
+    CMD = [ CMD, N, '.o ', LIB_OBJS ];
+  elseif ispc
+    CMD = [ CMD, N, '.obj ', LIB_OBJS ];
+  end
+  if ismac
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -static-libgcc -static-libstdc++ -Wall -O2 -g"'];
+  elseif isunix
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -static-libgcc -static-libstdc++ -Wall -O2 -g"'];
   elseif ispc
   end
   disp(CMD);
@@ -89,10 +101,19 @@ for k=1:length(NAMES)
 end
 
 for k=1:length(LIB_NAMES)
+  n = LIB_NAMES{k};
   if isunix
-    delete([ LIB_NAMES{k}, '.o' ]);
+    delete([ n, '.o' ]);
   elseif ispc
-    delete([ LIB_NAMES{k}, '.obj' ]);
+    delete([ n, '.obj' ]);
+  end
+end
+for k=1:length(NAMES)
+  n = NAMES{k};
+  if isunix
+    delete([ n, '.o' ]);
+  elseif ispc
+    delete([ n, '.obj' ]);
   end
 end
 

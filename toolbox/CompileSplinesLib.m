@@ -53,12 +53,11 @@ for k=1:length(NAMES)
   CMD = [ 'mex  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -output bin/', N ];
   CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N ];
   CMD = [ CMD, '.cc ', LIB_OBJS ];
-  if isunix
-    if ismac
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
-    else
-      CMD = [CMD, ' -lstdc++ CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
-    end
+  if ismac
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
+  elseif isunix
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
+    CMD = [CMD, ' LINKFLAGS="\$LINKFLAGS -static-libgcc -static-libstdc++"'];
   elseif ispc
   end
   disp(CMD);
