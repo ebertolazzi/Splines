@@ -522,7 +522,7 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type & m = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
@@ -536,7 +536,7 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type & m = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
@@ -550,7 +550,7 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type & m = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());

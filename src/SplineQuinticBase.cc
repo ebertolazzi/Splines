@@ -84,9 +84,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::operator () ( real_type x ) const {
+  QuinticSplineBase::operator () ( real_type x, integer i ) const {
     real_type base[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5( x-x0, H, base );
@@ -98,9 +97,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::D( real_type x ) const {
+  QuinticSplineBase::operator () ( real_type x ) const {
+    return this->operator () ( x,this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::D( real_type x, integer i ) const {
     real_type base_D[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5_D( x-x0, H, base_D );
@@ -112,9 +117,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DD( real_type x ) const {
+  QuinticSplineBase::D( real_type x ) const {
+    return this->D( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::DD( real_type x, integer i ) const {
     real_type base_DD[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5_DD( x-x0, H, base_DD );
@@ -126,9 +137,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDD( real_type x ) const {
+  QuinticSplineBase::DD( real_type x ) const {
+    return this->DD( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::DDD( real_type x, integer i ) const {
     real_type base_DDD[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5_DDD( x-x0, H, base_DDD );
@@ -140,9 +157,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDDD( real_type x ) const {
+  QuinticSplineBase::DDD( real_type x ) const {
+    return this->DDD( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::DDDD( real_type x, integer i ) const {
     real_type base_DDDD[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5_DDDD( x-x0, H, base_DDDD );
@@ -154,15 +177,28 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDDDD( real_type x ) const {
+  QuinticSplineBase::DDDD( real_type x ) const {
+    return this->DDDD( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::DDDDD( real_type x, integer i ) const {
     real_type base_DDDDD[6];
-    size_t i = size_t(this->search( x ));
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
     Hermite5_DDDDD( x-x0, H, base_DDDDD );
     return base_DDDDD[0] * this->Y[i]   + base_DDDDD[1] * this->Y[i+1]  +
            base_DDDDD[2] * this->Yp[i]  + base_DDDDD[3] * this->Yp[i+1] +
            base_DDDDD[4] * this->Ypp[i] + base_DDDDD[5] * this->Ypp[i+1];
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  QuinticSplineBase::DDDDD( real_type x ) const {
+    return this->DDDDD( x, this->search( x ) );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

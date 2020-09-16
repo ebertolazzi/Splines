@@ -694,6 +694,47 @@ namespace Splines {
     real_type eval_DDDD( real_type x ) const { return this->DDDD(x); }
     real_type eval_DDDDD( real_type x ) const { return this->DDDDD(x); }
 
+    ///////////////////////////////////////////////////////////////////////////
+    //! Evaluate spline value when interval is known
+    virtual
+    real_type
+    operator () ( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+
+    //! 4th derivative
+    virtual
+    real_type
+    DDDD( real_type, integer ) const
+    { return real_type(0); }
+
+    //! 4th derivative
+    virtual
+    real_type
+    DDDDD( real_type, integer ) const
+    { return real_type(0); }
+
+    //! Some aliases
+    real_type eval( real_type x, integer ni ) const { return (*this)(x,ni); }
+    real_type eval_D( real_type x, integer ni ) const { return this->D(x,ni); }
+    real_type eval_DD( real_type x, integer ni ) const { return this->DD(x,ni); }
+    real_type eval_DDD( real_type x, integer ni ) const { return this->DDD(x,ni); }
+    real_type eval_DDDD( real_type x, integer ni ) const { return this->DDDD(x,ni); }
+    real_type eval_DDDDD( real_type x, integer ni ) const { return this->DDDDD(x,ni); }
+
     //! get the piecewise polinomials of the spline
     virtual
     integer // order
@@ -814,6 +855,26 @@ namespace Splines {
     virtual
     real_type
     DDD( real_type x ) const SPLINES_OVERRIDE;
+
+    //! Evaluate spline value knowing interval
+    virtual
+    real_type
+    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
     virtual
@@ -1191,29 +1252,12 @@ namespace Splines {
     //! Evalute spline value at `x`
     virtual
     real_type
-    operator () ( real_type x ) const SPLINES_OVERRIDE {
-      SPLINE_ASSERT(
-        this->npts > 0, "in LinearSpline::operator(), npts == 0!"
-      )
-      if ( x < this->X[0]      ) return this->Y[0];
-      if ( x > this->X[npts-1] ) return this->Y[this->npts-1];
-      integer   i = this->search(x);
-      real_type s = (x-this->X[i])/(this->X[i+1] - this->X[i]);
-      return (1-s)*this->Y[i] + s * this->Y[i+1];
-    }
+    operator () ( real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x ) const SPLINES_OVERRIDE {
-      SPLINE_ASSERT(
-        this->npts > 0, "in LinearSpline::operator(), npts == 0!"
-      )
-      if ( x < this->X[0]      ) return 0;
-      if ( x > this->X[npts-1] ) return 0;
-      integer i = this->search(x);
-      return ( this->Y[i+1] - this->Y[i] ) / ( this->X[i+1] - this->X[i] );
-    }
+    D( real_type x ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
@@ -1225,6 +1269,28 @@ namespace Splines {
     virtual
     real_type
     DDD( real_type ) const SPLINES_OVERRIDE
+    { return 0; }
+
+    //! Evaluate spline value knowing interval
+    virtual
+    real_type
+    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type, integer ) const SPLINES_OVERRIDE
+    { return 0; }
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type, integer ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
@@ -1344,6 +1410,29 @@ namespace Splines {
     virtual
     real_type
     DDD( real_type ) const SPLINES_OVERRIDE
+    { return 0; }
+
+    //! Evaluate spline value at `x` knowing interval
+    virtual
+    real_type
+    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type, integer ) const SPLINES_OVERRIDE
+    { return 0; }
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type, integer ) const SPLINES_OVERRIDE
+    { return 0; }
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type, integer ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
@@ -1526,12 +1615,44 @@ namespace Splines {
     DDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Fourth derivative
+    virtual
     real_type
     DDDD( real_type x ) const SPLINES_OVERRIDE;
 
     //! Fifth derivative
+    virtual
     real_type
     DDDDD( real_type x ) const SPLINES_OVERRIDE;
+
+    //! Evaluate spline value knowing interval
+    virtual
+    real_type
+    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! First derivative
+    virtual
+    real_type
+    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Second derivative
+    virtual
+    real_type
+    DD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Third derivative
+    virtual
+    real_type
+    DDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Fourth derivative
+    virtual
+    real_type
+    DDDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+
+    //! Fifth derivative
+    virtual
+    real_type
+    DDDDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
     virtual
@@ -1828,6 +1949,39 @@ namespace Splines {
     real_type eval_DDDD( real_type x ) const { return pSpline->DDDD(x); }
     real_type eval_DDDDD( real_type x ) const { return pSpline->DDDDD(x); }
 
+    ///////////////////////////////////////////////////////////////////////////
+    //! Evaluate spline value knowing interval
+    real_type
+    operator () ( real_type x, integer ni ) const { return (*pSpline)(x,ni); }
+
+    //! First derivative
+    real_type
+    D( real_type x, integer ni ) const { return pSpline->D(x,ni); }
+
+    //! Second derivative
+    real_type
+    DD( real_type x, integer ni ) const { return pSpline->DD(x,ni); }
+
+    //! Third derivative
+    real_type
+    DDD( real_type x, integer ni ) const { return pSpline->DDD(x,ni); }
+
+    //! 4th derivative
+    real_type
+    DDDD( real_type x, integer ni ) const { return pSpline->DDDD(x,ni); }
+
+    //! 5th derivative
+    real_type
+    DDDDD( real_type x, integer ni ) const { return pSpline->DDDDD(x,ni); }
+
+    //! Some aliases
+    real_type eval( real_type x, integer ni ) const { return (*pSpline)(x,ni); }
+    real_type eval_D( real_type x, integer ni ) const { return pSpline->D(x,ni); }
+    real_type eval_DD( real_type x, integer ni ) const { return pSpline->DD(x,ni); }
+    real_type eval_DDD( real_type x, integer ni ) const { return pSpline->DDD(x,ni); }
+    real_type eval_DDDD( real_type x, integer ni ) const { return pSpline->DDDD(x,ni); }
+    real_type eval_DDDDD( real_type x, integer ni ) const { return pSpline->DDDDD(x,ni); }
+
     //! get the piecewise polinomials of the spline
     integer // order
     coeffs(
@@ -1916,12 +2070,12 @@ namespace Splines {
     ~SplineVec();
 
     bool is_closed() const { return this->_curve_is_closed; }
-    void make_closed() { this->_curve_is_closed = true; }
-    void make_open()   { this->_curve_is_closed = false; }
+    void make_closed()     { this->_curve_is_closed = true; }
+    void make_open()       { this->_curve_is_closed = false; }
 
     bool can_extend() const { return this->_curve_can_extend; }
-    void make_unbounded() { this->_curve_can_extend = true; }
-    void make_buonded()   { this->_curve_can_extend = false; }
+    void make_unbounded()   { this->_curve_can_extend = true; }
+    void make_buonded()     { this->_curve_can_extend = false; }
 
     string const &
     name() const

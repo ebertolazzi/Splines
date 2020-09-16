@@ -77,6 +77,14 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  //! Evalute spline value at `x`
+  real_type
+  ConstantSpline::operator () ( real_type, integer ni ) const {
+    return this->Y[ni];
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   ConstantSpline::build(
     real_type const x[], integer incx,

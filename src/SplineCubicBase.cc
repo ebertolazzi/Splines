@@ -119,9 +119,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::operator () ( real_type x ) const {
+  CubicSplineBase::operator () ( real_type x, integer i ) const {
     real_type base[4];
-    size_t i = size_t(this->search( x ));
     Hermite3( x-this->X[i], this->X[i+1]-this->X[i], base );
     return base[0] * this->Y[i]   +
            base[1] * this->Y[i+1] +
@@ -132,9 +131,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::D( real_type x ) const {
+  CubicSplineBase::operator () ( real_type x ) const {
+    return this->operator() ( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  CubicSplineBase::D( real_type x, integer i ) const {
     real_type base_D[4];
-    size_t i = size_t(this->search( x ));
     Hermite3_D( x-this->X[i], this->X[i+1]-this->X[i], base_D );
     return base_D[0] * this->Y[i]   +
            base_D[1] * this->Y[i+1] +
@@ -145,9 +150,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DD( real_type x ) const {
+  CubicSplineBase::D( real_type x ) const {
+    return this->D( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  CubicSplineBase::DD( real_type x, integer i ) const {
     real_type base_DD[4];
-    size_t i = size_t(this->search( x ));
     Hermite3_DD( x-this->X[i], this->X[i+1]-this->X[i], base_DD );
     return base_DD[0] * this->Y[i]   +
            base_DD[1] * this->Y[i+1] +
@@ -158,14 +169,27 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DDD( real_type x ) const {
+  CubicSplineBase::DD( real_type x ) const {
+    return this->DD( x, this->search( x ) );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  CubicSplineBase::DDD( real_type x, integer i ) const {
     real_type base_DDD[4];
-    size_t i = size_t(this->search( x ));
     Hermite3_DDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDD );
     return base_DDD[0] * this->Y[i]   +
            base_DDD[1] * this->Y[i+1] +
            base_DDD[2] * this->Yp[i]  +
            base_DDD[3] * this->Yp[i+1];
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  CubicSplineBase::DDD( real_type x ) const {
+    return this->DDD( x, this->search( x ) );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
