@@ -470,7 +470,6 @@ namespace Splines {
     mutable WaitWorker   worker_read;
     mutable SpinLock     spin_write;
 
-    integer search( real_type & x ) const;
     void initLastInterval();
 
     Spline( Spline const & ) = delete;
@@ -494,6 +493,8 @@ namespace Splines {
     virtual
     ~Spline()
     {}
+
+    integer search( real_type & x ) const;
 
     string const & name() const { return _name; }
 
@@ -2050,7 +2051,6 @@ namespace Splines {
     mutable WaitWorker   worker_read;
     mutable SpinLock     spin_write;
 
-    integer search( real_type & x ) const;
     void initLastInterval();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -2068,6 +2068,8 @@ namespace Splines {
     //! spline destructor
     virtual
     ~SplineVec();
+
+    integer search( real_type & x ) const;
 
     bool is_closed() const { return this->_curve_is_closed; }
     void make_closed()     { this->_curve_is_closed = true; }
