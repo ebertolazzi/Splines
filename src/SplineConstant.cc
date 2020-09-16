@@ -79,7 +79,7 @@ namespace Splines {
 
   //! Evalute spline value at `x`
   real_type
-  ConstantSpline::operator () ( real_type, integer ni ) const {
+  ConstantSpline::id_eval( integer ni, real_type ) const {
     return this->Y[ni];
   }
 

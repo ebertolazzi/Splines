@@ -176,8 +176,10 @@ namespace Splines {
     this->_nspl = nspl;
     this->_npts = npts;
     // allocate memory
-    splines.resize(size_t(this->_nspl));
-    is_monotone.resize(size_t(this->_nspl));
+    this->splines.resize(size_t(this->_nspl));
+    this->is_monotone.resize(size_t(this->_nspl));
+    this->header_to_position.clear();
+
     integer mem = npts;
     for ( integer spl = 0; spl < nspl; ++spl ) {
       switch (stype[size_t(spl)]) {
@@ -205,15 +207,15 @@ namespace Splines {
       }
     }
 
-    this->baseValue   . allocate( size_t(mem + 2*nspl) );
-    this->basePointer . allocate( size_t(3*nspl) );
+    this->baseValue.allocate( size_t(mem + 2*nspl) );
+    this->basePointer.allocate( size_t(3*nspl) );
 
-    this->_Y    = this->basePointer(size_t(this->_nspl));
-    this->_Yp   = this->basePointer(size_t(this->_nspl));
-    this->_Ypp  = this->basePointer(size_t(this->_nspl));
-    this->_X    = this->baseValue(size_t(this->_npts));
-    this->_Ymin = this->baseValue(size_t(this->_nspl));
-    this->_Ymax = this->baseValue(size_t(this->_nspl));
+    this->_Y    = this->basePointer ( size_t(this->_nspl) );
+    this->_Yp   = this->basePointer ( size_t(this->_nspl) );
+    this->_Ypp  = this->basePointer ( size_t(this->_nspl) );
+    this->_X    = this->baseValue   ( size_t(this->_npts) );
+    this->_Ymin = this->baseValue   ( size_t(this->_nspl) );
+    this->_Ymax = this->baseValue   ( size_t(this->_nspl) );
 
     std::copy( X, X+npts, this->_X );
     for ( size_t spl = 0; spl < size_t(nspl); ++spl ) {
@@ -221,7 +223,7 @@ namespace Splines {
       real_type *& pYp  = this->_Yp[spl];
       real_type *& pYpp = this->_Ypp[spl];
       pY = baseValue(size_t(this->_npts));
-      std::copy( Y[spl], Y[spl]+npts, pY );
+      std::copy_n( Y[spl], npts, pY );
       if ( stype[spl] == CONSTANT_TYPE ) {
         this->_Ymin[spl] = *std::min_element( pY, pY+npts-1 );
         this->_Ymax[spl] = *std::max_element( pY, pY+npts-1 );
@@ -232,20 +234,20 @@ namespace Splines {
       pYpp = pYp = nullptr;
       switch ( stype[size_t(spl)] ) {
       case QUINTIC_TYPE:
-        pYpp = baseValue(size_t(this->_npts));
+        pYpp = baseValue( size_t(this->_npts) );
       case CUBIC_TYPE:
       case AKIMA_TYPE:
       case BESSEL_TYPE:
       case PCHIP_TYPE:
       case HERMITE_TYPE:
-        pYp = baseValue(size_t(this->_npts));
+        pYp = baseValue( size_t(this->_npts) );
         if ( stype[spl] == HERMITE_TYPE ) {
           SPLINE_ASSERT(
             Yp != nullptr && Yp[spl] != nullptr,
             "SplineSet::build\nAt spline n. " << spl <<
             " named " << headers[spl] << "\nexpect to find derivative values"
           )
-          std::copy( Yp[spl], Yp[spl]+npts, pYp );
+          std::copy_n( Yp[spl], npts, pYp );
         }
       case CONSTANT_TYPE:
       case LINEAR_TYPE:

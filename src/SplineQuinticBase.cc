@@ -84,7 +84,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::operator () ( real_type x, integer i ) const {
+  QuinticSplineBase::id_eval( integer i, real_type x ) const {
     real_type base[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -98,13 +98,13 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::operator () ( real_type x ) const {
-    return this->operator () ( x,this->search( x ) );
+    return this->id_eval( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::D( real_type x, integer i ) const {
+  QuinticSplineBase::id_D( integer i, real_type x ) const {
     real_type base_D[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -118,13 +118,13 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::D( real_type x ) const {
-    return this->D( x, this->search( x ) );
+    return this->id_D( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DD( real_type x, integer i ) const {
+  QuinticSplineBase::id_DD( integer i, real_type x ) const {
     real_type base_DD[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -138,13 +138,13 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DD( real_type x ) const {
-    return this->DD( x, this->search( x ) );
+    return this->id_DD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDD( real_type x, integer i ) const {
+  QuinticSplineBase::id_DDD( integer i, real_type x ) const {
     real_type base_DDD[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -158,13 +158,13 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
-    return this->DDD( x, this->search( x ) );
+    return this->id_DDD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDDD( real_type x, integer i ) const {
+  QuinticSplineBase::id_DDDD( integer i,  real_type x ) const {
     real_type base_DDDD[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -178,13 +178,13 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
-    return this->DDDD( x, this->search( x ) );
+    return this->id_DDDD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::DDDDD( real_type x, integer i ) const {
+  QuinticSplineBase::id_DDDDD( integer i, real_type x ) const {
     real_type base_DDDDD[6];
     real_type x0 = this->X[i];
     real_type H  = this->X[i+1] - x0;
@@ -198,7 +198,7 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
-    return this->DDDDD( x, this->search( x ) );
+    return this->id_DDDDD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

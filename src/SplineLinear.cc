@@ -33,7 +33,7 @@ namespace Splines {
   using namespace std; // load standard namspace
 
   real_type
-  LinearSpline::operator () ( real_type x, integer i ) const {
+  LinearSpline::id_eval( integer i, real_type x ) const {
     real_type s = (x-this->X[i])/(this->X[i+1] - this->X[i]);
     return (1-s)*this->Y[i] + s * this->Y[i+1];
   }
@@ -43,11 +43,11 @@ namespace Splines {
     SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!" )
     if ( x < this->X[0]      ) return this->Y[0];
     if ( x > this->X[npts-1] ) return this->Y[this->npts-1];
-    return this->operator () ( x, this->search(x) );
+    return this->id_eval( this->search(x), x );
   }
 
   real_type
-  LinearSpline::D( real_type, integer i ) const {
+  LinearSpline::id_D( integer i, real_type ) const {
     return ( this->Y[i+1] - this->Y[i] ) / ( this->X[i+1] - this->X[i] );
   }
 
@@ -56,7 +56,7 @@ namespace Splines {
     SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!"  )
     if ( x < this->X[0]      ) return 0;
     if ( x > this->X[npts-1] ) return 0;
-    return this->D( x, this->search(x) );
+    return this->id_D( this->search(x), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

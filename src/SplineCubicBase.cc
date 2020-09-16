@@ -119,7 +119,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::operator () ( real_type x, integer i ) const {
+  CubicSplineBase::id_eval( integer i, real_type x ) const {
     real_type base[4];
     Hermite3( x-this->X[i], this->X[i+1]-this->X[i], base );
     return base[0] * this->Y[i]   +
@@ -132,13 +132,13 @@ namespace Splines {
 
   real_type
   CubicSplineBase::operator () ( real_type x ) const {
-    return this->operator() ( x, this->search( x ) );
+    return this->id_eval( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::D( real_type x, integer i ) const {
+  CubicSplineBase::id_D( integer i, real_type x ) const {
     real_type base_D[4];
     Hermite3_D( x-this->X[i], this->X[i+1]-this->X[i], base_D );
     return base_D[0] * this->Y[i]   +
@@ -151,13 +151,13 @@ namespace Splines {
 
   real_type
   CubicSplineBase::D( real_type x ) const {
-    return this->D( x, this->search( x ) );
+    return this->id_D( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DD( real_type x, integer i ) const {
+  CubicSplineBase::id_DD( integer i, real_type x ) const {
     real_type base_DD[4];
     Hermite3_DD( x-this->X[i], this->X[i+1]-this->X[i], base_DD );
     return base_DD[0] * this->Y[i]   +
@@ -170,13 +170,13 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DD( real_type x ) const {
-    return this->DD( x, this->search( x ) );
+    return this->id_DD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DDD( real_type x, integer i ) const {
+  CubicSplineBase::id_DDD( integer i, real_type x ) const {
     real_type base_DDD[4];
     Hermite3_DDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDD );
     return base_DDD[0] * this->Y[i]   +
@@ -189,7 +189,7 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DDD( real_type x ) const {
-    return this->DDD( x, this->search( x ) );
+    return this->id_DDD( this->search( x ), x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

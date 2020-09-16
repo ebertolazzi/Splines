@@ -432,6 +432,8 @@ namespace Splines {
     BinarySearch() { data.clear(); data.reserve(64); }
     ~BinarySearch() { data.clear(); }
 
+    void clear() { data.clear(); data.reserve(64); }
+
     integer * search( std::thread::id const & id ) const;
     integer * insert( std::thread::id const & id );
   };
@@ -699,42 +701,34 @@ namespace Splines {
     //! Evaluate spline value when interval is known
     virtual
     real_type
-    operator () ( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+    id_eval( integer ni, real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+    id_D( integer ni, real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+    id_DD( integer ni, real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type x, integer ni ) const SPLINES_PURE_VIRTUAL;
+    id_DDD( integer ni, real_type x ) const SPLINES_PURE_VIRTUAL;
 
     //! 4th derivative
     virtual
     real_type
-    DDDD( real_type, integer ) const
+    id_DDDD( integer, real_type ) const
     { return real_type(0); }
 
     //! 4th derivative
     virtual
     real_type
-    DDDDD( real_type, integer ) const
+    id_DDDDD( integer, real_type ) const
     { return real_type(0); }
-
-    //! Some aliases
-    real_type eval( real_type x, integer ni ) const { return (*this)(x,ni); }
-    real_type eval_D( real_type x, integer ni ) const { return this->D(x,ni); }
-    real_type eval_DD( real_type x, integer ni ) const { return this->DD(x,ni); }
-    real_type eval_DDD( real_type x, integer ni ) const { return this->DDD(x,ni); }
-    real_type eval_DDDD( real_type x, integer ni ) const { return this->DDDD(x,ni); }
-    real_type eval_DDDDD( real_type x, integer ni ) const { return this->DDDDD(x,ni); }
 
     //! get the piecewise polinomials of the spline
     virtual
@@ -860,22 +854,22 @@ namespace Splines {
     //! Evaluate spline value knowing interval
     virtual
     real_type
-    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_eval( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_D( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DDD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
     virtual
@@ -1275,23 +1269,23 @@ namespace Splines {
     //! Evaluate spline value knowing interval
     virtual
     real_type
-    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_eval( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_D( integer, real_type ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type, integer ) const SPLINES_OVERRIDE
+    id_DD( integer, real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type, integer ) const SPLINES_OVERRIDE
+    id_DDD( integer, real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
@@ -1416,24 +1410,24 @@ namespace Splines {
     //! Evaluate spline value at `x` knowing interval
     virtual
     real_type
-    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_eval( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type, integer ) const SPLINES_OVERRIDE
+    id_D( integer, real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type, integer ) const SPLINES_OVERRIDE
+    id_DD( integer, real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type, integer ) const SPLINES_OVERRIDE
+    id_DDD( integer, real_type ) const SPLINES_OVERRIDE
     { return 0; }
 
     //! Print spline coefficients
@@ -1628,32 +1622,32 @@ namespace Splines {
     //! Evaluate spline value knowing interval
     virtual
     real_type
-    operator () ( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_eval( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! First derivative
     virtual
     real_type
-    D( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_D( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Second derivative
     virtual
     real_type
-    DD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Third derivative
     virtual
     real_type
-    DDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DDD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Fourth derivative
     virtual
     real_type
-    DDDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DDDD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Fifth derivative
     virtual
     real_type
-    DDDDD( real_type x, integer ni ) const SPLINES_OVERRIDE;
+    id_DDDDD( integer ni, real_type x ) const SPLINES_OVERRIDE;
 
     //! Print spline coefficients
     virtual
@@ -1953,35 +1947,27 @@ namespace Splines {
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value knowing interval
     real_type
-    operator () ( real_type x, integer ni ) const { return (*pSpline)(x,ni); }
+    id_eval( integer ni, real_type x ) const { return pSpline->id_eval(ni,x); }
 
     //! First derivative
     real_type
-    D( real_type x, integer ni ) const { return pSpline->D(x,ni); }
+    id_D( integer ni, real_type x ) const { return pSpline->id_D(ni,x); }
 
     //! Second derivative
     real_type
-    DD( real_type x, integer ni ) const { return pSpline->DD(x,ni); }
+    id_DD( integer ni, real_type x ) const { return pSpline->id_DD(ni,x); }
 
     //! Third derivative
     real_type
-    DDD( real_type x, integer ni ) const { return pSpline->DDD(x,ni); }
+    id_DDD( integer ni, real_type x ) const { return pSpline->id_DDD(ni,x); }
 
     //! 4th derivative
     real_type
-    DDDD( real_type x, integer ni ) const { return pSpline->DDDD(x,ni); }
+    id_DDDD( integer ni, real_type x ) const { return pSpline->id_DDDD(ni,x); }
 
     //! 5th derivative
     real_type
-    DDDDD( real_type x, integer ni ) const { return pSpline->DDDDD(x,ni); }
-
-    //! Some aliases
-    real_type eval( real_type x, integer ni ) const { return (*pSpline)(x,ni); }
-    real_type eval_D( real_type x, integer ni ) const { return pSpline->D(x,ni); }
-    real_type eval_DD( real_type x, integer ni ) const { return pSpline->DD(x,ni); }
-    real_type eval_DDD( real_type x, integer ni ) const { return pSpline->DDD(x,ni); }
-    real_type eval_DDDD( real_type x, integer ni ) const { return pSpline->DDDD(x,ni); }
-    real_type eval_DDDDD( real_type x, integer ni ) const { return pSpline->DDDDD(x,ni); }
+    id_DDDDD( integer ni, real_type x ) const { return pSpline->id_DDDDD(ni,x); }
 
     //! get the piecewise polinomials of the spline
     integer // order
@@ -2367,6 +2353,8 @@ namespace Splines {
     public:
       BinarySearch() { data.clear(); data.reserve(256); }
       ~BinarySearch() { data.clear(); }
+
+      void clear() { data.clear(); data.reserve(256); }
 
       integer n_elem() const { return integer(data.size()); }
 
