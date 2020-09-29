@@ -239,25 +239,25 @@ namespace Splines {
   void
   QuinticSpline::build() {
     SPLINE_ASSERT(
-      this->npts > 1,
-      "QuinticSpline::build(): npts = " << this->npts << " not enought points"
+      m_npts > 1,
+      "QuinticSpline::build(): npts = " << m_npts << " not enought points"
     )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
+      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
       Quintic_build(
-        this->q_sub_type,
-        this->X+ibegin,  this->Y+ibegin,
-        this->Yp+ibegin, this->Ypp+ibegin,
+        m_q_sub_type,
+        m_X+ibegin,  m_Y+ibegin,
+        m_Yp+ibegin, m_Ypp+ibegin,
         iend - ibegin
       );
       ibegin = iend;
-    } while ( iend < this->npts );
+    } while ( iend < m_npts );
 
-    SPLINE_CHECK_NAN( this->Yp,  "QuinticSpline::build(): Yp",  this->npts );
-    SPLINE_CHECK_NAN( this->Ypp, "QuinticSpline::build(): Ypp", this->npts );
+    SPLINE_CHECK_NAN( m_Yp,  "QuinticSpline::build(): Yp",  m_npts );
+    SPLINE_CHECK_NAN( m_Ypp, "QuinticSpline::build(): Ypp", m_npts );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -274,11 +274,11 @@ namespace Splines {
     */
     SPLINE_ASSERT(
       gc.exists("xdata"),
-      "QuinticSpline[" << this->_name << "]::setup missing `xdata` field!"
+      "QuinticSpline[" << m_name << "]::setup missing `xdata` field!"
     )
     SPLINE_ASSERT(
       gc.exists("ydata"),
-      "QuinticSpline[" << this->_name << "]::setup missing `ydata` field!"
+      "QuinticSpline[" << m_name << "]::setup missing `ydata` field!"
     )
 
     GenericContainer const & gc_x = gc("xdata");
@@ -287,27 +287,29 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "QuinticSpline[" << this->_name << "]::setup, field `xdata'";
+      ost << "QuinticSpline[" << m_name << "]::setup, field `xdata'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "QuinticSpline[" << this->_name << "]::setup, field `ydata'";
+      ost << "QuinticSpline[" << m_name << "]::setup, field `ydata'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     if ( gc.exists("spline_sub_type") ) {
       std::string const & st = gc("spline_sub_type").get_string();
-      if      ( st == "cubic"  ) this->q_sub_type = CUBIC_QUINTIC;
-      else if ( st == "pchip"  ) this->q_sub_type = PCHIP_QUINTIC;
-      else if ( st == "akima"  ) this->q_sub_type = AKIMA_QUINTIC;
-      else if ( st == "bessel" ) this->q_sub_type = BESSEL_QUINTIC;
+      if      ( st == "cubic"  ) m_q_sub_type = CUBIC_QUINTIC;
+      else if ( st == "pchip"  ) m_q_sub_type = PCHIP_QUINTIC;
+      else if ( st == "akima"  ) m_q_sub_type = AKIMA_QUINTIC;
+      else if ( st == "bessel" ) m_q_sub_type = BESSEL_QUINTIC;
       else {
         SPLINE_DO_ERROR(
-          "QuinticSpline[" << this->_name << "]::setup unknow sub type:" << st
+          "QuinticSpline[" << m_name << "]::setup unknow sub type:" << st
         )
       }
     } else {
-      SPLINE_WARNING( false, "QuinticSpline::setup, missing field `spline_sub_type` using `cubic` as default value")
+      SPLINE_WARNING( false,
+        "QuinticSpline::setup, missing field `spline_sub_type` using `cubic` as default value"
+      )
     }
     this->build( x, y );
   }

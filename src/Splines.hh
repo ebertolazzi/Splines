@@ -72,16 +72,6 @@
   #define SPLINES_PURE_VIRTUAL = 0
 #endif
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#pragma clang diagnostic ignored "-Wc++98-compat"
-#endif
-
 //! Various kind of splines
 namespace Splines {
 
@@ -225,11 +215,11 @@ namespace Splines {
 
   private:
 
-    string      _name;
-    size_t      numTotValues;
-    size_t      numTotReserved;
-    size_t      numAllocated;
-    valueType * pMalloc;
+    string      m_name;
+    size_t      m_numTotValues;
+    size_t      m_numTotReserved;
+    size_t      m_numAllocated;
+    valueType * m_pMalloc;
 
     SplineMalloc( SplineMalloc<T> const & ) = delete;
     SplineMalloc<T> const & operator = ( SplineMalloc<T> & ) const = delete ;
@@ -238,12 +228,12 @@ namespace Splines {
 
     //! malloc object constructor
     explicit
-    SplineMalloc( string const & __name )
-    : _name(__name)
-    , numTotValues(0)
-    , numTotReserved(0)
-    , numAllocated(0)
-    , pMalloc(nullptr)
+    SplineMalloc( string const & name )
+    : m_name(name)
+    , m_numTotValues(0)
+    , m_numTotReserved(0)
+    , m_numAllocated(0)
+    , m_pMalloc(nullptr)
     {}
 
     //! malloc object destructor
@@ -254,80 +244,80 @@ namespace Splines {
     void
     allocate( size_t n ) {
       try {
-        if ( n > numTotReserved ) {
-          delete [] pMalloc;
-          numTotValues   = n;
-          numTotReserved = n + (n>>3); // 12% more values
-          pMalloc        = new T[numTotReserved];
+        if ( n > m_numTotReserved ) {
+          delete [] m_pMalloc;
+          m_numTotValues   = n;
+          m_numTotReserved = n + (n>>3); // 12% more values
+          m_pMalloc        = new T[m_numTotReserved];
         }
       }
       catch ( exception const & exc ) {
         cerr
           << "Memory allocation failed: " << exc.what()
-          << "\nTry to allocate " << n << " bytes for " << _name
+          << "\nTry to allocate " << n << " bytes for " << m_name
           << '\n';
         exit(0);
       }
       catch (...) {
         cerr
-          << "SplineMalloc allocation failed for " << _name << ": memory exausted\n"
-          << "Requesting " << n << " blocks\n";
+          << "SplineMalloc allocation failed for " << m_name
+          << ": memory exausted\nRequesting " << n << " blocks\n";
         exit(0);
       }
-      numTotValues = n;
-      numAllocated = 0;
+      m_numTotValues = n;
+      m_numAllocated = 0;
     }
 
     //! free memory
     void
     free(void) {
-      if ( pMalloc != nullptr ) {
-        delete [] pMalloc;
-        numTotValues   = 0;
-        numTotReserved = 0;
-        numAllocated   = 0;
-        pMalloc        = nullptr;
+      if ( m_pMalloc != nullptr ) {
+        delete [] m_pMalloc;
+        m_numTotValues   = 0;
+        m_numTotReserved = 0;
+        m_numAllocated   = 0;
+        m_pMalloc        = nullptr;
       }
     }
 
     //! number of objects allocated
-    size_t size(void) const { return numTotValues; }
+    size_t size(void) const { return m_numTotValues; }
 
     //! get pointer of allocated memory for `sz` objets
     T *
     operator () ( size_t sz ) {
-      size_t offs = numAllocated;
-      numAllocated += sz;
-      if ( numAllocated > numTotValues ) {
+      size_t offs = m_numAllocated;
+      m_numAllocated += sz;
+      if ( m_numAllocated > m_numTotValues ) {
         ostringstream ost;
         ost
-          << "\nMalloc<" << _name
+          << "\nMalloc<" << m_name
           << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
-          << "request = " << numAllocated << " > "
-          << numTotValues << " = available\n";
+          << "request = " << m_numAllocated << " > "
+          << m_numTotValues << " = available\n";
         throw std::runtime_error(ost.str());
       }
-      return pMalloc + offs;
+      return m_pMalloc + offs;
     }
 
     void
     must_be_empty( char const where[] ) const {
-      if ( numAllocated < numTotValues ) {
+      if ( m_numAllocated < m_numTotValues ) {
         ostringstream ost;
         ost
-          << "\nMalloc<" << _name << ">\n"
-          << "in " << _name << " " << where
+          << "\nMalloc<" << m_name << ">\n"
+          << "in " << m_name << " " << where
           << ": not fully used!\nUnused: "
-          << numTotValues - numAllocated << " values\n";
+          << m_numTotValues - m_numAllocated << " values\n";
         throw runtime_error(ost.str());
       }
-      if ( numAllocated > numTotValues ) {
+      if ( m_numAllocated > m_numTotValues ) {
         ostringstream ost;
         ost
-          << "\nMalloc<" << _name << ">\n"
-          << "in " << _name << " " << where
+          << "\nMalloc<" << m_name << ">\n"
+          << "in " << m_name << " " << where
           << ": too much used!\nMore used: "
-          << numAllocated - numTotValues << " values\n";
+          << m_numAllocated - m_numTotValues << " values\n";
         throw std::runtime_error(ost.str());
       }
     }
@@ -460,17 +450,17 @@ namespace Splines {
   class Spline {
   protected:
 
-    string _name;
-    bool   _curve_is_closed;
-    bool   _curve_can_extend;
+    string m_name;
+    bool   m_curve_is_closed;
+    bool   m_curve_can_extend;
 
-    integer   npts, npts_reserved;
-    real_type *X; // allocated in the derived class!
-    real_type *Y; // allocated in the derived class!
+    integer   m_npts, m_npts_reserved;
+    real_type *m_X; // allocated in the derived class!
+    real_type *m_Y; // allocated in the derived class!
 
-    mutable BinarySearch bs;
-    mutable WaitWorker   worker_read;
-    mutable SpinLock     spin_write;
+    mutable BinarySearch m_bs;
+    mutable WaitWorker   m_worker_read;
+    mutable SpinLock     m_spin_write;
 
     void initLastInterval();
 
@@ -481,13 +471,13 @@ namespace Splines {
 
     //! spline constructor
     Spline( string const & name = "Spline" )
-    : _name(name)
-    , _curve_is_closed(false)
-    , _curve_can_extend(true)
-    , npts(0)
-    , npts_reserved(0)
-    , X(nullptr)
-    , Y(nullptr)
+    : m_name(name)
+    , m_curve_is_closed(false)
+    , m_curve_can_extend(true)
+    , m_npts(0)
+    , m_npts_reserved(0)
+    , m_X(nullptr)
+    , m_Y(nullptr)
     {
       this->initLastInterval();
     }
@@ -498,43 +488,43 @@ namespace Splines {
 
     integer search( real_type & x ) const;
 
-    string const & name() const { return _name; }
+    string const & name() const { return m_name; }
 
-    bool is_closed() const { return this->_curve_is_closed; }
-    void make_closed() { this->_curve_is_closed = true; }
-    void make_opened() { this->_curve_is_closed = false; }
+    bool is_closed() const { return m_curve_is_closed;  }
+    void make_closed()     { m_curve_is_closed = true;  }
+    void make_opened()     { m_curve_is_closed = false; }
 
-    bool is_bounded() const { return !this->_curve_can_extend; }
-    void make_unbounded() { this->_curve_can_extend = true; }
-    void make_bounded()   { this->_curve_can_extend = false; }
+    bool is_bounded() const { return !m_curve_can_extend; }
+    void make_unbounded()   { m_curve_can_extend = true;  }
+    void make_bounded()     { m_curve_can_extend = false; }
 
     //! return the number of support points of the spline.
     integer
-    numPoints(void) const { return this->npts; }
+    numPoints(void) const { return m_npts; }
 
     //! return the i-th node of the spline (x component).
     real_type
-    xNode( integer i ) const { return this->X[size_t(i)]; }
+    xNode( integer i ) const { return m_X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
     real_type
-    yNode( integer i ) const { return this->Y[size_t(i)]; }
+    yNode( integer i ) const { return m_Y[size_t(i)]; }
 
     //! return first node of the spline (x component).
     real_type
-    xBegin() const { return this->X[0]; }
+    xBegin() const { return m_X[0]; }
 
     //! return first node of the spline (y component).
     real_type
-    yBegin() const { return this->Y[0]; }
+    yBegin() const { return m_Y[0]; }
 
     //! return last node of the spline (x component).
     real_type
-    xEnd() const { return this->X[size_t(this->npts-1)]; }
+    xEnd() const { return m_X[size_t(m_npts-1)]; }
 
     //! return last node of the spline (y component).
     real_type
-    yEnd() const { return this->Y[size_t(this->npts-1)]; }
+    yEnd() const { return m_Y[size_t(m_npts-1)]; }
 
     //! Allocate memory for `npts` points
     virtual
@@ -545,7 +535,7 @@ namespace Splines {
     void pushBack( real_type x, real_type y );
 
     //! Drop a support point to the spline.
-    void dropBack() { if ( npts > 0 ) --npts; }
+    void dropBack() { if ( m_npts > 0 ) --m_npts; }
 
     //! Build a spline.
     // must be defined in derived classes
@@ -608,25 +598,25 @@ namespace Splines {
     clear(void) SPLINES_PURE_VIRTUAL;
 
     //! return x-minumum spline value
-    real_type xMin() const { return this->X[0]; }
+    real_type xMin() const { return m_X[0]; }
 
     //! return x-maximum spline value
-    real_type xMax() const { return this->X[npts-1]; }
+    real_type xMax() const { return m_X[m_npts-1]; }
 
     //! return y-minumum spline value
     real_type
     yMin() const {
-      integer N = integer(npts);
+      integer N = m_npts;
       if ( type() == CONSTANT_TYPE ) --N;
-      return *std::min_element(Y,Y+N);
+      return *std::min_element(m_Y,m_Y+N);
     }
 
     //! return y-maximum spline value
     real_type
     yMax() const {
-      integer N = npts;
+      integer N = m_npts;
       if ( type() == CONSTANT_TYPE ) --N;
-      return *std::max_element(Y,Y+N);
+      return *std::max_element(m_Y,m_Y+N);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -788,10 +778,10 @@ namespace Splines {
   //! cubic spline base class
   class CubicSplineBase : public Spline {
   protected:
-    SplineMalloc<real_type> baseValue;
+    SplineMalloc<real_type> m_baseValue;
 
-    real_type * Yp;
-    bool        _external_alloc;
+    real_type * m_Yp;
+    bool        m_external_alloc;
 
   public:
 
@@ -800,9 +790,9 @@ namespace Splines {
     //! spline constructor
     CubicSplineBase( string const & name = "CubicSplineBase")
     : Spline(name)
-    , baseValue(name+"_memory")
-    , Yp(nullptr)
-    , _external_alloc(false)
+    , m_baseValue(name+"_memory")
+    , m_Yp(nullptr)
+    , m_external_alloc(false)
     {}
 
     virtual
@@ -815,7 +805,7 @@ namespace Splines {
     //! return the i-th node of the spline (y' component).
     real_type
     ypNode( integer i ) const
-    { return this->Yp[size_t(i)]; }
+    { return m_Yp[size_t(i)]; }
 
     //! change X-range of the spline
     void
@@ -996,7 +986,7 @@ namespace Splines {
   //! Cubic Spline Management Class
   class CubicSpline : public CubicSplineBase {
   private:
-    CUBIC_SPLINE_TYPE_BC bc0, bcn;
+    CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;
   public:
 
     using CubicSplineBase::build;
@@ -1005,8 +995,8 @@ namespace Splines {
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
-    , bc0( EXTRAPOLATE_BC )
-    , bcn( EXTRAPOLATE_BC )
+    , m_bc0( EXTRAPOLATE_BC )
+    , m_bcn( EXTRAPOLATE_BC )
     {}
 
     //! spline destructor
@@ -1015,18 +1005,18 @@ namespace Splines {
     {}
 
     /*!
-     | \param _bc0  initial boundary condition.
+     | \param bc0  initial boundary condition.
     \*/
     void
-    setInitialBC( CUBIC_SPLINE_TYPE_BC _bc0 )
-    { this->bc0 = _bc0; }
+    setInitialBC( CUBIC_SPLINE_TYPE_BC bc0 )
+    { m_bc0 = bc0; }
 
     /*!
-     | \param _bcn final boundary condition.
+     | \param bcn final boundary condition.
     \*/
     void
-    setFinalBC( CUBIC_SPLINE_TYPE_BC _bcn )
-    { this->bcn = _bcn; }
+    setFinalBC( CUBIC_SPLINE_TYPE_BC bcn )
+    { m_bcn = bcn; }
 
     //! Return spline type (as number)
     virtual
@@ -1218,16 +1208,16 @@ namespace Splines {
   \*/
   //! Linear spline class
   class LinearSpline : public Spline {
-    SplineMalloc<real_type> baseValue;
-    bool                    _external_alloc;
+    SplineMalloc<real_type> m_baseValue;
+    bool                    m_external_alloc;
   public:
 
     using Spline::build;
 
     LinearSpline( string const & name = "LinearSpline" )
     : Spline(name)
-    , baseValue( name+"_memory")
-    , _external_alloc(false)
+    , m_baseValue( name+"_memory")
+    , m_external_alloc(false)
     {}
 
     virtual
@@ -1346,16 +1336,16 @@ namespace Splines {
   \*/
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
-    SplineMalloc<real_type> baseValue;
-    bool                    _external_alloc;
+    SplineMalloc<real_type> m_baseValue;
+    bool                    m_external_alloc;
   public:
 
     using Spline::build;
 
     ConstantSpline( string const & name = "ConstantSpline" )
     : Spline(name)
-    , baseValue(name+"_memory")
-    , _external_alloc(false)
+    , m_baseValue(name+"_memory")
+    , m_external_alloc(false)
     {}
 
     ~ConstantSpline() SPLINES_OVERRIDE
@@ -1537,11 +1527,11 @@ namespace Splines {
   //! cubic quintic base class
   class QuinticSplineBase : public Spline {
   protected:
-    SplineMalloc<real_type> baseValue;
+    SplineMalloc<real_type> m_baseValue;
 
-    real_type * Yp;
-    real_type * Ypp;
-    bool        _external_alloc;
+    real_type * m_Yp;
+    real_type * m_Ypp;
+    bool        m_external_alloc;
 
   public:
 
@@ -1550,10 +1540,10 @@ namespace Splines {
     //! spline constructor
     QuinticSplineBase( string const & name = "Spline" )
     : Spline(name)
-    , baseValue(name+"_memeory")
-    , Yp(nullptr)
-    , Ypp(nullptr)
-    , _external_alloc(false)
+    , m_baseValue(name+"_memeory")
+    , m_Yp(nullptr)
+    , m_Ypp(nullptr)
+    , m_external_alloc(false)
     {}
 
     virtual
@@ -1566,12 +1556,12 @@ namespace Splines {
     //! return the i-th node of the spline (y' component).
     real_type
     ypNode( integer i ) const
-    { return this->Yp[size_t(i)]; }
+    { return m_Yp[size_t(i)]; }
 
     //! return the i-th node of the spline (y'' component).
     real_type
     yppNode( integer i ) const
-    { return this->Ypp[size_t(i)]; }
+    { return m_Ypp[size_t(i)]; }
 
     //! change X-range of the spline
     void
@@ -1704,7 +1694,7 @@ namespace Splines {
 
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
-    QUINTIC_SPLINE_TYPE q_sub_type;
+    QUINTIC_SPLINE_TYPE m_q_sub_type;
   public:
 
     using Spline::build;
@@ -1713,7 +1703,7 @@ namespace Splines {
     //! spline constructor
     QuinticSpline( string const & name = "Spline" )
     : QuinticSplineBase( name )
-    , q_sub_type(CUBIC_QUINTIC)
+    , m_q_sub_type(CUBIC_QUINTIC)
     {}
 
     //! spline destructor
@@ -1723,7 +1713,7 @@ namespace Splines {
 
     void
     setQuinticType( QUINTIC_SPLINE_TYPE qt )
-    { this->q_sub_type = qt; }
+    { m_q_sub_type = qt; }
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a Monotone quintic spline from previously inserted points
@@ -1750,9 +1740,9 @@ namespace Splines {
   class Spline1D {
   protected:
 
-    std::string _name;
+    std::string m_name;
 
-    Spline * pSpline;
+    Spline * m_pSpline;
 
     Spline1D( Spline1D const & ) = delete;
     Spline1D const & operator = ( Spline1D const & ) = delete;
@@ -1761,57 +1751,57 @@ namespace Splines {
 
     //! spline constructor
     Spline1D( std::string const & n )
-    : _name(n)
-    , pSpline(nullptr)
+    : m_name(n)
+    , m_pSpline(nullptr)
     {}
 
     //! spline destructor
     ~Spline1D()
     {}
 
-    string const & name() const { return pSpline->name(); }
+    string const & name() const { return m_pSpline->name(); }
 
-    bool is_closed() const { return pSpline->is_closed(); }
-    void make_closed() { pSpline->make_closed(); }
-    void make_opened() { pSpline->make_opened(); }
+    bool is_closed() const { return m_pSpline->is_closed(); }
+    void make_closed() { m_pSpline->make_closed(); }
+    void make_opened() { m_pSpline->make_opened(); }
 
-    bool is_bounded() const { return pSpline->is_bounded(); }
-    void make_unbounded() { pSpline->make_unbounded(); }
-    void make_bounded()   { pSpline->make_bounded(); }
+    bool is_bounded() const { return m_pSpline->is_bounded(); }
+    void make_unbounded()   { m_pSpline->make_unbounded(); }
+    void make_bounded()     { m_pSpline->make_bounded(); }
 
     //! return the number of support points of the spline.
-    integer numPoints(void) const { return pSpline->numPoints(); }
+    integer numPoints(void) const { return m_pSpline->numPoints(); }
 
     //! return the i-th node of the spline (x component).
-    real_type xNode( integer i ) const { return pSpline->xNode(i); }
+    real_type xNode( integer i ) const { return m_pSpline->xNode(i); }
 
     //! return the i-th node of the spline (y component).
-    real_type yNode( integer i ) const { return pSpline->yNode(i); }
+    real_type yNode( integer i ) const { return m_pSpline->yNode(i); }
 
     //! return first node of the spline (x component).
-    real_type xBegin() const { return pSpline->xBegin(); }
+    real_type xBegin() const { return m_pSpline->xBegin(); }
 
     //! return first node of the spline (y component).
-    real_type yBegin() const { return pSpline->yBegin(); }
+    real_type yBegin() const { return m_pSpline->yBegin(); }
 
     //! return last node of the spline (x component).
-    real_type xEnd() const { return pSpline->xEnd(); }
+    real_type xEnd() const { return m_pSpline->xEnd(); }
 
     //! return last node of the spline (y component).
-    real_type yEnd() const { return pSpline->yEnd(); }
+    real_type yEnd() const { return m_pSpline->yEnd(); }
 
     //! Allocate memory for `npts` points
-    void reserve( integer npts ) { return pSpline->reserve( npts ); }
+    void reserve( integer npts ) { return m_pSpline->reserve( npts ); }
 
     //! Add a support point (x,y) to the spline.
-    void pushBack( real_type x, real_type y ) { return pSpline->pushBack( x, y ); }
+    void pushBack( real_type x, real_type y ) { return m_pSpline->pushBack( x, y ); }
 
     //! Drop a support point to the spline.
-    void dropBack() { pSpline->dropBack(); }
+    void dropBack() { m_pSpline->dropBack(); }
 
     //! Build a spline.
     // must be defined in derived classes
-    void build(void) { pSpline->build(); }
+    void build(void) { m_pSpline->build(); }
 
     void setup( GenericContainer const & gc );
     void build( GenericContainer const & gc ) { setup(gc); }
@@ -1866,30 +1856,30 @@ namespace Splines {
 
     //! Cancel the support points, empty the spline.
     void
-    clear(void) { pSpline->clear(); }
+    clear(void) { m_pSpline->clear(); }
 
     //! return x-minumum spline value
-    real_type xMin() const { return pSpline->xMin(); }
+    real_type xMin() const { return m_pSpline->xMin(); }
 
     //! return x-maximum spline value
-    real_type xMax() const { return pSpline->xMax(); }
+    real_type xMax() const { return m_pSpline->xMax(); }
 
     //! return y-minumum spline value
-    real_type yMin() const { return pSpline->yMin(); }
+    real_type yMin() const { return m_pSpline->yMin(); }
 
     //! return y-maximum spline value
-    real_type yMax() const { return pSpline->yMax(); }
+    real_type yMax() const { return m_pSpline->yMax(); }
 
     ///////////////////////////////////////////////////////////////////////////
     //! change X-origin of the spline
     void
     setOrigin( real_type x0 )
-    { return pSpline->setOrigin( x0 ); }
+    { return m_pSpline->setOrigin( x0 ); }
 
     //! change X-range of the spline
     void
     setRange( real_type xmin, real_type xmax )
-    { return pSpline->setRange( xmin, xmax ); }
+    { return m_pSpline->setRange( xmin, xmax ); }
 
     ///////////////////////////////////////////////////////////////////////////
     //! dump a sample of the spline
@@ -1899,7 +1889,7 @@ namespace Splines {
       integer        nintervals,
       char const     header[] = "x\ty"
     ) const {
-      pSpline->dump( s, nintervals, header );
+      m_pSpline->dump( s, nintervals, header );
     }
 
     void
@@ -1908,66 +1898,66 @@ namespace Splines {
       integer    nintervals,
       char const header[] = "x\ty"
     ) const {
-      pSpline->dump( fname, nintervals, header );
+      m_pSpline->dump( fname, nintervals, header );
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value
     real_type
-    operator () ( real_type x ) const { return (*pSpline)(x); }
+    operator () ( real_type x ) const { return (*m_pSpline)(x); }
 
     //! First derivative
     real_type
-    D( real_type x ) const { return pSpline->D(x); }
+    D( real_type x ) const { return m_pSpline->D(x); }
 
     //! Second derivative
     real_type
-    DD( real_type x ) const { return pSpline->DD(x); }
+    DD( real_type x ) const { return m_pSpline->DD(x); }
 
     //! Third derivative
     real_type
-    DDD( real_type x ) const { return pSpline->DDD(x); }
+    DDD( real_type x ) const { return m_pSpline->DDD(x); }
 
     //! 4th derivative
     real_type
-    DDDD( real_type x ) const { return pSpline->DDDD(x); }
+    DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
 
     //! 5th derivative
     real_type
-    DDDDD( real_type x ) const { return pSpline->DDDDD(x); }
+    DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
 
     //! Some aliases
-    real_type eval( real_type x ) const { return (*pSpline)(x); }
-    real_type eval_D( real_type x ) const { return pSpline->D(x); }
-    real_type eval_DD( real_type x ) const { return pSpline->DD(x); }
-    real_type eval_DDD( real_type x ) const { return pSpline->DDD(x); }
-    real_type eval_DDDD( real_type x ) const { return pSpline->DDDD(x); }
-    real_type eval_DDDDD( real_type x ) const { return pSpline->DDDDD(x); }
+    real_type eval( real_type x ) const { return (*m_pSpline)(x); }
+    real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
+    real_type eval_DD( real_type x ) const { return m_pSpline->DD(x); }
+    real_type eval_DDD( real_type x ) const { return m_pSpline->DDD(x); }
+    real_type eval_DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+    real_type eval_DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value knowing interval
     real_type
-    id_eval( integer ni, real_type x ) const { return pSpline->id_eval(ni,x); }
+    id_eval( integer ni, real_type x ) const { return m_pSpline->id_eval(ni,x); }
 
     //! First derivative
     real_type
-    id_D( integer ni, real_type x ) const { return pSpline->id_D(ni,x); }
+    id_D( integer ni, real_type x ) const { return m_pSpline->id_D(ni,x); }
 
     //! Second derivative
     real_type
-    id_DD( integer ni, real_type x ) const { return pSpline->id_DD(ni,x); }
+    id_DD( integer ni, real_type x ) const { return m_pSpline->id_DD(ni,x); }
 
     //! Third derivative
     real_type
-    id_DDD( integer ni, real_type x ) const { return pSpline->id_DDD(ni,x); }
+    id_DDD( integer ni, real_type x ) const { return m_pSpline->id_DDD(ni,x); }
 
     //! 4th derivative
     real_type
-    id_DDDD( integer ni, real_type x ) const { return pSpline->id_DDDD(ni,x); }
+    id_DDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDD(ni,x); }
 
     //! 5th derivative
     real_type
-    id_DDDDD( integer ni, real_type x ) const { return pSpline->id_DDDDD(ni,x); }
+    id_DDDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDDD(ni,x); }
 
     //! get the piecewise polinomials of the spline
     integer // order
@@ -1976,29 +1966,29 @@ namespace Splines {
       real_type nodes[],
       bool      transpose = false
     ) const {
-      return pSpline->coeffs( cfs, nodes, transpose );
+      return m_pSpline->coeffs( cfs, nodes, transpose );
     }
 
-    integer order() const { return pSpline->order(); }
+    integer order() const { return m_pSpline->order(); }
 
     //! Print spline coefficients
     void
     writeToStream( ostream_type & s ) const
-    { return pSpline->writeToStream( s ); }
+    { return m_pSpline->writeToStream( s ); }
 
     //! Return spline typename
     char const *
     type_name() const
-    { return pSpline->type_name(); }
+    { return m_pSpline->type_name(); }
 
     //! Return spline type (as number)
     unsigned
     type() const
-    { return pSpline->type(); }
+    { return m_pSpline->type(); }
 
     void
     info( ostream_type & s ) const
-    { pSpline->info( s ); }
+    { m_pSpline->info( s ); }
   };
 
 
@@ -2019,23 +2009,23 @@ namespace Splines {
 
   protected:
 
-    string const _name;
+    string const m_name;
 
-    SplineMalloc<real_type>  baseValue;
-    SplineMalloc<real_type*> basePointer;
+    SplineMalloc<real_type>  m_baseValue;
+    SplineMalloc<real_type*> m_basePointer;
 
-    integer _dim;
-    integer _npts;
-    bool    _curve_is_closed;
-    bool    _curve_can_extend;
+    integer m_dim;
+    integer m_npts;
+    bool    m_curve_is_closed;
+    bool    m_curve_can_extend;
 
-    real_type *  _X;
-    real_type ** _Y;
-    real_type ** _Yp;
+    real_type *  m_X;
+    real_type ** m_Y;
+    real_type ** m_Yp;
 
-    mutable BinarySearch bs;
-    mutable WaitWorker   worker_read;
-    mutable SpinLock     spin_write;
+    mutable BinarySearch m_bs;
+    mutable WaitWorker   m_worker_read;
+    mutable SpinLock     m_spin_write;
 
     void initLastInterval();
 
@@ -2057,52 +2047,50 @@ namespace Splines {
 
     integer search( real_type & x ) const;
 
-    bool is_closed() const { return this->_curve_is_closed; }
-    void make_closed()     { this->_curve_is_closed = true; }
-    void make_open()       { this->_curve_is_closed = false; }
+    bool is_closed() const { return m_curve_is_closed; }
+    void make_closed()     { m_curve_is_closed = true; }
+    void make_open()       { m_curve_is_closed = false; }
 
-    bool can_extend() const { return this->_curve_can_extend; }
-    void make_unbounded()   { this->_curve_can_extend = true; }
-    void make_buonded()     { this->_curve_can_extend = false; }
+    bool can_extend() const { return m_curve_can_extend; }
+    void make_unbounded()   { m_curve_can_extend = true; }
+    void make_buonded()     { m_curve_can_extend = false; }
 
-    string const &
-    name() const
-    { return this->_name; }
+    string const & name() const { return m_name; }
 
     //! return the number of support points of the splines
     integer
     numPoints(void) const
-    { return this->_npts; }
+    { return m_npts; }
 
     //! return the number splines in the spline set
     integer
     dimension(void) const
-    { return this->_dim; }
+    { return m_dim; }
 
     //! return the vector of values of x-nodes
     real_type const *
     xNodes() const
-    { return this->_X; }
+    { return m_X; }
 
     //! return the npt-th node of the spline (x component).
     real_type
     xNode( integer npt ) const
-    { return this->_X[size_t(npt)]; }
+    { return m_X[size_t(npt)]; }
 
     //! return the npt-th node of the spline (y component).
     real_type
     yNode( integer npt, integer j ) const
-    { return this->_Y[size_t(j)][size_t(npt)]; }
+    { return m_Y[size_t(j)][size_t(npt)]; }
 
     //! return x-minumum spline value
     real_type
     xMin() const
-    { return this->_X[0]; }
+    { return m_X[0]; }
 
     //! return x-maximum spline value
     real_type
     xMax() const
-    { return this->_X[size_t(this->_npts-1)]; }
+    { return m_X[size_t(m_npts-1)]; }
 
     //! Evaluate spline value
     real_type
@@ -2367,24 +2355,24 @@ namespace Splines {
 
   protected:
 
-    string const _name;
+    string const m_name;
 
-    SplineMalloc<real_type>  baseValue;
-    SplineMalloc<real_type*> basePointer;
+    SplineMalloc<real_type>  m_baseValue;
+    SplineMalloc<real_type*> m_basePointer;
 
-    integer _npts;
-    integer _nspl;
+    integer m_npts;
+    integer m_nspl;
 
-    real_type *  _X;
-    real_type ** _Y;
-    real_type ** _Yp;
-    real_type ** _Ypp;
-    real_type *  _Ymin;
-    real_type *  _Ymax;
+    real_type *  m_X;
+    real_type ** m_Y;
+    real_type ** m_Yp;
+    real_type ** m_Ypp;
+    real_type *  m_Ymin;
+    real_type *  m_Ymax;
 
-    vector<Spline*> splines;
-    vector<int>     is_monotone;
-    BinarySearch    header_to_position;
+    vector<Spline*> m_splines;
+    vector<int>     m_is_monotone;
+    BinarySearch    m_header_to_position;
 
   private:
 
@@ -2404,23 +2392,23 @@ namespace Splines {
     virtual
     ~SplineSet();
 
-    string const & name() const { return _name; }
+    string const & name() const { return m_name; }
 
     string const &
     header( integer i ) const
-    { return this->splines[size_t(i)]->name(); }
+    { return m_splines[size_t(i)]->name(); }
 
     void
     get_headers( std::vector<std::string> & names ) const {
       names.clear();
-      names.reserve(splines.size());
-      for ( auto e : splines ) names.push_back(e->name());
+      names.reserve(m_splines.size());
+      for ( auto e : m_splines ) names.push_back(e->name());
     }
 
     string
     name_list() const {
       string tmp = "[ ";
-      for ( auto e : splines ) tmp += "'" + e->name() + "' ";
+      for ( auto e : m_splines ) tmp += "'" + e->name() + "' ";
       tmp += "]";
       return tmp;
     }
@@ -2428,17 +2416,17 @@ namespace Splines {
     // return +1 = strict monotone, 0 weak monotone, -1 non monotone
     int
     isMonotone( integer i ) const
-    { return this->is_monotone[size_t(i)]; }
+    { return m_is_monotone[size_t(i)]; }
 
     //! return the number of support points of the splines
     integer
     numPoints(void) const
-    { return this->_npts; }
+    { return m_npts; }
 
     //! return the number splines in the spline set
     integer
     numSplines(void) const
-    { return this->_nspl; }
+    { return m_nspl; }
 
     //! return the column with header(i) == hdr, return -1 if not found
     integer
@@ -2447,74 +2435,74 @@ namespace Splines {
     //! return the vector of values of x-nodes
     real_type const *
     xNodes() const
-    { return this->_X; }
+    { return m_X; }
 
     //! return the vector of values of x-nodes
     real_type const *
     yNodes( integer i ) const {
       SPLINE_ASSERT(
-        i >=0 && i < this->_nspl,
+        i >=0 && i < m_nspl,
         "SplineSet::yNodes( " << i <<
-        ") argument out of range [0," << this->_nspl-1 << "]"
+        ") argument out of range [0," << m_nspl-1 << "]"
       )
-      return this->_Y[size_t(i)];
+      return m_Y[size_t(i)];
     }
 
     //! return the i-th node of the spline (x component).
     real_type
     xNode( integer npt ) const
-    { return this->_X[npt]; }
+    { return m_X[npt]; }
 
     //! return the i-th node of the spline (y component).
     real_type
     yNode( integer npt, integer spl ) const
-    { return this->_Y[spl][npt]; }
+    { return m_Y[spl][npt]; }
 
     //! return x-minumum spline value
     real_type
     xMin() const
-    { return this->_X[0]; }
+    { return m_X[0]; }
 
     //! return x-maximum spline value
     real_type
     xMax() const
-    { return this->_X[size_t(_npts-1)]; }
+    { return m_X[size_t(m_npts-1)]; }
 
     //! return y-minumum spline value
     real_type
     yMin( integer spl ) const
-    { return this->_Ymin[size_t(spl)]; }
+    { return m_Ymin[size_t(spl)]; }
 
     //! return y-maximum spline value
     real_type
     yMax( integer spl ) const
-    { return this->_Ymax[size_t(spl)]; }
+    { return m_Ymax[size_t(spl)]; }
 
     //! return y-minumum spline value
     real_type
     yMin( char const spl[] ) const
-    { return this->_Ymin[size_t(this->getPosition(spl))]; }
+    { return m_Ymin[size_t(this->getPosition(spl))]; }
 
     //! return y-maximum spline value
     real_type
     yMax( char const spl[] ) const
-    { return this->_Ymax[size_t(this->getPosition(spl))]; }
+    { return m_Ymax[size_t(this->getPosition(spl))]; }
 
     //! Return pointer to the `i`-th spline
     Spline *
     getSpline( integer i ) const {
       SPLINE_ASSERT(
-        i < _nspl,
+        i < m_nspl,
         "SplineSet::getSpline( " << i <<
-        ") argument out of range [0," << this->_nspl-1 << "]"
+        ") argument out of range [0," << m_nspl-1 << "]"
       )
-      return this->splines[size_t(i)];
+      return m_splines[size_t(i)];
     }
 
     //! Return pointer to the `i`-th spline
     Spline *
     getSpline( char const * hdr ) const {
-      return this->splines[size_t(this->getPosition(hdr))];
+      return m_splines[size_t(this->getPosition(hdr))];
     }
 
     //! Evaluate spline value
@@ -3510,27 +3498,27 @@ namespace Splines {
 
   protected:
 
-    string const _name;
-    bool         _x_closed;
-    bool         _y_closed;
-    bool         _x_can_extend;
-    bool         _y_can_extend;
+    string const m_name;
+    bool         m_x_closed;
+    bool         m_y_closed;
+    bool         m_x_can_extend;
+    bool         m_y_can_extend;
 
-    vector<real_type> X, Y, Z;
+    vector<real_type> m_X, m_Y, m_Z;
 
-    real_type Z_min, Z_max;
+    real_type m_Z_min, m_Z_max;
 
 
-    mutable BinarySearch bs_x;
-    mutable WaitWorker   worker_read_x;
-    mutable SpinLock     spin_write_x;
+    mutable BinarySearch m_bs_x;
+    mutable WaitWorker   m_worker_read_x;
+    mutable SpinLock     m_spin_write_x;
 
     integer search_x( real_type & x ) const;
     void initLastInterval_x();
 
-    mutable BinarySearch bs_y;
-    mutable WaitWorker   worker_read_y;
-    mutable SpinLock     spin_write_y;
+    mutable BinarySearch m_bs_y;
+    mutable WaitWorker   m_worker_read_y;
+    mutable SpinLock     m_spin_write_y;
 
     integer search_y( real_type & y ) const;
     void initLastInterval_y();
@@ -3545,11 +3533,11 @@ namespace Splines {
 
     integer
     ipos_C( integer i, integer j ) const
-    { return this->ipos_C(i,j,integer(this->Y.size())); }
+    { return this->ipos_C(i,j,integer(m_Y.size())); }
 
     integer
     ipos_F( integer i, integer j ) const
-    { return this->ipos_F(i,j,integer(this->X.size())); }
+    { return this->ipos_F(i,j,integer(m_X.size())); }
 
     virtual void makeSpline() SPLINES_PURE_VIRTUAL;
 
@@ -3557,16 +3545,16 @@ namespace Splines {
 
     //! spline constructor
     SplineSurf( string const & name = "Spline" )
-    : _name(name)
-    , _x_closed(false)
-    , _y_closed(false)
-    , _x_can_extend(true)
-    , _y_can_extend(true)
-    , X()
-    , Y()
-    , Z()
-    , Z_min(0)
-    , Z_max(0)
+    : m_name(name)
+    , m_x_closed(false)
+    , m_y_closed(false)
+    , m_x_can_extend(true)
+    , m_y_can_extend(true)
+    , m_X()
+    , m_Y()
+    , m_Z()
+    , m_Z_min(0)
+    , m_Z_max(0)
     {
       this->initLastInterval_x();
       this->initLastInterval_y();
@@ -3576,84 +3564,69 @@ namespace Splines {
     virtual
     ~SplineSurf();
 
-    bool is_x_closed() const { return this->_x_closed; }
-    void make_x_closed()     { this->_x_closed = true; }
-    void make_x_opened()     { this->_x_closed = false; }
+    bool is_x_closed() const { return m_x_closed; }
+    void make_x_closed()     { m_x_closed = true; }
+    void make_x_opened()     { m_x_closed = false; }
 
-    bool is_y_closed() const { return this->_y_closed; }
-    void make_y_closed()     { this->_y_closed = true; }
-    void make_y_opened()     { this->_y_closed = false; }
+    bool is_y_closed() const { return m_y_closed; }
+    void make_y_closed()     { m_y_closed = true; }
+    void make_y_opened()     { m_y_closed = false; }
 
-    bool is_x_bounded() const { return this->_x_can_extend; }
-    void make_x_unbounded()   { this->_x_can_extend = true; }
-    void make_x_bounded()     { this->_x_can_extend = false; }
+    bool is_x_bounded() const { return m_x_can_extend; }
+    void make_x_unbounded()   { m_x_can_extend = true; }
+    void make_x_bounded()     { m_x_can_extend = false; }
 
-    bool is_y_bounded() const { return this->_y_can_extend; }
-    void make_y_unbounded()   { this->_y_can_extend = true; }
-    void make_y_bounded()     { this->_y_can_extend = false; }
+    bool is_y_bounded() const { return m_y_can_extend; }
+    void make_y_unbounded()   { m_y_can_extend = true; }
+    void make_y_bounded()     { m_y_can_extend = false; }
 
-    string const &
-    name() const
-    { return this->_name; }
+    string const & name() const { return m_name; }
 
     //! Cancel the support points, empty the spline.
-    void
-    clear(void);
+    void clear(void);
 
     //! return the number of support points of the spline along x direction
     integer
     numPointX(void) const
-    { return integer(this->X.size()); }
+    { return integer(m_X.size()); }
 
     //! return the number of support points of the spline along y direction
     integer
     numPointY(void) const
-    { return integer(this->Y.size()); }
+    { return integer(m_Y.size()); }
 
     //! return the i-th node of the spline (x component).
     real_type
     xNode( integer i ) const
-    { return this->X[size_t(i)]; }
+    { return m_X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
     real_type
     yNode( integer i ) const
-    { return this->Y[size_t(i)]; }
+    { return m_Y[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
     real_type
     zNode( integer i, integer j ) const
-    { return this->Z[size_t(this->ipos_C(i,j))]; }
+    { return m_Z[size_t(this->ipos_C(i,j))]; }
 
     //! return x-minumum spline value
-    real_type
-    xMin() const
-    { return this->X.front(); }
+    real_type xMin() const { return m_X.front(); }
 
     //! return x-maximum spline value
-    real_type
-    xMax() const
-    { return this->X.back(); }
+    real_type xMax() const { return m_X.back(); }
 
     //! return y-minumum spline value
-    real_type
-    yMin() const
-    { return this->Y.front(); }
+    real_type yMin() const { return m_Y.front(); }
 
     //! return y-maximum spline value
-    real_type
-    yMax() const
-    { return this->Y.back(); }
+    real_type yMax() const { return m_Y.back(); }
 
     //! return z-minumum spline value
-    real_type
-    zMin() const
-    { return this->Z_min; }
+    real_type zMin() const { return m_Z_min; }
 
     //! return z-maximum spline value
-    real_type
-    zMax() const
-    { return this->Z_max; }
+    real_type zMax() const { return m_Z_max; }
 
     ///////////////////////////////////////////////////////////////////////////
     /*! Build surface spline
@@ -3918,7 +3891,7 @@ namespace Splines {
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
-    vector<real_type> DX, DY, DXY;
+    vector<real_type> m_DX, m_DY, m_DXY;
     void load( integer i, integer j, real_type bili3[4][4] ) const;
 
   public:
@@ -3926,8 +3899,9 @@ namespace Splines {
     //! spline constructor
     BiCubicSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
-    , DX()
-    , DY()
+    , m_DX()
+    , m_DY()
+    , m_DXY()
     {}
 
     virtual
@@ -3936,15 +3910,15 @@ namespace Splines {
 
     real_type
     DxNode ( integer i, integer j ) const
-    { return this->DX[size_t(this->ipos_C(i,j))]; }
+    { return m_DX[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DyNode ( integer i, integer j ) const
-    { return this->DY[size_t(this->ipos_C(i,j))]; }
+    { return m_DY[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DxyNode( integer i, integer j ) const
-    { return this->DXY[size_t(this->ipos_C(i,j))]; }
+    { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
     //! Evaluate spline value
     virtual
@@ -4064,7 +4038,7 @@ namespace Splines {
   class BiQuinticSplineBase : public SplineSurf {
   protected:
 
-    vector<real_type> DX, DXX, DY, DYY, DXY, DXYY, DXXY, DXXYY;
+    vector<real_type> m_DX, m_DXX, m_DY, m_DYY, m_DXY, m_DXYY, m_DXXY, m_DXXYY;
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
   public:
@@ -4072,11 +4046,14 @@ namespace Splines {
     //! spline constructor
     BiQuinticSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
-    , DX()
-    , DXX()
-    , DY()
-    , DYY()
-    , DXY()
+    , m_DX()
+    , m_DXX()
+    , m_DY()
+    , m_DYY()
+    , m_DXY()
+    , m_DXYY()
+    , m_DXXY()
+    , m_DXXYY()
     {}
 
     virtual
@@ -4085,23 +4062,23 @@ namespace Splines {
 
     real_type
     DxNode( integer i, integer j ) const
-    { return this->DX[size_t(this->ipos_C(i,j))]; }
+    { return m_DX[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DyNode( integer i, integer j ) const
-    { return this->DY[size_t(this->ipos_C(i,j))]; }
+    { return m_DY[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DxxNode( integer i, integer j ) const
-    { return this->DXX[size_t(this->ipos_C(i,j))]; }
+    { return m_DXX[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DyyNode( integer i, integer j ) const
-    { return this->DYY[size_t(this->ipos_C(i,j))]; }
+    { return m_DYY[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DxyNode( integer i, integer j ) const
-    { return this->DXY[size_t(this->ipos_C(i,j))]; }
+    { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
     //! Evaluate spline value
     virtual
@@ -4185,83 +4162,83 @@ namespace Splines {
   //! Bi-quintic spline base class
   class Spline2D {
   protected:
-    std::string  _name;
-    SplineSurf * pSpline2D;
+    std::string  m_name;
+    SplineSurf * m_pSpline2D;
   public:
 
     //! spline constructor
     Spline2D( string const & name = "Spline2D" )
-    : _name(name)
-    , pSpline2D( nullptr )
+    : m_name(name)
+    , m_pSpline2D( nullptr )
     {}
 
     ~Spline2D()
     {}
 
-    bool is_x_closed() const { return pSpline2D->is_x_closed(); }
-    void make_x_closed()     { pSpline2D->make_x_closed(); }
-    void make_x_opened()     { pSpline2D->make_x_opened(); }
+    bool is_x_closed() const { return m_pSpline2D->is_x_closed(); }
+    void make_x_closed()     { m_pSpline2D->make_x_closed(); }
+    void make_x_opened()     { m_pSpline2D->make_x_opened(); }
 
-    bool is_y_closed() const { return pSpline2D->is_y_closed(); }
-    void make_y_closed()     { pSpline2D->make_y_closed(); }
-    void make_y_opened()     { pSpline2D->make_y_opened(); }
+    bool is_y_closed() const { return m_pSpline2D->is_y_closed(); }
+    void make_y_closed()     { m_pSpline2D->make_y_closed(); }
+    void make_y_opened()     { m_pSpline2D->make_y_opened(); }
 
-    bool is_x_bounded() const { return pSpline2D->is_x_bounded(); }
-    void make_x_unbounded()   { pSpline2D->make_x_unbounded(); }
-    void make_x_bounded()     { pSpline2D->make_x_bounded(); }
+    bool is_x_bounded() const { return m_pSpline2D->is_x_bounded(); }
+    void make_x_unbounded()   { m_pSpline2D->make_x_unbounded(); }
+    void make_x_bounded()     { m_pSpline2D->make_x_bounded(); }
 
-    bool is_y_bounded() const { return pSpline2D->is_y_bounded(); }
-    void make_y_unbounded()   { pSpline2D->make_y_unbounded(); }
-    void make_y_bounded()     { pSpline2D->make_y_bounded(); }
+    bool is_y_bounded() const { return m_pSpline2D->is_y_bounded(); }
+    void make_y_unbounded()   { m_pSpline2D->make_y_unbounded(); }
+    void make_y_bounded()     { m_pSpline2D->make_y_bounded(); }
 
-    string const & name() const { return pSpline2D->name(); }
+    string const & name() const { return m_pSpline2D->name(); }
 
     //! Cancel the support points, empty the spline.
-    void clear(void) { pSpline2D->clear(); }
+    void clear(void) { m_pSpline2D->clear(); }
 
     //! return the number of support points of the spline along x direction
     integer
-    numPointX(void) const { return pSpline2D->numPointX(); }
+    numPointX(void) const { return m_pSpline2D->numPointX(); }
 
     //! return the number of support points of the spline along y direction
     integer
-    numPointY(void) const { return pSpline2D->numPointY(); }
+    numPointY(void) const { return m_pSpline2D->numPointY(); }
 
     //! return the i-th node of the spline (x component).
     real_type
-    xNode( integer i ) const { return pSpline2D->xNode(i); }
+    xNode( integer i ) const { return m_pSpline2D->xNode(i); }
 
     //! return the i-th node of the spline (y component).
     real_type
-    yNode( integer i ) const { return pSpline2D->yNode(i); }
+    yNode( integer i ) const { return m_pSpline2D->yNode(i); }
 
     //! return the i-th node of the spline (y component).
     real_type
-    zNode( integer i, integer j ) const { return pSpline2D->zNode(i,j); }
+    zNode( integer i, integer j ) const { return m_pSpline2D->zNode(i,j); }
 
     //! return x-minumum spline value
     real_type
-    xMin() const { return pSpline2D->xMin(); }
+    xMin() const { return m_pSpline2D->xMin(); }
 
     //! return x-maximum spline value
     real_type
-    xMax() const { return pSpline2D->xMax(); }
+    xMax() const { return m_pSpline2D->xMax(); }
 
     //! return y-minumum spline value
     real_type
-    yMin() const { return pSpline2D->yMin(); }
+    yMin() const { return m_pSpline2D->yMin(); }
 
     //! return y-maximum spline value
     real_type
-    yMax() const { return pSpline2D->yMax(); }
+    yMax() const { return m_pSpline2D->yMax(); }
 
     //! return z-minumum spline value
     real_type
-    zMin() const { return pSpline2D->zMin(); }
+    zMin() const { return m_pSpline2D->zMin(); }
 
     //! return z-maximum spline value
     real_type
-    zMax() const { return pSpline2D->zMax(); }
+    zMax() const { return m_pSpline2D->zMax(); }
 
     void
     build(
@@ -4342,37 +4319,37 @@ namespace Splines {
     //! Evaluate spline value
     real_type
     operator () ( real_type x, real_type y ) const
-    { return (*pSpline2D)( x, y ); }
+    { return (*m_pSpline2D)( x, y ); }
 
     //! First derivative
     void
     D( real_type x, real_type y, real_type d[3] ) const
-    { return pSpline2D->D( x, y, d ); }
+    { return m_pSpline2D->D( x, y, d ); }
 
     real_type
     Dx( real_type x, real_type y ) const
-    { return pSpline2D->Dx( x, y ); }
+    { return m_pSpline2D->Dx( x, y ); }
 
     real_type
     Dy( real_type x, real_type y ) const
-    { return pSpline2D->Dy( x, y ); }
+    { return m_pSpline2D->Dy( x, y ); }
 
     //! Second derivative
     void
     DD( real_type x, real_type y, real_type dd[6] ) const
-    { return pSpline2D->DD( x, y, dd ); }
+    { return m_pSpline2D->DD( x, y, dd ); }
 
     real_type
     Dxx( real_type x, real_type y ) const
-    { return pSpline2D->Dxx( x, y ); }
+    { return m_pSpline2D->Dxx( x, y ); }
 
     real_type
     Dxy( real_type x, real_type y ) const
-    { return pSpline2D->Dxy( x, y ); }
+    { return m_pSpline2D->Dxy( x, y ); }
 
     real_type
     Dyy( real_type x, real_type y ) const
-    { return pSpline2D->Dyy( x, y ); }
+    { return m_pSpline2D->Dyy( x, y ); }
 
     //! Evaluate spline value
     real_type
@@ -4404,12 +4381,12 @@ namespace Splines {
     //! Print spline coefficients
     void
     writeToStream( ostream_type & s ) const
-    { return pSpline2D->writeToStream( s ); }
+    { return m_pSpline2D->writeToStream( s ); }
 
     //! Return spline typename
-    char const * type_name() const { return pSpline2D->type_name(); }
+    char const * type_name() const { return m_pSpline2D->type_name(); }
 
-    void info( ostream_type & s ) const { pSpline2D->info( s ); }
+    void info( ostream_type & s ) const { m_pSpline2D->info( s ); }
 
   };
 

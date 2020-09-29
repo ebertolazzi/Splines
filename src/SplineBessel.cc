@@ -71,19 +71,19 @@ namespace Splines {
   void
   BesselSpline::build (void) {
     SPLINE_ASSERT(
-      this->npts > 1,
-      "BesselSpline::build(): npts = " << npts << " not enought points"
+      m_npts > 1,
+      "BesselSpline::build(): npts = " << m_npts << " not enought points"
     )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
-      Bessel_build( this->X+ibegin, this->Y+ibegin, this->Yp+ibegin, iend-ibegin );
+      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
+      Bessel_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, iend-ibegin );
       ibegin = iend;
-    } while ( iend < this->npts );
+    } while ( iend < m_npts );
 
-    SPLINE_CHECK_NAN( this->Yp, "BesselSpline::build(): Yp", this->npts );
+    SPLINE_CHECK_NAN( m_Yp, "BesselSpline::build(): Yp", m_npts );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -100,11 +100,11 @@ namespace Splines {
     */
     SPLINE_ASSERT(
       gc.exists("xdata"),
-      "BesselSpline[" << this->_name << "]::setup missing `xdata` field!"
+      "BesselSpline[" << m_name << "]::setup missing `xdata` field!"
     )
     SPLINE_ASSERT(
       gc.exists("ydata"),
-      "BesselSpline[" << this->_name << "]::setup missing `ydata` field!"
+      "BesselSpline[" << m_name << "]::setup missing `ydata` field!"
     )
 
     GenericContainer const & gc_x = gc("xdata");
@@ -113,12 +113,12 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "BesselSpline[" << this->_name << "]::setup, field `xdata'";
+      ost << "BesselSpline[" << m_name << "]::setup, field `xdata'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "BesselSpline[" << this->_name << "]::setup, field `ydata'";
+      ost << "BesselSpline[" << m_name << "]::setup, field `ydata'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     this->build( x, y );

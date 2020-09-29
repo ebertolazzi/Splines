@@ -67,50 +67,50 @@ namespace Splines {
 
     SPLINE_ASSERT(
       gc.exists("spline_type"),
-      "[SplineSet[" << _name << "]::setup] missing `spline_type` field!"
+      "[SplineSet[" << m_name << "]::setup] missing `spline_type` field!"
     )
     gc("spline_type").copyto_vec_string(
       spline_type_vec,
       "SplineSet::setup -- in reading `spline_type'\n"
     );
-    this->_nspl = integer(spline_type_vec.size());
-    stype.resize( size_t(this->_nspl) );
-    headers.resize( size_t(this->_nspl) );
-    for ( size_t spl = 0; spl < size_t(this->_nspl); ++spl )
+    m_nspl = integer(spline_type_vec.size());
+    stype.resize( size_t(m_nspl) );
+    headers.resize( size_t(m_nspl) );
+    for ( size_t spl = 0; spl < size_t(m_nspl); ++spl )
       stype[spl] = string_to_splineType( spline_type_vec[spl] );
 
     SPLINE_ASSERT(
       gc.exists("xdata"),
-      "[SplineSet[" << this->_name << "]::setup] missing `xdata` field!"
+      "[SplineSet[" << m_name << "]::setup] missing `xdata` field!"
     )
     gc("xdata").copyto_vec_real( X, "SplineSet::setup reading `xdata'" );
-    this->_npts = integer( X.size() );
+    m_npts = integer( X.size() );
 
     SPLINE_ASSERT(
       gc.exists("ydata"),
-      "[SplineSet[" << this->_name << "]::setup] missing `ydata` field!"
+      "[SplineSet[" << m_name << "]::setup] missing `ydata` field!"
     )
     GenericContainer const & gc_ydata = gc("ydata");
 
     // allocate for _nspl splines
-    Y  . resize( size_t(this->_nspl) );
-    Yp . resize( size_t(this->_nspl) );
+    Y  . resize( size_t(m_nspl) );
+    Yp . resize( size_t(m_nspl) );
 
     // se tipo vettore o matrice deve esserci headers
     if ( GC_MAT_REAL == gc_ydata.get_type() ||
          GC_VECTOR   == gc_ydata.get_type() ) {
       SPLINE_ASSERT(
         gc.exists("headers"),
-        "[SplineSet[" << _name << "]::setup] missing `headers` field!"
+        "[SplineSet[" << m_name << "]::setup] missing `headers` field!"
       )
       GenericContainer const & gc_headers = gc("headers");
       gc_headers.copyto_vec_string(
         headers, "SplineSet::setup reading `headers'\n"
       );
       SPLINE_ASSERT(
-        headers.size() == size_t(this->_nspl),
-        "[SplineSet[" << this->_name <<
-        "]::setup] field `headers` expected to be of size " << this->_nspl <<
+        headers.size() == size_t(m_nspl),
+        "[SplineSet[" << m_name <<
+        "]::setup] field `headers` expected to be of size " << m_nspl <<
         " found of size " << headers.size()
       )
     }
@@ -119,55 +119,54 @@ namespace Splines {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
       SPLINE_ASSERT(
-        size_t(this->_nspl) == data.numCols(),
-        "[SplineSet[" << this->_name <<
-        "]::setup] number of splines [" << this->_nspl <<
+        size_t(m_nspl) == data.numCols(),
+        "[SplineSet[" << m_name <<
+        "]::setup] number of splines [" << m_nspl <<
         "] differs from the number of `ydata` columns [" <<
         data.numCols() << "] in data"
       )
       SPLINE_ASSERT(
-        size_t(this->_npts) == data.numRows(),
-        "[SplineSet[" << this->_name <<
-        "]::setup] number of points [" << this->_npts <<
+        size_t(m_npts) == data.numRows(),
+        "[SplineSet[" << m_name <<
+        "]::setup] number of points [" << m_npts <<
         "] differs from the numeber of `ydata` rows [" <<
         data.numRows() << "] in data"
       )
-      for ( size_t i = 0; i < size_t(this->_nspl); ++i )
+      for ( size_t i = 0; i < size_t(m_nspl); ++i )
         data.getColumn(unsigned(i),Y[i]);
     } else if ( GC_VECTOR == gc_ydata.get_type() ) {
       vector_type const & data = gc_ydata.get_vector();
       SPLINE_ASSERT(
-        size_t(_nspl) == data.size(),
-        "[SplineSet[" << this->_name <<
-        "]::setup] field `ydata` expected of size " << this->_nspl <<
+        size_t(m_nspl) == data.size(),
+        "[SplineSet[" << m_name <<
+        "]::setup] field `ydata` expected of size " << m_nspl <<
         " found of size " << data.size()
       )
-      for ( size_t i = 0; i < size_t(this->_nspl); ++i ) {
+      for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
         GenericContainer const & datai = data[i];
-        integer nrow = this->_npts;
+        integer nrow = m_npts;
         if ( stype[i] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[i], "SplineSet::setup reading `ydata'" );
       }
     } else if ( GC_MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map();
       SPLINE_ASSERT(
-        data.size() == size_t(this->_nspl),
-        "[SplineSet[" << this->_name <<
-        "]::setup] field `ydata` expected of size " << this->_nspl <<
+        data.size() == size_t(m_nspl),
+        "[SplineSet[" << m_name <<
+        "]::setup] field `ydata` expected of size " << m_nspl <<
         " found of size " << data.size()
       )
       map_type::const_iterator im = data.begin();
       for ( size_t spl = 0; im != data.end(); ++im, ++spl ) {
         headers[spl] = im->first;
         GenericContainer const & datai = im->second;
-        integer nrow = this->_npts;
+        integer nrow = m_npts;
         if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], "SplineSet::setup reading `ydata'" );
       }
     } else {
-      SPLINE_ASSERT(
-        false,
-        "[SplineSet[" << this->_name <<
+      SPLINE_DO_ERROR(
+        "[SplineSet[" << m_name <<
         "]::setup] field `data` expected to be of type" <<
         " `mat_real_type`, `vector_type` or `map_type' " <<
         "found: `" << gc_ydata.get_type_name() << "`"
@@ -178,19 +177,19 @@ namespace Splines {
       GenericContainer const & gc_ypdata = gc("ypdata");
       SPLINE_ASSERT(
         GC_MAP == gc_ypdata.get_type(),
-        "[SplineSet[" << this->_name <<
+        "[SplineSet[" << m_name <<
         "]::setup] field `ypdata` expected to be of type "
         "`map_type` found: ` " << gc_ypdata.get_type_name() << "`"
       )
-      for ( integer spl = 0; spl < this->_nspl; ++spl )
-        header_to_position.insert( headers[size_t(spl)], spl );
+      for ( integer spl = 0; spl < m_nspl; ++spl )
+        m_header_to_position.insert( headers[size_t(spl)], spl );
 
       map_type const & data = gc_ypdata.get_map();
       map_type::const_iterator im = data.begin();
       for (; im != data.end(); ++im ) {
         integer spl = getPosition(im->first.c_str());
         GenericContainer const & datai = im->second;
-        integer nrow = _npts;
+        integer nrow = m_npts;
         if ( stype[size_t(spl)] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real(
           Yp[size_t(spl)], "SplineSet::setup reading `ypdata'"
@@ -201,18 +200,18 @@ namespace Splines {
     vector<char const*>      __headers;
     vector<real_type const*> __Y, __Yp;
 
-    __headers.resize( size_t( _nspl ) );
-    __Y.resize( size_t( _nspl ) );
-    __Yp.resize( size_t( _nspl ) );
+    __headers.resize( size_t( m_nspl ) );
+    __Y.resize( size_t( m_nspl ) );
+    __Yp.resize( size_t( m_nspl ) );
 
-    for ( size_t spl = 0; spl < size_t(_nspl); ++spl ) {
+    for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
       __headers[spl] = headers[spl].c_str();
       __Y[spl]       = &Y[spl].front();
       __Yp[spl]      = Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr;
     }
 
     SplineSet::build(
-      this->_nspl, this->_npts,
+      m_nspl, m_npts,
       &__headers.front(),
       &stype.front(),
       &X.front(),
@@ -228,9 +227,9 @@ namespace Splines {
   void
   SplineSet::eval( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval(x);
     }
   }
 
@@ -242,10 +241,10 @@ namespace Splines {
   SplineSet::eval( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(D.second)];
+      Spline const * p_spl = m_splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
@@ -301,9 +300,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval(x);
     }
   }
 
@@ -322,18 +321,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+        BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
-        v[i] = splines[size_t(D.second)]->eval(x);
+        v[i] = m_splines[size_t(D.second)]->eval(x);
       }
     }
   }
@@ -402,9 +401,9 @@ namespace Splines {
   void
   SplineSet::eval_D( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_D(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_D(x);
     }
   }
 
@@ -416,10 +415,10 @@ namespace Splines {
   SplineSet::eval_D( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(D.second)];
+      Spline const * p_spl = m_splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
@@ -475,9 +474,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_D(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_D(x);
     }
   }
 
@@ -496,18 +495,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+        BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
-        v[i] = splines[size_t(D.second)]->eval_D(x);
+        v[i] = m_splines[size_t(D.second)]->eval_D(x);
       }
     }
   }
@@ -575,9 +574,9 @@ namespace Splines {
   void
   SplineSet::eval_DD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_DD(x);
     }
   }
 
@@ -589,10 +588,10 @@ namespace Splines {
   SplineSet::eval_DD( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(D.second)];
+      Spline const * p_spl = m_splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
@@ -648,9 +647,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_DD(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_DD(x);
     }
   }
 
@@ -669,18 +668,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+        BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
-        v[i] = splines[size_t(D.second)]->eval_DD(x);
+        v[i] = m_splines[size_t(D.second)]->eval_DD(x);
       }
     }
   }
@@ -749,9 +748,9 @@ namespace Splines {
   void
   SplineSet::eval_DDD( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_DDD(x);
     }
   }
 
@@ -766,10 +765,10 @@ namespace Splines {
   ) const {
     integer npts = integer(vec.size());
     map_type & vals = gc.set_map();
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vec_real_type & v = vals[D.first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = splines[size_t(D.second)];
+      Spline const * p_spl = m_splines[size_t(D.second)];
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
@@ -825,9 +824,9 @@ namespace Splines {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
-      vals[D.first] = splines[size_t(D.second)]->eval_DDD(x);
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      vals[D.first] = m_splines[size_t(D.second)]->eval_DDD(x);
     }
   }
 
@@ -846,18 +845,18 @@ namespace Splines {
     map_type & vals = gc.set_map();
 
     // preallocation
-    for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+    for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
       vals[D.first].set_vec_real(unsigned(npts));
     }
 
     for ( size_t i = 0; i < size_t(npts); ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( integer pos = 0; pos < header_to_position.n_elem(); ++pos ) {
-        BinarySearch::DATA_TYPE const & D = header_to_position.get_elem( pos );
+      for ( integer pos = 0; pos < m_header_to_position.n_elem(); ++pos ) {
+        BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
         vec_real_type & v = vals[D.first].get_vec_real();
-        v[i] = splines[size_t(D.second)]->eval_DDD(x);
+        v[i] = m_splines[size_t(D.second)]->eval_DDD(x);
       }
     }
   }

@@ -34,25 +34,25 @@ namespace Splines {
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:
-      static_cast<BilinearSpline*>(pSpline2D)->build(
+      static_cast<BilinearSpline*>(m_pSpline2D)->build(
         x, incx, y, incy, z, ldZ, nx, ny,
         fortran_storage, transposed
       );
       break;
     case BICUBIC_TYPE:
-      static_cast<BiCubicSpline*>(pSpline2D)->build(
+      static_cast<BiCubicSpline*>(m_pSpline2D)->build(
         x, incx, y, incy, z, ldZ, nx, ny,
         fortran_storage, transposed
       );
       break;
     case BIQUINTIC_TYPE:
-      static_cast<BiQuinticSpline*>(pSpline2D)->build(
+      static_cast<BiQuinticSpline*>(m_pSpline2D)->build(
         x, incx, y, incy, z, ldZ, nx, ny,
         fortran_storage, transposed
       );
       break;
     case AKIMA2D_TYPE:
-      static_cast<Akima2Dspline*>(pSpline2D)->build(
+      static_cast<Akima2Dspline*>(m_pSpline2D)->build(
         x, incx, y, incy, z, ldZ, nx, ny,
         fortran_storage, transposed
       );
@@ -71,22 +71,22 @@ namespace Splines {
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:
-      static_cast<BilinearSpline*>(pSpline2D)->build(
+      static_cast<BilinearSpline*>(m_pSpline2D)->build(
         x, y, z, fortran_storage, transposed
       );
       break;
     case BICUBIC_TYPE:
-      static_cast<BiCubicSpline*>(pSpline2D)->build(
+      static_cast<BiCubicSpline*>(m_pSpline2D)->build(
         x, y, z, fortran_storage, transposed
       );
       break;
     case BIQUINTIC_TYPE:
-      static_cast<BiQuinticSpline*>(pSpline2D)->build(
+      static_cast<BiQuinticSpline*>(m_pSpline2D)->build(
         x, y, z, fortran_storage, transposed
       );
       break;
     case AKIMA2D_TYPE:
-      static_cast<Akima2Dspline*>(pSpline2D)->build(
+      static_cast<Akima2Dspline*>(m_pSpline2D)->build(
         x, y, z, fortran_storage, transposed
       );
       break;
@@ -105,22 +105,22 @@ namespace Splines {
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:
-      static_cast<BilinearSpline*>(pSpline2D)->build(
+      static_cast<BilinearSpline*>(m_pSpline2D)->build(
         z, ldZ, nx, ny, fortran_storage, transposed
       );
       break;
     case BICUBIC_TYPE:
-      static_cast<BiCubicSpline*>(pSpline2D)->build(
+      static_cast<BiCubicSpline*>(m_pSpline2D)->build(
         z, ldZ, nx, ny, fortran_storage, transposed
       );
       break;
     case BIQUINTIC_TYPE:
-      static_cast<BiQuinticSpline*>(pSpline2D)->build(
+      static_cast<BiQuinticSpline*>(m_pSpline2D)->build(
         z, ldZ, nx, ny, fortran_storage, transposed
       );
       break;
     case AKIMA2D_TYPE:
-      static_cast<Akima2Dspline*>(pSpline2D)->build(
+      static_cast<Akima2Dspline*>(m_pSpline2D)->build(
         z, ldZ, nx, ny, fortran_storage, transposed
       );
       break;
@@ -138,31 +138,26 @@ namespace Splines {
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:
-      static_cast<BilinearSpline*>(pSpline2D)->build(
+      static_cast<BilinearSpline*>(m_pSpline2D)->build(
         z, nx, ny, fortran_storage, transposed
       );
       break;
     case BICUBIC_TYPE:
-      static_cast<BiCubicSpline*>(pSpline2D)->build(
+      static_cast<BiCubicSpline*>(m_pSpline2D)->build(
         z, nx, ny, fortran_storage, transposed
       );
       break;
     case BIQUINTIC_TYPE:
-      static_cast<BiQuinticSpline*>(pSpline2D)->build(
+      static_cast<BiQuinticSpline*>(m_pSpline2D)->build(
         z, nx, ny, fortran_storage, transposed
       );
       break;
     case AKIMA2D_TYPE:
-      static_cast<Akima2Dspline*>(pSpline2D)->build(
+      static_cast<Akima2Dspline*>(m_pSpline2D)->build(
         z, nx, ny, fortran_storage, transposed
       );
       break;
     }
   }
-
-
-void
-setup( GenericContainer const & gc );
-
 
 }

@@ -49,6 +49,17 @@ either expressed or implied, of the FreeBSD Project.
 #ifndef SPLINES_CONFIG_HH
 #define SPLINES_CONFIG_HH
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 // Uncomment this if you want to enable debugging
 // #define DEBUG
 

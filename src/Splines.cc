@@ -353,32 +353,32 @@ namespace Splines {
 
   integer
   Spline::search( real_type & x ) const {
-    SPLINE_ASSERT( this->npts > 0, "in Spline::search(...), npts == 0!" )
+    SPLINE_ASSERT( m_npts > 0, "in Spline::search(...), npts == 0!" )
     // mark use read
-    spin_write.wait();
-    worker_read.enter();
+    m_spin_write.wait();
+    m_worker_read.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = bs.search( th_id );
+    integer * p_lastInterval = m_bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read.leave();
-      spin_write.lock();
-      worker_read.wait(); // wait all read finished
-      p_lastInterval  = bs.insert( th_id );
+      m_worker_read.leave();
+      m_spin_write.lock();
+      m_worker_read.wait(); // wait all read finished
+      p_lastInterval  = m_bs.insert( th_id );
       *p_lastInterval = 0;
-      worker_read.enter(); // avoid writing until finished
-      spin_write.unlock();
+      m_worker_read.enter(); // avoid writing until finished
+      m_spin_write.unlock();
     }
     searchInterval(
-      this->npts,
-      this->X,
+      m_npts,
+      m_X,
       x,
       *p_lastInterval,
-      this->_curve_is_closed,
-      this->_curve_can_extend
+      m_curve_is_closed,
+      m_curve_can_extend
     );
     integer ret = *p_lastInterval;
-    worker_read.leave();
+    m_worker_read.leave();
     return ret;
   }
 
@@ -386,51 +386,51 @@ namespace Splines {
   Spline::initLastInterval() {
     std::thread::id th_id = std::this_thread::get_id();
     // mark use read
-    spin_write.wait();
-    worker_read.enter();
-    integer * p_lastInterval = bs.search( th_id );
+    m_spin_write.wait();
+    m_worker_read.enter();
+    integer * p_lastInterval = m_bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read.leave();
-      spin_write.lock();
-      worker_read.wait(); // wait all read finished
-      p_lastInterval = bs.insert( th_id );
-      worker_read.enter();
-      spin_write.unlock();
+      m_worker_read.leave();
+      m_spin_write.lock();
+      m_worker_read.wait(); // wait all read finished
+      p_lastInterval = m_bs.insert( th_id );
+      m_worker_read.enter();
+      m_spin_write.unlock();
     }
     *p_lastInterval = 0;
-    worker_read.leave();
+    m_worker_read.leave();
   }
 
   integer
   SplineSurf::search_x( real_type & x ) const {
     // mark use read
-    spin_write_x.wait();
-    worker_read_x.enter();
+    m_spin_write_x.wait();
+    m_worker_read_x.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = bs_x.search( th_id );
+    integer * p_lastInterval = m_bs_x.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read_x.leave();
-      spin_write_x.lock();
-      worker_read_x.wait(); // wait all read finished
-      p_lastInterval  = bs_x.insert( th_id );
+      m_worker_read_x.leave();
+      m_spin_write_x.lock();
+      m_worker_read_x.wait(); // wait all read finished
+      p_lastInterval  = m_bs_x.insert( th_id );
       *p_lastInterval = 0;
-      worker_read_x.enter(); // avoid writing until finished
-      spin_write_x.unlock();
+      m_worker_read_x.enter(); // avoid writing until finished
+      m_spin_write_x.unlock();
     }
-    integer       npts_x = integer(this->X.size());
-    real_type const * pX = &this->X.front();
+    integer       npts_x = integer(m_X.size());
+    real_type const * pX = &m_X.front();
     searchInterval(
       npts_x,
       pX,
       x,
       *p_lastInterval,
-      this->_x_closed,
-      this->_x_can_extend
+      m_x_closed,
+      m_x_can_extend
     );
     integer ret = *p_lastInterval;
-    worker_read_x.leave();
+    m_worker_read_x.leave();
     return ret;
   }
 
@@ -438,51 +438,51 @@ namespace Splines {
   SplineSurf::initLastInterval_x() {
     std::thread::id th_id = std::this_thread::get_id();
     // mark use read
-    spin_write_x.wait();
-    worker_read_x.enter();
-    integer * p_lastInterval = bs_x.search( th_id );
+    m_spin_write_x.wait();
+    m_worker_read_x.enter();
+    integer * p_lastInterval = m_bs_x.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read_x.leave();
-      spin_write_x.lock();
-      worker_read_x.wait(); // wait all read finished
-      p_lastInterval = bs_x.insert( th_id );
-      worker_read_x.enter();
-      spin_write_x.unlock();
+      m_worker_read_x.leave();
+      m_spin_write_x.lock();
+      m_worker_read_x.wait(); // wait all read finished
+      p_lastInterval = m_bs_x.insert( th_id );
+      m_worker_read_x.enter();
+      m_spin_write_x.unlock();
     }
     *p_lastInterval = 0;
-    worker_read_x.leave();
+    m_worker_read_x.leave();
   }
 
   integer
   SplineSurf::search_y( real_type & y ) const {
     // mark use read
-    spin_write_y.wait();
-    worker_read_y.enter();
+    m_spin_write_y.wait();
+    m_worker_read_y.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = bs_y.search( th_id );
+    integer * p_lastInterval = m_bs_y.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read_y.leave();
-      spin_write_y.lock();
-      worker_read_y.wait(); // wait all read finished
-      p_lastInterval  = bs_y.insert( th_id );
+      m_worker_read_y.leave();
+      m_spin_write_y.lock();
+      m_worker_read_y.wait(); // wait all read finished
+      p_lastInterval  = m_bs_y.insert( th_id );
       *p_lastInterval = 0;
-      worker_read_y.enter(); // avoid writing until finished
-      spin_write_y.unlock();
+      m_worker_read_y.enter(); // avoid writing until finished
+      m_spin_write_y.unlock();
     }
-    integer       npts_y = integer(this->Y.size());
-    real_type const * pY = &this->Y.front();
+    integer       npts_y = integer(m_Y.size());
+    real_type const * pY = &m_Y.front();
     searchInterval(
       npts_y,
       pY,
       y,
       *p_lastInterval,
-      this->_y_closed,
-      this->_y_can_extend
+      m_y_closed,
+      m_y_can_extend
     );
     integer ret = *p_lastInterval;
-    worker_read_y.leave();
+    m_worker_read_y.leave();
     return ret;
   }
 
@@ -490,20 +490,20 @@ namespace Splines {
   SplineSurf::initLastInterval_y() {
     std::thread::id th_id = std::this_thread::get_id();
     // mark use read
-    spin_write_y.wait();
-    worker_read_y.enter();
-    integer * p_lastInterval = bs_y.search( th_id );
+    m_spin_write_y.wait();
+    m_worker_read_y.enter();
+    integer * p_lastInterval = m_bs_y.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read_y.leave();
-      spin_write_y.lock();
-      worker_read_y.wait(); // wait all read finished
-      p_lastInterval = bs_y.insert( th_id );
-      worker_read_y.enter();
-      spin_write_y.unlock();
+      m_worker_read_y.leave();
+      m_spin_write_y.lock();
+      m_worker_read_y.wait(); // wait all read finished
+      p_lastInterval = m_bs_y.insert( th_id );
+      m_worker_read_y.enter();
+      m_spin_write_y.unlock();
     }
     *p_lastInterval = 0;
-    worker_read_y.leave();
+    m_worker_read_y.leave();
   }
 
   //! quadratic polinomial roots
@@ -738,9 +738,9 @@ namespace Splines {
     integer n
   ) {
     reserve( n );
-    for ( integer i = 0; i < n; ++i ) X[i] = x[i*incx];
-    for ( integer i = 0; i < n; ++i ) Y[i] = y[i*incy];
-    npts = n;
+    for ( integer i = 0; i < n; ++i ) m_X[i] = x[i*incx];
+    for ( integer i = 0; i < n; ++i ) m_Y[i] = y[i*incy];
+    m_npts = n;
     build();
   }
 
@@ -748,10 +748,10 @@ namespace Splines {
 
   void
   Spline::info( ostream_type & s ) const {
-    s << "Spline `" << _name
+    s << "Spline `" << m_name
       << "` of type: " << type_name()
       << " of order: " << order();
-    if ( npts > 0 )
+    if ( m_npts > 0 )
       s << "\nxMin = " << xMin() << " xMax = " << xMax()
         << "\nyMin = " << yMin() << " yMax = " << yMax();
     s << '\n';
@@ -761,42 +761,42 @@ namespace Splines {
 
   void
   Spline::pushBack( real_type x, real_type y ) {
-    if ( npts > 0 ) {
+    if ( m_npts > 0 ) {
       SPLINE_ASSERT(
-        x >= X[size_t(npts-1)], // ammetto punti doppi
-        "Spline::pushBack, non monotone insert at insert N. " << npts <<
-        "\nX[ " << npts-1 << "] = " << X[size_t(npts-1)] <<
-        "\nX[ " << npts   << "] = " << x
+        x >= m_X[size_t(m_npts-1)], // ammetto punti doppi
+        "Spline::pushBack, non monotone insert at insert N. " << m_npts <<
+        "\nX[ " << m_npts-1 << "] = " << m_X[size_t(m_npts-1)] <<
+        "\nX[ " << m_npts   << "] = " << x
       )
     }
-    if ( npts_reserved == 0 ) {
+    if ( m_npts_reserved == 0 ) {
       reserve( 2 );
-    } else if ( npts >= npts_reserved ) {
+    } else if ( m_npts >= m_npts_reserved ) {
       // riallocazione & copia
-      integer saved_npts = npts; // salvo npts perche reserve lo azzera
+      integer saved_npts = m_npts; // salvo npts perche reserve lo azzera
       vector<real_type> Xsaved, Ysaved;
-      Xsaved.resize( size_t(npts) );
-      Ysaved.resize( size_t(npts) );
+      Xsaved.resize( size_t(m_npts) );
+      Ysaved.resize( size_t(m_npts) );
 
-      std::copy( X, X+npts, Xsaved.begin() );
-      std::copy( Y, Y+npts, Ysaved.begin() );
-      reserve( (npts+1) * 2 );
-      npts = saved_npts;
-      std::copy( Xsaved.begin(), Xsaved.end(), X );
-      std::copy( Ysaved.begin(), Ysaved.end(), Y );
+      std::copy_n( m_X, m_npts, Xsaved.begin() );
+      std::copy_n( m_Y, m_npts, Ysaved.begin() );
+      reserve( (m_npts+1) * 2 );
+      m_npts = saved_npts;
+      std::copy( Xsaved.begin(), Xsaved.end(), m_X );
+      std::copy( Ysaved.begin(), Ysaved.end(), m_Y );
     }
-    X[npts] = x;
-    Y[npts] = y;
-    ++npts;
+    m_X[m_npts] = x;
+    m_Y[m_npts] = y;
+    ++m_npts;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Spline::setOrigin( real_type x0 ) {
-    real_type Tx = x0 - X[0];
-    real_type *ix = X;
-    while ( ix < X+npts ) *ix++ += Tx;
+    real_type Tx = x0 - m_X[0];
+    real_type *ix = m_X;
+    while ( ix < m_X+m_npts ) *ix++ += Tx;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -808,9 +808,9 @@ namespace Splines {
       "Spline::setRange( " << xmin <<
       " , " << xmax << " ) bad range "
     )
-    real_type S  = (xmax - xmin) / ( X[npts-1] - X[0] );
-    real_type Tx = xmin - S * X[0];
-    for( real_type *ix = X; ix < X+npts; ++ix ) *ix = *ix * S + Tx;
+    real_type S  = (xmax - xmin) / ( m_X[m_npts-1] - m_X[0] );
+    real_type Tx = xmin - S * m_X[0];
+    for( real_type *ix = m_X; ix < m_X+m_npts; ++ix ) *ix = *ix * S + Tx;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -929,10 +929,10 @@ namespace Splines {
     //
     */
     SPLINE_ASSERT(
-      gc.exists("xdata"), "Spline[" << _name << "]::setup missing `xdata` field!"
+      gc.exists("xdata"), "Spline[" << m_name << "]::setup missing `xdata` field!"
     )
     SPLINE_ASSERT(
-      gc.exists("ydata"), "Spline[" << _name << "]::setup missing `ydata` field!"
+      gc.exists("ydata"), "Spline[" << m_name << "]::setup missing `ydata` field!"
     )
 
     GenericContainer const & gc_x = gc("xdata");
@@ -941,12 +941,12 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "Spline[" << _name << "]::setup, field `xdata'";
+      ost << "Spline[" << m_name << "]::setup, field `xdata'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "Spline[" << _name << "]::setup, field `ydata'";
+      ost << "Spline[" << m_name << "]::setup, field `ydata'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     build( x, y );

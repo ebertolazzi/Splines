@@ -444,29 +444,29 @@ namespace Splines {
   void
   CubicSpline::build() {
     SPLINE_ASSERT(
-      this->npts > 1,
-      "CubicSpline::build(): npts = " << this->npts << " not enought points"
+      m_npts > 1,
+      "CubicSpline::build(): npts = " << m_npts << " not enought points"
     )
     integer ibegin = 0;
     integer iend   = 0;
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < this->npts && this->X[iend-1] < this->X[iend] ) {}
+      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
       CUBIC_SPLINE_TYPE_BC seg_bc0 = NOT_A_KNOT;
       CUBIC_SPLINE_TYPE_BC seg_bcn = NOT_A_KNOT;
-      if ( ibegin == 0         ) seg_bc0 = this->bc0;
-      if ( iend  == this->npts ) seg_bcn = this->bcn;
+      if ( ibegin == 0      ) seg_bc0 = m_bc0;
+      if ( iend   == m_npts ) seg_bcn = m_bcn;
       CubicSpline_build(
-        this->X+ibegin,
-        this->Y+ibegin,
-        this->Yp+ibegin,
+        m_X+ibegin,
+        m_Y+ibegin,
+        m_Yp+ibegin,
         iend - ibegin,
         seg_bc0, seg_bcn
       );
       ibegin = iend;
-    } while ( iend < this->npts );
+    } while ( iend < m_npts );
 
-    SPLINE_CHECK_NAN( this->Yp, "CubicSpline::build(): Yp", this->npts );
+    SPLINE_CHECK_NAN( m_Yp, "CubicSpline::build(): Yp", m_npts );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -483,11 +483,11 @@ namespace Splines {
     */
     SPLINE_ASSERT(
       gc.exists("xdata"),
-      "CubicSpline[" << this->_name << "]::setup missing `xdata` field!"
+      "CubicSpline[" << m_name << "]::setup missing `xdata` field!"
     )
     SPLINE_ASSERT(
       gc.exists("ydata"),
-      "CubicSpline[" << this->_name << "]::setup missing `y`data field!"
+      "CubicSpline[" << m_name << "]::setup missing `y`data field!"
     )
 
     GenericContainer const & gc_x = gc("xdata");
@@ -496,42 +496,46 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::ostringstream ost;
-      ost << "CubicSpline[" << this->_name << "]::setup, field `xdata'";
+      ost << "CubicSpline[" << m_name << "]::setup, field `xdata'";
       gc_x.copyto_vec_real ( x, ost.str().c_str() );
     }
     {
       std::ostringstream ost;
-      ost << "CubicSpline[" << this->_name << "]::setup, field `ydata'";
+      ost << "CubicSpline[" << m_name << "]::setup, field `ydata'";
       gc_y.copyto_vec_real ( y, ost.str().c_str() );
     }
     if ( gc.exists("bc_begin") ) {
       std::string const & bc = gc("bc_begin").get_string();
-      if      ( bc == "extrapolate" ) this->bc0 = EXTRAPOLATE_BC;
-      else if ( bc == "natural"     ) this->bc0 = NATURAL_BC;
-      else if ( bc == "parabolic"   ) this->bc0 = PARABOLIC_RUNOUT_BC;
-      else if ( bc == "not_a_knot"  ) this->bc0 = NOT_A_KNOT;
+      if      ( bc == "extrapolate" ) m_bc0 = EXTRAPOLATE_BC;
+      else if ( bc == "natural"     ) m_bc0 = NATURAL_BC;
+      else if ( bc == "parabolic"   ) m_bc0 = PARABOLIC_RUNOUT_BC;
+      else if ( bc == "not_a_knot"  ) m_bc0 = NOT_A_KNOT;
       else {
         SPLINE_DO_ERROR(
-          "CubicSpline[" << this->_name << "]::setup unknow initial bc:" << bc
+          "CubicSpline[" << m_name << "]::setup unknow initial bc:" << bc
         )
       }
     } else {
-      SPLINE_WARNING( false, "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value")
+      SPLINE_WARNING( false,
+        "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value"
+      )
     }
 
     if ( gc.exists("bc_end") ) {
       std::string const & bc = gc("bc_end").get_string();
-      if      ( bc == "extrapolate" ) this->bcn = EXTRAPOLATE_BC;
-      else if ( bc == "natural"     ) this->bcn = NATURAL_BC;
-      else if ( bc == "parabolic"   ) this->bcn = PARABOLIC_RUNOUT_BC;
-      else if ( bc == "not_a_knot"  ) this->bcn = NOT_A_KNOT;
+      if      ( bc == "extrapolate" ) m_bcn = EXTRAPOLATE_BC;
+      else if ( bc == "natural"     ) m_bcn = NATURAL_BC;
+      else if ( bc == "parabolic"   ) m_bcn = PARABOLIC_RUNOUT_BC;
+      else if ( bc == "not_a_knot"  ) m_bcn = NOT_A_KNOT;
       else {
         SPLINE_DO_ERROR(
-          "CubicSpline[" << this->_name << "]::setup unknow final bc:" << bc
+          "CubicSpline[" << m_name << "]::setup unknow final bc:" << bc
         )
       }
     } else {
-      SPLINE_WARNING( false, "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value")
+      SPLINE_WARNING( false,
+        "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value"
+      )
     }
     this->build( x, y );
   }

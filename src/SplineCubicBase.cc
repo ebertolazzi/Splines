@@ -45,11 +45,11 @@ namespace Splines {
   ) {
     this->reserve( n );
     for ( size_t i = 0; i < size_t(n); ++i ) {
-      this->X[i]  = x[i*size_t(incx)];
-      this->Y[i]  = y[i*size_t(incy)];
-      this->Yp[i] = yp[i*size_t(incyp)];
+      m_X[i]  = x[i*size_t(incx)];
+      m_Y[i]  = y[i*size_t(incy)];
+      m_Yp[i] = yp[i*size_t(incyp)];
     }
-    this->npts = n;
+    m_npts = n;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,28 +75,28 @@ namespace Splines {
 
   void
   CubicSplineBase::clear(void) {
-    if ( !this->_external_alloc ) this->baseValue.free();
-    this->npts = this->npts_reserved = 0;
-    this->_external_alloc = false;
-    this->X = this->Y = this->Yp = nullptr;
+    if ( !m_external_alloc ) m_baseValue.free();
+    m_npts = m_npts_reserved = 0;
+    m_external_alloc = false;
+    m_X = m_Y = m_Yp = nullptr;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSplineBase::reserve( integer n ) {
-    if ( _external_alloc && n <= npts_reserved ) {
+    if ( m_external_alloc && n <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      this->npts_reserved = n;
-      this->baseValue.allocate( size_t(3*n) );
-      this->X  = this->baseValue( size_t(n) );
-      this->Y  = this->baseValue( size_t(n) );
-      this->Yp = this->baseValue( size_t(n) );
-      this->_external_alloc = false;
+      m_npts_reserved = n;
+      m_baseValue.allocate( size_t(3*n) );
+      m_X  = m_baseValue( size_t(n) );
+      m_Y  = m_baseValue( size_t(n) );
+      m_Yp = m_baseValue( size_t(n) );
+      m_external_alloc = false;
     }
     initLastInterval();
-    this->npts = 0;
+    m_npts = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -108,11 +108,11 @@ namespace Splines {
     real_type *& p_y,
     real_type *& p_dy
   ) {
-    this->npts_reserved   = n;
-    this->X               = p_x;
-    this->Y               = p_y;
-    this->Yp              = p_dy;
-    this->_external_alloc = true;
+    m_npts_reserved  = n;
+    m_X              = p_x;
+    m_Y              = p_y;
+    m_Yp             = p_dy;
+    m_external_alloc = true;
     initLastInterval();
   }
 
@@ -121,11 +121,11 @@ namespace Splines {
   real_type
   CubicSplineBase::id_eval( integer i, real_type x ) const {
     real_type base[4];
-    Hermite3( x-this->X[i], this->X[i+1]-this->X[i], base );
-    return base[0] * this->Y[i]   +
-           base[1] * this->Y[i+1] +
-           base[2] * this->Yp[i]  +
-           base[3] * this->Yp[i+1];
+    Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
+    return base[0] * m_Y[i]   +
+           base[1] * m_Y[i+1] +
+           base[2] * m_Yp[i]  +
+           base[3] * m_Yp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,11 +141,11 @@ namespace Splines {
   real_type
   CubicSplineBase::id_D( integer i, real_type x ) const {
     real_type base_D[4];
-    Hermite3_D( x-this->X[i], this->X[i+1]-this->X[i], base_D );
-    return base_D[0] * this->Y[i]   +
-           base_D[1] * this->Y[i+1] +
-           base_D[2] * this->Yp[i]  +
-           base_D[3] * this->Yp[i+1];
+    Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
+    return base_D[0] * m_Y[i]   +
+           base_D[1] * m_Y[i+1] +
+           base_D[2] * m_Yp[i]  +
+           base_D[3] * m_Yp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -161,11 +161,11 @@ namespace Splines {
   real_type
   CubicSplineBase::id_DD( integer i, real_type x ) const {
     real_type base_DD[4];
-    Hermite3_DD( x-this->X[i], this->X[i+1]-this->X[i], base_DD );
-    return base_DD[0] * this->Y[i]   +
-           base_DD[1] * this->Y[i+1] +
-           base_DD[2] * this->Yp[i]  +
-           base_DD[3] * this->Yp[i+1];
+    Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
+    return base_DD[0] * m_Y[i]   +
+           base_DD[1] * m_Y[i+1] +
+           base_DD[2] * m_Yp[i]  +
+           base_DD[3] * m_Yp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -181,11 +181,11 @@ namespace Splines {
   real_type
   CubicSplineBase::id_DDD( integer i, real_type x ) const {
     real_type base_DDD[4];
-    Hermite3_DDD( x-this->X[i], this->X[i+1]-this->X[i], base_DDD );
-    return base_DDD[0] * this->Y[i]   +
-           base_DDD[1] * this->Y[i+1] +
-           base_DDD[2] * this->Yp[i]  +
-           base_DDD[3] * this->Yp[i+1];
+    Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
+    return base_DDD[0] * m_Y[i]   +
+           base_DDD[1] * m_Y[i+1] +
+           base_DDD[2] * m_Yp[i]  +
+           base_DDD[3] * m_Yp[i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -204,15 +204,15 @@ namespace Splines {
     real_type nodes[],
     bool      transpose
   ) const {
-    size_t n = size_t(this->npts > 0 ? this->npts-1 : 0);
+    size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {
-      nodes[i] = this->X[i];
-      real_type H  = this->X[i+1]-this->X[i];
-      real_type DY = (this->Y[i+1]-this->Y[i])/H;
-      real_type a = this->Y[i];
-      real_type b = this->Yp[i];
-      real_type c = (3*DY-2*this->Yp[i]-this->Yp[i+1])/H;
-      real_type d = (this->Yp[i+1]+this->Yp[i]-2*DY)/(H*H);
+      nodes[i] = m_X[i];
+      real_type H  = m_X[i+1]-m_X[i];
+      real_type DY = (m_Y[i+1]-m_Y[i])/H;
+      real_type a = m_Y[i];
+      real_type b = m_Yp[i];
+      real_type c = (3*DY-2*m_Yp[i]-m_Yp[i+1])/H;
+      real_type d = (m_Yp[i+1]+m_Yp[i]-2*DY)/(H*H);
       if ( transpose ) {
         cfs[4*i+3] = a;
         cfs[4*i+2] = b;
@@ -239,11 +239,11 @@ namespace Splines {
   // Implementation
   void
   CubicSplineBase::copySpline( CubicSplineBase const & S ) {
-    CubicSplineBase::reserve(S.npts);
-    this->npts = S.npts;
-    std::copy( S.X,  S.X+npts,  this->X  );
-    std::copy( S.Y,  S.Y+npts,  this->Y  );
-    std::copy( S.Yp, S.Yp+npts, this->Yp );
+    CubicSplineBase::reserve(S.m_npts);
+    m_npts = S.m_npts;
+    std::copy_n( S.m_X,  m_npts, m_X  );
+    std::copy_n( S.m_Y,  m_npts, m_Y  );
+    std::copy_n( S.m_Yp, m_npts, m_Yp );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -252,22 +252,22 @@ namespace Splines {
   void
   CubicSplineBase::setRange( real_type xmin, real_type xmax ) {
     Spline::setRange( xmin, xmax );
-    real_type recS = ( this->X[npts-1] - this->X[0] ) / (xmax - xmin);
-    real_type * iy = this->Y;
-    while ( iy < this->Y + this->npts ) *iy++ *= recS;
+    real_type recS = ( m_X[m_npts-1] - m_X[0] ) / (xmax - xmin);
+    real_type * iy = m_Y;
+    while ( iy < m_Y + m_npts ) *iy++ *= recS;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSplineBase::writeToStream( ostream_type & s ) const {
-    size_t nseg = size_t( this->npts > 0 ? this->npts - 1 : 0 );
+    size_t nseg = size_t( m_npts > 0 ? m_npts - 1 : 0 );
     for ( size_t i = 0; i < nseg; ++i )
       s << "segment N." << setw(4) << i
-        << " X:[" << this->X[i] << ", " << this->X[i+1]
-        << "] Y:[" << this->Y[i] << ", " << this->Y[i+1]
-        << "] Yp:[" << this->Yp[i] << ", " << this->Yp[i+1]
-        << "] slope: " << (this->Y[i+1]-this->Y[i])/(this->X[i+1]-this->X[i])
+        << " X:["   << m_X[i]  << ", " << m_X[i+1]
+        << "] Y:["  << m_Y[i]  << ", " << m_Y[i+1]
+        << "] Yp:[" << m_Yp[i] << ", " << m_Yp[i+1]
+        << "] slope: " << (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
         << '\n';
   }
 

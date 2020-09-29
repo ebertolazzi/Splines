@@ -41,16 +41,16 @@ namespace Splines {
 
   //! spline constructor
   SplineVec::SplineVec( string const & name )
-  : _name(name)
-  , baseValue(name+"_values")
-  , basePointer(name+"_pointers")
-  , _dim(0)
-  , _npts(0)
-  , _curve_is_closed(false)
-  , _curve_can_extend(true)
-  , _X(nullptr)
-  , _Y(nullptr)
-  , _Yp(nullptr)
+  : m_name(name)
+  , m_baseValue(name+"_values")
+  , m_basePointer(name+"_pointers")
+  , m_dim(0)
+  , m_npts(0)
+  , m_curve_is_closed(false)
+  , m_curve_can_extend(true)
+  , m_X(nullptr)
+  , m_Y(nullptr)
+  , m_Yp(nullptr)
   {
     initLastInterval();
   }
@@ -59,40 +59,40 @@ namespace Splines {
 
   //! spline destructor
   SplineVec::~SplineVec() {
-    baseValue.free();
-    basePointer.free();
+    m_baseValue.free();
+    m_basePointer.free();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
   SplineVec::search( real_type & x ) const {
-    SPLINE_ASSERT( this->_npts > 0, "in SplineVec::search(...), npts == 0!" )
+    SPLINE_ASSERT( m_npts > 0, "in SplineVec::search(...), npts == 0!" )
     // mark use read
-    spin_write.wait();
-    worker_read.enter();
+    m_spin_write.wait();
+    m_worker_read.enter();
     std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = bs.search( th_id );
+    integer * p_lastInterval = m_bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read.leave();
-      spin_write.lock();
-      worker_read.wait(); // wait all read finished
-      p_lastInterval  = bs.insert( th_id );
+      m_worker_read.leave();
+      m_spin_write.lock();
+      m_worker_read.wait(); // wait all read finished
+      p_lastInterval  = m_bs.insert( th_id );
       *p_lastInterval = 0;
-      worker_read.enter(); // avoid writing until finished
-      spin_write.unlock();
+      m_worker_read.enter(); // avoid writing until finished
+      m_spin_write.unlock();
     }
     searchInterval(
-      this->_npts,
-      this->_X,
+      m_npts,
+      m_X,
       x,
       *p_lastInterval,
-      this->_curve_is_closed,
-      this->_curve_can_extend
+      m_curve_is_closed,
+      m_curve_can_extend
     );
     integer ret = *p_lastInterval;
-    worker_read.leave();
+    m_worker_read.leave();
     return ret;
   }
 
@@ -102,20 +102,20 @@ namespace Splines {
   SplineVec::initLastInterval() {
     std::thread::id th_id = std::this_thread::get_id();
     // mark use read
-    spin_write.wait();
-    worker_read.enter();
-    integer * p_lastInterval = bs.search( th_id );
+    m_spin_write.wait();
+    m_worker_read.enter();
+    integer * p_lastInterval = m_bs.search( th_id );
     if ( p_lastInterval == nullptr ) {
       // non trovato
-      worker_read.leave();
-      spin_write.lock();
-      worker_read.wait(); // wait all read finished
-      p_lastInterval = bs.insert( th_id );
-      worker_read.enter();
-      spin_write.unlock();
+      m_worker_read.leave();
+      m_spin_write.lock();
+      m_worker_read.wait(); // wait all read finished
+      p_lastInterval = m_bs.insert( th_id );
+      m_worker_read.enter();
+      m_spin_write.unlock();
     }
     *p_lastInterval = 0;
-    worker_read.leave();
+    m_worker_read.leave();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -123,7 +123,7 @@ namespace Splines {
   void
   SplineVec::info( ostream_type & s ) const {
     s << "SplineVec[" << name() << "] n.points = "
-      << _npts << " dim = " << _dim << '\n';
+      << m_npts << " dim = " << m_dim << '\n';
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -132,13 +132,13 @@ namespace Splines {
   SplineVec::dump_table( ostream_type & stream, integer num_points ) const {
     vector<real_type> vals;
     stream << 's';
-    for ( integer i = 0; i < _dim; ++i ) stream << '\t' << i;
+    for ( integer i = 0; i < m_dim; ++i ) stream << '\t' << i;
     stream << '\n';
     for ( integer j = 0; j < num_points; ++j ) {
       real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
       this->eval( s, vals );
       stream << s;
-      for ( integer i = 0; i < _dim; ++i )
+      for ( integer i = 0; i < m_dim; ++i )
         stream << '\t' << vals[size_t(i)];
       stream << '\n';
     }
@@ -155,23 +155,23 @@ namespace Splines {
     SPLINE_ASSERT(
       npts > 1, "SplineVec::build expected npts = " << npts << " greather than 1"
     )
-    _dim  = dim;
-    _npts = npts;
+    m_dim  = dim;
+    m_npts = npts;
 
-    baseValue   . allocate( size_t((2*dim+1)*npts) );
-    basePointer . allocate( size_t(2*dim) );
+    m_baseValue   . allocate( size_t((2*dim+1)*npts) );
+    m_basePointer . allocate( size_t(2*dim) );
 
-    _Y  = basePointer(size_t(_dim));
-    _Yp = basePointer(size_t(_dim));
-    _X  = baseValue(size_t(_npts));
+    m_Y  = m_basePointer(size_t(m_dim));
+    m_Yp = m_basePointer(size_t(m_dim));
+    m_X  = m_baseValue(size_t(m_npts));
 
-    for ( size_t spl = 0; spl < size_t(_dim); ++spl ) {
-      _Y[size_t(spl)]  = baseValue(size_t(_npts));
-      _Yp[size_t(spl)] = baseValue(size_t(_npts));
+    for ( size_t spl = 0; spl < size_t(m_dim); ++spl ) {
+      m_Y[size_t(spl)]  = m_baseValue(size_t(m_npts));
+      m_Yp[size_t(spl)] = m_baseValue(size_t(m_npts));
     }
 
-    baseValue   . must_be_empty( "SplineVec::build, baseValue" );
-    basePointer . must_be_empty( "SplineVec::build, basePointer" );
+    m_baseValue   . must_be_empty( "SplineVec::build, baseValue" );
+    m_basePointer . must_be_empty( "SplineVec::build, basePointer" );
 
   }
 
@@ -184,8 +184,8 @@ namespace Splines {
     real_type const * Y[]
   ) {
     allocate( dim, npts );
-    for ( size_t spl = 0; spl < size_t(_dim); ++spl )
-      std::copy( Y[spl], Y[spl]+_npts, _Y[spl] );
+    for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
+      std::copy_n( Y[spl], m_npts, m_Y[spl] );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -198,46 +198,46 @@ namespace Splines {
     integer         ldY
   ) {
     allocate( dim, npts );
-    for ( size_t spl = 0; spl < size_t(_dim); ++spl )
-      for ( size_t j = 0; j < size_t(_npts); ++j )
-        _Y[spl][j] = Y[spl+j*size_t(ldY)];
+    for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
+      for ( size_t j = 0; j < size_t(m_npts); ++j )
+        m_Y[spl][j] = Y[spl+j*size_t(ldY)];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineVec::setKnots( real_type const X[] ) {
-    std::copy( X, X+_npts, _X );
+    std::copy_n( X, m_npts, m_X );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   void
   SplineVec::computeChords() {
-    size_t nn = size_t(_npts-1);
-    switch ( _dim ) {
+    size_t nn = size_t(m_npts-1);
+    switch ( m_dim ) {
     case 2:
       for ( size_t j = 0; j < nn; ++j ) {
-        real_type dx = _Y[0][j+1] - _Y[0][j];
-        real_type dy = _Y[1][j+1] - _Y[1][j];
-        _X[j] = hypot( dx, dy );
+        real_type dx = m_Y[0][j+1] - m_Y[0][j];
+        real_type dy = m_Y[1][j+1] - m_Y[1][j];
+        m_X[j] = hypot( dx, dy );
       }
       break;
     case 3:
       for ( size_t j = 0; j < nn; ++j ) {
-        real_type dx = _Y[0][j+1] - _Y[0][j];
-        real_type dy = _Y[1][j+1] - _Y[1][j];
-        real_type dz = _Y[2][j+1] - _Y[2][j];
-        _X[j] = hypot( dx, hypot( dy, dz ) );
+        real_type dx = m_Y[0][j+1] - m_Y[0][j];
+        real_type dy = m_Y[1][j+1] - m_Y[1][j];
+        real_type dz = m_Y[2][j+1] - m_Y[2][j];
+        m_X[j] = hypot( dx, hypot( dy, dz ) );
       }
       break;
     default:
       for ( size_t j = 0; j < nn; ++j ) {
         real_type l = 0;
-        for ( size_t k = 0; k < size_t(_dim); ++k ) {
-          real_type d = _Y[k][j+1] - _Y[k][j];
+        for ( size_t k = 0; k < size_t(m_dim); ++k ) {
+          real_type d = m_Y[k][j+1] - m_Y[k][j];
           l += d*d;
         }
-        _X[j] = sqrt(l);
+        m_X[j] = sqrt(l);
       }
       break;
     }
@@ -247,15 +247,15 @@ namespace Splines {
   void
   SplineVec::setKnotsChordLength() {
     computeChords();
-    size_t    nn  = size_t(_npts-1);
+    size_t    nn  = size_t(m_npts-1);
     real_type acc = 0;
     for ( size_t j = 0; j <= nn; ++j ) {
-      real_type l = _X[j];
-      _X[j] = acc;
+      real_type l = m_X[j];
+      m_X[j] = acc;
       acc += l;
     }
-    for ( size_t j = 1; j < nn; ++j ) _X[j] /= acc;
-    _X[nn] = 1;
+    for ( size_t j = 1; j < nn; ++j ) m_X[j] /= acc;
+    m_X[nn] = 1;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -263,50 +263,50 @@ namespace Splines {
   void
   SplineVec::setKnotsCentripetal() {
     computeChords();
-    size_t    nn  = size_t(this->_npts-1);
+    size_t    nn  = size_t(m_npts-1);
     real_type acc = 0;
     for ( size_t j = 0; j <= nn; ++j ) {
-      real_type l = sqrt(this->_X[j]);
-      this->_X[j] = acc;
+      real_type l = sqrt(m_X[j]);
+      m_X[j] = acc;
       acc += l;
     }
-    for ( size_t j = 1; j < nn; ++j ) this->_X[j] /= acc;
-    this->_X[nn] = 1;
+    for ( size_t j = 1; j < nn; ++j ) m_X[j] /= acc;
+    m_X[nn] = 1;
   }
 
   void
   SplineVec::CatmullRom() {
-    size_t n = size_t(_npts-1);
-    size_t d = size_t(_dim);
+    size_t n = size_t(m_npts-1);
+    size_t d = size_t(m_dim);
     real_type l1, l2, ll, a, b;
     for ( size_t j = 1; j < n; ++j ) {
-      l1 = this->_X[j]   - this->_X[j-1];
-      l2 = this->_X[j+1] - this->_X[j];
+      l1 = m_X[j]   - m_X[j-1];
+      l2 = m_X[j+1] - m_X[j];
       ll = l1+l2;
       a  = (l2/l1)/ll;
       b  = (l1/l2)/ll;
       for ( size_t k = 0; k < d; ++k )
-        this->_Yp[k][j] = a*( this->_Y[k][j] - this->_Y[k][j-1] ) +
-                          b*( this->_Y[k][j+1] - this->_Y[k][j] );
+        m_Yp[k][j] = a*( m_Y[k][j]   - m_Y[k][j-1] ) +
+                     b*( m_Y[k][j+1] - m_Y[k][j] );
     }
 
-    l1 = this->_X[1] - this->_X[0];
-    l2 = this->_X[2] -this-> _X[1];
+    l1 = m_X[1] - m_X[0];
+    l2 = m_X[2] - m_X[1];
     ll = l1+l2;
     a  = ll/(l1*l2);
     b  = (l1/l2)/ll;
     for ( size_t k = 0; k < d; ++k )
-      this->_Yp[k][0] = a*( this->_Y[k][1] - this->_Y[k][0] ) -
-                        b*( this->_Y[k][2] - this->_Y[k][0] );
+      m_Yp[k][0] = a*( m_Y[k][1] - m_Y[k][0] ) -
+                   b*( m_Y[k][2] - m_Y[k][0] );
 
-    l1 = this->_X[n]   - this->_X[n-1];
-    l2 = this->_X[n-1] - this->_X[n-2];
+    l1 = m_X[n]   - m_X[n-1];
+    l2 = m_X[n-1] - m_X[n-2];
     ll = l1+l2;
     a  = ll/(l1*l2);
     b  = (l1/l2)/ll;
     for ( size_t k = 0; k < d; ++k )
-      this->_Yp[k][n] = b*( this->_Y[k][n-2] - this->_Y[k][n] ) -
-                        a*( this->_Y[k][n-1] - this->_Y[k][n] );
+      m_Yp[k][n] = b*( m_Y[k][n-2] - m_Y[k][n] ) -
+                   a*( m_Y[k][n-1] - m_Y[k][n] );
 
   }
 
@@ -316,11 +316,11 @@ namespace Splines {
   SplineVec::operator () ( real_type x, integer j ) const {
     size_t i = size_t(this->search( x ));
     real_type base[4];
-    Hermite3( x-this->_X[i], this->_X[i+1]-this->_X[i], base );
-    return base[0] * this->_Y[size_t(j)][i]   +
-           base[1] * this->_Y[size_t(j)][i+1] +
-           base[2] * this->_Yp[size_t(j)][i]  +
-           base[3] * this->_Yp[size_t(j)][i+1];
+    Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
+    return base[0] * m_Y[size_t(j)][i]   +
+           base[1] * m_Y[size_t(j)][i+1] +
+           base[2] * m_Yp[size_t(j)][i]  +
+           base[3] * m_Yp[size_t(j)][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -329,11 +329,11 @@ namespace Splines {
   SplineVec::D( real_type x, integer j ) const {
     size_t i = size_t(this->search( x ));
     real_type base_D[4];
-    Hermite3_D( x-this->_X[i], this->_X[i+1]-this->_X[i], base_D );
-    return base_D[0] * this->_Y[size_t(j)][i]   +
-           base_D[1] * this->_Y[size_t(j)][i+1] +
-           base_D[2] * this->_Yp[size_t(j)][i]  +
-           base_D[3] * this->_Yp[size_t(j)][i+1];
+    Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
+    return base_D[0] * m_Y[size_t(j)][i]   +
+           base_D[1] * m_Y[size_t(j)][i+1] +
+           base_D[2] * m_Yp[size_t(j)][i]  +
+           base_D[3] * m_Yp[size_t(j)][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -342,11 +342,11 @@ namespace Splines {
   SplineVec::DD( real_type x, integer j ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DD[4];
-    Hermite3_DD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DD );
-    return base_DD[0] * this->_Y[size_t(j)][i]   +
-           base_DD[1] * this->_Y[size_t(j)][i+1] +
-           base_DD[2] * this->_Yp[size_t(j)][i]  +
-           base_DD[3] * this->_Yp[size_t(j)][i+1];
+    Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
+    return base_DD[0] * m_Y[size_t(j)][i]   +
+           base_DD[1] * m_Y[size_t(j)][i+1] +
+           base_DD[2] * m_Yp[size_t(j)][i]  +
+           base_DD[3] * m_Yp[size_t(j)][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -355,11 +355,11 @@ namespace Splines {
   SplineVec::DDD( real_type x, integer j ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DDD[4];
-    Hermite3_DDD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DDD );
-    return base_DDD[0] * this->_Y[size_t(j)][i]   +
-           base_DDD[1] * this->_Y[size_t(j)][i+1] +
-           base_DDD[2] * this->_Yp[size_t(j)][i]  +
-           base_DDD[3] * this->_Yp[size_t(j)][i+1];
+    Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
+    return base_DDD[0] * m_Y[size_t(j)][i]   +
+           base_DDD[1] * m_Y[size_t(j)][i+1] +
+           base_DDD[2] * m_Yp[size_t(j)][i]  +
+           base_DDD[3] * m_Yp[size_t(j)][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -372,13 +372,13 @@ namespace Splines {
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base[4];
-    Hermite3( x-this->_X[i], this->_X[i+1]-this->_X[i], base );
+    Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
     real_type * v = vals;
-    for ( size_t j = 0; j < size_t(this->_dim); ++j, v += inc )
-      *v = base[0] * this->_Y[j][i]   +
-           base[1] * this->_Y[j][i+1] +
-           base[2] * this->_Yp[j][i]  +
-           base[3] * this->_Yp[j][i+1];
+    for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
+      *v = base[0] * m_Y[j][i]   +
+           base[1] * m_Y[j][i+1] +
+           base[2] * m_Yp[j][i]  +
+           base[3] * m_Yp[j][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -391,13 +391,13 @@ namespace Splines {
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_D[4];
-    Hermite3_D( x-this->_X[i], this->_X[i+1]-this->_X[i], base_D );
+    Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
     real_type * v = vals;
-    for ( size_t j = 0; j < size_t(this->_dim); ++j, v += inc )
-      *v = base_D[0] * this->_Y[j][i]   +
-           base_D[1] * this->_Y[j][i+1] +
-           base_D[2] * this->_Yp[j][i]  +
-           base_D[3] * this->_Yp[j][i+1];
+    for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
+      *v = base_D[0] * m_Y[j][i]   +
+           base_D[1] * m_Y[j][i+1] +
+           base_D[2] * m_Yp[j][i]  +
+           base_D[3] * m_Yp[j][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -410,13 +410,13 @@ namespace Splines {
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DD[4];
-    Hermite3_DD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DD );
+    Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
     real_type * v = vals;
-    for ( size_t j = 0; j < size_t(this->_dim); ++j, v += inc )
-      *v = base_DD[0] * this->_Y[j][i]   +
-           base_DD[1] * this->_Y[j][i+1] +
-           base_DD[2] * this->_Yp[j][i]  +
-           base_DD[3] * this->_Yp[j][i+1];
+    for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
+      *v = base_DD[0] * m_Y[j][i]   +
+           base_DD[1] * m_Y[j][i+1] +
+           base_DD[2] * m_Yp[j][i]  +
+           base_DD[3] * m_Yp[j][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -429,20 +429,20 @@ namespace Splines {
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DDD[4];
-    Hermite3_DDD( x-this->_X[i], this->_X[i+1]-this->_X[i], base_DDD );
+    Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
     real_type * v = vals;
-    for ( size_t j = 0; j < size_t(this->_dim); ++j, v += inc )
-      *v = base_DDD[0] * this->_Y[j][i]   +
-           base_DDD[1] * this->_Y[j][i+1] +
-           base_DDD[2] * this->_Yp[j][i]  +
-           base_DDD[3] * this->_Yp[j][i+1];
+    for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
+      *v = base_DDD[0] * m_Y[j][i]   +
+           base_DDD[1] * m_Y[j][i+1] +
+           base_DDD[2] * m_Yp[j][i]  +
+           base_DDD[3] * m_Yp[j][i+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineVec::eval( real_type x, vector<real_type> & vals ) const {
-    vals.resize(size_t(this->_dim));
+    vals.resize(size_t(m_dim));
     eval( x, &vals.front(), 1 );
   }
 
@@ -450,7 +450,7 @@ namespace Splines {
 
   void
   SplineVec::eval_D( real_type x, vector<real_type> & vals ) const {
-    vals.resize(size_t(this->_dim));
+    vals.resize(size_t(m_dim));
     eval_D( x, &vals.front(), 1 );
   }
 
@@ -458,7 +458,7 @@ namespace Splines {
 
   void
   SplineVec::eval_DD( real_type x, vector<real_type> & vals ) const {
-    vals.resize(size_t(this->_dim));
+    vals.resize(size_t(m_dim));
     eval_DD( x, &vals.front(), 1 );
   }
 
@@ -466,7 +466,7 @@ namespace Splines {
 
   void
   SplineVec::eval_DDD( real_type x, vector<real_type> & vals ) const {
-    vals.resize(size_t(this->_dim));
+    vals.resize(size_t(m_dim));
     eval_DDD( x, &vals.front(), 1 );
   }
 
@@ -523,11 +523,11 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
-    while ( j-- > 0 ) { eval( *px++, v, 1 ); v += this->_dim; }
+    while ( j-- > 0 ) { eval( *px++, v, 1 ); v += m_dim; }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -537,11 +537,11 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
-    while ( j-- > 0 ) { eval_D( *px++, v, 1 ); v += this->_dim; }
+    while ( j-- > 0 ) { eval_D( *px++, v, 1 ); v += m_dim; }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -551,11 +551,11 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type   & m  = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
-    while ( j-- > 0 ) { eval_DD( *px++, v, 1 ); v += this->_dim; }
+    while ( j-- > 0 ) { eval_DD( *px++, v, 1 ); v += m_dim; }
 
   }
 
@@ -566,11 +566,11 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type & m = vals.set_mat_real( unsigned(this->_dim), unsigned(x.size()) );
+    mat_real_type & m = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
     integer j = integer(x.size());
-    while ( j-- > 0 ) { this->eval_DDD( *px++, v, 1 ); v += this->_dim; }
+    while ( j-- > 0 ) { this->eval_DDD( *px++, v, 1 ); v += m_dim; }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

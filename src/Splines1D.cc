@@ -47,10 +47,10 @@ namespace Splines {
     real_type const y[], integer incy,
     integer n
   ) {
-    if ( pSpline != nullptr ) delete pSpline;
-    pSpline = new_Spline1D(_name,tp);
-    SPLINE_ASSERT( pSpline != nullptr, "Spline1D::build, failed" )
-    pSpline->build( x, incx, y, incy, n );
+    if ( m_pSpline != nullptr ) delete m_pSpline;
+    m_pSpline = new_Spline1D(m_name,tp);
+    SPLINE_ASSERT( m_pSpline != nullptr, "Spline1D::build, failed" )
+    m_pSpline->build( x, incx, y, incy, n );
   }
 
   /*
@@ -94,13 +94,13 @@ namespace Splines {
       tp = QUINTIC_TYPE;
     } else {
       SPLINE_DO_ERROR(
-       "Spline1D::setup[" << _name << "] unknown type " << spl_type <<
+       "Spline1D::setup[" << m_name << "] unknown type " << spl_type <<
        ", not in [constant,linear,cubic,akima,bessel,pchip,quintic]"
-                      )
+      )
     }
-    if ( this->pSpline != nullptr ) delete this->pSpline;
-    this->pSpline = new_Spline1D( _name, tp );
-    this->pSpline->build( gc );
+    if ( m_pSpline != nullptr ) delete m_pSpline;
+    m_pSpline = new_Spline1D( m_name, tp );
+    m_pSpline->build( gc );
   }
 
 }

@@ -32,53 +32,53 @@ namespace Splines {
 
   void
   BiCubicSpline::makeSpline() {
-    this->DX.resize(Z.size());
-    this->DY.resize(Z.size());
-    this->DXY.resize(Z.size());
+    m_DX.resize(m_Z.size());
+    m_DY.resize(m_Z.size());
+    m_DXY.resize(m_Z.size());
     // calcolo derivate
-    integer nx = integer(this->X.size());
-    integer ny = integer(this->Y.size());
+    integer nx = integer(m_X.size());
+    integer ny = integer(m_Y.size());
     PchipSpline sp;
     for ( integer j = 0; j < ny; ++j ) {
-      sp.build( &this->X.front(), 1, &this->Z[size_t(this->ipos_C(0,j))], ny, nx );
+      sp.build( &m_X.front(), 1, &m_Z[size_t(this->ipos_C(0,j))], ny, nx );
       for ( integer i = 0; i < nx; ++i )
-        this->DX[size_t(this->ipos_C(i,j))] = sp.ypNode(i);
+        m_DX[size_t(this->ipos_C(i,j))] = sp.ypNode(i);
     }
     for ( integer i = 0; i < nx; ++i ) {
-      sp.build( &this->Y.front(), 1, &this->Z[size_t(this->ipos_C(i,0))], 1, ny );
+      sp.build( &m_Y.front(), 1, &m_Z[size_t(this->ipos_C(i,0))], 1, ny );
       for ( integer j = 0; j < ny; ++j )
-        this->DY[size_t(this->ipos_C(i,j))] = sp.ypNode(j);
+        m_DY[size_t(this->ipos_C(i,j))] = sp.ypNode(j);
     }
-    std::fill( this->DXY.begin(), this->DXY.end(), 0 );
+    std::fill( m_DXY.begin(), m_DXY.end(), 0 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSpline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(Y.size());
-    s << "Nx = " << X.size() << " Ny = " << Y.size() << '\n';
-    for ( integer i = 1; i < integer(this->X.size()); ++i ) {
-      for ( integer j = 1; j < integer(this->Y.size()); ++j ) {
+    integer ny = integer(m_Y.size());
+    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
+    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
+      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
         size_t i00 = size_t(this->ipos_C(i-1,j-1,ny));
         size_t i10 = size_t(this->ipos_C(i,j-1,ny));
         size_t i01 = size_t(this->ipos_C(i-1,j,ny));
         size_t i11 = size_t(this->ipos_C(i,j,ny));
         s << "patch (" << i << "," << j
-          << ")\n DX = "  << setw(10) << left << this->X[size_t(i)]-X[size_t(i-1)]
-          <<    " DY = "  << setw(10) << left << this->Y[size_t(j)]-Y[size_t(j-1)]
-          << "\n Z00  = " << setw(10) << left << this->Z[i00]
-          <<   " Z01  = " << setw(10) << left << this->Z[i01]
-          <<   " Z10  = " << setw(10) << left << this->Z[i10]
-          <<   " Z11  = " << setw(10) << left << this->Z[i11]
-          << "\n Dx00 = " << setw(10) << left << this->DX[i00]
-          <<   " Dx01 = " << setw(10) << left << this->DX[i01]
-          <<   " Dx10 = " << setw(10) << left << this->DX[i10]
-          <<   " Dx11 = " << setw(10) << left << this->DX[i11]
-          << "\n Dy00 = " << setw(10) << left << this->DY[i00]
-          <<   " Dy01 = " << setw(10) << left << this->DY[i01]
-          <<   " Dy10 = " << setw(10) << left << this->DY[i10]
-          <<   " Dy11 = " << setw(10) << left << this->DY[i11]
+          << ")\n DX = "  << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
+          <<    " DY = "  << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]
+          << "\n Z00  = " << setw(10) << left << m_Z[i00]
+          <<   " Z01  = " << setw(10) << left << m_Z[i01]
+          <<   " Z10  = " << setw(10) << left << m_Z[i10]
+          <<   " Z11  = " << setw(10) << left << m_Z[i11]
+          << "\n Dx00 = " << setw(10) << left << m_DX[i00]
+          <<   " Dx01 = " << setw(10) << left << m_DX[i01]
+          <<   " Dx10 = " << setw(10) << left << m_DX[i10]
+          <<   " Dx11 = " << setw(10) << left << m_DX[i11]
+          << "\n Dy00 = " << setw(10) << left << m_DY[i00]
+          <<   " Dy01 = " << setw(10) << left << m_DY[i01]
+          <<   " Dy10 = " << setw(10) << left << m_DY[i10]
+          <<   " Dy11 = " << setw(10) << left << m_DY[i11]
           << '\n';
       }
     }

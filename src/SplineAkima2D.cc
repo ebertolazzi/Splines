@@ -280,16 +280,16 @@ namespace Splines {
    */
   void
   Akima2Dspline::makeSpline() {
-    this->DX.resize(Z.size());
-    this->DY.resize(Z.size());
-    this->DXY.resize(Z.size());
+    m_DX.resize(m_Z.size());
+    m_DY.resize(m_Z.size());
+    m_DXY.resize(m_Z.size());
     // calcolo derivate
-    size_t nx = size_t(X.size());
-    size_t ny = size_t(Y.size());
+    size_t nx = size_t(m_X.size());
+    size_t ny = size_t(m_Y.size());
     
-    std::fill(DX.begin(),DX.end(),0);
-    std::fill(DY.begin(),DY.end(),0);
-    std::fill(DXY.begin(),DXY.end(),0);
+    std::fill(m_DX.begin(),m_DX.end(),0);
+    std::fill(m_DY.begin(),m_DY.end(),0);
+    std::fill(m_DXY.begin(),m_DXY.end(),0);
     
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
@@ -297,19 +297,19 @@ namespace Splines {
       size_t imin = 4  > i0   ? 4-i0      : 0;
       size_t imax = nx < 5+i0 ? 3+(nx-i0) : 8;
 
-      for ( size_t i = imin; i <= imax; ++i ) x_loc[i] = X[i+i0-4]-X[i0];
+      for ( size_t i = imin; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
       for ( size_t j0 = 0; j0 < ny; ++j0 ) {
         size_t jmin = 4 > j0    ? 4-j0      : 0;
         size_t jmax = ny < 5+j0 ? 3+(ny-j0) : 8;
 
-        for ( size_t j = jmin; j <= jmax; ++j ) y_loc[j] = Y[j+j0-4]-Y[j0];
+        for ( size_t j = jmin; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
 
         for ( size_t i = imin; i <= imax; ++i )
           for ( size_t j = jmin; j <= jmax; ++j )
-            z_loc[i][j] = Z[size_t(ipos_C(integer(i+i0-4),
-                                          integer(j+j0-4),
-                                          integer(ny)))];
+            z_loc[i][j] = m_Z[size_t(ipos_C(integer(i+i0-4),
+                                            integer(j+j0-4),
+                                            integer(ny)))];
 
         // if not enough points, extrapolate
         size_t iadd = 0, jadd = 0;
@@ -370,36 +370,36 @@ namespace Splines {
 
         AkimaSmooth( x_loc, integer(imin-iadd), integer(imax+iadd),
                      y_loc, integer(jmin-jadd), integer(jmax+jadd),
-                     z_loc, DX[i0j0], DY[i0j0], DXY[i0j0] );
+                     z_loc, m_DX[i0j0], m_DY[i0j0], m_DXY[i0j0] );
       }
     }
   }
 
   void
   Akima2Dspline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(Y.size());
-    s << "Nx = " << X.size() << " Ny = " << Y.size() << '\n';
-    for ( integer i = 1; i < integer(X.size()); ++i ) {
-      for ( integer j = 1; j < integer(Y.size()); ++j ) {
+    integer ny = integer(m_Y.size());
+    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
+    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
+      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
         size_t i00 = size_t( ipos_C(i-1,j-1,ny) );
         size_t i10 = size_t( ipos_C(i,j-1,ny) );
         size_t i01 = size_t( ipos_C(i-1,j,ny) );
         size_t i11 = size_t( ipos_C(i,j,ny) );
         s << "patch (" << i << "," << j
-          << ")\n DX = " << setw(10) << left << X[size_t(i)]-X[size_t(i-1)]
-          <<    " DY = " << setw(10) << left << Y[size_t(j)]-Y[size_t(j-1)]
-          << "\n Z00  = " << setw(10) << left << Z[i00]
-          <<   " Z01  = " << setw(10) << left << Z[i01]
-          <<   " Z10  = " << setw(10) << left << Z[i10]
-          <<   " Z11  = " << setw(10) << left << Z[i11]
-          << "\n Dx00 = " << setw(10) << left << DX[i00]
-          <<   " Dx01 = " << setw(10) << left << DX[i01]
-          <<   " Dx10 = " << setw(10) << left << DX[i10]
-          <<   " Dx11 = " << setw(10) << left << DX[i11]
-          << "\n Dy00 = " << setw(10) << left << DY[i00]
-          <<   " Dy01 = " << setw(10) << left << DY[i01]
-          <<   " Dy10 = " << setw(10) << left << DY[i10]
-          <<   " Dy11 = " << setw(10) << left << DY[i11]
+          << ")\n DX = " << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
+          <<    " DY = " << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]
+          << "\n Z00  = " << setw(10) << left << m_Z[i00]
+          <<   " Z01  = " << setw(10) << left << m_Z[i01]
+          <<   " Z10  = " << setw(10) << left << m_Z[i10]
+          <<   " Z11  = " << setw(10) << left << m_Z[i11]
+          << "\n Dx00 = " << setw(10) << left << m_DX[i00]
+          <<   " Dx01 = " << setw(10) << left << m_DX[i01]
+          <<   " Dx10 = " << setw(10) << left << m_DX[i10]
+          <<   " Dx11 = " << setw(10) << left << m_DX[i11]
+          << "\n Dy00 = " << setw(10) << left << m_DY[i00]
+          <<   " Dy01 = " << setw(10) << left << m_DY[i01]
+          <<   " Dy10 = " << setw(10) << left << m_DY[i10]
+          <<   " Dy11 = " << setw(10) << left << m_DY[i11]
           << '\n';
       }
     }
