@@ -132,7 +132,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::operator () ( real_type x ) const {
-    return this->id_eval( this->search( x ), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_eval( idx, x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,7 +152,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::D( real_type x ) const {
-    return this->id_D( this->search( x ), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_D( idx, x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -170,7 +172,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DD( real_type x ) const {
-    return this->id_DD( this->search( x ), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_DD( idx, x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -189,7 +192,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DDD( real_type x ) const {
-    return this->id_DDD( this->search( x ), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_DDD( idx, x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

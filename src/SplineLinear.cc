@@ -40,10 +40,8 @@ namespace Splines {
 
   real_type
   LinearSpline::operator () ( real_type x ) const {
-    SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!" )
-    if ( x < this->X[0]      ) return this->Y[0];
-    if ( x > this->X[npts-1] ) return this->Y[this->npts-1];
-    return this->id_eval( this->search(x), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_eval( idx, x );
   }
 
   real_type
@@ -53,10 +51,8 @@ namespace Splines {
 
   real_type
   LinearSpline::D( real_type x ) const {
-    SPLINE_ASSERT( this->npts > 0, "in LinearSpline::operator(), npts == 0!"  )
-    if ( x < this->X[0]      ) return 0;
-    if ( x > this->X[npts-1] ) return 0;
-    return this->id_D( this->search(x), x );
+    integer idx = this->search( x ); // eval idx can modify x
+    return this->id_D( idx, x );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

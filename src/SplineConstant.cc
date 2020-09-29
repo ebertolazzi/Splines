@@ -70,8 +70,6 @@ namespace Splines {
   //! Evalute spline value at `x`
   real_type
   ConstantSpline::operator () ( real_type x ) const {
-    if ( x < X[0] ) return Y[0];
-    if ( this->npts > 0 && x > this->X[this->npts-1] ) return this->Y[this->npts-1];
     return this->Y[this->search(x)];
   }
 

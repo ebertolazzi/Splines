@@ -67,6 +67,7 @@ namespace Splines {
 
   integer
   SplineVec::search( real_type & x ) const {
+    SPLINE_ASSERT( this->_npts > 0, "in SplineVec::search(...), npts == 0!" )
     // mark use read
     spin_write.wait();
     worker_read.enter();

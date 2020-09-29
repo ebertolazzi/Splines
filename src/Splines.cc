@@ -353,6 +353,7 @@ namespace Splines {
 
   integer
   Spline::search( real_type & x ) const {
+    SPLINE_ASSERT( this->npts > 0, "in Spline::search(...), npts == 0!" )
     // mark use read
     spin_write.wait();
     worker_read.enter();
