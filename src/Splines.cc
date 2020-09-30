@@ -254,19 +254,19 @@ namespace Splines {
     real_type const X[],
     real_type     & x,
     integer       & lastInterval,
-    bool            _curve_is_closed,
-    bool            _curve_can_extend
+    bool            curve_is_closed,
+    bool            curve_can_extend
   ) {
     if ( npts <= 2 ) { lastInterval = 0; return; } // nothing to search
     real_type xl = X[0];
     real_type xr = X[npts-1];
-    if ( _curve_is_closed ) {
+    if ( curve_is_closed ) {
       real_type L = xr-xl;
       x -= xl;
       x  = fmod( x, L );
       if ( x < 0 ) x += L;
       x += xl;
-    } else if ( _curve_can_extend ) {
+    } else if ( curve_can_extend ) {
       if ( x <= xl ) { lastInterval = 0; return; }
       if ( x >= xr ) { lastInterval = npts-2; return; }
     } else if ( x < xl || x > xr ) {
@@ -274,7 +274,7 @@ namespace Splines {
       Splines::backtrace( ost );
       ost << "In searchInterval( npts = " << npts << ", X, x = " << x
           << ", lastInterval = " << lastInterval << ", closed = "
-          << (_curve_is_closed?"true":"false") << ")\n"
+          << (curve_is_closed?"true":"false") << ")\n"
           << "line: " << __LINE__ << " file: " << __FILE__
           << "\nout of range: [" << xl << ", " << xr << "]\n";
       throw std::runtime_error(ost.str());

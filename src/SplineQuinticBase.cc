@@ -85,6 +85,10 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_eval( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0]        ) return m_Y[0];
+      if ( x >= m_X[m_npts-1] ) return m_Y[m_npts-1];
+    }
     real_type base[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;
@@ -106,6 +110,9 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_D( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_D[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;

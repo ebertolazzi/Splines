@@ -34,6 +34,10 @@ namespace Splines {
 
   real_type
   LinearSpline::id_eval( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0]        ) return m_Y[0];
+      if ( x >= m_X[m_npts-1] ) return m_Y[m_npts-1];
+    }
     real_type s = (x-m_X[i])/(m_X[i+1] - m_X[i]);
     return (1-s)*m_Y[i] + s * m_Y[i+1];
   }
@@ -45,7 +49,10 @@ namespace Splines {
   }
 
   real_type
-  LinearSpline::id_D( integer i, real_type ) const {
+  LinearSpline::id_D( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     return ( m_Y[i+1] - m_Y[i] ) / ( m_X[i+1] - m_X[i] );
   }
 

@@ -434,8 +434,8 @@ namespace Splines {
     real_type const X[],
     real_type     & x,
     integer       & lastInterval,
-    bool            _curve_is_closed,
-    bool            _curve_can_extend
+    bool            curve_is_closed,
+    bool            curve_can_extend
   );
 
   /*\
@@ -453,8 +453,10 @@ namespace Splines {
     string m_name;
     bool   m_curve_is_closed;
     bool   m_curve_can_extend;
+    bool   m_curve_extended_constant;
 
-    integer   m_npts, m_npts_reserved;
+    integer   m_npts;
+    integer   m_npts_reserved;
     real_type *m_X; // allocated in the derived class!
     real_type *m_Y; // allocated in the derived class!
 
@@ -474,6 +476,7 @@ namespace Splines {
     : m_name(name)
     , m_curve_is_closed(false)
     , m_curve_can_extend(true)
+    , m_curve_extended_constant(false)
     , m_npts(0)
     , m_npts_reserved(0)
     , m_X(nullptr)
@@ -497,6 +500,10 @@ namespace Splines {
     bool is_bounded() const { return !m_curve_can_extend; }
     void make_unbounded()   { m_curve_can_extend = true;  }
     void make_bounded()     { m_curve_can_extend = false; }
+
+    bool is_constant_extended() const { return m_curve_extended_constant;  }
+    void make_extended_constant()     { m_curve_extended_constant = true;  }
+    void make_extended_not_constant() { m_curve_extended_constant = false; }
 
     //! return the number of support points of the spline.
     integer
@@ -1218,7 +1225,9 @@ namespace Splines {
     : Spline(name)
     , m_baseValue( name+"_memory")
     , m_external_alloc(false)
-    {}
+    {
+      m_curve_extended_constant = true; // by default linear spline extend constant
+    }
 
     virtual
     ~LinearSpline() SPLINES_OVERRIDE

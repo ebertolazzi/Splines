@@ -120,6 +120,10 @@ namespace Splines {
 
   real_type
   CubicSplineBase::id_eval( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0]        ) return m_Y[0];
+      if ( x >= m_X[m_npts-1] ) return m_Y[m_npts-1];
+    }
     real_type base[4];
     Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
     return base[0] * m_Y[i]   +
@@ -132,6 +136,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::operator () ( real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     integer idx = this->search( x ); // eval idx can modify x
     return this->id_eval( idx, x );
   }
