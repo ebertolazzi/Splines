@@ -87,6 +87,18 @@ classdef Spline1D < handle
       ok = Spline1DMexWrapper( 'is_bounded', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_extended_constant( self )
+      Spline1DMexWrapper( 'make_extended_constant', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function make_extended_not_constant( self )
+      Spline1DMexWrapper( 'make_extended_not_constant', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ok = is_extended_constant( self )
+      ok = Spline1DMexWrapper( 'is_extended_constant', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function x = xBegin( self )
       x = Spline1DMexWrapper( 'xBegin', self.objectHandle );
     end

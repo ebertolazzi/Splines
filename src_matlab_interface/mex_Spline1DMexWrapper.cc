@@ -593,6 +593,66 @@ namespace Splines {
 
   static
   void
+  do_make_extended_constant(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('make_extended_constant',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_extended_constant();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_make_extended_not_constant(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('make_extended_not_constant',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    ptr->make_extended_not_constant();
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
+  do_is_extended_constant(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('is_extended_constant',OBJ): "
+
+    MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+    setScalarBool( arg_out_0, ptr->is_extended_constant() );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_xBegin(
     int nlhs, mxArray       *plhs[],
     int nrhs, mxArray const *prhs[]
@@ -769,6 +829,9 @@ namespace Splines {
     CMD_MAKE_BOUNDED,
     CMD_MAKE_UNBOUNDED,
     CMD_IS_BOUNDED,
+    CMD_MAKE_EXTENDED_CONSTANT,
+    CMD_MAKE_EXTENDED_NOT_CONSTANT,
+    CMD_IS_EXTENDED_CONSTANT,
     CMD_XBEGIN,
     CMD_YBEGIN,
     CMD_XEND,
@@ -799,6 +862,9 @@ namespace Splines {
     {"make_bounded",CMD_MAKE_BOUNDED},
     {"make_unbounded",CMD_MAKE_UNBOUNDED},
     {"is_bounded",CMD_IS_BOUNDED},
+    {"make_extended_constant",CMD_MAKE_EXTENDED_CONSTANT},
+    {"make_extended_not_constant",CMD_MAKE_EXTENDED_NOT_CONSTANT},
+    {"is_extended_constant",CMD_IS_EXTENDED_CONSTANT},
     {"xBegin",CMD_XBEGIN},
     {"yBegin",CMD_YBEGIN},
     {"xEnd",CMD_XEND},
@@ -877,6 +943,15 @@ namespace Splines {
         break;
       case CMD_IS_BOUNDED:
         do_is_bounded( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_EXTENDED_CONSTANT:
+        do_make_extended_constant( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_MAKE_EXTENDED_NOT_CONSTANT:
+        do_make_extended_not_constant( nlhs, plhs, nrhs, prhs );
+        break;
+      case CMD_IS_EXTENDED_CONSTANT:
+        do_is_extended_constant( nlhs, plhs, nrhs, prhs );
         break;
       case CMD_XBEGIN:
         do_xBegin( nlhs, plhs, nrhs, prhs );

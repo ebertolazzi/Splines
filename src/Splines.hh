@@ -501,7 +501,7 @@ namespace Splines {
     void make_unbounded()   { m_curve_can_extend = true;  }
     void make_bounded()     { m_curve_can_extend = false; }
 
-    bool is_constant_extended() const { return m_curve_extended_constant;  }
+    bool is_extended_constant() const { return m_curve_extended_constant;  }
     void make_extended_constant()     { m_curve_extended_constant = true;  }
     void make_extended_not_constant() { m_curve_extended_constant = false; }
 

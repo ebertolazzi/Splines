@@ -210,7 +210,7 @@ namespace Splines {
       __Yp[spl]      = Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr;
     }
 
-    SplineSet::build(
+    this->build(
       m_nspl, m_npts,
       &__headers.front(),
       &stype.front(),
@@ -218,6 +218,37 @@ namespace Splines {
       &__Y.front(),
       &__Yp.front()
     );
+
+    if ( gc.exists("boundary") ) {
+      GenericContainer const & gc_boundary = gc("boundary");
+      unsigned ne = gc_boundary.get_num_elements();
+      SPLINE_ASSERT(
+        ne == m_splines.size(),
+        "[SplineSet[" << m_name <<
+        "]::setup] field `boundary` expected a generic vector of size: " << ne <<
+        " but is of size: " << m_splines.size()
+      )
+
+      for ( unsigned ispl = 0; ispl < ne; ++ispl ) {
+        Spline * S = m_splines[ispl];
+        GenericContainer const & item = gc_boundary(ispl,"SplineSet boundary data");
+
+        if ( item.exists("closed") && item("closed").get_bool() ) {
+          S->make_closed();
+        } else {
+          S->make_opened();
+          if ( item.exists("extend") && item("extend").get_bool() ) {
+            S->make_unbounded();
+            if ( item("extend_constant").get_bool() )
+              S->make_extended_constant();
+            else
+              S->make_extended_not_constant();
+          } else {
+            S->make_bounded();
+          }
+        }
+      }
+    }
   }
 
   /*!
