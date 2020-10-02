@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="890775569" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/toolbox/../Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/toolbox/.." name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="2141474772" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -114,35 +114,6 @@ setup.m</param.exclude.filters>
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainer.o</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainerCinterface.o</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainerMatlabInterface.o</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainerSupport.o</file>
-      <file>${PROJECT_ROOT}/toolbox/GenericContainerTables.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineAkima.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineAkima2D.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineBessel.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineBiCubic.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineBiQuintic.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineBilinear.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineConstant.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineCubic.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineCubicBase.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineHermite.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineLinear.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplinePchip.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineQuintic.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineQuinticBase.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineSet.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineSetGC.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplineVec.o</file>
-      <file>${PROJECT_ROOT}/toolbox/Splines.o</file>
-      <file>${PROJECT_ROOT}/toolbox/Splines1D.o</file>
-      <file>${PROJECT_ROOT}/toolbox/Splines2D.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplinesBivariate.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplinesCinterface.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplinesUnivariate.o</file>
-      <file>${PROJECT_ROOT}/toolbox/SplinesUtils.o</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/doc</file>
@@ -156,7 +127,7 @@ setup.m</param.exclude.filters>
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/toolbox/../Splines.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>

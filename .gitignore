@@ -38,6 +38,7 @@ lib/*.dylib
 *.tar
 *.zip
 *.mexmaci64
+*.mltbx
 
 # Logs and databases #
 ######################
