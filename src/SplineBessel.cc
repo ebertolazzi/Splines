@@ -28,6 +28,13 @@
  |                                   |_|
 \*/
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 namespace Splines {
 
   using namespace std; // load standard namspace
@@ -43,7 +50,10 @@ namespace Splines {
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
-    std::vector<real_type> m(n+1);
+
+    SplineMalloc<real_type> mem("Bessel_build");
+    mem.allocate( size_t(n+1) );
+    real_type * m = mem( size_t(n+1) );
 
     // calcolo slopes
     for ( size_t i = 0; i < n; ++i )

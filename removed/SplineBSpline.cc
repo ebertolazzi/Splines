@@ -170,19 +170,23 @@
     // Utilities
     static
     void
-    knots_sequence( integer         n,
-                    real_type const X[],
-                    real_type     * Knots );
+    knots_sequence(
+      integer         n,
+      real_type const X[],
+      real_type     * Knots
+    );
 
     static
     void
-    sample_bases( integer             nx, // number of sample points
-                  real_type const     X[],
-                  integer             nb, // number of bases
-                  real_type const     Knots[],
-                  vector<integer>   & II, // GCC on linux bugged for I
-                  vector<integer>   & JJ,
-                  vector<real_type> & vals );
+    sample_bases(
+      integer             nx, // number of sample points
+      real_type const     X[],
+      integer             nb, // number of bases
+      real_type const     Knots[],
+      vector<integer>   & II, // GCC on linux bugged for I
+      vector<integer>   & JJ,
+      vector<real_type> & vals
+    );
 
   };
 
@@ -491,13 +495,15 @@ namespace Splines {
 
   template <size_t _degree>
   void
-  BSpline<_degree>::sample_bases( integer             nx,
-                                  real_type const     X[],
-                                  integer             nb,
-                                  real_type const     Knots[],
-                                  vector<integer>   & II,
-                                  vector<integer>   & JJ,
-                                  vector<real_type> & vals ) {
+  BSpline<_degree>::sample_bases(
+    integer             nx,
+    real_type const     X[],
+    integer             nb,
+    real_type const     Knots[],
+    vector<integer>   & II,
+    vector<integer>   & JJ,
+    vector<real_type> & vals
+  ) {
     real_type row[_degree+1];
     II.clear();   II.reserve( size_t(nx) );
     JJ.clear();   JJ.reserve( size_t(nx) );
@@ -542,10 +548,12 @@ namespace Splines {
   */
   static
   void
-  solveBanded( real_type * rows,
-               real_type * rhs,
-               integer     n,
-               integer     ndiag ) {
+  solveBanded(
+    real_type * rows,
+    real_type * rhs,
+    integer     n,
+    integer     ndiag
+  ) {
     // forward
     integer rsize = 1+2*ndiag;
     integer i = 0;
@@ -553,7 +561,7 @@ namespace Splines {
     do {
       // pivot
       real_type pivot = rowsi[0]; // elemento sulla diagonale
-      
+
       // scala equazione
       for ( integer j = 0; j <= ndiag; ++j ) rowsi[j] /= pivot;
       rhs[i] /= pivot;
@@ -581,12 +589,15 @@ namespace Splines {
   template <size_t _degree>
   void
   BSpline<_degree>::build(void) {
-    std::vector<real_type> band;
-    band.resize( size_t(npts*(2*integer(_degree)+1)) );
-    
-    std::fill( band.begin(), band.end(), 0 );
+
+    SplineMalloc<real_type> mem("BSpline<_degree>::build");
+    size_t mem_size = npts*(2*integer(_degree)+1);
+    mem.allocate( mem_size );
+    real_type * band = mem( mem_size );
+
+    std::fill_n( band, mem_size, 0 );
     knots_sequence( npts, X, knots );
-    
+
     // costruzione sistema lineare
 
     // calcola il valore delle basi non zero quando
@@ -598,7 +609,7 @@ namespace Splines {
       BSplineBase<_degree>::eval( X[i], knots+ii, (rowi + ii + _degree) - i );
       yPolygon[i] = Y[i];
     }
-    solveBanded( &band.front(), yPolygon, npts, _degree );
+    solveBanded( band, yPolygon, npts, _degree );
     // extrapolation
     real_type const * knots_R    = knots    + npts - _degree - 1;
     real_type const * yPolygon_R = yPolygon + npts - _degree - 1;
@@ -611,7 +622,7 @@ namespace Splines {
     dds_L = BSplineEval<_degree>::eval_DD(x_L,knots,yPolygon);
     dds_R = BSplineEval<_degree>::eval_DD(x_R,knots_R,yPolygon_R);
   }
-  
+
   template <size_t _degree>
   void
   BSpline<_degree>::clear(void) {

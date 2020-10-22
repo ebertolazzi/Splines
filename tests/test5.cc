@@ -47,7 +47,7 @@ main() {
   file_D.open("out/SplineSet_D.txt");
   fileR.open("out/SplineSetR.txt");
   fileR_D.open("out/SplineSetR_D.txt");
-  
+
   real_type xmin = xx[0];
   real_type xmax = xx[n-1];
 
@@ -64,7 +64,7 @@ main() {
     "SPLINE_PCHIP",
     "SPLINE_QUINTIC"
   };
-    
+
   SplineType1D const stype[] = {
     Splines::CONSTANT_TYPE,
     Splines::LINEAR_TYPE,

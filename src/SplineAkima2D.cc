@@ -21,13 +21,20 @@
 #include <cmath>
 #include <iomanip>
 /**
- * 
+ *
  */
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
 
 namespace Splines {
 
   using namespace std; // load standard namspace
-  
+
   // Statement Function definitions
   inline
   real_type
@@ -271,7 +278,7 @@ namespace Splines {
     DY  = DYI[0]  < 0.5 ? DYF[1]/DYF[0]   : DYI[1]/DYI[0];
     DXY = DXYI[0] < 0.5 ? DXYF[1]/DXYF[0] : DXYI[1]/DXYI[0];
   }
-    
+
   /*
    * This subroutine estimates three partial derivatives, zx, zy, and
    * zxy, of a bivariate function, z(x,y), on a rectangular grid in
@@ -280,28 +287,28 @@ namespace Splines {
    */
   void
   Akima2Dspline::makeSpline() {
-    m_DX.resize(m_Z.size());
-    m_DY.resize(m_Z.size());
-    m_DXY.resize(m_Z.size());
-    // calcolo derivate
-    size_t nx = size_t(m_X.size());
-    size_t ny = size_t(m_Y.size());
-    
-    std::fill(m_DX.begin(),m_DX.end(),0);
-    std::fill(m_DY.begin(),m_DY.end(),0);
-    std::fill(m_DXY.begin(),m_DXY.end(),0);
-    
+
+    size_t nn = size_t( m_nx*m_ny ); 
+    m_mem_bicubic.allocate( 3*nn );
+    m_DX  = m_mem_bicubic( nn );
+    m_DY  = m_mem_bicubic( nn );
+    m_DXY = m_mem_bicubic( nn );
+
+    std::fill_n(m_DX,nn,0);
+    std::fill_n(m_DY,nn,0);
+    std::fill_n(m_DXY,nn,0);
+
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
-    for ( size_t i0 = 0; i0 < nx; ++i0 ) {
+    for ( size_t i0 = 0; i0 < size_t(m_nx); ++i0 ) {
       size_t imin = 4  > i0   ? 4-i0      : 0;
-      size_t imax = nx < 5+i0 ? 3+(nx-i0) : 8;
+      size_t imax = size_t(m_nx) < 5+i0 ? 3+(size_t(m_nx)-i0) : 8;
 
       for ( size_t i = imin; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
-      for ( size_t j0 = 0; j0 < ny; ++j0 ) {
+      for ( size_t j0 = 0; j0 < size_t(m_ny); ++j0 ) {
         size_t jmin = 4 > j0    ? 4-j0      : 0;
-        size_t jmax = ny < 5+j0 ? 3+(ny-j0) : 8;
+        size_t jmax = size_t(m_ny) < 5+j0 ? 3+(size_t(m_ny)-j0) : 8;
 
         for ( size_t j = jmin; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
 
@@ -309,7 +316,7 @@ namespace Splines {
           for ( size_t j = jmin; j <= jmax; ++j )
             z_loc[i][j] = m_Z[size_t(ipos_C(integer(i+i0-4),
                                             integer(j+j0-4),
-                                            integer(ny)))];
+                                            m_ny))];
 
         // if not enough points, extrapolate
         size_t iadd = 0, jadd = 0;
@@ -377,14 +384,13 @@ namespace Splines {
 
   void
   Akima2Dspline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(m_Y.size());
-    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
-    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
-      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
-        size_t i00 = size_t( ipos_C(i-1,j-1,ny) );
-        size_t i10 = size_t( ipos_C(i,j-1,ny) );
-        size_t i01 = size_t( ipos_C(i-1,j,ny) );
-        size_t i11 = size_t( ipos_C(i,j,ny) );
+    s << "Nx = " << m_nx << " Ny = " << m_ny << '\n';
+    for ( integer i = 1; i < m_nx; ++i ) {
+      for ( integer j = 1; j < m_ny; ++j ) {
+        size_t i00 = size_t( ipos_C(i-1,j-1,m_ny) );
+        size_t i10 = size_t( ipos_C(i,j-1,m_ny) );
+        size_t i01 = size_t( ipos_C(i-1,j,m_ny) );
+        size_t i11 = size_t( ipos_C(i,j,m_ny) );
         s << "patch (" << i << "," << j
           << ")\n DX = " << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
           <<    " DY = " << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]

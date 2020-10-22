@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -41,6 +41,8 @@
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
 #ifdef SPLINES_OS_OSX
@@ -49,12 +51,158 @@
   #include <libunwind.h>
 #endif
 
+#ifdef MALLOC_STATISTIC
+  namespace Malloc_Statistic {
+    extern int64_t CountAlloc;
+    extern int64_t CountFreed;
+    extern int64_t AllocatedBytes;
+    extern int64_t MaximumAllocatedBytes;
+  }
+
+  #ifndef MALLOC_STATISTIC_NO_STORAGE
+  namespace Malloc_Statistic {
+    int64_t CountAlloc            = 0;
+    int64_t CountFreed            = 0;
+    int64_t AllocatedBytes        = 0;
+    int64_t MaximumAllocatedBytes = 0;
+  }
+  #endif
+#endif
+
 //! Various kind of splines
 namespace Splines {
 
   using std::abs;
   using std::max;
   using std::min;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  template <typename T>
+  void
+  SplineMalloc<T>::allocate( size_t n ) {
+    try {
+      if ( n > m_numTotReserved ) {
+
+        #ifdef MALLOC_STATISTIC
+        int64_t & CountFreed     = Malloc_Statistic::CountFreed;
+        int64_t & AllocatedBytes = Malloc_Statistic::AllocatedBytes;
+        ++CountFreed; AllocatedBytes -= m_numTotReserved*sizeof(T);
+        #endif
+
+        delete [] m_pMalloc;
+        m_numTotValues   = n;
+        m_numTotReserved = n + (n>>3); // 12% more values
+        m_pMalloc        = new T[m_numTotReserved];
+
+        #ifdef MALLOC_STATISTIC
+        int64_t & CountAlloc            = Malloc_Statistic::CountAlloc;
+        int64_t & MaximumAllocatedBytes = Malloc_Statistic::MaximumAllocatedBytes;
+        ++CountAlloc; AllocatedBytes += m_numTotReserved*sizeof(T);
+        if ( MaximumAllocatedBytes < AllocatedBytes )
+          MaximumAllocatedBytes = AllocatedBytes;
+        #endif
+      }
+    }
+    catch ( exception const & exc ) {
+      cerr
+        << "Memory allocation failed: " << exc.what()
+        << "\nTry to allocate " << n << " bytes for " << m_name
+        << '\n';
+      exit(0);
+    }
+    catch (...) {
+      cerr
+        << "SplineMalloc allocation failed for " << m_name
+        << ": memory exausted\nRequesting " << n << " blocks\n";
+      exit(0);
+    }
+    m_numTotValues = n;
+    m_numAllocated = 0;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  template <typename T>
+  void
+  SplineMalloc<T>::free(void) {
+    if ( m_pMalloc != nullptr ) {
+
+      #ifdef MALLOC_STATISTIC
+      int64_t & CountFreed     = Malloc_Statistic::CountFreed;
+      int64_t & AllocatedBytes = Malloc_Statistic::AllocatedBytes;
+      ++CountFreed; AllocatedBytes -= m_numTotReserved*sizeof(T);
+      #endif
+
+      delete [] m_pMalloc;
+      m_numTotValues   = 0;
+      m_numTotReserved = 0;
+      m_numAllocated   = 0;
+      m_pMalloc        = nullptr;
+    }
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  template <typename T>
+  T *
+  SplineMalloc<T>::operator () ( size_t sz ) {
+    size_t offs = m_numAllocated;
+    m_numAllocated += sz;
+    if ( m_numAllocated > m_numTotValues ) {
+      ostringstream ost;
+      ost
+        << "\nMalloc<" << m_name
+        << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
+        << "request = " << m_numAllocated << " > "
+        << m_numTotValues << " = available\n";
+      throw std::runtime_error(ost.str());
+    }
+    return m_pMalloc + offs;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  template <typename T>
+  void
+  SplineMalloc<T>::must_be_empty( char const where[] ) const {
+    if ( m_numAllocated < m_numTotValues ) {
+      ostringstream ost;
+      ost
+        << "\nMalloc<" << m_name << ">\n"
+        << "in " << m_name << " " << where
+        << ": not fully used!\nUnused: "
+        << m_numTotValues - m_numAllocated << " values\n";
+      throw runtime_error(ost.str());
+    }
+    if ( m_numAllocated > m_numTotValues ) {
+      ostringstream ost;
+      ost
+        << "\nMalloc<" << m_name << ">\n"
+        << "in " << m_name << " " << where
+        << ": too much used!\nMore used: "
+        << m_numAllocated - m_numTotValues << " values\n";
+      throw std::runtime_error(ost.str());
+    }
+  }
+
+  template class SplineMalloc<uint16_t>;
+  template class SplineMalloc<int16_t>;
+  template class SplineMalloc<uint32_t>;
+  template class SplineMalloc<int32_t>;
+  template class SplineMalloc<uint64_t>;
+  template class SplineMalloc<int64_t>;
+  template class SplineMalloc<float>;
+  template class SplineMalloc<double>;
+
+  template class SplineMalloc<uint16_t*>;
+  template class SplineMalloc<int16_t*>;
+  template class SplineMalloc<uint32_t*>;
+  template class SplineMalloc<int32_t*>;
+  template class SplineMalloc<uint64_t*>;
+  template class SplineMalloc<int64_t*>;
+  template class SplineMalloc<float*>;
+  template class SplineMalloc<double*>;
 
   /*
    backtrace() from:
@@ -419,11 +567,9 @@ namespace Splines {
       m_worker_read_x.enter(); // avoid writing until finished
       m_spin_write_x.unlock();
     }
-    integer       npts_x = integer(m_X.size());
-    real_type const * pX = &m_X.front();
     searchInterval(
-      npts_x,
-      pX,
+      m_nx,
+      m_X,
       x,
       *p_lastInterval,
       m_x_closed,
@@ -471,11 +617,9 @@ namespace Splines {
       m_worker_read_y.enter(); // avoid writing until finished
       m_spin_write_y.unlock();
     }
-    integer       npts_y = integer(m_Y.size());
-    real_type const * pY = &m_Y.front();
     searchInterval(
-      npts_y,
-      pY,
+      m_ny,
+      m_Y,
       y,
       *p_lastInterval,
       m_y_closed,
@@ -774,16 +918,17 @@ namespace Splines {
     } else if ( m_npts >= m_npts_reserved ) {
       // riallocazione & copia
       integer saved_npts = m_npts; // salvo npts perche reserve lo azzera
-      vector<real_type> Xsaved, Ysaved;
-      Xsaved.resize( size_t(m_npts) );
-      Ysaved.resize( size_t(m_npts) );
+      SplineMalloc<real_type> mem("Spline::pushBack");
+      mem.allocate( size_t(2*m_npts) );
+      real_type * Xsaved = mem( size_t(m_npts) );
+      real_type * Ysaved = mem( size_t(m_npts) );
 
-      std::copy_n( m_X, m_npts, Xsaved.begin() );
-      std::copy_n( m_Y, m_npts, Ysaved.begin() );
+      std::copy_n( m_X, m_npts, Xsaved );
+      std::copy_n( m_Y, m_npts, Ysaved );
       reserve( (m_npts+1) * 2 );
       m_npts = saved_npts;
-      std::copy( Xsaved.begin(), Xsaved.end(), m_X );
-      std::copy( Ysaved.begin(), Ysaved.end(), m_Y );
+      std::copy_n( Xsaved, m_npts, m_X );
+      std::copy_n( Ysaved, m_npts, m_Y );
     }
     m_X[m_npts] = x;
     m_Y[m_npts] = y;

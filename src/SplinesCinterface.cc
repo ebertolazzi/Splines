@@ -29,6 +29,13 @@
 #include "Splines.hh"
 #include "SplinesCinterface.h"
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 using namespace SplinesLoad;
 
 #include <vector>

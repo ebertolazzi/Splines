@@ -104,12 +104,15 @@ def extract_tgz( tar_gz_archive, destination = '.' )
       elsif entry.file?
         FileUtils.rm_rf dest if File.directory? dest
         FileUtils.mkdir_p File.dirname(dest), :mode => 0777, :verbose => false
-        File.open dest, "wb" do |f|
-          f.print entry.read
-        end
+        File.open dest, "wb" do |f| f.print entry.read end
+        FileUtils.chmod entry.header.mode, dest, :verbose => false
+      elsif entry.header.typeflag == '' #file?
+        File.open dest, "wb" do |f| f.print entry.read end
         FileUtils.chmod entry.header.mode, dest, :verbose => false
       elsif entry.header.typeflag == '2' #Symlink!
         File.symlink entry.header.linkname, dest
+      else
+        puts "Unkown tar entry: #{entry.full_name} type: #{entry.header.typeflag}."
       end
       dest = nil
     end

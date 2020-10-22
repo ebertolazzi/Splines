@@ -20,8 +20,16 @@
 #include "Splines.hh"
 #include <cmath>
 #include <iomanip>
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /**
- * 
+ *
  */
 
 namespace Splines {
@@ -32,38 +40,38 @@ namespace Splines {
 
   void
   BiCubicSpline::makeSpline() {
-    m_DX.resize(m_Z.size());
-    m_DY.resize(m_Z.size());
-    m_DXY.resize(m_Z.size());
+    size_t nn = size_t(m_nx*m_ny);
+    m_mem_bicubic.allocate( 3*nn );
+    m_DX  = m_mem_bicubic( nn );
+    m_DY  = m_mem_bicubic( nn );
+    m_DXY = m_mem_bicubic( nn );
+
     // calcolo derivate
-    integer nx = integer(m_X.size());
-    integer ny = integer(m_Y.size());
     PchipSpline sp;
-    for ( integer j = 0; j < ny; ++j ) {
-      sp.build( &m_X.front(), 1, &m_Z[size_t(this->ipos_C(0,j))], ny, nx );
-      for ( integer i = 0; i < nx; ++i )
+    for ( integer j = 0; j < m_ny; ++j ) {
+      sp.build( m_X, 1, &m_Z[size_t(this->ipos_C(0,j))], m_ny, m_nx );
+      for ( integer i = 0; i < m_nx; ++i )
         m_DX[size_t(this->ipos_C(i,j))] = sp.ypNode(i);
     }
-    for ( integer i = 0; i < nx; ++i ) {
-      sp.build( &m_Y.front(), 1, &m_Z[size_t(this->ipos_C(i,0))], 1, ny );
-      for ( integer j = 0; j < ny; ++j )
+    for ( integer i = 0; i < m_nx; ++i ) {
+      sp.build( m_Y, 1, &m_Z[size_t(this->ipos_C(i,0))], 1, m_ny );
+      for ( integer j = 0; j < m_ny; ++j )
         m_DY[size_t(this->ipos_C(i,j))] = sp.ypNode(j);
     }
-    std::fill( m_DXY.begin(), m_DXY.end(), 0 );
+    std::fill_n( m_DXY, nn, 0 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSpline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(m_Y.size());
-    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
-    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
-      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
-        size_t i00 = size_t(this->ipos_C(i-1,j-1,ny));
-        size_t i10 = size_t(this->ipos_C(i,j-1,ny));
-        size_t i01 = size_t(this->ipos_C(i-1,j,ny));
-        size_t i11 = size_t(this->ipos_C(i,j,ny));
+    s << "Nx = " << m_nx << " Ny = " << m_ny << '\n';
+    for ( integer i = 1; i < m_nx; ++i ) {
+      for ( integer j = 1; j < m_ny; ++j ) {
+        size_t i00 = size_t(this->ipos_C(i-1,j-1,m_ny));
+        size_t i10 = size_t(this->ipos_C(i,j-1,m_ny));
+        size_t i01 = size_t(this->ipos_C(i-1,j,m_ny));
+        size_t i11 = size_t(this->ipos_C(i,j,m_ny));
         s << "patch (" << i << "," << j
           << ")\n DX = "  << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
           <<    " DY = "  << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]

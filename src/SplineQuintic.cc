@@ -21,8 +21,15 @@
 #include "SplinesUtils.hh"
 #include <cmath>
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /**
- * 
+ *
  */
 
 namespace Splines {
@@ -58,11 +65,11 @@ namespace Splines {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-    vector<real_type> buffer(3*(n+1));
-    real_type * ptr = &buffer.front();
-    real_type * L = ptr; ptr += npts;
-    real_type * D = ptr; ptr += npts;
-    real_type * U = ptr;
+    SplineMalloc<real_type> mem("QuinticSpline_Yppp_continuous");
+    mem.allocate( size_t(3*(n+1)) );
+    real_type * L = mem( size_t( n+1 ) );
+    real_type * D = mem( size_t( n+1 ) );
+    real_type * U = mem( size_t( n+1 ) );
     real_type * Z = Ypp;
 
     size_t i;
@@ -210,14 +217,16 @@ namespace Splines {
     case CUBIC_QUINTIC:
       {
         size_t n = size_t(npts > 0 ? npts-1 : 0);
-        vector<real_type> buffer(3*(n+1));
-        real_type * ptr = &buffer.front();
-        real_type * L   = ptr; ptr += npts;
-        real_type * D   = ptr; ptr += npts;
-        real_type * U   = ptr;
+
+        SplineMalloc<real_type> mem("QuinticSpline_Yppp_continuous");
+        mem.allocate( size_t(3*(n+1)) );
+        real_type * L = mem( size_t( n+1 ) );
+        real_type * D = mem( size_t( n+1 ) );
+        real_type * U = mem( size_t( n+1 ) );
         CubicSpline_build(
           X, Y, Yp, Ypp, L, D, U, npts, EXTRAPOLATE_BC, EXTRAPOLATE_BC
         );
+        mem.free();
         QuinticSpline_Yppp_continuous( X, Y, Yp, Ypp, npts, false );
       }
       return;

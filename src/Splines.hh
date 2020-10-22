@@ -29,6 +29,18 @@
 #ifndef SPLINES_HH
 #define SPLINES_HH
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#endif
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 #include "SplinesConfig.hh"
 
 #ifndef SPLINE_DO_ERROR
@@ -241,87 +253,36 @@ namespace Splines {
     { free(); }
 
     //! allocate memory for `n` objects
-    void
-    allocate( size_t n ) {
-      try {
-        if ( n > m_numTotReserved ) {
-          delete [] m_pMalloc;
-          m_numTotValues   = n;
-          m_numTotReserved = n + (n>>3); // 12% more values
-          m_pMalloc        = new T[m_numTotReserved];
-        }
-      }
-      catch ( exception const & exc ) {
-        cerr
-          << "Memory allocation failed: " << exc.what()
-          << "\nTry to allocate " << n << " bytes for " << m_name
-          << '\n';
-        exit(0);
-      }
-      catch (...) {
-        cerr
-          << "SplineMalloc allocation failed for " << m_name
-          << ": memory exausted\nRequesting " << n << " blocks\n";
-        exit(0);
-      }
-      m_numTotValues = n;
-      m_numAllocated = 0;
-    }
+    void allocate( size_t n );
 
     //! free memory
-    void
-    free(void) {
-      if ( m_pMalloc != nullptr ) {
-        delete [] m_pMalloc;
-        m_numTotValues   = 0;
-        m_numTotReserved = 0;
-        m_numAllocated   = 0;
-        m_pMalloc        = nullptr;
-      }
-    }
+    void free();
 
     //! number of objects allocated
-    size_t size(void) const { return m_numTotValues; }
+    size_t size() const { return m_numTotValues; }
 
     //! get pointer of allocated memory for `sz` objets
-    T *
-    operator () ( size_t sz ) {
-      size_t offs = m_numAllocated;
-      m_numAllocated += sz;
-      if ( m_numAllocated > m_numTotValues ) {
-        ostringstream ost;
-        ost
-          << "\nMalloc<" << m_name
-          << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
-          << "request = " << m_numAllocated << " > "
-          << m_numTotValues << " = available\n";
-        throw std::runtime_error(ost.str());
-      }
-      return m_pMalloc + offs;
-    }
+    T * operator () ( size_t sz );
 
-    void
-    must_be_empty( char const where[] ) const {
-      if ( m_numAllocated < m_numTotValues ) {
-        ostringstream ost;
-        ost
-          << "\nMalloc<" << m_name << ">\n"
-          << "in " << m_name << " " << where
-          << ": not fully used!\nUnused: "
-          << m_numTotValues - m_numAllocated << " values\n";
-        throw runtime_error(ost.str());
-      }
-      if ( m_numAllocated > m_numTotValues ) {
-        ostringstream ost;
-        ost
-          << "\nMalloc<" << m_name << ">\n"
-          << "in " << m_name << " " << where
-          << ": too much used!\nMore used: "
-          << m_numAllocated - m_numTotValues << " values\n";
-        throw std::runtime_error(ost.str());
-      }
-    }
+    void must_be_empty( char const where[] ) const;
   };
+
+  extern template class SplineMalloc<uint16_t>;
+  extern template class SplineMalloc<int16_t>;
+  extern template class SplineMalloc<uint32_t>;
+  extern template class SplineMalloc<int32_t>;
+  extern template class SplineMalloc<uint64_t>;
+  extern template class SplineMalloc<int64_t>;
+  extern template class SplineMalloc<float>;
+  extern template class SplineMalloc<double>;
+  extern template class SplineMalloc<uint16_t*>;
+  extern template class SplineMalloc<int16_t*>;
+  extern template class SplineMalloc<uint32_t*>;
+  extern template class SplineMalloc<int32_t*>;
+  extern template class SplineMalloc<uint64_t*>;
+  extern template class SplineMalloc<int64_t*>;
+  extern template class SplineMalloc<float*>;
+  extern template class SplineMalloc<double*>;
 
   /*\
    |  ____                                _        _          _   _
@@ -417,7 +378,7 @@ namespace Splines {
   class BinarySearch {
   private:
     typedef std::pair<std::thread::id,integer> DATA_TYPE;
-    mutable std::vector<DATA_TYPE> data;
+    mutable std::vector<DATA_TYPE>             data;
   public:
     BinarySearch() { data.clear(); data.reserve(64); }
     ~BinarySearch() { data.clear(); }
@@ -3505,6 +3466,8 @@ namespace Splines {
     SplineSurf( SplineSurf const & ) = delete; // block copy constructor
     SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
 
+    SplineMalloc<real_type> m_mem;
+
   protected:
 
     string const m_name;
@@ -3513,10 +3476,14 @@ namespace Splines {
     bool         m_x_can_extend;
     bool         m_y_can_extend;
 
-    vector<real_type> m_X, m_Y, m_Z;
+    integer      m_nx;
+    integer      m_ny;
+
+    real_type *  m_X;
+    real_type *  m_Y;
+    real_type *  m_Z;
 
     real_type m_Z_min, m_Z_max;
-
 
     mutable BinarySearch m_bs_x;
     mutable WaitWorker   m_worker_read_x;
@@ -3542,11 +3509,11 @@ namespace Splines {
 
     integer
     ipos_C( integer i, integer j ) const
-    { return this->ipos_C(i,j,integer(m_Y.size())); }
+    { return this->ipos_C(i,j,m_ny); }
 
     integer
     ipos_F( integer i, integer j ) const
-    { return this->ipos_F(i,j,integer(m_X.size())); }
+    { return this->ipos_F(i,j,m_nx); }
 
     virtual void makeSpline() SPLINES_PURE_VIRTUAL;
 
@@ -3554,14 +3521,17 @@ namespace Splines {
 
     //! spline constructor
     SplineSurf( string const & name = "Spline" )
-    : m_name(name)
+    : m_mem("SplineSurf")
+    , m_name(name)
     , m_x_closed(false)
     , m_y_closed(false)
     , m_x_can_extend(true)
     , m_y_can_extend(true)
-    , m_X()
-    , m_Y()
-    , m_Z()
+    , m_nx(0)
+    , m_ny(0)
+    , m_X(nullptr)
+    , m_Y(nullptr)
+    , m_Z(nullptr)
     , m_Z_min(0)
     , m_Z_max(0)
     {
@@ -3595,24 +3565,16 @@ namespace Splines {
     void clear(void);
 
     //! return the number of support points of the spline along x direction
-    integer
-    numPointX(void) const
-    { return integer(m_X.size()); }
+    integer numPointX(void) const { return m_nx; }
 
     //! return the number of support points of the spline along y direction
-    integer
-    numPointY(void) const
-    { return integer(m_Y.size()); }
+    integer numPointY(void) const { return m_ny; }
 
     //! return the i-th node of the spline (x component).
-    real_type
-    xNode( integer i ) const
-    { return m_X[size_t(i)]; }
+    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type
-    yNode( integer i ) const
-    { return m_Y[size_t(i)]; }
+    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
     real_type
@@ -3620,16 +3582,16 @@ namespace Splines {
     { return m_Z[size_t(this->ipos_C(i,j))]; }
 
     //! return x-minumum spline value
-    real_type xMin() const { return m_X.front(); }
+    real_type xMin() const { return m_X[0]; }
 
     //! return x-maximum spline value
-    real_type xMax() const { return m_X.back(); }
+    real_type xMax() const { return m_X[m_nx-1]; }
 
     //! return y-minumum spline value
-    real_type yMin() const { return m_Y.front(); }
+    real_type yMin() const { return m_Y[0]; }
 
     //! return y-maximum spline value
-    real_type yMax() const { return m_Y.back(); }
+    real_type yMax() const { return m_Y[m_ny-1]; }
 
     //! return z-minumum spline value
     real_type zMin() const { return m_Z_min; }
@@ -3829,6 +3791,13 @@ namespace Splines {
     virtual void makeSpline() SPLINES_OVERRIDE {}
   public:
 
+    using SplineSurf::m_nx;
+    using SplineSurf::m_ny;
+
+    using SplineSurf::m_X;
+    using SplineSurf::m_Y;
+    using SplineSurf::m_Z;
+
     //! spline constructor
     BilinearSpline( string const & name = "Spline" )
     : SplineSurf(name)
@@ -3900,17 +3869,30 @@ namespace Splines {
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
-    vector<real_type> m_DX, m_DY, m_DXY;
+    SplineMalloc<real_type> m_mem_bicubic;
+
+    real_type * m_DX;
+    real_type * m_DY;
+    real_type * m_DXY;
+
     void load( integer i, integer j, real_type bili3[4][4] ) const;
 
   public:
 
+    using SplineSurf::m_nx;
+    using SplineSurf::m_ny;
+
+    using SplineSurf::m_X;
+    using SplineSurf::m_Y;
+    using SplineSurf::m_Z;
+
     //! spline constructor
     BiCubicSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
-    , m_DX()
-    , m_DY()
-    , m_DXY()
+    , m_mem_bicubic("BiCubicSplineBase")
+    , m_DX(nullptr)
+    , m_DY(nullptr)
+    , m_DXY(nullptr)
     {}
 
     virtual
@@ -3978,6 +3960,11 @@ namespace Splines {
     virtual void makeSpline() SPLINES_OVERRIDE;
 
   public:
+
+    using BiCubicSplineBase::m_mem_bicubic;
+    using BiCubicSplineBase::m_DX;
+    using BiCubicSplineBase::m_DY;
+    using BiCubicSplineBase::m_DXY;
 
     //! spline constructor
     BiCubicSpline( string const & name = "Spline" )
@@ -4047,7 +4034,16 @@ namespace Splines {
   class BiQuinticSplineBase : public SplineSurf {
   protected:
 
-    vector<real_type> m_DX, m_DXX, m_DY, m_DYY, m_DXY, m_DXYY, m_DXXY, m_DXXYY;
+    SplineMalloc<real_type> mem;
+
+    real_type * m_DX;
+    real_type * m_DXX;
+    real_type * m_DY;
+    real_type * m_DYY;
+    real_type * m_DXY;
+    real_type * m_DXYY;
+    real_type * m_DXXY;
+    real_type * m_DXXYY;
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
   public:
@@ -4055,19 +4051,19 @@ namespace Splines {
     //! spline constructor
     BiQuinticSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
-    , m_DX()
-    , m_DXX()
-    , m_DY()
-    , m_DYY()
-    , m_DXY()
-    , m_DXYY()
-    , m_DXXY()
-    , m_DXXYY()
+    , mem("BiQuinticSplineBase")
+    , m_DX(nullptr)
+    , m_DXX(nullptr)
+    , m_DY(nullptr)
+    , m_DYY(nullptr)
+    , m_DXY(nullptr)
+    , m_DXYY(nullptr)
+    , m_DXXY(nullptr)
     {}
 
     virtual
     ~BiQuinticSplineBase() SPLINES_OVERRIDE
-    {}
+    { mem.free(); }
 
     real_type
     DxNode( integer i, integer j ) const

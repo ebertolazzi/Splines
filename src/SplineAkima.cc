@@ -21,7 +21,7 @@
 #include <cmath>
 
 /**
- * 
+ *
  */
 /*\
  |     #
@@ -32,6 +32,13 @@
  |  #     # #   #  # #    # #    #
  |  #     # #    # # #    # #    #
 \*/
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
 
 namespace Splines {
 
@@ -69,8 +76,9 @@ namespace Splines {
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
-      std::vector<real_type> m;
-      m.resize( size_t(npts+3) );
+      SplineMalloc<real_type> mem("Akima_build");
+      mem.allocate( size_t(npts+3) );
+      real_type * m = mem( size_t(npts+3) );
 
       // calcolo slopes (npts-1) intervals + 4
       for ( size_t i = 1; i < size_t(npts); ++i )

@@ -20,6 +20,14 @@
 #include "Splines.hh"
 #include <cmath>
 #include <iomanip>
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /**
  * 
  */
@@ -113,14 +121,13 @@ namespace Splines {
 
   void
   BilinearSpline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(m_Y.size());
-    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
-    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
-      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
-        size_t i00 = size_t(this->ipos_C(i-1,j-1,ny));
-        size_t i10 = size_t(this->ipos_C(i,j-1,ny));
-        size_t i01 = size_t(this->ipos_C(i-1,j,ny));
-        size_t i11 = size_t(this->ipos_C(i,j,ny));
+    s << "Nx = " << m_nx << " Ny = " << m_ny << '\n';
+    for ( integer i = 1; i < m_nx; ++i ) {
+      for ( integer j = 1; j < m_ny; ++j ) {
+        size_t i00 = size_t(this->ipos_C(i-1,j-1,m_ny));
+        size_t i10 = size_t(this->ipos_C(i,j-1,m_ny));
+        size_t i01 = size_t(this->ipos_C(i-1,j,m_ny));
+        size_t i11 = size_t(this->ipos_C(i,j,m_ny));
         s << "patch (" << i << "," << j << ")\n"
           <<  "DX = "  << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
           << " DY = "  << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]

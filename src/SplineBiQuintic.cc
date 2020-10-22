@@ -20,6 +20,14 @@
 #include "Splines.hh"
 #include <cmath>
 #include <iomanip>
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /**
  * 
  */
@@ -32,40 +40,42 @@ namespace Splines {
 
   void
   BiQuinticSpline::makeSpline() {
-    m_DX.resize(m_Z.size());
-    m_DY.resize(m_Z.size());
-    m_DXY.resize(m_Z.size());
-    m_DXX.resize(m_Z.size());
-    m_DYY.resize(m_Z.size());
-    m_DXYY.resize(m_Z.size());
-    m_DXXY.resize(m_Z.size());
-    m_DXXYY.resize(m_Z.size());
+
+    size_t dim = size_t( m_nx*m_ny );
+    mem.allocate( 8*dim );
+    m_DX    = mem( dim );
+    m_DY    = mem( dim );
+    m_DXY   = mem( dim );
+    m_DXX   = mem( dim );
+    m_DYY   = mem( dim );
+    m_DXYY  = mem( dim );
+    m_DXXY  = mem( dim );
+    m_DXXYY = mem( dim );
+
     // calcolo derivate
-    integer nx = integer(m_X.size());
-    integer ny = integer(m_Y.size());
     QuinticSpline sp, sp1;
     //
-    for ( integer j = 0; j < ny; ++j ) {
-      sp.build( &m_X.front(), 1, &m_Z[size_t(this->ipos_C(0,j))], ny, nx );
-      for ( integer i = 0; i < nx; ++i ) {
+    for ( integer j = 0; j < m_ny; ++j ) {
+      sp.build( m_X, 1, &m_Z[size_t(this->ipos_C(0,j))], m_ny, m_nx );
+      for ( integer i = 0; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DX[ij]  = sp.ypNode(i);
         m_DXX[ij] = sp.yppNode(i);
       }
     }
-    for ( integer i = 0; i < nx; ++i ) {
-      sp.build( &m_Y.front(), 1, &m_Z[size_t(this->ipos_C(i,0))], 1, ny );
-      for ( integer j = 0; j < ny; ++j ) {
+    for ( integer i = 0; i < m_nx; ++i ) {
+      sp.build( m_Y, 1, &m_Z[size_t(this->ipos_C(i,0))], 1, m_ny );
+      for ( integer j = 0; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DY[ij]  = sp.ypNode(j);
         m_DYY[ij] = sp.yppNode(j);
       }
     }
     // interpolate derivative
-    for ( integer i = 0; i < nx; ++i ) {
-      sp.build( &m_Y.front(), 1, &m_DX[size_t(this->ipos_C(i,0))], 1, ny );
-      sp1.build( &m_Y.front(), 1, &m_DXX[size_t(this->ipos_C(i,0))], 1, ny );
-      for ( integer j = 0; j < ny; ++j ) {
+    for ( integer i = 0; i < m_nx; ++i ) {
+      sp.build( m_Y, 1, &m_DX[size_t(this->ipos_C(i,0))], 1, m_ny );
+      sp1.build( m_Y, 1, &m_DXX[size_t(this->ipos_C(i,0))], 1, m_ny );
+      for ( integer j = 0; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DXY[ij]   = sp.ypNode(j);
         m_DXYY[ij]  = sp.yppNode(j);
@@ -74,10 +84,10 @@ namespace Splines {
       }
     }
     // interpolate derivative again
-    for ( integer j = 0; j < ny; ++j ) {
-      sp.build( &m_X.front(), 1, &m_DY[size_t(this->ipos_C(0,j))], ny, nx );
-      sp1.build( &m_X.front(), 1, &m_DYY[size_t(this->ipos_C(0,j))], ny, nx );
-      for ( integer i = 0; i < nx; ++i ) {
+    for ( integer j = 0; j < m_ny; ++j ) {
+      sp.build( m_X, 1, &m_DY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
+      sp1.build( m_X, 1, &m_DYY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
+      for ( integer i = 0; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DXY[ij]   += sp.ypNode(i);   m_DXY[ij]   /= 2;
         m_DXXY[ij]  += sp.yppNode(i);  m_DXXY[ij]  /= 2;
@@ -95,14 +105,13 @@ namespace Splines {
 
   void
   BiQuinticSpline::writeToStream( ostream_type & s ) const {
-    integer ny = integer(m_Y.size());
-    s << "Nx = " << m_X.size() << " Ny = " << m_Y.size() << '\n';
-    for ( integer i = 1; i < integer(m_X.size()); ++i ) {
-      for ( integer j = 1; j < integer(m_Y.size()); ++j ) {
-        size_t i00 = size_t(this->ipos_C(i-1,j-1,ny));
-        size_t i10 = size_t(this->ipos_C(i,j-1,ny));
-        size_t i01 = size_t(this->ipos_C(i-1,j,ny));
-        size_t i11 = size_t(this->ipos_C(i,j,ny));
+    s << "Nx = " << m_nx << " Ny = " << m_ny << '\n';
+    for ( integer i = 1; i < m_nx; ++i ) {
+      for ( integer j = 1; j < m_ny; ++j ) {
+        size_t i00 = size_t(this->ipos_C(i-1,j-1,m_ny));
+        size_t i10 = size_t(this->ipos_C(i,j-1,m_ny));
+        size_t i01 = size_t(this->ipos_C(i-1,j,m_ny));
+        size_t i11 = size_t(this->ipos_C(i,j,m_ny));
         s << "patch (" << i << "," << j
           << ")\n DX = "  << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
           <<    " DY = "  << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]

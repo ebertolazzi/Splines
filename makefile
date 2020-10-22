@@ -72,13 +72,13 @@ MKDIR = mkdir -p
 PREFIX    = /usr/local
 FRAMEWORK = Splines
 
-all: gc lib bin
+all: gc lib tests
 
 gc: lib/$(LIB_GC)
 
 lib: lib/$(LIB_SPLINE)
 
-bin:
+tests: lib
 	@echo "compile binaries\n\n"
 	mkdir -p bin
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
@@ -91,7 +91,7 @@ bin:
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9 tests/test9.cc $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test10 tests/test10.cc $(LIBS)
 
-travis: gc lib bin run
+travis: gc lib tests run
 
 include_local: gc
 	@rm -rf lib/include
@@ -155,5 +155,4 @@ doc:
 
 clean:
 	rm -rf lib/libSplines.* lib/libGenericContainer.* lib/include src/*.o
-
 	rm -rf bin

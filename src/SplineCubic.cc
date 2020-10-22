@@ -19,6 +19,13 @@
 
 #include "Splines.hh"
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /*\
  |   ####  #    # #####  #  ####
  |  #    # #    # #    # # #    #
@@ -429,13 +436,12 @@ namespace Splines {
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   ) {
-    size_t n = size_t(npts > 0 ? npts-1 : 0);
-    vector<real_type> buffer(4*(n+1));
-    real_type * ptr = &buffer.front();
-    real_type * L = ptr; ptr += npts;
-    real_type * D = ptr; ptr += npts;
-    real_type * U = ptr; ptr += npts;
-    real_type * Z = ptr;
+    SplineMalloc<real_type> mem("CubicSpline_build");
+    mem.allocate( size_t(4*npts) );
+    real_type * L = mem( size_t( npts ) );
+    real_type * D = mem( size_t( npts ) );
+    real_type * U = mem( size_t( npts ) );
+    real_type * Z = mem( size_t( npts ) );
     CubicSpline_build( X, Y, Yp, Z, L, D, U, npts, bc0, bcn );
   }
 

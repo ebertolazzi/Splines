@@ -25,7 +25,9 @@
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
-#pragma clang diagnostic ignored "-Wimplicit-fallthrough"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
 /**
@@ -124,18 +126,18 @@ namespace Splines {
 
   void
   SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
-    vector<real_type> vals;
+    SplineMalloc<real_type> mem("SplineSet::dump_table");
+    mem.allocate( size_t(m_nspl) );
+    real_type * vals = mem( size_t(m_nspl) );
     stream << 's';
-    for ( integer i = 0; i < numSplines(); ++i )
-      stream << '\t' << header(i);
+    for ( integer i = 0; i < m_nspl; ++i ) stream << '\t' << header(i);
     stream << '\n';
 
     for ( integer j = 0; j < num_points; ++j ) {
       real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
-      this->eval( s, vals );
+      this->eval( s, vals, 1 );
       stream << s;
-      for ( integer i = 0; i < numSplines(); ++i )
-        stream << '\t' << vals[size_t(i)];
+      for ( integer i = 0; i < m_nspl; ++i ) stream << '\t' << vals[size_t(i)];
       stream << '\n';
     }
   }
@@ -502,31 +504,18 @@ namespace Splines {
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  SplineSet::eval2(
-    integer             spl,
-    real_type           zeta,
-    vector<real_type> & vals
-  ) const {
-    real_type x;
-    intersect( spl, zeta, x );
-    vals.resize(size_t(m_nspl));
-    for ( size_t i = 0; i < size_t(m_nspl); ++i )
-      vals[i] = (*m_splines[i])(x);
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineSet::eval2(
-    integer   spl,
+    integer   indep,
     real_type zeta,
     real_type vals[],
     integer   incy
   ) const {
     real_type x;
-    intersect( spl, zeta, x );
+    intersect( indep, zeta, x );
     size_t ii = 0;
     for ( size_t i = 0; i < size_t(m_nspl); ++i, ii += size_t(incy) )
       vals[ii] = (*m_splines[i])(x);
@@ -535,30 +524,50 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval2_D(
-    integer             spl,
+  SplineSet::eval2(
+    integer             indep,
     real_type           zeta,
     vector<real_type> & vals
   ) const {
-    real_type x;
-    Spline const * S = intersect( spl, zeta, x );
-    real_type ds = S->D(x);
     vals.resize(size_t(m_nspl));
-    for ( size_t i = 0; i < size_t(m_nspl); ++i )
-      vals[i] = m_splines[i]->D(x)/ds;
+    this->eval2( indep, zeta, &vals.front(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  real_type
+  SplineSet::eval2( real_type zeta, integer indep, integer spl ) const {
+    real_type x;
+    intersect( indep, zeta, x );
+    return (*m_splines[ size_t(spl) ] )(x);
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  SplineSet::eval2(
+    real_type    zeta,
+    char const * indep,
+    char const * name
+  ) const {
+    return this->eval2(
+      zeta, this->getPosition(indep), this->getPosition(name)
+    );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSet::eval2_D(
-    integer   spl,
+    integer   indep,
     real_type zeta,
     real_type vals[],
     integer   incy
   ) const {
     real_type x;
-    Spline const * S = intersect( spl, zeta, x );
+    Spline const * S = intersect( indep, zeta, x );
     real_type ds = S->D(x);
     size_t ii = 0;
     for ( size_t i = 0; i < size_t(m_nspl); ++i, ii += size_t(incy) )
@@ -568,34 +577,50 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval2_DD(
+  SplineSet::eval2_D(
     integer             spl,
     real_type           zeta,
     vector<real_type> & vals
   ) const {
-    real_type x;
-    Spline const * S = intersect( spl, zeta, x );
-    real_type dt  = 1/S->D(x);
-    real_type dt2 = dt*dt;
-    real_type ddt = -S->DD(x)*(dt*dt2);
     vals.resize(size_t(m_nspl));
-    for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
-      S = m_splines[i];
-      vals[i] = S->DD(x)*dt2 + S->D(x)*ddt;
-    }
+    this->eval2_D( spl, zeta, &vals.front(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  real_type
+  SplineSet::eval2_D( real_type zeta, integer indep, integer spl ) const {
+    real_type x;
+    Spline const * S = intersect( indep, zeta, x );
+    return m_splines[ size_t(spl) ]->D(x)/S->D(x);
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  SplineSet::eval2_D(
+    real_type    zeta,
+    char const * indep,
+    char const * name
+  ) const {
+    return this->eval2_D(
+      zeta, this->getPosition(indep), this->getPosition(name)
+    );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSet::eval2_DD(
-    integer   spl,
+    integer   indep,
     real_type zeta,
     real_type vals[],
     integer   incy
   ) const {
     real_type x;
-    Spline const * S = intersect( spl, zeta, x );
+    Spline const * S = intersect( indep, zeta, x );
     real_type dt  = 1/S->D(x);
     real_type dt2 = dt*dt;
     real_type ddt = -S->DD(x)*(dt*dt2);
@@ -609,35 +634,55 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval2_DDD(
-    integer             spl,
+  SplineSet::eval2_DD(
+    integer             indep,
     real_type           zeta,
     vector<real_type> & vals
   ) const {
-    real_type x;
-    Spline const * S = intersect( spl, zeta, x );
-    real_type dt  = 1/S->D(x);
-    real_type dt3 = dt*dt*dt;
-    real_type ddt = -S->DD(x)*dt3;
-    real_type dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3);
-    vals.resize( size_t(m_nspl) );
-    for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
-      S = m_splines[i];
-      vals[i] = S->DDD(x)*dt3 + 3*S->DD(x)*dt*ddt + S->D(x)*dddt;
-    }
+    vals.resize(size_t(m_nspl));
+    this->eval2_DD( indep, zeta, &vals.front(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  real_type
+  SplineSet::eval2_DD( real_type zeta, integer indep, integer spl ) const {
+    real_type x;
+    Spline const * S = intersect( indep, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt2 = dt*dt;
+    real_type ddt = -S->DD(x)*(dt*dt2);
+    size_t ii = 0;
+    Spline const * SPL = m_splines[ size_t(spl) ];
+    return SPL->DD(x)*dt2 + SPL->D(x)*ddt;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  real_type
+  SplineSet::eval2_DD(
+    real_type    zeta,
+    char const * indep,
+    char const * name
+  ) const {
+    return this->eval2_DD(
+      zeta, this->getPosition(indep), this->getPosition(name)
+    );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   void
   SplineSet::eval2_DDD(
-    integer   spl,
+    integer   indep,
     real_type zeta,
     real_type vals[],
     integer   incy
   ) const {
     real_type x;
-    Spline const * S = intersect( spl, zeta, x );
+    Spline const * S = intersect( indep, zeta, x );
     real_type dt  = 1/S->D(x);
     real_type dt3 = dt*dt*dt;
     real_type ddt = -S->DD(x)*dt3;
@@ -651,41 +696,29 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  real_type
-  SplineSet::eval2(
-    real_type    zeta,
-    char const * indep,
-    char const * name
+  void
+  SplineSet::eval2_DDD(
+    integer             spl,
+    real_type           zeta,
+    vector<real_type> & vals
   ) const {
-    vector<real_type> vals;
-    this->eval2( this->getPosition(indep), zeta, vals );
-    return vals[size_t(this->getPosition(name))];
+    vals.resize(size_t(m_nspl));
+    this->eval2_DDD( spl, zeta, &vals.front(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  SplineSet::eval2_D(
-    real_type    zeta,
-    char const * indep,
-    char const * name
-  ) const {
-    vector<real_type> vals;
-    this->eval2_D( this->getPosition(indep), zeta, vals );
-    return vals[size_t(this->getPosition(name))];
-  }
+  SplineSet::eval2_DDD( real_type zeta, integer indep, integer spl ) const {
+    real_type x;
+    Spline const * S = intersect( indep, zeta, x );
+    real_type dt  = 1/S->D(x);
+    real_type dt3 = dt*dt*dt;
+    real_type ddt = -S->DD(x)*dt3;
+    real_type dddt = 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3);
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  real_type
-  SplineSet::eval2_DD(
-    real_type    zeta,
-    char const * indep,
-    char const * name
-  ) const {
-    vector<real_type> vals;
-    this->eval2_DD( this->getPosition(indep), zeta, vals );
-    return vals[size_t(this->getPosition(name))];
+    Spline const * SPL = m_splines[ size_t(spl) ];
+    return SPL->DDD(x)*dt3 + 3*SPL->DD(x)*dt*ddt + SPL->D(x)*dddt;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -696,44 +729,8 @@ namespace Splines {
     char const * indep,
     char const * name
   ) const {
-    vector<real_type> vals;
-    this->eval2_DDD( this->getPosition(indep), zeta, vals );
-    return vals[size_t(this->getPosition(name))];
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  real_type
-  SplineSet::eval2( real_type zeta, integer indep, integer spl ) const {
-    vector<real_type> vals;
-    this->eval2( indep, zeta, vals );
-    return vals[size_t(spl)];
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  real_type
-  SplineSet::eval2_D( real_type zeta, integer indep, integer spl ) const {
-    vector<real_type> vals;
-    this->eval2_D( indep, zeta, vals );
-    return vals[size_t(spl)];
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  real_type
-  SplineSet::eval2_DD( real_type zeta, integer indep, integer spl ) const {
-    vector<real_type> vals;
-    this->eval2_DD( indep, zeta, vals );
-    return vals[size_t(spl)];
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  real_type
-  SplineSet::eval2_DDD( real_type zeta, integer indep, integer spl ) const {
-    vector<real_type> vals;
-    this->eval2_DDD( indep, zeta, vals );
-    return vals[size_t(spl)];
+    return this->eval2_DDD(
+      zeta, this->getPosition(indep), this->getPosition(name)
+    );
   }
 }

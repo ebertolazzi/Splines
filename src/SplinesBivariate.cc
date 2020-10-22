@@ -21,6 +21,13 @@
 #include <cmath>
 #include <iomanip>
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#endif
+
 /**
  * 
  */
@@ -45,9 +52,9 @@ namespace Splines {
 
   void
   SplineSurf::clear(void) {
-    m_X.clear();
-    m_Y.clear();
-    m_Z.clear();
+    m_mem.free();
+    m_nx = m_ny = 0;
+    m_X = m_Y = m_Z = nullptr;
     m_Z_min = m_Z_max = 0;
     this->initLastInterval_x();
     this->initLastInterval_y();
@@ -64,9 +71,12 @@ namespace Splines {
     bool fortran_storage,
     bool transposed
   ) {
-    m_X.resize( size_t(nx) );
-    m_Y.resize( size_t(ny) );
-    m_Z.resize( size_t(nx*ny) );
+    m_nx = nx;
+    m_ny = ny;
+    m_mem.allocate( size_t((nx+1)*(ny+1)) );
+    m_X = m_mem( size_t(nx) );
+    m_Y = m_mem( size_t(ny) );
+    m_Z = m_mem( size_t(nx*ny) );
     for ( size_t i = 0; i < size_t(nx); ++i ) m_X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i < size_t(ny); ++i ) m_Y[i] = y[i*size_t(incy)];
     if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
@@ -86,8 +96,8 @@ namespace Splines {
         for ( integer j = 0; j < ny; ++j )
           m_Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
     }
-    m_Z_max = *std::max_element(m_Z.begin(),m_Z.end());
-    m_Z_min = *std::min_element(m_Z.begin(),m_Z.end());
+    m_Z_max = *std::max_element(m_Z,m_Z+nx*ny);
+    m_Z_min = *std::min_element(m_Z,m_Z+nx*ny);
     makeSpline();
   }
 
@@ -100,15 +110,13 @@ namespace Splines {
     bool fortran_storage,
     bool transposed
   ) {
-    vector<real_type> XX, YY; // temporary vector
-    XX.resize( size_t(nx) );
-    YY.resize( size_t(ny) ); // temporary vector
+    SplineMalloc<real_type> mem("SplineSurf::build");
+    mem.allocate( size_t(nx+ny) );
+    real_type * XX = mem( size_t(nx) );
+    real_type * YY = mem( size_t(ny) ); // temporary vector
     for ( size_t i = 0; i < size_t(nx); ++i ) XX[i] = real_type(i);
     for ( size_t i = 0; i < size_t(ny); ++i ) YY[i] = real_type(i);
-    build(
-      &XX.front(), 1, &YY.front(), 1, z, ldZ, nx, ny,
-      fortran_storage, transposed
-    );
+    build( XX, 1, YY, 1, z, ldZ, nx, ny, fortran_storage, transposed );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,17 +125,15 @@ namespace Splines {
   BiCubicSplineBase::load(
     integer i, integer j, real_type bili3[4][4]
   ) const {
-
     //
     //  1    3
     //
     //  0    2
     //
-    integer ny = integer(m_Y.size());
-    size_t i0 = size_t(ipos_C(i,j,ny));
-    size_t i1 = size_t(ipos_C(i,j+1,ny));
-    size_t i2 = size_t(ipos_C(i+1,j,ny));
-    size_t i3 = size_t(ipos_C(i+1,j+1,ny));
+    size_t i0 = size_t(ipos_C(i,j,m_ny));
+    size_t i1 = size_t(ipos_C(i,j+1,m_ny));
+    size_t i2 = size_t(ipos_C(i+1,j,m_ny));
+    size_t i3 = size_t(ipos_C(i+1,j+1,m_ny));
 
     bili3[0][0] = m_Z[i0];   bili3[0][1] = m_Z[i1];
     bili3[0][2] = m_DY[i0];  bili3[0][3] = m_DY[i1];
@@ -266,11 +272,10 @@ namespace Splines {
     integer i, integer j, real_type bili5[6][6]
   ) const {
 
-    integer ny = integer(m_Y.size());
-    size_t i00 = size_t(ipos_C(i,j,ny));
-    size_t i01 = size_t(ipos_C(i,j+1,ny));
-    size_t i10 = size_t(ipos_C(i+1,j,ny));
-    size_t i11 = size_t(ipos_C(i+1,j+1,ny));
+    size_t i00 = size_t(ipos_C(i,j,m_ny));
+    size_t i01 = size_t(ipos_C(i,j+1,m_ny));
+    size_t i10 = size_t(ipos_C(i+1,j,m_ny));
+    size_t i11 = size_t(ipos_C(i+1,j+1,m_ny));
 
     //
     //  1    3
