@@ -115,9 +115,10 @@ namespace Splines {
   ConstantSpline::writeToStream( ostream_type & s ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
     for ( size_t i = 0; i < nseg; ++i )
-      s << "segment N." << setw(4) << i
-        << " X:[ " << m_X[i] << ", " << m_X[i+1] << " ] Y:" << m_Y[i]
-        << '\n';
+      fmt::print( s,
+        "segment N. {:4} X:[{},{}] Y:{}\n",
+        i,  m_X[i], m_X[i+1], m_Y[i]
+      );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -150,28 +151,26 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "ConstantSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "ConstantSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "ConstantSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
+      "ConstantSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "ConstantSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "ConstantSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "ConstantSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "ConstantSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
   }

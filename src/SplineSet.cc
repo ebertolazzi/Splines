@@ -19,6 +19,7 @@
 
 #include "Splines.hh"
 #include "SplinesUtils.hh"
+#include "PolynomialRoots.hh"
 
 #include <limits>
 #include <cmath>
@@ -104,8 +105,11 @@ namespace Splines {
 
   void
   SplineSet::info( ostream_type & s ) const {
-    s << "SplineSet[" << name() << "] n.points = "
-      << m_npts << " n.splines = " << m_nspl << '\n';
+    fmt::print( s,
+      "SplineSet[{}] n.points = {} n.splines = {}\n",
+      name(), m_npts, m_nspl
+     );
+
     for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
       s << "\nSpline n." << i;
       switch ( m_is_monotone[i] ) {
@@ -113,10 +117,10 @@ namespace Splines {
         case -1: s << " is NOT monotone\n";        break;
         case  0: s << " is monotone\n";            break;
         case  1: s << " is strictly monotone\n";   break;
-        default: SPLINE_DO_ERROR(
-          "SplineSet::info classification: " << m_is_monotone[i] <<
-          " not in range {-2,-1,0,1}"
-        )
+        default: UTILS_ERROR(
+          "SplineSet::info classification: {} not in range {-2,-1,0,1}\n",
+          m_is_monotone[i] 
+        );
       }
       m_splines[i]->info(s);
     }
@@ -126,7 +130,7 @@ namespace Splines {
 
   void
   SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
-    SplineMalloc<real_type> mem("SplineSet::dump_table");
+    Utils::Malloc<real_type> mem("SplineSet::dump_table");
     mem.allocate( size_t(m_nspl) );
     real_type * vals = mem( size_t(m_nspl) );
     stream << 's';
@@ -147,11 +151,12 @@ namespace Splines {
   integer
   SplineSet::getPosition( char const * hdr ) const {
     integer pos = m_header_to_position.search(hdr);
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       pos >= 0,
-      "SplineSet::getPosition(\"" << hdr << "\") not found!\n" <<
-      "available keys: " << name_list()
-    )
+      "SplineSet::getPosition(\"{}\") not found!\n"
+      "available keys: {}\n", 
+      hdr, name_list()
+    );
     return pos;
   }
 
@@ -167,14 +172,14 @@ namespace Splines {
     real_type    const *Y[],
     real_type    const *Yp[]
   ) {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       nspl > 0,
-      "SplineSet::build expected positive nspl = " << nspl
-    )
-    SPLINE_ASSERT(
+      "SplineSet::build expected positive nspl = {}\n", nspl
+    );
+    UTILS_ASSERT(
       npts > 1,
-      "SplineSet::build expected npts = " << npts << " greather than 1"
-    )
+      "SplineSet::build expected npts = {} greather than 1", npts
+    );
     m_nspl = nspl;
     m_npts = npts;
     // allocate memory
@@ -200,11 +205,10 @@ namespace Splines {
       case SPLINE_SET_TYPE:
       case SPLINE_VEC_TYPE:
       //default:
-        SPLINE_DO_ERROR(
-          "SplineSet::build\nAt spline n. " << spl <<
-          " named " << headers[spl] <<
-          " cannot be done for type = " << stype[spl]
-        )
+        UTILS_ERROR(
+          "SplineSet::build\nAt spline n.{} named {} cannot be done for type = {}\n",
+          spl, headers[spl], stype[spl]
+        );
       }
     }
 
@@ -243,11 +247,12 @@ namespace Splines {
       case HERMITE_TYPE:
         pYp = m_baseValue( size_t(m_npts) );
         if ( stype[spl] == HERMITE_TYPE ) {
-          SPLINE_ASSERT(
+          UTILS_ASSERT(
             Yp != nullptr && Yp[spl] != nullptr,
-            "SplineSet::build\nAt spline n. " << spl <<
-            " named " << headers[spl] << "\nexpect to find derivative values"
-          )
+            "SplineSet::build\nAt spline n.{} named {}\n"
+            "expect to find derivative values",
+            spl, headers[spl] 
+          );
           std::copy_n( Yp[spl], npts, pYp );
         }
       case CONSTANT_TYPE:
@@ -278,7 +283,7 @@ namespace Splines {
         { integer flag = 1;
           for ( integer j = 1; j < m_npts; ++j ) {
             if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
-            if ( isZero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
+            if ( Utils::isZero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
           }
           m_is_monotone[spl] = flag;
         }
@@ -334,12 +339,12 @@ namespace Splines {
       case SPLINE_SET_TYPE:
       case SPLINE_VEC_TYPE:
       //default:
-        SPLINE_DO_ERROR(
-          "SplineSet::build\nAt spline n. " << spl << " named " << headers[spl] <<
-          "\n" << stype[size_t(spl)] <<
-          " not allowed as spline type\nin SplineSet::build for " << spl <<
-          "-th spline"
-        )
+        UTILS_ERROR(
+          "SplineSet::build\nAt spline n.{} named {}\n"
+          "{} not allowed as spline type\n"
+          "in SplineSet::build for {}-th spline\n",
+          spl, headers[spl], stype[size_t(spl)], spl
+        );
       }
       m_header_to_position.insert( s->name(), integer(spl) );
     }
@@ -439,26 +444,26 @@ namespace Splines {
     real_type   zeta,
     real_type & x
   ) const {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       spl >= 0 && spl < m_nspl,
-      "Spline n." << spl << " is not in SplineSet"
-    )
-    SPLINE_ASSERT(
+      "Spline n.{} is not in SplineSet", spl
+    );
+    UTILS_ASSERT(
       m_is_monotone[size_t(spl)]>0,
-      "Spline n." << spl << " is not monotone and can't be used as independent"
-    )
+      "Spline n.{} is not monotone and can't be used as independent", spl
+    );
     Spline const * S = m_splines[size_t(spl)];
     // cerco intervallo intersezione
     real_type const * X = m_Y[size_t(spl)];
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       zeta >= X[0] && zeta <= X[size_t(m_npts-1)],
-      "SplineSet, evaluation at zeta = " << zeta <<
-      " is out of range: [" << X[0] << ", " << X[size_t(m_npts-1)] << "]"
-    )
+      "SplineSet, evaluation at zeta = {} is out of range: [{},{}]\n",
+      zeta, X[0], X[size_t(m_npts-1)]
+    );
 
     integer interval = integer(lower_bound( X, X+m_npts, zeta ) - X);
     if ( interval > 0 ) --interval;
-    if ( isZero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
+    if ( Utils::isZero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
     if ( interval >= m_npts-1 ) interval = m_npts-2;
 
     // compute intersection
@@ -468,37 +473,38 @@ namespace Splines {
     real_type yb = X[size_t(interval+1)];
     real_type DX = b-a;
     real_type DY = yb-ya;
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       zeta >= ya && zeta <= yb,
-      "SplineSet, Bad interval [ " << ya << "," << yb << "] for zeta = " << zeta
-    )
-    SPLINE_ASSERT(
+      "SplineSet, Bad interval [{},{}] for zeta = {}\n", ya, yb, zeta
+    );
+    UTILS_ASSERT(
       a < b,
-      "SplineSet, Bad x interval [ " << a << "," << b << "]"
-    )
+      "SplineSet, Bad x interval [{},{}]\n", a, b
+    );
     if ( S->type() == LINEAR_TYPE ) {
       x = a + (b-a)*(zeta-ya)/(yb-ya);
     } else {
       real_type const * dX = m_Yp[size_t(spl)];
       real_type        dya = dX[interval];
       real_type        dyb = dX[interval+1];
-      real_type coeffs[4] = { ya-zeta, dya, (3*DY/DX-2*dya-dyb)/DX, (dyb+dya-2*DY/DX)/(DX*DX) };
-      real_type real[3], imag[3];
-      pair<int,int> icase = cubicRoots( coeffs, real, imag );
-      SPLINE_ASSERT(
-        icase.first > 0,
-        "SplineSet, No intersection found with independent spline at zeta = " << zeta
-      )
+      PolynomialRoots::Cubic cubic(
+        (dyb+dya-2*DY/DX)/(DX*DX), // A
+        (3*DY/DX-2*dya-dyb)/DX,    // B
+        dya,                       // C
+        ya-zeta                    // D
+      );
+      real_type r[3];
+      integer npr = cubic.getRealRoots( r );
       // cerca radice buona
       bool ok = false;
-      for ( integer i = 0; i < icase.first && !ok; ++i ) {
-        ok = real[i] >= 0 && real[i] <= DX;
-        if ( ok ) x = a + real[i];
+      for ( integer i = 0; i < npr && !ok; ++i ) {
+        ok = r[i] >= 0 && r[i] <= DX;
+        if ( ok ) x = a + r[i];
       }
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         ok,
-        "SplineSet, failed to find intersection with independent spline at zeta = " << zeta
-      )
+        "SplineSet, failed to find intersection with independent spline at zeta = {}\n", zeta
+      );
     }
     return S;
   }
@@ -652,7 +658,6 @@ namespace Splines {
     real_type dt  = 1/S->D(x);
     real_type dt2 = dt*dt;
     real_type ddt = -S->DD(x)*(dt*dt2);
-    size_t ii = 0;
     Spline const * SPL = m_splines[ size_t(spl) ];
     return SPL->DD(x)*dt2 + SPL->D(x)*ddt;
   }

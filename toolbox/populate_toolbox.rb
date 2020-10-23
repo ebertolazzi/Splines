@@ -3,20 +3,54 @@
 require 'fileutils'
 
 FileUtils.rm_rf   "src"
-FileUtils.mkdir_p "src"
+FileUtils.mkdir_p "src/fmt"
+
 lst = Dir["../src/*.cc"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
+
 lst = Dir["../src/*.h*"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
+
 lst = Dir["../GC/src/*.cc"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
+
 lst = Dir["../GC/src/*.h*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/Utils/src/*.cc"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/Utils/src/*.h*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/Utils/src/fmt/*.cc"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/Utils/src/fmt/*.h*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/fmt/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/quarticRootsFlocke/src/*.cc"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/quarticRootsFlocke/src/*.h*"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end

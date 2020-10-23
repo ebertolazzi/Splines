@@ -69,7 +69,7 @@ namespace Splines {
 
   integer
   SplineVec::search( real_type & x ) const {
-    SPLINE_ASSERT( m_npts > 0, "in SplineVec::search(...), npts == 0!" )
+    UTILS_ASSERT0( m_npts > 0, "in SplineVec::search(...), npts == 0!" );
     // mark use read
     m_spin_write.wait();
     m_worker_read.enter();
@@ -124,8 +124,9 @@ namespace Splines {
 
   void
   SplineVec::info( ostream_type & s ) const {
-    s << "SplineVec[" << name() << "] n.points = "
-      << m_npts << " dim = " << m_dim << '\n';
+    fmt::print( s,
+      "SplineVec[{}] n.points = {}  dim = {}\n", name(), m_npts, m_dim
+    );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,12 +152,12 @@ namespace Splines {
   void
   SplineVec::allocate( integer dim, integer npts ) {
 
-    SPLINE_ASSERT(
-      dim > 0, "SplineVec::build expected positive dim = " << dim
-    )
-    SPLINE_ASSERT(
-      npts > 1, "SplineVec::build expected npts = " << npts << " greather than 1"
-    )
+    UTILS_ASSERT(
+      dim > 0, "SplineVec::build expected positive dim = {}\n", dim
+    );
+    UTILS_ASSERT(
+      npts > 1, "SplineVec::build expected npts = {} greather than 1\n", npts
+    );
     m_dim  = dim;
     m_npts = npts;
 

@@ -20,9 +20,9 @@ LIB_OBJS = '';
 CMD = 'mex -c  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -Isrc ';
 if isunix
   if ismac
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g" '];
+    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
   else
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g" '];
+    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
   end
 elseif ispc
 end
@@ -38,7 +38,8 @@ for kk=1:length(lst_cc)
     LIB_OBJS = [ LIB_OBJS, name, '.obj ' ];
   end
   CMD1 = [ CMD ' src/', name, '.cc' ];
-  fprintf(1,'Compiling: %s.cc\n',name);
+  fprintf(1,'\n\nCompiling: %s.cc\n',name);
+  disp(CMD1);
   eval(CMD1);
 end
 
@@ -47,7 +48,7 @@ MROOT = matlabroot;
 for k=1:length(NAMES)
   N=NAMES{k};
   disp('---------------------------------------------------------');
-  fprintf(1,'Compiling: %s\n',N);
+  fprintf(1,'\n\nCompiling: %s\n',N);
 
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
@@ -55,7 +56,7 @@ for k=1:length(NAMES)
   CMD = [ 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -output bin/', N ];
   CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N, '.cc ', LIB_OBJS ];
   if ismac
-    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g"'];
   elseif isunix
     % Workaround for MATLAB 2020 that force dynamic link with old libstdc++
     % solution: link with static libstdc++
@@ -63,7 +64,7 @@ for k=1:length(NAMES)
     PATH1 = [MROOT, '/bin/', ARCH];
     PATH2 = [MROOT, '/extern/bin/', ARCH];
     CMD   = [ CMD, ...
-      ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"' ...
+      ' CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g"' ...
       ' LDFLAGS="\$LDFLAGS -static-libgcc -static-libstdc++"' ...
       ' LINKLIBS="-L' PATH1 ' -L' PATH2 ' -lMatlabDataArray -lmx -lmex -lmat -lm "' ...
     ];

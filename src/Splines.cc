@@ -51,199 +51,12 @@
   #include <libunwind.h>
 #endif
 
-#ifdef MALLOC_STATISTIC
-  namespace Malloc_Statistic {
-    extern int64_t CountAlloc;
-    extern int64_t CountFreed;
-    extern int64_t AllocatedBytes;
-    extern int64_t MaximumAllocatedBytes;
-  }
-
-  #ifndef MALLOC_STATISTIC_NO_STORAGE
-  namespace Malloc_Statistic {
-    int64_t CountAlloc            = 0;
-    int64_t CountFreed            = 0;
-    int64_t AllocatedBytes        = 0;
-    int64_t MaximumAllocatedBytes = 0;
-  }
-  #endif
-#endif
-
 //! Various kind of splines
 namespace Splines {
 
   using std::abs;
   using std::max;
   using std::min;
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  template <typename T>
-  void
-  SplineMalloc<T>::allocate( size_t n ) {
-    try {
-      if ( n > m_numTotReserved ) {
-
-        #ifdef MALLOC_STATISTIC
-        int64_t & CountFreed     = Malloc_Statistic::CountFreed;
-        int64_t & AllocatedBytes = Malloc_Statistic::AllocatedBytes;
-        ++CountFreed; AllocatedBytes -= m_numTotReserved*sizeof(T);
-        #endif
-
-        delete [] m_pMalloc;
-        m_numTotValues   = n;
-        m_numTotReserved = n + (n>>3); // 12% more values
-        m_pMalloc        = new T[m_numTotReserved];
-
-        #ifdef MALLOC_STATISTIC
-        int64_t & CountAlloc            = Malloc_Statistic::CountAlloc;
-        int64_t & MaximumAllocatedBytes = Malloc_Statistic::MaximumAllocatedBytes;
-        ++CountAlloc; AllocatedBytes += m_numTotReserved*sizeof(T);
-        if ( MaximumAllocatedBytes < AllocatedBytes )
-          MaximumAllocatedBytes = AllocatedBytes;
-        #endif
-      }
-    }
-    catch ( exception const & exc ) {
-      cerr
-        << "Memory allocation failed: " << exc.what()
-        << "\nTry to allocate " << n << " bytes for " << m_name
-        << '\n';
-      exit(0);
-    }
-    catch (...) {
-      cerr
-        << "SplineMalloc allocation failed for " << m_name
-        << ": memory exausted\nRequesting " << n << " blocks\n";
-      exit(0);
-    }
-    m_numTotValues = n;
-    m_numAllocated = 0;
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  template <typename T>
-  void
-  SplineMalloc<T>::free(void) {
-    if ( m_pMalloc != nullptr ) {
-
-      #ifdef MALLOC_STATISTIC
-      int64_t & CountFreed     = Malloc_Statistic::CountFreed;
-      int64_t & AllocatedBytes = Malloc_Statistic::AllocatedBytes;
-      ++CountFreed; AllocatedBytes -= m_numTotReserved*sizeof(T);
-      #endif
-
-      delete [] m_pMalloc;
-      m_numTotValues   = 0;
-      m_numTotReserved = 0;
-      m_numAllocated   = 0;
-      m_pMalloc        = nullptr;
-    }
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  template <typename T>
-  T *
-  SplineMalloc<T>::operator () ( size_t sz ) {
-    size_t offs = m_numAllocated;
-    m_numAllocated += sz;
-    if ( m_numAllocated > m_numTotValues ) {
-      ostringstream ost;
-      ost
-        << "\nMalloc<" << m_name
-        << ">::operator () (" << sz << ") -- SplineMalloc EXAUSTED\n"
-        << "request = " << m_numAllocated << " > "
-        << m_numTotValues << " = available\n";
-      throw std::runtime_error(ost.str());
-    }
-    return m_pMalloc + offs;
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  template <typename T>
-  void
-  SplineMalloc<T>::must_be_empty( char const where[] ) const {
-    if ( m_numAllocated < m_numTotValues ) {
-      ostringstream ost;
-      ost
-        << "\nMalloc<" << m_name << ">\n"
-        << "in " << m_name << " " << where
-        << ": not fully used!\nUnused: "
-        << m_numTotValues - m_numAllocated << " values\n";
-      throw runtime_error(ost.str());
-    }
-    if ( m_numAllocated > m_numTotValues ) {
-      ostringstream ost;
-      ost
-        << "\nMalloc<" << m_name << ">\n"
-        << "in " << m_name << " " << where
-        << ": too much used!\nMore used: "
-        << m_numAllocated - m_numTotValues << " values\n";
-      throw std::runtime_error(ost.str());
-    }
-  }
-
-  template class SplineMalloc<uint16_t>;
-  template class SplineMalloc<int16_t>;
-  template class SplineMalloc<uint32_t>;
-  template class SplineMalloc<int32_t>;
-  template class SplineMalloc<uint64_t>;
-  template class SplineMalloc<int64_t>;
-  template class SplineMalloc<float>;
-  template class SplineMalloc<double>;
-
-  template class SplineMalloc<uint16_t*>;
-  template class SplineMalloc<int16_t*>;
-  template class SplineMalloc<uint32_t*>;
-  template class SplineMalloc<int32_t*>;
-  template class SplineMalloc<uint64_t*>;
-  template class SplineMalloc<int64_t*>;
-  template class SplineMalloc<float*>;
-  template class SplineMalloc<double*>;
-
-  /*
-   backtrace() from:
-   https://eli.thegreenplace.net/2015/programmatic-access-to-the-call-stack-in-c/
-
-   to get the line from address
-   addr2line 0x400968 -e libunwind_backtrace
-  */
-
-  #ifndef SPLINES_OS_OSX
-  void backtrace( ostream_type & ) {}
-  #else
-  void
-  backtrace( ostream_type & ost ) {
-    unw_cursor_t cursor;
-    unw_context_t context;
-
-    // Initialize cursor to current frame for local unwinding.
-    unw_getcontext(&context);
-    unw_init_local(&cursor, &context);
-
-    // Unwind frames one by one, going up the frame stack.
-    while ( unw_step(&cursor) > 0 ) {
-      unw_word_t offset, pc;
-      unw_get_reg(&cursor, UNW_REG_IP, &pc);
-      if ( pc == 0 ) break;
-      ost << "0x" << std::hex << pc << ":" << std::dec;
-      char sym[256];
-      if ( unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0 ) {
-        char* nameptr = sym;
-        int status;
-        char* demangled = abi::__cxa_demangle(sym, nullptr, nullptr, &status);
-        if ( status == 0 ) nameptr = demangled;
-        ost << " (" << nameptr << "+0x" << std::hex << offset << ")\n" << std::dec;
-        std::free(demangled);
-      } else {
-        ost << " -- error: unable to obtain symbol name for this frame\n";
-      }
-    }
-  }
-  #endif
 
   // cbrt is not available on WINDOWS? or C++ < C++11?
   #ifdef _MSC_VER
@@ -388,13 +201,8 @@ namespace Splines {
     for ( size_t j = 0; spline_type_1D[j] != nullptr; ++j ) {
       if ( spline_type_1D[j] == n ) return SplineType1D(j);
     }
-    std::ostringstream ost;
-    ost << "string_to_splineType(" << n << ") unknown type\n";
-    throw std::runtime_error(ost.str());
+    throw std::runtime_error(fmt::format( "string_to_splineType({}) unknown type\n", n ));
   }
-
-  static real_type const machineEps = std::numeric_limits<real_type>::epsilon();
-  static real_type const m_2pi      = 6.28318530717958647692528676656; // 2*pi
 
   void
   searchInterval(
@@ -406,6 +214,23 @@ namespace Splines {
     bool            curve_can_extend
   ) {
     if ( npts <= 2 ) { lastInterval = 0; return; } // nothing to search
+
+    //if ( lastInterval < 0 || lastInterval >= npts-1 ) {
+    //  fmt::print( std:: cerr,
+    //    "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
+    //    "lastInterval out of range: [0,{}]\n",
+    //    npts, lastInterval, curve_is_closed, curve_can_extend, npts-2
+    //  );
+    //  exit(1);
+    //}
+
+    UTILS_ASSERT(
+      lastInterval >= 0 && lastInterval < npts-1,
+      "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
+      "lastInterval out of range: [0,{}]\n",
+      npts, lastInterval, curve_is_closed, curve_can_extend, npts-2
+    );
+
     real_type xl = X[0];
     real_type xr = X[npts-1];
     if ( curve_is_closed ) {
@@ -418,14 +243,11 @@ namespace Splines {
       if ( x <= xl ) { lastInterval = 0; return; }
       if ( x >= xr ) { lastInterval = npts-2; return; }
     } else if ( x < xl || x > xr ) {
-      std::ostringstream ost;
-      Splines::backtrace( ost );
-      ost << "In searchInterval( npts = " << npts << ", X, x = " << x
-          << ", lastInterval = " << lastInterval << ", closed = "
-          << (curve_is_closed?"true":"false") << ")\n"
-          << "line: " << __LINE__ << " file: " << __FILE__
-          << "\nout of range: [" << xl << ", " << xr << "]\n";
-      throw std::runtime_error(ost.str());
+      UTILS_ERROR_TRACE(
+        "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
+        "out of range: [{},{}]\n",
+        npts, lastInterval, curve_is_closed, curve_can_extend, xl, xr
+      );
     }
 
     // find the interval of the support of the B-spline
@@ -439,7 +261,7 @@ namespace Splines {
         real_type const * XE = X+npts;
         lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
         real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
+        if ( x < XX[0] || Utils::isZero(XX[0]-XX[1]) ) --lastInterval;
       }
     } else if ( x < XL[0] ) { // on the left
       if ( x <= X[1] ) { // x in [X[0],X[1]]
@@ -449,7 +271,7 @@ namespace Splines {
       } else {
         lastInterval = integer(std::lower_bound( X, XL, x )-X);
         real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || isZero(XX[0]-XX[1]) ) --lastInterval;
+        if ( x < XX[0] || Utils::isZero(XX[0]-XX[1]) ) --lastInterval;
       }
     } else {
       // x in the interval [ XL[0], XL[1] ] nothing to do
@@ -501,7 +323,7 @@ namespace Splines {
 
   integer
   Spline::search( real_type & x ) const {
-    SPLINE_ASSERT( m_npts > 0, "in Spline::search(...), npts == 0!" )
+    UTILS_ASSERT0( m_npts > 0, "in Spline::search(...), npts == 0!" );
     // mark use read
     m_spin_write.wait();
     m_worker_read.enter();
@@ -650,185 +472,6 @@ namespace Splines {
     m_worker_read_y.leave();
   }
 
-  //! quadratic polinomial roots
-  /*!
-    Compute the roots of the polynomial
-
-    \f[ a_0 + a_1 z + a_2 z^2 \f]
-
-    and store the results is `real` and `imag`.
-    It is assumed that \f$ a_2 \f$ is nonzero.
-  */
-  /*
-    Converted to be compatible with ELF90 by Alan Miller
-    amiller @ bigpond.net.au
-    WWW-page: http://users.bigpond.net.au/amiller
-    Latest revision - 27 February 1997
-  */
-
-  // num real roots, num complex root
-  pair<int,int>
-  quadraticRoots(
-    real_type const a[3],
-    real_type       real[2],
-    real_type       imag[2]
-  ) {
-
-    // A x^2 + B x + C
-    real_type const & C = a[0];
-    real_type const & B = a[1];
-    real_type const & A = a[2];
-
-    real[0] = real[1] = imag[0] = imag[1] = 0;
-
-    pair<int,int> res(0,0);
-    if ( isZero(a[0]) ) {
-      real[0] = -B/A;
-      res.first = 1; // una singola radice reale
-    } else {
-      real_type twoA = 2*A;
-      real_type d    = B*B - 4*A*C;
-      real_type absd = abs(d);
-      if ( absd <= 2*machineEps*B*B ) {
-        real[0] = -B/twoA; // EQUAL REAL ROOTS
-        res.first = 1; // 2 radici reali coincidenti
-      } else {
-        real_type r = sqrt(absd);
-        if ( d < 0 ) { // COMPLEX ROOTS
-          real[0] = real[1] = -B/twoA;
-          imag[0] = abs(r/twoA);
-          imag[1] = -imag[0];
-          res.second = 2; // 2 radici complesse coniugate
-        } else {
-          // DISTINCT REAL ROOTS
-          if ( isZero(B) ) {
-            real[0] = abs(r/twoA);
-            real[1] = -real[0];
-          } else {
-            real_type w = -B;
-            if ( w > 0 ) w += r; else w -= r;
-            w *= 0.5;
-            real[0] = C/w;
-            real[1] = w/A;
-          }
-          res.first = 2; // 2 radici reali distinte
-        }
-      }
-    }
-    return res;
-  }
-
-  //! cubic polinomial roots
-  /*!
-    Compute the roots of the polynomial
-
-    \f[ a_0 + a_1 z + a_2 z^2 + a_3 z^3 \f]
-
-    and store the results is `real` and `imag`.
-    It is assumed that \f$ a_3 \f$ is nonzero.
-  */
-
-  pair<int,int>
-  cubicRoots(
-    real_type const a[4],
-    real_type       real[3],
-    real_type       imag[3]
-  ) {
-
-    // initialize roots
-    real[0] = real[1] = real[2] =
-    imag[0] = imag[1] = imag[2] = 0;
-
-    // trivial case
-    if ( isZero(a[0]) ) {
-      pair<int,int> res = quadraticRoots( a+1, real+1, imag+1 ); // quadratica degenerata
-      ++res.first;
-      return res;
-    }
-
-    // trivial case
-    if ( isZero(a[3]) ) return quadraticRoots( a, real, imag ); // cubica degenerata
-
-    // x^3 + A x^2 + B x + C
-    real_type const C = a[0]/a[3];
-    real_type const B = a[1]/a[3];
-    real_type const A = a[2]/a[3];
-
-    // p(y-A/3) = y^3 + p*y + q
-    real_type const A3 = A/3;
-    real_type const p  = B-A*A3;
-    real_type const q  = C+A3*(2*(A3*A3)-B);
-
-    // scaling equation p(S*z)/S^3 = z^3 + 3*(p/S^2/3)*z + 2*(q/S^3/2)
-    real_type const S = max( sqrt(abs(p)), cbrt(abs(q)) );
-
-    // check for a triple root
-    if ( S <= machineEps ) {
-      real[0] = -A3;
-      return pair<int,int>(1,0); // 3 radici reali coincidenti
-    }
-
-    real_type const P     = (p/3)/S/S;
-    real_type const sqrtP = sqrt(abs(p/3))/S;
-    real_type const Q     = (q/2)/S/S/S;
-
-    real_type const d     = P*P*P + Q*Q;
-    real_type const sqrtd = sqrt(abs(d));
-
-    pair<int,int> res(0,0);
-    if ( sqrtd < abs(q)*machineEps ) {
-      // P^3 = - Q^2
-      // (x+2*a)(x-a)^2 = x^3 - 3*x*a^2 + 2*a^3
-      // cioè -a^2 = P, a^3 = Q ==> a = sqrt(-P)
-      real_type tmp = Q > 0 ? sqrtP : -sqrtP;
-      real[0] = tmp;
-      real[1] = -2*tmp;
-      res.first = 2; // 3 radici reali, 2 coincidenti
-    } else if ( d > 0 ) {
-      // w1 = (- Q + sqrt( P^3 + Q^2 ))^(1/3)
-      // w2 = (- Q - sqrt( P^3 + Q^2 ))^(1/3)
-      real_type w1, w2;
-      if ( Q > 0 ) {
-        w2 = - pow( sqrtd + Q, 1.0 / 3.0 );
-        w1 = - P / w2;
-      } else {
-        w1 =   pow( sqrtd - Q, 1.0 / 3.0 );
-        w2 = - P / w1;
-      }
-      real[0] = w1 + w2;
-      real[1] =
-      real[2] = -0.5*real[0];
-      imag[1] = (w1-w2)*sqrt(3.0/4.0);
-      imag[2] = -imag[1];
-      res.first  = 1;
-      res.second = 2; // 1 reale 2 complesse coniugate
-    } else { // 3 radici reali
-      // w1 = (- Q + I*sqrt(|P^3 + Q^2|) )^(1/3)
-      // w2 = (- Q - I*sqrt(|P^3 + Q^2|) )^(1/3)
-      real_type angle  = atan2( sqrtd, -Q );
-      if ( angle < 0 ) angle += m_2pi;
-      angle /= 3;
-      real_type re = sqrtP * cos(angle);
-      real_type im = sqrtP * sin(angle);
-      //if ( Q > 0 ) re = -re;
-      real[0]  = 2*re;
-      real[1]  = real[2] = -re;
-      real[1] += sqrt(3.0) * im;
-      real[2] -= sqrt(3.0) * im;
-      res.first = 3; // 3 radici reali distinte
-    }
-
-    for ( integer i = 0; i < res.first+res.second; ++i ) {
-      // scalo radici
-      real[i] *= S;
-      imag[i] *= S;
-      // traslo radici
-      real[i] -= A3;
-    }
-
-    return res;
-  }
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   /*!
@@ -846,7 +489,7 @@ namespace Splines {
     integer flag = 1;
     for ( size_t i = 1; i < size_t(npts); ++i ) {
       if ( Y[i-1] > Y[i] ) return -2; // non monotone data
-      if ( isZero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
+      if ( Utils::isZero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
     }
     // pag 146 Methods of Shape-Preserving Spline Approximation, K
     for ( size_t i = 1; i < size_t(npts); ++i ) {
@@ -856,8 +499,10 @@ namespace Splines {
       real_type m1 = Yp[i]/dd;
       if ( m0 < 0 || m1 < 0 ) return -1; // non monotone
       if ( m0 <= 3 && m1 <= 3 ) {
-        if ( flag > 0 && i > 1              && (isZero(m0) || isZero(m0-3) ) ) flag = 0;
-        if ( flag > 0 && i < size_t(npts-1) && (isZero(m1) || isZero(m1-3) ) ) flag = 0;
+        if ( flag > 0 && i > 1 && 
+             (Utils::isZero(m0) || Utils::isZero(m0-3) ) ) flag = 0;
+        if ( flag > 0 && i < size_t(npts-1) &&
+             (Utils::isZero(m1) || Utils::isZero(m1-3) ) ) flag = 0;
       } else {
         real_type tmp1 = 2*m0+m1-3;
         real_type tmp2 = 2*(m0+m1-2);
@@ -867,7 +512,7 @@ namespace Splines {
         } else {
           if ( tmp3 > 0 ) return -1;
         }
-        if ( isZero(tmp3) ) flag = 0;
+        if ( Utils::isZero(tmp3) ) flag = 0;
       }
     }
     return flag; // passed all check
@@ -892,13 +537,15 @@ namespace Splines {
 
   void
   Spline::info( ostream_type & s ) const {
-    s << "Spline `" << m_name
-      << "` of type: " << type_name()
-      << " of order: " << order();
+    fmt::print( s,
+      "Spline `{}` of type: {} of order: {}\n",
+      m_name, type_name(), order()
+    );
     if ( m_npts > 0 )
-      s << "\nxMin = " << xMin() << " xMax = " << xMax()
-        << "\nyMin = " << yMin() << " yMax = " << yMax();
-    s << '\n';
+      fmt::print( s,
+        "xMin = {} xMax = {} yMin = {} yMax = {}\n",
+        xMin(), xMax(), yMin(), yMax()
+      );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -906,19 +553,19 @@ namespace Splines {
   void
   Spline::pushBack( real_type x, real_type y ) {
     if ( m_npts > 0 ) {
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         x >= m_X[size_t(m_npts-1)], // ammetto punti doppi
-        "Spline::pushBack, non monotone insert at insert N. " << m_npts <<
-        "\nX[ " << m_npts-1 << "] = " << m_X[size_t(m_npts-1)] <<
-        "\nX[ " << m_npts   << "] = " << x
-      )
+        "Spline::pushBack, non monotone insert at insert N.{}"
+        "\nX[{}] = {}\nX[{}] = {}\n",
+        m_npts, m_npts-1, m_X[size_t(m_npts-1)], m_npts, x
+      );
     }
     if ( m_npts_reserved == 0 ) {
       reserve( 2 );
     } else if ( m_npts >= m_npts_reserved ) {
       // riallocazione & copia
       integer saved_npts = m_npts; // salvo npts perche reserve lo azzera
-      SplineMalloc<real_type> mem("Spline::pushBack");
+      Utils::Malloc<real_type> mem("Spline::pushBack");
       mem.allocate( size_t(2*m_npts) );
       real_type * Xsaved = mem( size_t(m_npts) );
       real_type * Ysaved = mem( size_t(m_npts) );
@@ -948,11 +595,10 @@ namespace Splines {
 
   void
   Spline::setRange( real_type xmin, real_type xmax ) {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       xmax > xmin,
-      "Spline::setRange( " << xmin <<
-      " , " << xmax << " ) bad range "
-    )
+      "Spline::setRange({},{}) bad range ", xmin, xmax
+    );
     real_type S  = (xmax - xmin) / ( m_X[m_npts-1] - m_X[0] );
     real_type Tx = xmin - S * m_X[0];
     for( real_type *ix = m_X; ix < m_X+m_npts; ++ix ) *ix = *ix * S + Tx;
@@ -970,7 +616,7 @@ namespace Splines {
     real_type dx = (xMax()-xMin())/nintervals;
     for ( integer i = 0; i <= nintervals; ++i ) {
       real_type x = xMin() + i*dx;
-      s << x << '\t' << (*this)(x) << '\n';
+      fmt::print( s, "{}\t{}\n", x, (*this)(x) );
     }
   }
 
@@ -1073,26 +719,24 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
-      gc.exists("xdata"), "Spline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
-      gc.exists("ydata"), "Spline[" << m_name << "]::setup missing `ydata` field!"
-    )
+    UTILS_ASSERT(
+      gc.exists("xdata"), "Spline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
+      gc.exists("ydata"), "Spline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "Spline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "Spline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "Spline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "Spline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     build( x, y );
   }

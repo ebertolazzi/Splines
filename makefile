@@ -7,8 +7,8 @@ LIB_GC     = libGenericContainer.a
 
 CC   = gcc
 CXX  = g++ -std=c++11
-INC  = -I./src -I./include -I./GC/lib/include -I./lib3rd/include
-LIBS = -L./lib -L./GC/lib  -L./lib3rd/lib -lSplines -lGenericContainer -lUtils
+INC  = -Isrc -Iinclude -IGC/lib/include -Isubmodules/Utils/src -Isubmodules/quarticRootsFlocke/src
+LIBS = -Llib -LGC/lib -lSplines -lGenericContainer
 DEFS =
 MAKE = make
 
@@ -19,52 +19,28 @@ ifneq (,$(findstring Linux, $(OS)))
   VERSION  = $(shell $(CC) -dumpversion)
   CC      += $(WARN)
   CXX     += $(WARN)
-  LIBS     = -L./lib -L./GC/lib  -lSplines -lGenericContainer
   CXXFLAGS = -pthread -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif
 
 # check if the OS string contains 'Darwin'
 ifneq (,$(findstring Darwin, $(OS)))
-  WARN     = -Weverything -Wno-reserved-id-macro -Wno-padded
+  WARN     = -Wall
   CC       = clang
   CXX      = clang++ -std=c++11 -stdlib=libc++
   VERSION  = $(shell $(CC) --version 2>&1 | grep -o "Apple LLVM version [0-9]\.[0-9]\.[0-9]" | grep -o " [0-9]\.")
   CC      += $(WARN)
   CXX     += $(WARN)
-  LIBS     = -L./lib -L./GC/lib -lSplines -lGenericContainer
   CXXFLAGS = -Wall -O2 -fPIC -Wno-sign-compare
   AR       = libtool -static -o
 endif
 
-SRCS = \
-src/SplineAkima.cc \
-src/SplineAkima2D.cc \
-src/SplineBessel.cc \
-src/SplineBiCubic.cc \
-src/SplineBiQuintic.cc \
-src/SplineBilinear.cc \
-src/SplineConstant.cc \
-src/SplineCubic.cc \
-src/SplineCubicBase.cc \
-src/SplineHermite.cc \
-src/SplineLinear.cc \
-src/SplinePchip.cc \
-src/SplineQuintic.cc \
-src/SplineQuinticBase.cc \
-src/SplineSet.cc \
-src/SplineSetGC.cc \
-src/SplineVec.cc \
-src/Splines.cc \
-src/Splines1D.cc \
-src/Splines2D.cc \
-src/SplinesBivariate.cc \
-src/SplinesCinterface.cc \
-src/SplinesUnivariate.cc \
-src/SplinesUtils.cc
-
+SRCS  = $(shell echo src/*.cc) \
+        $(shell echo submodules/Utils/src/*.cc) \
+        $(shell echo submodules/Utils/src/fmt/*.cc) \
+        $(shell echo submodules/quarticRootsFlocke/src/*.cc)
 OBJS  = $(SRCS:.cc=.o)
-DEPS  = src/Splines.hh src/SplinesCinterface.h
+DEPS  = $(shell echo src/*.hh) $(shell echo submodules/Utils/src/*.h*)
 MKDIR = mkdir -p
 
 # prefix for installation, use make PREFIX=/new/prefix install
@@ -81,14 +57,14 @@ lib: lib/$(LIB_SPLINE)
 tests: lib
 	@echo "compile binaries\n\n"
 	mkdir -p bin
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test1 tests/test1.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test2 tests/test2.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test3 tests/test3.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test4 tests/test4.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test5 tests/test5.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test6 tests/test6.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test8 tests/test8.cc $(LIBS)
-	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9 tests/test9.cc $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test1  tests/test1.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test2  tests/test2.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test3  tests/test3.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test4  tests/test4.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test5  tests/test5.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test6  tests/test6.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test8  tests/test8.cc  $(LIBS)
+	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9  tests/test9.cc  $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test10 tests/test10.cc $(LIBS)
 
 travis: gc lib tests run
@@ -100,6 +76,12 @@ include_local: gc
 	@cp -f src/*.h* lib/include
 
 src/%.o: src/%.cc $(DEPS) gc
+	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
+
+submodules/Utils/src/%.o: submodules/Utils/src/%.cc $(DEPS) gc
+	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
+
+submodules/Utils/src/fmt/%.o: submodules/Utils/src/fmt/%.cc $(DEPS) gc
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
 
 src/%.o: src/%.c $(DEPS) gc

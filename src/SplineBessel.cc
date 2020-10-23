@@ -51,7 +51,7 @@ namespace Splines {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-    SplineMalloc<real_type> mem("Bessel_build");
+    Utils::Malloc<real_type> mem("Bessel_build");
     mem.allocate( size_t(n+1) );
     real_type * m = mem( size_t(n+1) );
 
@@ -80,10 +80,10 @@ namespace Splines {
 
   void
   BesselSpline::build (void) {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       m_npts > 1,
-      "BesselSpline::build(): npts = " << m_npts << " not enought points"
-    )
+      "BesselSpline::build(): npts = {} not enought points\n", m_npts
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -108,28 +108,26 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "BesselSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "BesselSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "BesselSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
+      "BesselSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "BesselSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "BesselSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "BesselSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "BesselSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
   }

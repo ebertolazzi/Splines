@@ -278,13 +278,11 @@ namespace Splines {
   QuinticSplineBase::writeToStream( ostream_type & s ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
     for ( size_t i = 0; i < nseg; ++i )
-      s << "segment N." << setw(4) << i
-        << " X:["      << m_X[i]   << ", " << m_X[i+1]
-        << "] Y:["     << m_Y[i]   << ", " << m_Y[i+1]
-        << "] Yp:["    << m_Yp[i]  << ", " << m_Yp[i+1]
-        << "] Ypp:["   << m_Ypp[i] << ", " << m_Ypp[i+1]
-        << "] slope: " << (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
-        << '\n';
+      fmt::print( s,
+        "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] Ypp:[{},{}] slope: {}\n",
+        i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1], m_Ypp[i], m_Ypp[i+1],
+        (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
+      );
   }
 
 }

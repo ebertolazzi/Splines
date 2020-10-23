@@ -12,7 +12,7 @@
   template <size_t _degree>
   class BSpline : public Spline {
   protected:
-    SplineMalloc<real_type> baseValue;
+    Utils::Malloc<real_type> baseValue;
     real_type * knots;
     real_type * yPolygon;
     bool        _external_alloc;
@@ -590,7 +590,7 @@ namespace Splines {
   void
   BSpline<_degree>::build(void) {
 
-    SplineMalloc<real_type> mem("BSpline<_degree>::build");
+    Utils::Malloc<real_type> mem("BSpline<_degree>::build");
     size_t mem_size = npts*(2*integer(_degree)+1);
     mem.allocate( mem_size );
     real_type * band = mem( mem_size );

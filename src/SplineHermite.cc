@@ -259,9 +259,9 @@ namespace Splines {
     real_type const [], integer,
     integer
   ) {
-    SPLINE_DO_ERROR(
-      "HermiteSpline::build(x,incx,y,incy,n) cannot be used"
-    )
+    UTILS_ERROR0(
+      "HermiteSpline::build(x,incx,y,incy,n) cannot be used\n"
+    );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -274,18 +274,18 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "HermiteSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "HermiteSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "HermiteSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
-    SPLINE_ASSERT(
+      "HermiteSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ypdata"),
-      "HermiteSpline[" << m_name << "]::setup missing `ypdata` field!"
-    )
+      "HermiteSpline[{}]::setup missing `ypdata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x  = gc("xdata");
     GenericContainer const & gc_y  = gc("ydata");
@@ -293,19 +293,16 @@ namespace Splines {
 
     vec_real_type x, y, yp;
     {
-      std::ostringstream ost;
-      ost << "HermiteSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real( x, ost.str().c_str() );
+      std::string ff = fmt::format( "HermiteSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "HermiteSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real( y, ost.str().c_str() );
+      std::string ff = fmt::format( "HermiteSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real( y, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "HermiteSpline[" << m_name << "]::setup, field `ypdata'";
-      gc_yp.copyto_vec_real( yp, ost.str().c_str() );
+      std::string ff = fmt::format( "HermiteSpline[{}]::setup, field `ypdata'", m_name );
+      gc_yp.copyto_vec_real( yp, ff.c_str() );
     }
     this->build( x, y, yp );
   }

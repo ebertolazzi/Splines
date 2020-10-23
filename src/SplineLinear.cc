@@ -115,11 +115,11 @@ namespace Splines {
   LinearSpline::writeToStream( ostream_type & s ) const {
     integer nseg = m_npts > 0 ? m_npts - 1 : 0;
     for ( integer i = 0; i < nseg; ++i )
-      s << "segment N." << setw(4) << i
-        << " X:[ "      << m_X[i] << ", " << m_X[i+1]
-        << " ] Y:[ "    << m_Y[i] << ", " << m_Y[i+1]
-        << " ] slope: " << (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
-        << '\n';
+      fmt::print( s,
+        "segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}\n",
+        i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1],
+        (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
+      );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -159,28 +159,26 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "LinearSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "LinearSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "LinearSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
+      "LinearSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "LinearSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "LinearSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "LinearSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "LinearSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
   }

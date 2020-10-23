@@ -76,7 +76,7 @@ namespace Splines {
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
-      SplineMalloc<real_type> mem("Akima_build");
+      Utils::Malloc<real_type> mem("Akima_build");
       mem.allocate( size_t(npts+3) );
       real_type * m = mem( size_t(npts+3) );
 
@@ -109,10 +109,10 @@ namespace Splines {
 
   void
   AkimaSpline::build() {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       m_npts > 1,
-      "AkimaSpline::build(): npts = " << m_npts << " not enought points"
-    )
+      "AkimaSpline::build(): npts = {} not enought points\n", m_npts
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -137,28 +137,26 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "AkimaSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "AkimaSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "AkimaSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
+      "AkimaSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "AkimaSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "AkimaSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "AkimaSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "AkimaSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
   }

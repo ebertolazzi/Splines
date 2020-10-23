@@ -56,60 +56,6 @@ namespace Splines {
 
   using std::fpclassify;
 
-  void backtrace( ostream_type & );
-
-  static
-  inline
-  bool
-  isZero( real_type x )
-  { return FP_ZERO == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isInfinite( real_type x )
-  { return FP_INFINITE == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isNaN( real_type x )
-  { return FP_NAN == fpclassify(x); }
-
-  static
-  inline
-  bool
-  isRegular( real_type x )
-  { return !( FP_INFINITE == fpclassify(x) ||
-              FP_NAN      == fpclassify(x) ); }
-
-  pair<int,int>
-  quadraticRoots(
-    real_type const a[3],
-    real_type       real[2],
-    real_type       imag[2]
-  );
-
-  pair<int,int>
-  cubicRoots(
-    real_type const a[4],
-    real_type       real[3],
-    real_type       imag[3]
-  );
-
-  /*       _               _    _   _       _   _
-  //   ___| |__   ___  ___| | _| \ | | __ _| \ | |
-  //  / __| '_ \ / _ \/ __| |/ /  \| |/ _` |  \| |
-  // | (__| | | |  __/ (__|   <| |\  | (_| | |\  |
-  //  \___|_| |_|\___|\___|_|\_\_| \_|\__,_|_| \_|
-  */
-  void
-  checkNaN(
-    real_type const pv[],
-    char      const v_name[],
-    integer         DIM
-  );
-
   /*
   //    __ _       _ _             _ _  __  __
   //   / _(_)_ __ (_) |_ ___    __| (_)/ _|/ _| ___ _ __ ___ _ __   ___ ___

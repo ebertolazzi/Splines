@@ -43,9 +43,7 @@ namespace Splines {
 
   void
   SplineSurf::info( ostream_type & s ) const {
-    s << "Bivariate spline [" << name() << "] of type = "
-      << type_name()
-      << '\n';
+    fmt::print( s, "Bivariate spline [{}] of type = {}\n", name(), type_name() );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -80,18 +78,20 @@ namespace Splines {
     for ( size_t i = 0; i < size_t(nx); ++i ) m_X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i < size_t(ny); ++i ) m_Y[i] = y[i*size_t(incy)];
     if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         ldZ >= ny,
-        "SplineSurf::build, ldZ = " << ldZ << " must be >= of nx = " << ny
-      )
+        "SplineSurf::build, ldZ = {} must be >= of nx = {}\n",
+        ldZ, ny
+      );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           m_Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_C(i,j,ldZ))];
     } else {
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         ldZ >= nx,
-        "SplineSurf::build, ldZ = " << ldZ << " must be >= of ny = " << nx
-      )
+        "SplineSurf::build, ldZ = {} must be >= of ny = {}\n",
+        ldZ, nx
+      );
       for ( integer i = 0; i < nx; ++i )
         for ( integer j = 0; j < ny; ++j )
           m_Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
@@ -110,7 +110,7 @@ namespace Splines {
     bool fortran_storage,
     bool transposed
   ) {
-    SplineMalloc<real_type> mem("SplineSurf::build");
+    Utils::Malloc<real_type> mem("SplineSurf::build");
     mem.allocate( size_t(nx+ny) );
     real_type * XX = mem( size_t(nx) );
     real_type * YY = mem( size_t(ny) ); // temporary vector
@@ -459,18 +459,18 @@ namespace Splines {
     // gc["zdata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "[SplineSurf[" << m_name << "]::setup] missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "[SplineSurf[{}]::setup] missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "[SplineSurf[" << m_name << "]::setup] missing `ydata` field!"
-    )
-    SPLINE_ASSERT(
+      "[SplineSurf[{}]::setup] missing `ydata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("zdata"),
-      "[SplineSurf[" << m_name << "]::setup] missing `zdata` field!"
-    )
+      "[SplineSurf[{}]::setup] missing `zdata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
@@ -511,11 +511,11 @@ namespace Splines {
         nx, ny, fortran_storage, transposed
       );
     } else {
-      SPLINE_DO_ERROR(
-        "[SplineSurf[" << m_name <<
-        "]::setup] field `z` expected to be of type `mat_real_type` or  `vec_real_type` found: `" <<
-        gc_z.get_type_name() << "`"
-      )
+      UTILS_ERROR(
+        "[SplineSurf[{}]::setup] field `z` "
+        "expected to be of type `mat_real_type` or  `vec_real_type` found: `{}`\n",
+        m_name, gc_z.get_type_name()
+      );
     }
 
   }

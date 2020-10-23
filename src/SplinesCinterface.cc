@@ -62,7 +62,7 @@ static Spline * head = nullptr;
 EXTERN_C
 int
 SPLINE_new( char const id[], char const type[] ) {
-  cout << "SPLINE_new, id = " << id << " type = " << type << "\n";
+  fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
   MAP_SPLINE::iterator it = spline_stored.find(id);
   if ( it != spline_stored.end() ) delete it->second;
   int ok = 0;

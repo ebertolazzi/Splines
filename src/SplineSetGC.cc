@@ -68,10 +68,10 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("spline_type"),
-      "[SplineSet[" << m_name << "]::setup] missing `spline_type` field!"
-    )
+      "[SplineSet[{}]::setup] missing `spline_type` field!\n", m_name
+    );
     gc("spline_type").copyto_vec_string(
       spline_type_vec,
       "SplineSet::setup -- in reading `spline_type'\n"
@@ -82,17 +82,17 @@ namespace Splines {
     for ( size_t spl = 0; spl < size_t(m_nspl); ++spl )
       stype[spl] = string_to_splineType( spline_type_vec[spl] );
 
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "[SplineSet[" << m_name << "]::setup] missing `xdata` field!"
-    )
+      "[SplineSet[{}]::setup] missing `xdata` field!\n", m_name
+    );
     gc("xdata").copyto_vec_real( X, "SplineSet::setup reading `xdata'" );
     m_npts = integer( X.size() );
 
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "[SplineSet[" << m_name << "]::setup] missing `ydata` field!"
-    )
+      "[SplineSet[{}]::setup] missing `ydata` field!\n", m_name
+    );
     GenericContainer const & gc_ydata = gc("ydata");
 
     // allocate for _nspl splines
@@ -102,49 +102,45 @@ namespace Splines {
     // se tipo vettore o matrice deve esserci headers
     if ( GC_MAT_REAL == gc_ydata.get_type() ||
          GC_VECTOR   == gc_ydata.get_type() ) {
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         gc.exists("headers"),
-        "[SplineSet[" << m_name << "]::setup] missing `headers` field!"
-      )
+        "[SplineSet[{}]::setup] missing `headers` field!\n", m_name
+      );
       GenericContainer const & gc_headers = gc("headers");
       gc_headers.copyto_vec_string(
         headers, "SplineSet::setup reading `headers'\n"
       );
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         headers.size() == size_t(m_nspl),
-        "[SplineSet[" << m_name <<
-        "]::setup] field `headers` expected to be of size " << m_nspl <<
-        " found of size " << headers.size()
-      )
+        "[SplineSet[{}]::setup] field `headers` expected to be of size {} found of size {}\n",
+        m_name, m_nspl, headers.size()
+      );
     }
 
     if ( GC_MAT_REAL == gc_ydata.get_type() ) {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         size_t(m_nspl) == data.numCols(),
-        "[SplineSet[" << m_name <<
-        "]::setup] number of splines [" << m_nspl <<
-        "] differs from the number of `ydata` columns [" <<
-        data.numCols() << "] in data"
-      )
-      SPLINE_ASSERT(
+        "[SplineSet[{}]::setup] number of splines [{}]\n"
+        "differs from the number of `ydata` columns [{}] in data\n",
+        m_name, m_nspl, data.numCols()
+      );
+      UTILS_ASSERT(
         size_t(m_npts) == data.numRows(),
-        "[SplineSet[" << m_name <<
-        "]::setup] number of points [" << m_npts <<
-        "] differs from the numeber of `ydata` rows [" <<
-        data.numRows() << "] in data"
-      )
+        "[SplineSet[{}]::setup] number of points [{}]\n"
+        "differs from the numeber of `ydata` rows [{}] in data\n",
+        m_name, m_npts, data.numRows()
+      );
       for ( size_t i = 0; i < size_t(m_nspl); ++i )
         data.getColumn(unsigned(i),Y[i]);
     } else if ( GC_VECTOR == gc_ydata.get_type() ) {
       vector_type const & data = gc_ydata.get_vector();
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         size_t(m_nspl) == data.size(),
-        "[SplineSet[" << m_name <<
-        "]::setup] field `ydata` expected of size " << m_nspl <<
-        " found of size " << data.size()
-      )
+        "[SplineSet[{}]::setup] field `ydata` expected of size {} found of size {}\n",
+        m_name, m_nspl, data.size()
+      );
       for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
         GenericContainer const & datai = data[i];
         integer nrow = m_npts;
@@ -153,12 +149,11 @@ namespace Splines {
       }
     } else if ( GC_MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map();
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         data.size() == size_t(m_nspl),
-        "[SplineSet[" << m_name <<
-        "]::setup] field `ydata` expected of size " << m_nspl <<
-        " found of size " << data.size()
-      )
+        "[SplineSet[{}]::setup] field `ydata` expected of size {} found of size {}\n",
+        m_name, m_nspl, data.size()
+      );
       map_type::const_iterator im = data.begin();
       for ( size_t spl = 0; im != data.end(); ++im, ++spl ) {
         headers[spl] = im->first;
@@ -168,22 +163,21 @@ namespace Splines {
         datai.copyto_vec_real( Y[spl], "SplineSet::setup reading `ydata'" );
       }
     } else {
-      SPLINE_DO_ERROR(
-        "[SplineSet[" << m_name <<
-        "]::setup] field `data` expected to be of type" <<
-        " `mat_real_type`, `vector_type` or `map_type' " <<
-        "found: `" << gc_ydata.get_type_name() << "`"
-      )
+      UTILS_ERROR(
+        "[SplineSet[{}]::setup] field `data` expected\n"
+        "to be of type `mat_real_type`, `vector_type` or `map_type'\n"
+        "found: `{}`\n",
+        m_name, gc_ydata.get_type_name()
+      );
     }
 
     if ( gc.exists("ypdata") ) { // yp puo essere solo tipo map
       GenericContainer const & gc_ypdata = gc("ypdata");
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         GC_MAP == gc_ypdata.get_type(),
-        "[SplineSet[" << m_name <<
-        "]::setup] field `ypdata` expected to be of type "
-        "`map_type` found: ` " << gc_ypdata.get_type_name() << "`"
-      )
+        "[SplineSet[{}]::setup] field `ypdata` expected to be of type `map_type` found: `{}`\n",
+        m_name, gc_ypdata.get_type_name()
+      );
       for ( integer spl = 0; spl < m_nspl; ++spl )
         m_header_to_position.insert( headers[size_t(spl)], spl );
 
@@ -225,12 +219,12 @@ namespace Splines {
     if ( gc.exists("boundary") ) {
       GenericContainer const & gc_boundary = gc("boundary");
       unsigned ne = gc_boundary.get_num_elements();
-      SPLINE_ASSERT(
+      UTILS_ASSERT(
         ne == m_splines.size(),
-        "[SplineSet[" << m_name <<
-        "]::setup] field `boundary` expected a generic vector of size: " << ne <<
-        " but is of size: " << m_splines.size()
-      )
+        "[SplineSet[{}]::setup] field `boundary` expected a"
+        " generic vector of size: {} but is of size: {}\n",
+        m_name, ne, m_splines.size()
+      );
 
       for ( unsigned ispl = 0; ispl < ne; ++ispl ) {
         Spline * S = m_splines[ispl];

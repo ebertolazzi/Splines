@@ -172,7 +172,7 @@ namespace Splines {
       // count number of changes in direction of monotonicity.
       switch ( signTest(del1,del2) ) {
       case -1:
-        if ( isZero(del2) ) break;
+        if ( Utils::isZero(del2) ) break;
         if ( signTest(dsave,del2) < 0 ) ++ierr;
         dsave = del2;
         break;
@@ -251,10 +251,10 @@ namespace Splines {
 
   void
   PchipSpline::build() {
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       m_npts > 1,
-      "PchipSpline::build(): npts = " << m_npts << " not enought points"
-    )
+      "PchipSpline::build(): npts = {} not enought points\n", m_npts
+    );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -285,28 +285,26 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    SPLINE_ASSERT(
+    UTILS_ASSERT(
       gc.exists("xdata"),
-      "PchipSpline[" << m_name << "]::setup missing `xdata` field!"
-    )
-    SPLINE_ASSERT(
+      "PchipSpline[{}]::setup missing `xdata` field!\n", m_name
+    );
+    UTILS_ASSERT(
       gc.exists("ydata"),
-      "PchipSpline[" << m_name << "]::setup missing `ydata` field!"
-    )
+      "PchipSpline[{}]::setup missing `ydata` field!\n", m_name
+    );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
 
     vec_real_type x, y;
     {
-      std::ostringstream ost;
-      ost << "PchipSpline[" << m_name << "]::setup, field `xdata'";
-      gc_x.copyto_vec_real ( x, ost.str().c_str() );
+      std::string ff = fmt::format( "PchipSpline[{}]::setup, field `xdata'", m_name );
+      gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::ostringstream ost;
-      ost << "PchipSpline[" << m_name << "]::setup, field `ydata'";
-      gc_y.copyto_vec_real ( y, ost.str().c_str() );
+      std::string ff = fmt::format( "PchipSpline[{}]::setup, field `ydata'", m_name );
+      gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
   }

@@ -121,21 +121,22 @@ namespace Splines {
 
   void
   BilinearSpline::writeToStream( ostream_type & s ) const {
-    s << "Nx = " << m_nx << " Ny = " << m_ny << '\n';
+    fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i = 1; i < m_nx; ++i ) {
       for ( integer j = 1; j < m_ny; ++j ) {
         size_t i00 = size_t(this->ipos_C(i-1,j-1,m_ny));
         size_t i10 = size_t(this->ipos_C(i,j-1,m_ny));
         size_t i01 = size_t(this->ipos_C(i-1,j,m_ny));
         size_t i11 = size_t(this->ipos_C(i,j,m_ny));
-        s << "patch (" << i << "," << j << ")\n"
-          <<  "DX = "  << setw(10) << left << m_X[size_t(i)]-m_X[size_t(i-1)]
-          << " DY = "  << setw(10) << left << m_Y[size_t(j)]-m_Y[size_t(j-1)]
-          << " Z00 = " << setw(10) << left << m_Z[i00]
-          << " Z01 = " << setw(10) << left << m_Z[i01]
-          << " Z10 = " << setw(10) << left << m_Z[i10]
-          << " Z11 = " << setw(10) << left << m_Z[i11]
-          << '\n';
+        fmt::print( s,
+          "patch ({},{})\n"
+          "  DX  = {:<12.4}  DY  = {:<12.4}\n"
+          "  Z00 = {:<12.4}  Z01 = {:<12.4}  Z10 = {:<12.4}  Z11 = {:<12.4}\n",
+          i, j,
+          m_X[size_t(i)]-m_X[size_t(i-1)],
+          m_Y[size_t(j)]-m_Y[size_t(j-1)],
+          m_Z[i00], m_Z[i01], m_Z[i10], m_Z[i11]
+        );
       }
     }
   }
