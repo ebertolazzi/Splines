@@ -58,13 +58,15 @@ end
 
 desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
 task :build_win, [:gc_dir, :year, :bits] do |t, args|
-  args.with_defaults( :gc_dir => "./GC", :year => "2017", :bits => "x64")
+  args.with_defaults( :gc_dir => "./GC", :year => "2017", :bits => "x64" )
 
   if args.gc_dir == './GC' then
     Rake::Task[:build_GC].invoke("build_win[#{args.year},#{args.bits}]")
   else
     puts "\n\nUse GenericContainer at #{args.gc_dir}".green
   end
+
+  Rake::Task[:win_3rd].invoke(args.year,args.bits,args.lapack)
 
   dir = "vs_#{args.year}_#{args.bits}"
 
@@ -99,8 +101,8 @@ task :build_win, [:gc_dir, :year, :bits] do |t, args|
     sh 'cmake  --build . --config Release --target install '+PARALLEL+QUIET
   end
   FileUtils.cd '..'
-
 end
+
 
 desc "compile for OSX [default GC='./GC']"
 task :build, [:gc_dir,:os] do |t, args|
@@ -110,6 +112,13 @@ task :build, [:gc_dir,:os] do |t, args|
     Rake::Task[:build_GC].invoke("build_#{args.os}")
   else
     puts "\n\nUse GenericContainer at #{args.gc_dir}".green
+  end
+
+  case :os
+  when 'osx'
+    Rake::Task[:osx_3rd].invoke()
+  when 'linux'
+    Rake::Task[:linux_3rd].invoke()
   end
 
   dir = "build"
@@ -152,4 +161,32 @@ desc "compile for OSX [default GC='./GC']"
 task :build_osx, [:gc_dir] do |t, args|
   args.with_defaults( :gc_dir => "./GC" )
   Rake::Task[:build].invoke(args.gc_dir,"osx")
+end
+
+desc 'install third parties for osx'
+task :osx_3rd, [:lapack] do
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
+  FileUtils.cd 'submodules'
+  puts "\n\nSUBMODULES (for SPLINES)\n\n".green
+  sh "rake build_osx"
+  FileUtils.cd '..'
+end
+
+desc 'install third parties for linux'
+task :linux_3rd, [:lapack] do
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/LapackWrapper/CMakeLists-cflags.txt'
+  FileUtils.cd 'submodules'
+  puts "\n\nSUBMODULES (for SPLINES)\n\n".green
+  sh "rake build_linux"
+  FileUtils.cd '..'
+end
+
+desc "compile for Visual Studio [default year=2017, bits=x64]"
+task :win_3rd, [:year, :bits] do |t, args|
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/LapackWrapper/CMakeLists-cflags.txt'
+  args.with_defaults( :year => "2017", :bits => "x64" )
+  FileUtils.cd 'submodules'
+  puts "\n\nSUBMODULES (for SPLINES)\n\n".green
+  sh "rake build_win[#{args.year},#{args.bits}]"
+  FileUtils.cd '..'
 end

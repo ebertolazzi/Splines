@@ -7,8 +7,8 @@ LIB_GC     = libGenericContainer.a
 
 CC   = gcc
 CXX  = g++ -std=c++11
-INC  = -I./src -I./include -I./GC/lib/include
-LIBS = -L./lib -L./GC/lib -lSplines -lGenericContainer
+INC  = -I./src -I./include -I./GC/lib/include -I./lib3rd/include
+LIBS = -L./lib -L./GC/lib  -L./lib3rd/lib -lSplines -lGenericContainer -lUtils
 DEFS =
 MAKE = make
 
