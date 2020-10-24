@@ -3,12 +3,11 @@ OS=$(shell uname)
 PWD=$(shell pwd)
 
 LIB_SPLINE = libSplines.a
-LIB_GC     = libGenericContainer.a
 
 CC   = gcc
 CXX  = g++ -std=c++11
-INC  = -Isrc -Iinclude -IGC/lib/include -Isubmodules/Utils/src -Isubmodules/quarticRootsFlocke/src
-LIBS = -Llib -LGC/lib -lSplines -lGenericContainer
+INC  = -Isrc -Iinclude -Isubmodules/GenericContainer/src -Isubmodules/Utils/src -Isubmodules/quarticRootsFlocke/src
+LIBS = -Llib -Lsubmodules/GenericContainer/lib -lSplines -lGenericContainer
 DEFS =
 MAKE = make
 
@@ -49,8 +48,6 @@ PREFIX    = /usr/local
 FRAMEWORK = Splines
 
 all: gc lib tests
-
-gc: lib/$(LIB_GC)
 
 lib: lib/$(LIB_SPLINE)
 
@@ -95,13 +92,6 @@ lib/libSplines.dylib: $(OBJS) include_local
 
 lib/libSplines.so: $(OBJS) include_local
 	$(CXX) -shared -o lib/libSplines.so $(OBJS)
-
-lib/$(LIB_GC):
-	rm -rf GC; git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC
-ifneq (,$(findstring Linux, $(OS)))
-	cd GC; ruby gcc_workaround.rb; cd ..
-endif
-	$(MKDIR) include; cd GC; ${MAKE} CXXFLAGS="$(CXXFLAGS)" CC="$(CC)" CXX="$(CXX)" lib;
 
 install_local: lib
 	$(MKDIR) ./lib/include

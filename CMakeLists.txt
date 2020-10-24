@@ -65,20 +65,12 @@ FOREACH (F ${S})
   LIST( APPEND HEADERS ${RF} )
 ENDFOREACH (F ${S})
 
-IF( NOT DEFINED GC_DIR )
-  SET( GC_DIR "./GC" )
-ENDIF()
-
-FILE( GLOB GC_DIR_GLOB ${GC_DIR} )
-MESSAGE( STATUS "GC_DIR_GLOB = ${GC_DIR_GLOB}" )
-
-INCLUDE_DIRECTORIES( src ${GC_DIR_GLOB}/lib/include lib3rd/include )
-LINK_DIRECTORIES( ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll )
+INCLUDE_DIRECTORIES( src lib3rd/include )
 
 IF ( APPLE )
   FIND_LIBRARY(
     GC_LIB NAMES GenericContainer_osx_static${DEBUG_SUFFIX}
-    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
   )
   FIND_LIBRARY(
     UTILS NAMES Utils_osx_static${DEBUG_SUFFIX}
@@ -91,7 +83,7 @@ IF ( APPLE )
 ELSEIF( LINUX OR UNIX )
   FIND_LIBRARY(
     GC_LIB NAMES GenericContainer_linux_static${DEBUG_SUFFIX}
-    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
   )
   FIND_LIBRARY(
     UTILS NAMES Utils_linux_static${DEBUG_SUFFIX}
@@ -104,7 +96,7 @@ ELSEIF( LINUX OR UNIX )
 ELSE()
   FIND_LIBRARY(
     GC_LIB NAMES GenericContainer_win_${BITS}_static${DEBUG_SUFFIX}
-    HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
   )
   FIND_LIBRARY(
     QUARTIC NAMES Quartic_win_${BITS}_static${DEBUG_SUFFIX}
@@ -121,17 +113,17 @@ IF ( BUILD_SHARED )
   IF ( APPLE )
     FIND_LIBRARY(
       GC_LIB_SHARED NAMES GenericContainer_osx${DEBUG_SUFFIX}
-      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
     )
   ELSEIF( LINUX OR UNIX )
     FIND_LIBRARY(
       GC_LIB_SHARED NAMES GenericContainer_linux${DEBUG_SUFFIX}
-      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
     )
   ELSE()
     FIND_LIBRARY(
       GC_LIB_SHARED NAMES GenericContainer_win_${BITS}${DEBUG_SUFFIX}
-      HINTS ${GC_DIR_GLOB}/lib/lib ${GC_DIR_GLOB}/lib/dll
+      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
     )
   ENDIF()
 ENDIF()
@@ -193,5 +185,3 @@ ENDIF()
 MESSAGE( STATUS "Sources      = ${SOURCES}" )
 MESSAGE( STATUS "Headers      = ${HEADERS}" )
 MESSAGE( STATUS "GC_LIB       = ${GC_LIB}" )
-MESSAGE( STATUS "GC_DIR       = ${GC_DIR}" )
-MESSAGE( STATUS "GC_DIR_GLOB  = ${GC_DIR_GLOB}" )

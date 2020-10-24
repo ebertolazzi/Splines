@@ -8,7 +8,6 @@
 /lib/*.dll
 /Documentation
 /no_git
-/GC
 *.xcodeproj
 
 # Compiled source #

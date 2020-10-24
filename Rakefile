@@ -58,7 +58,6 @@ task :build_win, [:year, :bits] do |t, args|
   FileUtils.cd      dir
 
   cmake_cmd = win_vs(args.bits,args.year)
-  cmake_cmd += " -DGC_DIR:VAR=#{args.gc_dir} "
   if COMPILE_EXECUTABLE then
     cmake_cmd += ' -DBUILD_EXECUTABLE:VAR=true '
   else
@@ -92,7 +91,7 @@ task :build, [:os] do |t, args|
 
   args.with_defaults( :os => "osx" )
 
-  case :os
+  case args.os
   when 'osx'
     Rake::Task[:osx_3rd].invoke()
   when 'linux'
@@ -177,4 +176,19 @@ task :win_3rd, [:year, :bits] do |t, args|
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
   sh "rake build_win[#{args.year},#{args.bits}]"
   FileUtils.cd '..'
+end
+
+task :clean_osx do
+  FileUtils.rm_rf 'lib'
+  FileUtils.rm_rf 'lib3rd'
+end
+
+task :clean_linux do
+  FileUtils.rm_rf 'lib'
+  FileUtils.rm_rf 'lib3rd'
+end
+
+task :clean_win do
+  FileUtils.rm_rf 'lib'
+  FileUtils.rm_rf 'lib3rd'
 end

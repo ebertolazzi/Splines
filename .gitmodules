@@ -1,6 +1,3 @@
-[submodule "GC"]
-	path = GC
-	url = https://github.com/ebertolazzi/GenericContainer.git
 [submodule "submodules/Utils"]
 	path = submodules/Utils
 	url = git@github.com:ebertolazzi/Utils.git
