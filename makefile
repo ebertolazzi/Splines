@@ -18,6 +18,7 @@ ifneq (,$(findstring Linux, $(OS)))
   VERSION  = $(shell $(CC) -dumpversion)
   CC      += $(WARN)
   CXX     += $(WARN)
+  LIBS    += -ldl
   CXXFLAGS = -pthread -Wall -O2 -fPIC -Wno-sign-compare
   AR       = ar rcs
 endif
