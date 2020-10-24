@@ -44,28 +44,10 @@ task :run_win do
   sh "./bin/Release/test9"
 end
 
-desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
-task :build_GC, [:cmd] do |t, args|
-  args.with_defaults( :cmd => "build_osx" )
-  puts "\n\nBuild submodule GenericContainer".green
-  FileUtils.rm_rf "GC"
-  sh "git clone -b develop --depth 1 https://github.com/ebertolazzi/GenericContainer.git GC"
-  FileUtils.cd "GC"
-  FileUtils.cp "../CMakeLists-cflags.txt", "CMakeLists-cflags.txt"
-  sh "rake #{args.cmd}"
-  FileUtils.cd ".."
-end
+desc "compile for Visual Studio [default year=2017, bits=x64]"
+task :build_win, [:year, :bits] do |t, args|
 
-desc "compile for Visual Studio [default year=2017, bits=x64, GC='./GC']"
-task :build_win, [:gc_dir, :year, :bits] do |t, args|
-
-  args.with_defaults( :gc_dir => "./GC", :year => "2017", :bits => "x64" )
-
-  if args.gc_dir == './GC' then
-    Rake::Task[:build_GC].invoke("build_win[#{args.year},#{args.bits}]")
-  else
-    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
-  end
+  args.with_defaults( :year => "2017", :bits => "x64" )
 
   Rake::Task[:win_3rd].invoke(args.year,args.bits,args.lapack)
 
@@ -105,16 +87,10 @@ task :build_win, [:gc_dir, :year, :bits] do |t, args|
 end
 
 
-desc "compile for OSX [default GC='./GC']"
-task :build, [:gc_dir,:os] do |t, args|
+desc "compile for OSX"
+task :build, [:os] do |t, args|
 
-  args.with_defaults( :gc_dir => "./GC" )
-
-  if args.gc_dir == './GC' then
-    Rake::Task[:build_GC].invoke("build_#{args.os}")
-  else
-    puts "\n\nUse GenericContainer at #{args.gc_dir}".green
-  end
+  args.with_defaults( :os => "osx" )
 
   case :os
   when 'osx'
@@ -129,7 +105,7 @@ task :build, [:gc_dir,:os] do |t, args|
   FileUtils.mkdir_p dir
   FileUtils.cd      dir
 
-  cmake_cmd = "cmake -DGC_DIR:VAR=#{args.gc_dir} "
+  cmake_cmd = "cmake "
 
   if COMPILE_EXECUTABLE then
     cmake_cmd += '-DBUILD_EXECUTABLE:VAR=true '
@@ -153,24 +129,23 @@ task :build, [:gc_dir,:os] do |t, args|
   FileUtils.cd '..'
 end
 
-desc "compile for LINUX [default GC='./GC']"
-task :build_linux, [:gc_dir] do |t, args|
-  args.with_defaults( :gc_dir => "./GC" )
-  Rake::Task[:build].invoke(args.gc_dir,"linux")
+desc "compile for LINUX"
+task :build_linux do
+  Rake::Task[:build].invoke("linux")
 end
 
-desc "compile for OSX [default GC='./GC']"
-task :build_osx, [:gc_dir] do |t, args|
-  args.with_defaults( :gc_dir => "./GC" )
-  Rake::Task[:build].invoke(args.gc_dir,"osx")
+desc "compile for OSX"
+task :build_osx do
+  Rake::Task[:build].invoke("osx")
 end
 
 desc 'install third parties for osx'
-task :osx_3rd, [:lapack] do
+task :osx_3rd do
   FileUtils.rm_rf 'lib'
   FileUtils.rm_rf 'lib3rd'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
   sh "rake build_osx"
@@ -178,11 +153,12 @@ task :osx_3rd, [:lapack] do
 end
 
 desc 'install third parties for linux'
-task :linux_3rd, [:lapack] do
+task :linux_3rd do
   FileUtils.rm_rf 'lib'
   FileUtils.rm_rf 'lib3rd'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
   sh "rake build_linux"
@@ -195,6 +171,7 @@ task :win_3rd, [:year, :bits] do |t, args|
   FileUtils.rm_rf 'lib3rd'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
   args.with_defaults( :year => "2017", :bits => "x64" )
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green

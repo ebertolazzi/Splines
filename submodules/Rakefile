@@ -9,7 +9,7 @@ task :copy_submodules, [:arg] do |t, args|
   FileUtils.mkdir_p "../lib3rd/dll/"
   FileUtils.mkdir_p "../lib3rd/bin/"
   tmp = '_' + args.arg
-  ["./Utils/","./quarticRootsFlocke/"].each do |base|
+  ["./Utils/","./quarticRootsFlocke/", "./GenericContainer/"].each do |base|
     FileUtils.cp_r base + "lib/.", "../lib3rd/"
   end
 end
@@ -22,6 +22,9 @@ task :build_osx do
   FileUtils.cd "../quarticRootsFlocke"
   sh "rake clean_osx"
   sh "rake build_osx"
+  FileUtils.cd "../GenericContainer"
+  sh "rake clean_osx"
+  sh "rake build_osx"
   FileUtils.cd ".."
   Rake::Task[:copy_submodules].invoke("osx")
 end
@@ -32,6 +35,9 @@ task :build_linux do
   sh "rake clean_linux"
   sh "rake build_linux"
   FileUtils.cd "../quarticRootsFlocke"
+  sh "rake clean_linux"
+  sh "rake build_linux"
+  FileUtils.cd "../GenericContainer"
   sh "rake clean_linux"
   sh "rake build_linux"
   FileUtils.cd ".."
@@ -47,6 +53,9 @@ task :build_win, [:year, :bits, :lapack] do |t, args|
   FileUtils.cd "../quarticRootsFlocke"
   sh "rake clean_win"
   sh "rake build_win[#{args.year},#{args.bits}]"
+  FileUtils.cd "../GenericContainer"
+  sh "rake clean_win"
+  sh "rake build_win[#{args.year},#{args.bits}]"
   FileUtils.cd ".."
   Rake::Task[:copy_submodules].invoke("win")
 end
@@ -57,6 +66,8 @@ task :clean_osx do
   sh "rake clean_osx"
   FileUtils.cd "../quarticRootsFlocke"
   sh "rake clean_osx"
+  FileUtils.cd "../GenericContainer"
+  sh "rake clean_osx"
   FileUtils.cd ".."
 end
 
@@ -66,6 +77,8 @@ task :clean_linux do
   sh "rake clean_linux"
   FileUtils.cd "../quarticRootsFlocke"
   sh "rake clean_linux"
+  FileUtils.cd "../GenericContainer"
+  sh "rake clean_linux"
   FileUtils.cd ".."
 end
 
@@ -74,6 +87,8 @@ task :clean_win do |t, args|
   FileUtils.cd "Utils"
   sh "rake clean_win"
   FileUtils.cd "../quarticRootsFlocke"
+  sh "rake clean_win"
+  FileUtils.cd "../GenericContainer"
   sh "rake clean_win"
   FileUtils.cd ".."
 end

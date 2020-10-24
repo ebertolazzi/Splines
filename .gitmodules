@@ -7,3 +7,6 @@
 [submodule "submodules/quarticRootsFlocke"]
 	path = submodules/quarticRootsFlocke
 	url = git@github.com:ebertolazzi/quarticRootsFlocke.git
+[submodule "submodules/GenericContainer"]
+	path = submodules/GenericContainer
+	url = git@github.com:ebertolazzi/GenericContainer.git
