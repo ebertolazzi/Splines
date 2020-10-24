@@ -170,6 +170,7 @@ task :osx_3rd, [:lapack] do
   FileUtils.rm_rf 'lib'
   FileUtils.rm_rf 'lib3rd'
   FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
   sh "rake build_osx"
@@ -180,7 +181,8 @@ desc 'install third parties for linux'
 task :linux_3rd, [:lapack] do
   FileUtils.rm_rf 'lib'
   FileUtils.rm_rf 'lib3rd'
-  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/LapackWrapper/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
   sh "rake build_linux"
@@ -191,7 +193,8 @@ desc "compile for Visual Studio [default year=2017, bits=x64]"
 task :win_3rd, [:year, :bits] do |t, args|
   FileUtils.rm_rf 'lib'
   FileUtils.rm_rf 'lib3rd'
-  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/LapackWrapper/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
+  FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
   args.with_defaults( :year => "2017", :bits => "x64" )
   FileUtils.cd 'submodules'
   puts "\n\nSUBMODULES (for SPLINES)\n\n".green
