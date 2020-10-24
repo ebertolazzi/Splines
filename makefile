@@ -7,7 +7,7 @@ LIB_SPLINE = libSplines.a
 CC   = gcc
 CXX  = g++ -std=c++11
 INC  = -Isrc -Iinclude -Isubmodules/GenericContainer/src -Isubmodules/Utils/src -Isubmodules/quarticRootsFlocke/src
-LIBS = -Llib -Lsubmodules/GenericContainer/lib -lSplines -lGenericContainer
+LIBS = -Llib -Lsubmodules/GenericContainer/lib -lSplines
 DEFS =
 MAKE = make
 
@@ -37,7 +37,8 @@ endif
 SRCS  = $(shell echo src/*.cc) \
         $(shell echo submodules/Utils/src/*.cc) \
         $(shell echo submodules/Utils/src/fmt/*.cc) \
-        $(shell echo submodules/quarticRootsFlocke/src/*.cc)
+        $(shell echo submodules/quarticRootsFlocke/src/*.cc) \
+        $(shell echo submodules/GenericContainer/src/*.cc)
 OBJS  = $(SRCS:.cc=.o)
 DEPS  = $(shell echo src/*.hh) $(shell echo submodules/Utils/src/*.h*)
 MKDIR = mkdir -p
@@ -47,7 +48,7 @@ MKDIR = mkdir -p
 PREFIX    = /usr/local
 FRAMEWORK = Splines
 
-all: gc lib tests
+all: lib tests
 
 lib: lib/$(LIB_SPLINE)
 
@@ -64,24 +65,24 @@ tests: lib
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test9  tests/test9.cc  $(LIBS)
 	$(CXX) $(INC) $(CXXFLAGS) -o bin/test10 tests/test10.cc $(LIBS)
 
-travis: gc lib tests run
+travis: lib tests run
 
-include_local: gc
+include_local:
 	@rm -rf lib/include
 	$(MKDIR) lib
 	$(MKDIR) lib/include
 	@cp -f src/*.h* lib/include
 
-src/%.o: src/%.cc $(DEPS) gc
+src/%.o: src/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
 
-submodules/Utils/src/%.o: submodules/Utils/src/%.cc $(DEPS) gc
+submodules/Utils/src/%.o: submodules/Utils/src/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
 
-submodules/Utils/src/fmt/%.o: submodules/Utils/src/fmt/%.cc $(DEPS) gc
+submodules/Utils/src/fmt/%.o: submodules/Utils/src/fmt/%.cc $(DEPS)
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
 
-src/%.o: src/%.c $(DEPS) gc
+src/%.o: src/%.c $(DEPS)
 	$(CC) $(INC) $(CFLAGS) $(DEFS) -c -o $@ $<
 
 lib/libSplines.a: $(OBJS) include_local
