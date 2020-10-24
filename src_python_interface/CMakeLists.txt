@@ -40,21 +40,21 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY
 		POSITION_INDEPENDENT_CODE 1)
 
 if(APPLE)
-  set_property(TARGET ${PROJECT_NAME} 
+  set_property(TARGET ${PROJECT_NAME}
     PROPERTY CXX_VISIBILITY_PRESET default)
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${GENERIC_CONTAINER}/lib/libGenericContainer_osx_static.a")
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${SPLINES}/lib/libSplines_osx_static.a")
 ELSEIF(LINUX OR UNIX)
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${GENERIC_CONTAINER}/lib/libGenericContainer_linux_static.a")
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${SPLINES}/lib/libSplines_linux_static.a")
 else()
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${GENERIC_CONTAINER}/lib/GenericContainer_win__static.lib")
-  target_link_libraries(${PROJECT_NAME} 
+  target_link_libraries(${PROJECT_NAME}
     PUBLIC "${SPLINES}/lib/Splines_win__static.lib")
 endif()
 

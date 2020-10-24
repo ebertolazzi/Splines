@@ -16,7 +16,7 @@ lst_cc = dir('../src/*.cc');
 
 LIB_SRCS = '';
 LIB_OBJS = '';
-MEX_CMD  = 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src -I../GC/lib/include ';
+MEX_CMD  = 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src';
 
 CMD = [ MEX_CMD ' -c '];
 if isunix
@@ -66,7 +66,6 @@ for k=1:length(NAMES)
     ];
   elseif ispc
   end
-  CMD = [ CMD, ' -L../GC/lib -lGenericContainer ' ];
   disp(CMD);
   eval(CMD);
 end

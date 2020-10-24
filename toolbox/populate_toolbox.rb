@@ -15,12 +15,12 @@ lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
 
-lst = Dir["../GC/src/*.cc"]
+lst = Dir["../submodules/GenericContainer/src/*.cc"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
 
-lst = Dir["../GC/src/*.h*"]
+lst = Dir["../submodules/GenericContainer/src/*.h*"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
@@ -55,9 +55,9 @@ lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
 
-FileUtils.cp "../GC/src_matlab_interface/GenericContainerMatlabInterface.cc",
+FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.cc",
              "./src/GenericContainerMatlabInterface.cc"
-FileUtils.cp "../GC/src_matlab_interface/GenericContainerMatlabInterface.hh", 
+FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.hh", 
              "./src/GenericContainerMatlabInterface.hh"
 
 FileUtils.rm_rf   "lib"
