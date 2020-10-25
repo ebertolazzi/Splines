@@ -2281,12 +2281,12 @@ namespace Splines {
     //! return the i-th node of the spline (x component).
     real_type
     xNode( integer npt ) const
-    { return m_X[npt]; }
+    { return m_X[size_t(npt)]; }
 
     //! return the i-th node of the spline (y component).
     real_type
     yNode( integer npt, integer spl ) const
-    { return m_Y[spl][npt]; }
+    { return m_Y[size_t(spl)][size_t(npt)]; }
 
     //! return x-minumum spline value
     real_type
@@ -2310,13 +2310,17 @@ namespace Splines {
 
     //! return y-minumum spline value
     real_type
-    yMin( char const spl[] ) const
-    { return m_Ymin[size_t(this->getPosition(spl))]; }
+    yMin( char const spl[] ) const {
+      size_t idx = size_t(this->getPosition(spl));
+      return m_Ymin[idx];
+    }
 
     //! return y-maximum spline value
     real_type
-    yMax( char const spl[] ) const
-    { return m_Ymax[size_t(this->getPosition(spl))]; }
+    yMax( char const spl[] ) const {
+      size_t idx = size_t(this->getPosition(spl));
+      return m_Ymax[idx];
+    }
 
     //! Return pointer to the `i`-th spline
     Spline *
@@ -2332,92 +2336,129 @@ namespace Splines {
     //! Return pointer to the `i`-th spline
     Spline *
     getSpline( char const * hdr ) const {
-      return m_splines[size_t(this->getPosition(hdr))];
+      size_t idx = size_t(this->getPosition(hdr));
+      return m_splines[idx];
     }
 
     //! Evaluate spline value
     real_type
-    operator () ( real_type x, integer spl ) const
-    { return (*this->getSpline(spl))(x); }
+    operator () ( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return (*S)(x);
+    }
 
     real_type
-    eval( real_type x, integer spl ) const
-    { return (*this->getSpline(spl))(x); }
+    eval( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return (*S)(x);
+    }
 
     //! First derivative
     real_type
-    D( real_type x, integer spl ) const
-    { return this->getSpline(spl)->D(x); }
+    D( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->D(x);
+    }
 
     real_type
-    eval_D( real_type x, integer spl ) const
-    { return this->getSpline(spl)->D(x); }
+    eval_D( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->D(x);
+    }
 
     //! Second derivative
     real_type
-    DD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DD(x); }
+    DD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DD(x);
+    }
 
     real_type
-    eval_DD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DD(x); }
+    eval_DD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DD(x);
+    }
 
     //! Third derivative
     real_type
-    DDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDD(x); }
+    DDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDD(x);
+    }
 
     real_type
-    eval_DDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDD(x); }
+    eval_DDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDD(x);
+    }
 
     //! 4th derivative
     real_type
-    DDDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDDD(x); }
+    DDDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDDD(x);
+    }
 
     real_type
-    eval_DDDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDDD(x); }
+    eval_DDDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDDD(x);
+    }
 
     //! 5th derivative
     real_type
-    DDDDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDDDD(x); }
+    DDDDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDDDD(x);
+    }
 
     real_type
-    eval_DDDDD( real_type x, integer spl ) const
-    { return this->getSpline(spl)->DDDDD(x); }
+    eval_DDDDD( real_type x, integer spl ) const {
+      Spline const * S = this->getSpline(spl);
+      return S->DDDDD(x);
+    }
 
     //! Evaluate spline value
     real_type
-    eval( real_type x, char const * name ) const
-    { return (*this->getSpline(name))(x); }
+    eval( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return (*S)(x);
+    }
 
     //! First derivative
     real_type
-    eval_D( real_type x, char const * name ) const
-    { return this->getSpline(name)->D(x); }
+    eval_D( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return S->D(x);
+    }
 
     //! Second derivative
     real_type
-    eval_DD( real_type x, char const * name ) const
-    { return this->getSpline(name)->DD(x); }
+    eval_DD( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return S->DD(x);
+    }
 
     //! Third derivative
     real_type
-    eval_DDD( real_type x, char const * name ) const
-    { return this->getSpline(name)->DDD(x); }
+    eval_DDD( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return S->DDD(x);
+    }
 
     //! 4th derivative
     real_type
-    eval_DDDD( real_type x, char const * name ) const
-    { return this->getSpline(name)->DDDD(x); }
+    eval_DDDD( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return S->DDDD(x);
+    }
 
     //! 5th derivative
     real_type
-    eval_DDDDD( real_type x, char const * name ) const
-    { return this->getSpline(name)->DDDDD(x); }
+    eval_DDDDD( real_type x, char const * name ) const {
+      Spline const * S = this->getSpline(name);
+      return S->DDDDD(x);
+    }
 
     // vectorial values
     //! fill a vector of strings with the names of the splines
