@@ -209,47 +209,6 @@ namespace Splines {
   );
 
   /*\
-   |   _____ _                        _
-   |  |_   _| |__  _ __ ___  __ _  __| |___
-   |    | | | '_ \| '__/ _ \/ _` |/ _` / __|
-   |    | | | | | | | |  __/ (_| | (_| \__ \
-   |    |_| |_| |_|_|  \___|\__,_|\__,_|___/
-  \*/
-
-  class SpinLock {
-    // see https://geidav.wordpress.com/2016/03/23/test-and-set-spinlocks/
-  private:
-    std::atomic<bool> Locked = {false};
-  public:
-    void wait() { while (Locked.load(std::memory_order_relaxed) == true); }
-    void lock() { do { wait(); } while (Locked.exchange(true, std::memory_order_acquire) == true); }
-    void unlock() { Locked.store(false, std::memory_order_release); }
-  };
-
-  class WaitWorker {
-  private:
-    std::atomic<int> n_worker = {0};
-  public:
-    void wait() { while (n_worker.load(std::memory_order_relaxed) != 0 ); }
-    void enter() { ++n_worker; }
-    void leave() { --n_worker; }
-  };
-
-  class BinarySearch {
-  private:
-    typedef std::pair<std::thread::id,integer> DATA_TYPE;
-    mutable std::vector<DATA_TYPE>             data;
-  public:
-    BinarySearch() { data.clear(); data.reserve(64); }
-    ~BinarySearch() { data.clear(); }
-
-    void clear() { data.clear(); data.reserve(64); }
-
-    integer * search( std::thread::id const & id ) const;
-    integer * insert( std::thread::id const & id );
-  };
-
-  /*\
    |   ____        _ _
    |  / ___| _ __ | (_)_ __   ___
    |  \___ \| '_ \| | | '_ \ / _ \
@@ -271,9 +230,7 @@ namespace Splines {
     real_type *m_X; // allocated in the derived class!
     real_type *m_Y; // allocated in the derived class!
 
-    mutable BinarySearch m_bs;
-    mutable WaitWorker   m_worker_read;
-    mutable SpinLock     m_spin_write;
+    mutable Utils::BinarySearch<integer> m_bs;
 
     void initLastInterval();
 
@@ -1843,9 +1800,7 @@ namespace Splines {
     real_type ** m_Y;
     real_type ** m_Yp;
 
-    mutable BinarySearch m_bs;
-    mutable WaitWorker   m_worker_read;
-    mutable SpinLock     m_spin_write;
+    mutable Utils::BinarySearch<integer> m_bs;
 
     void initLastInterval();
 
@@ -3337,18 +3292,13 @@ namespace Splines {
 
     real_type m_Z_min, m_Z_max;
 
-    mutable BinarySearch m_bs_x;
-    mutable WaitWorker   m_worker_read_x;
-    mutable SpinLock     m_spin_write_x;
+    mutable Utils::BinarySearch<integer> m_bs_x;
+    mutable Utils::BinarySearch<integer> m_bs_y;
 
     integer search_x( real_type & x ) const;
-    void initLastInterval_x();
-
-    mutable BinarySearch m_bs_y;
-    mutable WaitWorker   m_worker_read_y;
-    mutable SpinLock     m_spin_write_y;
-
     integer search_y( real_type & y ) const;
+
+    void initLastInterval_x();
     void initLastInterval_y();
 
     integer

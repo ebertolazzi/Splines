@@ -213,189 +213,76 @@ namespace Splines {
    |        |_|
   \*/
 
-  integer *
-  BinarySearch::search( std::thread::id const & id ) const {
-    // binary search
-    size_t U = data.size();
-    size_t L = 0;
-    while ( U-L > 1 ) {
-      size_t pos = (L+U)>>1;
-      std::thread::id const & id_pos = data[pos].first;
-      if ( id_pos < id ) L = pos; else U = pos;
-    }
-    if ( data[L].first == id ) return &data[L].second;
-    if ( data[U].first == id ) return &data[U].second;
-    return nullptr; // non trovato
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  integer *
-  BinarySearch::insert( std::thread::id const & id ) {
-    size_t pos = data.size();
-    data.push_back(DATA_TYPE(id,0));
-    while ( pos > 0 ) {
-      size_t pos1 = pos-1;
-      data[pos].first  = data[pos1].first;
-      data[pos].second = data[pos1].second;
-      if ( data[pos1].first < id ) break;
-      pos = pos1;
-    }
-    data[pos] = DATA_TYPE(id,0);
-    return &data[pos].second;
-  }
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
   Spline::search( real_type & x ) const {
     UTILS_ASSERT0( m_npts > 0, "in Spline::search(...), npts == 0!" );
-    // mark use read
-    m_spin_write.wait();
-    m_worker_read.enter();
-    std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = m_bs.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read.leave();
-      m_spin_write.lock();
-      m_worker_read.wait(); // wait all read finished
-      p_lastInterval  = m_bs.insert( th_id );
-      *p_lastInterval = 0;
-      m_worker_read.enter(); // avoid writing until finished
-      m_spin_write.unlock();
-    }
+    bool ok;
+    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
+    if ( !ok ) lastInterval = 0;
     Utils::searchInterval(
       m_npts,
       m_X,
       x,
-      *p_lastInterval,
+      lastInterval,
       m_curve_is_closed,
       m_curve_can_extend
     );
-    integer ret = *p_lastInterval;
-    m_worker_read.leave();
-    return ret;
+    return lastInterval;
   }
 
   void
   Spline::initLastInterval() {
-    std::thread::id th_id = std::this_thread::get_id();
-    // mark use read
-    m_spin_write.wait();
-    m_worker_read.enter();
-    integer * p_lastInterval = m_bs.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read.leave();
-      m_spin_write.lock();
-      m_worker_read.wait(); // wait all read finished
-      p_lastInterval = m_bs.insert( th_id );
-      m_worker_read.enter();
-      m_spin_write.unlock();
-    }
-    *p_lastInterval = 0;
-    m_worker_read.leave();
+    bool ok;
+    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
+    lastInterval = 0;
   }
 
   integer
   SplineSurf::search_x( real_type & x ) const {
-    // mark use read
-    m_spin_write_x.wait();
-    m_worker_read_x.enter();
-    std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = m_bs_x.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read_x.leave();
-      m_spin_write_x.lock();
-      m_worker_read_x.wait(); // wait all read finished
-      p_lastInterval  = m_bs_x.insert( th_id );
-      *p_lastInterval = 0;
-      m_worker_read_x.enter(); // avoid writing until finished
-      m_spin_write_x.unlock();
-    }
+    bool ok;
+    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
+    if ( !ok ) lastInterval = 0;
     Utils::searchInterval(
       m_nx,
       m_X,
       x,
-      *p_lastInterval,
+      lastInterval,
       m_x_closed,
       m_x_can_extend
     );
-    integer ret = *p_lastInterval;
-    m_worker_read_x.leave();
-    return ret;
+    return lastInterval;
   }
 
   void
   SplineSurf::initLastInterval_x() {
-    std::thread::id th_id = std::this_thread::get_id();
-    // mark use read
-    m_spin_write_x.wait();
-    m_worker_read_x.enter();
-    integer * p_lastInterval = m_bs_x.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read_x.leave();
-      m_spin_write_x.lock();
-      m_worker_read_x.wait(); // wait all read finished
-      p_lastInterval = m_bs_x.insert( th_id );
-      m_worker_read_x.enter();
-      m_spin_write_x.unlock();
-    }
-    *p_lastInterval = 0;
-    m_worker_read_x.leave();
+    bool ok;
+    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
+    lastInterval = 0;
   }
 
   integer
   SplineSurf::search_y( real_type & y ) const {
-    // mark use read
-    m_spin_write_y.wait();
-    m_worker_read_y.enter();
-    std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = m_bs_y.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read_y.leave();
-      m_spin_write_y.lock();
-      m_worker_read_y.wait(); // wait all read finished
-      p_lastInterval  = m_bs_y.insert( th_id );
-      *p_lastInterval = 0;
-      m_worker_read_y.enter(); // avoid writing until finished
-      m_spin_write_y.unlock();
-    }
+    bool ok;
+    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
+    if ( !ok ) lastInterval = 0;
     Utils::searchInterval(
       m_ny,
       m_Y,
       y,
-      *p_lastInterval,
+      lastInterval,
       m_y_closed,
       m_y_can_extend
     );
-    integer ret = *p_lastInterval;
-    m_worker_read_y.leave();
-    return ret;
+    return lastInterval;
   }
 
   void
   SplineSurf::initLastInterval_y() {
-    std::thread::id th_id = std::this_thread::get_id();
-    // mark use read
-    m_spin_write_y.wait();
-    m_worker_read_y.enter();
-    integer * p_lastInterval = m_bs_y.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read_y.leave();
-      m_spin_write_y.lock();
-      m_worker_read_y.wait(); // wait all read finished
-      p_lastInterval = m_bs_y.insert( th_id );
-      m_worker_read_y.enter();
-      m_spin_write_y.unlock();
-    }
-    *p_lastInterval = 0;
-    m_worker_read_y.leave();
+    bool ok;
+    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
+    lastInterval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

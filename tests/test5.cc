@@ -75,23 +75,23 @@ main() {
     Splines::QUINTIC_TYPE
   };
 
-  std::vector<real_type> YpZero;
-  YpZero.resize( size_t(npts) );
-  std::fill(YpZero.begin(), YpZero.end(), 0 );
+  Utils::Malloc<real_type> mem("test5");
+  mem.allocate( size_t(npts) );
+  real_type * YpZero = mem( size_t(npts) );
+  std::fill_n(YpZero, npts, 0 );
 
   real_type const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy };
 
   ss.build( nspl, npts, headers, stype, xx, Y );
   ss.info(cout);
 
-
-  std::cout << "position = " << ss.getPosition("SPLINE_CONSTANT") << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_LINEAR")   << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_CUBIC")    << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_AKIMA")    << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_BESSEL")   << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_PCHIP")    << '\n';
-  std::cout << "position = " << ss.getPosition("SPLINE_QUINTIC")  << '\n';
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CONSTANT") );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_LINEAR")   );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CUBIC")    );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_AKIMA")    );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_BESSEL")   );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_PCHIP")    );
+  fmt::print( "position = {}\n", ss.getPosition("SPLINE_QUINTIC")  );
 
 
   file   << "x";

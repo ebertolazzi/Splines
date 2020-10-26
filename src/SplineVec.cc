@@ -70,21 +70,9 @@ namespace Splines {
   integer
   SplineVec::search( real_type & x ) const {
     UTILS_ASSERT0( m_npts > 0, "in SplineVec::search(...), npts == 0!" );
-    // mark use read
-    m_spin_write.wait();
-    m_worker_read.enter();
-    std::thread::id th_id = std::this_thread::get_id();
-    integer * p_lastInterval = m_bs.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read.leave();
-      m_spin_write.lock();
-      m_worker_read.wait(); // wait all read finished
-      p_lastInterval  = m_bs.insert( th_id );
-      *p_lastInterval = 0;
-      m_worker_read.enter(); // avoid writing until finished
-      m_spin_write.unlock();
-    }
+    bool ok;
+    integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
+    if ( !ok ) *p_lastInterval = 0;
     Utils::searchInterval(
       m_npts,
       m_X,
@@ -93,31 +81,16 @@ namespace Splines {
       m_curve_is_closed,
       m_curve_can_extend
     );
-    integer ret = *p_lastInterval;
-    m_worker_read.leave();
-    return ret;
+    return *p_lastInterval;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineVec::initLastInterval() {
-    std::thread::id th_id = std::this_thread::get_id();
-    // mark use read
-    m_spin_write.wait();
-    m_worker_read.enter();
-    integer * p_lastInterval = m_bs.search( th_id );
-    if ( p_lastInterval == nullptr ) {
-      // non trovato
-      m_worker_read.leave();
-      m_spin_write.lock();
-      m_worker_read.wait(); // wait all read finished
-      p_lastInterval = m_bs.insert( th_id );
-      m_worker_read.enter();
-      m_spin_write.unlock();
-    }
+    bool ok;
+    integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
     *p_lastInterval = 0;
-    m_worker_read.leave();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

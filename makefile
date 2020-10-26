@@ -6,7 +6,11 @@ LIB_SPLINE = libSplines.a
 
 CC   = gcc
 CXX  = g++ -std=c++11
-INC  = -Isrc -Iinclude -Isubmodules/GenericContainer/src -Isubmodules/Utils/src -Isubmodules/quarticRootsFlocke/src
+INC  = -Isrc -Iinclude \
+       -Isubmodules/GenericContainer/src \
+			 -Isubmodules/Utils/src \
+			 -Isubmodules/Utils/src/Utils \
+			 -Isubmodules/quarticRootsFlocke/src
 LIBS = -Llib -Lsubmodules/GenericContainer/lib -lSplines
 DEFS =
 MAKE = make

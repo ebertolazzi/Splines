@@ -139,9 +139,6 @@ namespace Splines {
 
   real_type
   CubicSplineBase::operator () ( real_type x ) const {
-    if ( m_curve_can_extend && m_curve_extended_constant ) {
-      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
-    }
     integer idx = this->search( x ); // eval idx can modify x
     return this->id_eval( idx, x );
   }
@@ -150,6 +147,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::id_D( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_D[4];
     Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
     return base_D[0] * m_Y[i]   +
@@ -170,6 +170,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::id_DD( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DD[4];
     Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
     return base_DD[0] * m_Y[i]   +
@@ -190,6 +193,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::id_DDD( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DDD[4];
     Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
     return base_DDD[0] * m_Y[i]   +

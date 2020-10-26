@@ -137,6 +137,9 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_DD( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DD[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;
@@ -158,6 +161,9 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_DDD( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DDD[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;
@@ -179,6 +185,9 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_DDDD( integer i,  real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DDDD[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;
@@ -200,6 +209,9 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::id_DDDDD( integer i, real_type x ) const {
+    if ( m_curve_can_extend && m_curve_extended_constant ) {
+      if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
+    }
     real_type base_DDDDD[6];
     real_type x0 = m_X[i];
     real_type H  = m_X[i+1] - x0;

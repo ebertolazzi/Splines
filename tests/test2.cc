@@ -46,23 +46,23 @@ main() {
   BiQuinticSpline bq;
   BilinearSpline  bl;
   Akima2Dspline   ak;
-  
-  vector<real_type> X(4), Y(6), Z(6*6);
-  
-  std::copy( x, x+4,   X.begin() );
-  std::copy( y, y+6,   Y.begin() );
-  std::copy( z, z+6*6, Z.begin() );
-  
+
+  real_type X[4], Y[6], Z[6*6];
+
+  std::copy( x, x+4,   X );
+  std::copy( y, y+6,   Y );
+  std::copy( z, z+6*6, Z );
+
   //bc.build( x, 1, y, 1, z, 6, 4, 6 );
   //bl.build( x, 1, y, 1, z, 6, 4, 6 );
   //ak.build( x, 1, y, 1, z, 6, 4, 6 );
-  bc.build( X, Y, Z, 6 );
-  bq.build( X, Y, Z, 6 );
-  bl.build( X, Y, Z, 6 );
-  ak.build( X, Y, Z, 6 );
-  
+  bc.build( X, 1, Y, 1, Z, 6, 6, 6 );
+  bq.build( X, 1, Y, 1, Z, 6, 6, 6 );
+  bl.build( X, 1, Y, 1, Z, 6, 6, 6 );
+  ak.build( X, 1, Y, 1, Z, 6, 6, 6 );
+
   //bl.writeToStream( cout );
-  
+
   {
     ofstream file_bl("out/bilinear.txt");
     ofstream file_bc("out/bicubic.txt");
