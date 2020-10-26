@@ -85,7 +85,7 @@ namespace Splines {
       m_worker_read.enter(); // avoid writing until finished
       m_spin_write.unlock();
     }
-    searchInterval(
+    Utils::searchInterval(
       m_npts,
       m_X,
       x,

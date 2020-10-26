@@ -204,80 +204,6 @@ namespace Splines {
     throw std::runtime_error(fmt::format( "string_to_splineType({}) unknown type\n", n ));
   }
 
-  void
-  searchInterval(
-    integer         npts,
-    real_type const X[],
-    real_type     & x,
-    integer       & lastInterval,
-    bool            curve_is_closed,
-    bool            curve_can_extend
-  ) {
-    if ( npts <= 2 ) { lastInterval = 0; return; } // nothing to search
-
-    //if ( lastInterval < 0 || lastInterval >= npts-1 ) {
-    //  fmt::print( std:: cerr,
-    //    "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
-    //    "lastInterval out of range: [0,{}]\n",
-    //    npts, lastInterval, curve_is_closed, curve_can_extend, npts-2
-    //  );
-    //  exit(1);
-    //}
-
-    UTILS_ASSERT(
-      lastInterval >= 0 && lastInterval < npts-1,
-      "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
-      "lastInterval out of range: [0,{}]\n",
-      npts, lastInterval, curve_is_closed, curve_can_extend, npts-2
-    );
-
-    real_type xl = X[0];
-    real_type xr = X[npts-1];
-    if ( curve_is_closed ) {
-      real_type L = xr-xl;
-      x -= xl;
-      x  = fmod( x, L );
-      if ( x < 0 ) x += L;
-      x += xl;
-    } else if ( curve_can_extend ) {
-      if ( x <= xl ) { lastInterval = 0; return; }
-      if ( x >= xr ) { lastInterval = npts-2; return; }
-    } else if ( x < xl || x > xr ) {
-      UTILS_ERROR_TRACE(
-        "In searchInterval( npts={}, X, x={}, lastInterval={}, closed={}, can_extend={})\n"
-        "out of range: [{},{}]\n",
-        npts, lastInterval, curve_is_closed, curve_can_extend, xl, xr
-      );
-    }
-
-    // find the interval of the support of the B-spline
-    real_type const * XL = X+lastInterval;
-    if ( XL[1] < x ) { // x on the right
-      if ( x >= X[npts-2] ) { // x in [X[npt-2],X[npts-1]]
-        lastInterval = npts-2; // last interval
-      } else if ( x < XL[2] ) { // x in (XL[1],XL[2])
-        ++lastInterval;
-      } else { // x >= XL[2] search the right interval
-        real_type const * XE = X+npts;
-        lastInterval += integer(std::lower_bound( XL, XE, x )-XL);
-        real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || Utils::isZero(XX[0]-XX[1]) ) --lastInterval;
-      }
-    } else if ( x < XL[0] ) { // on the left
-      if ( x <= X[1] ) { // x in [X[0],X[1]]
-        lastInterval = 0; // first interval
-      } else if ( XL[-1] <= x ) { // x in [XL[-1],XL[0])
-        --lastInterval;
-      } else {
-        lastInterval = integer(std::lower_bound( X, XL, x )-X);
-        real_type const * XX = X+lastInterval;
-        if ( x < XX[0] || Utils::isZero(XX[0]-XX[1]) ) --lastInterval;
-      }
-    } else {
-      // x in the interval [ XL[0], XL[1] ] nothing to do
-    }
-  }
-
   /*\
    |   ____        _ _
    |  / ___| _ __ | (_)_ __   ___
@@ -339,7 +265,7 @@ namespace Splines {
       m_worker_read.enter(); // avoid writing until finished
       m_spin_write.unlock();
     }
-    searchInterval(
+    Utils::searchInterval(
       m_npts,
       m_X,
       x,
@@ -389,7 +315,7 @@ namespace Splines {
       m_worker_read_x.enter(); // avoid writing until finished
       m_spin_write_x.unlock();
     }
-    searchInterval(
+    Utils::searchInterval(
       m_nx,
       m_X,
       x,
@@ -439,7 +365,7 @@ namespace Splines {
       m_worker_read_y.enter(); // avoid writing until finished
       m_spin_write_y.unlock();
     }
-    searchInterval(
+    Utils::searchInterval(
       m_ny,
       m_Y,
       y,

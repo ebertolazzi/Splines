@@ -220,10 +220,10 @@ namespace Splines {
       GenericContainer const & gc_boundary = gc("boundary");
       unsigned ne = gc_boundary.get_num_elements();
       UTILS_ASSERT(
-        ne == m_splines.size(),
+        ne == m_nspl,
         "[SplineSet[{}]::setup] field `boundary` expected a"
         " generic vector of size: {} but is of size: {}\n",
-        m_name, ne, m_splines.size()
+        m_name, ne, m_nspl
       );
 
       for ( unsigned ispl = 0; ispl < ne; ++ispl ) {
