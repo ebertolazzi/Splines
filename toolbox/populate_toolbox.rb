@@ -3,7 +3,8 @@
 require 'fileutils'
 
 FileUtils.rm_rf   "src"
-FileUtils.mkdir_p "src/fmt"
+FileUtils.mkdir_p "src/Utils/fmt"
+FileUtils.mkdir_p "src/Utils/zstream"
 
 lst = Dir["../src/*.cc"]
 lst.each do |filename|
@@ -35,14 +36,23 @@ lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
 
-lst = Dir["../submodules/Utils/src/fmt/*.cc"]
+lst = Dir["../submodules/Utils/src/Utils/*.h*"]
 lst.each do |filename|
-  FileUtils.cp filename, "./src/" + File.basename(filename);
+  FileUtils.cp filename, "./src/Utils/" + File.basename(filename);
 end
 
-lst = Dir["../submodules/Utils/src/fmt/*.h*"]
+lst = Dir["../submodules/Utils/src/Utils/fmt/*.h*"]
 lst.each do |filename|
-  FileUtils.cp filename, "./src/fmt/" + File.basename(filename);
+  FileUtils.cp filename, "./src/Utils/fmt/" + File.basename(filename);
+end
+lst = Dir["../submodules/Utils/src/Utils/fmt/*.c*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/Utils/fmt/" + File.basename(filename);
+end
+
+lst = Dir["../submodules/Utils/src/Utils/zstream/*.h*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/Utils/zstream/" + File.basename(filename);
 end
 
 lst = Dir["../submodules/quarticRootsFlocke/src/*.cc"]
@@ -57,7 +67,7 @@ end
 
 FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.cc",
              "./src/GenericContainerMatlabInterface.cc"
-FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.hh", 
+FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.hh",
              "./src/GenericContainerMatlabInterface.hh"
 
 FileUtils.rm_rf   "lib"
@@ -65,24 +75,6 @@ FileUtils.mkdir_p "lib"
 lst = Dir["../lib_matlab/*.m"]
 lst.each do |filename|
   FileUtils.cp filename, "./lib/" + File.basename(filename);
-end
-
-FileUtils.rm_rf   "src_mex"
-FileUtils.mkdir_p "src_mex"
-lst = Dir["../src_matlab_interface/*.cc"]
-lst.each do |filename|
-  FileUtils.cp filename, "./src_mex/" + File.basename(filename);
-end
-lst = Dir["../src_matlab_interface/*.hh"]
-lst.each do |filename|
-  FileUtils.cp filename, "./src_mex/" + File.basename(filename);
-end
-
-FileUtils.rm_rf   "tests"
-FileUtils.mkdir_p "tests"
-lst = Dir["../tests_matlab/*.m"]
-lst.each do |filename|
-  FileUtils.cp filename, "./tests/" + File.basename(filename);
 end
 
 FileUtils.cp "../license.txt", "license.txt"

@@ -17,7 +17,7 @@ lst_cc = dir('./src/*.cc');
 LIB_SRCS = '';
 LIB_OBJS = '';
 
-CMD = 'mex -c  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -Isrc ';
+CMD = 'mex -c  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -Isrc -Isrc/Utils ';
 if isunix
   if ismac
     CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
@@ -29,6 +29,28 @@ end
 CMD = [ CMD, LIB_SRCS ];
 
 disp('---------------------------------------------------------');
+disp('---------------- Compile Splines Library ----------------');
+
+for k=1:length(NAMES)
+  N=NAMES{k};
+  disp('---------------------------------------------------------');
+  fprintf('Compiling Mex: %s\n',N);
+  disp('---------------------------------------------------------');
+  CMD = 'mex -c -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -Isrc/Utils ';
+  CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N, '.cc '];
+  if isunix
+    if ismac
+      CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
+    else
+      CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
+    end
+  elseif ispc
+  end
+  disp(CMD);
+  eval(CMD);
+end
+
+
 for kk=1:length(lst_cc)
   name     = lst_cc(kk).name(1:end-3);
   LIB_SRCS = [ LIB_SRCS, ' src/', name, '.cc' ];
@@ -38,7 +60,9 @@ for kk=1:length(lst_cc)
     LIB_OBJS = [ LIB_OBJS, name, '.obj ' ];
   end
   CMD1 = [ CMD ' src/', name, '.cc' ];
-  fprintf(1,'\n\nCompiling: %s.cc\n',name);
+  disp('---------------------------------------------------------');
+  fprintf('Compiling: %s.cc\n',name);
+  disp('---------------------------------------------------------');
   disp(CMD1);
   eval(CMD1);
 end
@@ -48,13 +72,18 @@ MROOT = matlabroot;
 for k=1:length(NAMES)
   N=NAMES{k};
   disp('---------------------------------------------------------');
-  fprintf(1,'\n\nCompiling: %s\n',N);
+  fprintf('Linking Mex: %s\n',N);
+  disp('---------------------------------------------------------');
 
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
 
-  CMD = [ 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -output bin/', N ];
-  CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N, '.cc ', LIB_OBJS ];
+  if isunix
+    CMD = [ 'mex -output bin/', N, ' mex_', N, '.o ', LIB_OBJS ];
+  elseif ispc
+    CMD = [ 'mex -output bin/', N, ' mex_', N, '.obj ', LIB_OBJS ];
+  end
+
   if ismac
     CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g"'];
   elseif isunix
@@ -74,13 +103,10 @@ for k=1:length(NAMES)
   eval(CMD);
 end
 
-for kk=1:length(lst_cc)
-  name = lst_cc(kk).name(1:end-3);
-  if isunix
-    delete([ name, '.o' ]);
-  elseif ispc
-    delete([ name, '.obj' ]);
-  end
+if isunix
+  delete *.o;
+elseif ispc
+  delete *.obj;
 end
 
 cd(old_dir);

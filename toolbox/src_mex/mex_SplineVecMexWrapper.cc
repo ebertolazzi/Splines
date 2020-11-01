@@ -105,8 +105,8 @@ namespace Splines {
           int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'new' ): "
-    MEX_ASSERT( nrhs == 1, CMD "expected 1 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 1, CMD "expected 1 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     DATA_NEW( arg_out_0, new SplineVec() );
 
@@ -121,8 +121,8 @@ namespace Splines {
              int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'delete', OBJ ): "
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     // Destroy the C++ object
     DATA_DELETE(arg_in_1);
@@ -138,8 +138,8 @@ namespace Splines {
             int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'setup', obj, Y  ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -160,8 +160,8 @@ namespace Splines {
             int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'knots', obj, X  ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -174,7 +174,6 @@ namespace Splines {
       CMD "size(X) = " << npts << " must be = " << ptr->dimension()
     );
     ptr->setKnots( X );
-
     #undef CMD
   }
 
@@ -186,13 +185,12 @@ namespace Splines {
             int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'chord', obj ): "
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     ptr->setKnotsChordLength();
-
     #undef CMD
   }
 
@@ -204,13 +202,12 @@ namespace Splines {
                   int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'centripetal', obj ): "
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     ptr->setKnotsCentripetal();
-
     #undef CMD
   }
 
@@ -222,13 +219,12 @@ namespace Splines {
                  int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'CatmullRom', obj ): "
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     ptr->CatmullRom();
-
     #undef CMD
   }
 
@@ -240,8 +236,8 @@ namespace Splines {
                int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'getNodes', obj ): "
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -249,7 +245,6 @@ namespace Splines {
     integer N = ptr->numPoints();
     real_type * X = createMatrixValue( arg_out_0, 1, N );
     for ( integer i = 0; i < N; ++i ) X[i] = ptr->xNode( i );
-
     #undef CMD
   }
 
@@ -261,8 +256,8 @@ namespace Splines {
            int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -276,7 +271,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval( x[i], Y, 1 );
-
     #undef CMD
   }
 
@@ -288,8 +282,8 @@ namespace Splines {
              int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval_D', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -303,7 +297,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_D( x[i], Y, 1 );
-
     #undef CMD
   }
 
@@ -315,8 +308,8 @@ namespace Splines {
               int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval_DD', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -330,7 +323,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_DD( x[i], Y, 1 );
-
     #undef CMD
   }
 
@@ -342,8 +334,8 @@ namespace Splines {
                int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval_DDD', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -357,7 +349,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_DDD( x[i], Y, 1 );
-
     #undef CMD
   }
 
@@ -369,8 +360,8 @@ namespace Splines {
                      int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval_curvature', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -383,7 +374,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i )
       curvature[i] = ptr->curvature( x[i] );
-
     #undef CMD
   }
 
@@ -395,8 +385,8 @@ namespace Splines {
                        int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineVecMexWrapper( 'eval_curvature', obj, x ): "
-    MEX_ASSERT( nrhs == 3, CMD "expected 3 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 3, CMD "expected 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -409,7 +399,6 @@ namespace Splines {
 
     for ( mwSize i = 0; i < nx; ++i )
       curvature_D[i] = ptr->curvature_D( x[i] );
-
     #undef CMD
   }
 
@@ -422,8 +411,8 @@ namespace Splines {
 
     #define CMD "SplineVecMexWrapper('tmin',OBJ): "
 
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -440,8 +429,8 @@ namespace Splines {
 
     #define CMD "SplineVecMexWrapper('tmax',OBJ): "
 
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
-    MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = " << nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
@@ -451,44 +440,25 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-  typedef enum {
-    CMD_NEW,
-    CMD_DELETE,
-    CMD_SETUP,
-    CMD_KNOTS,
-    CMD_CHORD,
-    CMD_CENTRIPETAL,
-    CMD_CATMULL_ROM,
-    CMD_GET_NODES,
-    CMD_EVAL,
-    CMD_EVAL_D,
-    CMD_EVAL_DD,
-    CMD_EVAL_DDD,
-    CMD_EVAL_CURVATURE,
-    CMD_EVAL_CURVATURE_D,
-    CMD_TMIN,
-    CMD_TMAX
-  } CMD_LIST;
+  typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-  static map<string,unsigned> cmd_to_idx = {
-    {"new",CMD_NEW},
-    {"delete",CMD_DELETE},
-    {"setup",CMD_SETUP},
-    {"knots",CMD_KNOTS},
-    {"chord",CMD_CHORD},
-    {"centripetal",CMD_CENTRIPETAL},
-    {"CatmullRom",CMD_CATMULL_ROM},
-    {"getNodes",CMD_GET_NODES},
-    {"eval",CMD_EVAL},
-    {"eval_D",CMD_EVAL_D},
-    {"eval_DD",CMD_EVAL_DD},
-    {"eval_DDD",CMD_EVAL_DDD},
-    {"eval_curvature",CMD_EVAL_CURVATURE},
-    {"eval_curvature_D",CMD_EVAL_CURVATURE_D},
-    {"tmin",CMD_TMIN},
-    {"tmax",CMD_TMAX}
+  static map<string,DO_CMD> cmd_to_fun = {
+    {"new",do_new},
+    {"delete",do_delete},
+    {"setup",do_setup},
+    {"knots",do_knots},
+    {"chord",do_chord},
+    {"centripetal",do_centripetal},
+    {"CatmullRom",do_CatmullRom},
+    {"getNodes",do_getNodes},
+    {"eval",do_eval},
+    {"eval_D",do_eval_D},
+    {"eval_DD",do_eval_DD},
+    {"eval_DDD",do_eval_DDD},
+    {"eval_curvature",do_eval_curvature},
+    {"eval_curvature_D",do_eval_curvature_D},
+    {"tmin",do_tmin},
+    {"tmax",do_tmax}
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -504,63 +474,12 @@ namespace Splines {
     }
 
     try {
-
       MEX_ASSERT( mxIsChar(arg_in_0), "First argument must be a string" );
       string cmd = mxArrayToString(arg_in_0);
-
-      switch ( cmd_to_idx.at(cmd) ) {
-      case CMD_NEW:
-        do_new( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_DELETE:
-        do_delete( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_SETUP:
-        do_setup( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_KNOTS:
-        do_knots( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_CHORD:
-        do_chord( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_CENTRIPETAL:
-        do_centripetal( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_CATMULL_ROM:
-        do_CatmullRom( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_GET_NODES:
-        do_getNodes( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL:
-        do_eval( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_D:
-        do_eval_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_DD:
-        do_eval_DD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_DDD:
-        do_eval_DDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_CURVATURE:
-        do_eval_curvature( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_CURVATURE_D:
-        do_eval_curvature_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_TMIN:
-        do_tmin( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_TMAX:
-        do_tmax( nlhs, plhs, nrhs, prhs );
-        break;
-      }
-
+      DO_CMD pfun = cmd_to_fun.at(cmd);
+      pfun( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
-      mexErrMsgTxt(e.what());
+      mexErrMsgTxt( fmt::format( "SplineVecMexWrapper Error: {}", e.what() ).c_str() );
     } catch (...) {
       mexErrMsgTxt("SplineVecMexWrapper failed\n");
     }

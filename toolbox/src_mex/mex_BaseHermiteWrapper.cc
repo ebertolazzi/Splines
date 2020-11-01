@@ -65,8 +65,8 @@ namespace Splines {
   do_base( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -101,8 +101,8 @@ namespace Splines {
   do_base_D( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base_D',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -137,8 +137,8 @@ namespace Splines {
   do_base_DD( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base_DD',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -173,8 +173,8 @@ namespace Splines {
   do_base_DDD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base_DDD',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -209,8 +209,8 @@ namespace Splines {
   do_eval( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval', t, P0, P1, T0, T1 [,H] ): "
-    MEX_ASSERT( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -218,10 +218,10 @@ namespace Splines {
     double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
     double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -241,8 +241,8 @@ namespace Splines {
   do_eval_D( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval_D', t, P0, P1, T0, T1 [,H] ): "
-    MEX_ASSERT( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -250,10 +250,10 @@ namespace Splines {
     double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
     double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -273,8 +273,8 @@ namespace Splines {
   do_eval_DD( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval_DD', t, P0, P1, T0, T1 [,H] ): "
-    MEX_ASSERT( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -282,10 +282,10 @@ namespace Splines {
     double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
     double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -305,8 +305,8 @@ namespace Splines {
   do_eval_DDD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval_DDD', t, P0, P1, T0, T1 [,H] ): "
-    MEX_ASSERT( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 6 || nrhs == 7, CMD "expected 6 or 7 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -314,10 +314,10 @@ namespace Splines {
     double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
     double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -337,18 +337,18 @@ namespace Splines {
   do_hermite_to_bezier( int nlhs, mxArray       *plhs[],
                         int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('hermite_to_bezier',P0,P1,T0,T1): "
-    MEX_ASSERT( nrhs == 4, CMD "expected 4 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 4, CMD "expected 4 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 4, CMD "expected 4 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 4, CMD "expected 4 output, nlhs = {}\n", nlhs );
     mwSize n1, n2, n3, n4;
     double const * P0 = getVectorPointer( arg_in_1, n1, CMD "P0" );
     double const * P1 = getVectorPointer( arg_in_2, n2, CMD "P1" );
     double const * T0 = getVectorPointer( arg_in_3, n3, CMD "T0" );
     double const * T1 = getVectorPointer( arg_in_4, n4, CMD "T1" );
 
-    MEX_ASSERT(
+    MEX_ASSERT2(
       n1 == n2 && n2 == n3 && n3 == n4,
-      CMD "bad dimensions |P0| = " << n1 << " |P1| = " << n2 <<
-      " |T0| = " << n3 <<" |T1| = " << n4
+      CMD "bad dimensions |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      n1, n2, n3, n4
     );
     double * oP0 = createMatrixValue( arg_out_0, n1, 1);
     double * oP1 = createMatrixValue( arg_out_1, n1, 1);
@@ -370,18 +370,18 @@ namespace Splines {
   do_bezier_to_hermite( int nlhs, mxArray       *plhs[],
                         int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('bezier_to_hermite',P0,P1,P2,P3): "
-    MEX_ASSERT( nrhs == 4, CMD "expected 4 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 4, CMD "expected 4 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 4, CMD "expected 4 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 4, CMD "expected 4 output, nlhs = {}\n", nlhs );
     mwSize n1, n2, n3, n4;
     double const * P0 = getVectorPointer( arg_in_1, n1, CMD "P0" );
     double const * P1 = getVectorPointer( arg_in_2, n2, CMD "P1" );
     double const * P2 = getVectorPointer( arg_in_3, n3, CMD "P2" );
     double const * P3 = getVectorPointer( arg_in_4, n4, CMD "P3" );
 
-    MEX_ASSERT(
+    MEX_ASSERT2(
       n1 == n2 && n2 == n3 && n3 == n4,
-      CMD "bad dimensions |P0| = " << n1 << " |P1| = " << n2 <<
-      " |P2| = " << n3 <<" |P3| = " << n4
+      CMD "bad dimensions |P0| = {} |P1| = {} |P2| = {} |P3| = {}\n",
+      n1, n2, n3, n4
     );
     double * oP0 = createMatrixValue( arg_out_0, n1, 1);
     double * oP1 = createMatrixValue( arg_out_1, n1, 1);
@@ -403,8 +403,8 @@ namespace Splines {
   do_L2_first_derivative( int nlhs, mxArray       *plhs[],
                           int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_first_derivative'): "
-    MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
     double * sqrtD1 = createMatrixValue( arg_out_0, 3, 4 );
 
@@ -436,8 +436,8 @@ namespace Splines {
   do_L2_second_derivative( int nlhs, mxArray       *plhs[],
                            int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_second_derivative','): "
-    MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
     double * sqrtD2 = createMatrixValue( arg_out_0, 2, 4 );
 
@@ -463,8 +463,8 @@ namespace Splines {
   do_L2_third_derivative( int nlhs, mxArray       *plhs[],
                           int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('L2_third_derivative','): "
-    MEX_ASSERT( nrhs == 1, CMD "expected 1 input, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
     double * sqrtD3 = createMatrixValue( arg_out_0, 1, 4 );
 
@@ -481,8 +481,8 @@ namespace Splines {
   do_base5( int nlhs, mxArray       *plhs[],
             int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base5',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -523,8 +523,8 @@ namespace Splines {
   do_base5_D( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base5_D',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -565,8 +565,8 @@ namespace Splines {
   do_base5_DD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base5_DD',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -607,8 +607,8 @@ namespace Splines {
   do_base5_DDD( int nlhs, mxArray       *plhs[],
                 int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base5_DDD',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -649,8 +649,8 @@ namespace Splines {
   do_base5_DDDD( int nlhs, mxArray       *plhs[],
                  int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite_DDDD('base5',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -691,8 +691,8 @@ namespace Splines {
   do_base5_DDDDD( int nlhs, mxArray       *plhs[],
                   int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite_DDDDD('base5',t [,H]): "
-    MEX_ASSERT( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6  outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
@@ -733,8 +733,8 @@ namespace Splines {
   do_eval5( int nlhs, mxArray       *plhs[],
             int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -770,8 +770,8 @@ namespace Splines {
   do_eval5_D( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5_D', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -781,11 +781,10 @@ namespace Splines {
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
     double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5 <<
-      " |J0| = " << nr6 << " |J1| = " << nr7
+      CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
+      nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -807,8 +806,8 @@ namespace Splines {
   do_eval5_DD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5_DD', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -818,11 +817,10 @@ namespace Splines {
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
     double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5 <<
-      " |J0| = " << nr6 << " |J1| = " << nr7
+      CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
+      nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -844,8 +842,8 @@ namespace Splines {
   do_eval5_DDD( int nlhs, mxArray       *plhs[],
                 int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5_DDD', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -855,11 +853,10 @@ namespace Splines {
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
     double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5 <<
-      " |J0| = " << nr6 << " |J1| = " << nr7
+      CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
+      nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -881,8 +878,8 @@ namespace Splines {
   do_eval5_DDDD( int nlhs, mxArray       *plhs[],
                  int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5_DDDD', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -892,11 +889,10 @@ namespace Splines {
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
     double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5 <<
-      " |J0| = " << nr6 << " |J1| = " << nr7
+      CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
+      nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -918,8 +914,8 @@ namespace Splines {
   do_eval5_DDDDD( int nlhs, mxArray       *plhs[],
                   int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'eval5_DDDDD', t, P0, P1, T0, T1, J0, J1 [,H] ): "
-    MEX_ASSERT( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 8 || nrhs == 9, CMD "expected 8 or 9 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
     double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
@@ -929,11 +925,10 @@ namespace Splines {
     double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
     double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
-      CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
-      " |T0| = " << nr4 << " |T1| = " << nr5 <<
-      " |J0| = " << nr6 << " |J1| = " << nr7
+      CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
+      nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
     double * out = createMatrixValue( arg_out_0, nr2, nr );
@@ -955,8 +950,8 @@ namespace Splines {
   do_cut( int nlhs, mxArray       *plhs[],
           int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'cut', a, b, P0, P1, T0, T1, [,H] ): "
-    MEX_ASSERT( nrhs == 7 || nrhs == 8, CMD "expected 7 or 8 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 4, CMD "expected 4 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 7 || nrhs == 8, CMD "expected 7 or 8 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 4, CMD "expected 4 output, nlhs = {}\n", nlhs );
     mwSize nr3, nr4, nr5, nr6;
     double H = 1;
     double const   a  = getScalarValue( arg_in_1, CMD "argument a");
@@ -965,10 +960,10 @@ namespace Splines {
     double const * P1 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
     double const * T0 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
     double const * T1 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr3 == nr4 && nr4 == nr5 && nr5 == nr6,
-      CMD " bad dimension |P0| = " << nr3 << " |P1| = " << nr4 <<
-      " |T0| = " << nr5 << " |T1| = " << nr6
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr3, nr4, nr5, nr6
     );
     if ( nrhs == 8 ) H = getScalarValue( arg_in_7, CMD "argument H" );
     double * oP0 = createMatrixValue( arg_out_0, nr3, 1 );
@@ -995,21 +990,21 @@ namespace Splines {
 
   static
   void
-  do_alen( int nlhs, mxArray       *plhs[],
-           int nrhs, mxArray const *prhs[] ) {
+  do_approximate_length( int nlhs, mxArray       *plhs[],
+                         int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite( 'approximate_length', P0, P1, T0, T1, [,H] ): "
-    MEX_ASSERT( nrhs == 5 || nrhs == 6, CMD "expected 5 or 6 inputs, nrhs = " << nrhs );
-    MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = " << nlhs );
+    MEX_ASSERT2( nrhs == 5 || nrhs == 6, CMD "expected 5 or 6 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr1, nr2, nr3, nr4;
     double H = 1;
     double const * P0 = getVectorPointer( arg_in_1, nr1, CMD "argument P0");
     double const * P1 = getVectorPointer( arg_in_2, nr2, CMD "argument P1");
     double const * T0 = getVectorPointer( arg_in_3, nr3, CMD "argument T0");
     double const * T1 = getVectorPointer( arg_in_4, nr4, CMD "argument T1");
-    MEX_ASSERT(
+    MEX_ASSERT2(
       nr1 == nr2 && nr2 == nr3 && nr3 == nr4,
-      CMD " bad dimension |P0| = " << nr1 << " |P1| = " << nr2 <<
-      " |T0| = " << nr3 << " |T1| = " << nr4
+      CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
+      nr1, nr2, nr3, nr4
     );
     if ( nrhs == 6 ) H = getScalarValue( arg_in_5, CMD "argument H" );
 
@@ -1040,66 +1035,36 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-  typedef enum {
-    CMD_BASE,
-    CMD_BASE_D,
-    CMD_BASE_DD,
-    CMD_BASE_DDD,
-    CMD_EVAL,
-    CMD_EVAL_D,
-    CMD_EVAL_DD,
-    CMD_EVAL_DDD,
-    CMD_HERMITE_TO_BEZIER,
-    CMD_BEZIER_TO_HERMITE,
-    CMD_L2_1,
-    CMD_L2_2,
-    CMD_L2_3,
-    CMD_BASE5,
-    CMD_BASE5_D,
-    CMD_BASE5_DD,
-    CMD_BASE5_DDD,
-    CMD_BASE5_DDDD,
-    CMD_BASE5_DDDDD,
-    CMD_EVAL5,
-    CMD_EVAL5_D,
-    CMD_EVAL5_DD,
-    CMD_EVAL5_DDD,
-    CMD_EVAL5_DDDD,
-    CMD_EVAL5_DDDDD,
-    CMD_CUT,
-    CMD_ALEN,
-  } CMD_LIST;
+  typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-  static map<string,unsigned> cmd_to_idx = {
-    {"base",CMD_BASE},
-    {"base_D",CMD_BASE_D},
-    {"base_DD",CMD_BASE_DD},
-    {"base_DDD",CMD_BASE_DDD},
-    {"eval",CMD_EVAL},
-    {"eval_D",CMD_EVAL_D},
-    {"eval_DD",CMD_EVAL_DD},
-    {"eval_DDD",CMD_EVAL_DDD},
-    {"hermite_to_bezier",CMD_HERMITE_TO_BEZIER},
-    {"bezier_to_hermite",CMD_BEZIER_TO_HERMITE},
-    {"L2_first_derivative",CMD_L2_1},
-    {"L2_second_derivative",CMD_L2_2},
-    {"L2_third_derivative",CMD_L2_3},
-    {"base5",CMD_BASE5},
-    {"base5_D",CMD_BASE5_D},
-    {"base5_DD",CMD_BASE5_DD},
-    {"base5_DDD",CMD_BASE5_DDD},
-    {"base5_DDDD",CMD_BASE5_DDDD},
-    {"base5_DDDDD",CMD_BASE5_DDDDD},
-    {"eval5",CMD_EVAL5},
-    {"eval5_D",CMD_EVAL5_D},
-    {"eval5_DD",CMD_EVAL5_DD},
-    {"eval5_DDD",CMD_EVAL5_DDD},
-    {"eval5_DDDD",CMD_EVAL5_DDDD},
-    {"eval5_DDDDD",CMD_EVAL5_DDDDD},
-    {"cut",CMD_CUT},
-    {"approximate_length",CMD_ALEN},
+  static map<string,DO_CMD> cmd_to_fun = {
+    {"base",do_base},
+    {"base_D",do_base_D},
+    {"base_DD",do_base_DD},
+    {"base_DDD",do_base_DDD},
+    {"eval",do_eval},
+    {"eval_D",do_eval_D},
+    {"eval_DD",do_eval_DD},
+    {"eval_DDD",do_eval_DDD},
+    {"hermite_to_bezier",do_hermite_to_bezier},
+    {"bezier_to_hermite",do_bezier_to_hermite},
+    {"L2_first_derivative",do_L2_first_derivative},
+    {"L2_second_derivative",do_L2_second_derivative},
+    {"L2_third_derivative",do_L2_third_derivative},
+    {"base5",do_base5},
+    {"base5_D",do_base5_D},
+    {"base5_DD",do_base5_DD},
+    {"base5_DDD",do_base5_DDD},
+    {"base5_DDDD",do_base5_DDDD},
+    {"base5_DDDDD",do_base5_DDDDD},
+    {"eval5",do_eval5},
+    {"eval5_D",do_eval5_D},
+    {"eval5_DD",do_eval5_DD},
+    {"eval5_DDD",do_eval5_DDD},
+    {"eval5_DDDD",do_eval5_DDDD},
+    {"eval5_DDDDD",do_eval5_DDDDD},
+    {"cut",do_cut},
+    {"approximate_length",do_approximate_length},
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -1115,96 +1080,12 @@ namespace Splines {
     }
 
     try {
-
       MEX_ASSERT( mxIsChar(arg_in_0), "First argument must be a string" );
       string cmd = mxArrayToString(arg_in_0);
-
-      switch ( cmd_to_idx.at(cmd) ) {
-      case CMD_BASE:
-        do_base( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE_D:
-        do_base_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE_DD:
-        do_base_DD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE_DDD:
-        do_base_DDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL:
-        do_eval( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_D:
-        do_eval_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_DD:
-        do_eval_DD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL_DDD:
-        do_eval_DDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_HERMITE_TO_BEZIER:
-        do_hermite_to_bezier( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BEZIER_TO_HERMITE:
-        do_bezier_to_hermite( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_L2_1:
-        do_L2_first_derivative( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_L2_2:
-        do_L2_second_derivative( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_L2_3:
-        do_L2_third_derivative( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5:
-        do_base5( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5_D:
-        do_base5_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5_DD:
-        do_base5_DD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5_DDD:
-        do_base5_DDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5_DDDD:
-        do_base5_DDDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_BASE5_DDDDD:
-        do_base5_DDDDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5:
-        do_eval5( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5_D:
-        do_eval5_D( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5_DD:
-        do_eval5_DD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5_DDD:
-        do_eval5_DDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5_DDDD:
-        do_eval5_DDDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_EVAL5_DDDDD:
-        do_eval5_DDDDD( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_CUT:
-        do_cut( nlhs, plhs, nrhs, prhs );
-        break;
-      case CMD_ALEN:
-        do_alen( nlhs, plhs, nrhs, prhs );
-        break;
-      }
-
+      DO_CMD pfun = cmd_to_fun.at(cmd);
+      pfun( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
-      mexErrMsgTxt(e.what());
+      mexErrMsgTxt( fmt::format( "BaseHermite Error: {}", e.what() ).c_str() );
     } catch (...) {
       mexErrMsgTxt("BaseHermite failed\n");
     }
