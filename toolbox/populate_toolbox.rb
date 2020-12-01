@@ -70,11 +70,4 @@ FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContain
 FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.hh",
              "./src/GenericContainerMatlabInterface.hh"
 
-FileUtils.rm_rf   "lib"
-FileUtils.mkdir_p "lib"
-lst = Dir["../lib_matlab/*.m"]
-lst.each do |filename|
-  FileUtils.cp filename, "./lib/" + File.basename(filename);
-end
-
 FileUtils.cp "../license.txt", "license.txt"
