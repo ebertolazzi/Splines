@@ -12,101 +12,117 @@ NAMES = {
   'Spline2DMexWrapper' ...
 };
 
-lst_cc = dir('./src/*.cc');
+LIB_NAMES = { ...
+  'Console.cc', ...
+  'fmt.cc', ...
+  'GenericContainer.cc', ...
+  'GenericContainerCinterface.cc', ...
+  'GenericContainerMatlabInterface.cc', ...
+  'GenericContainerSupport.cc', ...
+  'GenericContainerTables.cc', ...
+  'Malloc.cc', ...
+  'Numbers.cc', ...
+  'PolynomialRoots-1-Quadratic.cc', ...
+  'PolynomialRoots-2-Cubic.cc', ...
+  'PolynomialRoots-3-Quartic.cc', ...
+  'PolynomialRoots-Jenkins-Traub.cc', ...
+  'PolynomialRoots-Utils.cc', ...
+  'SplineAkima2D.cc', ...
+  'SplineAkima.cc', ...
+  'SplineBessel.cc', ...
+  'SplineBiCubic.cc', ...
+  'SplineBilinear.cc', ...
+  'SplineBiQuintic.cc', ...
+  'SplineConstant.cc', ...
+  'SplineCubicBase.cc', ...
+  'SplineCubic.cc', ...
+  'SplineHermite.cc', ...
+  'SplineLinear.cc', ...
+  'SplinePchip.cc', ...
+  'SplineQuinticBase.cc', ...
+  'SplineQuintic.cc', ...
+  'Splines1D.cc', ...
+  'Splines2D.cc', ...
+  'SplinesBivariate.cc', ...
+  'Splines.cc', ...
+  'SplinesCinterface.cc', ...
+  'SplineSet.cc', ...
+  'SplineSetGC.cc', ...
+  'SplinesUtils.cc', ...
+  'SplineVec.cc', ...
+  'Trace.cc', ...
+  'Utils.cc' ...
+};
 
-LIB_SRCS = '';
-LIB_OBJS = '';
+MROOT = matlabroot;
 
-CMD = 'mex -c  -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -Isrc -Isrc/Utils ';
+CMDBASE = 'mex -c -largeArrayDims -Isrc -Isrc/Utils ';
 if isunix
-  if ismac
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
-  else
-    CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
-  end
+  CMDBASE = [CMDBASE, 'CXXFLAGS="\$CXXFLAGS -Wall -O2 -g" '];
 elseif ispc
 end
-CMD = [ CMD, LIB_SRCS ];
 
-disp('---------------------------------------------------------');
-disp('---------------- Compile Splines Library ----------------');
+%for k=1:length(NAMES)
+%  N=NAMES{k};
+%  disp('---------------------------------------------------------');
+%  fprintf(1,'Compiling: %s\n',N)
+%  CMD = [CMDBASE ' -c src_mex/mex_' N '.cc' ];
+%  disp('---------------------------------------------------------');
+%  disp(CMD);
+%  eval(CMD);
+%end
 
-for k=1:length(NAMES)
-  N=NAMES{k};
-  disp('---------------------------------------------------------');
-  fprintf('Compiling Mex: %s\n',N);
-  disp('---------------------------------------------------------');
-  CMD = 'mex -c -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -Isrc -Isrc/Utils ';
-  CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N, '.cc '];
+LIB_OBJS = '';
+for k=1:length(LIB_NAMES)
+  [filepath,bname,ext] = fileparts(LIB_NAMES{k});
+  NAME = [' src/', filepath, '/', bname, ext ];
   if isunix
-    if ismac
-      CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
-    else
-      CMD = [CMD, 'CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g" '];
-    end
+    LIB_OBJS = [ LIB_OBJS, bname, '.o ' ];
   elseif ispc
+    LIB_OBJS = [ LIB_OBJS, bname, '.obj ' ];
   end
+  CMD = [CMDBASE ' -c ' NAME];
+  disp('---------------------------------------------------------');
   disp(CMD);
   eval(CMD);
 end
 
-
-for kk=1:length(lst_cc)
-  name     = lst_cc(kk).name(1:end-3);
-  LIB_SRCS = [ LIB_SRCS, ' src/', name, '.cc' ];
-  if isunix
-    LIB_OBJS = [ LIB_OBJS, name, '.o ' ];
-  elseif ispc
-    LIB_OBJS = [ LIB_OBJS, name, '.obj ' ];
-  end
-  CMD1 = [ CMD ' src/', name, '.cc' ];
-  disp('---------------------------------------------------------');
-  fprintf('Compiling: %s.cc\n',name);
-  disp('---------------------------------------------------------');
-  disp(CMD1);
-  eval(CMD1);
-end
-
-MROOT = matlabroot;
-
 for k=1:length(NAMES)
   N=NAMES{k};
   disp('---------------------------------------------------------');
-  fprintf('Linking Mex: %s\n',N);
-  disp('---------------------------------------------------------');
+  fprintf(1,'Compiling: %s\n',N);
 
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
 
-  if isunix
-    CMD = [ 'mex -output bin/', N, ' mex_', N, '.o ', LIB_OBJS ];
-  elseif ispc
-    CMD = [ 'mex -output bin/', N, ' mex_', N, '.obj ', LIB_OBJS ];
-  end
+  CMD = [ 'mex -Isrc -output bin/', N ];
+  CMD = [ CMD, ' -largeArrayDims src_mex/mex_', N ];
+  CMD = [ CMD, '.cc ', LIB_OBJS ];
 
   if ismac
-    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g"'];
+    CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
   elseif isunix
     % Workaround for MATLAB 2020 that force dynamic link with old libstdc++
     % solution: link with static libstdc++
-    ARCH  = computer('arch');
-    PATH1 = [MROOT, '/bin/', ARCH];
-    PATH2 = [MROOT, '/extern/bin/', ARCH];
-    CMD   = [ CMD, ...
-      ' CXXFLAGS="\$CXXFLAGS -std=c++11 -Wall -O2 -g"' ...
+    % ARCH  = computer('arch');
+    % PATH1 = [MROOT, '/bin/', ARCH];
+    % PATH2 = [MROOT, '/extern/bin/', ARCH];
+    CMD = [ CMD, ...
+      ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"' ...
       ' LDFLAGS="\$LDFLAGS -static-libgcc -static-libstdc++"' ...
-      ' LINKLIBS="-L' PATH1 ' -L' PATH2 ' -lMatlabDataArray -lmx -lmex -lmat -lm "' ...
+      ' LINKLIBS="-ldl -L\$MATLABROOT/bin/\$ARCH -L\$MATLABROOT/extern/bin/\$ARCH -lMatlabDataArray -lmx -lmex -lmat -lm "' ...
     ];
   elseif ispc
   end
+
   disp(CMD);
   eval(CMD);
 end
 
 if isunix
-  delete *.o;
-elseif ispc
-  delete *.obj;
+  delete *.o
+else
+  delete *.obj
 end
 
 cd(old_dir);

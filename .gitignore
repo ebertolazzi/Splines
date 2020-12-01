@@ -58,6 +58,7 @@ lib
 toolbox/doc
 toolbox/src
 toolbox/license.txt
+!toolbox/lib
 
 *.mltbx
 *.mexmaci64

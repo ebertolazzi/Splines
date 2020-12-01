@@ -789,18 +789,18 @@ namespace Splines {
     {"eval_Dxx",do_eval_Dxx},
     {"eval_Dxy",do_eval_Dxy},
     {"eval_Dyy",do_eval_Dyy},
-    {"make_x_closed",do_make_x_closed},
-    {"make_x_opened",do_make_x_opened},
     {"is_x_closed",do_is_x_closed},
-    {"make_x_bounded",do_make_x_bounded},
-    {"make_x_unbounded",do_make_x_unbounded},
-    {"is_x_bounded",do_is_x_bounded},
+    {"is_y_closed",do_is_y_closed},
+    {"make_x_closed",do_make_x_closed},
     {"make_y_closed",do_make_y_closed},
+    {"make_x_opened",do_make_x_opened},
     {"make_y_opened",do_make_y_opened},
-    {"is_y_closed",do_make_y_opened},
+    {"is_x_bounded",do_is_x_bounded},
+    {"is_y_bounded",do_is_y_bounded},
+    {"make_x_bounded",do_make_x_bounded},
     {"make_y_bounded",do_make_y_bounded},
-    {"make_y_unbounded",do_make_y_unbounded},
-    {"is_y_bounded",do_is_y_bounded}
+    {"make_x_unbounded",do_make_x_unbounded},
+    {"make_y_unbounded",do_make_y_unbounded}
   };
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

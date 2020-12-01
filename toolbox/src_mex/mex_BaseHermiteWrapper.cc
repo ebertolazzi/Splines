@@ -71,7 +71,10 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 4);
       out2 = out1 + nr;
@@ -107,7 +110,10 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 4);
       out2 = out1 + nr;
@@ -143,7 +149,10 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 4);
       out2 = out1 + nr;
@@ -173,13 +182,16 @@ namespace Splines {
   do_base_DDD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
     #define CMD "BaseHermite('base_DDD',t [,H]): "
-    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3  inputs, nrhs = {}\n", nrhs );
-    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4  outputs, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nrhs == 2 || nrhs == 3, CMD "expected 2 or 3 inputs, nrhs = {}\n", nrhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 4, CMD "expected 1 or 4 outputs, nlhs = {}\n", nlhs );
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 4);
       out2 = out1 + nr;
@@ -487,7 +499,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
@@ -529,7 +546,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
@@ -571,7 +593,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
@@ -613,7 +640,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
@@ -655,7 +687,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
@@ -697,7 +734,12 @@ namespace Splines {
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
     double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
-    double *out1, *out2, *out3, *out4, *out5, *out6;
+    double *out1 = nullptr;
+    double *out2 = nullptr;
+    double *out3 = nullptr;
+    double *out4 = nullptr;
+    double *out5 = nullptr;
+    double *out6 = nullptr;
     if ( nlhs == 1 ) {
       out1 = createMatrixValue( arg_out_0, nr, 6);
       out2 = out1 + nr;
