@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="2141474772" file="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.prj" location="/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="2141474772" file="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -16,7 +16,7 @@ The classes are the following:
   - HermiteSpline
   - PchipSpline
   - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
-    <param.screenshot>${PROJECT_ROOT}/tests_matlab/icon.jpg</param.screenshot>
+    <param.screenshot>${PROJECT_ROOT}/toolbox/tests/icon.jpg</param.screenshot>
     <param.version>1.0.6</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
@@ -26,7 +26,7 @@ The classes are the following:
       <item>1</item>
     </param.products.id>
     <param.products.version>
-      <item>9.8</item>
+      <item>9.9</item>
     </param.products.version>
     <param.platforms />
     <param.guid>0dba433b-d115-42b4-a271-d863497f90fb</param.guid>
@@ -116,7 +116,6 @@ setup.m</param.exclude.filters>
       <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
-      <file>${PROJECT_ROOT}/toolbox/doc</file>
       <file>${PROJECT_ROOT}/toolbox/lib</file>
       <file>${PROJECT_ROOT}/toolbox/license.txt</file>
       <file>${PROJECT_ROOT}/toolbox/src</file>
@@ -127,11 +126,11 @@ setup.m</param.exclude.filters>
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/myGitProjetcs/mySplines/Splines.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>/Applications/MATLAB_R2020a.app</root>
+      <root>/Applications/MATLAB_R2020b.app</root>
       <toolboxes />
     </matlab>
     <platform>
