@@ -1,0 +1,9 @@
+<map id="Splines::SplineSurf" name="Splines::SplineSurf">
+<area shape="rect" id="node1" title="Spline Management Class." alt="" coords="303,5,437,32"/>
+<area shape="rect" id="node2" href="$class_splines_1_1_bi_cubic_spline_base.html" title="Bi&#45;cubic spline base class." alt="" coords="84,80,269,107"/>
+<area shape="rect" id="node5" href="$class_splines_1_1_bilinear_spline.html" title="bilinear spline base class" alt="" coords="294,80,446,107"/>
+<area shape="rect" id="node6" href="$class_splines_1_1_bi_quintic_spline_base.html" title="Bi&#45;quintic spline base class." alt="" coords="470,80,662,107"/>
+<area shape="rect" id="node3" href="$class_splines_1_1_akima2_dspline.html" title="cubic spline base class" alt="" coords="5,155,167,181"/>
+<area shape="rect" id="node4" href="$class_splines_1_1_bi_cubic_spline.html" title="cubic spline base class" alt="" coords="191,155,346,181"/>
+<area shape="rect" id="node7" href="$class_splines_1_1_bi_quintic_spline.html" title="cubic spline base class" alt="" coords="485,155,647,181"/>
+</map>

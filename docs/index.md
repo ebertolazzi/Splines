@@ -4,27 +4,31 @@ Splines [![Build Status](https://travis-ci.org/ebertolazzi/Splines.svg?branch=ma
 
 `Splines` is a set of C++ classes (with MATLAB mex interface) which implements varios spline interpolation.
 The classes are the following:
- 
+
   - ConstantSpline, for piecewise constants functions
   - LinearSpline, for piecewise linear interpolation
   - CubicSpline, for classical cubic spline interpolation
-  - AkimaSpline, for Akima "non oscillatory" spline interpolation 
-  - BesselSpline, for Bessel "non oscillatory" spline interpolation 
-  - PchipSpline, 
+  - AkimaSpline, for Akima "non oscillatory" spline interpolation
+  - BesselSpline, for Bessel "non oscillatory" spline interpolation
+  - PchipSpline
   - QuinticSpline, Simple quintic spline based on PCHIP
 
 **References**
 
-- F.N. Fritsch and R.E. Carlson,
+- F.N. Fritsch and R.E. Carlson
   Monotone Piecewise Cubic Interpolation,
   SIAM Journal of Numerical Analysis, Vol. 17, No. 2, pp. 238-246,
   April 1980.
-  
+
 **Matlab**
 
-To use in MATLAB install the toolbox `Splines.mltbx` then compile the files running `CompileSplinesLib`.
+To use in MATLAB install the toolbox `Splines.mltbx` available at https://github.com/ebertolazzi/Splines/releases then compile the files running `CompileSplinesLib`.
 
- 
+**Doxygen**
+
+Doxyen documentation of the C++ library is available
+at Splines/index.html
+
 **C++ Usage**
 
 The usage is simple:
@@ -39,14 +43,14 @@ CubicSpline spline;
 double x[] = {1,2,3,4};
 double y[] = {3,1,1,3};
 spline.build(x,y,4); // build a cubic spline with 4 points
-  
+
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
 cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
 cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
 ~~~~~~~~~~~~~
 
-splines can be built incrementally 
+splines can be built incrementall
 
 ~~~~~~~~~~~~~
 #include "Splines.hh"
@@ -55,20 +59,20 @@ using namespace SplinesLoad;
 ....
 
 CubicSpline spline;
-  
+
 spline . pushBack( 1, 3 );
 spline . pushBack( 2, 1 );
 spline . pushBack( 3, 1 );
 spline . pushBack( 4, 3 );
 spline . build();
-  
+
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
 cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
 cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
 ~~~~~~~~~~~~~
 
-or by using standard vector 
+or by using standard vector
 
 ~~~~~~~~~~~~~
 #include "Splines.hh"
@@ -85,7 +89,7 @@ x.push_back(2); y.push_back(1);
 x.push_back(3); y.push_back(1);
 x.push_back(4); y.push_back(3);
 spline . build(x,y);
-  
+
 cout << spline(1.1) << '\n';     // spline at x = 1.1
 cout << spline.D(1.1) << '\n';   // spline first derivative at x = 1.1
 cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
@@ -108,7 +112,7 @@ make doc
 
 **DOXYGEN documentation**
 
-Available at: http://www.ing.unitn.it/~bertolaz/4-software/Splines/index.html
+Available at: http://ebertolazzi.github.io/Splines
 
 * * *
 

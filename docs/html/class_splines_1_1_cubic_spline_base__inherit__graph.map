@@ -1,0 +1,9 @@
+<map id="Splines::CubicSplineBase" name="Splines::CubicSplineBase">
+<area shape="rect" id="node1" title="cubic spline base class" alt="" coords="163,107,336,133"/>
+<area shape="rect" id="node3" href="$class_splines_1_1_akima_spline.html" title="Akima spline class." alt="" coords="388,5,535,32"/>
+<area shape="rect" id="node4" href="$class_splines_1_1_bessel_spline.html" title="Bessel spline class." alt="" coords="387,56,536,83"/>
+<area shape="rect" id="node5" href="$class_splines_1_1_cubic_spline.html" title="Cubic Spline Management Class." alt="" coords="390,107,533,133"/>
+<area shape="rect" id="node6" href="$class_splines_1_1_hermite_spline.html" title="Hermite Spline Management Class." alt="" coords="384,157,539,184"/>
+<area shape="rect" id="node7" href="$class_splines_1_1_pchip_spline.html" title="Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class." alt="" coords="390,208,533,235"/>
+<area shape="rect" id="node2" href="$class_splines_1_1_spline.html" title="Spline Management Class." alt="" coords="5,107,115,133"/>
+</map>

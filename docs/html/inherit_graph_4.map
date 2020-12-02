@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_splines_1_1_spline_surf.html" title="Spline Management Class." alt="" coords="5,81,139,108"/>
+<area shape="rect" id="node2" href="$class_splines_1_1_bi_cubic_spline_base.html" title="Bi&#45;cubic spline base class." alt="" coords="190,31,375,57"/>
+<area shape="rect" id="node5" href="$class_splines_1_1_bilinear_spline.html" title="bilinear spline base class" alt="" coords="207,81,359,108"/>
+<area shape="rect" id="node6" href="$class_splines_1_1_bi_quintic_spline_base.html" title="Bi&#45;quintic spline base class." alt="" coords="187,132,379,159"/>
+<area shape="rect" id="node3" href="$class_splines_1_1_akima2_dspline.html" title="cubic spline base class" alt="" coords="427,5,589,32"/>
+<area shape="rect" id="node4" href="$class_splines_1_1_bi_cubic_spline.html" title="cubic spline base class" alt="" coords="431,56,585,83"/>
+<area shape="rect" id="node7" href="$class_splines_1_1_bi_quintic_spline.html" title="cubic spline base class" alt="" coords="427,132,589,159"/>
+</map>

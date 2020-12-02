@@ -1,0 +1,13 @@
+<map id="Splines::Spline" name="Splines::Spline">
+<area shape="rect" id="node1" title="Spline Management Class." alt="" coords="5,145,115,172"/>
+<area shape="rect" id="node2" href="$class_splines_1_1_constant_spline.html" title="Picewise constants spline class." alt="" coords="171,69,334,96"/>
+<area shape="rect" id="node3" href="$class_splines_1_1_cubic_spline_base.html" title="cubic spline base class" alt="" coords="166,120,339,147"/>
+<area shape="rect" id="node9" href="$class_splines_1_1_linear_spline.html" title="Linear spline class." alt="" coords="181,171,325,197"/>
+<area shape="rect" id="node10" href="$class_splines_1_1_quintic_spline_base.html" title="cubic quintic base class" alt="" coords="163,233,343,260"/>
+<area shape="rect" id="node4" href="$class_splines_1_1_akima_spline.html" title="Akima spline class." alt="" coords="395,5,541,32"/>
+<area shape="rect" id="node5" href="$class_splines_1_1_bessel_spline.html" title="Bessel spline class." alt="" coords="393,56,543,83"/>
+<area shape="rect" id="node6" href="$class_splines_1_1_cubic_spline.html" title="Cubic Spline Management Class." alt="" coords="397,107,539,133"/>
+<area shape="rect" id="node7" href="$class_splines_1_1_hermite_spline.html" title="Hermite Spline Management Class." alt="" coords="391,157,545,184"/>
+<area shape="rect" id="node8" href="$class_splines_1_1_pchip_spline.html" title="Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class." alt="" coords="397,208,539,235"/>
+<area shape="rect" id="node11" href="$class_splines_1_1_quintic_spline.html" title="Quintic spline class." alt="" coords="393,259,543,285"/>
+</map>
