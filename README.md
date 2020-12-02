@@ -108,7 +108,7 @@ make doc
 
 **DOXYGEN documentation**
 
-Available at: http://ebertolazzi.github.io/Splines
+Available at: http://ebertolazzi.github.io/Splines/html/index.html
 
 * * *
 

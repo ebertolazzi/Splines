@@ -17,13 +17,6 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-/*!
-\mainpage  Spline class
-\author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
-\date      2016
-\copyright see file license.txt
-*/
-
 #pragma once
 
 #ifndef SPLINES_HH
