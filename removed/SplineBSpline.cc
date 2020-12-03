@@ -242,7 +242,7 @@ namespace Splines {
           real_type const knot[],
           real_type       Bbase[] ) {
       real_type B[2*degree+2];
-      std::fill( B, B+2*degree+2, 0.0 );
+      std::fill_n( B, 2*degree+2, 0.0 );
       B[degree] = 1;
       for ( size_t r = 1; r <= size_t(degree); ++r ) {
         for ( size_t j = 0; j <= size_t(2*degree-r); ++j ) {
@@ -255,7 +255,7 @@ namespace Splines {
           }
         }
       }
-      std::copy( B, B+degree+1, Bbase );
+      std::copy_n( B, degree+1, Bbase );
     }
 
     static
@@ -357,8 +357,8 @@ namespace Splines {
           real_type const knot[],
           real_type const y[] ) {
       real_type c[degree+1], kn[2*degree+2];
-      std::copy( y,    y+degree+1,      c  );
-      std::copy( knot, knot+2*degree+2, kn );
+      std::copy_n( y,    degree+1,   c  );
+      std::copy_n( knot, 2*degree+2, kn );
       BSplineEval<degree>::eval_levels( x, kn, c );
       return c[degree];
     }
@@ -406,7 +406,7 @@ namespace Splines {
             real_type const knot[],
             real_type       Bbase[] ) {
       real_type B[4];
-      std::fill( B, B+4, 0.0 );
+      std::fill_n( B, 4, 0.0 );
       B[1] = 1;
       for ( size_t j = 0; j <= 1; ++j ) {
         if ( knot[j] <= x && x <= knot[j+2] ) {
@@ -417,7 +417,7 @@ namespace Splines {
           B[j] = oma*B[j] + omb*B[j+1];
         }
       }
-      std::copy( B, B+2, Bbase );
+      std::copy_n( B, 2, Bbase );
     }
 
     static void
@@ -807,10 +807,10 @@ namespace Splines {
   BSpline<_degree>::copySpline( BSpline const & S ) {
     BSpline::reserve(S.npts);
     npts = S.npts;
-    std::copy( S.X,        S.X+npts,               X );
-    std::copy( S.Y,        S.Y+npts,               Y );
-    std::copy( S.knots,    S.knots+npts+_degree+1, knots );
-    std::copy( S.yPolygon, S.yPolygon+npts,        yPolygon );
+    std::copy_n( S.X,        npts,           X );
+    std::copy_n( S.Y,        npts,           Y );
+    std::copy_n( S.knots,    npts+_degree+1, knots );
+    std::copy_n( S.yPolygon, npts,           yPolygon );
   }
 
   //! change X-range of the spline
@@ -838,7 +838,7 @@ namespace Splines {
   template <size_t _degree>
   void
   BSpline<_degree>::bases( real_type x, real_type vals[] ) const {
-    std::fill( vals, vals+npts, 0 );
+    std::fill_n( vals, npts, 0 );
     if ( x >= X[0] && x <= X[npts-1] ) {
       integer idx = knot_search( x );
       BSplineBase<_degree>::eval( x, knots+idx, vals+idx );
@@ -848,7 +848,7 @@ namespace Splines {
   template <size_t _degree>
   void
   BSpline<_degree>::bases_D( real_type x, real_type vals[] ) const {
-    std::fill( vals, vals+npts, 0 );
+    std::fill_n( vals, npts, 0 );
     if ( x >= X[0] && x <= X[npts-1] ) {
       integer idx = knot_search( x );
       BSplineBase<_degree>::eval_D( x, knots+idx, vals+idx );
@@ -858,7 +858,7 @@ namespace Splines {
   template <size_t _degree>
   void
   BSpline<_degree>::bases_DD( real_type x, real_type vals[] ) const {
-    std::fill( vals, vals+npts, 0 );
+    std::fill_n( vals, npts, 0 );
     if ( x >= X[0] && x <= X[npts-1] ) {
       integer idx = knot_search( x );
       BSplineBase<_degree>::eval_DD( x, knots+idx, vals+idx );
@@ -868,7 +868,7 @@ namespace Splines {
   template <size_t _degree>
   void
   BSpline<_degree>::bases_DDD( real_type x, real_type vals[] ) const {
-    std::fill( vals, vals+npts, 0 );
+    std::fill_n( vals, npts, 0 );
     if ( x >= X[0] && x <= X[npts-1] ) {
       integer idx = knot_search( x );
       BSplineBase<_degree>::eval_DDD( x, knots+idx, vals+idx );

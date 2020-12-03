@@ -49,9 +49,9 @@ main() {
 
   real_type X[4], Y[6], Z[6*6];
 
-  std::copy( x, x+4,   X );
-  std::copy( y, y+6,   Y );
-  std::copy( z, z+6*6, Z );
+  std::copy_n( x, 4,   X );
+  std::copy_n( y, 6,   Y );
+  std::copy_n( z, 6*6, Z );
 
   //bc.build( x, 1, y, 1, z, 6, 4, 6 );
   //bl.build( x, 1, y, 1, z, 6, 4, 6 );
