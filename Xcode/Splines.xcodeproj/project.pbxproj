@@ -161,9 +161,10 @@
 		D9268AD025CABC1E0074F122 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				D9268ADE25CABC1E0074F122 /* SplinesBivariate.cc */,
+				D9268AD325CABC1E0074F122 /* SplineSetGC.cc */,
 				D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */,
 				D9268AD225CABC1E0074F122 /* SplineAkima.cc */,
-				D9268AD325CABC1E0074F122 /* SplineSetGC.cc */,
 				D9268AD425CABC1E0074F122 /* Splines_doxygen.hh */,
 				D9268AD525CABC1E0074F122 /* SplineLinear.cc */,
 				D9268AD625CABC1E0074F122 /* SplineQuintic.cc */,
@@ -174,7 +175,6 @@
 				D9268ADB25CABC1E0074F122 /* SplinePchip.cc */,
 				D9268ADC25CABC1E0074F122 /* SplinesUtils.cc */,
 				D9268ADD25CABC1E0074F122 /* SplineBessel.cc */,
-				D9268ADE25CABC1E0074F122 /* SplinesBivariate.cc */,
 				D9268ADF25CABC1E0074F122 /* SplinesConfig.hh */,
 				D9268AE025CABC1E0074F122 /* SplineVec.cc */,
 				D9268AE125CABC1E0074F122 /* Splines.cc */,

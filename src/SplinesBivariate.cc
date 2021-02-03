@@ -43,7 +43,10 @@ namespace Splines {
 
   void
   SplineSurf::info( ostream_type & s ) const {
-    fmt::print( s, "Bivariate spline [{}] of type = {}\n", name(), type_name() );
+    fmt::print( s,
+      "Bivariate spline [{}] of type = {}\n",
+      name(), type_name()
+    );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,9 +68,10 @@ namespace Splines {
     real_type const x[], integer incx,
     real_type const y[], integer incy,
     real_type const z[], integer ldZ,
-    integer nx, integer ny,
-    bool fortran_storage,
-    bool transposed
+    integer nx,
+    integer ny,
+    bool    fortran_storage,
+    bool    transposed
   ) {
     m_nx = nx;
     m_ny = ny;
@@ -105,10 +109,12 @@ namespace Splines {
 
   void
   SplineSurf::build(
-    real_type const z[], integer ldZ,
-    integer nx, integer ny,
-    bool fortran_storage,
-    bool transposed
+    real_type const z[],
+    integer         ldZ,
+    integer         nx,
+    integer         ny,
+    bool            fortran_storage,
+    bool            transposed
   ) {
     Utils::Malloc<real_type> mem("SplineSurf::build");
     mem.allocate( size_t(nx+ny) );
@@ -445,8 +451,10 @@ namespace Splines {
     d[5] = bilinear5( u, bili5, v_DD );
   }
 
-  using GenericContainerNamespace::GC_VEC_REAL;
+  using GenericContainerNamespace::GC_VECTOR;
   using GenericContainerNamespace::GC_VEC_INTEGER;
+  using GenericContainerNamespace::GC_VEC_LONG;
+  using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::GC_MAT_REAL;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -500,21 +508,82 @@ namespace Splines {
         integer(gc_z.get_mat_real().numRows()),
         nx, ny, fortran_storage, transposed
       );
-    } else if ( GC_VEC_REAL == gc_z.get_type() ) {
+    } else if ( GC_VEC_INTEGER == gc_z.get_type() ||
+                GC_VEC_LONG    == gc_z.get_type() ||
+                GC_VEC_REAL    == gc_z.get_type() ) {
       GenericContainer const & gc_ldz = gc("ldz");
-      integer ldz = integer(gc_ldz.get_as_uint("SplineSurf::setup, field `ldz` expected to be and integer"));
+      string msg1 = fmt::format( "{} , field `ldz` expected to be and integer", msg );
+      integer ldz = integer(gc_ldz.get_as_uint(msg1.c_str()));
       vec_real_type z;
       gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" );
+      integer nz = integer(z.size());
+      UTILS_ASSERT(
+        nz == nx*ny,
+        "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
+        msg, nx*ny, nx, ny, nz
+      );
       build(
         &x.front(), 1,
         &y.front(), 1,
         &z.front(), ldz,
         nx, ny, fortran_storage, transposed
       );
+    } else if ( GC_VECTOR == gc_z.get_type() ) {
+      vector_type const & data = gc_z.get_vector();
+      vec_real_type tmp, z;
+      z.clear();
+      z.reserve( nx * ny );
+      if ( fortran_storage ) {
+        UTILS_ASSERT(
+          size_t(nx) == data.size(),
+          "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
+          msg, nx, data.size()
+        );
+        for ( integer i = 0; i < nx; ++i ) {
+          GenericContainer const & col = data[size_t(i)];
+          string msg1 = fmt::format( "{} , reading column {}\n", msg, i );
+          col.copyto_vec_real( tmp, msg1.c_str() );
+          UTILS_ASSERT(
+            size_t(ny) == tmp.size(),
+            "{}, column {}-th of size {}, expected {}\n",
+            msg, i, tmp.size(), ny
+          );
+          std::copy(tmp.begin(),tmp.end(), std::back_inserter(z));
+        }
+        build(
+          &x.front(), 1,
+          &y.front(), 1,
+          &z.front(), ny,
+          nx, ny, fortran_storage, transposed
+        );
+      } else {
+        UTILS_ASSERT(
+          size_t(ny) == data.size(),
+          "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
+          msg, ny, data.size()
+        );
+        for ( integer j = 0; j < ny; ++j ) {
+          GenericContainer const & row = data[size_t(j)];
+          string msg1 = fmt::format( "{} , reading row {}\n", msg, j );
+          row.copyto_vec_real( tmp, msg1.c_str() );
+          UTILS_ASSERT(
+            size_t(nx) == tmp.size(),
+            "{}, row {}-th of size {}, expected {}\n",
+            msg, j, tmp.size(), nx
+          );
+          std::copy(tmp.begin(),tmp.end(), std::back_inserter(z));
+        }
+        build(
+          &x.front(), 1,
+          &y.front(), 1,
+          &z.front(), nx,
+          nx, ny, fortran_storage, transposed
+        );
+      }
     } else {
       UTILS_ERROR(
-        "{}, field `z` "
-        "expected to be of type `mat_real_type` or  `vec_real_type` found: `{}`\n",
+        "{}, field `z` expected to be of type"
+        " `mat_real_type` or  `vec_real_type` found: `{}`\n",
         msg, gc_z.get_type_name()
       );
     }
