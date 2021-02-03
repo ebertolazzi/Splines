@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -28,7 +28,7 @@
 #endif
 
 /**
- * 
+ *
  */
 
 namespace Splines {
@@ -151,13 +151,14 @@ namespace Splines {
     // gc["ydata"]
     //
     */
+    string msg = fmt::format("ConstantSpline[{}]::setup( gc ):", m_name );
     UTILS_ASSERT(
       gc.exists("xdata"),
-      "ConstantSpline[{}]::setup missing `xdata` field!\n", m_name
+      "{} missing `xdata` field!\n", msg
     );
     UTILS_ASSERT(
       gc.exists("ydata"),
-      "ConstantSpline[{}]::setup missing `ydata` field!\n", m_name
+      "{} missing `ydata` field!\n", msg
     );
 
     GenericContainer const & gc_x = gc("xdata");
@@ -165,11 +166,11 @@ namespace Splines {
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "ConstantSpline[{}]::setup, field `xdata'", m_name );
+      std::string ff = fmt::format( "{}, field `xdata'", msg );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "ConstantSpline[{}]::setup, field `ydata'", m_name );
+      std::string ff = fmt::format( "{}, field `ydata'", msg );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

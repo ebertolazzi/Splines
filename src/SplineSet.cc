@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -32,7 +32,7 @@
 #endif
 
 /**
- * 
+ *
  */
 
 namespace Splines {
@@ -121,7 +121,7 @@ namespace Splines {
         case  1: s << " is strictly monotone\n";   break;
         default: UTILS_ERROR(
           "SplineSet::info classification: {} not in range {-2,-1,0,1}\n",
-          m_is_monotone[i] 
+          m_is_monotone[i]
         );
       }
       m_splines[i]->info(s);
@@ -215,17 +215,18 @@ namespace Splines {
     integer            npts,
     char         const *headers[],
     SplineType1D const stype[],
-    real_type    const X[],
-    real_type    const *Y[],
-    real_type    const *Yp[]
+    real_type    const data_X[],
+    real_type    const *data_Y[],
+    real_type    const *data_Yp[]
   ) {
+    string msg = fmt::format("SplineSet[{}]::build(...):", m_name );
     UTILS_ASSERT(
       nspl > 0,
-      "SplineSet::build expected positive nspl = {}\n", nspl
+      "{} expected positive nspl = {}\n", msg, nspl
     );
     UTILS_ASSERT(
       npts > 1,
-      "SplineSet::build expected npts = {} greather than 1", npts
+      "{} expected npts = {} greather than 1", msg, npts
     );
     m_nspl = nspl;
     m_npts = npts;
@@ -257,8 +258,8 @@ namespace Splines {
       case SPLINE_VEC_TYPE:
       //default:
         UTILS_ERROR(
-          "SplineSet::build\nAt spline n.{} named {} cannot be done for type = {}\n",
-          spl, headers[spl], stype[spl]
+          "{} At spline n.{} named {} cannot be done for type = {}\n",
+          msg, spl, headers[spl], stype[spl]
         );
       }
     }
@@ -273,13 +274,13 @@ namespace Splines {
     m_Ymin = m_baseValue   ( size_t(m_nspl) );
     m_Ymax = m_baseValue   ( size_t(m_nspl) );
 
-    std::copy_n( X, npts, m_X );
+    std::copy_n( data_X, npts, m_X );
     for ( size_t spl = 0; spl < size_t(nspl); ++spl ) {
-      real_type *& pY   = m_Y[spl];
-      real_type *& pYp  = m_Yp[spl];
-      real_type *& pYpp = m_Ypp[spl];
+      real_type * & pY   = m_Y[spl];
+      real_type * & pYp  = m_Yp[spl];
+      real_type * & pYpp = m_Ypp[spl];
       pY = m_baseValue(size_t(m_npts));
-      std::copy_n( Y[spl], npts, pY );
+      std::copy_n( data_Y[spl], npts, pY );
       if ( stype[spl] == CONSTANT_TYPE ) {
         m_Ymin[spl] = *std::min_element( pY, pY+npts-1 );
         m_Ymax[spl] = *std::max_element( pY, pY+npts-1 );
@@ -299,12 +300,12 @@ namespace Splines {
         pYp = m_baseValue( size_t(m_npts) );
         if ( stype[spl] == HERMITE_TYPE ) {
           UTILS_ASSERT(
-            Yp != nullptr && Yp[spl] != nullptr,
-            "SplineSet::build\nAt spline n.{} named {}\n"
+            data_Yp != nullptr && data_Yp[spl] != nullptr,
+            "{} At spline n.{} named {}\n"
             "expect to find derivative values",
-            spl, headers[spl] 
+            msg, spl, headers[spl]
           );
-          std::copy_n( Yp[spl], npts, pYp );
+          std::copy_n( data_Yp[spl], npts, pYp );
         }
       case CONSTANT_TYPE:
       case LINEAR_TYPE:
@@ -391,10 +392,10 @@ namespace Splines {
       case SPLINE_VEC_TYPE:
       //default:
         UTILS_ERROR(
-          "SplineSet::build\nAt spline n.{} named {}\n"
+          "{} At spline n.{} named {}\n"
           "{} not allowed as spline type\n"
           "in SplineSet::build for {}-th spline\n",
-          spl, headers[spl], stype[size_t(spl)], spl
+          msg, spl, headers[spl], stype[size_t(spl)], spl
         );
       }
       m_header_to_position.insert( s->name(), integer(spl) );
@@ -402,16 +403,6 @@ namespace Splines {
 
     m_baseValue   . must_be_empty( "SplineSet::build, baseValue" );
     m_basePointer . must_be_empty( "SplineSet::build, basePointer" );
-
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  SplineSet::getHeaders( vector<string> & h ) const {
-    h.resize(size_t(m_nspl));
-    for ( integer i = 0; i < m_nspl; ++i )
-      h[i] = m_splines[i]->name();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -495,21 +486,23 @@ namespace Splines {
     real_type   zeta,
     real_type & x
   ) const {
+    string msg = fmt::format("SplineSet[{}]::intersect(...):", m_name );
     UTILS_ASSERT(
       spl >= 0 && spl < m_nspl,
-      "Spline n.{} is not in SplineSet", spl
+      "{}\nSpline n.{} is not in SplineSet", msg, spl
     );
     UTILS_ASSERT(
       m_is_monotone[size_t(spl)]>0,
-      "Spline n.{} is not monotone and can't be used as independent", spl
+      "{}\nSpline n.{} is not monotone and can't be used as independent",
+      msg, spl
     );
     Spline const * S = m_splines[spl];
     // cerco intervallo intersezione
     real_type const * X = m_Y[spl];
     UTILS_ASSERT(
       zeta >= X[0] && zeta <= X[m_npts-1],
-      "SplineSet, evaluation at zeta = {} is out of range: [{},{}]\n",
-      zeta, X[0], X[m_npts-1]
+      "{} evaluation at zeta = {} is out of range: [{},{}]\n",
+      msg, zeta, X[0], X[m_npts-1]
     );
 
     integer interval = integer(lower_bound( X, X+m_npts, zeta ) - X);
@@ -526,11 +519,11 @@ namespace Splines {
     real_type DY = yb-ya;
     UTILS_ASSERT(
       zeta >= ya && zeta <= yb,
-      "SplineSet, Bad interval [{},{}] for zeta = {}\n", ya, yb, zeta
+      "{} Bad interval [{},{}] for zeta = {}\n", msg, ya, yb, zeta
     );
     UTILS_ASSERT(
       a < b,
-      "SplineSet, Bad x interval [{},{}]\n", a, b
+      "{} Bad x interval [{},{}]\n", msg,  a, b
     );
     if ( S->type() == LINEAR_TYPE ) {
       x = a + (b-a)*(zeta-ya)/(yb-ya);
@@ -554,7 +547,8 @@ namespace Splines {
       }
       UTILS_ASSERT(
         ok,
-        "SplineSet, failed to find intersection with independent spline at zeta = {}\n", zeta
+        "{}\nfailed to find intersection with independent spline at zeta = {}\n",
+        msg, zeta
       );
     }
     return S;

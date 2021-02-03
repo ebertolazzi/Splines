@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -29,7 +29,7 @@
 #endif
 
 /**
- * 
+ *
  */
 
 namespace Splines {
@@ -459,17 +459,18 @@ namespace Splines {
     // gc["zdata"]
     //
     */
+    string msg = fmt::format("SplineSurf[{}]::setup( gc ):", m_name );
     UTILS_ASSERT(
       gc.exists("xdata"),
-      "[SplineSurf[{}]::setup] missing `xdata` field!\n", m_name
+      "{}, missing `xdata` field!\n", msg
     );
     UTILS_ASSERT(
       gc.exists("ydata"),
-      "[SplineSurf[{}]::setup] missing `ydata` field!\n", m_name
+      "{}, missing `ydata` field!\n", msg
     );
     UTILS_ASSERT(
       gc.exists("zdata"),
-      "[SplineSurf[{}]::setup] missing `zdata` field!\n", m_name
+      "{}, missing `zdata` field!\n", msg
     );
 
     GenericContainer const & gc_x = gc("xdata");
@@ -512,9 +513,9 @@ namespace Splines {
       );
     } else {
       UTILS_ERROR(
-        "[SplineSurf[{}]::setup] field `z` "
+        "{}, field `z` "
         "expected to be of type `mat_real_type` or  `vec_real_type` found: `{}`\n",
-        m_name, gc_z.get_type_name()
+        msg, gc_z.get_type_name()
       );
     }
 

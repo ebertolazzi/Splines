@@ -312,7 +312,7 @@ namespace Splines {
       real_type m1 = Yp[i]/dd;
       if ( m0 < 0 || m1 < 0 ) return -1; // non monotone
       if ( m0 <= 3 && m1 <= 3 ) {
-        if ( flag > 0 && i > 1 && 
+        if ( flag > 0 && i > 1 &&
              (Utils::isZero(m0) || Utils::isZero(m0-3) ) ) flag = 0;
         if ( flag > 0 && i < size_t(npts-1) &&
              (Utils::isZero(m1) || Utils::isZero(m1-3) ) ) flag = 0;
@@ -368,9 +368,9 @@ namespace Splines {
     if ( m_npts > 0 ) {
       UTILS_ASSERT(
         x >= m_X[size_t(m_npts-1)], // ammetto punti doppi
-        "Spline::pushBack, non monotone insert at insert N.{}"
+        "Spline[{}]::pushBack, non monotone insert at insert N.{}"
         "\nX[{}] = {}\nX[{}] = {}\n",
-        m_npts, m_npts-1, m_X[size_t(m_npts-1)], m_npts, x
+        m_name, m_npts, m_npts-1, m_X[size_t(m_npts-1)], m_npts, x
       );
     }
     if ( m_npts_reserved == 0 ) {
@@ -410,7 +410,7 @@ namespace Splines {
   Spline::setRange( real_type xmin, real_type xmax ) {
     UTILS_ASSERT(
       xmax > xmin,
-      "Spline::setRange({},{}) bad range ", xmin, xmax
+      "Spline[{}]::setRange({},{}) bad range ", m_name, xmin, xmax
     );
     real_type S  = (xmax - xmin) / ( m_X[m_npts-1] - m_X[0] );
     real_type Tx = xmin - S * m_X[0];
@@ -532,11 +532,12 @@ namespace Splines {
     // gc["ydata"]
     //
     */
+    string msg = fmt::format("Spline[{}]::setup( gc ):", m_name );
     UTILS_ASSERT(
-      gc.exists("xdata"), "Spline[{}]::setup missing `xdata` field!\n", m_name
+      gc.exists("xdata"), "{} missing `xdata` field!\n", msg
     );
     UTILS_ASSERT(
-      gc.exists("ydata"), "Spline[{}]::setup missing `ydata` field!\n", m_name
+      gc.exists("ydata"), "{} missing `ydata` field!\n", msg
     );
 
     GenericContainer const & gc_x = gc("xdata");
@@ -544,11 +545,11 @@ namespace Splines {
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "Spline[{}]::setup, field `xdata'", m_name );
+      std::string ff = fmt::format( "{}, field `xdata'", msg );
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "Spline[{}]::setup, field `ydata'", m_name );
+      std::string ff = fmt::format( "{}, field `ydata'", msg );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     build( x, y );

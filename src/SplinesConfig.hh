@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -38,11 +38,5 @@
 
 #include "Utils.hh"
 #include "GenericContainer.hh"
-
-#ifdef DEBUG
-  #define SPLINE_CHECK_NAN( PTR, MSG, DIM ) Utils::checkNaN( PTR, MSG, DIM, __LINE__, __FILE__ )
-#else
-  #define SPLINE_CHECK_NAN( PTR, MSG, DIM )
-#endif
 
 #endif

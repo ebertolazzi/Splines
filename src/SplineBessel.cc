@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -80,10 +80,14 @@ namespace Splines {
 
   void
   BesselSpline::build (void) {
+    string msg = fmt::format("BesselSpline[{}]::build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
-      "BesselSpline::build(): npts = {} not enought points\n", m_npts
+      "{} npts = {} not enought points\n",
+      msg, m_npts
     );
+    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -93,7 +97,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    SPLINE_CHECK_NAN( m_Yp, "BesselSpline::build(): Yp", m_npts );
+    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -108,13 +112,14 @@ namespace Splines {
     // gc["ydata"]
     //
     */
+    string msg = fmt::format("BesselSpline[{}]::setup( gc ):", m_name );
     UTILS_ASSERT(
       gc.exists("xdata"),
-      "BesselSpline[{}]::setup missing `xdata` field!\n", m_name
+      "{} missing `xdata` field!\n", msg
     );
     UTILS_ASSERT(
       gc.exists("ydata"),
-      "BesselSpline[{}]::setup missing `ydata` field!\n", m_name
+      "{} missing `ydata` field!\n", msg
     );
 
     GenericContainer const & gc_x = gc("xdata");
@@ -122,11 +127,11 @@ namespace Splines {
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "BesselSpline[{}]::setup, field `xdata'", m_name );
+      std::string ff = fmt::format( "{}, field `xdata'", msg );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "BesselSpline[{}]::setup, field `ydata'", m_name );
+      std::string ff = fmt::format( "{}, field `ydata'", msg );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

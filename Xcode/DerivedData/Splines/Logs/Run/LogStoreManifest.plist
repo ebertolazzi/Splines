@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>27763058-8C05-4D55-9864-2699E0328E58</key>
+		<dict>
+			<key>className</key>
+			<string>DBGConsoleLog</string>
+			<key>documentTypeString</key>
+			<string>com.apple.dt.IDE.DebuggerLogContentType</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>27763058-8C05-4D55-9864-2699E0328E58.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Splines project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>test9</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Run test9</string>
+			<key>timeStartedRecording</key>
+			<real>634045200.75486803</real>
+			<key>timeStoppedRecording</key>
+			<real>634045202.34102798</real>
+			<key>title</key>
+			<string>Run test9</string>
+			<key>uniqueIdentifier</key>
+			<string>27763058-8C05-4D55-9864-2699E0328E58</string>
+		</dict>
+		<key>AD893CF6-5223-45B0-B93E-3ADB76D9BB4D</key>
+		<dict>
+			<key>className</key>
+			<string>DBGConsoleLog</string>
+			<key>documentTypeString</key>
+			<string>com.apple.dt.IDE.DebuggerLogContentType</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>AD893CF6-5223-45B0-B93E-3ADB76D9BB4D.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Splines project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Splines</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Run test9</string>
+			<key>timeStartedRecording</key>
+			<real>634044410.09574199</real>
+			<key>timeStoppedRecording</key>
+			<real>634044411.69337404</real>
+			<key>title</key>
+			<string>Run test9</string>
+			<key>uniqueIdentifier</key>
+			<string>AD893CF6-5223-45B0-B93E-3ADB76D9BB4D</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

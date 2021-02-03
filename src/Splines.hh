@@ -2169,6 +2169,8 @@ namespace Splines {
     header( integer i ) const
     { return m_splines[i]->name(); }
 
+    // vectorial values
+    //! fill a vector of strings with the names of the splines
     void get_headers( std::vector<std::string> & names ) const;
 
     string name_list() const;
@@ -2358,11 +2360,6 @@ namespace Splines {
       Spline const * S = this->getSpline(name);
       return S->DDDDD(x);
     }
-
-    // vectorial values
-    //! fill a vector of strings with the names of the splines
-    void
-    getHeaders( vector<string> & h ) const;
 
     //! Evaluate all the splines at `x`
     void

@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -449,10 +449,14 @@ namespace Splines {
 
   void
   CubicSpline::build() {
+    string msg = fmt::format("CubicSpline[{}]::build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
-      "CubicSpline::build(): npts = {} not enought points\n", m_npts
+      "{} npts = {} not enought points\n",
+      msg, m_npts
     );
+    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -472,7 +476,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    SPLINE_CHECK_NAN( m_Yp, "CubicSpline::build(): Yp", m_npts );
+    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
   using GenericContainerNamespace::GC_VEC_REAL;
@@ -487,13 +491,14 @@ namespace Splines {
     // gc["ydata"]
     //
     */
+    string msg = fmt::format("CubicSpline[{}]::setup( gc ):", m_name );
     UTILS_ASSERT(
       gc.exists("xdata"),
-      "CubicSpline[{}]::setup missing `xdata` field!\n", m_name
+      "{} missing `xdata` field!\n", msg
     );
     UTILS_ASSERT(
       gc.exists("ydata"),
-      "CubicSpline[{}]::setup missing `y`data field!\n", m_name
+      "{} missing `y`data field!\n", msg
     );
 
     GenericContainer const & gc_x = gc("xdata");
@@ -501,11 +506,11 @@ namespace Splines {
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "CubicSpline[{}]::setup, field `xdata'", m_name );
+      std::string ff = fmt::format( "{}, field `xdata'", msg );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "CubicSpline[{}]::setup, field `ydata'", m_name );
+      std::string ff = fmt::format( "{}, field `ydata'", msg );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     if ( gc.exists("bc_begin") ) {
@@ -516,12 +521,12 @@ namespace Splines {
       else if ( bc == "not_a_knot"  ) m_bc0 = NOT_A_KNOT;
       else {
         UTILS_ERROR(
-          "CubicSpline[{}]::setup unknow initial bc: {}\n", m_name, bc
+          "{} unknow initial bc: {}\n", msg, bc
         );
       }
     } else {
-      UTILS_WARNING0( false,
-        "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value\n"
+      UTILS_WARNING( false,
+        "{}, missing field `bc_begin` using `extrapolate` as default value\n", msg
       );
     }
 
@@ -533,12 +538,12 @@ namespace Splines {
       else if ( bc == "not_a_knot"  ) m_bcn = NOT_A_KNOT;
       else {
         UTILS_ERROR(
-          "CubicSpline[{}]::setup unknow final bc: {}\n", m_name, bc
+          "{} unknow final bc: {}\n", msg, bc
         );
       }
     } else {
-      UTILS_WARNING0( false,
-        "CubicSpline::setup, missing field `bc_begin` using `extrapolate` as default value\n"
+      UTILS_WARNING( false,
+        "{}, missing field `bc_begin` using `extrapolate` as default value\n", msg
       );
     }
     this->build( x, y );

@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -68,9 +68,11 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
+    string msg = fmt::format( "SplineSet[{}]::build():", m_name );
+
     UTILS_ASSERT(
       gc.exists("spline_type"),
-      "[SplineSet[{}]::setup] missing `spline_type` field!\n", m_name
+      "{}, missing `spline_type` field!\n", msg
     );
     gc("spline_type").copyto_vec_string(
       spline_type_vec,
@@ -78,20 +80,19 @@ namespace Splines {
     );
     m_nspl = integer(spline_type_vec.size());
     stype.resize( size_t(m_nspl) );
-    headers.resize( size_t(m_nspl) );
     for ( size_t spl = 0; spl < size_t(m_nspl); ++spl )
       stype[spl] = string_to_splineType( spline_type_vec[spl] );
 
     UTILS_ASSERT(
       gc.exists("xdata"),
-      "[SplineSet[{}]::setup] missing `xdata` field!\n", m_name
+      "{}, missing `xdata` field!\n", msg
     );
     gc("xdata").copyto_vec_real( X, "SplineSet::setup reading `xdata'" );
     m_npts = integer( X.size() );
 
     UTILS_ASSERT(
       gc.exists("ydata"),
-      "[SplineSet[{}]::setup] missing `ydata` field!\n", m_name
+      "{}, missing `ydata` field!\n", msg
     );
     GenericContainer const & gc_ydata = gc("ydata");
 
@@ -104,16 +105,16 @@ namespace Splines {
          GC_VECTOR   == gc_ydata.get_type() ) {
       UTILS_ASSERT(
         gc.exists("headers"),
-        "[SplineSet[{}]::setup] missing `headers` field!\n", m_name
+        "{}, missing `headers` field!\n", msg
       );
       GenericContainer const & gc_headers = gc("headers");
       gc_headers.copyto_vec_string(
-        headers, "SplineSet::setup reading `headers'\n"
+        headers, (msg+", reading `headers'").c_str()
       );
       UTILS_ASSERT(
         headers.size() == size_t(m_nspl),
-        "[SplineSet[{}]::setup] field `headers` expected to be of size {} found of size {}\n",
-        m_name, m_nspl, headers.size()
+        "{}, field `headers` expected to be of size {} found of size {}\n",
+        msg, m_nspl, headers.size()
       );
     }
 
@@ -122,15 +123,15 @@ namespace Splines {
       mat_real_type const & data = gc_ydata.get_mat_real();
       UTILS_ASSERT(
         size_t(m_nspl) == data.numCols(),
-        "[SplineSet[{}]::setup] number of splines [{}]\n"
+        "{}, number of splines [{}]\n"
         "differs from the number of `ydata` columns [{}] in data\n",
-        m_name, m_nspl, data.numCols()
+        msg, m_nspl, data.numCols()
       );
       UTILS_ASSERT(
         size_t(m_npts) == data.numRows(),
-        "[SplineSet[{}]::setup] number of points [{}]\n"
-        "differs from the numeber of `ydata` rows [{}] in data\n",
-        m_name, m_npts, data.numRows()
+        "{}, number of points [{}]\n"
+        "differs from the number of `ydata` rows [{}] in data\n",
+        msg, m_npts, data.numRows()
       );
       for ( size_t i = 0; i < size_t(m_nspl); ++i )
         data.getColumn(unsigned(i),Y[i]);
@@ -138,96 +139,129 @@ namespace Splines {
       vector_type const & data = gc_ydata.get_vector();
       UTILS_ASSERT(
         size_t(m_nspl) == data.size(),
-        "[SplineSet[{}]::setup] field `ydata` expected of size {} found of size {}\n",
-        m_name, m_nspl, data.size()
+        "{}, field `ydata` expected of size {} found of size {}\n",
+        msg, m_nspl, data.size()
       );
-      for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
-        GenericContainer const & datai = data[i];
+      string msg1 = msg+" reading `ydata` columns";
+      for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
+        GenericContainer const & datai = data[spl];
         integer nrow = m_npts;
-        if ( stype[i] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Y[i], "SplineSet::setup reading `ydata'" );
+        if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        datai.copyto_vec_real( Y[spl], msg1.c_str() );
+        UTILS_ASSERT(
+          size_t(m_npts) == Y[spl].size(),
+          "{}, column {} of `ydata` expected of size {} found of size {}\n",
+          msg, spl, m_npts, Y[spl].size()
+        );
       }
     } else if ( GC_MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map();
       UTILS_ASSERT(
         data.size() == size_t(m_nspl),
-        "[SplineSet[{}]::setup] field `ydata` expected of size {} found of size {}\n",
-        m_name, m_nspl, data.size()
+        "{}, field `ydata` expected of size {} found of size {}\n",
+        msg, m_nspl, data.size()
       );
+      headers.clear(); headers.reserve(data.size());
       map_type::const_iterator im = data.begin();
+      string msg1 = msg+" reading `ydata` columns";
       for ( size_t spl = 0; im != data.end(); ++im, ++spl ) {
-        headers[spl] = im->first;
+        headers.push_back(im->first);
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
         if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Y[spl], "SplineSet::setup reading `ydata'" );
+        datai.copyto_vec_real( Y[spl], msg1.c_str() );
+        UTILS_ASSERT(
+          size_t(m_npts) == Y[spl].size(),
+          "{}, column `{}` of `ydata` expected of size {} found of size {}\n",
+          msg, im->first, m_npts, Y[spl].size()
+        );
       }
     } else {
       UTILS_ERROR(
-        "[SplineSet[{}]::setup] field `data` expected\n"
+        "{}, field `data` expected\n"
         "to be of type `mat_real_type`, `vector_type` or `map_type'\n"
         "found: `{}`\n",
-        m_name, gc_ydata.get_type_name()
+        msg, gc_ydata.get_type_name()
       );
     }
 
-    if ( gc.exists("ypdata") ) { // yp puo essere solo tipo map
+    if ( gc.exists("ypdata") ) { // yp puo' essere solo tipo map
       GenericContainer const & gc_ypdata = gc("ypdata");
       UTILS_ASSERT(
         GC_MAP == gc_ypdata.get_type(),
-        "[SplineSet[{}]::setup] field `ypdata` expected to be of type `map_type` found: `{}`\n",
-        m_name, gc_ypdata.get_type_name()
+        "{}, field `ypdata` expected to be of type `map_type` found: `{}`\n",
+        msg, gc_ypdata.get_type_name()
       );
-      for ( integer spl = 0; spl < m_nspl; ++spl )
-        m_header_to_position.insert( headers[size_t(spl)], spl );
 
+      std::map<string,integer> h_to_pos;
+      vec_string_type::const_iterator is = headers.begin();
+      for ( integer idx = 0; is != headers.end(); ++is )
+        h_to_pos[*is] = idx++;
+
+      string msg1 = msg+" reading `ypdata` columns";
       map_type const & data = gc_ypdata.get_map();
       map_type::const_iterator im = data.begin();
       for (; im != data.end(); ++im ) {
-        integer spl = getPosition(im->first.c_str());
+        // cerca posizione
+        std::map<string,integer>::iterator is = h_to_pos.find(im->first);
+        UTILS_ASSERT(
+          is != h_to_pos.end(),
+          "{}, column `{}` of `ypdata` not found\n",
+          msg, im->first
+        );
+        integer spl = is->second;
+
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
         if ( stype[size_t(spl)] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real(
-          Yp[size_t(spl)], "SplineSet::setup reading `ypdata'"
+        datai.copyto_vec_real( Yp[size_t(spl)], msg1.c_str() );
+        UTILS_ASSERT(
+          size_t(m_npts) == Y[spl].size(),
+          "{}, column `{}` of `ypdata` expected of size {} found of size {}\n",
+          msg, im->first, m_npts, Y[spl].size()
         );
       }
     }
 
-    vector<char const*>      __headers;
-    vector<real_type const*> __Y, __Yp;
+    Utils::Malloc<void*> mem( msg );
+    mem.allocate( size_t( 3*m_nspl ) );
 
-    __headers.resize( size_t( m_nspl ) );
-    __Y.resize( size_t( m_nspl ) );
-    __Yp.resize( size_t( m_nspl ) );
+    void ** __headers = mem( size_t( m_nspl ) );
+    void ** __Y       = mem( size_t( m_nspl ) );
+    void ** __Yp      = mem( size_t( m_nspl ) );
 
     for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
-      __headers[spl] = headers[spl].c_str();
-      __Y[spl]       = &Y[spl].front();
-      __Yp[spl]      = Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr;
+      __headers[spl] = const_cast<void *>( reinterpret_cast<void const *>(
+        headers[spl].c_str()
+      ) );
+      __Y[spl] = reinterpret_cast<void *>(
+        &Y[spl].front()
+      );
+      __Yp[spl] = reinterpret_cast<void *>(
+        Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr
+      );
     }
 
     this->build(
       m_nspl, m_npts,
-      &__headers.front(),
-      &stype.front(),
-      &X.front(),
-      &__Y.front(),
-      &__Yp.front()
+      reinterpret_cast<char const **>(const_cast<void const **>(__headers)),
+      &stype.front(), &X.front(),
+      reinterpret_cast<real_type const **>(const_cast<void const **>(__Y)),
+      reinterpret_cast<real_type const **>(const_cast<void const **>(__Yp))
     );
 
     if ( gc.exists("boundary") ) {
       GenericContainer const & gc_boundary = gc("boundary");
-      unsigned ne = gc_boundary.get_num_elements();
+      integer ne = integer(gc_boundary.get_num_elements());
       UTILS_ASSERT(
         ne == m_nspl,
-        "[SplineSet[{}]::setup] field `boundary` expected a"
+        "{}, field `boundary` expected a"
         " generic vector of size: {} but is of size: {}\n",
-        m_name, ne, m_nspl
+        msg, ne, m_nspl
       );
 
-      for ( unsigned ispl = 0; ispl < ne; ++ispl ) {
-        Spline * S = m_splines[ispl];
+      for ( integer ispl = 0; ispl < ne; ++ispl ) {
+        Spline * S = m_splines[size_t(ispl)];
         GenericContainer const & item = gc_boundary(ispl,"SplineSet boundary data");
 
         if ( item.exists("closed") && item("closed").get_bool() ) {
