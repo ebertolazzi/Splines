@@ -375,9 +375,11 @@ namespace Splines {
 
         size_t i0j0 = size_t(ipos_C(integer(i0),integer(j0)));
 
-        AkimaSmooth( x_loc, integer(imin-iadd), integer(imax+iadd),
-                     y_loc, integer(jmin-jadd), integer(jmax+jadd),
-                     z_loc, m_DX[i0j0], m_DY[i0j0], m_DXY[i0j0] );
+        AkimaSmooth(
+          x_loc, integer(imin-iadd), integer(imax+iadd),
+          y_loc, integer(jmin-jadd), integer(jmax+jadd),
+          z_loc, m_DX[i0j0], m_DY[i0j0], m_DXY[i0j0]
+        );
       }
     }
   }

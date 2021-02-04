@@ -4043,9 +4043,10 @@ namespace Splines {
       real_type const x[], integer incx,
       real_type const y[], integer incy,
       real_type const z[], integer ldZ,
-      integer nx, integer ny,
-      bool fortran_storage = false,
-      bool transposed      = false
+      integer         nx,
+      integer         ny,
+      bool            fortran_storage = false,
+      bool            transposed      = false
     );
 
     /*! Build surface spline
@@ -4107,11 +4108,11 @@ namespace Splines {
     );
 
     void
-    setup( GenericContainer const & gc );
+    setup( GenericContainer const & gc )
+    { build(gc); }
 
     void
-    build( GenericContainer const & gc )
-    { setup(gc); }
+    build( GenericContainer const & gc );
 
     //! Evaluate spline value
     real_type

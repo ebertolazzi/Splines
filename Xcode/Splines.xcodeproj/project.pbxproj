@@ -30,14 +30,47 @@
 		D9268B0125CABC1E0074F122 /* SplineBilinear.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEA25CABC1E0074F122 /* SplineBilinear.cc */; };
 		D9268B0225CABC1E0074F122 /* SplinesCinterface.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEB25CABC1E0074F122 /* SplinesCinterface.cc */; };
 		D9268B0325CABC1E0074F122 /* SplineAkima2D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEC25CABC1E0074F122 /* SplineAkima2D.cc */; };
-		D9268B1425CABC650074F122 /* libUtils_osx_static_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9268B1125CABC640074F122 /* libUtils_osx_static_debug.a */; };
-		D9268B1525CABC650074F122 /* libQuartic_osx_static_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9268B1225CABC640074F122 /* libQuartic_osx_static_debug.a */; };
-		D9268B1625CABC650074F122 /* libGenericContainer_osx_static_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9268B1325CABC640074F122 /* libGenericContainer_osx_static_debug.a */; };
 		D9268B3F25CABD430074F122 /* test9.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268B0725CABC270074F122 /* test9.cc */; };
+		D93B173C25CB709F0033E2CA /* SplineBessel.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADD25CABC1E0074F122 /* SplineBessel.cc */; };
+		D93B173D25CB709F0033E2CA /* SplineHermite.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE925CABC1E0074F122 /* SplineHermite.cc */; };
+		D93B173E25CB709F0033E2CA /* SplineCubicBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD725CABC1E0074F122 /* SplineCubicBase.cc */; };
+		D93B173F25CB709F0033E2CA /* SplinePchip.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADB25CABC1E0074F122 /* SplinePchip.cc */; };
+		D93B174025CB709F0033E2CA /* SplineSetGC.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD325CABC1E0074F122 /* SplineSetGC.cc */; };
+		D93B174125CB709F0033E2CA /* Splines2D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE225CABC1E0074F122 /* Splines2D.cc */; };
+		D93B174225CB709F0033E2CA /* SplineBiCubic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE325CABC1E0074F122 /* SplineBiCubic.cc */; };
+		D93B174325CB709F0033E2CA /* SplineBilinear.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEA25CABC1E0074F122 /* SplineBilinear.cc */; };
+		D93B174425CB709F0033E2CA /* SplineConstant.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD925CABC1E0074F122 /* SplineConstant.cc */; };
+		D93B174525CB709F0033E2CA /* SplineLinear.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD525CABC1E0074F122 /* SplineLinear.cc */; };
+		D93B174625CB709F0033E2CA /* SplineQuintic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD625CABC1E0074F122 /* SplineQuintic.cc */; };
+		D93B174725CB709F0033E2CA /* Splines.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE125CABC1E0074F122 /* Splines.cc */; };
+		D93B174825CB709F0033E2CA /* SplineVec.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE025CABC1E0074F122 /* SplineVec.cc */; };
+		D93B174925CB709F0033E2CA /* SplineCubic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE625CABC1E0074F122 /* SplineCubic.cc */; };
+		D93B174A25CB709F0033E2CA /* SplineBiQuintic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADA25CABC1E0074F122 /* SplineBiQuintic.cc */; };
+		D93B174B25CB709F0033E2CA /* SplineAkima.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD225CABC1E0074F122 /* SplineAkima.cc */; };
+		D93B174C25CB709F0033E2CA /* SplinesCinterface.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEB25CABC1E0074F122 /* SplinesCinterface.cc */; };
+		D93B174D25CB709F0033E2CA /* Splines1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE525CABC1E0074F122 /* Splines1D.cc */; };
+		D93B174E25CB709F0033E2CA /* SplinesBivariate.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADE25CABC1E0074F122 /* SplinesBivariate.cc */; };
+		D93B174F25CB709F0033E2CA /* SplineAkima2D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEC25CABC1E0074F122 /* SplineAkima2D.cc */; };
+		D93B175025CB709F0033E2CA /* SplineSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD825CABC1E0074F122 /* SplineSet.cc */; };
+		D93B175225CB709F0033E2CA /* SplinesUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADC25CABC1E0074F122 /* SplinesUtils.cc */; };
+		D93B175325CB709F0033E2CA /* SplineQuinticBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */; };
+		D93B176125CB70AC0033E2CA /* test2.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268B0925CABC270074F122 /* test2.cc */; };
+		D93B176925CB70E30033E2CA /* libUtils_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176625CB70E30033E2CA /* libUtils_osx_static.a */; };
+		D93B176A25CB70E30033E2CA /* libQuartic_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */; };
+		D93B176B25CB70E30033E2CA /* libGenericContainer_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D9268AC225CABBFD0074F122 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D93B175825CB709F0033E2CA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -87,9 +120,6 @@
 		D9268B0C25CABC270074F122 /* test4.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test4.cc; sourceTree = "<group>"; };
 		D9268B0D25CABC270074F122 /* test5.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test5.cc; sourceTree = "<group>"; };
 		D9268B0E25CABC270074F122 /* test1.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test1.cc; sourceTree = "<group>"; };
-		D9268B1125CABC640074F122 /* libUtils_osx_static_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUtils_osx_static_debug.a; sourceTree = "<group>"; };
-		D9268B1225CABC640074F122 /* libQuartic_osx_static_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQuartic_osx_static_debug.a; sourceTree = "<group>"; };
-		D9268B1325CABC640074F122 /* libGenericContainer_osx_static_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGenericContainer_osx_static_debug.a; sourceTree = "<group>"; };
 		D9268B1825CABC6E0074F122 /* GenericContainerLibs.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GenericContainerLibs.hh; sourceTree = "<group>"; };
 		D9268B1925CABC6E0074F122 /* GenericContainerConfig.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GenericContainerConfig.hh; sourceTree = "<group>"; };
 		D9268B1A25CABC6E0074F122 /* Utils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hh; sourceTree = "<group>"; };
@@ -123,6 +153,10 @@
 		D9268B3925CABC6E0074F122 /* ozstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ozstream.hpp; sourceTree = "<group>"; };
 		D9268B3A25CABC6E0074F122 /* ThreadPool.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hxx; sourceTree = "<group>"; };
 		D9268B3B25CABC6E0074F122 /* GenericContainer_doc.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GenericContainer_doc.hh; sourceTree = "<group>"; };
+		D93B175C25CB709F0033E2CA /* test2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test2; sourceTree = BUILT_PRODUCTS_DIR; };
+		D93B176625CB70E30033E2CA /* libUtils_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUtils_osx_static.a; sourceTree = "<group>"; };
+		D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQuartic_osx_static.a; sourceTree = "<group>"; };
+		D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGenericContainer_osx_static.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,9 +164,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9268B1525CABC650074F122 /* libQuartic_osx_static_debug.a in Frameworks */,
-				D9268B1625CABC650074F122 /* libGenericContainer_osx_static_debug.a in Frameworks */,
-				D9268B1425CABC650074F122 /* libUtils_osx_static_debug.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D93B175425CB709F0033E2CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D93B176A25CB70E30033E2CA /* libQuartic_osx_static.a in Frameworks */,
+				D93B176925CB70E30033E2CA /* libUtils_osx_static.a in Frameworks */,
+				D93B176B25CB70E30033E2CA /* libGenericContainer_osx_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D9268AC425CABBFD0074F122 /* test9 */,
+				D93B175C25CB709F0033E2CA /* test2 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,9 +256,9 @@
 		D9268B1025CABC640074F122 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				D9268B1125CABC640074F122 /* libUtils_osx_static_debug.a */,
-				D9268B1225CABC640074F122 /* libQuartic_osx_static_debug.a */,
-				D9268B1325CABC640074F122 /* libGenericContainer_osx_static_debug.a */,
+				D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */,
+				D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */,
+				D93B176625CB70E30033E2CA /* libUtils_osx_static.a */,
 			);
 			name = lib;
 			path = ../lib3rd/lib;
@@ -307,6 +349,23 @@
 			productReference = D9268AC425CABBFD0074F122 /* test9 */;
 			productType = "com.apple.product-type.tool";
 		};
+		D93B173A25CB709F0033E2CA /* test2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test2" */;
+			buildPhases = (
+				D93B173B25CB709F0033E2CA /* Sources */,
+				D93B175425CB709F0033E2CA /* Frameworks */,
+				D93B175825CB709F0033E2CA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test2;
+			productName = Splines;
+			productReference = D93B175C25CB709F0033E2CA /* test2 */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -333,6 +392,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				D93B173A25CB709F0033E2CA /* test2 */,
 				D9268AC325CABBFD0074F122 /* test9 */,
 			);
 		};
@@ -367,6 +427,37 @@
 				D9268B3F25CABD430074F122 /* test9.cc in Sources */,
 				D9268AF725CABC1E0074F122 /* SplinesUtils.cc in Sources */,
 				D9268AED25CABC1E0074F122 /* SplineQuinticBase.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D93B173B25CB709F0033E2CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D93B173C25CB709F0033E2CA /* SplineBessel.cc in Sources */,
+				D93B173D25CB709F0033E2CA /* SplineHermite.cc in Sources */,
+				D93B173E25CB709F0033E2CA /* SplineCubicBase.cc in Sources */,
+				D93B173F25CB709F0033E2CA /* SplinePchip.cc in Sources */,
+				D93B174025CB709F0033E2CA /* SplineSetGC.cc in Sources */,
+				D93B174125CB709F0033E2CA /* Splines2D.cc in Sources */,
+				D93B174225CB709F0033E2CA /* SplineBiCubic.cc in Sources */,
+				D93B174325CB709F0033E2CA /* SplineBilinear.cc in Sources */,
+				D93B174425CB709F0033E2CA /* SplineConstant.cc in Sources */,
+				D93B174525CB709F0033E2CA /* SplineLinear.cc in Sources */,
+				D93B174625CB709F0033E2CA /* SplineQuintic.cc in Sources */,
+				D93B174725CB709F0033E2CA /* Splines.cc in Sources */,
+				D93B174825CB709F0033E2CA /* SplineVec.cc in Sources */,
+				D93B174925CB709F0033E2CA /* SplineCubic.cc in Sources */,
+				D93B174A25CB709F0033E2CA /* SplineBiQuintic.cc in Sources */,
+				D93B174B25CB709F0033E2CA /* SplineAkima.cc in Sources */,
+				D93B174C25CB709F0033E2CA /* SplinesCinterface.cc in Sources */,
+				D93B174D25CB709F0033E2CA /* Splines1D.cc in Sources */,
+				D93B174E25CB709F0033E2CA /* SplinesBivariate.cc in Sources */,
+				D93B174F25CB709F0033E2CA /* SplineAkima2D.cc in Sources */,
+				D93B176125CB70AC0033E2CA /* test2.cc in Sources */,
+				D93B175025CB709F0033E2CA /* SplineSet.cc in Sources */,
+				D93B175225CB709F0033E2CA /* SplinesUtils.cc in Sources */,
+				D93B175325CB709F0033E2CA /* SplineQuinticBase.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +595,22 @@
 			};
 			name = Release;
 		};
+		D93B175A25CB709F0033E2CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D93B175B25CB709F0033E2CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -521,6 +628,15 @@
 			buildConfigurations = (
 				D9268ACC25CABBFD0074F122 /* Debug */,
 				D9268ACD25CABBFD0074F122 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D93B175A25CB709F0033E2CA /* Debug */,
+				D93B175B25CB709F0033E2CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

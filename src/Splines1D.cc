@@ -101,7 +101,8 @@ namespace Splines {
       tp = QUINTIC_TYPE;
     } else {
       UTILS_ERROR(
-       "Spline1D::setup[{}] unknown type {}, not in [constant,linear,cubic,akima,bessel,pchip,quintic]\n",
+       "Spline1D::setup[{}] unknown type {}, not in "
+       "[constant,linear,cubic,akima,bessel,pchip,quintic]\n",
        m_name, spl_type
       );
     }

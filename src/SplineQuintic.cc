@@ -286,14 +286,8 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    UTILS_ASSERT(
-      gc.exists("xdata"),
-      "{} missing `xdata` field!\n", msg
-    );
-    UTILS_ASSERT(
-      gc.exists("ydata"),
-      "{} missing `ydata` field!\n", msg
-    );
+    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
+    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
@@ -314,9 +308,7 @@ namespace Splines {
       else if ( st == "akima"  ) m_q_sub_type = AKIMA_QUINTIC;
       else if ( st == "bessel" ) m_q_sub_type = BESSEL_QUINTIC;
       else {
-        UTILS_ERROR(
-          "{} unknow sub type: {}\n", msg, st
-        );
+        UTILS_ERROR( "{} unknow sub type: {}\n", msg, st );
       }
     } else {
       UTILS_WARNING( false,

@@ -47,9 +47,9 @@ main() {
   BilinearSpline  bl;
   Akima2Dspline   ak;
 
-  real_type X[4], Y[6], Z[6*6];
+  real_type X[6], Y[6], Z[6*6];
 
-  std::copy_n( x, 4,   X );
+  std::copy_n( x, 6,   X );
   std::copy_n( y, 6,   Y );
   std::copy_n( z, 6*6, Z );
 

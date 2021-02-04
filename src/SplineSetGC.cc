@@ -68,15 +68,13 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
-    string msg = fmt::format( "SplineSet[{}]::build():", m_name );
+    string msg = fmt::format( "SplineSet[{}]::build(): ", m_name );
 
     UTILS_ASSERT(
-      gc.exists("spline_type"),
-      "{}, missing `spline_type` field!\n", msg
+      gc.exists("spline_type"), "{}, missing `spline_type` field!\n", msg
     );
     gc("spline_type").copyto_vec_string(
-      spline_type_vec,
-      "SplineSet::setup -- in reading `spline_type'\n"
+      spline_type_vec, (msg+"in reading `spline_type'\n").c_str()
     );
     m_nspl = integer(spline_type_vec.size());
     stype.resize( size_t(m_nspl) );
@@ -84,15 +82,13 @@ namespace Splines {
       stype[spl] = string_to_splineType( spline_type_vec[spl] );
 
     UTILS_ASSERT(
-      gc.exists("xdata"),
-      "{}, missing `xdata` field!\n", msg
+      gc.exists("xdata"), "{}, missing `xdata` field!\n", msg
     );
-    gc("xdata").copyto_vec_real( X, "SplineSet::setup reading `xdata'" );
+    gc("xdata").copyto_vec_real( X, (msg+"reading `xdata'").c_str() );
     m_npts = integer( X.size() );
 
     UTILS_ASSERT(
-      gc.exists("ydata"),
-      "{}, missing `ydata` field!\n", msg
+      gc.exists("ydata"), "{}, missing `ydata` field!\n", msg
     );
     GenericContainer const & gc_ydata = gc("ydata");
 

@@ -259,8 +259,8 @@ namespace Splines {
     real_type const [], integer,
     integer
   ) {
-    UTILS_ERROR0(
-      "HermiteSpline::build(x,incx,y,incy,n) cannot be used\n"
+    UTILS_ERROR(
+      "HermiteSpline[{}]::build(x,incx,y,incy,n) cannot be used\n", m_name
     );
   }
 
@@ -275,18 +275,9 @@ namespace Splines {
     //
     */
     string msg = fmt::format("HermiteSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT(
-      gc.exists("xdata"),
-      "{} missing `xdata` field!\n", msg
-    );
-    UTILS_ASSERT(
-      gc.exists("ydata"),
-      "{} missing `ydata` field!\n", msg
-    );
-    UTILS_ASSERT(
-      gc.exists("ypdata"),
-      "{} missing `ypdata` field!\n", msg
-    );
+    UTILS_ASSERT( gc.exists("xdata"),  "{} missing `xdata` field!\n", msg );
+    UTILS_ASSERT( gc.exists("ydata"),  "{} missing `ydata` field!\n", msg );
+    UTILS_ASSERT( gc.exists("ypdata"), "{} missing `ypdata` field!\n", msg );
 
     GenericContainer const & gc_x  = gc("xdata");
     GenericContainer const & gc_y  = gc("ydata");

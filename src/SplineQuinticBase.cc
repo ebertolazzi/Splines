@@ -292,7 +292,11 @@ namespace Splines {
     for ( size_t i = 0; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] Ypp:[{},{}] slope: {}\n",
-        i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1], m_Ypp[i], m_Ypp[i+1],
+        i,
+        m_X[i],   m_X[i+1],
+        m_Y[i],   m_Y[i+1],
+        m_Yp[i],  m_Yp[i+1],
+        m_Ypp[i], m_Ypp[i+1],
         (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
       );
   }

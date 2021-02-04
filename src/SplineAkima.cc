@@ -111,8 +111,7 @@ namespace Splines {
   AkimaSpline::build() {
     string msg = fmt::format("AkimaSpline[{}]::build():", m_name );
     UTILS_ASSERT(
-      m_npts > 1,
-      "{} npts = {} not enought points\n", msg, m_npts
+      m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
     );
     Utils::checkNaN( m_X, (msg+" X ").c_str(), m_npts, __LINE__, __FILE__ );
     Utils::checkNaN( m_Y, (msg+" Y ").c_str(), m_npts, __LINE__, __FILE__ );
@@ -141,14 +140,8 @@ namespace Splines {
     //
     */
     string msg = fmt::format("AkimaSpline[{}]::setup():", m_name );
-    UTILS_ASSERT(
-      gc.exists("xdata"),
-      "{} missing `xdata` field!\n", msg
-    );
-    UTILS_ASSERT(
-      gc.exists("ydata"),
-      "{} missing `ydata` field!\n", msg
-    );
+    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
+    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
@@ -156,11 +149,11 @@ namespace Splines {
     vec_real_type x, y;
     {
       std::string ff = fmt::format( "{}, field `xdata'", msg );
-      gc_x.copyto_vec_real ( x, ff.c_str() );
+      gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
       std::string ff = fmt::format( "{}, field `ydata'", msg );
-      gc_y.copyto_vec_real ( y, ff.c_str() );
+      gc_y.copyto_vec_real( y, ff.c_str() );
     }
     this->build( x, y );
   }

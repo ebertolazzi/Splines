@@ -492,14 +492,8 @@ namespace Splines {
     //
     */
     string msg = fmt::format("CubicSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT(
-      gc.exists("xdata"),
-      "{} missing `xdata` field!\n", msg
-    );
-    UTILS_ASSERT(
-      gc.exists("ydata"),
-      "{} missing `y`data field!\n", msg
-    );
+    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
+    UTILS_ASSERT( gc.exists("ydata"), "{} missing `y`data field!\n", msg );
 
     GenericContainer const & gc_x = gc("xdata");
     GenericContainer const & gc_y = gc("ydata");
@@ -520,9 +514,7 @@ namespace Splines {
       else if ( bc == "parabolic"   ) m_bc0 = PARABOLIC_RUNOUT_BC;
       else if ( bc == "not_a_knot"  ) m_bc0 = NOT_A_KNOT;
       else {
-        UTILS_ERROR(
-          "{} unknow initial bc: {}\n", msg, bc
-        );
+        UTILS_ERROR( "{} unknow initial bc: {}\n", msg, bc );
       }
     } else {
       UTILS_WARNING( false,
@@ -537,9 +529,7 @@ namespace Splines {
       else if ( bc == "parabolic"   ) m_bcn = PARABOLIC_RUNOUT_BC;
       else if ( bc == "not_a_knot"  ) m_bcn = NOT_A_KNOT;
       else {
-        UTILS_ERROR(
-          "{} unknow final bc: {}\n", msg, bc
-        );
+        UTILS_ERROR( "{} unknow final bc: {}\n", msg, bc );
       }
     } else {
       UTILS_WARNING( false,
