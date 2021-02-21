@@ -41,10 +41,10 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void
-  SplineSurf::info( ostream_type & s ) const {
-    fmt::print( s,
-      "Bivariate spline [{}] of type = {}\n", name(), type_name()
+  string
+  SplineSurf::info() const {
+    return fmt::format(
+      "Bivariate spline [{}] of type = {}", name(), type_name()
     );
   }
 
@@ -500,13 +500,13 @@ namespace Splines {
       mat_real_type const & z = gc_z.get_mat_real();
       if ( transposed ) {
         UTILS_ASSERT(
-         ny == z.numCols() && nx == z.numCols(),
+          unsigned(ny) == z.numCols() && unsigned(nx) == z.numCols(),
            "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
           msg, ny, nx, z.numRows(), z.numCols()
         );
       } else {
         UTILS_ASSERT(
-         nx == z.numCols() && ny == z.numCols(),
+          unsigned(nx) == z.numCols() && unsigned(ny) == z.numCols(),
            "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
           msg, nx, ny, z.numRows(), z.numCols()
         );

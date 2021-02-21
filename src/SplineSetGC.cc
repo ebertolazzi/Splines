@@ -199,13 +199,13 @@ namespace Splines {
       map_type::const_iterator im = data.begin();
       for (; im != data.end(); ++im ) {
         // cerca posizione
-        std::map<string,integer>::iterator is = h_to_pos.find(im->first);
+        std::map<string,integer>::iterator is_pos = h_to_pos.find(im->first);
         UTILS_ASSERT(
-          is != h_to_pos.end(),
+          is_pos != h_to_pos.end(),
           "{}, column `{}` of `ypdata` not found\n",
           msg, im->first
         );
-        integer spl = is->second;
+        integer spl = is_pos->second;
 
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;

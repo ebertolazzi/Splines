@@ -105,27 +105,28 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void
-  SplineSet::info( ostream_type & s ) const {
-    fmt::print( s,
-      "SplineSet[{}] n.points = {} n.splines = {}\n",
+  string
+  SplineSet::info() const {
+    string res = fmt::format(
+      "SplineSet[{}] n.points = {} n.splines = {}",
       name(), m_npts, m_nspl
-     );
+    );
 
     for ( size_t i = 0; i < size_t(m_nspl); ++i ) {
-      s << "\nSpline n." << i;
+      res += fmt::format("\nSpline n.{} ", i);
       switch ( m_is_monotone[i] ) {
-        case -2: s << " with NON monotone data\n"; break;
-        case -1: s << " is NOT monotone\n";        break;
-        case  0: s << " is monotone\n";            break;
-        case  1: s << " is strictly monotone\n";   break;
+        case -2: res += " with NON monotone data\n"; break;
+        case -1: res += " is NOT monotone\n";        break;
+        case  0: res += " is monotone\n";            break;
+        case  1: res += " is strictly monotone\n";   break;
         default: UTILS_ERROR(
           "SplineSet::info classification: {} not in range {-2,-1,0,1}\n",
           m_is_monotone[i]
         );
       }
-      m_splines[i]->info(s);
+      res += m_splines[i]->info();
     }
+    return res;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

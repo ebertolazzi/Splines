@@ -95,10 +95,10 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void
-  SplineVec::info( ostream_type & s ) const {
-    fmt::print( s,
-      "SplineVec[{}] n.points = {}  dim = {}\n", name(), m_npts, m_dim
+  string
+  SplineVec::info() const {
+    return fmt::format(
+      "SplineVec[{}] n.points = {}  dim = {}", name(), m_npts, m_dim
     );
   }
 

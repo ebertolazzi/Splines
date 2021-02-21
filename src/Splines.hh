@@ -516,8 +516,11 @@ namespace Splines {
     unsigned
     type() const UTILS_PURE_VIRTUAL;
 
+    string info() const;
+
     void
-    info( ostream_type & s ) const;
+    info( ostream_type & stream ) const
+    { stream << this->info() << '\n'; }
 
     friend class SplineSet;
 
@@ -1756,9 +1759,13 @@ namespace Splines {
     type() const
     { return m_pSpline->type(); }
 
+    string
+    info() const
+    { return m_pSpline->info(); }
+
     void
-    info( ostream_type & s ) const
-    { m_pSpline->info( s ); }
+    info( ostream_type & stream ) const
+    { m_pSpline->info( stream ); }
   };
 
 
@@ -2078,8 +2085,12 @@ namespace Splines {
     type() const
     { return SPLINE_VEC_TYPE; }
 
+    string
+    info() const;
+
     void
-    info( ostream_type & s ) const;
+    info( ostream_type & stream ) const
+    { stream << this->info() << '\n'; }
 
     void
     dump_table( ostream_type & s, integer num_points ) const;
@@ -3241,8 +3252,12 @@ namespace Splines {
     type() const
     { return SPLINE_SET_TYPE; }
 
+    string
+    info() const;
+
     void
-    info( ostream_type & s ) const;
+    info( ostream_type & stream ) const
+    { stream << this->info() << '\n'; }
 
     void
     dump_table( ostream_type & s, integer num_points ) const;
@@ -3565,8 +3580,12 @@ namespace Splines {
     char const *
     type_name() const UTILS_PURE_VIRTUAL;
 
+    string
+    info() const;
+
     void
-    info( ostream_type & s ) const;
+    info( ostream_type & stream ) const
+    { stream << this->info() << '\n'; }
 
   };
 
@@ -4184,7 +4203,13 @@ namespace Splines {
     //! Return spline typename
     char const * type_name() const { return m_pSpline2D->type_name(); }
 
-    void info( ostream_type & s ) const { m_pSpline2D->info( s ); }
+    string
+    info() const
+    { return m_pSpline2D->info(); }
+
+    void
+    info( ostream_type & stream ) const
+    { m_pSpline2D->info( stream ); }
 
   };
 

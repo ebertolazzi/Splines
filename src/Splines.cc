@@ -348,17 +348,18 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void
-  Spline::info( ostream_type & s ) const {
-    fmt::print( s,
-      "Spline `{}` of type: {} of order: {}\n",
+  string
+  Spline::info() const {
+    string res = fmt::format(
+      "Spline `{}` of type: {} of order: {}",
       m_name, type_name(), order()
     );
     if ( m_npts > 0 )
-      fmt::print( s,
-        "xMin = {} xMax = {} yMin = {} yMax = {}\n",
+      res += fmt::format(
+        "\nxMin = {} xMax = {} yMin = {} yMax = {}",
         xMin(), xMax(), yMin(), yMax()
       );
+    return res;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
