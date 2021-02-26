@@ -289,7 +289,7 @@ namespace Splines {
   Akima2Dspline::makeSpline() {
 
     size_t nn = size_t( m_nx*m_ny ); 
-    m_mem_bicubic.allocate( 3*nn );
+    m_mem_bicubic.reallocate( 3*nn );
     m_DX  = m_mem_bicubic( nn );
     m_DY  = m_mem_bicubic( nn );
     m_DXY = m_mem_bicubic( nn );

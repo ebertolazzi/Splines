@@ -52,8 +52,7 @@ namespace Splines {
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
     Utils::Malloc<real_type> mem("Bessel_build");
-    mem.allocate( size_t(n+1) );
-    real_type * m = mem( size_t(n+1) );
+    real_type * m = mem.malloc( size_t(n+1) );
 
     // calcolo slopes
     for ( size_t i = 0; i < n; ++i )

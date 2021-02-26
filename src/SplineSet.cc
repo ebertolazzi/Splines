@@ -232,10 +232,10 @@ namespace Splines {
     m_nspl = nspl;
     m_npts = npts;
     // allocate memory
-    m_baseSplines.allocate( size_t(m_nspl) );
+    m_baseSplines.reallocate( size_t(m_nspl) );
     m_splines = reinterpret_cast<Spline **>(m_baseSplines( size_t(m_nspl) ));
 
-    m_baseInt.allocate( size_t(m_nspl) );
+    m_baseInt.reallocate( size_t(m_nspl) );
     m_is_monotone = m_baseInt( size_t(m_nspl) );
 
     m_header_to_position.clear();
@@ -265,8 +265,8 @@ namespace Splines {
       }
     }
 
-    m_baseValue.allocate( size_t(mem + 2*nspl) );
-    m_basePointer.allocate( size_t(3*nspl) );
+    m_baseValue.reallocate( size_t(mem + 2*nspl) );
+    m_basePointer.reallocate( size_t(3*nspl) );
 
     m_Y    = m_basePointer ( size_t(m_nspl) );
     m_Yp   = m_basePointer ( size_t(m_nspl) );

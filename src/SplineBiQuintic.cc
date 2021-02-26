@@ -42,7 +42,7 @@ namespace Splines {
   BiQuinticSpline::makeSpline() {
 
     size_t dim = size_t( m_nx*m_ny );
-    mem.allocate( 8*dim );
+    mem.reallocate( 8*dim );
     m_DX    = mem( dim );
     m_DY    = mem( dim );
     m_DXY   = mem( dim );

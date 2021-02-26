@@ -134,8 +134,8 @@ namespace Splines {
     m_dim  = dim;
     m_npts = npts;
 
-    m_baseValue   . allocate( size_t((2*dim+1)*npts) );
-    m_basePointer . allocate( size_t(2*dim) );
+    m_baseValue.reallocate( size_t((2*dim+1)*npts) );
+    m_basePointer.reallocate( size_t(2*dim) );
 
     m_Y  = m_basePointer(size_t(m_dim));
     m_Yp = m_basePointer(size_t(m_dim));

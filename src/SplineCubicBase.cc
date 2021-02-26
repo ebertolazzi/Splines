@@ -92,7 +92,7 @@ namespace Splines {
       // nothing to do!, already allocated
     } else {
       m_npts_reserved = n;
-      m_baseValue.allocate( size_t(3*n) );
+      m_baseValue.reallocate( size_t(3*n) );
       m_X  = m_baseValue( size_t(n) );
       m_Y  = m_baseValue( size_t(n) );
       m_Yp = m_baseValue( size_t(n) );

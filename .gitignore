@@ -6,6 +6,7 @@
 /lib3rd/*
 /Documentation
 /no_git
+/cmake-build-debug
 *.xcodeproj
 
 # Compiled source #

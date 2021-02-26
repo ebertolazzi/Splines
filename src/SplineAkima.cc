@@ -77,8 +77,7 @@ namespace Splines {
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
       Utils::Malloc<real_type> mem("Akima_build");
-      mem.allocate( size_t(npts+3) );
-      real_type * m = mem( size_t(npts+3) );
+      real_type * m = mem.malloc( size_t(npts+3) );
 
       // calcolo slopes (npts-1) intervals + 4
       for ( size_t i = 1; i < size_t(npts); ++i )

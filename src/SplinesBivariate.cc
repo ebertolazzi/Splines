@@ -74,7 +74,7 @@ namespace Splines {
   ) {
     m_nx = nx;
     m_ny = ny;
-    m_mem.allocate( size_t((nx+1)*(ny+1)) );
+    m_mem.reallocate( size_t((nx+1)*(ny+1)) );
     m_X = m_mem( size_t(nx) );
     m_Y = m_mem( size_t(ny) );
     m_Z = m_mem( size_t(nx*ny) );
