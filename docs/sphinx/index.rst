@@ -10,7 +10,7 @@ Welcome to Splines's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   splines/splines.rst
 
 Indices and tables
 ==================
@@ -19,12 +19,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. doxygenindex::
-.. doxygenfunction::
-.. doxygenstruct::
-.. doxygenenum::
-.. doxygentypedef::
-.. doxygenclass:: Splines
-    :project: Splines
-    :path: ../xml/
-    :members: Splines
+
