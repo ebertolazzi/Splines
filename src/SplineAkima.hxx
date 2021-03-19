@@ -45,8 +45,10 @@ namespace Splines {
   class AkimaSpline : public CubicSplineBase {
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::reserve;
     using CubicSplineBase::build;
+    #endif
 
     //! spline constructor
     AkimaSpline( string const & name = "AkimaSpline" )

@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File SplineConstant.hxx &#8212; Splines  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.png" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../readme.html">
+  Splines
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="library_root.html">
+  Splines API
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="program-listing-for-file-splineconstant-hxx">
+<span id="program-listing-file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineconstant-hxx"></span><h1>Program Listing for File SplineConstant.hxx<a class="headerlink" href="#program-listing-for-file-splineconstant-hxx" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineconstant-hxx"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineConstant.hxx</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cm">/*\</span>
+<span class="cm"> |    ____                _              _       ____        _ _</span>
+<span class="cm"> |   / ___|___  _ __  ___| |_ __ _ _ __ | |_ ___/ ___| _ __ | (_)_ __   ___</span>
+<span class="cm"> |  | |   / _ \| '_ \/ __| __/ _` | '_ \| __/ __\___ \| '_ \| | | '_ \ / _ \</span>
+<span class="cm"> |  | |__| (_) | | | \__ \ || (_| | | | | |_\__ \___) | |_) | | | | | |  __/</span>
+<span class="cm"> |   \____\___/|_| |_|___/\__\__,_|_| |_|\__|___/____/| .__/|_|_|_| |_|\___|</span>
+<span class="cm"> |                                                    |_|</span>
+<span class="cm">\*/</span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="k">class</span> <span class="nc">ConstantSpline</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Spline</span> <span class="p">{</span>
+    <span class="n">Utils</span><span class="o">::</span><span class="n">Malloc</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="n">m_baseValue</span><span class="p">;</span>
+    <span class="kt">bool</span>                     <span class="n">m_external_alloc</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+    <span class="k">using</span> <span class="n">Spline</span><span class="o">::</span><span class="n">build</span><span class="p">;</span>
+    <span class="cp">#endif</span>
+
+    <span class="n">ConstantSpline</span><span class="p">(</span> <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"ConstantSpline"</span> <span class="p">)</span>
+    <span class="o">:</span> <span class="n">Spline</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_baseValue</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s">"_memory"</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_external_alloc</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">{}</span>
+
+    <span class="o">~</span><span class="n">ConstantSpline</span><span class="p">()</span> <span class="k">override</span>
+    <span class="p">{}</span>
+
+    <span class="kt">void</span>
+    <span class="n">reserve_external</span><span class="p">(</span>
+      <span class="n">integer</span>       <span class="n">n</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_x</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_y</span>
+    <span class="p">);</span>
+
+    <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">()</span> <span class="k">override</span>
+    <span class="p">{}</span> <span class="c1">// nothing to do</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
+      <span class="n">integer</span> <span class="n">n</span>
+    <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_D</span><span class="p">(</span> <span class="n">integer</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DD</span><span class="p">(</span> <span class="n">integer</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DDD</span><span class="p">(</span> <span class="n">integer</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">unsigned</span>
+    <span class="n">type</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">CONSTANT_TYPE</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">clear</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span> <span class="c1">// order</span>
+    <span class="n">coeffs</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="n">cfs</span><span class="p">[],</span>
+      <span class="n">real_type</span> <span class="n">nodes</span><span class="p">[],</span>
+      <span class="kt">bool</span>      <span class="n">transpose</span> <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span> <span class="c1">// order</span>
+    <span class="n">order</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// EOF: SplineConstant.hxx</span>
+</pre></div>
+</div>
+</div>
+
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

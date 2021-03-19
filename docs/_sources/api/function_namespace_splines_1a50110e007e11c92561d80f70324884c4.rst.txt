@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a50110e007e11c92561d80f70324884c4:
+
+Function Splines::string_to_splineType(std::string const&)
+==========================================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::string_to_splineType(std::string const&)

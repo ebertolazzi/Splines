@@ -40,8 +40,10 @@ namespace Splines {
   class BesselSpline : public CubicSplineBase {
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
+    #endif
 
     //! spline constructor
     BesselSpline( string const & name = "BesselSpline" )

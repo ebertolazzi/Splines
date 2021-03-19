@@ -1,0 +1,13 @@
+.. _exhale_function__splines_cinterface_8h_1a0c7c6ed4c544b47854033f8bd66f11e6:
+
+Function SPLINE_delete
+======================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: SPLINE_delete(char const)

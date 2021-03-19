@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1afe8bf36f6eaf182cd13a52023f238d5d:
+
+Function Splines::estimate
+==========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::estimate(real_type, real_type, real_type, real_type, real_type, real_type, real_type, real_type&, real_type&, real_type&, real_type&, real_type&, real_type&, real_type&, real_type, real_type)

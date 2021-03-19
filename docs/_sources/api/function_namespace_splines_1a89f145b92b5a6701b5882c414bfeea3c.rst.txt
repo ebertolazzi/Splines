@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a89f145b92b5a6701b5882c414bfeea3c:
+
+Function Splines::Extrapolate3
+==============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::Extrapolate3(real_type, real_type, real_type, real_type, real_type, real_type)

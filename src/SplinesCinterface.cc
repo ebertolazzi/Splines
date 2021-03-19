@@ -26,6 +26,8 @@
  | This file contains the sources for the C interface to `Splines`
  */
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 #include "Splines.hh"
 #include "SplinesCinterface.h"
 
@@ -228,6 +230,8 @@ extern "C" {
   }
 
 }
+
+#endif
 
 //
 // eof: SplineCinterface.cc

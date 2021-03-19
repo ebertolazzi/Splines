@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File Splines.hh &#8212; Splines  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.png" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../readme.html">
+  Splines
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="library_root.html">
+  Splines API
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="program-listing-for-file-splines-hh">
+<span id="program-listing-file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh"></span><h1>Program Listing for File Splines.hh<a class="headerlink" href="#program-listing-for-file-splines-hh" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cp">#pragma once</span>
+
+<span class="cp">#ifndef SPLINES_HH</span>
+<span class="cp">#define SPLINES_HH</span>
+
+<span class="cp">#ifdef __GNUC__</span>
+<span class="cp">#pragma GCC diagnostic push</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic push</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#include</span> <span class="cpf">"SplinesConfig.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">basic_ostream</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">lower_bound</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">;</span>
+
+  <span class="k">typedef</span> <span class="kt">double</span> <span class="n">real_type</span><span class="p">;</span>
+  <span class="k">typedef</span> <span class="kt">int</span>    <span class="n">integer</span><span class="p">;</span>
+  <span class="k">typedef</span> <span class="n">basic_ostream</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">ostream_type</span><span class="p">;</span>
+
+  <span class="kt">void</span> <span class="nf">backtrace</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="p">);</span>
+
+  <span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">CONSTANT_TYPE</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">LINEAR_TYPE</span>     <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">CUBIC_TYPE</span>      <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">AKIMA_TYPE</span>      <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">BESSEL_TYPE</span>     <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">PCHIP_TYPE</span>      <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">QUINTIC_TYPE</span>    <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">HERMITE_TYPE</span>    <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="n">SPLINE_SET_TYPE</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">SPLINE_VEC_TYPE</span> <span class="o">=</span> <span class="mi">9</span>
+  <span class="p">}</span> <span class="n">SplineType1D</span><span class="p">;</span>
+
+  <span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">BILINEAR_TYPE</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">BICUBIC_TYPE</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">BIQUINTIC_TYPE</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">AKIMA2D_TYPE</span>   <span class="o">=</span> <span class="mi">3</span>
+  <span class="p">}</span> <span class="n">SplineType2D</span><span class="p">;</span>
+
+  <span class="k">extern</span> <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span><span class="n">spline_type_1D</span><span class="p">[];</span>
+
+  <span class="k">extern</span> <span class="n">SplineType1D</span> <span class="n">string_to_splineType</span><span class="p">(</span> <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="p">);</span>
+
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GenericContainer</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_string_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vector_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">map_type</span><span class="p">;</span>
+
+  <span class="cm">/*</span>
+<span class="cm">  //   _   _                     _ _</span>
+<span class="cm">  //  | | | | ___ _ __ _ __ ___ (_) |_ ___</span>
+<span class="cm">  //  | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \</span>
+<span class="cm">  //  |  _  |  __/ |  | | | | | | | ||  __/</span>
+<span class="cm">  //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|</span>
+<span class="cm">  */</span>
+  <span class="kt">void</span> <span class="nf">Hermite3</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite3_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_D</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite3_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DD</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite3_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DDD</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">);</span>
+
+  <span class="kt">void</span> <span class="nf">Hermite5</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite5_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_D</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite5_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DD</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite5_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DDD</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite5_DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DDDD</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Hermite5_DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">H</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">base_DDDDD</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">);</span>
+
+  <span class="cm">/*</span>
+<span class="cm">  //   ____  _ _ _</span>
+<span class="cm">  //  | __ )(_) (_)_ __   ___  __ _ _ __</span>
+<span class="cm">  //  |  _ \| | | | '_ \ / _ \/ _` | '__|</span>
+<span class="cm">  //  | |_) | | | | | | |  __/ (_| | |</span>
+<span class="cm">  //  |____/|_|_|_|_| |_|\___|\__,_|_|</span>
+<span class="cm">  */</span>
+  <span class="n">real_type</span>
+  <span class="nf">bilinear3</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">M</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">q</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+  <span class="p">);</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">bilinear5</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">p</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">M</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">6</span><span class="p">],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">q</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+  <span class="p">);</span>
+
+  <span class="n">integer</span>
+  <span class="nf">checkCubicSplineMonotonicity</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">X</span><span class="p">[],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">Y</span><span class="p">[],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">Yp</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">npts</span>
+  <span class="p">);</span>
+
+  <span class="cm">/*\</span>
+<span class="cm">   |  ____                                _        _          _   _</span>
+<span class="cm">   | |  _ \ __ _ _ __ __ _ _ __ ___   ___| |_ _ __(_)______ _| |_(_) ___  _ __</span>
+<span class="cm">   | | |_) / _` | '__/ _` | '_ ` _ \ / _ \ __| '__| |_  / _` | __| |/ _ \| '_ \</span>
+<span class="cm">   | |  __/ (_| | | | (_| | | | | | |  __/ |_| |  | |/ / (_| | |_| | (_) | | | |</span>
+<span class="cm">   | |_|   \__,_|_|  \__,_|_| |_| |_|\___|\__|_|  |_/___\__,_|\__|_|\___/|_| |_|</span>
+<span class="cm">   |</span>
+<span class="cm">  \*/</span>
+
+  <span class="kt">void</span>
+  <span class="nf">uniform</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="kt">void</span>
+  <span class="nf">chordal</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="kt">void</span>
+  <span class="nf">centripetal</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">alpha</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="kt">void</span>
+  <span class="nf">universal</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="kt">void</span>
+  <span class="nf">FoleyNielsen</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="kt">void</span>
+  <span class="nf">FangHung</span><span class="p">(</span>
+    <span class="n">integer</span>         <span class="n">dim</span><span class="p">,</span>
+    <span class="n">integer</span>         <span class="n">npts</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">pnts</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">ld_pnts</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="n">t</span><span class="p">[]</span>
+  <span class="p">);</span>
+
+  <span class="cm">/*\</span>
+<span class="cm">   |   ____        _ _</span>
+<span class="cm">   |  / ___| _ __ | (_)_ __   ___</span>
+<span class="cm">   |  \___ \| '_ \| | | '_ \ / _ \</span>
+<span class="cm">   |   ___) | |_) | | | | | |  __/</span>
+<span class="cm">   |  |____/| .__/|_|_|_| |_|\___|</span>
+<span class="cm">   |        |_|</span>
+<span class="cm">  \*/</span>
+  <span class="k">class</span> <span class="nc">Spline</span> <span class="p">{</span>
+  <span class="k">protected</span><span class="o">:</span>
+
+    <span class="n">string</span> <span class="n">m_name</span><span class="p">;</span>
+    <span class="kt">bool</span>   <span class="n">m_curve_is_closed</span><span class="p">;</span>
+    <span class="kt">bool</span>   <span class="n">m_curve_can_extend</span><span class="p">;</span>
+    <span class="kt">bool</span>   <span class="n">m_curve_extended_constant</span><span class="p">;</span>
+
+    <span class="n">integer</span>   <span class="n">m_npts</span><span class="p">;</span>
+    <span class="n">integer</span>   <span class="n">m_npts_reserved</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="o">*</span><span class="n">m_X</span><span class="p">;</span> <span class="c1">// allocated in the derived class!</span>
+    <span class="n">real_type</span> <span class="o">*</span><span class="n">m_Y</span><span class="p">;</span> <span class="c1">// allocated in the derived class!</span>
+
+    <span class="k">mutable</span> <span class="n">Utils</span><span class="o">::</span><span class="n">BinarySearch</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span> <span class="n">m_bs</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">initLastInterval</span><span class="p">();</span>
+
+    <span class="n">Spline</span><span class="p">(</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span> <span class="p">(</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="n">Spline</span><span class="p">(</span> <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"Spline"</span> <span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_curve_is_closed</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_curve_can_extend</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_curve_extended_constant</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_npts</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_npts_reserved</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_X</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Y</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">initLastInterval</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">virtual</span>
+    <span class="o">~</span><span class="n">Spline</span><span class="p">()</span>
+    <span class="p">{}</span>
+
+    <span class="n">integer</span> <span class="n">search</span><span class="p">(</span> <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_name</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="n">is_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_curve_is_closed</span><span class="p">;</span>  <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_closed</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_curve_is_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_opened</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_curve_is_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="n">is_bounded</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">m_curve_can_extend</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_unbounded</span><span class="p">()</span>   <span class="p">{</span> <span class="n">m_curve_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_bounded</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_curve_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="n">is_extended_constant</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_curve_extended_constant</span><span class="p">;</span>  <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_extended_constant</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_curve_extended_constant</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">make_extended_not_constant</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_curve_extended_constant</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">integer</span>
+    <span class="n">numPoints</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_npts</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">xNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">yNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">xBegin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">yBegin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">xEnd</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="n">yEnd</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">pushBack</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">);</span>
+
+    <span class="kt">void</span> <span class="nf">dropBack</span><span class="p">()</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span> <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="o">--</span><span class="n">m_npts</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="c1">// must be defined in derived classes</span>
+
+
+
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="n">setup</span><span class="p">(</span><span class="n">gc</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
+      <span class="n">integer</span> <span class="n">n</span>
+    <span class="p">);</span>
+
+    <span class="kr">inline</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span> <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span> <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">n</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="p">);</span> <span class="p">}</span>
+
+    <span class="kr">inline</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">integer</span> <span class="n">N</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">N</span> <span class="o">&gt;</span> <span class="n">integer</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">)</span> <span class="n">N</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">);</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">clear</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">real_type</span> <span class="nf">xMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">xMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">yMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+      <span class="n">integer</span> <span class="n">N</span> <span class="o">=</span> <span class="n">m_npts</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">CONSTANT_TYPE</span> <span class="p">)</span> <span class="o">--</span><span class="n">N</span><span class="p">;</span>
+      <span class="k">return</span> <span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">min_element</span><span class="p">(</span><span class="n">m_Y</span><span class="p">,</span><span class="n">m_Y</span><span class="o">+</span><span class="n">N</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">yMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+      <span class="n">integer</span> <span class="n">N</span> <span class="o">=</span> <span class="n">m_npts</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">CONSTANT_TYPE</span> <span class="p">)</span> <span class="o">--</span><span class="n">N</span><span class="p">;</span>
+      <span class="k">return</span> <span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">max_element</span><span class="p">(</span><span class="n">m_Y</span><span class="p">,</span><span class="n">m_Y</span><span class="o">+</span><span class="n">N</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">setOrigin</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x0</span> <span class="p">);</span>
+
+    <span class="kt">void</span> <span class="nf">setRange</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">xmax</span> <span class="p">);</span>
+
+    <span class="kt">void</span>
+    <span class="nf">dump</span><span class="p">(</span>
+      <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">,</span>
+      <span class="n">integer</span>        <span class="n">nintervals</span><span class="p">,</span>
+      <span class="kt">char</span> <span class="k">const</span>     <span class="n">header</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"x</span><span class="se">\t</span><span class="s">y"</span>
+    <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="kt">void</span>
+    <span class="nf">dump</span><span class="p">(</span>
+      <span class="kt">char</span> <span class="k">const</span> <span class="n">fname</span><span class="p">[],</span>
+      <span class="n">integer</span>    <span class="n">nintervals</span><span class="p">,</span>
+      <span class="kt">char</span> <span class="k">const</span> <span class="n">header</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"x</span><span class="se">\t</span><span class="s">y"</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">ofstream</span> <span class="n">file</span><span class="p">(</span><span class="n">fname</span><span class="p">);</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">dump</span><span class="p">(</span> <span class="n">file</span><span class="p">,</span> <span class="n">nintervals</span><span class="p">,</span> <span class="n">header</span> <span class="p">);</span>
+      <span class="n">file</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="nf">real_type</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="nf">real_type</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="n">eval</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">eval_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">eval_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">eval_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">eval_DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">eval_DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDDDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_D</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DDDD</span><span class="p">(</span> <span class="n">integer</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="nf">real_type</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DDDDD</span><span class="p">(</span> <span class="n">integer</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="nf">real_type</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span> <span class="c1">// order</span>
+    <span class="n">coeffs</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="n">cfs</span><span class="p">[],</span>
+      <span class="n">real_type</span> <span class="n">nodes</span><span class="p">[],</span>
+      <span class="kt">bool</span>      <span class="n">transpose</span> <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span>
+    <span class="n">order</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span>
+    <span class="n">type_name</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">Splines</span><span class="o">::</span><span class="n">spline_type_1D</span><span class="p">[</span><span class="n">type</span><span class="p">()];</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">unsigned</span>
+    <span class="n">type</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">string</span> <span class="nf">info</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="kt">void</span>
+    <span class="nf">info</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">stream</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="n">stream</span> <span class="o">&lt;&lt;</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">friend</span> <span class="k">class</span> <span class="nc">SplineSet</span><span class="p">;</span>
+
+  <span class="p">};</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">curvature</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">s</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">X</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">Y</span> <span class="p">);</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">curvature_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">s</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">X</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">Y</span> <span class="p">);</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">curvature_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">s</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">X</span><span class="p">,</span> <span class="n">Spline</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">Y</span> <span class="p">);</span>
+
+  <span class="cm">/*\</span>
+<span class="cm">   |    ____      _     _        ____        _ _              ____</span>
+<span class="cm">   |   / ___|   _| |__ (_) ___  / ___| _ __ | (_)_ __   ___  | __ )  __ _ ___  ___</span>
+<span class="cm">   |  | |  | | | | '_ \| |/ __| \___ \| '_ \| | | '_ \ / _ \ |  _ \ / _` / __|/ _ \</span>
+<span class="cm">   |  | |__| |_| | |_) | | (__   ___) | |_) | | | | | |  __/ | |_) | (_| \__ \  __/</span>
+<span class="cm">   |   \____\__,_|_.__/|_|\___| |____/| .__/|_|_|_| |_|\___| |____/ \__,_|___/\___|</span>
+<span class="cm">   |                                  |_|</span>
+<span class="cm">  \*/</span>
+  <span class="k">class</span> <span class="nc">CubicSplineBase</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Spline</span> <span class="p">{</span>
+  <span class="k">protected</span><span class="o">:</span>
+    <span class="n">Utils</span><span class="o">::</span><span class="n">Malloc</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="n">m_baseValue</span><span class="p">;</span>
+
+    <span class="n">real_type</span> <span class="o">*</span> <span class="n">m_Yp</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">m_external_alloc</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+    <span class="k">using</span> <span class="n">Spline</span><span class="o">::</span><span class="n">build</span><span class="p">;</span>
+    <span class="cp">#endif</span>
+
+    <span class="n">CubicSplineBase</span><span class="p">(</span> <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"CubicSplineBase"</span> <span class="p">)</span>
+    <span class="o">:</span> <span class="n">Spline</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_baseValue</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s">"_memory"</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Yp</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_external_alloc</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">{}</span>
+
+    <span class="k">virtual</span>
+    <span class="o">~</span><span class="n">CubicSplineBase</span><span class="p">()</span> <span class="k">override</span>
+    <span class="p">{}</span>
+
+    <span class="kt">void</span>
+    <span class="n">copySpline</span><span class="p">(</span> <span class="n">CubicSplineBase</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">S</span> <span class="p">);</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">ypNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">m_Yp</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="kt">void</span>
+    <span class="nf">setRange</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">xmax</span> <span class="p">);</span>
+
+    <span class="kt">void</span>
+    <span class="nf">reserve_external</span><span class="p">(</span>
+      <span class="n">integer</span>       <span class="n">n</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_x</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_y</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_dy</span>
+    <span class="p">);</span>
+
+    <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_D</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">id_DDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="c1">// must be defined in derived classes</span>
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span>  <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span>  <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">yp</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incyp</span><span class="p">,</span>
+      <span class="n">integer</span> <span class="n">n</span>
+    <span class="p">);</span>
+
+    <span class="kr">inline</span>
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">yp</span><span class="p">[],</span>
+      <span class="n">integer</span> <span class="n">n</span>
+    <span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yp</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span>
+    <span class="n">build</span><span class="p">(</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">yp</span>
+    <span class="p">);</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">clear</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span> <span class="c1">// order</span>
+    <span class="n">coeffs</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="n">cfs</span><span class="p">[],</span>
+      <span class="n">real_type</span> <span class="n">nodes</span><span class="p">[],</span>
+      <span class="kt">bool</span>      <span class="n">transpose</span> <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">integer</span> <span class="c1">// order</span>
+    <span class="n">order</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="p">};</span>
+
+  <span class="cm">/*\</span>
+<span class="cm">   |   ____        _ _            ____              __</span>
+<span class="cm">   |  / ___| _ __ | (_)_ __   ___/ ___| _   _ _ __ / _|</span>
+<span class="cm">   |  \___ \| '_ \| | | '_ \ / _ \___ \| | | | '__| |_</span>
+<span class="cm">   |   ___) | |_) | | | | | |  __/___) | |_| | |  |  _|</span>
+<span class="cm">   |  |____/| .__/|_|_|_| |_|\___|____/ \__,_|_|  |_|</span>
+<span class="cm">   |        |_|</span>
+<span class="cm">  \*/</span>
+  <span class="k">class</span> <span class="nc">SplineSurf</span> <span class="p">{</span>
+
+    <span class="n">SplineSurf</span><span class="p">(</span> <span class="n">SplineSurf</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span> <span class="c1">// block copy constructor</span>
+    <span class="n">SplineSurf</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="k">operator</span> <span class="o">=</span> <span class="p">(</span> <span class="n">SplineSurf</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span> <span class="c1">// block copy method</span>
+
+    <span class="n">Utils</span><span class="o">::</span><span class="n">Malloc</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="n">m_mem</span><span class="p">;</span>
+
+  <span class="k">protected</span><span class="o">:</span>
+
+    <span class="n">string</span> <span class="k">const</span> <span class="n">m_name</span><span class="p">;</span>
+    <span class="kt">bool</span>         <span class="n">m_x_closed</span><span class="p">;</span>
+    <span class="kt">bool</span>         <span class="n">m_y_closed</span><span class="p">;</span>
+    <span class="kt">bool</span>         <span class="n">m_x_can_extend</span><span class="p">;</span>
+    <span class="kt">bool</span>         <span class="n">m_y_can_extend</span><span class="p">;</span>
+
+    <span class="n">integer</span>      <span class="n">m_nx</span><span class="p">;</span>
+    <span class="n">integer</span>      <span class="n">m_ny</span><span class="p">;</span>
+
+    <span class="n">real_type</span> <span class="o">*</span>  <span class="n">m_X</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="o">*</span>  <span class="n">m_Y</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="o">*</span>  <span class="n">m_Z</span><span class="p">;</span>
+
+    <span class="n">real_type</span> <span class="n">m_Z_min</span><span class="p">,</span> <span class="n">m_Z_max</span><span class="p">;</span>
+
+    <span class="k">mutable</span> <span class="n">Utils</span><span class="o">::</span><span class="n">BinarySearch</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span> <span class="n">m_bs_x</span><span class="p">;</span>
+    <span class="k">mutable</span> <span class="n">Utils</span><span class="o">::</span><span class="n">BinarySearch</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span> <span class="n">m_bs_y</span><span class="p">;</span>
+
+    <span class="n">integer</span> <span class="nf">search_x</span><span class="p">(</span> <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+    <span class="n">integer</span> <span class="nf">search_y</span><span class="p">(</span> <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">initLastInterval_x</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">initLastInterval_y</span><span class="p">();</span>
+
+    <span class="n">integer</span>
+    <span class="nf">ipos_C</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span><span class="p">,</span> <span class="n">integer</span> <span class="n">ldZ</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">i</span><span class="o">*</span><span class="n">ldZ</span> <span class="o">+</span> <span class="n">j</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">integer</span>
+    <span class="nf">ipos_F</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span><span class="p">,</span> <span class="n">integer</span> <span class="n">ldZ</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">i</span> <span class="o">+</span> <span class="n">ldZ</span><span class="o">*</span><span class="n">j</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">integer</span>
+    <span class="nf">ipos_C</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">m_ny</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">integer</span>
+    <span class="nf">ipos_F</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_F</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">m_nx</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">makeSpline</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+
+    <span class="n">SplineSurf</span><span class="p">(</span> <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"Spline"</span> <span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_mem</span><span class="p">(</span><span class="s">"SplineSurf"</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_x_closed</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_y_closed</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_x_can_extend</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_y_can_extend</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_nx</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_ny</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_X</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Y</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Z</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Z_min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">,</span> <span class="n">m_Z_max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">initLastInterval_x</span><span class="p">();</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">initLastInterval_y</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="o">~</span><span class="n">SplineSurf</span><span class="p">();</span>
+
+    <span class="kt">bool</span> <span class="nf">is_x_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_x_closed</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_closed</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_opened</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="nf">is_y_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_y_closed</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_closed</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_opened</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="nf">is_x_bounded</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_x_can_extend</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_unbounded</span><span class="p">()</span>   <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_bounded</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="nf">is_y_bounded</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_y_can_extend</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_unbounded</span><span class="p">()</span>   <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_bounded</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_name</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">clear</span><span class="p">();</span>
+
+    <span class="n">integer</span> <span class="nf">numPointX</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_nx</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">integer</span> <span class="nf">numPointY</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_ny</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">xNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">yNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">zNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">xMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">xMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_nx</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">yMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">yMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">m_ny</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">zMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_min</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="n">real_type</span> <span class="nf">zMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_max</span><span class="p">;</span> <span class="p">}</span>
+
+
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">x</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">y</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">z</span><span class="p">[],</span> <span class="n">integer</span> <span class="n">ldZ</span><span class="p">,</span>
+      <span class="n">integer</span> <span class="n">nx</span><span class="p">,</span> <span class="n">integer</span> <span class="n">ny</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">fortran_storage</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">transposed</span>      <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">);</span>
+
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">z</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">fortran_storage</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">transposed</span>      <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">)</span> <span class="p">{</span>
+      <span class="kt">bool</span> <span class="n">xyswp</span> <span class="o">=</span> <span class="p">(</span><span class="n">fortran_storage</span> <span class="o">&amp;&amp;</span> <span class="n">transposed</span><span class="p">)</span> <span class="o">||</span>
+                   <span class="p">(</span><span class="o">!</span><span class="n">fortran_storage</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">transposed</span><span class="p">);</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span>
+        <span class="o">&amp;</span><span class="n">x</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">y</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">&amp;</span><span class="n">z</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="n">integer</span><span class="p">(</span><span class="n">xyswp</span> <span class="o">?</span> <span class="n">y</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">:</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()),</span>
+        <span class="n">integer</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()),</span> <span class="n">integer</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">size</span><span class="p">()),</span>
+        <span class="n">fortran_storage</span><span class="p">,</span> <span class="n">transposed</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="n">z</span><span class="p">[],</span>
+      <span class="n">integer</span>         <span class="n">ldZ</span><span class="p">,</span>
+      <span class="n">integer</span>         <span class="n">nx</span><span class="p">,</span>
+      <span class="n">integer</span>         <span class="n">ny</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">fortran_storage</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">transposed</span>      <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">);</span>
+
+    <span class="kt">void</span>
+    <span class="nf">build</span><span class="p">(</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">z</span><span class="p">,</span>
+      <span class="n">integer</span>                   <span class="n">nx</span><span class="p">,</span>
+      <span class="n">integer</span>                   <span class="n">ny</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">fortran_storage</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">transposed</span>      <span class="o">=</span> <span class="nb">false</span>
+    <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">fortran_storage</span> <span class="p">)</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">z</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">fortran_storage</span><span class="p">,</span> <span class="n">transposed</span> <span class="p">);</span>
+      <span class="k">else</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">z</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">fortran_storage</span><span class="p">,</span> <span class="n">transposed</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span>
+    <span class="nf">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">);</span>
+
+    <span class="kt">void</span>
+    <span class="nf">build</span> <span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="n">setup</span><span class="p">(</span><span class="n">gc</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">Dx</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">Dy</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="kt">void</span>
+    <span class="n">DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">dd</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">Dxx</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">Dxy</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span>
+    <span class="n">real_type</span>
+    <span class="n">Dyy</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval_D_1</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval_D_2</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval_D_1_1</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dxx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval_D_1_2</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dxy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="n">real_type</span>
+    <span class="nf">eval_D_2_2</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dyy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span> <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span> <span class="n">type_name</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">string</span> <span class="nf">info</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="kt">void</span>
+    <span class="nf">info</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">stream</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span> <span class="n">stream</span> <span class="o">&lt;&lt;</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="p">};</span>
+
+<span class="p">}</span>
+
+<span class="cp">#include</span> <span class="cpf">"SplineAkima.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineBessel.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineConstant.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineLinear.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineCubic.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineHermite.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplinePchip.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineQuinticBase.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineQuintic.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineBilinear.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineBiCubic.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineAkima2D.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineBiQuintic.hxx"</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">"SplineVec.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"SplineSet.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"Splines1D.hxx"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"Splines2D.hxx"</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">SplinesLoad</span> <span class="p">{</span>
+
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">Spline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">CubicSplineBase</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">CubicSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">AkimaSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">BesselSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">PchipSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">LinearSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">ConstantSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">QuinticSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">Spline1D</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">BilinearSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">BiCubicSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">BiQuinticSpline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">Akima2Dspline</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">Spline2D</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">SplineVec</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">SplineSet</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">SplineType1D</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">Splines</span><span class="o">::</span><span class="n">SplineType2D</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef __GNUC__</span>
+<span class="cp">#pragma GCC diagnostic pop</span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic pop</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

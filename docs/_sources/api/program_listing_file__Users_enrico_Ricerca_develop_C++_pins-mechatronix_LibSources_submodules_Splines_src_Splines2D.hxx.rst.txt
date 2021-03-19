@@ -1,0 +1,233 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx:
+
+Program Listing for File Splines2D.hxx
+======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines2D.hxx``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   /*--------------------------------------------------------------------------*\
+    |                                                                          |
+    |  Copyright (C) 2016                                                      |
+    |                                                                          |
+    |         , __                 , __                                        |
+    |        /|/  \               /|/  \                                       |
+    |         | __/ _   ,_         | __/ _   ,_                                | 
+    |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+    |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+    |                           /|                   /|                        |
+    |                           \|                   \|                        |
+    |                                                                          |
+    |      Enrico Bertolazzi                                                   |
+    |      Dipartimento di Ingegneria Industriale                              |
+    |      Universita` degli Studi di Trento                                   |
+    |      email: enrico.bertolazzi@unitn.it                                   |
+    |                                                                          |
+   \*--------------------------------------------------------------------------*/
+   
+   /*\
+    |   ____        _ _            ____  ____
+    |  / ___| _ __ | (_)_ __   ___|___ \|  _ \
+    |  \___ \| '_ \| | | '_ \ / _ \ __) | | | |
+    |   ___) | |_) | | | | | |  __// __/| |_| |
+    |  |____/| .__/|_|_|_| |_|\___|_____|____/
+    |        |_|
+   \*/
+   
+   namespace Splines {
+   
+     class Spline2D {
+     protected:
+       std::string  m_name;
+       SplineSurf * m_pSpline2D;
+     public:
+   
+       Spline2D( string const & name = "Spline2D" )
+       : m_name(name)
+       , m_pSpline2D( nullptr )
+       {}
+   
+       ~Spline2D()
+       {}
+   
+       bool is_x_closed() const { return m_pSpline2D->is_x_closed(); }
+       void make_x_closed()     { m_pSpline2D->make_x_closed(); }
+       void make_x_opened()     { m_pSpline2D->make_x_opened(); }
+   
+       bool is_y_closed() const { return m_pSpline2D->is_y_closed(); }
+       void make_y_closed()     { m_pSpline2D->make_y_closed(); }
+       void make_y_opened()     { m_pSpline2D->make_y_opened(); }
+   
+       bool is_x_bounded() const { return m_pSpline2D->is_x_bounded(); }
+       void make_x_unbounded()   { m_pSpline2D->make_x_unbounded(); }
+       void make_x_bounded()     { m_pSpline2D->make_x_bounded(); }
+   
+       bool is_y_bounded() const { return m_pSpline2D->is_y_bounded(); }
+       void make_y_unbounded()   { m_pSpline2D->make_y_unbounded(); }
+       void make_y_bounded()     { m_pSpline2D->make_y_bounded(); }
+   
+       string const & name() const { return m_pSpline2D->name(); }
+   
+       void clear() { m_pSpline2D->clear(); }
+   
+       integer
+       numPointX() const { return m_pSpline2D->numPointX(); }
+   
+       integer
+       numPointY() const { return m_pSpline2D->numPointY(); }
+   
+       real_type
+       xNode( integer i ) const { return m_pSpline2D->xNode(i); }
+   
+       real_type
+       yNode( integer i ) const { return m_pSpline2D->yNode(i); }
+   
+       real_type
+       zNode( integer i, integer j ) const { return m_pSpline2D->zNode(i,j); }
+   
+       real_type
+       xMin() const { return m_pSpline2D->xMin(); }
+   
+       real_type
+       xMax() const { return m_pSpline2D->xMax(); }
+   
+       real_type
+       yMin() const { return m_pSpline2D->yMin(); }
+   
+       real_type
+       yMax() const { return m_pSpline2D->yMax(); }
+   
+       real_type
+       zMin() const { return m_pSpline2D->zMin(); }
+   
+       real_type
+       zMax() const { return m_pSpline2D->zMax(); }
+   
+       void
+       build(
+         SplineType2D    tp,
+         real_type const x[], integer incx,
+         real_type const y[], integer incy,
+         real_type const z[], integer ldZ,
+         integer         nx,
+         integer         ny,
+         bool            fortran_storage = false,
+         bool            transposed      = false
+       );
+   
+       void
+       build(
+         SplineType2D              tp,
+         vector<real_type> const & x,
+         vector<real_type> const & y,
+         vector<real_type> const & z,
+         bool fortran_storage = false,
+         bool transposed      = false
+       );
+   
+       void
+       build(
+         SplineType2D    tp,
+         real_type const z[],
+         integer         ldZ,
+         integer         nx,
+         integer         ny,
+         bool fortran_storage = false,
+         bool transposed      = false
+       );
+   
+       void
+       build(
+         SplineType2D              tp,
+         vector<real_type> const & z,
+         integer                   nx,
+         integer                   ny,
+         bool fortran_storage = false,
+         bool transposed      = false
+       );
+   
+       void
+       setup( GenericContainer const & gc )
+       { build(gc); }
+   
+       void
+       build( GenericContainer const & gc );
+   
+       real_type
+       operator () ( real_type x, real_type y ) const
+       { return (*m_pSpline2D)( x, y ); }
+   
+       void
+       D( real_type x, real_type y, real_type d[3] ) const
+       { return m_pSpline2D->D( x, y, d ); }
+   
+       real_type
+       Dx( real_type x, real_type y ) const
+       { return m_pSpline2D->Dx( x, y ); }
+   
+       real_type
+       Dy( real_type x, real_type y ) const
+       { return m_pSpline2D->Dy( x, y ); }
+   
+       void
+       DD( real_type x, real_type y, real_type dd[6] ) const
+       { return m_pSpline2D->DD( x, y, dd ); }
+   
+       real_type
+       Dxx( real_type x, real_type y ) const
+       { return m_pSpline2D->Dxx( x, y ); }
+   
+       real_type
+       Dxy( real_type x, real_type y ) const
+       { return m_pSpline2D->Dxy( x, y ); }
+   
+       real_type
+       Dyy( real_type x, real_type y ) const
+       { return m_pSpline2D->Dyy( x, y ); }
+   
+       real_type
+       eval( real_type x, real_type y ) const
+       { return (*this)(x,y); }
+   
+       real_type
+       eval_D_1( real_type x, real_type y ) const
+       { return this->Dx(x,y); }
+   
+       real_type
+       eval_D_2( real_type x, real_type y ) const
+       { return this->Dy(x,y); }
+   
+       real_type
+       eval_D_1_1( real_type x, real_type y ) const
+       { return this->Dxx(x,y); }
+   
+       real_type
+       eval_D_1_2( real_type x, real_type y ) const
+       { return this->Dxy(x,y); }
+   
+       real_type
+       eval_D_2_2( real_type x, real_type y ) const
+       { return this->Dyy(x,y); }
+   
+       void
+       writeToStream( ostream_type & s ) const
+       { return m_pSpline2D->writeToStream( s ); }
+   
+       char const * type_name() const { return m_pSpline2D->type_name(); }
+   
+       string
+       info() const
+       { return m_pSpline2D->info(); }
+   
+       void
+       info( ostream_type & stream ) const
+       { m_pSpline2D->info( stream ); }
+     };
+   
+   }
+   
+   // EOF Splines2D.hxx

@@ -36,13 +36,13 @@ extern "C" {
 #endif
 
   /*! Create a new `Spline` object 'id' */
-  int SPLINE_new( char const id[], char const type [] );
+  int SPLINE_new( char const id[], char const type[] );
 
   /*! Select a `Spline` object 'id' */
   int SPLINE_select( char const id[] );
 
   /*! Delete the `Spline` object 'name' */
-  int SPLINE_delete( char const name[] );
+  int SPLINE_delete( char const id[] );
 
   /*! Print the actual `Spline` */
   int SPLINE_print();

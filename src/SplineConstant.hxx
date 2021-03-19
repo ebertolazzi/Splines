@@ -35,7 +35,9 @@ namespace Splines {
 
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
+    #endif
 
     ConstantSpline( string const & name = "ConstantSpline" )
     : Spline(name)

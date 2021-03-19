@@ -1,0 +1,13 @@
+.. _exhale_function__splines_cinterface_8h_1a1b0aae40600c1c5485508d2f9350c9e4:
+
+Function SPLINE_eval_DDDD
+=========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: SPLINE_eval_DDDD(double const)

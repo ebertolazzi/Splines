@@ -287,10 +287,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  /*!
-   | Check if cubic spline with this data is monotone,
-   |  -2 non monotone data, -1 no, 0 yes, 1 strictly monotone
-   */
+  //! Check if cubic spline with this data is monotone, return -1 no, 0 yes, 1 strictly monotone
   integer
   checkCubicSplineMonotonicity(
     real_type const X[],

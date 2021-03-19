@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a5d952a419e94702719c64174cd134cd7:
+
+Function Splines::FoleyNielsen
+==============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::FoleyNielsen(integer, integer, real_type const, integer, real_type)

@@ -1,0 +1,13 @@
+.. _exhale_define__splines_cinterface_8h_1ade8086f0fd9d3bd49264ebd0bd5b6cdc:
+
+Define SPLINES_C_INTERFACE_H
+============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: SPLINES_C_INTERFACE_H

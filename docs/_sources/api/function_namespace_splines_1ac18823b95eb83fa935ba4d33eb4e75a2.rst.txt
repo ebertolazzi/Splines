@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1ac18823b95eb83fa935ba4d33eb4e75a2:
+
+Function Splines::min_abs
+=========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::min_abs(real_type, real_type)

@@ -1,0 +1,13 @@
+.. _exhale_function__splines_cinterface_8h_1a93c302015a1342111d9791f00d2428ff:
+
+Function SPLINE_new
+===================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: SPLINE_new(char const, char const)

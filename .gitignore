@@ -64,7 +64,6 @@ toolbox/license.txt
 *.mltbx
 *.mexmaci64
 !src_python_interface/include
-docs/xml
-docs/sphinx/splines/*
-!docs/sphinx/splines/.gitkeep
-docs/sphinx/_build
+docs_build/xml
+docs_build/sphinx/api
+docs_build/sphinx/_build

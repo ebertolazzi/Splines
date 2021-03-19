@@ -1,0 +1,646 @@
+
+Full API
+--------
+
+Namespaces
+**********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_Splines.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_SplinesLoad.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_std.rst
+
+Classes and Structs
+*******************
+
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_akima2_dspline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_akima_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bessel_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bi_cubic_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bi_cubic_spline_base.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bilinear_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bi_quintic_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_bi_quintic_spline_base.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_constant_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_cubic_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_cubic_spline_base.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_hermite_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_linear_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_pchip_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_quintic_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_quintic_spline_base.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline1_d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline2_d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline_set.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline_set_1_1_binary_search.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline_surf.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   class_splines_1_1_spline_vec.rst
+
+Enums
+*****
+
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespace_splines_1ab83855c66e1e87122b7f7651d507fd29.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespace_splines_1ab67d9e563734dd678034ed346e4d7afa.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespace_splines_1ac6fd9ea07185987eaff6e90a2bbc2ea4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d.rst
+
+Functions
+*********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a562f6cae383a972ff70c7b987c17cce0.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1af03061c5581fe277d08b52e2b45ae810.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a0c7c6ed4c544b47854033f8bd66f11e6.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1aa94fa6a76750597218338b0ff491b817.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a26c975e5c90f743ea58c64d4cd55fec1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1ace3792c09b43ee557ad553f7c385fb9f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a38c100aef53f216e97558c861963ef64.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a1b0aae40600c1c5485508d2f9350c9e4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a17ad351f7572c6eb7f8fbc1cdc5068bc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a9b683ceadd58baaadaa58ca28268360a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a8cd7b632a4eb70a3464d02cb31c74709.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a2993fc7e0d4ea8f03ff1c1c2a60a9537.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a93c302015a1342111d9791f00d2428ff.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1aba9ab3ef53dc9452a0155168b80b499a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a247716d72643966e53bc70c27a728e98.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function__splines_cinterface_8h_1a5456aac1498f3e3abd660069fef20ba0.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ac728886ddc6ff09dd2ecf01045597cd1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a537d1191b9e65cb379121e297436438d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a65e3a2b5e218b762e457d0bd1c5a3a89.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ab0be0627373f307032b97617a8f81372.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1acd2e16dcfcbf039bcae86d9c6c89b17d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a50e11bb430344e8d51838b60cc16f2e7.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1abd67430f5c4a9b80ad497b457af2b139.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa3f1c30dc4cf727358705ff0ba1bdee9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1af16e572a465aec20228e9fa09095fa4c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a45625b2dfc9d9cf9199ad0c9537790e1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a43170f386ad9f3ee077abcdec17708db.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1acae47427dcfada65a44e93372b431d9e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a72be9f1cd89a6e2b95afa9ea73d52d6d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1acc64d1ef9be62ad8c778743741c35e90.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a2a5389fec10f26745eea8aa9a5c1cac0.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a1f25971612f487cac47e06334000de69.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a21f89a7ae650ef6edcba05545c173f0c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a76cff6d8e7dbb5c48abbd6a19599fa92.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a16d555fa17b3a6997e883d12542f2c92.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a7f9b442cadbf74b8f96f9d4216bd9104.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a3ffb20c4b811f2a3723acddbdabf4168.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1afe8bf36f6eaf182cd13a52023f238d5d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a825c2a66faff32a2e38850469f437ce1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a89f145b92b5a6701b5882c414bfeea3c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a7ba84dcfe8053887fdec4d2cab888f32.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ada46db60644a1bda70679ed616cda760.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a6389ba86b13ae6969d7f0220f4990817.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ae0d40af0afcb0c5bdc31cac1f3f075aa.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a692bcf81e39bdebe1e53ec96da67b195.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a5921659b15fb80242a81796fdcb1d6d7.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ab79df2197dc5da73d28146b2e270b827.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aca08fb774c9a7496b07efb0157327582.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a6462d17be2b25b520bb34ab26f3b8291.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a61dc0ad426b988823065b60a7b695413.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a5d952a419e94702719c64174cd134cd7.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a64d0e892133ce06e0a3577c3bea0f549.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a988e77868a230c13fe1bdf8137a8f01a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa1c4a081ddfbc044821f7aa1ff1ae1c2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ad4b42f85cb69fe093759f456114cbced.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa28400e8657e3f0eb38773f70f7853ea.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ac85cb28d6b772656b4e280a030691d27.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a324030f42c623c817c11fa95e7bfc196.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa82aeb3a0dbffcf894a94faf02ce752b.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1af9b2cf2583ce28b2ed475251f59c34a5.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa98c640e941d7482ff9e62718961d046.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ab89064e5018864fd3c933052ab475411.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ae61f54b18ac4089ead89302e4b99fee4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ac18823b95eb83fa935ba4d33eb4e75a2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a8c7e2a599a7e341f0d8751b1bccb9a04.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1af5def81cf8ced3f3337cf9a508af839b.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1abe8be2c4304f908ca895f764470d7e7d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ab03e87f559371b851bf9ae72083565a5.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a6492af9d3bebb6fc34b10a54965dae6d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1afaeb8ccb39be9163cb15a3094e2dc87d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a02af2dd1a60e0ab97f8e73ff7bafe13c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a0876533785ef21741cfd6a9c4a4d4fe4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a60f01f53c32707d2a70eb61bb2c93a9b.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ac38bcac07970b102fcdd02e91115e08b.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a5d020e3df1b575b52c531edc6c005245.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aa99a1063f183df0eb349f7b4cc5bafec.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1ad94967141b4370ffec6040e4c38fb063.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a4fe6464c49b4bba331d9751598a44f02.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a50110e007e11c92561d80f70324884c4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1a8e6a8f8e5f1fe9dc40911cba351598a2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_namespace_splines_1aadd9f962f7368cef42566a1efd07b314.rst
+
+Variables
+*********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_namespace_splines_1af206176fca336fbc274d89b318609391.rst
+
+Defines
+*******
+
+
+.. toctree::
+   :maxdepth: 5
+
+   define__splines_cinterface_8h_1ade8086f0fd9d3bd49264ebd0bd5b6cdc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define__splines_config_8hh_1a7dc7bbba00bb80a0e5d5c7c94497a07f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define__splines_8hh_1a258c7c0530540979548721b55b2338c9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define__splines_utils_8hh_1a7d5567c4bd7d1851b7456989e413ccde.rst
+
+Typedefs
+********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.rst

@@ -1,0 +1,175 @@
+
+.. _file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh:
+
+File Splines.hh
+===============
+
+|exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh``)
+----------------------------------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``SplineAkima.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.hxx`)
+
+- ``SplineAkima2D.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.hxx`)
+
+- ``SplineBessel.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.hxx`)
+
+- ``SplineBiCubic.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.hxx`)
+
+- ``SplineBiQuintic.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.hxx`)
+
+- ``SplineBilinear.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.hxx`)
+
+- ``SplineConstant.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.hxx`)
+
+- ``SplineCubic.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.hxx`)
+
+- ``SplineHermite.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.hxx`)
+
+- ``SplineLinear.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.hxx`)
+
+- ``SplinePchip.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.hxx`)
+
+- ``SplineQuintic.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.hxx`)
+
+- ``SplineQuinticBase.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.hxx`)
+
+- ``SplineSet.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.hxx`)
+
+- ``SplineVec.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.hxx`)
+
+- ``Splines1D.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.hxx`)
+
+- ``Splines2D.hxx`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx`)
+
+- ``SplinesConfig.hh`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesConfig.hh`)
+
+- ``fstream``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubicBase.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesBivariate.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSetGC.cc`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh`
+
+- :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.cc`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+- :ref:`namespace_SplinesLoad`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_class_splines_1_1_cubic_spline_base`
+
+- :ref:`exhale_class_class_splines_1_1_spline`
+
+- :ref:`exhale_class_class_splines_1_1_spline_surf`
+
+
+Enums
+-----
+
+
+- :ref:`exhale_enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d`
+
+- :ref:`exhale_enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03`
+
+- :ref:`exhale_function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define__splines_8hh_1a258c7c0530540979548721b55b2338c9`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9`
+
+- :ref:`exhale_typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c`
+
+- :ref:`exhale_typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa`
+

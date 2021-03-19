@@ -120,7 +120,7 @@ run:
 	./bin/test10
 
 doc:
-	doxygen
+	@cd docs_build; make; cd ..
 
 clean:
 	rm -rf lib/libSplines.* lib/libGenericContainer.* lib/include src/*.o

@@ -65,8 +65,10 @@ namespace Splines {
     CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
+    #endif
 
     //! spline constructor
     CubicSpline( string const & name = "CubicSpline" )

@@ -1,0 +1,13 @@
+.. _exhale_enum_namespace_splines_1ab67d9e563734dd678034ed346e4d7afa:
+
+Enum QUINTIC_SPLINE_TYPE
+========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.hxx`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: Splines::QUINTIC_SPLINE_TYPE

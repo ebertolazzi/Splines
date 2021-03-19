@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a16d555fa17b3a6997e883d12542f2c92:
+
+Function Splines::deriv2_5p_R
+=============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::deriv2_5p_R(real_type, real_type, real_type, real_type, real_type, real_type, real_type, real_type)

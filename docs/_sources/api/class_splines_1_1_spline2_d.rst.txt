@@ -1,0 +1,16 @@
+.. _exhale_class_class_splines_1_1_spline2_d:
+
+Class Spline2D
+==============
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Splines::Spline2D
+   :members:
+   :protected-members:
+   :undoc-members:

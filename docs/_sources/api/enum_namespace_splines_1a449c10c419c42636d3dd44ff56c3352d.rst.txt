@@ -1,0 +1,13 @@
+.. _exhale_enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d:
+
+Enum SplineType2D
+=================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: Splines::SplineType2D

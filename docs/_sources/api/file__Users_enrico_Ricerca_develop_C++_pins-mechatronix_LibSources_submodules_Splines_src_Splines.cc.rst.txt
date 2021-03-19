@@ -1,0 +1,82 @@
+
+.. _file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc:
+
+File Splines.cc
+===============
+
+|exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.cc``)
+----------------------------------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``SplinesUtils.hh`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh`)
+
+- ``cmath``
+
+- ``limits``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespace_splines_1a50e11bb430344e8d51838b60cc16f2e7`
+
+- :ref:`exhale_function_namespace_splines_1abd67430f5c4a9b80ad497b457af2b139`
+
+- :ref:`exhale_function_namespace_splines_1aa3f1c30dc4cf727358705ff0ba1bdee9`
+
+- :ref:`exhale_function_namespace_splines_1a43170f386ad9f3ee077abcdec17708db`
+
+- :ref:`exhale_function_namespace_splines_1acae47427dcfada65a44e93372b431d9e`
+
+- :ref:`exhale_function_namespace_splines_1a72be9f1cd89a6e2b95afa9ea73d52d6d`
+
+- :ref:`exhale_function_namespace_splines_1a7ba84dcfe8053887fdec4d2cab888f32`
+
+- :ref:`exhale_function_namespace_splines_1a5d952a419e94702719c64174cd134cd7`
+
+- :ref:`exhale_function_namespace_splines_1a50110e007e11c92561d80f70324884c4`
+
+- :ref:`exhale_function_namespace_splines_1a8e6a8f8e5f1fe9dc40911cba351598a2`
+
+- :ref:`exhale_function_namespace_splines_1aadd9f962f7368cef42566a1efd07b314`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespace_splines_1af206176fca336fbc274d89b318609391`
+

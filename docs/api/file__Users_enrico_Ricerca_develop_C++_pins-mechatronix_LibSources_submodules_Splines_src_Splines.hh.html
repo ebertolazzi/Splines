@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Splines.hh &#8212; Splines  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.png" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../readme.html">
+  Splines
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="library_root.html">
+  Splines API
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definition-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh">
+   Definition (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     /Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh
+    </span>
+   </code>
+   )
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#includes">
+   Includes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#included-by">
+   Included By
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#namespaces">
+   Namespaces
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classes">
+   Classes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enums">
+   Enums
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#defines">
+   Defines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#typedefs">
+   Typedefs
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="file-splines-hh">
+<span id="file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh"></span><h1>File Splines.hh<a class="headerlink" href="#file-splines-hh" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="dir__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src.html#dir-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src"><span class="std std-ref">Parent directory</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src</span></code>)</p>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#definition-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh" id="id1">Definition (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#includes" id="id2">Includes</a></p></li>
+<li><p><a class="reference internal" href="#included-by" id="id3">Included By</a></p></li>
+<li><p><a class="reference internal" href="#namespaces" id="id4">Namespaces</a></p></li>
+<li><p><a class="reference internal" href="#classes" id="id5">Classes</a></p></li>
+<li><p><a class="reference internal" href="#enums" id="id6">Enums</a></p></li>
+<li><p><a class="reference internal" href="#functions" id="id7">Functions</a></p></li>
+<li><p><a class="reference internal" href="#defines" id="id8">Defines</a></p></li>
+<li><p><a class="reference internal" href="#typedefs" id="id9">Typedefs</a></p></li>
+</ul>
+</div>
+<div class="section" id="definition-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh">
+<h2>Definition (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh</span></code>)<a class="headerlink" href="#definition-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh" title="Permalink to this headline">¶</a>
+</h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="program_listing_file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh.html">Program Listing for File Splines.hh</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="includes">
+<h2>Includes<a class="headerlink" href="#includes" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineAkima.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima-hxx"><span class="std std-ref">File SplineAkima.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineAkima2D.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima2d-hxx"><span class="std std-ref">File SplineAkima2D.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineBessel.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebessel-hxx"><span class="std std-ref">File SplineBessel.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineBiCubic.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebicubic-hxx"><span class="std std-ref">File SplineBiCubic.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineBiQuintic.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebiquintic-hxx"><span class="std std-ref">File SplineBiQuintic.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineBilinear.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebilinear-hxx"><span class="std std-ref">File SplineBilinear.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineConstant.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineconstant-hxx"><span class="std std-ref">File SplineConstant.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineCubic.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinecubic-hxx"><span class="std std-ref">File SplineCubic.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineHermite.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinehermite-hxx"><span class="std std-ref">File SplineHermite.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineLinear.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinelinear-hxx"><span class="std std-ref">File SplineLinear.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplinePchip.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinepchip-hxx"><span class="std std-ref">File SplinePchip.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineQuintic.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinequintic-hxx"><span class="std std-ref">File SplineQuintic.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineQuinticBase.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinequinticbase-hxx"><span class="std std-ref">File SplineQuinticBase.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineSet.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineset-hxx"><span class="std std-ref">File SplineSet.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplineVec.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinevec-hxx"><span class="std std-ref">File SplineVec.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Splines1D.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines1d-hxx"><span class="std std-ref">File Splines1D.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Splines2D.hxx</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines2d-hxx"><span class="std std-ref">File Splines2D.hxx</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplinesConfig.hh</span></code> (<a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinesConfig.hh.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesconfig-hh"><span class="std std-ref">File SplinesConfig.hh</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fstream</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="included-by">
+<h2>Included By<a class="headerlink" href="#included-by" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima-cc"><span class="std std-ref">File SplineAkima.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima2d-cc"><span class="std std-ref">File SplineAkima2D.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebessel-cc"><span class="std std-ref">File SplineBessel.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebicubic-cc"><span class="std std-ref">File SplineBiCubic.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebilinear-cc"><span class="std std-ref">File SplineBilinear.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinebiquintic-cc"><span class="std std-ref">File SplineBiQuintic.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineconstant-cc"><span class="std std-ref">File SplineConstant.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinecubic-cc"><span class="std std-ref">File SplineCubic.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubicBase.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinecubicbase-cc"><span class="std std-ref">File SplineCubicBase.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinehermite-cc"><span class="std std-ref">File SplineHermite.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinelinear-cc"><span class="std std-ref">File SplineLinear.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinepchip-cc"><span class="std std-ref">File SplinePchip.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinequintic-cc"><span class="std std-ref">File SplineQuintic.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinequinticbase-cc"><span class="std std-ref">File SplineQuinticBase.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines1d-cc"><span class="std std-ref">File Splines1D.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines2d-cc"><span class="std std-ref">File Splines2D.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinesBivariate.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesbivariate-cc"><span class="std std-ref">File SplinesBivariate.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineset-cc"><span class="std std-ref">File SplineSet.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineSetGC.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesetgc-cc"><span class="std std-ref">File SplineSetGC.cc</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesutils-hh"><span class="std std-ref">File SplinesUtils.hh</span></a></p></li>
+<li><p><a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinevec-cc"><span class="std std-ref">File SplineVec.cc</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="namespaces">
+<h2>Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="namespace_Splines.html#namespace-splines"><span class="std std-ref">Namespace Splines</span></a></p></li>
+<li><p><a class="reference internal" href="namespace_SplinesLoad.html#namespace-splinesload"><span class="std std-ref">Namespace SplinesLoad</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="class_splines_1_1_cubic_spline_base.html#exhale-class-class-splines-1-1-cubic-spline-base"><span class="std std-ref">Class CubicSplineBase</span></a></p></li>
+<li><p><a class="reference internal" href="class_splines_1_1_spline.html#exhale-class-class-splines-1-1-spline"><span class="std std-ref">Class Spline</span></a></p></li>
+<li><p><a class="reference internal" href="class_splines_1_1_spline_surf.html#exhale-class-class-splines-1-1-spline-surf"><span class="std std-ref">Class SplineSurf</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d.html#exhale-enum-namespace-splines-1a34ca01114f5c5cfba05ae6badb98536d"><span class="std std-ref">Enum SplineType1D</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d.html#exhale-enum-namespace-splines-1a449c10c419c42636d3dd44ff56c3352d"><span class="std std-ref">Enum SplineType2D</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03.html#exhale-function-namespace-splines-1aeb6c86ca718705bd71ad29b32c3f6d03"><span class="std std-ref">Function Splines::backtrace</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34.html#exhale-function-namespace-splines-1a09ab0e5abfd04a79ab8353c114d82d34"><span class="std std-ref">Function Splines::string_to_splineType(string const&amp;)</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="defines">
+<h2>Defines<a class="headerlink" href="#defines" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="define__splines_8hh_1a258c7c0530540979548721b55b2338c9.html#exhale-define-splines-8hh-1a258c7c0530540979548721b55b2338c9"><span class="std std-ref">Define SPLINES_HH</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="typedefs">
+<h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#exhale-typedef-namespace-splines-1a3b6ee100a473e8866bcea6d1fc4041d9"><span class="std std-ref">Typedef Splines::integer</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c.html#exhale-typedef-namespace-splines-1a87f1935c525a7d6a5e35303fce18a60c"><span class="std std-ref">Typedef Splines::ostream_type</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#exhale-typedef-namespace-splines-1ac0b09ba58a37f5f3ca415be4a02ec7aa"><span class="std std-ref">Typedef Splines::real_type</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1afaeb8ccb39be9163cb15a3094e2dc87d:
+
+Function Splines::QuinticSpline_Yppp_continuous
+===============================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::QuinticSpline_Yppp_continuous(real_type const, real_type const, real_type const, real_type, integer, bool)

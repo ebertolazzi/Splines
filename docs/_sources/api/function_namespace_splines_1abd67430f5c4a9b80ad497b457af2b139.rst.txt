@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1abd67430f5c4a9b80ad497b457af2b139:
+
+Function Splines::checkCubicSplineMonotonicity
+==============================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::checkCubicSplineMonotonicity(real_type const, real_type const, real_type const, integer)

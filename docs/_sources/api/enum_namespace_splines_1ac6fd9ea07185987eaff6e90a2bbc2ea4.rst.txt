@@ -1,0 +1,13 @@
+.. _exhale_enum_namespace_splines_1ac6fd9ea07185987eaff6e90a2bbc2ea4:
+
+Enum REGION_ABCDEM
+==================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: Splines::REGION_ABCDEM

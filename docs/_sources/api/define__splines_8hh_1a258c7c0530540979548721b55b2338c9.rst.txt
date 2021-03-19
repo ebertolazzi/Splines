@@ -1,0 +1,13 @@
+.. _exhale_define__splines_8hh_1a258c7c0530540979548721b55b2338c9:
+
+Define SPLINES_HH
+=================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: SPLINES_HH

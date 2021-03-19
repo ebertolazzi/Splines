@@ -1,0 +1,79 @@
+
+.. _file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc:
+
+File SplinesUtils.cc
+====================
+
+|exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesUtils.cc``)
+---------------------------------------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``SplinesUtils.hh`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh`)
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespace_splines_1a7f9b442cadbf74b8f96f9d4216bd9104`
+
+- :ref:`exhale_function_namespace_splines_1a3ffb20c4b811f2a3723acddbdabf4168`
+
+- :ref:`exhale_function_namespace_splines_1a692bcf81e39bdebe1e53ec96da67b195`
+
+- :ref:`exhale_function_namespace_splines_1a5921659b15fb80242a81796fdcb1d6d7`
+
+- :ref:`exhale_function_namespace_splines_1ab79df2197dc5da73d28146b2e270b827`
+
+- :ref:`exhale_function_namespace_splines_1aca08fb774c9a7496b07efb0157327582`
+
+- :ref:`exhale_function_namespace_splines_1a6462d17be2b25b520bb34ab26f3b8291`
+
+- :ref:`exhale_function_namespace_splines_1a61dc0ad426b988823065b60a7b695413`
+
+- :ref:`exhale_function_namespace_splines_1a02af2dd1a60e0ab97f8e73ff7bafe13c`
+
+- :ref:`exhale_function_namespace_splines_1a0876533785ef21741cfd6a9c4a4d4fe4`
+
+- :ref:`exhale_function_namespace_splines_1a60f01f53c32707d2a70eb61bb2c93a9b`
+
+- :ref:`exhale_function_namespace_splines_1ac38bcac07970b102fcdd02e91115e08b`
+
+- :ref:`exhale_function_namespace_splines_1a5d020e3df1b575b52c531edc6c005245`
+
+- :ref:`exhale_function_namespace_splines_1aa99a1063f183df0eb349f7b4cc5bafec`
+
+- :ref:`exhale_function_namespace_splines_1ad94967141b4370ffec6040e4c38fb063`
+

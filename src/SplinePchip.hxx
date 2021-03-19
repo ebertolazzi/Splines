@@ -39,8 +39,10 @@ namespace Splines {
   class PchipSpline : public CubicSplineBase {
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
+    #endif
 
     //! spline constructor
     PchipSpline( string const & name = "PchipSpline" )

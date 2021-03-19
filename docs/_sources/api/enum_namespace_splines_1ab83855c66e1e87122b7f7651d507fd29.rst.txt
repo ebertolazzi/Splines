@@ -1,0 +1,13 @@
+.. _exhale_enum_namespace_splines_1ab83855c66e1e87122b7f7651d507fd29:
+
+Enum CUBIC_SPLINE_TYPE_BC
+=========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.hxx`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: Splines::CUBIC_SPLINE_TYPE_BC

@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class CubicSplineBase &#8212; Splines  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class HermiteSpline" href="class_splines_1_1_hermite_spline.html" />
+    <link rel="prev" title="Class CubicSpline" href="class_splines_1_1_cubic_spline.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.png" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../readme.html">
+  Splines
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="library_root.html">
+  Splines API
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inheritance-relationships">
+   Inheritance Relationships
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#base-type">
+     Base Type
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#derived-types">
+     Derived Types
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#class-documentation">
+   Class Documentation
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="class-cubicsplinebase">
+<span id="exhale-class-class-splines-1-1-cubic-spline-base"></span><h1>Class CubicSplineBase<a class="headerlink" href="#class-cubicsplinebase" title="Permalink to this headline">¶</a>
+</h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splines-hh"><span class="std std-ref">File Splines.hh</span></a></p></li>
+</ul>
+<div class="section" id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Permalink to this headline">¶</a>
+</h2>
+<div class="section" id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Permalink to this headline">¶</a>
+</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">Spline</span></code> (<a class="reference internal" href="class_splines_1_1_spline.html#exhale-class-class-splines-1-1-spline"><span class="std std-ref">Class Spline</span></a>)</p></li>
+</ul>
+</div>
+<div class="section" id="derived-types">
+<h3>Derived Types<a class="headerlink" href="#derived-types" title="Permalink to this headline">¶</a>
+</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">AkimaSpline</span></code> (<a class="reference internal" href="class_splines_1_1_akima_spline.html#exhale-class-class-splines-1-1-akima-spline"><span class="std std-ref">Class AkimaSpline</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">BesselSpline</span></code> (<a class="reference internal" href="class_splines_1_1_bessel_spline.html#exhale-class-class-splines-1-1-bessel-spline"><span class="std std-ref">Class BesselSpline</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">CubicSpline</span></code> (<a class="reference internal" href="class_splines_1_1_cubic_spline.html#exhale-class-class-splines-1-1-cubic-spline"><span class="std std-ref">Class CubicSpline</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">HermiteSpline</span></code> (<a class="reference internal" href="class_splines_1_1_hermite_spline.html#exhale-class-class-splines-1-1-hermite-spline"><span class="std std-ref">Class HermiteSpline</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">PchipSpline</span></code> (<a class="reference internal" href="class_splines_1_1_pchip_spline.html#exhale-class-class-splines-1-1-pchip-spline"><span class="std std-ref">Class PchipSpline</span></a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a>
+</h2>
+<dl class="cpp class">
+<dt id="_CPPv4N7Splines15CubicSplineBaseE">
+<span id="_CPPv3N7Splines15CubicSplineBaseE"></span><span id="_CPPv2N7Splines15CubicSplineBaseE"></span><span id="Splines::CubicSplineBase"></span><span class="target" id="class_splines_1_1_cubic_spline_base"></span><em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Splines</span><code class="sig-prename descclassname"><span class="pre">::</span></code></code><code class="sig-name descname"><span class="pre">CubicSplineBase</span></code> <span class="pre">:</span> <em class="property"><span class="pre">public</span></em> <a class="reference internal" href="class_splines_1_1_spline.html#_CPPv4N7Splines6SplineE" title="Splines::Spline"><span class="pre">Spline</span></a><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBaseE" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>cubic spline base class </p>
+<p>Subclassed by <a class="reference internal" href="class_splines_1_1_akima_spline.html#class_splines_1_1_akima_spline"><span class="std std-ref">AkimaSpline</span></a>, <a class="reference internal" href="class_splines_1_1_bessel_spline.html#class_splines_1_1_bessel_spline"><span class="std std-ref">BesselSpline</span></a>, <a class="reference internal" href="class_splines_1_1_cubic_spline.html#class_splines_1_1_cubic_spline"><span class="std std-ref">CubicSpline</span></a>, <a class="reference internal" href="class_splines_1_1_hermite_spline.html#class_splines_1_1_hermite_spline"><span class="std std-ref">HermiteSpline</span></a>, <a class="reference internal" href="class_splines_1_1_pchip_spline.html#class_splines_1_1_pchip_spline"><span class="std std-ref">PchipSpline</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase15CubicSplineBaseERK6string">
+<span id="_CPPv3N7Splines15CubicSplineBase15CubicSplineBaseERK6string"></span><span id="_CPPv2N7Splines15CubicSplineBase15CubicSplineBaseERK6string"></span><span id="Splines::CubicSplineBase::CubicSplineBase__stringCR"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a1cd04a81f50752397954149a727423c7"></span><em class="property"><span class="pre">inline</span></em> <code class="sig-name descname"><span class="pre">CubicSplineBase</span></code><span class="sig-paren">(</span><span class="pre">string</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">name</span></em> <span class="pre">=</span> <span class="pre">"CubicSplineBase"</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase15CubicSplineBaseERK6string" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>spline constructor </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBaseD0Ev">
+<span id="_CPPv3N7Splines15CubicSplineBaseD0Ev"></span><span id="_CPPv2N7Splines15CubicSplineBaseD0Ev"></span><span id="Splines::CubicSplineBase::~CubicSplineBase"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a47645c3ccc5138705446a88e0bc451fd"></span><em class="property"><span class="pre">inline</span></em> <em class="property"><span class="pre">virtual</span></em> <code class="sig-name descname"><span class="pre">~CubicSplineBase</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBaseD0Ev" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase10copySplineERK15CubicSplineBase">
+<span id="_CPPv3N7Splines15CubicSplineBase10copySplineERK15CubicSplineBase"></span><span id="_CPPv2N7Splines15CubicSplineBase10copySplineERK15CubicSplineBase"></span><span id="Splines::CubicSplineBase::copySpline__CubicSplineBaseCR"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a6165c032099a5d97706ae22fa2d84753"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">copySpline</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N7Splines15CubicSplineBaseE" title="Splines::CubicSplineBase"><span class="pre">CubicSplineBase</span></a> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">S</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase10copySplineERK15CubicSplineBase" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase6ypNodeE7integer">
+<span id="_CPPv3NK7Splines15CubicSplineBase6ypNodeE7integer"></span><span id="_CPPv2NK7Splines15CubicSplineBase6ypNodeE7integer"></span><span id="Splines::CubicSplineBase::ypNode__integerC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ab8d89be5272cb04f8f764abd0b2efe36"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">ypNode</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">i</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase6ypNodeE7integer" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>return the i-th node of the spline (y’ component). </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase8setRangeE9real_type9real_type">
+<span id="_CPPv3N7Splines15CubicSplineBase8setRangeE9real_type9real_type"></span><span id="_CPPv2N7Splines15CubicSplineBase8setRangeE9real_type9real_type"></span><span id="Splines::CubicSplineBase::setRange__real_type.real_type"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a5fd4734209654b903f27e208a57c3dfe"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">setRange</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">xmin</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">xmax</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase8setRangeE9real_type9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>change X-range of the spline </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase16reserve_externalE7integerRP9real_typeRP9real_typeRP9real_type">
+<span id="_CPPv3N7Splines15CubicSplineBase16reserve_externalE7integerRP9real_typeRP9real_typeRP9real_type"></span><span id="_CPPv2N7Splines15CubicSplineBase16reserve_externalE7integerRP9real_typeRP9real_typeRP9real_type"></span><span id="Splines::CubicSplineBase::reserve_external__integer.real_typePR.real_typePR.real_typePR"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a31379703f2e480412899d99a82730918"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">reserve_external</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">n</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">*</span><span class="pre">&amp;</span><em><span class="pre">p_x</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">*</span><span class="pre">&amp;</span><em><span class="pre">p_y</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">*</span><span class="pre">&amp;</span><em><span class="pre">p_dy</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase16reserve_externalE7integerRP9real_typeRP9real_typeRP9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Use externally allocated memory for <code class="docutils literal notranslate"><span class="pre">npts</span></code> points. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBaseclE9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBaseclE9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBaseclE9real_type"></span><span id="Splines::CubicSplineBase::call-operator__real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a77caad98794c9b93c32246b7c4b938f5"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">operator()</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBaseclE9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline value. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase1DE9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase1DE9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase1DE9real_type"></span><span id="Splines::CubicSplineBase::D__real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a62e683e80d5c1b6cc1a06ae22bca0d03"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">D</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase1DE9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>First derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase2DDE9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase2DDE9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase2DDE9real_type"></span><span id="Splines::CubicSplineBase::DD__real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a9220bc0cb99baf6d011a37c86481fa6a"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">DD</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase2DDE9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Second derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase3DDDE9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase3DDDE9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase3DDDE9real_type"></span><span id="Splines::CubicSplineBase::DDD__real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a95f3a20b79e951ec32c72e2d461cc909"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">DDD</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase3DDDE9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Third derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase7id_evalE7integer9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase7id_evalE7integer9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase7id_evalE7integer9real_type"></span><span id="Splines::CubicSplineBase::id_eval__integer.real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1addbe744ef03f6e5d5887944db01bb90c"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">id_eval</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">ni</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase7id_evalE7integer9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline value knowing interval. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase4id_DE7integer9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase4id_DE7integer9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase4id_DE7integer9real_type"></span><span id="Splines::CubicSplineBase::id_D__integer.real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1aba99f7de7931ec3362fb1d7ce8a66cf6"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">id_D</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">ni</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase4id_DE7integer9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>First derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase5id_DDE7integer9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase5id_DDE7integer9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase5id_DDE7integer9real_type"></span><span id="Splines::CubicSplineBase::id_DD__integer.real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1aaff0cb62e2fdacc0e83bc0ce86c59739"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">id_DD</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">ni</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase5id_DDE7integer9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Second derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase6id_DDDE7integer9real_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase6id_DDDE7integer9real_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase6id_DDDE7integer9real_type"></span><span id="Splines::CubicSplineBase::id_DDD__integer.real_typeC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1aa0ebe90a1d70226ec99c151e22597dca"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <code class="sig-name descname"><span class="pre">id_DDD</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">ni</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">x</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase6id_DDDE7integer9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Third derivative. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase13writeToStreamER12ostream_type">
+<span id="_CPPv3NK7Splines15CubicSplineBase13writeToStreamER12ostream_type"></span><span id="_CPPv2NK7Splines15CubicSplineBase13writeToStreamER12ostream_type"></span><span id="Splines::CubicSplineBase::writeToStream__ostream_typeRC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ac8d53f292c18de8cc9c4e3de83767dd1"></span><em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">writeToStream</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c.html#_CPPv4N7Splines12ostream_typeE" title="Splines::ostream_type"><span class="pre">ostream_type</span></a> <span class="pre">&amp;</span><em><span class="pre">s</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase13writeToStreamER12ostream_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Print spline coefficients. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase7reserveE7integer">
+<span id="_CPPv3N7Splines15CubicSplineBase7reserveE7integer"></span><span id="_CPPv2N7Splines15CubicSplineBase7reserveE7integer"></span><span id="Splines::CubicSplineBase::reserve__integer"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a9ce7ac730998485b945fd0381fed0d9d"></span><em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">reserve</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">npts</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase7reserveE7integer" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Allocate memory for <code class="docutils literal notranslate"><span class="pre">npts</span></code> points. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase5buildEA_K9real_type7integerA_K9real_type7integerA_K9real_type7integer7integer">
+<span id="_CPPv3N7Splines15CubicSplineBase5buildEA_K9real_type7integerA_K9real_type7integerA_K9real_type7integer7integer"></span><span id="_CPPv2N7Splines15CubicSplineBase5buildEA_K9real_type7integerA_K9real_type7integerA_K9real_type7integer7integer"></span><span id="Splines::CubicSplineBase::build__real_typeCA.integer.real_typeCA.integer.real_typeCA.integer.integer"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ae7b118a750f4a37fc6ad93377cc69d35"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">x</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">incx</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">y</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">incy</span></em>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">yp</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">incyp</span></em>, <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase5buildEA_K9real_type7integerA_K9real_type7integerA_K9real_type7integer7integer" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build a spline. </p>
+<p></p>
+<dl class="simple">
+<dt><strong>Parameters</strong></dt>
+<dd>
+<ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: vector of x-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">incx</span></code>: access elements as x[0], x[incx], x[2*incx],… </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: vector of y-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">incy</span></code>: access elements as y[0], y[incy], y[2*incy],… </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yp</span></code>: vector of y-defivative </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">incyp</span></code>: access elements as yp[0], yp[incyp], yp[2*incyy],… </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>: total number of points </p></li>
+</ul>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase5buildEA_K9real_typeA_K9real_typeA_K9real_type7integer">
+<span id="_CPPv3N7Splines15CubicSplineBase5buildEA_K9real_typeA_K9real_typeA_K9real_type7integer"></span><span id="_CPPv2N7Splines15CubicSplineBase5buildEA_K9real_typeA_K9real_typeA_K9real_type7integer"></span><span id="Splines::CubicSplineBase::build__real_typeCA.real_typeCA.real_typeCA.integer"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a425352a3da105dd61cd244340daa3bb1"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">x</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">y</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <em><span class="pre">yp</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase5buildEA_K9real_typeA_K9real_typeA_K9real_type7integer" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build a spline. </p>
+<p></p>
+<dl class="simple">
+<dt><strong>Parameters</strong></dt>
+<dd>
+<ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: vector of x-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: vector of y-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yp</span></code>: vector of y’-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>: total number of points </p></li>
+</ul>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeE">
+<span id="_CPPv3N7Splines15CubicSplineBase5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeE"></span><span id="_CPPv2N7Splines15CubicSplineBase5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeE"></span><span id="Splines::CubicSplineBase::build__vector:real_type:CR.vector:real_type:CR.vector:real_type:CR"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ad576eac80f095e838dde7f5984ea35d3"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">x</span></em>, <span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">y</span></em>, <span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">yp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeE" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build a spline. </p>
+<p></p>
+<dl class="simple">
+<dt><strong>Parameters</strong></dt>
+<dd>
+<ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: vector of x-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: vector of y-coordinates </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yp</span></code>: vector of y’-coordinates </p></li>
+</ul>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N7Splines15CubicSplineBase5clearEv">
+<span id="_CPPv3N7Splines15CubicSplineBase5clearEv"></span><span id="_CPPv2N7Splines15CubicSplineBase5clearEv"></span><span id="Splines::CubicSplineBase::clear"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1aee7cb2065b88d21ac4ad05bc997ecf82"></span><em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase5clearEv" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Cancel the support points, empty the spline. </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase6coeffsEA_9real_typeA_9real_typeb">
+<span id="_CPPv3NK7Splines15CubicSplineBase6coeffsEA_9real_typeA_9real_typeb"></span><span id="_CPPv2NK7Splines15CubicSplineBase6coeffsEA_9real_typeA_9real_typeb"></span><span id="Splines::CubicSplineBase::coeffs__real_typeA.real_typeA.bC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ab2909949c0267e02bf5f50b6af25e46f"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <code class="sig-name descname"><span class="pre">coeffs</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">cfs</span></em><span class="pre">[</span><span class="pre">]</span>, <a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em><span class="pre">nodes</span></em><span class="pre">[</span><span class="pre">]</span>, <span class="pre">bool</span> <em><span class="pre">transpose</span></em> <span class="pre">=</span> <span class="pre">false</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase6coeffsEA_9real_typeA_9real_typeb" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>get the piecewise polinomials of the spline </p>
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines15CubicSplineBase5orderEv">
+<span id="_CPPv3NK7Splines15CubicSplineBase5orderEv"></span><span id="_CPPv2NK7Splines15CubicSplineBase5orderEv"></span><span id="Splines::CubicSplineBase::orderC"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1ab5b3df432ad48b9ef90739cd66f1f6f4"></span><em class="property"><span class="pre">virtual</span></em> <a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <code class="sig-name descname"><span class="pre">order</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4NK7Splines15CubicSplineBase5orderEv" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="cpp var">
+<dt id="_CPPv4N7Splines15CubicSplineBase11m_baseValueE">
+<span id="_CPPv3N7Splines15CubicSplineBase11m_baseValueE"></span><span id="_CPPv2N7Splines15CubicSplineBase11m_baseValueE"></span><span id="Splines::CubicSplineBase::m_baseValue__Utils::Malloc:real_type:"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1aa5a8a0cb6b386e3aa76fda1b1e116483"></span><span class="pre">Utils</span><span class="pre">::</span><span class="pre">Malloc</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <code class="sig-name descname"><span class="pre">m_baseValue</span></code><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase11m_baseValueE" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N7Splines15CubicSplineBase4m_YpE">
+<span id="_CPPv3N7Splines15CubicSplineBase4m_YpE"></span><span id="_CPPv2N7Splines15CubicSplineBase4m_YpE"></span><span id="Splines::CubicSplineBase::m_Yp__real_typeP"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a7234649f351e1cff72e09973b4b38b1a"></span><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">*</span><code class="sig-name descname"><span class="pre">m_Yp</span></code><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase4m_YpE" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N7Splines15CubicSplineBase16m_external_allocE">
+<span id="_CPPv3N7Splines15CubicSplineBase16m_external_allocE"></span><span id="_CPPv2N7Splines15CubicSplineBase16m_external_allocE"></span><span id="Splines::CubicSplineBase::m_external_alloc__b"></span><span class="target" id="class_splines_1_1_cubic_spline_base_1a462ea765c5e8fc11a412cf3c205ce206"></span><span class="pre">bool</span> <code class="sig-name descname"><span class="pre">m_external_alloc</span></code><a class="headerlink" href="#_CPPv4N7Splines15CubicSplineBase16m_external_allocE" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd></dd>
+</dl>
+
+</div>
+</dd>
+</dl>
+
+</div>
+</div>
+
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="class_splines_1_1_cubic_spline.html" title="previous page">Class CubicSpline</a>
+    <a class='right-next' id="next-link" href="class_splines_1_1_hermite_spline.html" title="next page">Class HermiteSpline</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

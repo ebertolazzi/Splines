@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d:
+
+Function Splines::akima_one
+===========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::akima_one(real_type, real_type, real_type, real_type, real_type)

@@ -1,0 +1,75 @@
+
+.. _file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h:
+
+File SplinesCinterface.h
+========================
+
+|exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesCinterface.h``)
+-------------------------------------------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h.rst
+
+
+
+
+
+
+
+
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function__splines_cinterface_8h_1a562f6cae383a972ff70c7b987c17cce0`
+
+- :ref:`exhale_function__splines_cinterface_8h_1af03061c5581fe277d08b52e2b45ae810`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a0c7c6ed4c544b47854033f8bd66f11e6`
+
+- :ref:`exhale_function__splines_cinterface_8h_1aa94fa6a76750597218338b0ff491b817`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a26c975e5c90f743ea58c64d4cd55fec1`
+
+- :ref:`exhale_function__splines_cinterface_8h_1ace3792c09b43ee557ad553f7c385fb9f`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a38c100aef53f216e97558c861963ef64`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a1b0aae40600c1c5485508d2f9350c9e4`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a17ad351f7572c6eb7f8fbc1cdc5068bc`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a9b683ceadd58baaadaa58ca28268360a`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a8cd7b632a4eb70a3464d02cb31c74709`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a2993fc7e0d4ea8f03ff1c1c2a60a9537`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a93c302015a1342111d9791f00d2428ff`
+
+- :ref:`exhale_function__splines_cinterface_8h_1aba9ab3ef53dc9452a0155168b80b499a`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a247716d72643966e53bc70c27a728e98`
+
+- :ref:`exhale_function__splines_cinterface_8h_1a5456aac1498f3e3abd660069fef20ba0`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define__splines_cinterface_8h_1ade8086f0fd9d3bd49264ebd0bd5b6cdc`
+

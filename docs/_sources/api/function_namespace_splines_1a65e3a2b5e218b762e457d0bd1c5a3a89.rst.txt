@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a65e3a2b5e218b762e457d0bd1c5a3a89:
+
+Function Splines::Bessel_build
+==============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::Bessel_build(real_type const, real_type const, real_type, integer)

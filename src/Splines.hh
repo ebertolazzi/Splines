@@ -128,7 +128,6 @@ namespace Splines {
     real_type const q[6]
   );
 
-  //! Check if cubic spline with this data is monotone, -1 no, 0 yes, 1 strictly monotone
   integer
   checkCubicSplineMonotonicity(
     real_type const X[],
@@ -576,7 +575,9 @@ namespace Splines {
 
   public:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
+    #endif
 
     //! spline constructor
     CubicSplineBase( string const & name = "CubicSplineBase" )

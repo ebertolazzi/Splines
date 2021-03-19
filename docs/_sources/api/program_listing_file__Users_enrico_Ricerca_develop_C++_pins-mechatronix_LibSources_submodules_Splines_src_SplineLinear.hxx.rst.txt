@@ -1,0 +1,154 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.hxx:
+
+Program Listing for File SplineLinear.hxx
+=========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.hxx>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineLinear.hxx``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   /*--------------------------------------------------------------------------*\
+    |                                                                          |
+    |  Copyright (C) 2016                                                      |
+    |                                                                          |
+    |         , __                 , __                                        |
+    |        /|/  \               /|/  \                                       |
+    |         | __/ _   ,_         | __/ _   ,_                                |
+    |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+    |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+    |                           /|                   /|                        |
+    |                           \|                   \|                        |
+    |                                                                          |
+    |      Enrico Bertolazzi                                                   |
+    |      Dipartimento di Ingegneria Industriale                              |
+    |      Universita` degli Studi di Trento                                   |
+    |      email: enrico.bertolazzi@unitn.it                                   |
+    |                                                                          |
+   \*--------------------------------------------------------------------------*/
+   
+   /*\
+    |   _     _                       ____        _ _
+    |  | |   (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
+    |  | |   | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
+    |  | |___| | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
+    |  |_____|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
+    |                                      |_|
+   \*/
+   
+   namespace Splines {
+   
+     class LinearSpline : public Spline {
+       Utils::Malloc<real_type> m_baseValue;
+       bool                     m_external_alloc;
+   
+     public:
+   
+       #ifndef DOXYGEN_SHOULD_SKIP_THIS
+       using Spline::build;
+       #endif
+   
+       LinearSpline( string const & name = "LinearSpline" )
+       : Spline(name)
+       , m_baseValue( name+"_memory")
+       , m_external_alloc(false)
+       {
+         m_curve_extended_constant = true; // by default linear spline extend constant
+       }
+   
+       virtual
+       ~LinearSpline() override
+       {}
+   
+       void
+       reserve_external(
+         integer      n,
+         real_type *& p_x,
+         real_type *& p_y
+       );
+   
+       // --------------------------- VIRTUALS -----------------------------------
+   
+       virtual
+       real_type
+       operator () ( real_type x ) const override;
+   
+       virtual
+       real_type
+       D( real_type x ) const override;
+   
+       virtual
+       real_type
+       DD( real_type ) const override
+       { return 0; }
+   
+       virtual
+       real_type
+       DDD( real_type ) const override
+       { return 0; }
+   
+       virtual
+       real_type
+       id_eval( integer ni, real_type x ) const override;
+   
+       virtual
+       real_type
+       id_D( integer, real_type ) const override;
+   
+       virtual
+       real_type
+       id_DD( integer, real_type ) const override
+       { return 0; }
+   
+       virtual
+       real_type
+       id_DDD( integer, real_type ) const override
+       { return 0; }
+   
+       virtual
+       void
+       writeToStream( ostream_type & s ) const override;
+   
+       virtual
+       unsigned
+       type() const override
+       { return LINEAR_TYPE; }
+   
+       // --------------------------- VIRTUALS -----------------------------------
+   
+       virtual
+       void
+       reserve( integer npts ) override;
+   
+       virtual
+       void
+       build() override
+       {}
+   
+       virtual
+       void
+       clear() override;
+   
+       virtual
+       integer // order
+       coeffs(
+         real_type cfs[],
+         real_type nodes[],
+         bool      transpose = false
+       ) const override;
+   
+       virtual
+       integer // order
+       order() const override;
+   
+       virtual
+       void
+       setup( GenericContainer const & gc ) override;
+   
+     };
+   
+   }
+   
+   // EOF: SplineLinbear.hxx

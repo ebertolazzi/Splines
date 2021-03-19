@@ -1,0 +1,242 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.hxx:
+
+Program Listing for File Splines1D.hxx
+======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.hxx>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines1D.hxx``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   /*--------------------------------------------------------------------------*\
+    |                                                                          |
+    |  Copyright (C) 2016                                                      |
+    |                                                                          |
+    |         , __                 , __                                        |
+    |        /|/  \               /|/  \                                       |
+    |         | __/ _   ,_         | __/ _   ,_                                | 
+    |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+    |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+    |                           /|                   /|                        |
+    |                           \|                   \|                        |
+    |                                                                          |
+    |      Enrico Bertolazzi                                                   |
+    |      Dipartimento di Ingegneria Industriale                              |
+    |      Universita` degli Studi di Trento                                   |
+    |      email: enrico.bertolazzi@unitn.it                                   |
+    |                                                                          |
+   \*--------------------------------------------------------------------------*/
+   
+   /*\
+    |   ____        _ _            _ ____
+    |  / ___| _ __ | (_)_ __   ___/ |  _ \
+    |  \___ \| '_ \| | | '_ \ / _ \ | | | |
+    |   ___) | |_) | | | | | |  __/ | |_| |
+    |  |____/| .__/|_|_|_| |_|\___|_|____/
+    |        |_|
+   \*/
+   
+   namespace Splines {
+   
+     class Spline1D {
+     protected:
+   
+       std::string m_name;
+   
+       Spline * m_pSpline;
+   
+       Spline1D( Spline1D const & ) = delete;
+       Spline1D const & operator = ( Spline1D const & ) = delete;
+   
+     public:
+   
+       Spline1D( std::string const & n )
+       : m_name(n)
+       , m_pSpline(nullptr)
+       {}
+   
+       ~Spline1D()
+       {}
+   
+       string const & name() const { return m_pSpline->name(); }
+   
+       bool is_closed() const { return m_pSpline->is_closed(); }
+       void make_closed() { m_pSpline->make_closed(); }
+       void make_opened() { m_pSpline->make_opened(); }
+   
+       bool is_bounded() const { return m_pSpline->is_bounded(); }
+       void make_unbounded()   { m_pSpline->make_unbounded(); }
+       void make_bounded()     { m_pSpline->make_bounded(); }
+   
+       integer numPoints() const { return m_pSpline->numPoints(); }
+   
+       real_type xNode( integer i ) const { return m_pSpline->xNode(i); }
+   
+       real_type yNode( integer i ) const { return m_pSpline->yNode(i); }
+   
+       real_type xBegin() const { return m_pSpline->xBegin(); }
+   
+       real_type yBegin() const { return m_pSpline->yBegin(); }
+   
+       real_type xEnd() const { return m_pSpline->xEnd(); }
+   
+       real_type yEnd() const { return m_pSpline->yEnd(); }
+   
+       void reserve( integer npts ) { return m_pSpline->reserve( npts ); }
+   
+       void pushBack( real_type x, real_type y ) { return m_pSpline->pushBack( x, y ); }
+   
+       void dropBack() { m_pSpline->dropBack(); }
+   
+       // must be defined in derived classes
+       void build() { m_pSpline->build(); }
+   
+       void setup( GenericContainer const & gc );
+       void build( GenericContainer const & gc ) { setup(gc); }
+   
+       // must be defined in derived classes
+       void
+       build(
+         SplineType1D tp,
+         real_type const x[], integer incx,
+         real_type const y[], integer incy,
+         integer n
+       );
+   
+       void
+       build(
+         SplineType1D    tp,
+         real_type const x[],
+         real_type const y[],
+         integer         n
+       ) {
+         this->build( tp, x, 1, y, 1, n );
+       }
+   
+       void
+       build(
+         SplineType1D              tp,
+         vector<real_type> const & x,
+         vector<real_type> const & y
+       ) {
+         integer n = integer(x.size());
+         this->build( tp, &x.front(), &y.front(), n );
+       }
+   
+       void
+       clear() { m_pSpline->clear(); }
+   
+       real_type xMin() const { return m_pSpline->xMin(); }
+   
+       real_type xMax() const { return m_pSpline->xMax(); }
+   
+       real_type yMin() const { return m_pSpline->yMin(); }
+   
+       real_type yMax() const { return m_pSpline->yMax(); }
+   
+       void
+       setOrigin( real_type x0 )
+       { return m_pSpline->setOrigin( x0 ); }
+   
+       void
+       setRange( real_type xmin, real_type xmax )
+       { return m_pSpline->setRange( xmin, xmax ); }
+   
+       void
+       dump(
+         ostream_type & s,
+         integer        nintervals,
+         char const     header[] = "x\ty"
+       ) const {
+         m_pSpline->dump( s, nintervals, header );
+       }
+   
+       void
+       dump(
+         char const fname[],
+         integer    nintervals,
+         char const header[] = "x\ty"
+       ) const {
+         m_pSpline->dump( fname, nintervals, header );
+       }
+   
+       real_type
+       operator () ( real_type x ) const { return (*m_pSpline)(x); }
+   
+       real_type
+       D( real_type x ) const { return m_pSpline->D(x); }
+   
+       real_type
+       DD( real_type x ) const { return m_pSpline->DD(x); }
+   
+       real_type
+       DDD( real_type x ) const { return m_pSpline->DDD(x); }
+   
+       real_type
+       DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+   
+       real_type
+       DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
+   
+       real_type eval( real_type x ) const { return (*m_pSpline)(x); }
+       real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
+       real_type eval_DD( real_type x ) const { return m_pSpline->DD(x); }
+       real_type eval_DDD( real_type x ) const { return m_pSpline->DDD(x); }
+       real_type eval_DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+       real_type eval_DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
+   
+       real_type
+       id_eval( integer ni, real_type x ) const { return m_pSpline->id_eval(ni,x); }
+   
+       real_type
+       id_D( integer ni, real_type x ) const { return m_pSpline->id_D(ni,x); }
+   
+       real_type
+       id_DD( integer ni, real_type x ) const { return m_pSpline->id_DD(ni,x); }
+   
+       real_type
+       id_DDD( integer ni, real_type x ) const { return m_pSpline->id_DDD(ni,x); }
+   
+       real_type
+       id_DDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDD(ni,x); }
+   
+       real_type
+       id_DDDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDDD(ni,x); }
+   
+       integer // order
+       coeffs(
+         real_type cfs[],
+         real_type nodes[],
+         bool      transpose = false
+       ) const {
+         return m_pSpline->coeffs( cfs, nodes, transpose );
+       }
+   
+       integer order() const { return m_pSpline->order(); }
+   
+       void
+       writeToStream( ostream_type & s ) const
+       { return m_pSpline->writeToStream( s ); }
+   
+       char const *
+       type_name() const
+       { return m_pSpline->type_name(); }
+   
+       unsigned
+       type() const
+       { return m_pSpline->type(); }
+   
+       string
+       info() const
+       { return m_pSpline->info(); }
+   
+       void
+       info( ostream_type & stream ) const
+       { m_pSpline->info( stream ); }
+     };
+   
+   }
+   
+   // EOF: Spline1D.hxx

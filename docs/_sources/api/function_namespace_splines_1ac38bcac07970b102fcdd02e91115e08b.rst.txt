@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1ac38bcac07970b102fcdd02e91115e08b:
+
+Function Splines::second_deriv3p_L(real_type, real_type, real_type, real_type, real_type)
+=========================================================================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::second_deriv3p_L(real_type, real_type, real_type, real_type, real_type)

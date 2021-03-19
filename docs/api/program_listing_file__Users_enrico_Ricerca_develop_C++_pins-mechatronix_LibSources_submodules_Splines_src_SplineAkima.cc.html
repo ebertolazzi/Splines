@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File SplineAkima.cc &#8212; Splines  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+
+    
+      
+      <a class="navbar-brand" href="../index.html">
+        <img src="../_static/logo.png" class="logo" alt="logo">
+      </a>
+      
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../readme.html">
+  Splines
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="library_root.html">
+  Splines API
+ </a>
+</li>
+
+        
+      </ul>
+
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="program-listing-for-file-splineakima-cc">
+<span id="program-listing-file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima-cc"></span><h1>Program Listing for File SplineAkima.cc<a class="headerlink" href="#program-listing-for-file-splineakima-cc" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splineakima-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineAkima.cc</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cp">#include</span> <span class="cpf">"Splines.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp"></span>
+
+<span class="cm">/*\</span>
+<span class="cm"> |     #</span>
+<span class="cm"> |    # #   #    # # #    #   ##</span>
+<span class="cm"> |   #   #  #   #  # ##  ##  #  #</span>
+<span class="cm"> |  #     # ####   # # ## # #    #</span>
+<span class="cm"> |  ####### #  #   # #    # ######</span>
+<span class="cm"> |  #     # #   #  # #    # #    #</span>
+<span class="cm"> |  #     # #    # # #    # #    #</span>
+<span class="cm">\*/</span>
+
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#endif</span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// load standard namspace</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="k">static</span>
+  <span class="n">real_type</span>
+  <span class="n">akima_one</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">epsi</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">di_m2</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">di_m1</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">di</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">di_p1</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">wl</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">di_p1</span> <span class="o">-</span> <span class="n">di</span><span class="p">);</span>
+    <span class="n">real_type</span> <span class="n">wr</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">di_m1</span> <span class="o">-</span> <span class="n">di_m2</span><span class="p">);</span>
+    <span class="n">real_type</span> <span class="n">den</span> <span class="o">=</span> <span class="n">wl</span> <span class="o">+</span> <span class="n">wr</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">den</span> <span class="o">&lt;=</span> <span class="n">epsi</span> <span class="p">)</span> <span class="p">{</span> <span class="n">wl</span> <span class="o">=</span> <span class="n">wr</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span> <span class="n">den</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// if epsi == 0</span>
+    <span class="n">real_type</span> <span class="n">num</span> <span class="o">=</span> <span class="n">wl</span> <span class="o">*</span> <span class="n">di_m1</span> <span class="o">+</span> <span class="n">wr</span> <span class="o">*</span> <span class="n">di</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">Akima_build</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">X</span><span class="p">[],</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="n">Y</span><span class="p">[],</span>
+    <span class="n">real_type</span>       <span class="n">Yp</span><span class="p">[],</span>
+    <span class="n">integer</span>         <span class="n">npts</span>
+  <span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">npts</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// solo 2 punti, niente da fare</span>
+      <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">Utils</span><span class="o">::</span><span class="n">Malloc</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="n">mem</span><span class="p">(</span><span class="s">"Akima_build"</span><span class="p">);</span>
+      <span class="n">real_type</span> <span class="o">*</span> <span class="n">m</span> <span class="o">=</span> <span class="n">mem</span><span class="p">.</span><span class="n">malloc</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">);</span>
+
+      <span class="c1">// calcolo slopes (npts-1) intervals + 4</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+        <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]);</span>
+
+      <span class="c1">// extra slope at the boundary</span>
+      <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+      <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+      <span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">)]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="mi">-1</span><span class="p">)];</span>
+      <span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">)];</span>
+
+      <span class="c1">// minimum delta slope</span>
+      <span class="n">real_type</span> <span class="n">epsi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">real_type</span> <span class="n">dm</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">dm</span> <span class="o">&gt;</span> <span class="n">epsi</span> <span class="p">)</span> <span class="n">epsi</span> <span class="o">=</span> <span class="n">dm</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">epsi</span> <span class="o">*=</span> <span class="mf">1E-8</span><span class="p">;</span>
+
+      <span class="c1">// 0  1  2  3  4---- n-1 n n+1 n+2</span>
+      <span class="c1">//       +  +  +      +  +</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+        <span class="n">Yp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">akima_one</span><span class="p">(</span> <span class="n">epsi</span><span class="p">,</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">AkimaSpline</span><span class="o">::</span><span class="n">build</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"AkimaSpline[{}]::build():"</span><span class="p">,</span> <span class="n">m_name</span> <span class="p">);</span>
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+      <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"{} npts = {} not enought points</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">m_npts</span>
+    <span class="p">);</span>
+    <span class="n">Utils</span><span class="o">::</span><span class="n">checkNaN</span><span class="p">(</span> <span class="n">m_X</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">" X "</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__FILE__</span> <span class="p">);</span>
+    <span class="n">Utils</span><span class="o">::</span><span class="n">checkNaN</span><span class="p">(</span> <span class="n">m_Y</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">" Y "</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__FILE__</span> <span class="p">);</span>
+    <span class="n">integer</span> <span class="n">ibegin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">integer</span> <span class="n">iend</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">do</span> <span class="p">{</span>
+      <span class="c1">// cerca intervallo monotono strettamente crescente</span>
+      <span class="k">while</span> <span class="p">(</span> <span class="o">++</span><span class="n">iend</span> <span class="o">&lt;</span> <span class="n">m_npts</span> <span class="o">&amp;&amp;</span> <span class="n">m_X</span><span class="p">[</span><span class="n">iend</span><span class="mi">-1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">m_X</span><span class="p">[</span><span class="n">iend</span><span class="p">]</span> <span class="p">)</span> <span class="p">{}</span>
+      <span class="n">Akima_build</span><span class="p">(</span> <span class="n">m_X</span><span class="o">+</span><span class="n">ibegin</span><span class="p">,</span> <span class="n">m_Y</span><span class="o">+</span><span class="n">ibegin</span><span class="p">,</span> <span class="n">m_Yp</span><span class="o">+</span><span class="n">ibegin</span><span class="p">,</span> <span class="n">iend</span><span class="o">-</span><span class="n">ibegin</span> <span class="p">);</span>
+      <span class="n">ibegin</span> <span class="o">=</span> <span class="n">iend</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="n">iend</span> <span class="o">&lt;</span> <span class="n">m_npts</span> <span class="p">);</span>
+
+    <span class="n">Utils</span><span class="o">::</span><span class="n">checkNaN</span><span class="p">(</span> <span class="n">m_Yp</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">" Yp"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__FILE__</span> <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VEC_REAL</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">AkimaSpline</span><span class="o">::</span><span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">    // gc["xdata"]</span>
+<span class="cm">    // gc["ydata"]</span>
+<span class="cm">    //</span>
+<span class="cm">    */</span>
+    <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"AkimaSpline[{}]::setup():"</span><span class="p">,</span> <span class="n">m_name</span> <span class="p">);</span>
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">),</span> <span class="s">"{} missing `xdata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">),</span> <span class="s">"{} missing `ydata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+
+    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_x</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">);</span>
+    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_y</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">);</span>
+
+    <span class="n">vec_real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `xdata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+      <span class="n">gc_x</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `ydata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+      <span class="n">gc_y</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">y</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

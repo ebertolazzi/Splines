@@ -1,8 +1,14 @@
-Splines [![Build Status](https://travis-ci.org/ebertolazzi/Splines.svg?branch=master)](https://travis-ci.org/ebertolazzi/Splines) [![View Splines on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/54481-splines)
+Splines
 =======
 
+[![Build Status](https://travis-ci.org/ebertolazzi/Splines.svg?branch=master)](https://travis-ci.org/ebertolazzi/Splines)
+[![View Splines on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/54481-splines)
 
-`Splines` is a set of C++ classes (with MATLAB mex interface) which implements varios spline interpolation.
+<br>
+
+[Splines](https://github.com/ebertolazzi/Splines) 
+is a set of C++ classes (with MATLAB mex interface) which 
+implements varios spline interpolation.
 The classes are the following:
  
   - ConstantSpline, for piecewise constants functions
@@ -13,19 +19,19 @@ The classes are the following:
   - PchipSpline, 
   - QuinticSpline, Simple quintic spline based on PCHIP
 
-**References**
+### References
 
 - F.N. Fritsch and R.E. Carlson,
-  Monotone Piecewise Cubic Interpolation,
+  Monotone Piecewise Cubic Interpolation,<br>
   SIAM Journal of Numerical Analysis, Vol. 17, No. 2, pp. 238-246,
   April 1980.
   
-**Matlab**
+### Matlab
 
-To use in MATLAB install the toolbox `Splines.mltbx` then compile the files running `CompileSplinesLib`.
+To use in MATLAB install the toolbox `Splines.mltbx` then compile the files running `CompileSplinesLib` (available at [releases](https://github.com/ebertolazzi/Splines/releases))
 
  
-**C++ Usage**
+### C++ Usage
 
 The usage is simple:
 
@@ -92,23 +98,41 @@ cout << spline.DD(1.1) << '\n';  // spline second derivative at x = 1.1
 cout << spline.DDD(1.1) << '\n'; // spline third derivative at x = 1.1
 ~~~~~~~~~~~~~
 
-**Compile and tests**
+### Compile and tests
+
+**Using makefile**
 
 Edit makefile file to match compiler of your OS and do:
 
+```sh
   make
+```
+
+**Using rakefile**
+
+```sh
+  rake build_win    # on windows
+  rake build_linux  # on linux
+  rake build_osx    # on mac
+```
 
 To run the test
 
-  make run
+```sh
+  make run     # using makefile
+  rake run     # using rake on linux and osx
+  rake run_win # using rake on windows
+```
 
-To generate documentation (using DOXYGEN: http://www.stack.nl/~dimitri/doxygen/index.html)
+To generate documentation (using [DOXYGEN](https://www.doxygen.nl/index.html) and [SPHINX](https://www.sphinx-doc.org/en/master/))
 
-make doc
+```sh
+  make doc
+```
 
-**DOXYGEN documentation**
+### Online Documentation
 
-Available at: http://ebertolazzi.github.io/Splines/html/index.html
+Available at: [http://ebertolazzi.github.io/Splines](http://ebertolazzi.github.io/Splines)
 
 * * *
 
@@ -116,3 +140,5 @@ Enrico Bertolazzi<br>
 Dipartimento di Ingegneria Industriale<br>
 Universita` degli Studi di Trento<br>
 email: enrico.bertolazzi@unitn.it
+
+* * *
