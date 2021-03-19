@@ -55,7 +55,7 @@ namespace Splines {
 
     virtual
     void
-    internal_build() override
+    build() override
     {} // nothing to do
 
     // block method!

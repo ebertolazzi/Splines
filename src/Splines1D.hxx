@@ -93,7 +93,7 @@ namespace Splines {
 
     //! Build a spline.
     // must be defined in derived classes
-    void internal_build() { m_pSpline->internal_build(); }
+    void build() { m_pSpline->build(); }
 
     void setup( GenericContainer const & gc );
     void build( GenericContainer const & gc ) { setup(gc); }

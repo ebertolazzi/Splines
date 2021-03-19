@@ -324,14 +324,14 @@ namespace Splines {
         s = new ConstantSpline(h);
         static_cast<ConstantSpline*>(s)->reserve_external( m_npts, m_X, pY );
         static_cast<ConstantSpline*>(s)->m_npts = m_npts;
-        static_cast<ConstantSpline*>(s)->internal_build();
+        static_cast<ConstantSpline*>(s)->build();
         break;
 
       case LINEAR_TYPE:
         s = new LinearSpline(h);
         static_cast<LinearSpline*>(s)->reserve_external( m_npts, m_X, pY );
         static_cast<LinearSpline*>(s)->m_npts = m_npts;
-        static_cast<LinearSpline*>(s)->internal_build();
+        static_cast<LinearSpline*>(s)->build();
         // check monotonicity of data
         { integer flag = 1;
           for ( integer j = 1; j < m_npts; ++j ) {
@@ -346,7 +346,7 @@ namespace Splines {
         s = new CubicSpline(h);
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
-        static_cast<CubicSpline*>(s)->internal_build();
+        static_cast<CubicSpline*>(s)->build();
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
@@ -354,7 +354,7 @@ namespace Splines {
         s = new AkimaSpline(h);
         static_cast<AkimaSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<AkimaSpline*>(s)->m_npts = m_npts;
-        static_cast<AkimaSpline*>(s)->internal_build();
+        static_cast<AkimaSpline*>(s)->build();
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
@@ -362,7 +362,7 @@ namespace Splines {
         s = new BesselSpline(h);
         static_cast<BesselSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<BesselSpline*>(s)->m_npts = m_npts;
-        static_cast<BesselSpline*>(s)->internal_build();
+        static_cast<BesselSpline*>(s)->build();
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
@@ -370,7 +370,7 @@ namespace Splines {
         s = new PchipSpline(h);
         static_cast<PchipSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<PchipSpline*>(s)->m_npts = m_npts;
-        static_cast<PchipSpline*>(s)->internal_build();
+        static_cast<PchipSpline*>(s)->build();
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
@@ -378,7 +378,7 @@ namespace Splines {
         s = new HermiteSpline(h);
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
-        static_cast<CubicSpline*>(s)->internal_build();
+        static_cast<CubicSpline*>(s)->build();
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
@@ -386,7 +386,7 @@ namespace Splines {
         s = new QuinticSpline(h);
         static_cast<QuinticSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp, pYpp );
         static_cast<QuinticSpline*>(s)->m_npts = m_npts;
-        static_cast<QuinticSpline*>(s)->internal_build();
+        static_cast<QuinticSpline*>(s)->build();
         break;
 
       case SPLINE_SET_TYPE:

@@ -63,7 +63,7 @@ namespace Splines {
     //! Build a Monotone spline from previously inserted points
     virtual
     void
-    internal_build() override;
+    build() override;
 
     virtual
     void

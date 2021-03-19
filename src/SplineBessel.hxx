@@ -64,7 +64,7 @@ namespace Splines {
     //! Build a Bessel spline from previously inserted points
     virtual
     void
-    internal_build() override;
+    build() override;
 
     virtual
     void

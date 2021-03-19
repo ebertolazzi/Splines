@@ -58,7 +58,7 @@ namespace Splines {
     //! Build a spline.
     virtual
     void
-    internal_build() override
+    build() override
     {} // nothing to do
 
     virtual

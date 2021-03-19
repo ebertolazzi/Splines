@@ -367,7 +367,7 @@ namespace Splines {
      */
     virtual
     void
-    internal_build() = 0;
+    build() = 0;
 
     //@}
 

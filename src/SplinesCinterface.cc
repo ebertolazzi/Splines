@@ -156,7 +156,7 @@ extern "C" {
   int
   SPLINE_build() {
     if ( head != nullptr ) {
-      head->internal_build();
+      head->build();
       return 0;
     } else {
       return -1;

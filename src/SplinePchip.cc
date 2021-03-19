@@ -250,8 +250,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  PchipSpline::internal_build() {
-    string msg = fmt::format("PchipSpline[{}]::internal_build():", m_name );
+  PchipSpline::build() {
+    string msg = fmt::format("PchipSpline[{}]::build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",

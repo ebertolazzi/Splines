@@ -78,8 +78,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BesselSpline::internal_build() {
-    string msg = fmt::format("BesselSpline[{}]::internal_build():", m_name );
+  BesselSpline::build() {
+    string msg = fmt::format("BesselSpline[{}]::build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",

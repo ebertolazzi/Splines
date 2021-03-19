@@ -124,7 +124,7 @@ namespace Splines {
     //! added for compatibility with cubic splines
     virtual
     void
-    internal_build() override
+    build() override
     {}
 
     //! Cancel the support points, empty the spline.

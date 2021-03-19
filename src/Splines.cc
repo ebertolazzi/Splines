@@ -343,7 +343,7 @@ namespace Splines {
     for ( integer i = 0; i < n; ++i ) m_X[i] = x[i*incx];
     for ( integer i = 0; i < n; ++i ) m_Y[i] = y[i*incy];
     m_npts = n;
-    internal_build();
+    build();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

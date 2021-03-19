@@ -104,7 +104,7 @@ namespace Splines {
 
     virtual
     void
-    internal_build() override;
+    build() override;
 
     virtual
     void
