@@ -31,7 +31,7 @@
  |           Via Sommarive 9, I -- 38123 Trento, Italy <br>
  |           enrico.bertolazzi@unitn.it
  |
-\*/
+ */
 
 #include "SplinesUtils.hh"
 
@@ -290,7 +290,7 @@ namespace Splines {
   /*!
    | Check if cubic spline with this data is monotone,
    |  -2 non monotone data, -1 no, 0 yes, 1 strictly monotone
-  \*/
+   */
   integer
   checkCubicSplineMonotonicity(
     real_type const X[],
@@ -343,7 +343,7 @@ namespace Splines {
     for ( integer i = 0; i < n; ++i ) m_X[i] = x[i*incx];
     for ( integer i = 0; i < n; ++i ) m_Y[i] = y[i*incy];
     m_npts = n;
-    build();
+    internal_build();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

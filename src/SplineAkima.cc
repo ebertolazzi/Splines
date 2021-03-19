@@ -107,8 +107,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  AkimaSpline::build() {
-    string msg = fmt::format("AkimaSpline[{}]::build():", m_name );
+  AkimaSpline::internal_build() {
+    string msg = fmt::format("AkimaSpline[{}]::internal_build():", m_name );
     UTILS_ASSERT(
       m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
     );

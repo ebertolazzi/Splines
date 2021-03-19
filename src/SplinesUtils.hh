@@ -69,7 +69,7 @@ namespace Splines {
    |  DL = (y[k]-y[k-1])/hL; hL = x[k]-x[k-1];
    |  DR = (y[k+1]-y[k])/hR; hR = x[k+1]-x[k];
    |  approximate the first derivative at x[k]
-  \*/
+   */
   static
   inline
   real_type
@@ -85,7 +85,7 @@ namespace Splines {
    |  DL = (y[k]-y[k-1])/hL; hL = x[k]-x[k-1];
    |  DR = (y[k+1]-y[k])/hR; hR = x[k+1]-x[k];
    |  approximate the first derivative at x[k-1]
-  \*/
+   */
   static
   inline
   real_type
@@ -101,7 +101,7 @@ namespace Splines {
    |  DL = (y[k]-y[k-1])/hL; hL = x[k]-x[k-1];
    |  DR = (y[k+1]-y[k])/hR; hR = x[k+1]-x[k];
    |  approximate the first derivative at x[k+1]
-  \*/
+   */
   static
   inline
   real_type
@@ -118,7 +118,7 @@ namespace Splines {
    |  DLL  = (y[k-1]-y[k-2])/hLL;  hLL  = x[k-1]-x[k-2];
    |  DL   = (y[k]-y[k-1])/hL;     hL   = x[k]-x[k-1];
    |  approximate the first derivative at x[k]
-  \*/
+   */
   real_type
   first_deriv4p_R(
     real_type DLLL, real_type hLLL,
@@ -132,7 +132,7 @@ namespace Splines {
    |  DRR  = (y[k+2]-y[k+1])/hRR;  hRR  = x[k+2]-x[k+1];
    |  DRRR = (y[k+3]-y[k+2])/hRRR; hRRR = x[k+3]-x[k+2];
    |  approximate the first derivative at x[k]
-  \*/
+   */
   real_type
   first_deriv4p_L(
     real_type DR,   real_type hR,
@@ -147,7 +147,7 @@ namespace Splines {
    |  DR  = (y[k+1]-y[k])/hR;    hR  = x[k+1]-x[k];
    |  DRR = (y[k+2]-y[k-1])/hRR; hRR = x[k+2]-x[k+1];
    |  approximate the first derivative at x[k]
-  \*/
+   */
   real_type
   first_deriv5p_C(
     real_type DLL, real_type hLL,
@@ -163,7 +163,7 @@ namespace Splines {
    |  DR  = (y[k+1]-y[k])/hR;    hR  = x[k+1]-x[k];
    |  DRR = (y[k+2]-y[k-1])/hRR; hRR = x[k+2]-x[k+1];
    |  approximate the first derivative at x[k-1]
-  \*/
+   */
   real_type
   first_deriv5p_L(
     real_type DLL, real_type hLL,
@@ -179,7 +179,7 @@ namespace Splines {
    |  DR  = (y[k+1]-y[k])/hR;    hR  = x[k+1]-x[k];
    |  DRR = (y[k+2]-y[k-1])/hRR; hRR = x[k+2]-x[k+1];
    |  approximate the first derivative at x[k+1]
-  \*/
+   */
   real_type
   first_deriv5p_R(
     real_type DLL, real_type hLL,

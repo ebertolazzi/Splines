@@ -120,7 +120,7 @@ namespace Splines {
    | F.N. Fritsch and J. Butland:
    | A method for constructing local monotone piecewise cubic interpolants,
    | SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
-  \*/
+   */
   void
   Pchip_build(
     real_type const X[],
@@ -250,8 +250,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  PchipSpline::build() {
-    string msg = fmt::format("PchipSpline[{}]::build():", m_name );
+  PchipSpline::internal_build() {
+    string msg = fmt::format("PchipSpline[{}]::internal_build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",

@@ -19,11 +19,11 @@
 
 /*\
  | file: SplinesCinterface.h
-\*/
+ */
 
 /*!
  | \addtogroup Splines C interface
-\*/
+ */
 
 /* @{ */
 #pragma once

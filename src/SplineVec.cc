@@ -493,7 +493,7 @@ namespace Splines {
 
   /*!
    | Evaluate at `x` and fill a GenericContainer
-  \*/
+   */
   void
   SplineVec::eval(
     vec_real_type const & x,

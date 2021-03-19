@@ -22,9 +22,9 @@
 //
 
 /*!
- | \file SplineCinterface.cc
+ | \file SplinesCinterface.cc
  | This file contains the sources for the C interface to `Splines`
-\*/
+ */
 
 #include "Splines.hh"
 #include "SplinesCinterface.h"
@@ -52,196 +52,181 @@ using namespace SplinesLoad;
 
 using namespace std;
 
-#define EXTERN_C extern "C"
+extern "C" {
 
-typedef std::map<std::string,Spline*> MAP_SPLINE;
+  typedef std::map<std::string,Spline*> MAP_SPLINE;
+  
+  static std::map<std::string,Spline*> spline_stored;
+  static Spline * head = nullptr;
 
-static std::map<std::string,Spline*> spline_stored;
-static Spline * head = nullptr;
-
-EXTERN_C
-int
-SPLINE_new( char const id[], char const type[] ) {
-  fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
-  MAP_SPLINE::iterator it = spline_stored.find(id);
-  if ( it != spline_stored.end() ) delete it->second;
-  int ok = 0;
-  if ( strcmp( type, Splines::spline_type_1D[Splines::AKIMA_TYPE]) == 0 ) {
-    head = spline_stored[id] = new AkimaSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::BESSEL_TYPE]) == 0 ) {
-    head = spline_stored[id] = new BesselSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::PCHIP_TYPE]) == 0 ) {
-    head = spline_stored[id] = new PchipSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::CUBIC_TYPE] ) == 0 ) {
-    head = spline_stored[id] = new CubicSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::LINEAR_TYPE] ) == 0 ) {
-    head = spline_stored[id] = new LinearSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::CONSTANT_TYPE] ) == 0 ) {
-    head = spline_stored[id] = new ConstantSpline;
-  } else if ( strcmp( type, Splines::spline_type_1D[Splines::QUINTIC_TYPE]) == 0 ) {
-    head = spline_stored[id] = new QuinticSpline;
-  } else {
-    head = nullptr;
-    ok = -1;
+  int
+  SPLINE_new( char const id[], char const type[] ) {
+    fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
+    MAP_SPLINE::iterator it = spline_stored.find(id);
+    if ( it != spline_stored.end() ) delete it->second;
+    int ok = 0;
+    if ( strcmp( type, Splines::spline_type_1D[Splines::AKIMA_TYPE]) == 0 ) {
+      head = spline_stored[id] = new AkimaSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::BESSEL_TYPE]) == 0 ) {
+      head = spline_stored[id] = new BesselSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::PCHIP_TYPE]) == 0 ) {
+      head = spline_stored[id] = new PchipSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CUBIC_TYPE] ) == 0 ) {
+      head = spline_stored[id] = new CubicSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::LINEAR_TYPE] ) == 0 ) {
+      head = spline_stored[id] = new LinearSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CONSTANT_TYPE] ) == 0 ) {
+      head = spline_stored[id] = new ConstantSpline;
+    } else if ( strcmp( type, Splines::spline_type_1D[Splines::QUINTIC_TYPE]) == 0 ) {
+      head = spline_stored[id] = new QuinticSpline;
+    } else {
+      head = nullptr;
+      ok = -1;
+    }
+    return ok;
   }
-  return ok;
-}
-
-EXTERN_C
-int
-SPLINE_select( char const id[] ) {
-  MAP_SPLINE::iterator it = spline_stored.find(id);
-  if ( it != spline_stored.end() ) {
-    head = it->second;
-  } else {
-    return -1; // spline non trovata
-  }
-  return 0;
-}
-
-EXTERN_C
-int
-SPLINE_delete( char const id[] ) {
-  MAP_SPLINE::iterator it = spline_stored.find(id);
-  if ( it != spline_stored.end() ) {
-    delete it->second;
-    spline_stored.erase(it);
-    head = nullptr;
-  } else {
-    return -1; // spline non trovata
-  }
-  return 0;
-}
-
-EXTERN_C
-int
-SPLINE_print() {
-  if ( head != nullptr ) {
-    head -> writeToStream( cout );
-    return 0;
-  } else {
-    cout << "No Spline!\n";
-    return -1;
-  }
-}
-
-EXTERN_C
-char const *
-SPLINE_get_type_name() {
-  if ( head == nullptr ) return "NOTYPE - head = nullptr";
-  return head -> type_name();
-}
-
-EXTERN_C
-void *
-SPLINE_mem_ptr( char const id[] ) {
-  // check if exists ?
-  return static_cast<void*>(&spline_stored[id]);
-}
-
-EXTERN_C
-int
-SPLINE_init() {
-  if ( head != nullptr ) {
-    head -> clear();
-    return 0;
-  } else {
-    return -1;
-  }
-}
-
-EXTERN_C
-int
-SPLINE_push( double const x, double const y ) {
-  if ( head != nullptr ) {
-    head -> pushBack(x,y);
-    return 0;
-  } else {
-    return -1;
-  }
-}
-
-EXTERN_C
-int
-SPLINE_build() {
-  if ( head != nullptr ) {
-    head -> build();
-    return 0;
-  } else {
-    return -1;
-  }
-}
-
-EXTERN_C
-int
-SPLINE_build2( double const x[], double const y[], int const n ) {
-  if ( head != nullptr ) {
-    head -> build( x, y, n );
-    return 0;
-  } else {
-    return -1;
-  }
-}
-
-
-EXTERN_C
-double
-SPLINE_eval( double const x ) {
-  if ( head != nullptr ) {
-    return head -> operator()(x);
-  } else {
+  
+  int
+  SPLINE_select( char const id[] ) {
+    MAP_SPLINE::iterator it = spline_stored.find(id);
+    if ( it != spline_stored.end() ) {
+      head = it->second;
+    } else {
+      return -1; // spline non trovata
+    }
     return 0;
   }
-}
-
-EXTERN_C
-double
-SPLINE_eval_D( double const x ) {
-  if ( head != nullptr ) {
-    return head -> D(x);
-  } else {
+  
+  int
+  SPLINE_delete( char const id[] ) {
+    MAP_SPLINE::iterator it = spline_stored.find(id);
+    if ( it != spline_stored.end() ) {
+      delete it->second;
+      spline_stored.erase(it);
+      head = nullptr;
+    } else {
+      return -1; // spline non trovata
+    }
     return 0;
   }
-}
 
-EXTERN_C
-double
-SPLINE_eval_DD( double const x ) {
-  if ( head != nullptr ) {
-    return head -> DD(x);
-  } else {
-    return 0;
+  int
+  SPLINE_print() {
+    if ( head != nullptr ) {
+      head -> writeToStream( cout );
+      return 0;
+    } else {
+      cout << "No Spline!\n";
+      return -1;
+    }
   }
-}
 
-EXTERN_C
-double
-SPLINE_eval_DDD( double const x ) {
-  if ( head != nullptr ) {
-    return head -> DDD(x);
-  } else {
-    return 0;
+  char const *
+  SPLINE_get_type_name() {
+    if ( head == nullptr ) return "NOTYPE - head = nullptr";
+    return head -> type_name();
   }
-}
 
-EXTERN_C
-double
-SPLINE_eval_DDDD( double const x ) {
-  if ( head != nullptr ) {
-    return head -> DDDD(x);
-  } else {
-    return 0;
+  void *
+  SPLINE_mem_ptr( char const id[] ) {
+    // check if exists ?
+    return static_cast<void*>(&spline_stored[id]);
   }
-}
 
-EXTERN_C
-double
-SPLINE_eval_DDDDD( double const x ) {
-  if ( head != nullptr ) {
-    return head -> DDDDD(x);
-  } else {
-    return 0;
+  int
+  SPLINE_init() {
+    if ( head != nullptr ) {
+      head -> clear();
+      return 0;
+    } else {
+      return -1;
+    }
   }
+
+  int
+  SPLINE_push( double const x, double const y ) {
+    if ( head != nullptr ) {
+      head -> pushBack(x,y);
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  int
+  SPLINE_build() {
+    if ( head != nullptr ) {
+      head->internal_build();
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  int
+  SPLINE_build2( double const x[], double const y[], int const n ) {
+    if ( head != nullptr ) {
+      head -> build( x, y, n );
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  double
+  SPLINE_eval( double const x ) {
+    if ( head != nullptr ) {
+      return head -> operator()(x);
+    } else {
+      return 0;
+    }
+  }
+
+  double
+  SPLINE_eval_D( double const x ) {
+    if ( head != nullptr ) {
+      return head -> D(x);
+    } else {
+      return 0;
+    }
+  }
+
+  double
+  SPLINE_eval_DD( double const x ) {
+    if ( head != nullptr ) {
+      return head -> DD(x);
+    } else {
+      return 0;
+    }
+  }
+
+  double
+  SPLINE_eval_DDD( double const x ) {
+    if ( head != nullptr ) {
+      return head -> DDD(x);
+    } else {
+      return 0;
+    }
+  }
+
+  double
+  SPLINE_eval_DDDD( double const x ) {
+    if ( head != nullptr ) {
+      return head -> DDDD(x);
+    } else {
+      return 0;
+    }
+  }
+
+  double
+  SPLINE_eval_DDDDD( double const x ) {
+    if ( head != nullptr ) {
+      return head -> DDDDD(x);
+    } else {
+      return 0;
+    }
+  }
+
 }
 
 //

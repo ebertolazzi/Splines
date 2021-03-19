@@ -96,7 +96,7 @@ namespace Splines {
     for ( size_t i = 0; i   < size_t(n); ++i ) m_X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i+1 < size_t(n); ++i ) m_Y[i] = y[i*size_t(incy)];
     m_npts = n;
-    build();
+    internal_build();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

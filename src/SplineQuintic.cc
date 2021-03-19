@@ -246,8 +246,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSpline::build() {
-    string msg = fmt::format("QuinticSpline[{}]::build():", m_name );
+  QuinticSpline::internal_build() {
+    string msg = fmt::format("QuinticSpline[{}]::internal_build():", m_name );
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",

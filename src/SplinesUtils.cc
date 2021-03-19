@@ -31,7 +31,7 @@
  |           Via Sommarive 9, I -- 38123 Trento, Italy <br>
  |           enrico.bertolazzi@unitn.it
  |
-\*/
+ */
 
 #include "SplinesUtils.hh"
 
