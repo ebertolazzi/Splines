@@ -35,9 +35,13 @@
  |   ####   ####  #####  #  ####
 \*/
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
+
 namespace Splines {
 
-  using namespace std; // load standard namspace
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -260,14 +264,14 @@ namespace Splines {
 
   void
   CubicSpline_build(
-    real_type const      X[],
-    real_type const      Y[],
-    real_type            Yp[],
-    real_type            Ypp[],
-    real_type            L[],
-    real_type            D[],
-    real_type            U[],
-    integer              npts,
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    real_type       * Ypp,
+    real_type       * L,
+    real_type       * D,
+    real_type       * U,
+    integer           npts,
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   ) {
@@ -429,10 +433,10 @@ namespace Splines {
 
   void
   CubicSpline_build(
-    real_type const      X[],
-    real_type const      Y[],
-    real_type            Yp[],
-    integer              npts,
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts,
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   ) {
@@ -444,6 +448,8 @@ namespace Splines {
     real_type * Z = mem( size_t( npts ) );
     CubicSpline_build( X, Y, Yp, Z, L, D, U, npts, bc0, bcn );
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -479,8 +485,10 @@ namespace Splines {
     Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

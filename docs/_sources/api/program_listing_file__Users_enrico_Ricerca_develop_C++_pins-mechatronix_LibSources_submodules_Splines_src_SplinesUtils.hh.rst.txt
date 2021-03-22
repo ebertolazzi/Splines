@@ -75,6 +75,8 @@ Program Listing for File SplinesUtils.hh
      //  |_| |_|_| |_|_|\__\___|  \__,_|_|_| |_|  \___|_|  \___|_| |_|\___\___|
      */
    
+     #ifndef DOXYGEN_SHOULD_SKIP_THIS
+   
      /*\
       |  Given
       |  DL = (y[k]-y[k-1])/hL; hL = x[k]-x[k-1];
@@ -261,20 +263,22 @@ Program Listing for File SplinesUtils.hh
    
      void
      first_derivative_build(
-       real_type const X[],
-       real_type const Y[],
-       real_type       Yp[],
-       integer         npts
+       real_type const * X,
+       real_type const * Y,
+       real_type       * Yp,
+       integer           npts
      );
    
      void
      second_derivative_build(
-       real_type const X[],
-       real_type const Y[],
-       real_type const Yp[],
-       real_type       Ypp[],
-       integer         npts
+       real_type const * X,
+       real_type const * Y,
+       real_type const * Yp,
+       real_type       * Ypp,
+       integer           npts
      );
+   
+     #endif
    
    }
    

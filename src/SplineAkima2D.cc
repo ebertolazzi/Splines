@@ -31,9 +31,13 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
+
 namespace Splines {
 
-  using namespace std; // load standard namspace
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // Statement Function definitions
   inline
@@ -279,7 +283,9 @@ namespace Splines {
     DXY = DXYI[0] < 0.5 ? DXYF[1]/DXYF[0] : DXYI[1]/DXYI[0];
   }
 
-  /*
+  #endif
+
+  /*!
    * This subroutine estimates three partial derivatives, zx, zy, and
    * zxy, of a bivariate function, z(x,y), on a rectangular grid in
    * the x-y plane.  It is based on the revised Akima method that has

@@ -1,0 +1,13 @@
+.. _exhale_function__splines_cinterface_8h_1a42401ba59200b4447ddf50065bc54e19:
+
+Function SPLINE_push
+====================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: SPLINE_push(double, double)

@@ -28,13 +28,13 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
 
-  using namespace std; // load standard namspace
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -55,12 +55,12 @@ namespace Splines {
   static
   void
   QuinticSpline_Yppp_continuous(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    real_type       Ypp[],
-    integer         npts,
-    bool            setbc
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    real_type       * Ypp,
+    integer           npts,
+    bool              setbc
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
@@ -133,11 +133,11 @@ namespace Splines {
   static
   void
   QuinticSpline_Ypp_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    real_type       Ypp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    real_type       * Ypp,
+    integer           npts
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
@@ -207,11 +207,11 @@ namespace Splines {
   void
   Quintic_build(
     QUINTIC_SPLINE_TYPE q_sub_type,
-    real_type const     X[],
-    real_type const     Y[],
-    real_type           Yp[],
-    real_type           Ypp[],
-    integer             npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    real_type       * Ypp,
+    integer           npts
   ) {
     switch ( q_sub_type ) {
     case CUBIC_QUINTIC:
@@ -242,6 +242,8 @@ namespace Splines {
     }
     QuinticSpline_Ypp_build( X, Y, Yp, Ypp, npts );
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

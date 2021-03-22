@@ -26,7 +26,6 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-//! Various kind of splines
 namespace Splines {
 
   static
@@ -50,8 +49,8 @@ namespace Splines {
   void
   Spline1D::build(
     SplineType1D tp,
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
+    real_type const * x, integer incx,
+    real_type const * y, integer incy,
     integer n
   ) {
     if ( m_pSpline != nullptr ) delete m_pSpline;

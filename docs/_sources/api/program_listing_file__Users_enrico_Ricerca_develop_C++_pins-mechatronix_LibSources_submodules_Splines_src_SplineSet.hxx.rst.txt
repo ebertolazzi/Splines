@@ -144,13 +144,13 @@ Program Listing for File SplineSet.hxx
        real_type yMax( integer spl ) const { return m_Ymax[size_t(spl)]; }
    
        real_type
-       yMin( char const spl[] ) const {
+       yMin( char const * spl ) const {
          integer idx = this->getPosition(spl);
          return m_Ymin[idx];
        }
    
        real_type
-       yMax( char const spl[] ) const {
+       yMax( char const * spl ) const {
          integer idx = this->getPosition(spl);
          return m_Ymax[idx];
        }
@@ -292,44 +292,44 @@ Program Listing for File SplineSet.hxx
    
        void
        eval(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval_D(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval_DD(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval_DDD(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval_DDDD(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval_DDDDD(
-         real_type x,
-         real_type vals[],
-         integer   incy = 1
+         real_type         x,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
    
@@ -369,34 +369,34 @@ Program Listing for File SplineSet.hxx
    
        void
        eval2(
-         integer   spl,
-         real_type zeta,
-         real_type vals[],
-         integer   incy = 1
+         integer           spl,
+         real_type         zeta,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval2_D(
-         integer   spl,
-         real_type zeta,
-         real_type vals[],
-         integer   incy = 1
+         integer           spl,
+         real_type         zeta,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval2_DD(
-         integer   spl,
-         real_type zeta,
-         real_type vals[],
-         integer   incy = 1
+         integer           spl,
+         real_type         zeta,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
        void
        eval2_DDD(
-         integer   spl,
-         real_type zeta,
-         real_type vals[],
-         integer   incy = 1
+         integer           spl,
+         real_type         zeta,
+         real_type * const vals,
+         integer           incy = 1
        ) const;
    
    
@@ -404,30 +404,30 @@ Program Listing for File SplineSet.hxx
    
        real_type
        eval2(
-         real_type  zeta,
-         char const indep[],
-         char const name[]
+         real_type    zeta,
+         char const * indep,
+         char const * name
        ) const;
    
        real_type
        eval2_D(
-         real_type  zeta,
-         char const indep[],
-         char const name[]
+         real_type    zeta,
+         char const * indep,
+         char const * name
        ) const;
    
        real_type
        eval2_DD(
-         real_type  zeta,
-         char const indep[],
-         char const name[]
+         real_type    zeta,
+         char const * indep,
+         char const * name
        ) const;
    
        real_type
        eval2_DDD(
-         real_type  zeta,
-         char const indep[],
-         char const name[]
+         real_type    zeta,
+         char const * indep,
+         char const * name
        ) const;
    
    
@@ -838,13 +838,13 @@ Program Listing for File SplineSet.hxx
    
        void
        build(
-         integer            nspl,
-         integer            npts,
-         char         const *headers[],
-         SplineType1D const stype[],
-         real_type    const X[],
-         real_type    const *Y[],
-         real_type    const *Yp[] = nullptr
+         integer               nspl,
+         integer               npts,
+         char         const ** headers,
+         SplineType1D const *  stype,
+         real_type    const *  X,
+         real_type    const ** Y,
+         real_type    const ** Yp = nullptr
        );
    
        void

@@ -35,18 +35,22 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-namespace Splines {
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
-  using namespace std; // load standard namspace
+namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   Bessel_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
@@ -74,6 +78,8 @@ namespace Splines {
       Yp[n] = 1.5*m[n-1]-0.5*m[n-2];
     }
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

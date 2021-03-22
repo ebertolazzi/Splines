@@ -1,0 +1,13 @@
+.. _exhale_variable_namespace_splines_1a052166b362a237026fef2fff7e415070:
+
+Variable Splines::spline_type_1D
+================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: Splines::spline_type_1D

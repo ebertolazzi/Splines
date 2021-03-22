@@ -51,7 +51,6 @@ either expressed or implied, of the FreeBSD Project.
 
 #include "Splines.hh"
 
-//! Various kind of splines
 namespace Splines {
 
   using std::fpclassify;
@@ -63,6 +62,8 @@ namespace Splines {
   //  |  _| | | | | | ||  __/ | (_| | |  _|  _|  __/ | |  __/ | | | (_|  __/
   //  |_| |_|_| |_|_|\__\___|  \__,_|_|_| |_|  \___|_|  \___|_| |_|\___\___|
   */
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   /*\
    |  Given
@@ -250,20 +251,22 @@ namespace Splines {
 
   void
   first_derivative_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   );
 
   void
   second_derivative_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    real_type       Ypp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    real_type       * Ypp,
+    integer           npts
   );
+
+  #endif
 
 }
 

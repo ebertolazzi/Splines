@@ -168,49 +168,49 @@ namespace Splines {
     //! Evaluate all the splines at `x`
     void
     eval(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate the fist derivative of all the splines at `x`
     void
     eval_D(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate the second derivative of all the splines at `x`
     void
     eval_DD(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate the third derivative of all the splines at `x`
     void
     eval_DDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate the 4th derivative of all the splines at `x`
     void
     eval_DDDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate the 5th derivative of all the splines at `x`
     void
     eval_DDDDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
+      real_type         x,
+      real_type * const vals,
+      integer           inc
     ) const;
 
     //! Evaluate all the splines at `x`
@@ -287,21 +287,21 @@ namespace Splines {
 
     void
     setup(
-      integer           dim,
-      integer           npts,
-      real_type const * Y[]
+      integer            dim,
+      integer            npts,
+      real_type const ** Y
     );
 
     void
     setup(
-      integer         dim,
-      integer         npts,
-      real_type const Y[],
-      integer         ldY
+      integer           dim,
+      integer           npts,
+      real_type const * Y,
+      integer           ldY
     );
 
     void
-    setKnots( real_type const X[] );
+    setKnots( real_type const * X );
 
     void
     setKnotsChordLength();

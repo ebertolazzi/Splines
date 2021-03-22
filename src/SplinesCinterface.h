@@ -36,13 +36,17 @@ extern "C" {
 #endif
 
   /*! Create a new `Spline` object 'id' */
-  int SPLINE_new( char const id[], char const type[] );
+  int
+  SPLINE_new(
+    char const * id,
+    char const * type
+  );
 
   /*! Select a `Spline` object 'id' */
-  int SPLINE_select( char const id[] );
+  int SPLINE_select( char const * id );
 
   /*! Delete the `Spline` object 'name' */
-  int SPLINE_delete( char const id[] );
+  int SPLINE_delete( char const * id );
 
   /*! Print the actual `Spline` */
   int SPLINE_print();
@@ -51,19 +55,24 @@ extern "C" {
   char const * SPLINE_get_type_name();
 
   /*! Get pointer to the internal `Spline` object 'id' */
-  void * SPLINE_mem_ptr( char const id[] );
+  void * SPLINE_mem_ptr( char const * id );
 
   /*! Set actual pointed element of `Spline` to an empty spline. */
   int SPLINE_init();
 
   /*! Push `(x,y)` interpolation point to a spline `bool` */
-  int SPLINE_push( double const x, double const y );
+  int SPLINE_push( double x, double y );
 
   /*! Build a Spline with the points previously inserted */
   int SPLINE_build();
 
   /*! Build a Spline with the points passed as arguments */
-  int SPLINE_build2( double const x[], double const y[], int const n );
+  int
+  SPLINE_build2(
+    double const * x,
+    double const * y,
+    int            n
+  );
 
   /*! Evaluate spline at x */
   double SPLINE_eval( double const x );

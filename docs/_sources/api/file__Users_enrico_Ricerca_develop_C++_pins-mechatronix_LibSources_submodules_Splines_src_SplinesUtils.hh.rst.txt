@@ -7,11 +7,6 @@ File SplinesUtils.hh
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesUtils.hh``)
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -55,17 +50,6 @@ Namespaces
 
 
 - :ref:`namespace_Splines`
-
-
-Functions
----------
-
-
-- :ref:`exhale_function_namespace_splines_1ada46db60644a1bda70679ed616cda760`
-
-- :ref:`exhale_function_namespace_splines_1a6389ba86b13ae6969d7f0220f4990817`
-
-- :ref:`exhale_function_namespace_splines_1ae0d40af0afcb0c5bdc31cac1f3f075aa`
 
 
 Defines

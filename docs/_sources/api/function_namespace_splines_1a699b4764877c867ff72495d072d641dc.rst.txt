@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a699b4764877c867ff72495d072d641dc:
+
+Function Splines::uniform
+=========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::uniform(integer, integer, real_type const *const, integer, real_type *const)

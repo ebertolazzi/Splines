@@ -27,13 +27,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- * 
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namspace
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -233,9 +231,9 @@ namespace Splines {
 
   integer // order
   QuinticSplineBase::coeffs(
-    real_type cfs[],
-    real_type nodes[],
-    bool      transpose
+    real_type * const cfs,
+    real_type * const nodes,
+    bool              transpose
   ) const {
     size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {

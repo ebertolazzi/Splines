@@ -72,8 +72,8 @@ Program Listing for File SplineHermite.hxx
        virtual
        void
        build(
-         real_type const [], integer,
-         real_type const [], integer,
+         real_type const *, integer,
+         real_type const *, integer,
          integer
        ) override;
    

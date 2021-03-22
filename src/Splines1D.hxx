@@ -112,8 +112,8 @@ namespace Splines {
     void
     build(
       SplineType1D tp,
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
+      real_type const * x, integer incx,
+      real_type const * y, integer incy,
       integer n
     );
 
@@ -127,10 +127,10 @@ namespace Splines {
      */
     void
     build(
-      SplineType1D    tp,
-      real_type const x[],
-      real_type const y[],
-      integer         n
+      SplineType1D      tp,
+      real_type const * x,
+      real_type const * y,
+      integer           n
     ) {
       this->build( tp, x, 1, y, 1, n );
     }
@@ -180,21 +180,20 @@ namespace Splines {
     { return m_pSpline->setRange( xmin, xmax ); }
 
     ///////////////////////////////////////////////////////////////////////////
-    //! dump a sample of the spline
     void
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const     header[] = "x\ty"
+      char const *   header = "x\ty"
     ) const {
       m_pSpline->dump( s, nintervals, header );
     }
 
     void
     dump(
-      char const fname[],
-      integer    nintervals,
-      char const header[] = "x\ty"
+      char const * fname,
+      integer      nintervals,
+      char const * header = "x\ty"
     ) const {
       m_pSpline->dump( fname, nintervals, header );
     }
@@ -260,9 +259,9 @@ namespace Splines {
     //! get the piecewise polinomials of the spline
     integer // order
     coeffs(
-      real_type cfs[],
-      real_type nodes[],
-      bool      transpose = false
+      real_type * const cfs,
+      real_type * const nodes,
+      bool              transpose = false
     ) const {
       return m_pSpline->coeffs( cfs, nodes, transpose );
     }

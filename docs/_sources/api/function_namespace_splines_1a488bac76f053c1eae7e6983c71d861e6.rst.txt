@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a488bac76f053c1eae7e6983c71d861e6:
+
+Function Splines::first_deriv5p_C
+=================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::first_deriv5p_C(real_type, real_type, real_type, real_type, real_type, real_type, real_type, real_type)

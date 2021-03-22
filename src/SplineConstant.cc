@@ -27,13 +27,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namspace
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -88,8 +86,8 @@ namespace Splines {
 
   void
   ConstantSpline::build(
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
+    real_type const * x, integer incx,
+    real_type const * y, integer incy,
     integer n
   ) {
     reserve( n );
@@ -124,7 +122,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
-  ConstantSpline::coeffs( real_type cfs[], real_type nodes[], bool ) const {
+  ConstantSpline::coeffs(
+    real_type * const cfs,
+    real_type * const nodes,
+    bool
+  ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
     for ( size_t i = 0; i < nseg; ++i ) {
       nodes[i] = m_X[i];

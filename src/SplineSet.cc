@@ -31,16 +31,14 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
-
 namespace Splines {
 
   using std::abs;
   using std::sqrt;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   integer
   SplineSet::BinarySearch::search( std::string const & id ) const {\
@@ -74,6 +72,8 @@ namespace Splines {
     }
     data[pos] = DATA_TYPE(id,position);
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -212,13 +212,13 @@ namespace Splines {
 
   void
   SplineSet::build(
-    integer            nspl,
-    integer            npts,
-    char         const *headers[],
-    SplineType1D const stype[],
-    real_type    const data_X[],
-    real_type    const *data_Y[],
-    real_type    const *data_Yp[]
+    integer               nspl,
+    integer               npts,
+    char         const ** headers,
+    SplineType1D const *  stype,
+    real_type    const *  data_X,
+    real_type    const ** data_Y,
+    real_type    const ** data_Yp
   ) {
     string msg = fmt::format("SplineSet[{}]::build(...):", m_name );
     UTILS_ASSERT(
@@ -418,7 +418,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval( real_type x, real_type vals[], integer incy ) const {
+  SplineSet::eval(
+    real_type         x,
+    real_type * const vals,
+    integer           incy
+  ) const {
     integer ii = 0;
     for ( integer i = 0; i < m_nspl; ++i, ii += incy )
       vals[ii] = (*m_splines[i])(x);
@@ -436,7 +440,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval_D( real_type x, real_type vals[], integer incy ) const {
+  SplineSet::eval_D(
+    real_type         x,
+    real_type * const vals,
+    integer           incy
+  ) const {
     size_t ii = 0;
     for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
       vals[ii] = m_splines[i]->D(x);
@@ -454,7 +462,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval_DD( real_type x, real_type vals[], integer incy ) const {
+  SplineSet::eval_DD(
+    real_type         x,
+    real_type * const vals,
+    integer           incy
+  ) const {
     size_t ii = 0;
     for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
       vals[ii] = m_splines[i]->DD(x);
@@ -472,7 +484,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::eval_DDD( real_type x, real_type vals[], integer incy ) const {
+  SplineSet::eval_DDD(
+    real_type         x,
+    real_type * const vals,
+    integer           incy
+  ) const {
     size_t ii = 0;
     for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
       vals[ii] = m_splines[i]->DDD(x);
@@ -561,10 +577,10 @@ namespace Splines {
 
   void
   SplineSet::eval2(
-    integer   indep,
-    real_type zeta,
-    real_type vals[],
-    integer   incy
+    integer           indep,
+    real_type         zeta,
+    real_type * const vals,
+    integer           incy
   ) const {
     real_type x;
     intersect( indep, zeta, x );
@@ -598,9 +614,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type    zeta,
+    char const * indep,
+    char const * name
   ) const {
     return this->eval2(
       zeta, this->getPosition(indep), this->getPosition(name)
@@ -613,10 +629,10 @@ namespace Splines {
 
   void
   SplineSet::eval2_D(
-    integer   indep,
-    real_type zeta,
-    real_type vals[],
-    integer   incy
+    integer           indep,
+    real_type         zeta,
+    real_type * const vals,
+    integer           incy
   ) const {
     real_type x;
     Spline const * S = intersect( indep, zeta, x );
@@ -651,9 +667,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_D(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type    zeta,
+    char const * indep,
+    char const * name
   ) const {
     return this->eval2_D(
       zeta, this->getPosition(indep), this->getPosition(name)
@@ -666,10 +682,10 @@ namespace Splines {
 
   void
   SplineSet::eval2_DD(
-    integer   indep,
-    real_type zeta,
-    real_type vals[],
-    integer   incy
+    integer           indep,
+    real_type         zeta,
+    real_type * const vals,
+    integer           incy
   ) const {
     real_type x;
     Spline const * S = intersect( indep, zeta, x );
@@ -712,9 +728,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DD(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type    zeta,
+    char const * indep,
+    char const * name
   ) const {
     return this->eval2_DD(
       zeta, this->getPosition(indep), this->getPosition(name)
@@ -727,10 +743,10 @@ namespace Splines {
 
   void
   SplineSet::eval2_DDD(
-    integer   indep,
-    real_type zeta,
-    real_type vals[],
-    integer   incy
+    integer           indep,
+    real_type         zeta,
+    real_type * const vals,
+    integer           incy
   ) const {
     real_type x;
     Spline const * S = intersect( indep, zeta, x );
@@ -776,9 +792,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DDD(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type    zeta,
+    char const * indep,
+    char const * name
   ) const {
     return this->eval2_DDD(
       zeta, this->getPosition(indep), this->getPosition(name)

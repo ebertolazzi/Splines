@@ -124,12 +124,6 @@ To run the test
   rake run_win # using rake on windows
 ```
 
-To generate documentation (using [DOXYGEN](https://www.doxygen.nl/index.html) and [SPHINX](https://www.sphinx-doc.org/en/master/))
-
-```sh
-  make doc
-```
-
 ### Online Documentation
 
 Available at: [http://ebertolazzi.github.io/Splines](http://ebertolazzi.github.io/Splines)

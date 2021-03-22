@@ -12,13 +12,13 @@ Inheritance Relationships
 Base Type
 *********
 
-- ``public SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
+- ``public Splines::SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
 
 
 Derived Type
 ************
 
-- ``public BiQuinticSpline`` (:ref:`exhale_class_class_splines_1_1_bi_quintic_spline`)
+- ``public Splines::BiQuinticSpline`` (:ref:`exhale_class_class_splines_1_1_bi_quintic_spline`)
 
 
 Class Documentation

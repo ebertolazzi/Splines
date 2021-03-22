@@ -7,11 +7,6 @@ File Splines.hh
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.hh``)
 ----------------------------------------------------------------------------------------------------------------
 
@@ -124,8 +119,6 @@ Namespaces
 
 - :ref:`namespace_Splines`
 
-- :ref:`namespace_SplinesLoad`
-
 
 Classes
 -------
@@ -142,9 +135,9 @@ Enums
 -----
 
 
-- :ref:`exhale_enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d`
+- :ref:`exhale_enum_namespace_splines_1afebc3f20f002ddfdcbd2d725d1aa55df`
 
-- :ref:`exhale_enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d`
+- :ref:`exhale_enum_namespace_splines_1aa6410df8c515cad4d238820f523fead7`
 
 
 Functions
@@ -153,7 +146,11 @@ Functions
 
 - :ref:`exhale_function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03`
 
-- :ref:`exhale_function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34`
+- :ref:`exhale_function_namespace_splines_1aeea9f9f28b21dbf93715fd27a7c7106c`
+
+- :ref:`exhale_function_namespace_splines_1ac5930dd87f51e2577e79a2bdd746c6b2`
+
+- :ref:`exhale_function_namespace_splines_1a9437a6461e2735153715bb43bc7d734f`
 
 
 Defines
@@ -167,9 +164,9 @@ Typedefs
 --------
 
 
-- :ref:`exhale_typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9`
+- :ref:`exhale_typedef_namespace_splines_1a0b83d8865bf650fca7ad1d657245a8a1`
 
-- :ref:`exhale_typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c`
+- :ref:`exhale_typedef_namespace_splines_1a943d4ae4896c10228d57d004bd991e7f`
 
-- :ref:`exhale_typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa`
+- :ref:`exhale_typedef_namespace_splines_1afabb8610fb01952c2fcf1f17337bd44a`
 

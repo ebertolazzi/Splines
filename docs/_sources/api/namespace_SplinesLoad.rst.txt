@@ -4,10 +4,3 @@
 Namespace SplinesLoad
 =====================
 
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
-
-

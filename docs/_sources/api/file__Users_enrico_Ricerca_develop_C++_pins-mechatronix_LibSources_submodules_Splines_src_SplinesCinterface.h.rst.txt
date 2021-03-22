@@ -7,11 +7,6 @@ File SplinesCinterface.h
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesCinterface.h``)
 -------------------------------------------------------------------------------------------------------------------------
 
@@ -36,9 +31,9 @@ Functions
 
 - :ref:`exhale_function__splines_cinterface_8h_1a562f6cae383a972ff70c7b987c17cce0`
 
-- :ref:`exhale_function__splines_cinterface_8h_1af03061c5581fe277d08b52e2b45ae810`
+- :ref:`exhale_function__splines_cinterface_8h_1a4902f807d78a555e8439bb87a48e3660`
 
-- :ref:`exhale_function__splines_cinterface_8h_1a0c7c6ed4c544b47854033f8bd66f11e6`
+- :ref:`exhale_function__splines_cinterface_8h_1af29f47a6ce8296c7fb0f4021b35997df`
 
 - :ref:`exhale_function__splines_cinterface_8h_1aa94fa6a76750597218338b0ff491b817`
 
@@ -56,15 +51,15 @@ Functions
 
 - :ref:`exhale_function__splines_cinterface_8h_1a8cd7b632a4eb70a3464d02cb31c74709`
 
-- :ref:`exhale_function__splines_cinterface_8h_1a2993fc7e0d4ea8f03ff1c1c2a60a9537`
+- :ref:`exhale_function__splines_cinterface_8h_1ab920995b11229ff331fcaaee2eeefc97`
 
-- :ref:`exhale_function__splines_cinterface_8h_1a93c302015a1342111d9791f00d2428ff`
+- :ref:`exhale_function__splines_cinterface_8h_1acdd57564fa775755a38daf483ffdf0e8`
 
 - :ref:`exhale_function__splines_cinterface_8h_1aba9ab3ef53dc9452a0155168b80b499a`
 
-- :ref:`exhale_function__splines_cinterface_8h_1a247716d72643966e53bc70c27a728e98`
+- :ref:`exhale_function__splines_cinterface_8h_1a42401ba59200b4447ddf50065bc54e19`
 
-- :ref:`exhale_function__splines_cinterface_8h_1a5456aac1498f3e3abd660069fef20ba0`
+- :ref:`exhale_function__splines_cinterface_8h_1a5781fa56546770ce18340a2b63b57b27`
 
 
 Defines

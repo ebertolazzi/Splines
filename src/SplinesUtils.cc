@@ -17,22 +17,6 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-/*!
- |
- | \date     October 28, 2015
- | \version  5.2
- | \note     first release Jan 12, 1998
- |
- | \author   Enrico Bertolazzi
- |
- | \par      Affiliation:
- |           Department of Industrial Engineering<br>
- |           University of Trento<br>
- |           Via Sommarive 9, I -- 38123 Trento, Italy <br>
- |           enrico.bertolazzi@unitn.it
- |
- */
-
 #include "SplinesUtils.hh"
 
 #ifdef __clang__
@@ -42,10 +26,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-//! Various kind of splines
 namespace Splines {
 
   using std::abs;
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   /*
   //    __ _       _ _             _ _  __  __
@@ -410,10 +395,10 @@ namespace Splines {
 
   void
   first_derivative_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   ) {
 
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
@@ -486,11 +471,11 @@ namespace Splines {
 
   void
   second_derivative_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    real_type       Ypp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    real_type       * Ypp,
+    integer           npts
   ) {
 
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
@@ -538,5 +523,7 @@ namespace Splines {
     }
 
   }
+
+  #endif
 
 }

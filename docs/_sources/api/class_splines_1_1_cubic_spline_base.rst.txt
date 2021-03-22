@@ -12,17 +12,17 @@ Inheritance Relationships
 Base Type
 *********
 
-- ``public Spline`` (:ref:`exhale_class_class_splines_1_1_spline`)
+- ``public Splines::Spline`` (:ref:`exhale_class_class_splines_1_1_spline`)
 
 
 Derived Types
 *************
 
-- ``public AkimaSpline`` (:ref:`exhale_class_class_splines_1_1_akima_spline`)
-- ``public BesselSpline`` (:ref:`exhale_class_class_splines_1_1_bessel_spline`)
-- ``public CubicSpline`` (:ref:`exhale_class_class_splines_1_1_cubic_spline`)
-- ``public HermiteSpline`` (:ref:`exhale_class_class_splines_1_1_hermite_spline`)
-- ``public PchipSpline`` (:ref:`exhale_class_class_splines_1_1_pchip_spline`)
+- ``public Splines::AkimaSpline`` (:ref:`exhale_class_class_splines_1_1_akima_spline`)
+- ``public Splines::BesselSpline`` (:ref:`exhale_class_class_splines_1_1_bessel_spline`)
+- ``public Splines::CubicSpline`` (:ref:`exhale_class_class_splines_1_1_cubic_spline`)
+- ``public Splines::HermiteSpline`` (:ref:`exhale_class_class_splines_1_1_hermite_spline`)
+- ``public Splines::PchipSpline`` (:ref:`exhale_class_class_splines_1_1_pchip_spline`)
 
 
 Class Documentation

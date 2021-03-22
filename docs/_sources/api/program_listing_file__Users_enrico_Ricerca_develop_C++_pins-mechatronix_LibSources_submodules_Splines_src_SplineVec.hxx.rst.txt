@@ -162,44 +162,44 @@ Program Listing for File SplineVec.hxx
    
        void
        eval(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
        eval_D(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
        eval_DD(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
        eval_DDD(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
        eval_DDDD(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
        eval_DDDDD(
-         real_type x,
-         real_type vals[],
-         integer   inc
+         real_type         x,
+         real_type * const vals,
+         integer           inc
        ) const;
    
        void
@@ -264,21 +264,21 @@ Program Listing for File SplineVec.hxx
    
        void
        setup(
-         integer           dim,
-         integer           npts,
-         real_type const * Y[]
+         integer            dim,
+         integer            npts,
+         real_type const ** Y
        );
    
        void
        setup(
-         integer         dim,
-         integer         npts,
-         real_type const Y[],
-         integer         ldY
+         integer           dim,
+         integer           npts,
+         real_type const * Y,
+         integer           ldY
        );
    
        void
-       setKnots( real_type const X[] );
+       setKnots( real_type const * X );
    
        void
        setKnotsChordLength();

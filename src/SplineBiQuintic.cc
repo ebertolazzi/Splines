@@ -28,13 +28,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- * 
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namspace
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -111,14 +111,14 @@ namespace Splines {
 
     void
     build(
-      SplineType2D    tp,
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
-      real_type const z[], integer ldZ,
-      integer         nx,
-      integer         ny,
-      bool            fortran_storage = false,
-      bool            transposed      = false
+      SplineType2D      tp,
+      real_type const * x, integer incx,
+      real_type const * y, integer incy,
+      real_type const * z, integer ldZ,
+      integer           nx,
+      integer           ny,
+      bool              fortran_storage = false,
+      bool              transposed      = false
     );
 
     /*!
@@ -159,13 +159,13 @@ namespace Splines {
      */
     void
     build(
-      SplineType2D    tp,
-      real_type const z[],
-      integer         ldZ,
-      integer         nx,
-      integer         ny,
-      bool fortran_storage = false,
-      bool transposed      = false
+      SplineType2D      tp,
+      real_type const * z,
+      integer           ldZ,
+      integer           nx,
+      integer           ny,
+      bool              fortran_storage = false,
+      bool              transposed      = false
     );
 
     /*!

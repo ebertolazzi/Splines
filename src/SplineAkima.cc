@@ -40,9 +40,12 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
+
 namespace Splines {
 
-  using namespace std; // load standard namspace
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -65,12 +68,14 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   Akima_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   ) {
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
@@ -103,6 +108,8 @@ namespace Splines {
         Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] );
     }
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

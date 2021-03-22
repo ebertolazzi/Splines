@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a3da4673f534bea92384e23008f1aba82:
+
+Function Splines::FangHung
+==========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::FangHung(integer, integer, real_type const *const, integer, real_type *const)

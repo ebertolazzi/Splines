@@ -26,13 +26,13 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
 
-  using namespace std; // load standard namspace
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   /*\
    |   _   _                     _ _
@@ -251,12 +251,14 @@ namespace Splines {
            p[5] * ( M[5][0]*q[0] + M[5][1]*q[1] + M[5][2]*q[2] + M[5][3]*q[3] + M[5][4]*q[4] + M[5][5]*q[5]);
   }
 
+  #endif
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   HermiteSpline::build(
-    real_type const [], integer,
-    real_type const [], integer,
+    real_type const *, integer,
+    real_type const *, integer,
     integer
   ) {
     UTILS_ERROR(

@@ -12,10 +12,10 @@ Inheritance Relationships
 Derived Types
 *************
 
-- ``public ConstantSpline`` (:ref:`exhale_class_class_splines_1_1_constant_spline`)
-- ``public CubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_cubic_spline_base`)
-- ``public LinearSpline`` (:ref:`exhale_class_class_splines_1_1_linear_spline`)
-- ``public QuinticSplineBase`` (:ref:`exhale_class_class_splines_1_1_quintic_spline_base`)
+- ``public Splines::ConstantSpline`` (:ref:`exhale_class_class_splines_1_1_constant_spline`)
+- ``public Splines::CubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_cubic_spline_base`)
+- ``public Splines::LinearSpline`` (:ref:`exhale_class_class_splines_1_1_linear_spline`)
+- ``public Splines::QuinticSplineBase`` (:ref:`exhale_class_class_splines_1_1_quintic_spline_base`)
 
 
 Class Documentation

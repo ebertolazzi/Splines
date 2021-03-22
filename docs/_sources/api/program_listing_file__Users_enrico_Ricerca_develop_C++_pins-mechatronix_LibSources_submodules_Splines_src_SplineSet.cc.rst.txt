@@ -50,6 +50,8 @@ Program Listing for File SplineSet.cc
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
+     #ifndef DOXYGEN_SHOULD_SKIP_THIS
+   
      integer
      SplineSet::BinarySearch::search( std::string const & id ) const {\
        //for ( auto e : data )
@@ -82,6 +84,8 @@ Program Listing for File SplineSet.cc
        }
        data[pos] = DATA_TYPE(id,position);
      }
+   
+     #endif
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
@@ -218,13 +222,13 @@ Program Listing for File SplineSet.cc
    
      void
      SplineSet::build(
-       integer            nspl,
-       integer            npts,
-       char         const *headers[],
-       SplineType1D const stype[],
-       real_type    const data_X[],
-       real_type    const *data_Y[],
-       real_type    const *data_Yp[]
+       integer               nspl,
+       integer               npts,
+       char         const ** headers,
+       SplineType1D const *  stype,
+       real_type    const *  data_X,
+       real_type    const ** data_Y,
+       real_type    const ** data_Yp
      ) {
        string msg = fmt::format("SplineSet[{}]::build(...):", m_name );
        UTILS_ASSERT(
@@ -424,7 +428,11 @@ Program Listing for File SplineSet.cc
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
-     SplineSet::eval( real_type x, real_type vals[], integer incy ) const {
+     SplineSet::eval(
+       real_type         x,
+       real_type * const vals,
+       integer           incy
+     ) const {
        integer ii = 0;
        for ( integer i = 0; i < m_nspl; ++i, ii += incy )
          vals[ii] = (*m_splines[i])(x);
@@ -442,7 +450,11 @@ Program Listing for File SplineSet.cc
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
-     SplineSet::eval_D( real_type x, real_type vals[], integer incy ) const {
+     SplineSet::eval_D(
+       real_type         x,
+       real_type * const vals,
+       integer           incy
+     ) const {
        size_t ii = 0;
        for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
          vals[ii] = m_splines[i]->D(x);
@@ -460,7 +472,11 @@ Program Listing for File SplineSet.cc
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
-     SplineSet::eval_DD( real_type x, real_type vals[], integer incy ) const {
+     SplineSet::eval_DD(
+       real_type         x,
+       real_type * const vals,
+       integer           incy
+     ) const {
        size_t ii = 0;
        for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
          vals[ii] = m_splines[i]->DD(x);
@@ -478,7 +494,11 @@ Program Listing for File SplineSet.cc
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
-     SplineSet::eval_DDD( real_type x, real_type vals[], integer incy ) const {
+     SplineSet::eval_DDD(
+       real_type         x,
+       real_type * const vals,
+       integer           incy
+     ) const {
        size_t ii = 0;
        for ( integer i = 0; i < m_nspl; ++i, ii += size_t(incy) )
          vals[ii] = m_splines[i]->DDD(x);
@@ -567,10 +587,10 @@ Program Listing for File SplineSet.cc
    
      void
      SplineSet::eval2(
-       integer   indep,
-       real_type zeta,
-       real_type vals[],
-       integer   incy
+       integer           indep,
+       real_type         zeta,
+       real_type * const vals,
+       integer           incy
      ) const {
        real_type x;
        intersect( indep, zeta, x );
@@ -604,9 +624,9 @@ Program Listing for File SplineSet.cc
    
      real_type
      SplineSet::eval2(
-       real_type  zeta,
-       char const indep[],
-       char const name[]
+       real_type    zeta,
+       char const * indep,
+       char const * name
      ) const {
        return this->eval2(
          zeta, this->getPosition(indep), this->getPosition(name)
@@ -619,10 +639,10 @@ Program Listing for File SplineSet.cc
    
      void
      SplineSet::eval2_D(
-       integer   indep,
-       real_type zeta,
-       real_type vals[],
-       integer   incy
+       integer           indep,
+       real_type         zeta,
+       real_type * const vals,
+       integer           incy
      ) const {
        real_type x;
        Spline const * S = intersect( indep, zeta, x );
@@ -657,9 +677,9 @@ Program Listing for File SplineSet.cc
    
      real_type
      SplineSet::eval2_D(
-       real_type  zeta,
-       char const indep[],
-       char const name[]
+       real_type    zeta,
+       char const * indep,
+       char const * name
      ) const {
        return this->eval2_D(
          zeta, this->getPosition(indep), this->getPosition(name)
@@ -672,10 +692,10 @@ Program Listing for File SplineSet.cc
    
      void
      SplineSet::eval2_DD(
-       integer   indep,
-       real_type zeta,
-       real_type vals[],
-       integer   incy
+       integer           indep,
+       real_type         zeta,
+       real_type * const vals,
+       integer           incy
      ) const {
        real_type x;
        Spline const * S = intersect( indep, zeta, x );
@@ -718,9 +738,9 @@ Program Listing for File SplineSet.cc
    
      real_type
      SplineSet::eval2_DD(
-       real_type  zeta,
-       char const indep[],
-       char const name[]
+       real_type    zeta,
+       char const * indep,
+       char const * name
      ) const {
        return this->eval2_DD(
          zeta, this->getPosition(indep), this->getPosition(name)
@@ -733,10 +753,10 @@ Program Listing for File SplineSet.cc
    
      void
      SplineSet::eval2_DDD(
-       integer   indep,
-       real_type zeta,
-       real_type vals[],
-       integer   incy
+       integer           indep,
+       real_type         zeta,
+       real_type * const vals,
+       integer           incy
      ) const {
        real_type x;
        Spline const * S = intersect( indep, zeta, x );
@@ -782,9 +802,9 @@ Program Listing for File SplineSet.cc
    
      real_type
      SplineSet::eval2_DDD(
-       real_type  zeta,
-       char const indep[],
-       char const name[]
+       real_type    zeta,
+       char const * indep,
+       char const * name
      ) const {
        return this->eval2_DDD(
          zeta, this->getPosition(indep), this->getPosition(name)

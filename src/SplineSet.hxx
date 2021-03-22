@@ -152,14 +152,14 @@ namespace Splines {
 
     //! return y-minumum spline value
     real_type
-    yMin( char const spl[] ) const {
+    yMin( char const * spl ) const {
       integer idx = this->getPosition(spl);
       return m_Ymin[idx];
     }
 
     //! return y-maximum spline value
     real_type
-    yMax( char const spl[] ) const {
+    yMax( char const * spl ) const {
       integer idx = this->getPosition(spl);
       return m_Ymax[idx];
     }
@@ -325,49 +325,49 @@ namespace Splines {
     //! Evaluate all the splines at `x`
     void
     eval(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //! Evaluate the fist derivative of all the splines at `x`
     void
     eval_D(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //! Evaluate the second derivative of all the splines at `x`
     void
     eval_DD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //! Evaluate the third derivative of all the splines at `x`
     void
     eval_DDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //! Evaluate the 4th derivative of all the splines at `x`
     void
     eval_DDDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //! Evaluate the 5th derivative of all the splines at `x`
     void
     eval_DDDDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
+      real_type         x,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //@}
@@ -425,46 +425,46 @@ namespace Splines {
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     void
     eval2(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
+      integer           spl,
+      real_type         zeta,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     /*!
-     | Evaluate the fist derivative of all the splines
-     | at `zeta` using spline[spl] as independent
+     * Evaluate the fist derivative of all the splines
+     * at `zeta` using spline[spl] as independent
      */
     void
     eval2_D(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
+      integer           spl,
+      real_type         zeta,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     /*!
-     | Evaluate the second derivative of all the splines
-     | at `zeta` using spline[spl] as independent
+     * Evaluate the second derivative of all the splines
+     * at `zeta` using spline[spl] as independent
      */
     void
     eval2_DD(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
+      integer           spl,
+      real_type         zeta,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     /*!
-     | Evaluate the 3rd derivative of all the splines
-     | at `zeta` using spline[spl] as independent
+     * Evaluate the 3rd derivative of all the splines
+     * at `zeta` using spline[spl] as independent
      */
     void
     eval2_DDD(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
+      integer           spl,
+      real_type         zeta,
+      real_type * const vals,
+      integer           incy = 1
     ) const;
 
     //@}
@@ -473,47 +473,47 @@ namespace Splines {
     //@{
 
     /*!
-     | Evaluate the spline `name` at `zeta` using
-     | spline `indep` as independent
+     * Evaluate the spline `name` at `zeta` using
+     * spline `indep` as independent
      */
     real_type
     eval2(
-      real_type  zeta,
-      char const indep[],
-      char const name[]
+      real_type    zeta,
+      char const * indep,
+      char const * name
     ) const;
 
     /*!
-     | Evaluate first derivative of the spline `name`
-     | at `zeta` using spline `indep` as independent
+     * Evaluate first derivative of the spline `name`
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_D(
-      real_type  zeta,
-      char const indep[],
-      char const name[]
+      real_type    zeta,
+      char const * indep,
+      char const * name
     ) const;
 
     /*!
-     | Evaluate second derivative of the spline `name`
-     | at `zeta` using spline `indep` as independent
+     * Evaluate second derivative of the spline `name`
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_DD(
-      real_type  zeta,
-      char const indep[],
-      char const name[]
+      real_type    zeta,
+      char const * indep,
+      char const * name
     ) const;
 
     /*!
-     | Evaluate third derivative of the spline `name`
-     | at `zeta` using spline `indep` as independent
+     * Evaluate third derivative of the spline `name`
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_DDD(
-      real_type  zeta,
-      char const indep[],
-      char const name[]
+      real_type    zeta,
+      char const * indep,
+      char const * name
     ) const;
 
     //@}
@@ -522,8 +522,8 @@ namespace Splines {
     //@{
 
     /*!
-     | Evaluate the spline `spl` at `zeta` using
-     | spline `indep` as independent
+     * Evaluate the spline `spl` at `zeta` using
+     * spline `indep` as independent
      */
     real_type
     eval2(
@@ -533,8 +533,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate first derivative of the spline `spl` 
-     | at `zeta` using spline `indep` as independent
+     * Evaluate first derivative of the spline `spl` 
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_D(
@@ -544,8 +544,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate second derivative of the spline `spl`
-     | at `zeta` using spline `indep` as independent
+     * Evaluate second derivative of the spline `spl`
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_DD(
@@ -555,8 +555,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate third derivative of the spline `spl`
-     | at `zeta` using spline `indep` as independent
+     * Evaluate third derivative of the spline `spl`
+     * at `zeta` using spline `indep` as independent
      */
     real_type
     eval2_DDD(
@@ -571,22 +571,22 @@ namespace Splines {
     //@{
 
     /*!
-     | Evaluate all the splines at `x`
-     | and fill a map of values in a GenericContainer
+     * Evaluate all the splines at `x`
+     * and fill a map of values in a GenericContainer
      */
     void
     eval( real_type x, GenericContainer & vals ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained
-     | in vec and fill a map of vector in a GenericContainer
+     * Evaluate all the splines at `x` values contained
+     * in vec and fill a map of vector in a GenericContainer
      */
     void
     eval( vec_real_type const & vec, GenericContainer & vals ) const;
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer with keys in `columns`
      */
     void
     eval(
@@ -596,9 +596,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns`
+     * Evaluate all the splines at `x` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns`
      */
     void
     eval(
@@ -610,9 +610,9 @@ namespace Splines {
     //@}
 
     /*!
-     | Evaluate all the splines at `zeta` and fill
-     | a map of values in a GenericContainer and `indep`
-     | as independent spline
+     * Evaluate all the splines at `zeta` and fill
+     * a map of values in a GenericContainer and `indep`
+     * as independent spline
      */
     void
     eval2(
@@ -622,9 +622,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained in
-     | vec and fill a map of vector in a GenericContainer and
-     | `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained in
+     * vec and fill a map of vector in a GenericContainer and
+     * `indep` as independent spline
      */
     void
     eval2(
@@ -634,9 +634,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2(
@@ -647,9 +647,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2(
@@ -660,8 +660,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2(
@@ -673,9 +673,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2(
@@ -687,9 +687,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of
-     | values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of
+     * values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2(
@@ -702,9 +702,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2(
@@ -717,8 +717,8 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer
      */
     void
     eval_D(
@@ -727,8 +727,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained
-     | in vec and fill a map of vector in a GenericContainer
+     * Evaluate all the splines at `x` values contained
+     * in vec and fill a map of vector in a GenericContainer
      */
     void
     eval_D(
@@ -737,8 +737,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer with keys in `columns`
      */
     void
     eval_D(
@@ -748,9 +748,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns`
+     * Evaluate all the splines at `x` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns`
      */
     void
     eval_D(
@@ -760,8 +760,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_D(
@@ -771,9 +771,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2_D(
@@ -783,9 +783,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_D(
@@ -796,9 +796,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_D(
@@ -809,8 +809,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_D(
@@ -832,9 +832,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of
-     | values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of
+     * values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_D(
@@ -847,9 +847,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_D(
@@ -862,8 +862,8 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer
      */
     void
     eval_DD(
@@ -872,8 +872,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained in vec
-     | and fill a map of vector in a GenericContainer
+     * Evaluate all the splines at `x` values contained in vec
+     * and fill a map of vector in a GenericContainer
      */
     void
     eval_DD(
@@ -882,8 +882,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer with keys in `columns`
      */
     void
     eval_DD(
@@ -893,8 +893,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained in vec and
-     | fill a map of vector in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` values contained in vec and
+     * fill a map of vector in a GenericContainer with keys in `columns`
      */
     void
     eval_DD(
@@ -904,8 +904,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of
-     | values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of
+     * values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -915,9 +915,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained in vec
-     | and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained in vec
+     * and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -927,9 +927,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -940,9 +940,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -953,8 +953,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of
-     | values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of
+     * values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -966,9 +966,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained in vec
-     | and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained in vec
+     * and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -980,9 +980,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -995,9 +995,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_DD(
@@ -1010,8 +1010,8 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `x` and fill a map
-     | of values in a GenericContainer
+     * Evaluate all the splines at `x` and fill a map
+     * of values in a GenericContainer
      */
     void
     eval_DDD(
@@ -1020,8 +1020,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained
-     | in vec and fill a map of vector in a GenericContainer
+     * Evaluate all the splines at `x` values contained
+     * in vec and fill a map of vector in a GenericContainer
      */
     void
     eval_DDD(
@@ -1030,8 +1030,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` and fill a map of
-     | values in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` and fill a map of
+     * values in a GenericContainer with keys in `columns`
      */
     void
     eval_DDD(
@@ -1041,8 +1041,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `x` values contained in vec
-     | and fill a map of vector in a GenericContainer with keys in `columns`
+     * Evaluate all the splines at `x` values contained in vec
+     * and fill a map of vector in a GenericContainer with keys in `columns`
      */
     void
     eval_DDD(
@@ -1052,8 +1052,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of values
-     | in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of values
+     * in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1063,9 +1063,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained in vec
-     | and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained in vec
+     * and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1075,9 +1075,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of values
-     | in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of values
+     * in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1088,9 +1088,9 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1101,8 +1101,8 @@ namespace Splines {
     ) const;
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map
-     | of values in a GenericContainer and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map
+     * of values in a GenericContainer and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1114,9 +1114,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1128,9 +1128,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` and fill a map of
-     | values in a GenericContainer with keys in `columns`
-     | and `indep` as independent spline
+     * Evaluate all the splines at `zeta` and fill a map of
+     * values in a GenericContainer with keys in `columns`
+     * and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1143,9 +1143,9 @@ namespace Splines {
     }
 
     /*!
-     | Evaluate all the splines at `zeta` values contained
-     | in vec and fill a map of vector in a GenericContainer
-     | with keys in `columns` and `indep` as independent spline
+     * Evaluate all the splines at `zeta` values contained
+     * in vec and fill a map of vector in a GenericContainer
+     * with keys in `columns` and `indep` as independent spline
      */
     void
     eval2_DDD(
@@ -1171,13 +1171,13 @@ namespace Splines {
      */
     void
     build(
-      integer            nspl,
-      integer            npts,
-      char         const *headers[],
-      SplineType1D const stype[],
-      real_type    const X[],
-      real_type    const *Y[],
-      real_type    const *Yp[] = nullptr
+      integer               nspl,
+      integer               npts,
+      char         const ** headers,
+      SplineType1D const *  stype,
+      real_type    const *  X,
+      real_type    const ** Y,
+      real_type    const ** Yp = nullptr
     );
 
     void

@@ -35,29 +35,33 @@ namespace Splines {
     NOT_A_KNOT
   } CUBIC_SPLINE_TYPE_BC;
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   CubicSpline_build(
-    real_type const      X[],
-    real_type const      Y[],
-    real_type            Yp[],
-    integer              npts,
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts,
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   );
 
   void
   CubicSpline_build(
-    real_type const      X[],
-    real_type const      Y[],
-    real_type            Yp[],
-    real_type            Ypp[],
-    real_type            L[],
-    real_type            D[],
-    real_type            U[],
-    integer              npts,
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    real_type       * Ypp,
+    real_type       * L,
+    real_type       * D,
+    real_type       * U,
+    integer           npts,
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   );
+
+  #endif
 
   //! Cubic Spline Management Class
   class CubicSpline : public CubicSplineBase {

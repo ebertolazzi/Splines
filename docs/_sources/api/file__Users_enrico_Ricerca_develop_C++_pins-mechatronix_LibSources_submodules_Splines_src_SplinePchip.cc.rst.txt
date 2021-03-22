@@ -7,11 +7,6 @@ File SplinePchip.cc
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinePchip.cc``)
 --------------------------------------------------------------------------------------------------------------------
 
@@ -51,7 +46,7 @@ Enums
 -----
 
 
-- :ref:`exhale_enum_namespace_splines_1ac6fd9ea07185987eaff6e90a2bbc2ea4`
+- :ref:`exhale_enum_namespace_splines_1a1678db4e652dc21a5a18803b3847eabe`
 
 
 Functions
@@ -64,9 +59,9 @@ Functions
 
 - :ref:`exhale_function_namespace_splines_1ac18823b95eb83fa935ba4d33eb4e75a2`
 
-- :ref:`exhale_function_namespace_splines_1af5def81cf8ced3f3337cf9a508af839b`
+- :ref:`exhale_function_namespace_splines_1afb1c7d06a034be8c501f91321a50af3d`
 
-- :ref:`exhale_function_namespace_splines_1abe8be2c4304f908ca895f764470d7e7d`
+- :ref:`exhale_function_namespace_splines_1a22872cf871ce7a12ecda3a1f8d8e6cca`
 
 - :ref:`exhale_function_namespace_splines_1a4fe6464c49b4bba331d9751598a44f02`
 

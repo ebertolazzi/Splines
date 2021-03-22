@@ -12,7 +12,7 @@ Inheritance Relationships
 Base Type
 *********
 
-- ``public SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
+- ``public Splines::SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
 
 
 Class Documentation

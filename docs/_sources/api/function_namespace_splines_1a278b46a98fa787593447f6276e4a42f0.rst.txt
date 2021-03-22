@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a278b46a98fa787593447f6276e4a42f0:
+
+Function Splines::centripetal
+=============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::centripetal(integer, integer, real_type const, integer, real_type const, real_type)

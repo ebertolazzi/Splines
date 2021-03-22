@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a672cb732b7cd92775aaf3e2bc606f641:
+
+Function Splines::Hermite5
+==========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::Hermite5(real_type, real_type, real_type)

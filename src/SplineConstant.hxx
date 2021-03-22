@@ -66,8 +66,8 @@ namespace Splines {
     virtual
     void
     build(
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
+      real_type const * x, integer incx,
+      real_type const * y, integer incy,
       integer n
     ) override;
 
@@ -144,9 +144,9 @@ namespace Splines {
     virtual
     integer // order
     coeffs(
-      real_type cfs[],
-      real_type nodes[],
-      bool      transpose = false
+      real_type * const cfs,
+      real_type * const nodes,
+      bool              transpose = false
     ) const override;
 
     virtual

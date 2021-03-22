@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a5b8acf8e45d99c0fdfe70026de611d35:
+
+Function Splines::bilinear3
+===========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::bilinear3(real_type const, real_type const, real_type const)

@@ -138,9 +138,9 @@ namespace Splines {
     virtual
     integer // order
     coeffs(
-      real_type cfs[],
-      real_type nodes[],
-      bool      transpose = false
+      real_type * const cfs,
+      real_type * const nodes,
+      bool              transpose = false
     ) const override;
 
     virtual

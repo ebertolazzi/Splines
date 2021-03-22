@@ -28,13 +28,17 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   Akima_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   );
+
+  #endif
 
   //! Akima spline class
   /*!

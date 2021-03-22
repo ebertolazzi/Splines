@@ -37,7 +37,20 @@
 #include "SplinesConfig.hh"
 #include <fstream>
 
-//! Various kind of splines
+/*!
+  \mainpage  Splines
+  \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
+  \version   1.0.7
+  \note      first release Jan 12, 1998
+  \date      2020
+  \copyright see License.txt.
+  \par       Affiliation:
+             Department of Industrial Engineering<br>
+             University of Trento<br>
+             Via Sommarive 9, I -- 38123 Trento, Italy <br>
+             enrico.bertolazzi@unitn.it
+*/
+
 namespace Splines {
 
   using std::vector;
@@ -80,7 +93,9 @@ namespace Splines {
 
   extern char const *spline_type_1D[];
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   extern SplineType1D string_to_splineType( string const & n );
+  #endif
 
   using GenericContainerNamespace::GenericContainer;
   using GenericContainerNamespace::vec_real_type;
@@ -95,6 +110,9 @@ namespace Splines {
   //  |  _  |  __/ |  | | | | | | | ||  __/
   //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
   */
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void Hermite3( real_type x, real_type H, real_type base[4] );
   void Hermite3_D( real_type x, real_type H, real_type base_D[4] );
   void Hermite3_DD( real_type x, real_type H, real_type base_DD[4] );
@@ -107,6 +125,8 @@ namespace Splines {
   void Hermite5_DDDD( real_type x, real_type H, real_type base_DDDD[6] );
   void Hermite5_DDDDD( real_type x, real_type H, real_type base_DDDDD[6] );
 
+  #endif
+
   /*
   //   ____  _ _ _
   //  | __ )(_) (_)_ __   ___  __ _ _ __
@@ -114,6 +134,9 @@ namespace Splines {
   //  | |_) | | | | | | |  __/ (_| | |
   //  |____/|_|_|_|_| |_|\___|\__,_|_|
   */
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   real_type
   bilinear3(
     real_type const p[4],
@@ -130,11 +153,13 @@ namespace Splines {
 
   integer
   checkCubicSplineMonotonicity(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    integer           npts
   );
+
+  #endif
 
   /*\
    |  ____                                _        _          _   _
@@ -145,59 +170,120 @@ namespace Splines {
    |
   \*/
 
+  /*!
+   * Compute nodes for the spline using uniform distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   uniform(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   );
 
+  /*!
+   * Compute nodes for the spline using chordal distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   chordal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   );
 
+  /*!
+   * Compute nodes for the spline using centripetal distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[in]  alpha   power factor
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   centripetal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type const alpha,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type         alpha,
+    real_type       * t
   );
 
+  /*!
+   * Compute nodes for the spline using universal distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   universal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   );
 
+  /*!
+   * Compute nodes for the spline using ``FoleyNielsen`` distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   FoleyNielsen(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   );
 
+  /*!
+   * Compute nodes for the spline using ``FangHung`` distribution
+   *
+   * \param[in]  dim     dimension of the points
+   * \param[in]  npts    number of points
+   * \param[in]  pnts    matrix whose columns are the points
+   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
+   * \param[out] t       vector of the computed nodes
+   * 
+   */
   void
   FangHung(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   );
 
   /*\
@@ -330,8 +416,8 @@ namespace Splines {
     virtual
     void
     build(
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
+      real_type const * x, integer incx,
+      real_type const * y, integer incy,
       integer n
     );
 
@@ -344,7 +430,11 @@ namespace Splines {
      */
     inline
     void
-    build( real_type const x[], real_type const y[], integer n )
+    build(
+      real_type const * x,
+      real_type const * y,
+      integer           n
+    )
     { this->build( x, 1, y, 1, n ); }
 
     /*!
@@ -419,14 +509,15 @@ namespace Splines {
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const     header[] = "x\ty"
+      char const *   header = "x\ty"
     ) const;
 
+    //! dump a sample of the spline
     void
     dump(
-      char const fname[],
-      integer    nintervals,
-      char const header[] = "x\ty"
+      char const * fname,
+      integer      nintervals,
+      char const * header = "x\ty"
     ) const {
       std::ofstream file(fname);
       this->dump( file, nintervals, header );
@@ -511,9 +602,9 @@ namespace Splines {
     virtual
     integer // order
     coeffs(
-      real_type cfs[],
-      real_type nodes[],
-      bool      transpose = false
+      real_type * const cfs,
+      real_type * const nodes,
+      bool              transpose = false
     ) const = 0;
 
     virtual
@@ -679,9 +770,9 @@ namespace Splines {
     // must be defined in derived classes
     void
     build(
-      real_type const x[],  integer incx,
-      real_type const y[],  integer incy,
-      real_type const yp[], integer incyp,
+      real_type const * x,  integer incx,
+      real_type const * y,  integer incy,
+      real_type const * yp, integer incyp,
       integer n
     );
 
@@ -696,9 +787,9 @@ namespace Splines {
     inline
     void
     build(
-      real_type const x[],
-      real_type const y[],
-      real_type const yp[],
+      real_type const * x,
+      real_type const * y,
+      real_type const * yp,
       integer n
     ) {
       this->build( x, 1, y, 1, yp, 1, n );
@@ -727,9 +818,9 @@ namespace Splines {
     virtual
     integer // order
     coeffs(
-      real_type cfs[],
-      real_type nodes[],
-      bool      transpose = false
+      real_type * const cfs,
+      real_type * const nodes,
+      bool              transpose = false
     ) const override;
 
     virtual
@@ -897,9 +988,9 @@ namespace Splines {
      */
     void
     build(
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
-      real_type const z[], integer ldZ,
+      real_type const * x, integer incx,
+      real_type const * y, integer incy,
+      real_type const * z, integer ldZ,
       integer nx, integer ny,
       bool fortran_storage = false,
       bool transposed      = false
@@ -948,10 +1039,10 @@ namespace Splines {
      */
     void
     build(
-      real_type const z[],
-      integer         ldZ,
-      integer         nx,
-      integer         ny,
+      real_type const * z,
+      integer           ldZ,
+      integer           nx,
+      integer           ny,
       bool fortran_storage = false,
       bool transposed      = false
     );
@@ -1087,6 +1178,8 @@ namespace Splines {
 #include "Splines1D.hxx"
 #include "Splines2D.hxx"
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 namespace SplinesLoad {
 
   using Splines::Spline;
@@ -1112,6 +1205,8 @@ namespace SplinesLoad {
   using Splines::SplineType1D;
   using Splines::SplineType2D;
 }
+
+#endif
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

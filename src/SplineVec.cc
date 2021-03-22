@@ -28,10 +28,6 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- * 
- */
-
 namespace Splines {
 
   using std::abs;
@@ -155,9 +151,9 @@ namespace Splines {
 
   void
   SplineVec::setup(
-    integer           dim,
-    integer           npts,
-    real_type const * Y[]
+    integer            dim,
+    integer            npts,
+    real_type const ** Y
   ) {
     allocate( dim, npts );
     for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
@@ -168,10 +164,10 @@ namespace Splines {
 
   void
   SplineVec::setup(
-    integer         dim,
-    integer         npts,
-    real_type const Y[],
-    integer         ldY
+    integer           dim,
+    integer           npts,
+    real_type const * Y,
+    integer           ldY
   ) {
     allocate( dim, npts );
     for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
@@ -182,7 +178,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setKnots( real_type const X[] ) {
+  SplineVec::setKnots( real_type const * X ) {
     std::copy_n( X, m_npts, m_X );
   }
 
@@ -342,9 +338,9 @@ namespace Splines {
 
   void
   SplineVec::eval(
-    real_type x,
-    real_type vals[],
-    integer   inc
+    real_type         x,
+    real_type * const vals,
+    integer           inc
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base[4];
@@ -361,9 +357,9 @@ namespace Splines {
 
   void
   SplineVec::eval_D(
-    real_type x,
-    real_type vals[],
-    integer   inc
+    real_type         x,
+    real_type * const vals,
+    integer           inc
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_D[4];
@@ -380,9 +376,9 @@ namespace Splines {
 
   void
   SplineVec::eval_DD(
-    real_type x,
-    real_type vals[],
-    integer   inc
+    real_type         x,
+    real_type * const vals,
+    integer           inc
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DD[4];
@@ -399,9 +395,9 @@ namespace Splines {
 
   void
   SplineVec::eval_DDD(
-    real_type x,
-    real_type vals[],
-    integer   inc
+    real_type         x,
+    real_type * const vals,
+    integer           inc
   ) const {
     size_t i = size_t(this->search( x ));
     real_type base_DDD[4];

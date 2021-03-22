@@ -7,11 +7,6 @@ File SplineAkima.cc
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineAkima.cc``)
 --------------------------------------------------------------------------------------------------------------------
 
@@ -44,14 +39,10 @@ Namespaces
 
 - :ref:`namespace_Splines`
 
-- :ref:`namespace_std`
-
 
 Functions
 ---------
 
-
-- :ref:`exhale_function_namespace_splines_1ac728886ddc6ff09dd2ecf01045597cd1`
 
 - :ref:`exhale_function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d`
 

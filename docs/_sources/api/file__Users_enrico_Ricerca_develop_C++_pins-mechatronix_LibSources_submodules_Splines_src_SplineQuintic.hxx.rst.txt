@@ -7,11 +7,6 @@ File SplineQuintic.hxx
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineQuintic.hxx``)
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -54,5 +49,5 @@ Enums
 -----
 
 
-- :ref:`exhale_enum_namespace_splines_1ab67d9e563734dd678034ed346e4d7afa`
+- :ref:`exhale_enum_namespace_splines_1afc8c082d2849822ca15bdf52cb4409fb`
 

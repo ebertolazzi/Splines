@@ -28,10 +28,6 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
-
 namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,13 +60,13 @@ namespace Splines {
 
   void
   SplineSurf::build(
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
-    real_type const z[], integer ldZ,
-    integer nx,
-    integer ny,
-    bool    fortran_storage,
-    bool    transposed
+    real_type const * x, integer incx,
+    real_type const * y, integer incy,
+    real_type const * z, integer ldZ,
+    integer           nx,
+    integer           ny,
+    bool              fortran_storage,
+    bool              transposed
   ) {
     m_nx = nx;
     m_ny = ny;
@@ -106,12 +102,12 @@ namespace Splines {
 
   void
   SplineSurf::build(
-    real_type const z[],
-    integer         ldZ,
-    integer         nx,
-    integer         ny,
-    bool            fortran_storage,
-    bool            transposed
+    real_type const * z,
+    integer           ldZ,
+    integer           nx,
+    integer           ny,
+    bool              fortran_storage,
+    bool              transposed
   ) {
     Utils::Malloc<real_type> mem("SplineSurf::build");
     mem.allocate( size_t(nx+ny) );

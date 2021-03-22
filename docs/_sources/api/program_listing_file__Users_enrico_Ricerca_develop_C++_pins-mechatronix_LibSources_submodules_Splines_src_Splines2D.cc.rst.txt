@@ -44,14 +44,14 @@ Program Listing for File Splines2D.cc
    
      void
      Spline2D::build(
-       SplineType2D    tp,
-       real_type const x[], integer incx,
-       real_type const y[], integer incy,
-       real_type const z[], integer ldZ,
-       integer         nx,
-       integer         ny,
-       bool            fortran_storage,
-       bool            transposed
+       SplineType2D      tp,
+       real_type const * x, integer incx,
+       real_type const * y, integer incy,
+       real_type const * z, integer ldZ,
+       integer           nx,
+       integer           ny,
+       bool              fortran_storage,
+       bool              transposed
      ) {
        switch ( tp ) {
        case BILINEAR_TYPE:
@@ -116,13 +116,13 @@ Program Listing for File Splines2D.cc
    
      void
      Spline2D::build(
-       SplineType2D    tp,
-       real_type const z[],
-       integer         ldZ,
-       integer         nx,
-       integer         ny,
-       bool fortran_storage,
-       bool transposed
+       SplineType2D      tp,
+       real_type const * z,
+       integer           ldZ,
+       integer           nx,
+       integer           ny,
+       bool              fortran_storage,
+       bool              transposed
      ) {
        switch ( tp ) {
        case BILINEAR_TYPE:

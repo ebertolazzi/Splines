@@ -26,21 +26,20 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-//! Various kind of splines
 namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   Spline2D::build(
-    SplineType2D    tp,
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
-    real_type const z[], integer ldZ,
-    integer         nx,
-    integer         ny,
-    bool            fortran_storage,
-    bool            transposed
+    SplineType2D      tp,
+    real_type const * x, integer incx,
+    real_type const * y, integer incy,
+    real_type const * z, integer ldZ,
+    integer           nx,
+    integer           ny,
+    bool              fortran_storage,
+    bool              transposed
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:
@@ -105,13 +104,13 @@ namespace Splines {
 
   void
   Spline2D::build(
-    SplineType2D    tp,
-    real_type const z[],
-    integer         ldZ,
-    integer         nx,
-    integer         ny,
-    bool fortran_storage,
-    bool transposed
+    SplineType2D      tp,
+    real_type const * z,
+    integer           ldZ,
+    integer           nx,
+    integer           ny,
+    bool              fortran_storage,
+    bool              transposed
   ) {
     switch ( tp ) {
     case BILINEAR_TYPE:

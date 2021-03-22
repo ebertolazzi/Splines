@@ -29,13 +29,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namspace
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -110,23 +108,23 @@ namespace Splines {
   }
 
   /*!
-   | Reference:
-   | ==========
-   |
-   | F.N. Fritsch, R.E. Carlson:
-   | Monotone Piecewise Cubic Interpolation,
-   | SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
-   |
-   | F.N. Fritsch and J. Butland:
-   | A method for constructing local monotone piecewise cubic interpolants,
-   | SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
+   * Reference:
+   * ==========
+   *
+   * F.N. Fritsch, R.E. Carlson:
+   * Monotone Piecewise Cubic Interpolation,
+   * SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
+   *
+   * F.N. Fritsch and J. Butland:
+   * A method for constructing local monotone piecewise cubic interpolants,
+   * SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
    */
   void
   Pchip_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   ) {
 
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
@@ -208,10 +206,10 @@ namespace Splines {
   static // non usata per ora
   void
   Pchip_build_new(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type       * Yp,
+    integer           npts
   ) {
 
     first_derivative_build( X, Y, Yp, npts );

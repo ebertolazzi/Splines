@@ -5,40 +5,6 @@ Namespace Splines
 =================
 
 
-Various kind of splines. 
-
-
-
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
-
-
-
-Detailed Description
---------------------
-
-| | October 28, 2015 | 
-
-5.2 | 
-
-first release Jan 12, 1998 | | 
-
-Enrico Bertolazzi | | 
-
-Affiliation:
-| Department of Industrial Engineering
- | University of Trento
- | Via Sommarive 9, I  38123 Trento, Italy 
- | enrico.bertolazzi@unitn.it | 
-
-
-
-
-
-
 
 Classes
 -------
@@ -95,116 +61,42 @@ Enums
 -----
 
 
-- :ref:`exhale_enum_namespace_splines_1ab83855c66e1e87122b7f7651d507fd29`
+- :ref:`exhale_enum_namespace_splines_1a96aa14ec624ad77d84a7e5afa435c1ed`
 
-- :ref:`exhale_enum_namespace_splines_1ab67d9e563734dd678034ed346e4d7afa`
+- :ref:`exhale_enum_namespace_splines_1afc8c082d2849822ca15bdf52cb4409fb`
 
-- :ref:`exhale_enum_namespace_splines_1ac6fd9ea07185987eaff6e90a2bbc2ea4`
+- :ref:`exhale_enum_namespace_splines_1a1678db4e652dc21a5a18803b3847eabe`
 
-- :ref:`exhale_enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d`
+- :ref:`exhale_enum_namespace_splines_1afebc3f20f002ddfdcbd2d725d1aa55df`
 
-- :ref:`exhale_enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d`
+- :ref:`exhale_enum_namespace_splines_1aa6410df8c515cad4d238820f523fead7`
 
 
 Functions
 ---------
 
 
-- :ref:`exhale_function_namespace_splines_1ac728886ddc6ff09dd2ecf01045597cd1`
-
 - :ref:`exhale_function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d`
-
-- :ref:`exhale_function_namespace_splines_1a537d1191b9e65cb379121e297436438d`
 
 - :ref:`exhale_function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03`
 
-- :ref:`exhale_function_namespace_splines_1a65e3a2b5e218b762e457d0bd1c5a3a89`
+- :ref:`exhale_function_namespace_splines_1a228f7065a249b0c10a9886fdc85f05f9`
 
-- :ref:`exhale_function_namespace_splines_1ab0be0627373f307032b97617a8f81372`
+- :ref:`exhale_function_namespace_splines_1a4a9fd3c1d8de964d95d730668e6b6016`
 
-- :ref:`exhale_function_namespace_splines_1acd2e16dcfcbf039bcae86d9c6c89b17d`
+- :ref:`exhale_function_namespace_splines_1aef9996b8a86809bcb1609ed9bab5cea2`
 
-- :ref:`exhale_function_namespace_splines_1a50e11bb430344e8d51838b60cc16f2e7`
+- :ref:`exhale_function_namespace_splines_1a94d2862da920a586358451ce3b3bcb41`
 
-- :ref:`exhale_function_namespace_splines_1abd67430f5c4a9b80ad497b457af2b139`
+- :ref:`exhale_function_namespace_splines_1ad1cb03ee7c6c9f13f93df88d7612e26e`
 
-- :ref:`exhale_function_namespace_splines_1aa3f1c30dc4cf727358705ff0ba1bdee9`
+- :ref:`exhale_function_namespace_splines_1a62d87177bbdb8da9a92701e528c57f00`
 
-- :ref:`exhale_function_namespace_splines_1af16e572a465aec20228e9fa09095fa4c`
+- :ref:`exhale_function_namespace_splines_1aeea9f9f28b21dbf93715fd27a7c7106c`
 
-- :ref:`exhale_function_namespace_splines_1a45625b2dfc9d9cf9199ad0c9537790e1`
-
-- :ref:`exhale_function_namespace_splines_1a43170f386ad9f3ee077abcdec17708db`
-
-- :ref:`exhale_function_namespace_splines_1acae47427dcfada65a44e93372b431d9e`
-
-- :ref:`exhale_function_namespace_splines_1a72be9f1cd89a6e2b95afa9ea73d52d6d`
-
-- :ref:`exhale_function_namespace_splines_1acc64d1ef9be62ad8c778743741c35e90`
-
-- :ref:`exhale_function_namespace_splines_1a2a5389fec10f26745eea8aa9a5c1cac0`
-
-- :ref:`exhale_function_namespace_splines_1a1f25971612f487cac47e06334000de69`
-
-- :ref:`exhale_function_namespace_splines_1a21f89a7ae650ef6edcba05545c173f0c`
-
-- :ref:`exhale_function_namespace_splines_1a76cff6d8e7dbb5c48abbd6a19599fa92`
-
-- :ref:`exhale_function_namespace_splines_1a16d555fa17b3a6997e883d12542f2c92`
-
-- :ref:`exhale_function_namespace_splines_1a7f9b442cadbf74b8f96f9d4216bd9104`
-
-- :ref:`exhale_function_namespace_splines_1a3ffb20c4b811f2a3723acddbdabf4168`
-
-- :ref:`exhale_function_namespace_splines_1afe8bf36f6eaf182cd13a52023f238d5d`
-
-- :ref:`exhale_function_namespace_splines_1a825c2a66faff32a2e38850469f437ce1`
-
-- :ref:`exhale_function_namespace_splines_1a89f145b92b5a6701b5882c414bfeea3c`
-
-- :ref:`exhale_function_namespace_splines_1a7ba84dcfe8053887fdec4d2cab888f32`
-
-- :ref:`exhale_function_namespace_splines_1ada46db60644a1bda70679ed616cda760`
-
-- :ref:`exhale_function_namespace_splines_1a6389ba86b13ae6969d7f0220f4990817`
-
-- :ref:`exhale_function_namespace_splines_1ae0d40af0afcb0c5bdc31cac1f3f075aa`
-
-- :ref:`exhale_function_namespace_splines_1a692bcf81e39bdebe1e53ec96da67b195`
-
-- :ref:`exhale_function_namespace_splines_1a5921659b15fb80242a81796fdcb1d6d7`
-
-- :ref:`exhale_function_namespace_splines_1ab79df2197dc5da73d28146b2e270b827`
-
-- :ref:`exhale_function_namespace_splines_1aca08fb774c9a7496b07efb0157327582`
-
-- :ref:`exhale_function_namespace_splines_1a6462d17be2b25b520bb34ab26f3b8291`
-
-- :ref:`exhale_function_namespace_splines_1a61dc0ad426b988823065b60a7b695413`
-
-- :ref:`exhale_function_namespace_splines_1a5d952a419e94702719c64174cd134cd7`
+- :ref:`exhale_function_namespace_splines_1ac5930dd87f51e2577e79a2bdd746c6b2`
 
 - :ref:`exhale_function_namespace_splines_1a64d0e892133ce06e0a3577c3bea0f549`
-
-- :ref:`exhale_function_namespace_splines_1a988e77868a230c13fe1bdf8137a8f01a`
-
-- :ref:`exhale_function_namespace_splines_1aa1c4a081ddfbc044821f7aa1ff1ae1c2`
-
-- :ref:`exhale_function_namespace_splines_1ad4b42f85cb69fe093759f456114cbced`
-
-- :ref:`exhale_function_namespace_splines_1aa28400e8657e3f0eb38773f70f7853ea`
-
-- :ref:`exhale_function_namespace_splines_1ac85cb28d6b772656b4e280a030691d27`
-
-- :ref:`exhale_function_namespace_splines_1a324030f42c623c817c11fa95e7bfc196`
-
-- :ref:`exhale_function_namespace_splines_1aa82aeb3a0dbffcf894a94faf02ce752b`
-
-- :ref:`exhale_function_namespace_splines_1af9b2cf2583ce28b2ed475251f59c34a5`
-
-- :ref:`exhale_function_namespace_splines_1aa98c640e941d7482ff9e62718961d046`
-
-- :ref:`exhale_function_namespace_splines_1ab89064e5018864fd3c933052ab475411`
 
 - :ref:`exhale_function_namespace_splines_1ae61f54b18ac4089ead89302e4b99fee4`
 
@@ -212,54 +104,30 @@ Functions
 
 - :ref:`exhale_function_namespace_splines_1a8c7e2a599a7e341f0d8751b1bccb9a04`
 
-- :ref:`exhale_function_namespace_splines_1af5def81cf8ced3f3337cf9a508af839b`
+- :ref:`exhale_function_namespace_splines_1afb1c7d06a034be8c501f91321a50af3d`
 
-- :ref:`exhale_function_namespace_splines_1abe8be2c4304f908ca895f764470d7e7d`
-
-- :ref:`exhale_function_namespace_splines_1ab03e87f559371b851bf9ae72083565a5`
-
-- :ref:`exhale_function_namespace_splines_1a6492af9d3bebb6fc34b10a54965dae6d`
-
-- :ref:`exhale_function_namespace_splines_1afaeb8ccb39be9163cb15a3094e2dc87d`
-
-- :ref:`exhale_function_namespace_splines_1a02af2dd1a60e0ab97f8e73ff7bafe13c`
-
-- :ref:`exhale_function_namespace_splines_1a0876533785ef21741cfd6a9c4a4d4fe4`
-
-- :ref:`exhale_function_namespace_splines_1a60f01f53c32707d2a70eb61bb2c93a9b`
-
-- :ref:`exhale_function_namespace_splines_1ac38bcac07970b102fcdd02e91115e08b`
-
-- :ref:`exhale_function_namespace_splines_1a5d020e3df1b575b52c531edc6c005245`
-
-- :ref:`exhale_function_namespace_splines_1aa99a1063f183df0eb349f7b4cc5bafec`
-
-- :ref:`exhale_function_namespace_splines_1ad94967141b4370ffec6040e4c38fb063`
+- :ref:`exhale_function_namespace_splines_1a22872cf871ce7a12ecda3a1f8d8e6cca`
 
 - :ref:`exhale_function_namespace_splines_1a4fe6464c49b4bba331d9751598a44f02`
 
-- :ref:`exhale_function_namespace_splines_1a50110e007e11c92561d80f70324884c4`
+- :ref:`exhale_function_namespace_splines_1a91c8806be0fd7584311f74dffe3ae3f7`
 
-- :ref:`exhale_function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34`
-
-- :ref:`exhale_function_namespace_splines_1a8e6a8f8e5f1fe9dc40911cba351598a2`
-
-- :ref:`exhale_function_namespace_splines_1aadd9f962f7368cef42566a1efd07b314`
+- :ref:`exhale_function_namespace_splines_1a9437a6461e2735153715bb43bc7d734f`
 
 
 Typedefs
 --------
 
 
-- :ref:`exhale_typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9`
+- :ref:`exhale_typedef_namespace_splines_1a0b83d8865bf650fca7ad1d657245a8a1`
 
-- :ref:`exhale_typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c`
+- :ref:`exhale_typedef_namespace_splines_1a943d4ae4896c10228d57d004bd991e7f`
 
-- :ref:`exhale_typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa`
+- :ref:`exhale_typedef_namespace_splines_1afabb8610fb01952c2fcf1f17337bd44a`
 
 
 Variables
 ---------
 
 
-- :ref:`exhale_variable_namespace_splines_1af206176fca336fbc274d89b318609391`
+- :ref:`exhale_variable_namespace_splines_1a052166b362a237026fef2fff7e415070`

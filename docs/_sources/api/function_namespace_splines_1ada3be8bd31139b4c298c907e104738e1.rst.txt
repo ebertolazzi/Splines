@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1ada3be8bd31139b4c298c907e104738e1:
+
+Function Splines::second_derivative_build
+=========================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::second_derivative_build(real_type const, real_type const, real_type const, real_type, integer)

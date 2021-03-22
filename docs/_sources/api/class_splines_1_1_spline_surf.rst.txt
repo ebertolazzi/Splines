@@ -12,9 +12,9 @@ Inheritance Relationships
 Derived Types
 *************
 
-- ``public BiCubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline_base`)
-- ``public BiQuinticSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_quintic_spline_base`)
-- ``public BilinearSpline`` (:ref:`exhale_class_class_splines_1_1_bilinear_spline`)
+- ``public Splines::BiCubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline_base`)
+- ``public Splines::BiQuinticSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_quintic_spline_base`)
+- ``public Splines::BilinearSpline`` (:ref:`exhale_class_class_splines_1_1_bilinear_spline`)
 
 
 Class Documentation

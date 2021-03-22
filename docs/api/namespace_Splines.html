@@ -1,207 +1,210 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Class Akima2Dspline" href="class_splines_1_1_akima2_dspline.html" /><link rel="prev" title="C/C++ API" href="library_root.html" />
 
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Namespace Splines &#8212; Splines  documentation</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
-
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.d8bbf5861d671d414e1a.js">
-
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Namespace SplinesLoad" href="namespace_SplinesLoad.html" />
-    <link rel="prev" title="Splines API" href="library_root.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
-
-
-    
-      
-      <a class="navbar-brand" href="../index.html">
-        <img src="../_static/logo.png" class="logo" alt="logo">
-      </a>
-      
+    <meta name="generator" content="sphinx-3.5.2, furo 2021.03.20.beta30"/>
+        <title>Namespace Splines - Quartic Roots documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=978e1795dfe158b585dda6a8417f6411828bf3ed">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
+<style>
+  :root {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+  <body dir="">
     
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../readme.html">
-  Splines
- </a>
-</li>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="library_root.html">
-  Splines API
- </a>
-</li>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
-        
-      </ul>
 
-      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
     </div>
-</div>
-    </nav>
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
-    
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Quartic Roots  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
   </div>
-</nav>
-            </div>
-            
-          
-
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-              
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
-
-<nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#detailed-description">
-   Detailed Description
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classes">
-   Classes
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#enums">
-   Enums
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#functions">
-   Functions
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#typedefs">
-   Typedefs
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#variables">
-   Variables
-  </a>
- </li>
+  
+  <span class="sidebar-brand-text">Quartic Roots  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="library_root.html">C/C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Namespace Splines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_akima2_dspline.html">Class Akima2Dspline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_akima_spline.html">Class AkimaSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bessel_spline.html">Class BesselSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bi_cubic_spline.html">Class BiCubicSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bi_cubic_spline_base.html">Class BiCubicSplineBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bilinear_spline.html">Class BilinearSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bi_quintic_spline.html">Class BiQuinticSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_bi_quintic_spline_base.html">Class BiQuinticSplineBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_constant_spline.html">Class ConstantSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_cubic_spline.html">Class CubicSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_cubic_spline_base.html">Class CubicSplineBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_hermite_spline.html">Class HermiteSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_linear_spline.html">Class LinearSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_pchip_spline.html">Class PchipSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_quintic_spline.html">Class QuinticSpline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_quintic_spline_base.html">Class QuinticSplineBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline.html">Class Spline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline1_d.html">Class Spline1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline2_d.html">Class Spline2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline_set.html">Class SplineSet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline_set_1_1_binary_search.html">Class SplineSet::BinarySearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline_surf.html">Class SplineSurf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_splines_1_1_spline_vec.html">Class SplineVec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_namespace_splines_1a96aa14ec624ad77d84a7e5afa435c1ed.html">Enum CUBIC_SPLINE_TYPE_BC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_namespace_splines_1afc8c082d2849822ca15bdf52cb4409fb.html">Enum QUINTIC_SPLINE_TYPE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_namespace_splines_1a1678db4e652dc21a5a18803b3847eabe.html">Enum REGION_ABCDEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_namespace_splines_1afebc3f20f002ddfdcbd2d725d1aa55df.html">Enum SplineType1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_namespace_splines_1aa6410df8c515cad4d238820f523fead7.html">Enum SplineType2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a562f6cae383a972ff70c7b987c17cce0.html">Function SPLINE_build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a4902f807d78a555e8439bb87a48e3660.html">Function SPLINE_build2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1af29f47a6ce8296c7fb0f4021b35997df.html">Function SPLINE_delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1aa94fa6a76750597218338b0ff491b817.html">Function SPLINE_eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a26c975e5c90f743ea58c64d4cd55fec1.html">Function SPLINE_eval_D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1ace3792c09b43ee557ad553f7c385fb9f.html">Function SPLINE_eval_DD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a38c100aef53f216e97558c861963ef64.html">Function SPLINE_eval_DDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a1b0aae40600c1c5485508d2f9350c9e4.html">Function SPLINE_eval_DDDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a17ad351f7572c6eb7f8fbc1cdc5068bc.html">Function SPLINE_eval_DDDDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a9b683ceadd58baaadaa58ca28268360a.html">Function SPLINE_get_type_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a8cd7b632a4eb70a3464d02cb31c74709.html">Function SPLINE_init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1ab920995b11229ff331fcaaee2eeefc97.html">Function SPLINE_mem_ptr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1acdd57564fa775755a38daf483ffdf0e8.html">Function SPLINE_new</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1aba9ab3ef53dc9452a0155168b80b499a.html">Function SPLINE_print</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a42401ba59200b4447ddf50065bc54e19.html">Function SPLINE_push</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function__splines_cinterface_8h_1a5781fa56546770ce18340a2b63b57b27.html">Function SPLINE_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d.html">Function Splines::akima_one</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03.html">Function Splines::backtrace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a228f7065a249b0c10a9886fdc85f05f9.html">Function Splines::centripetal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a4a9fd3c1d8de964d95d730668e6b6016.html">Function Splines::checkCubicSplineMonotonicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1aef9996b8a86809bcb1609ed9bab5cea2.html">Function Splines::chordal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a94d2862da920a586358451ce3b3bcb41.html">Function Splines::curvature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1ad1cb03ee7c6c9f13f93df88d7612e26e.html">Function Splines::curvature_D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a62d87177bbdb8da9a92701e528c57f00.html">Function Splines::curvature_DD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1aeea9f9f28b21dbf93715fd27a7c7106c.html">Function Splines::FangHung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1ac5930dd87f51e2577e79a2bdd746c6b2.html">Function Splines::FoleyNielsen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a64d0e892133ce06e0a3577c3bea0f549.html">Function Splines::get_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1ae61f54b18ac4089ead89302e4b99fee4.html">Function Splines::max_abs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1ac18823b95eb83fa935ba4d33eb4e75a2.html">Function Splines::min_abs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a8c7e2a599a7e341f0d8751b1bccb9a04.html">Function Splines::new_Spline1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1afb1c7d06a034be8c501f91321a50af3d.html">Function Splines::Pchip_build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a22872cf871ce7a12ecda3a1f8d8e6cca.html">Function Splines::Pchip_build_new</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a4fe6464c49b4bba331d9751598a44f02.html">Function Splines::signTest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a91c8806be0fd7584311f74dffe3ae3f7.html">Function Splines::uniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespace_splines_1a9437a6461e2735153715bb43bc7d734f.html">Function Splines::universal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable_namespace_splines_1a052166b362a237026fef2fff7e415070.html">Variable Splines::spline_type_1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define__splines_cinterface_8h_1ade8086f0fd9d3bd49264ebd0bd5b6cdc.html">Define SPLINES_C_INTERFACE_H</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define__splines_config_8hh_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html">Define SPLINES_CONFIG_HH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define__splines_8hh_1a258c7c0530540979548721b55b2338c9.html">Define SPLINES_HH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define__splines_utils_8hh_1a7d5567c4bd7d1851b7456989e413ccde.html">Define SPLINES_UTILS_HH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typedef_namespace_splines_1a0b83d8865bf650fca7ad1d657245a8a1.html">Typedef Splines::integer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typedef_namespace_splines_1a943d4ae4896c10228d57d004bd991e7f.html">Typedef Splines::ostream_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typedef_namespace_splines_1afabb8610fb01952c2fcf1f17337bd44a.html">Typedef Splines::real_type</a></li>
+</ul>
+</li>
 </ul>
 
-</nav>
-
-
-              
-          </div>
-          
-
-          
-          
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
-                
-  <div class="section" id="namespace-splines">
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <div class="section" id="namespace-splines">
 <span id="id1"></span><h1>Namespace Splines<a class="headerlink" href="#namespace-splines" title="Permalink to this headline">¶</a>
 </h1>
-<p>Various kind of splines.</p>
-<div class="contents local topic" id="contents">
-<p class="topic-title">Contents</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#detailed-description" id="id2">Detailed Description</a></p></li>
-<li><p><a class="reference internal" href="#classes" id="id3">Classes</a></p></li>
-<li><p><a class="reference internal" href="#enums" id="id4">Enums</a></p></li>
-<li><p><a class="reference internal" href="#functions" id="id5">Functions</a></p></li>
-<li><p><a class="reference internal" href="#typedefs" id="id6">Typedefs</a></p></li>
-<li><p><a class="reference internal" href="#variables" id="id7">Variables</a></p></li>
-</ul>
-</div>
-<div class="section" id="detailed-description">
-<h2>Detailed Description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a>
-</h2>
-<div class="line-block">
-<div class="line">| October 28, 2015 |</div>
-</div>
-<p>5.2 |</p>
-<p>first release Jan 12, 1998 | |</p>
-<p>Enrico Bertolazzi | |</p>
-<p>Affiliation:
-| Department of Industrial Engineering</p>
-<blockquote>
-<div>
-<div class="line-block">
-<div class="line">University of Trento</div>
-<div class="line">Via Sommarive 9, I  38123 Trento, Italy</div>
-<div class="line">
-<script type="text/javascript">document.write(
-    "<n pynff=\"ersrerapr rkgreany\" uers=\"znvygb:raevpb\056oregbynmmv%40havga\056vg\">raevpb<fcna>\056<\057fcna>oregbynmmv<fcna>\100<\057fcna>havga<fcna>\056<\057fcna>vg<\057n>".replace(/[a-zA-Z]/g,
-        function(c){
-            return String.fromCharCode(
-                (c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26
-            );
-        }
-    )
-);</script> |</div>
-</div>
-</div>
-</blockquote>
-</div>
 <div class="section" id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a>
 </h2>
@@ -235,134 +238,133 @@
 <h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a>
 </h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="enum_namespace_splines_1ab83855c66e1e87122b7f7651d507fd29.html#exhale-enum-namespace-splines-1ab83855c66e1e87122b7f7651d507fd29"><span class="std std-ref">Enum CUBIC_SPLINE_TYPE_BC</span></a></p></li>
-<li><p><a class="reference internal" href="enum_namespace_splines_1ab67d9e563734dd678034ed346e4d7afa.html#exhale-enum-namespace-splines-1ab67d9e563734dd678034ed346e4d7afa"><span class="std std-ref">Enum QUINTIC_SPLINE_TYPE</span></a></p></li>
-<li><p><a class="reference internal" href="enum_namespace_splines_1ac6fd9ea07185987eaff6e90a2bbc2ea4.html#exhale-enum-namespace-splines-1ac6fd9ea07185987eaff6e90a2bbc2ea4"><span class="std std-ref">Enum REGION_ABCDEM</span></a></p></li>
-<li><p><a class="reference internal" href="enum_namespace_splines_1a34ca01114f5c5cfba05ae6badb98536d.html#exhale-enum-namespace-splines-1a34ca01114f5c5cfba05ae6badb98536d"><span class="std std-ref">Enum SplineType1D</span></a></p></li>
-<li><p><a class="reference internal" href="enum_namespace_splines_1a449c10c419c42636d3dd44ff56c3352d.html#exhale-enum-namespace-splines-1a449c10c419c42636d3dd44ff56c3352d"><span class="std std-ref">Enum SplineType2D</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1a96aa14ec624ad77d84a7e5afa435c1ed.html#exhale-enum-namespace-splines-1a96aa14ec624ad77d84a7e5afa435c1ed"><span class="std std-ref">Enum CUBIC_SPLINE_TYPE_BC</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1afc8c082d2849822ca15bdf52cb4409fb.html#exhale-enum-namespace-splines-1afc8c082d2849822ca15bdf52cb4409fb"><span class="std std-ref">Enum QUINTIC_SPLINE_TYPE</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1a1678db4e652dc21a5a18803b3847eabe.html#exhale-enum-namespace-splines-1a1678db4e652dc21a5a18803b3847eabe"><span class="std std-ref">Enum REGION_ABCDEM</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1afebc3f20f002ddfdcbd2d725d1aa55df.html#exhale-enum-namespace-splines-1afebc3f20f002ddfdcbd2d725d1aa55df"><span class="std std-ref">Enum SplineType1D</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespace_splines_1aa6410df8c515cad4d238820f523fead7.html#exhale-enum-namespace-splines-1aa6410df8c515cad4d238820f523fead7"><span class="std std-ref">Enum SplineType2D</span></a></p></li>
 </ul>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a>
 </h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="function_namespace_splines_1ac728886ddc6ff09dd2ecf01045597cd1.html#exhale-function-namespace-splines-1ac728886ddc6ff09dd2ecf01045597cd1"><span class="std std-ref">Function Splines::Akima_build</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1a9cf2674db1ea4e5185db7faaa36e011d.html#exhale-function-namespace-splines-1a9cf2674db1ea4e5185db7faaa36e011d"><span class="std std-ref">Function Splines::akima_one</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a537d1191b9e65cb379121e297436438d.html#exhale-function-namespace-splines-1a537d1191b9e65cb379121e297436438d"><span class="std std-ref">Function Splines::AkimaSmooth</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1aeb6c86ca718705bd71ad29b32c3f6d03.html#exhale-function-namespace-splines-1aeb6c86ca718705bd71ad29b32c3f6d03"><span class="std std-ref">Function Splines::backtrace</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a65e3a2b5e218b762e457d0bd1c5a3a89.html#exhale-function-namespace-splines-1a65e3a2b5e218b762e457d0bd1c5a3a89"><span class="std std-ref">Function Splines::Bessel_build</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ab0be0627373f307032b97617a8f81372.html#exhale-function-namespace-splines-1ab0be0627373f307032b97617a8f81372"><span class="std std-ref">Function Splines::bilinear3</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1acd2e16dcfcbf039bcae86d9c6c89b17d.html#exhale-function-namespace-splines-1acd2e16dcfcbf039bcae86d9c6c89b17d"><span class="std std-ref">Function Splines::bilinear5</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a50e11bb430344e8d51838b60cc16f2e7.html#exhale-function-namespace-splines-1a50e11bb430344e8d51838b60cc16f2e7"><span class="std std-ref">Function Splines::centripetal</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1abd67430f5c4a9b80ad497b457af2b139.html#exhale-function-namespace-splines-1abd67430f5c4a9b80ad497b457af2b139"><span class="std std-ref">Function Splines::checkCubicSplineMonotonicity</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa3f1c30dc4cf727358705ff0ba1bdee9.html#exhale-function-namespace-splines-1aa3f1c30dc4cf727358705ff0ba1bdee9"><span class="std std-ref">Function Splines::chordal</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1af16e572a465aec20228e9fa09095fa4c.html#exhale-function-namespace-splines-1af16e572a465aec20228e9fa09095fa4c"><span class="std std-ref">Function Splines::CubicSpline_build(real_type const, real_type const, real_type, real_type, real_type, real_type, real_type, integer, CUBIC_SPLINE_TYPE_BC, CUBIC_SPLINE_TYPE_BC)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a45625b2dfc9d9cf9199ad0c9537790e1.html#exhale-function-namespace-splines-1a45625b2dfc9d9cf9199ad0c9537790e1"><span class="std std-ref">Function Splines::CubicSpline_build(real_type const, real_type const, real_type, integer, CUBIC_SPLINE_TYPE_BC, CUBIC_SPLINE_TYPE_BC)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a43170f386ad9f3ee077abcdec17708db.html#exhale-function-namespace-splines-1a43170f386ad9f3ee077abcdec17708db"><span class="std std-ref">Function Splines::curvature</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1acae47427dcfada65a44e93372b431d9e.html#exhale-function-namespace-splines-1acae47427dcfada65a44e93372b431d9e"><span class="std std-ref">Function Splines::curvature_D</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a72be9f1cd89a6e2b95afa9ea73d52d6d.html#exhale-function-namespace-splines-1a72be9f1cd89a6e2b95afa9ea73d52d6d"><span class="std std-ref">Function Splines::curvature_DD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1acc64d1ef9be62ad8c778743741c35e90.html#exhale-function-namespace-splines-1acc64d1ef9be62ad8c778743741c35e90"><span class="std std-ref">Function Splines::deriv2_3p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a2a5389fec10f26745eea8aa9a5c1cac0.html#exhale-function-namespace-splines-1a2a5389fec10f26745eea8aa9a5c1cac0"><span class="std std-ref">Function Splines::deriv2_3p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a1f25971612f487cac47e06334000de69.html#exhale-function-namespace-splines-1a1f25971612f487cac47e06334000de69"><span class="std std-ref">Function Splines::deriv2_4p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a21f89a7ae650ef6edcba05545c173f0c.html#exhale-function-namespace-splines-1a21f89a7ae650ef6edcba05545c173f0c"><span class="std std-ref">Function Splines::deriv2_4p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a76cff6d8e7dbb5c48abbd6a19599fa92.html#exhale-function-namespace-splines-1a76cff6d8e7dbb5c48abbd6a19599fa92"><span class="std std-ref">Function Splines::deriv2_5p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a16d555fa17b3a6997e883d12542f2c92.html#exhale-function-namespace-splines-1a16d555fa17b3a6997e883d12542f2c92"><span class="std std-ref">Function Splines::deriv2_5p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a7f9b442cadbf74b8f96f9d4216bd9104.html#exhale-function-namespace-splines-1a7f9b442cadbf74b8f96f9d4216bd9104"><span class="std std-ref">Function Splines::deriv_left</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a3ffb20c4b811f2a3723acddbdabf4168.html#exhale-function-namespace-splines-1a3ffb20c4b811f2a3723acddbdabf4168"><span class="std std-ref">Function Splines::deriv_right</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1afe8bf36f6eaf182cd13a52023f238d5d.html#exhale-function-namespace-splines-1afe8bf36f6eaf182cd13a52023f238d5d"><span class="std std-ref">Function Splines::estimate</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a825c2a66faff32a2e38850469f437ce1.html#exhale-function-namespace-splines-1a825c2a66faff32a2e38850469f437ce1"><span class="std std-ref">Function Splines::Extrapolate2</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a89f145b92b5a6701b5882c414bfeea3c.html#exhale-function-namespace-splines-1a89f145b92b5a6701b5882c414bfeea3c"><span class="std std-ref">Function Splines::Extrapolate3</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a7ba84dcfe8053887fdec4d2cab888f32.html#exhale-function-namespace-splines-1a7ba84dcfe8053887fdec4d2cab888f32"><span class="std std-ref">Function Splines::FangHung</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ada46db60644a1bda70679ed616cda760.html#exhale-function-namespace-splines-1ada46db60644a1bda70679ed616cda760"><span class="std std-ref">Function Splines::first_deriv3p_C</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a6389ba86b13ae6969d7f0220f4990817.html#exhale-function-namespace-splines-1a6389ba86b13ae6969d7f0220f4990817"><span class="std std-ref">Function Splines::first_deriv3p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ae0d40af0afcb0c5bdc31cac1f3f075aa.html#exhale-function-namespace-splines-1ae0d40af0afcb0c5bdc31cac1f3f075aa"><span class="std std-ref">Function Splines::first_deriv3p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a692bcf81e39bdebe1e53ec96da67b195.html#exhale-function-namespace-splines-1a692bcf81e39bdebe1e53ec96da67b195"><span class="std std-ref">Function Splines::first_deriv4p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a5921659b15fb80242a81796fdcb1d6d7.html#exhale-function-namespace-splines-1a5921659b15fb80242a81796fdcb1d6d7"><span class="std std-ref">Function Splines::first_deriv4p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ab79df2197dc5da73d28146b2e270b827.html#exhale-function-namespace-splines-1ab79df2197dc5da73d28146b2e270b827"><span class="std std-ref">Function Splines::first_deriv5p_C</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aca08fb774c9a7496b07efb0157327582.html#exhale-function-namespace-splines-1aca08fb774c9a7496b07efb0157327582"><span class="std std-ref">Function Splines::first_deriv5p_L</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a6462d17be2b25b520bb34ab26f3b8291.html#exhale-function-namespace-splines-1a6462d17be2b25b520bb34ab26f3b8291"><span class="std std-ref">Function Splines::first_deriv5p_R</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a61dc0ad426b988823065b60a7b695413.html#exhale-function-namespace-splines-1a61dc0ad426b988823065b60a7b695413"><span class="std std-ref">Function Splines::first_derivative_build</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a5d952a419e94702719c64174cd134cd7.html#exhale-function-namespace-splines-1a5d952a419e94702719c64174cd134cd7"><span class="std std-ref">Function Splines::FoleyNielsen</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a228f7065a249b0c10a9886fdc85f05f9.html#exhale-function-namespace-splines-1a228f7065a249b0c10a9886fdc85f05f9"><span class="std std-ref">Function Splines::centripetal</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a4a9fd3c1d8de964d95d730668e6b6016.html#exhale-function-namespace-splines-1a4a9fd3c1d8de964d95d730668e6b6016"><span class="std std-ref">Function Splines::checkCubicSplineMonotonicity</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1aef9996b8a86809bcb1609ed9bab5cea2.html#exhale-function-namespace-splines-1aef9996b8a86809bcb1609ed9bab5cea2"><span class="std std-ref">Function Splines::chordal</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a94d2862da920a586358451ce3b3bcb41.html#exhale-function-namespace-splines-1a94d2862da920a586358451ce3b3bcb41"><span class="std std-ref">Function Splines::curvature</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1ad1cb03ee7c6c9f13f93df88d7612e26e.html#exhale-function-namespace-splines-1ad1cb03ee7c6c9f13f93df88d7612e26e"><span class="std std-ref">Function Splines::curvature_D</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a62d87177bbdb8da9a92701e528c57f00.html#exhale-function-namespace-splines-1a62d87177bbdb8da9a92701e528c57f00"><span class="std std-ref">Function Splines::curvature_DD</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1aeea9f9f28b21dbf93715fd27a7c7106c.html#exhale-function-namespace-splines-1aeea9f9f28b21dbf93715fd27a7c7106c"><span class="std std-ref">Function Splines::FangHung</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1ac5930dd87f51e2577e79a2bdd746c6b2.html#exhale-function-namespace-splines-1ac5930dd87f51e2577e79a2bdd746c6b2"><span class="std std-ref">Function Splines::FoleyNielsen</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1a64d0e892133ce06e0a3577c3bea0f549.html#exhale-function-namespace-splines-1a64d0e892133ce06e0a3577c3bea0f549"><span class="std std-ref">Function Splines::get_region</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a988e77868a230c13fe1bdf8137a8f01a.html#exhale-function-namespace-splines-1a988e77868a230c13fe1bdf8137a8f01a"><span class="std std-ref">Function Splines::Hermite3</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa1c4a081ddfbc044821f7aa1ff1ae1c2.html#exhale-function-namespace-splines-1aa1c4a081ddfbc044821f7aa1ff1ae1c2"><span class="std std-ref">Function Splines::Hermite3_D</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ad4b42f85cb69fe093759f456114cbced.html#exhale-function-namespace-splines-1ad4b42f85cb69fe093759f456114cbced"><span class="std std-ref">Function Splines::Hermite3_DD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa28400e8657e3f0eb38773f70f7853ea.html#exhale-function-namespace-splines-1aa28400e8657e3f0eb38773f70f7853ea"><span class="std std-ref">Function Splines::Hermite3_DDD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ac85cb28d6b772656b4e280a030691d27.html#exhale-function-namespace-splines-1ac85cb28d6b772656b4e280a030691d27"><span class="std std-ref">Function Splines::Hermite5</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a324030f42c623c817c11fa95e7bfc196.html#exhale-function-namespace-splines-1a324030f42c623c817c11fa95e7bfc196"><span class="std std-ref">Function Splines::Hermite5_D</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa82aeb3a0dbffcf894a94faf02ce752b.html#exhale-function-namespace-splines-1aa82aeb3a0dbffcf894a94faf02ce752b"><span class="std std-ref">Function Splines::Hermite5_DD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1af9b2cf2583ce28b2ed475251f59c34a5.html#exhale-function-namespace-splines-1af9b2cf2583ce28b2ed475251f59c34a5"><span class="std std-ref">Function Splines::Hermite5_DDD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa98c640e941d7482ff9e62718961d046.html#exhale-function-namespace-splines-1aa98c640e941d7482ff9e62718961d046"><span class="std std-ref">Function Splines::Hermite5_DDDD</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ab89064e5018864fd3c933052ab475411.html#exhale-function-namespace-splines-1ab89064e5018864fd3c933052ab475411"><span class="std std-ref">Function Splines::Hermite5_DDDDD</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1ae61f54b18ac4089ead89302e4b99fee4.html#exhale-function-namespace-splines-1ae61f54b18ac4089ead89302e4b99fee4"><span class="std std-ref">Function Splines::max_abs</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1ac18823b95eb83fa935ba4d33eb4e75a2.html#exhale-function-namespace-splines-1ac18823b95eb83fa935ba4d33eb4e75a2"><span class="std std-ref">Function Splines::min_abs</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1a8c7e2a599a7e341f0d8751b1bccb9a04.html#exhale-function-namespace-splines-1a8c7e2a599a7e341f0d8751b1bccb9a04"><span class="std std-ref">Function Splines::new_Spline1D</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1af5def81cf8ced3f3337cf9a508af839b.html#exhale-function-namespace-splines-1af5def81cf8ced3f3337cf9a508af839b"><span class="std std-ref">Function Splines::Pchip_build</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1abe8be2c4304f908ca895f764470d7e7d.html#exhale-function-namespace-splines-1abe8be2c4304f908ca895f764470d7e7d"><span class="std std-ref">Function Splines::Pchip_build_new</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ab03e87f559371b851bf9ae72083565a5.html#exhale-function-namespace-splines-1ab03e87f559371b851bf9ae72083565a5"><span class="std std-ref">Function Splines::Quintic_build</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a6492af9d3bebb6fc34b10a54965dae6d.html#exhale-function-namespace-splines-1a6492af9d3bebb6fc34b10a54965dae6d"><span class="std std-ref">Function Splines::QuinticSpline_Ypp_build</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1afaeb8ccb39be9163cb15a3094e2dc87d.html#exhale-function-namespace-splines-1afaeb8ccb39be9163cb15a3094e2dc87d"><span class="std std-ref">Function Splines::QuinticSpline_Yppp_continuous</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a02af2dd1a60e0ab97f8e73ff7bafe13c.html#exhale-function-namespace-splines-1a02af2dd1a60e0ab97f8e73ff7bafe13c"><span class="std std-ref">Function Splines::second_deriv3p_C(real_type, real_type, real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a0876533785ef21741cfd6a9c4a4d4fe4.html#exhale-function-namespace-splines-1a0876533785ef21741cfd6a9c4a4d4fe4"><span class="std std-ref">Function Splines::second_deriv3p_C(real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a60f01f53c32707d2a70eb61bb2c93a9b.html#exhale-function-namespace-splines-1a60f01f53c32707d2a70eb61bb2c93a9b"><span class="std std-ref">Function Splines::second_deriv3p_L(real_type, real_type, real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ac38bcac07970b102fcdd02e91115e08b.html#exhale-function-namespace-splines-1ac38bcac07970b102fcdd02e91115e08b"><span class="std std-ref">Function Splines::second_deriv3p_L(real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a5d020e3df1b575b52c531edc6c005245.html#exhale-function-namespace-splines-1a5d020e3df1b575b52c531edc6c005245"><span class="std std-ref">Function Splines::second_deriv3p_R(real_type, real_type, real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aa99a1063f183df0eb349f7b4cc5bafec.html#exhale-function-namespace-splines-1aa99a1063f183df0eb349f7b4cc5bafec"><span class="std std-ref">Function Splines::second_deriv3p_R(real_type, real_type, real_type, real_type, real_type)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1ad94967141b4370ffec6040e4c38fb063.html#exhale-function-namespace-splines-1ad94967141b4370ffec6040e4c38fb063"><span class="std std-ref">Function Splines::second_derivative_build</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1afb1c7d06a034be8c501f91321a50af3d.html#exhale-function-namespace-splines-1afb1c7d06a034be8c501f91321a50af3d"><span class="std std-ref">Function Splines::Pchip_build</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a22872cf871ce7a12ecda3a1f8d8e6cca.html#exhale-function-namespace-splines-1a22872cf871ce7a12ecda3a1f8d8e6cca"><span class="std std-ref">Function Splines::Pchip_build_new</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespace_splines_1a4fe6464c49b4bba331d9751598a44f02.html#exhale-function-namespace-splines-1a4fe6464c49b4bba331d9751598a44f02"><span class="std std-ref">Function Splines::signTest</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a50110e007e11c92561d80f70324884c4.html#exhale-function-namespace-splines-1a50110e007e11c92561d80f70324884c4"><span class="std std-ref">Function Splines::string_to_splineType(std::string const&amp;)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a09ab0e5abfd04a79ab8353c114d82d34.html#exhale-function-namespace-splines-1a09ab0e5abfd04a79ab8353c114d82d34"><span class="std std-ref">Function Splines::string_to_splineType(string const&amp;)</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1a8e6a8f8e5f1fe9dc40911cba351598a2.html#exhale-function-namespace-splines-1a8e6a8f8e5f1fe9dc40911cba351598a2"><span class="std std-ref">Function Splines::uniform</span></a></p></li>
-<li><p><a class="reference internal" href="function_namespace_splines_1aadd9f962f7368cef42566a1efd07b314.html#exhale-function-namespace-splines-1aadd9f962f7368cef42566a1efd07b314"><span class="std std-ref">Function Splines::universal</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a91c8806be0fd7584311f74dffe3ae3f7.html#exhale-function-namespace-splines-1a91c8806be0fd7584311f74dffe3ae3f7"><span class="std std-ref">Function Splines::uniform</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespace_splines_1a9437a6461e2735153715bb43bc7d734f.html#exhale-function-namespace-splines-1a9437a6461e2735153715bb43bc7d734f"><span class="std std-ref">Function Splines::universal</span></a></p></li>
 </ul>
 </div>
 <div class="section" id="typedefs">
 <h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a>
 </h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="typedef_namespace_splines_1a3b6ee100a473e8866bcea6d1fc4041d9.html#exhale-typedef-namespace-splines-1a3b6ee100a473e8866bcea6d1fc4041d9"><span class="std std-ref">Typedef Splines::integer</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_namespace_splines_1a87f1935c525a7d6a5e35303fce18a60c.html#exhale-typedef-namespace-splines-1a87f1935c525a7d6a5e35303fce18a60c"><span class="std std-ref">Typedef Splines::ostream_type</span></a></p></li>
-<li><p><a class="reference internal" href="typedef_namespace_splines_1ac0b09ba58a37f5f3ca415be4a02ec7aa.html#exhale-typedef-namespace-splines-1ac0b09ba58a37f5f3ca415be4a02ec7aa"><span class="std std-ref">Typedef Splines::real_type</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespace_splines_1a0b83d8865bf650fca7ad1d657245a8a1.html#exhale-typedef-namespace-splines-1a0b83d8865bf650fca7ad1d657245a8a1"><span class="std std-ref">Typedef Splines::integer</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespace_splines_1a943d4ae4896c10228d57d004bd991e7f.html#exhale-typedef-namespace-splines-1a943d4ae4896c10228d57d004bd991e7f"><span class="std std-ref">Typedef Splines::ostream_type</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespace_splines_1afabb8610fb01952c2fcf1f17337bd44a.html#exhale-typedef-namespace-splines-1afabb8610fb01952c2fcf1f17337bd44a"><span class="std std-ref">Typedef Splines::real_type</span></a></p></li>
 </ul>
 </div>
 <div class="section" id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a>
 </h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="variable_namespace_splines_1af206176fca336fbc274d89b318609391.html#exhale-variable-namespace-splines-1af206176fca336fbc274d89b318609391"><span class="std std-ref">Variable Splines::spline_type_1D</span></a></p></li>
+<li><p><a class="reference internal" href="variable_namespace_splines_1a052166b362a237026fef2fff7e415070.html#exhale-variable-namespace-splines-1a052166b362a237026fef2fff7e415070"><span class="std std-ref">Variable Splines::spline_type_1D</span></a></p></li>
 </ul>
 </div>
 </div>
 
-
-
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="class_splines_1_1_akima2_dspline.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Class Akima2Dspline</div>
               </div>
-              
-              
-              <div class='prev-next-bottom'>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="library_root.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
                 
-    <a class='left-prev' id="prev-link" href="library_root.html" title="previous page">Splines API</a>
-    <a class='right-next' id="next-link" href="namespace_SplinesLoad.html" title="next page">Namespace SplinesLoad</a>
-
+                <div class="title">C/C++ API</div>
+                
               </div>
-              
-          </main>
-          
+            </a>
+        </div>
 
-      </div>
+        <div class="related-information">
+              Copyright &#169; 2021, Enrico Bertolazzi
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/api/namespace_Splines.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
     </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Namespace Splines</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#enums">Enums</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#typedefs">Typedefs</a></li>
+<li><a class="reference internal" href="#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
 
-    
-  <script src="../_static/js/index.d8bbf5861d671d414e1a.js"></script>
-
-
-    <footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    <p>
-          &copy; Copyright 2021, :email:`Enrico Bertolazzi.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
-    </p>
-  </div>
-</footer>
-  </body>
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

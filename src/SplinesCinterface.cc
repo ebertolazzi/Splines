@@ -38,7 +38,9 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace SplinesLoad;
+#endif
 
 #include <vector>
 #include <map>
@@ -52,7 +54,9 @@ using namespace SplinesLoad;
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
-using namespace std;
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 extern "C" {
 
@@ -62,7 +66,10 @@ extern "C" {
   static Spline * head = nullptr;
 
   int
-  SPLINE_new( char const id[], char const type[] ) {
+  SPLINE_new(
+    char const * id,
+    char const * type
+  ) {
     fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) delete it->second;
@@ -89,7 +96,7 @@ extern "C" {
   }
   
   int
-  SPLINE_select( char const id[] ) {
+  SPLINE_select( char const * id ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) {
       head = it->second;
@@ -100,7 +107,7 @@ extern "C" {
   }
   
   int
-  SPLINE_delete( char const id[] ) {
+  SPLINE_delete( char const * id ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) {
       delete it->second;
@@ -130,7 +137,7 @@ extern "C" {
   }
 
   void *
-  SPLINE_mem_ptr( char const id[] ) {
+  SPLINE_mem_ptr( char const * id ) {
     // check if exists ?
     return static_cast<void*>(&spline_stored[id]);
   }
@@ -166,7 +173,11 @@ extern "C" {
   }
 
   int
-  SPLINE_build2( double const x[], double const y[], int const n ) {
+  SPLINE_build2(
+    double const * x,
+    double const * y,
+    int            n
+  ) {
     if ( head != nullptr ) {
       head -> build( x, y, n );
       return 0;

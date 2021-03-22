@@ -8,28 +8,28 @@
 # pip3 install pymdown-extensions
 # pip3 install m2r2
 # pip3 install sphinxcontrib-email
+# pip3 install furo
+# pip3 install faculty-sphinx-theme
+# pip3 install install sphinx_sizzle_theme
+# pip3 install karma_sphinx_theme
+# pip3 install sphinx-book-theme
+# pip3 install myst-parser
+# https://pradyunsg.me/furo/
 
-#
-#import recommonmark
-#from recommonmark.transform import AutoStructify
-
-#source_suffix = {
-#  ".rst": "restructuredtext",
-#  ".md": "markdown"
-#}
-
-#source_parsers = {
-#  ".md": "recommonmark.parser.CommonMarkParser"
-#}
+import os
 
 # The master toctree document.
 master_doc = 'index'
 
 # -- Project information -----------------------------------------------------
 
-project   = 'Splines'
-copyright = '2021, :email:`Enrico Bertolazzi'
+project   = 'Quartic Roots'
+copyright = '2021, Enrico Bertolazzi'
 author    = ':email:`Enrico Bertolazzi <enrico.bertolazzi@unitn.it>`'
+version   = os.popen('git describe --tags').read()
+
+#rst_epilog =
+#rst_prolog =
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -45,6 +45,7 @@ extensions = [
   'exhale',
   #'recommonmark', # non funziona
   'm2r2',          # funziona!
+  #'myst_parser',  # non funziona
   'sphinx.ext.autodoc',
   'sphinx.ext.doctest',
   'sphinx.ext.coverage',
@@ -63,12 +64,39 @@ breathe_projects = {
 }
 breathe_default_project = "Splines"
 
+
+# somewhere in `conf.py`, *BEFORE* declaring `exhale_args`
+def specificationsForKind(kind):
+    '''
+    For a given input ``kind``, return the list of reStructuredText specifications
+    for the associated Breathe directive.
+    '''
+    # Change the defaults for .. doxygenclass:: and .. doxygenstruct::
+    if kind == "class" or kind == "struct":
+        return [
+          ":members:",
+          ":protected-members:",
+          ":private-members:",
+          ":undoc-members:"
+        ]
+    # Change the defaults for .. doxygenenum::
+    elif kind == "namespace":
+        return [":no-link:"]
+    # Change the defaults for .. doxygenenum::
+    elif kind == "enum":
+        return [":no-link:"]
+    # An empty list signals to Exhale to use the defaults
+    else:
+        return []
+
+
+
 # Setup the exhale extension
 exhale_args = {
   # These arguments are required
   "containmentFolder":     "./api",
   "rootFileName":          "library_root.rst",
-  "rootFileTitle":         "Splines API",
+  "rootFileTitle":         "C/C++ API",
   "doxygenStripFromPath":  "..",
   # Suggested optional arguments
   "createTreeView":        True,
@@ -78,15 +106,26 @@ exhale_args = {
   #"exhaleDoxygenStdin":    "INPUT = ../../src"
   "exhaleDoxygenStdin":
 '''
-        EXTRACT_ALL       = YES
-        SOURCE_BROWSER    = YES
-        EXTRACT_STATIC    = YES
-        HIDE_SCOPE_NAMES  = YES
-        QUIET             = YES
-        INPUT             = ../../src
-        EXAMPLE_RECURSIVE = YES
-        GENERATE_TREEVIEW = YES
-'''
+        EXTRACT_ALL         = YES
+        SOURCE_BROWSER      = NO
+        EXTRACT_STATIC      = YES
+        HIDE_SCOPE_NAMES    = NO
+        CALLER_GRAPH        = YES
+        GRAPHICAL_HIERARCHY = YES
+        HAVE_DOT            = YES
+        QUIET               = NO
+        INPUT               = ../../src
+        GENERATE_TREEVIEW   = YES
+
+        XML_PROGRAMLISTING   = YES
+        RECURSIVE            = YES
+        FULL_PATH_NAMES      = YES
+        ENABLE_PREPROCESSING = YES
+        MACRO_EXPANSION      = YES
+        SKIP_FUNCTION_MACROS = NO
+        EXPAND_ONLY_PREDEF   = NO
+''',
+  'kindsWithContentsDirectives': [] # tolgo contents a tutte! (serve per Furo)
 }
 
 # Tell sphinx what the primary language being documented is.
@@ -95,19 +134,14 @@ primary_domain = 'cpp'
 # Tell sphinx what the pygments highlight language should be.
 highlight_language = 'cpp'
 
-html_theme = 'pydata_sphinx_theme'
+pygments_style      = "sphinx"
+pygments_dark_style = "monokai"
+
+#html_theme = 'pydata_sphinx_theme'
+html_theme = 'furo'
+#html_theme = "sizzle"
+#html_theme = "karma_sphinx_theme"
+#html_theme = "sphinx_book_theme"
 html_logo  = '../logo.png'
 
 email_automode = True
-
-# app setup hook
-#def setup(app):
-#    app.add_config_value('recommonmark_config', {
-#        #'url_resolver': lambda url: github_doc_root + url,
-#        'auto_toc_tree_section': 'Contents',
-#        'enable_math': False,
-#        'enable_inline_math': False,
-#        'enable_eval_rst': True,
-#        'enable_auto_doc_ref': True,
-#    }, True)
-#    app.add_transform(AutoStructify)

@@ -12,7 +12,7 @@ Inheritance Relationships
 Base Type
 *********
 
-- ``public BiCubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline_base`)
+- ``public Splines::BiCubicSplineBase`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline_base`)
 
 
 Class Documentation

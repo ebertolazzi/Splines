@@ -1,0 +1,13 @@
+.. _exhale_typedef_namespace_splines_1a943d4ae4896c10228d57d004bd991e7f:
+
+Typedef Splines::ostream_type
+=============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: Splines::ostream_type

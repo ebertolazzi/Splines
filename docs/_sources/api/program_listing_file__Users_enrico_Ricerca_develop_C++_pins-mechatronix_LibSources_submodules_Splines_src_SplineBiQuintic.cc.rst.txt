@@ -40,9 +40,11 @@ Program Listing for File SplineBiQuintic.cc
    #pragma clang diagnostic ignored "-Wpoison-system-directories"
    #endif
    
-   namespace Splines {
+   #ifndef DOXYGEN_SHOULD_SKIP_THIS
+   using namespace std; // load standard namspace
+   #endif
    
-     using namespace std; // load standard namspace
+   namespace Splines {
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    

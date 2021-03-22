@@ -41,9 +41,11 @@ Program Listing for File SplinePchip.cc
    #pragma clang diagnostic ignored "-Wpoison-system-directories"
    #endif
    
-   namespace Splines {
+   #ifndef DOXYGEN_SHOULD_SKIP_THIS
+   using namespace std; // load standard namspace
+   #endif
    
-     using namespace std; // load standard namspace
+   namespace Splines {
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
@@ -119,10 +121,10 @@ Program Listing for File SplinePchip.cc
    
      void
      Pchip_build(
-       real_type const X[],
-       real_type const Y[],
-       real_type       Yp[],
-       integer         npts
+       real_type const * X,
+       real_type const * Y,
+       real_type       * Yp,
+       integer           npts
      ) {
    
        size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
@@ -204,10 +206,10 @@ Program Listing for File SplinePchip.cc
      static // non usata per ora
      void
      Pchip_build_new(
-       real_type const X[],
-       real_type const Y[],
-       real_type       Yp[],
-       integer         npts
+       real_type const * X,
+       real_type const * Y,
+       real_type       * Yp,
+       integer           npts
      ) {
    
        first_derivative_build( X, Y, Yp, npts );

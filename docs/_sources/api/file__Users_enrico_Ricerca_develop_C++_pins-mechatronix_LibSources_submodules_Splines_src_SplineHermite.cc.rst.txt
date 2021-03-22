@@ -7,11 +7,6 @@ File SplineHermite.cc
 |exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
 Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineHermite.cc``)
 ----------------------------------------------------------------------------------------------------------------------
 
@@ -41,33 +36,4 @@ Namespaces
 
 
 - :ref:`namespace_Splines`
-
-
-Functions
----------
-
-
-- :ref:`exhale_function_namespace_splines_1ab0be0627373f307032b97617a8f81372`
-
-- :ref:`exhale_function_namespace_splines_1acd2e16dcfcbf039bcae86d9c6c89b17d`
-
-- :ref:`exhale_function_namespace_splines_1a988e77868a230c13fe1bdf8137a8f01a`
-
-- :ref:`exhale_function_namespace_splines_1aa1c4a081ddfbc044821f7aa1ff1ae1c2`
-
-- :ref:`exhale_function_namespace_splines_1ad4b42f85cb69fe093759f456114cbced`
-
-- :ref:`exhale_function_namespace_splines_1aa28400e8657e3f0eb38773f70f7853ea`
-
-- :ref:`exhale_function_namespace_splines_1ac85cb28d6b772656b4e280a030691d27`
-
-- :ref:`exhale_function_namespace_splines_1a324030f42c623c817c11fa95e7bfc196`
-
-- :ref:`exhale_function_namespace_splines_1aa82aeb3a0dbffcf894a94faf02ce752b`
-
-- :ref:`exhale_function_namespace_splines_1af9b2cf2583ce28b2ed475251f59c34a5`
-
-- :ref:`exhale_function_namespace_splines_1aa98c640e941d7482ff9e62718961d046`
-
-- :ref:`exhale_function_namespace_splines_1ab89064e5018864fd3c933052ab475411`
 

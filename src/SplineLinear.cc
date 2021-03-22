@@ -27,13 +27,11 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- *
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namspace
 
   real_type
   LinearSpline::id_eval( integer i, real_type x ) const {
@@ -128,7 +126,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
-  LinearSpline::coeffs( real_type cfs[], real_type nodes[], bool transpose ) const {
+  LinearSpline::coeffs(
+    real_type * const cfs,
+    real_type * const nodes,
+    bool              transpose
+  ) const {
     integer n = m_npts > 0 ? m_npts-1 : 0;
     for ( integer i = 0; i < n; ++i ) {
       nodes[i] = m_X[i];

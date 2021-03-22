@@ -75,11 +75,11 @@ Program Listing for File Splines.cc
    
      void
      uniform(
-       integer         /* dim */,
-       integer         npts,
-       real_type const []/* pnts    */,
-       integer         /* ld_pnts */,
-       real_type       t[]
+       integer           /* dim */,
+       integer           npts,
+       real_type const * /* pnts    */,
+       integer           /* ld_pnts */,
+       real_type       * t
      ) {
        t[0]      = 0;
        t[npts-1] = 1;
@@ -91,11 +91,11 @@ Program Listing for File Splines.cc
    
      void
      chordal(
-       integer         dim,
-       integer         npts,
-       real_type const pnts[],
-       integer         ld_pnts,
-       real_type       t[]
+       integer           dim,
+       integer           npts,
+       real_type const * pnts,
+       integer           ld_pnts,
+       real_type       * t
      ) {
        t[0] = 0;
        real_type const * p0 = pnts;
@@ -116,12 +116,12 @@ Program Listing for File Splines.cc
    
      void
      centripetal(
-       integer         dim,
-       integer         npts,
-       real_type const pnts[],
-       integer         ld_pnts,
-       real_type const alpha,
-       real_type       t[]
+       integer           dim,
+       integer           npts,
+       real_type const * pnts,
+       integer           ld_pnts,
+       real_type         alpha,
+       real_type       * t
      ) {
        t[0] = 0;
        real_type const * p0 = pnts;
@@ -140,36 +140,40 @@ Program Listing for File Splines.cc
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
+     #if 0
+   
      void
      universal(
-       integer         dim,
-       integer         npts,
-       real_type const pnts[],
-       integer         ld_pnts,
-       real_type       t[]
+       integer           dim,
+       integer           npts,
+       real_type const * pnts,
+       integer           ld_pnts,
+       real_type       * t
      ); // to be done
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
      FoleyNielsen(
-       integer         dim,
-       integer         npts,
-       real_type const pnts[],
-       integer         ld_pnts,
-       real_type       t[]
+       integer           dim,
+       integer           npts,
+       real_type const * pnts,
+       integer           ld_pnts,
+       real_type       * t
      ); // to be done
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
      FangHung(
-       integer         dim,
-       integer         npts,
-       real_type const pnts[],
-       integer         ld_pnts,
-       real_type       t[]
+       integer           dim,
+       integer           npts,
+       real_type const * pnts,
+       integer           ld_pnts,
+       real_type       * t
      ); // to be done
+   
+     #endif
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
@@ -189,6 +193,8 @@ Program Listing for File Splines.cc
    
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
+     #ifndef DOXYGEN_SHOULD_SKIP_THIS
+   
      SplineType1D
      string_to_splineType( std::string const & nin ) {
        std::string n = nin;
@@ -198,6 +204,8 @@ Program Listing for File Splines.cc
        }
        throw std::runtime_error(fmt::format( "string_to_splineType({}) unknown type\n", n ));
      }
+   
+     #endif
    
      /*\
       |   ____        _ _
@@ -284,10 +292,10 @@ Program Listing for File Splines.cc
    
      integer
      checkCubicSplineMonotonicity(
-       real_type const X[],
-       real_type const Y[],
-       real_type const Yp[],
-       integer         npts
+       real_type const * X,
+       real_type const * Y,
+       real_type const * Yp,
+       integer           npts
      ) {
        // check monotonicity of data: (assuming X monotone)
        integer flag = 1;
@@ -326,8 +334,8 @@ Program Listing for File Splines.cc
    
      void
      Spline::build(
-       real_type const x[], integer incx,
-       real_type const y[], integer incy,
+       real_type const * x, integer incx,
+       real_type const * y, integer incy,
        integer n
      ) {
        reserve( n );

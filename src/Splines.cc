@@ -17,22 +17,6 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-/*!
- |
- | \date     October 28, 2015
- | \version  5.2
- | \note     first release Jan 12, 1998
- |
- | \author   Enrico Bertolazzi
- |
- | \par      Affiliation:
- |           Department of Industrial Engineering<br>
- |           University of Trento<br>
- |           Via Sommarive 9, I -- 38123 Trento, Italy <br>
- |           enrico.bertolazzi@unitn.it
- |
- */
-
 #include "SplinesUtils.hh"
 
 #include <cmath>
@@ -51,7 +35,6 @@
   #include <libunwind.h>
 #endif
 
-//! Various kind of splines
 namespace Splines {
 
   using std::abs;
@@ -80,11 +63,11 @@ namespace Splines {
 
   void
   uniform(
-    integer         /* dim */,
-    integer         npts,
-    real_type const []/* pnts    */,
-    integer         /* ld_pnts */,
-    real_type       t[]
+    integer           /* dim */,
+    integer           npts,
+    real_type const * /* pnts    */,
+    integer           /* ld_pnts */,
+    real_type       * t
   ) {
     t[0]      = 0;
     t[npts-1] = 1;
@@ -96,11 +79,11 @@ namespace Splines {
 
   void
   chordal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   ) {
     t[0] = 0;
     real_type const * p0 = pnts;
@@ -121,12 +104,12 @@ namespace Splines {
 
   void
   centripetal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type const alpha,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type         alpha,
+    real_type       * t
   ) {
     t[0] = 0;
     real_type const * p0 = pnts;
@@ -145,36 +128,40 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #if 0
+
   void
   universal(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   ); // to be done
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   FoleyNielsen(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   ); // to be done
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   FangHung(
-    integer         dim,
-    integer         npts,
-    real_type const pnts[],
-    integer         ld_pnts,
-    real_type       t[]
+    integer           dim,
+    integer           npts,
+    real_type const * pnts,
+    integer           ld_pnts,
+    real_type       * t
   ); // to be done
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -194,6 +181,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   SplineType1D
   string_to_splineType( std::string const & nin ) {
     std::string n = nin;
@@ -203,6 +192,8 @@ namespace Splines {
     }
     throw std::runtime_error(fmt::format( "string_to_splineType({}) unknown type\n", n ));
   }
+
+  #endif
 
   /*\
    |   ____        _ _
@@ -290,10 +281,10 @@ namespace Splines {
   //! Check if cubic spline with this data is monotone, return -1 no, 0 yes, 1 strictly monotone
   integer
   checkCubicSplineMonotonicity(
-    real_type const X[],
-    real_type const Y[],
-    real_type const Yp[],
-    integer         npts
+    real_type const * X,
+    real_type const * Y,
+    real_type const * Yp,
+    integer           npts
   ) {
     // check monotonicity of data: (assuming X monotone)
     integer flag = 1;
@@ -332,8 +323,8 @@ namespace Splines {
 
   void
   Spline::build(
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
+    real_type const * x, integer incx,
+    real_type const * y, integer incy,
     integer n
   ) {
     reserve( n );

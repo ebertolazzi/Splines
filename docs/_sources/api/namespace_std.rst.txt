@@ -4,10 +4,3 @@
 Namespace std
 =============
 
-
-.. contents:: Contents
-   :local:
-   :backlinks: none
-
-
-

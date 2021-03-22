@@ -27,23 +27,19 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-/**
- * 
- */
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
+#endif
 
 namespace Splines {
-
-  using namespace std; // load standard namespace
-
-  // build spline without computation
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   CubicSplineBase::build(
-    real_type const x[],  integer incx,
-    real_type const y[],  integer incy,
-    real_type const yp[], integer incyp,
+    real_type const * x,  integer incx,
+    real_type const * y,  integer incy,
+    real_type const * yp, integer incyp,
     integer n
   ) {
     this->reserve( n );
@@ -216,9 +212,9 @@ namespace Splines {
 
   integer // order
   CubicSplineBase::coeffs(
-    real_type cfs[],
-    real_type nodes[],
-    bool      transpose
+    real_type * const cfs,
+    real_type * const nodes,
+    bool              transpose
   ) const {
     size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {

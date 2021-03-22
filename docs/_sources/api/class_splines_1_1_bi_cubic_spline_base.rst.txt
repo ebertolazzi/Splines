@@ -12,14 +12,14 @@ Inheritance Relationships
 Base Type
 *********
 
-- ``public SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
+- ``public Splines::SplineSurf`` (:ref:`exhale_class_class_splines_1_1_spline_surf`)
 
 
 Derived Types
 *************
 
-- ``public Akima2Dspline`` (:ref:`exhale_class_class_splines_1_1_akima2_dspline`)
-- ``public BiCubicSpline`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline`)
+- ``public Splines::Akima2Dspline`` (:ref:`exhale_class_class_splines_1_1_akima2_dspline`)
+- ``public Splines::BiCubicSpline`` (:ref:`exhale_class_class_splines_1_1_bi_cubic_spline`)
 
 
 Class Documentation

@@ -1,0 +1,13 @@
+.. _exhale_function_namespace_splines_1a4bf102db4358a845701fc677e4c122d2:
+
+Function Splines::CubicSpline_build(real_type const, real_type const, real_type, integer, CUBIC_SPLINE_TYPE_BC, CUBIC_SPLINE_TYPE_BC)
+=====================================================================================================================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::CubicSpline_build(real_type const, real_type const, real_type, integer, CUBIC_SPLINE_TYPE_BC, CUBIC_SPLINE_TYPE_BC)

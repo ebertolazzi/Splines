@@ -161,9 +161,9 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::setup(
-       integer           dim,
-       integer           npts,
-       real_type const * Y[]
+       integer            dim,
+       integer            npts,
+       real_type const ** Y
      ) {
        allocate( dim, npts );
        for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
@@ -174,10 +174,10 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::setup(
-       integer         dim,
-       integer         npts,
-       real_type const Y[],
-       integer         ldY
+       integer           dim,
+       integer           npts,
+       real_type const * Y,
+       integer           ldY
      ) {
        allocate( dim, npts );
        for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
@@ -188,7 +188,7 @@ Program Listing for File SplineVec.cc
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    
      void
-     SplineVec::setKnots( real_type const X[] ) {
+     SplineVec::setKnots( real_type const * X ) {
        std::copy_n( X, m_npts, m_X );
      }
    
@@ -348,9 +348,9 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::eval(
-       real_type x,
-       real_type vals[],
-       integer   inc
+       real_type         x,
+       real_type * const vals,
+       integer           inc
      ) const {
        size_t i = size_t(this->search( x ));
        real_type base[4];
@@ -367,9 +367,9 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::eval_D(
-       real_type x,
-       real_type vals[],
-       integer   inc
+       real_type         x,
+       real_type * const vals,
+       integer           inc
      ) const {
        size_t i = size_t(this->search( x ));
        real_type base_D[4];
@@ -386,9 +386,9 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::eval_DD(
-       real_type x,
-       real_type vals[],
-       integer   inc
+       real_type         x,
+       real_type * const vals,
+       integer           inc
      ) const {
        size_t i = size_t(this->search( x ));
        real_type base_DD[4];
@@ -405,9 +405,9 @@ Program Listing for File SplineVec.cc
    
      void
      SplineVec::eval_DDD(
-       real_type x,
-       real_type vals[],
-       integer   inc
+       real_type         x,
+       real_type * const vals,
+       integer           inc
      ) const {
        size_t i = size_t(this->search( x ));
        real_type base_DDD[4];
