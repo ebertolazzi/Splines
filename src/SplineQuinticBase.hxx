@@ -53,9 +53,7 @@ namespace Splines {
     , m_external_alloc(false)
     {}
 
-    virtual
-    ~QuinticSplineBase() override
-    {}
+    ~QuinticSplineBase() override {}
 
     void
     copySpline( QuinticSplineBase const & S );
@@ -86,89 +84,26 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Evaluate spline value
-    virtual
-    real_type
-    operator () ( real_type x ) const override;
+    real_type operator () ( real_type x ) const override;
+    real_type D( real_type x ) const override;
+    real_type DD( real_type x ) const override;
+    real_type DDD( real_type x ) const override;
+    real_type DDDD( real_type x ) const override;
+    real_type DDDDD( real_type x ) const override;
+    real_type id_eval( integer ni, real_type x ) const override;
+    real_type id_D( integer ni, real_type x ) const override;
+    real_type id_DD( integer ni, real_type x ) const override;
+    real_type id_DDD( integer ni, real_type x ) const override;
+    real_type id_DDDD( integer ni, real_type x ) const override;
+    real_type id_DDDDD( integer ni, real_type x ) const override;
 
-    //! First derivative
-    virtual
-    real_type
-    D( real_type x ) const override;
+    void writeToStream( ostream_type & s ) const override;
 
-    //! Second derivative
-    virtual
-    real_type
-    DD( real_type x ) const override;
-
-    //! Third derivative
-    virtual
-    real_type
-    DDD( real_type x ) const override;
-
-    //! Fourth derivative
-    virtual
-    real_type
-    DDDD( real_type x ) const override;
-
-    //! Fifth derivative
-    virtual
-    real_type
-    DDDDD( real_type x ) const override;
-
-    //! Evaluate spline value knowing interval
-    virtual
-    real_type
-    id_eval( integer ni, real_type x ) const override;
-
-    //! First derivative
-    virtual
-    real_type
-    id_D( integer ni, real_type x ) const override;
-
-    //! Second derivative
-    virtual
-    real_type
-    id_DD( integer ni, real_type x ) const override;
-
-    //! Third derivative
-    virtual
-    real_type
-    id_DDD( integer ni, real_type x ) const override;
-
-    //! Fourth derivative
-    virtual
-    real_type
-    id_DDDD( integer ni, real_type x ) const override;
-
-    //! Fifth derivative
-    virtual
-    real_type
-    id_DDDDD( integer ni, real_type x ) const override;
-
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const override;
-
-    //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return QUINTIC_TYPE; }
-
-    //! Allocate memory for `npts` points
-    virtual
-    void
-    reserve( integer npts ) override;
-
-    //! Cancel the support points, empty the spline.
-    virtual
-    void
-    clear() override;
+    unsigned type() const override { return QUINTIC_TYPE; }
+    void reserve( integer npts ) override;
+    void clear() override;
 
     //! get the piecewise polinomials of the spline
-    virtual
     integer // order
     coeffs(
       real_type * const cfs,
@@ -176,9 +111,7 @@ namespace Splines {
       bool              transpose = false
     ) const override;
 
-    virtual
-    integer // order
-    order() const override;
+    integer order() const override;
 
   };
 

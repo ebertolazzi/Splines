@@ -46,6 +46,7 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -67,8 +68,6 @@ namespace Splines {
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   void
   Akima_build(
@@ -133,8 +132,10 @@ namespace Splines {
     Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using GenericContainerNamespace::GC_VEC_REAL;
   using GenericContainerNamespace::vec_real_type;
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

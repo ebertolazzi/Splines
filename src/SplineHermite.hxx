@@ -43,25 +43,16 @@ namespace Splines {
     {}
 
     //! spline destructor
-    virtual
-    ~HermiteSpline() override
-    {}
+    ~HermiteSpline() override {}
 
     //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return HERMITE_TYPE; }
+    unsigned type() const override { return HERMITE_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    virtual
-    void
-    build() override
-    {} // nothing to do
+    void build() override {} // nothing to do
 
     // block method!
-    virtual
     void
     build(
       real_type const *, integer,
@@ -69,9 +60,7 @@ namespace Splines {
       integer
     ) override;
 
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    void setup( GenericContainer const & gc ) override;
 
   };
 

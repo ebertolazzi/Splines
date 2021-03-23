@@ -1,0 +1,228 @@
+:orphan:
+
+
+Full API
+========
+
+Directories
+***********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src.rst
+
+Files
+*****
+
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima2D.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiCubic.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBiQuintic.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineConstant.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubic.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineCubicBase.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineHermite.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineLinear.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuinticBase.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines1D.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesBivariate.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesConfig.hh.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.hxx.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSetGC.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.cc.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineVec.hxx.rst

@@ -1,0 +1,80 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.hxx:
+
+Program Listing for File SplineBilinear.hxx
+===========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBilinear.hxx>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineBilinear.hxx``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   /*--------------------------------------------------------------------------*\
+    |                                                                          |
+    |  Copyright (C) 2016                                                      |
+    |                                                                          |
+    |         , __                 , __                                        |
+    |        /|/  \               /|/  \                                       |
+    |         | __/ _   ,_         | __/ _   ,_                                | 
+    |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+    |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+    |                           /|                   /|                        |
+    |                           \|                   \|                        |
+    |                                                                          |
+    |      Enrico Bertolazzi                                                   |
+    |      Dipartimento di Ingegneria Industriale                              |
+    |      Universita` degli Studi di Trento                                   |
+    |      email: enrico.bertolazzi@unitn.it                                   |
+    |                                                                          |
+   \*--------------------------------------------------------------------------*/
+   
+   /*\
+    |   ____  _ _ _                       ____        _ _
+    |  | __ )(_) (_)_ __   ___  __ _ _ __/ ___| _ __ | (_)_ __   ___
+    |  |  _ \| | | | '_ \ / _ \/ _` | '__\___ \| '_ \| | | '_ \ / _ \
+    |  | |_) | | | | | | |  __/ (_| | |   ___) | |_) | | | | | |  __/
+    |  |____/|_|_|_|_| |_|\___|\__,_|_|  |____/| .__/|_|_|_| |_|\___|
+    |                                          |_|
+   \*/
+   
+   namespace Splines {
+   
+     class BilinearSpline : public SplineSurf {
+   
+       void makeSpline() override {}
+   
+       using SplineSurf::m_nx;
+       using SplineSurf::m_ny;
+   
+       using SplineSurf::m_X;
+       using SplineSurf::m_Y;
+       using SplineSurf::m_Z;
+   
+     public:
+   
+       BilinearSpline( string const & name = "Spline" )
+       : SplineSurf(name)
+       {}
+   
+       ~BilinearSpline() override {}
+   
+       real_type operator () ( real_type x, real_type y ) const override;
+   
+       void D( real_type x, real_type y, real_type d[3] ) const override;
+       real_type Dx( real_type x, real_type y ) const override;
+       real_type Dy( real_type x, real_type y ) const override;
+   
+       void DD( real_type x, real_type y, real_type dd[6] ) const override;
+       real_type Dxx( real_type , real_type ) const override { return 0; }
+       real_type Dxy( real_type , real_type ) const override { return 0; }
+       real_type Dyy( real_type , real_type ) const override { return 0; }
+   
+       void writeToStream( ostream_type & s ) const override;
+       char const * type_name() const override;
+   
+     };
+   
+   }
+   
+   // EOF: SplineBilinear.hxx

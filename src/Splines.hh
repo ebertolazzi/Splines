@@ -296,6 +296,7 @@ namespace Splines {
   \*/
   //! Spline Management Class
   class Spline {
+    friend class SplineSet;
   protected:
 
     string m_name;
@@ -335,8 +336,15 @@ namespace Splines {
     ~Spline()
     {}
 
+    //! find interval containing ``x`` using binary search.
     integer search( real_type & x ) const;
 
+    /*!
+     * \name Spline Data Info
+     */
+    //@{
+
+    //! return the name of the spline used in the constructor
     string const & name() const { return m_name; }
 
     bool is_closed() const { return m_curve_is_closed;  }
@@ -352,53 +360,64 @@ namespace Splines {
     void make_extended_not_constant() { m_curve_extended_constant = false; }
 
     //! return the number of support points of the spline.
-    integer
-    numPoints() const { return m_npts; }
+    integer numPoints() const { return m_npts; }
 
     //! return the i-th node of the spline (x component).
-    real_type
-    xNode( integer i ) const { return m_X[size_t(i)]; }
+    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
 
     //! return the i-th node of the spline (y component).
-    real_type
-    yNode( integer i ) const { return m_Y[size_t(i)]; }
+    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
 
     //! return first node of the spline (x component).
-    real_type
-    xBegin() const { return m_X[0]; }
+    real_type xBegin() const { return m_X[0]; }
 
     //! return first node of the spline (y component).
-    real_type
-    yBegin() const { return m_Y[0]; }
+    real_type yBegin() const { return m_Y[0]; }
 
     //! return last node of the spline (x component).
-    real_type
-    xEnd() const { return m_X[size_t(m_npts-1)]; }
+    real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
 
     //! return last node of the spline (y component).
+    real_type yEnd() const { return m_Y[size_t(m_npts-1)]; }
+
+    //! return x-minumum spline value
+    real_type xMin() const { return m_X[0]; }
+
+    //! return x-maximum spline value
+    real_type xMax() const { return m_X[m_npts-1]; }
+
+    //! return y-minumum spline value
     real_type
-    yEnd() const { return m_Y[size_t(m_npts-1)]; }
+    yMin() const {
+      integer N = m_npts;
+      if ( type() == CONSTANT_TYPE ) --N;
+      return *std::min_element(m_Y,m_Y+N);
+    }
 
-    //! Allocate memory for `npts` points
-    virtual
-    void
-    reserve( integer npts ) =0;
+    //! return y-maximum spline value
+    real_type
+    yMax() const {
+      integer N = m_npts;
+      if ( type() == CONSTANT_TYPE ) --N;
+      return *std::max_element(m_Y,m_Y+N);
+    }
 
-    //! Add a support point (x,y) to the spline.
-    void pushBack( real_type x, real_type y );
+    ///////////////////////////////////////////////////////////////////////////
+    //! change X-origin of the spline
+    void setOrigin( real_type x0 );
 
-    //! Drop a support point to the spline.
-    void dropBack() { if ( m_npts > 0 ) --m_npts; }
+    //! change X-range of the spline
+    void setRange( real_type xmin, real_type xmax );
 
-    // must be defined in derived classes
+    //@}
 
-    //! \ingroup build a spline
+    /*!
+     * \name Build
+     */
     //@{
 
     /*!
-     * \brief Build a using a generic container.
-     * 
-     * \param gc   GenericContainer class with the spline data
+     * Build a spline using a generic container.
      */
     void
     build( GenericContainer const & gc )
@@ -452,58 +471,48 @@ namespace Splines {
     }
 
     /*!
-     * \brief Build a spline using internal stored data 
+     * Build a spline using internal stored data 
      */
     virtual
-    void
-    build() = 0;
+    void build() = 0;
+
+    /*!
+     * Build a spline using a generic container.
+     */
+    virtual
+    void setup( GenericContainer const & gc );
 
     //@}
 
     /*!
-     * \brief Build a using a generic container.
+     * \name Incremental Build
      * 
-     * \param gc   GenericContainer class with the spline data
+     * Various constructors for the spline class.
+     * 
      */
+    //@{
+
+    //! Allocate memory for `npts` points
     virtual
-    void
-    setup( GenericContainer const & gc );
+    void reserve( integer npts ) = 0;
+
+    //! Add a support point (x,y) to the spline.
+    void pushBack( real_type x, real_type y );
+
+    //! Drop last inserted point of the spline.
+    void dropBack() { if ( m_npts > 0 ) --m_npts; }
 
     //! Cancel the support points, empty the spline.
     virtual
-    void
-    clear() = 0;
+    void clear() = 0;
 
-    //! return x-minumum spline value
-    real_type xMin() const { return m_X[0]; }
+    //@}
 
-    //! return x-maximum spline value
-    real_type xMax() const { return m_X[m_npts-1]; }
+    /*!
+     * \name Dump Data
+     */
+    //@{
 
-    //! return y-minumum spline value
-    real_type
-    yMin() const {
-      integer N = m_npts;
-      if ( type() == CONSTANT_TYPE ) --N;
-      return *std::min_element(m_Y,m_Y+N);
-    }
-
-    //! return y-maximum spline value
-    real_type
-    yMax() const {
-      integer N = m_npts;
-      if ( type() == CONSTANT_TYPE ) --N;
-      return *std::max_element(m_Y,m_Y+N);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    //! change X-origin of the spline
-    void setOrigin( real_type x0 );
-
-    //! change X-range of the spline
-    void setRange( real_type xmin, real_type xmax );
-
-    ///////////////////////////////////////////////////////////////////////////
     //! dump a sample of the spline
     void
     dump(
@@ -524,38 +533,40 @@ namespace Splines {
       file.close();
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    //! Print spline coefficients
+    virtual
+    void writeToStream( ostream_type & s ) const = 0;
+
+    //@}
+
+    /*!
+     * \name Evaluation
+     */
+    //@{
+
     //! Evaluate spline value
     virtual
-    real_type
-    operator () ( real_type x ) const = 0;
+    real_type operator () ( real_type x ) const = 0;
 
     //! First derivative
     virtual
-    real_type
-    D( real_type x ) const = 0;
+    real_type D( real_type x ) const = 0;
 
     //! Second derivative
     virtual
-    real_type
-    DD( real_type x ) const = 0;
+    real_type DD( real_type x ) const = 0;
 
     //! Third derivative
     virtual
-    real_type
-    DDD( real_type x ) const = 0;
+    real_type DDD( real_type x ) const = 0;
 
     //! 4th derivative
     virtual
-    real_type
-    DDDD( real_type ) const
-    { return real_type(0); }
+    real_type DDDD( real_type ) const { return real_type(0); }
 
     //! 4th derivative
     virtual
-    real_type
-    DDDDD( real_type ) const
-    { return real_type(0); }
+    real_type DDDDD( real_type ) const { return real_type(0); }
 
     //! Some aliases
     real_type eval( real_type x ) const { return (*this)(x); }
@@ -568,35 +579,34 @@ namespace Splines {
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value when interval is known
     virtual
-    real_type
-    id_eval( integer ni, real_type x ) const = 0;
+    real_type id_eval( integer ni, real_type x ) const = 0;
 
     //! First derivative
     virtual
-    real_type
-    id_D( integer ni, real_type x ) const = 0;
+    real_type id_D( integer ni, real_type x ) const = 0;
 
     //! Second derivative
     virtual
-    real_type
-    id_DD( integer ni, real_type x ) const = 0;
+    real_type id_DD( integer ni, real_type x ) const = 0;
 
     //! Third derivative
     virtual
-    real_type
-    id_DDD( integer ni, real_type x ) const = 0;
+    real_type id_DDD( integer ni, real_type x ) const = 0;
 
     //! 4th derivative
     virtual
-    real_type
-    id_DDDD( integer, real_type ) const
-    { return real_type(0); }
+    real_type id_DDDD( integer, real_type ) const { return real_type(0); }
 
     //! 4th derivative
     virtual
-    real_type
-    id_DDDDD( integer, real_type ) const
-    { return real_type(0); }
+    real_type id_DDDDD( integer, real_type ) const { return real_type(0); }
+
+    //@}
+
+    /*!
+     * \name Get Info
+     */
+    //@{
 
     //! get the piecewise polinomials of the spline
     virtual
@@ -610,12 +620,6 @@ namespace Splines {
     virtual
     integer
     order() const = 0;
-
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const = 0;
-
     //! Return spline typename
     char const *
     type_name() const
@@ -623,16 +627,15 @@ namespace Splines {
 
     //! Return spline type (as number)
     virtual
-    unsigned
-    type() const = 0;
+    unsigned type() const = 0;
 
+    //! Return a string information of the kind and order of the spline
     string info() const;
 
-    void
-    info( ostream_type & stream ) const
-    { stream << this->info() << '\n'; }
+    //! Print information of the kind and order of the spline
+    void info( ostream_type & stream ) const { stream << this->info() << '\n'; }
 
-    friend class SplineSet;
+    //@}
 
   };
 
@@ -678,9 +681,7 @@ namespace Splines {
     , m_external_alloc(false)
     {}
 
-    virtual
-    ~CubicSplineBase() override
-    {}
+    ~CubicSplineBase() override {}
 
     void
     copySpline( CubicSplineBase const & S );
@@ -704,57 +705,21 @@ namespace Splines {
     );
 
     // --------------------------- VIRTUALS -----------------------------------
-    //! Evaluate spline value
-    virtual
-    real_type
-    operator () ( real_type x ) const override;
 
-    //! First derivative
-    virtual
-    real_type
-    D( real_type x ) const override;
+    real_type operator () ( real_type x ) const override;
+    real_type D( real_type x ) const override;
+    real_type DD( real_type x ) const override;
+    real_type DDD( real_type x ) const override;
+    real_type id_eval( integer ni, real_type x ) const override;
+    real_type id_D( integer ni, real_type x ) const override;
+    real_type id_DD( integer ni, real_type x ) const override;
+    real_type id_DDD( integer ni, real_type x ) const override;
 
-    //! Second derivative
-    virtual
-    real_type
-    DD( real_type x ) const override;
-
-    //! Third derivative
-    virtual
-    real_type
-    DDD( real_type x ) const override;
-
-    //! Evaluate spline value knowing interval
-    virtual
-    real_type
-    id_eval( integer ni, real_type x ) const override;
-
-    //! First derivative
-    virtual
-    real_type
-    id_D( integer ni, real_type x ) const override;
-
-    //! Second derivative
-    virtual
-    real_type
-    id_DD( integer ni, real_type x ) const override;
-
-    //! Third derivative
-    virtual
-    real_type
-    id_DDD( integer ni, real_type x ) const override;
-
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const override;
+    void writeToStream( ostream_type & s ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Allocate memory for `npts` points
-    virtual
-    void
-    reserve( integer npts ) override;
+    void reserve( integer npts ) override;
 
     /*!
      * \brief Build a spline.
@@ -810,12 +775,9 @@ namespace Splines {
     );
 
     //! Cancel the support points, empty the spline.
-    virtual
-    void
-    clear() override;
+    void clear() override;
 
     //! get the piecewise polinomials of the spline
-    virtual
     integer // order
     coeffs(
       real_type * const cfs,
@@ -823,9 +785,7 @@ namespace Splines {
       bool              transpose = false
     ) const override;
 
-    virtual
-    integer // order
-    order() const override;
+    integer order() const override;
 
   };
 
@@ -1081,64 +1041,95 @@ namespace Splines {
     build ( GenericContainer const & gc )
     { setup(gc); }
 
-    //! Evaluate spline value
+    //! Evaluate spline value at point \f$ (x,y) \f$
     virtual
     real_type
     operator () ( real_type x, real_type y ) const = 0;
 
-    //! First derivative
+    /*!
+     * value and first derivatives at point \f$ (x,y) \f$
+     * - d[0] value of the spline \f$ S(x,y) \f$
+     * - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+     * - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+     */
     virtual
     void
     D( real_type x, real_type y, real_type d[3] ) const = 0;
 
+    /*!
+     * first derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_x(x,y) \f$
+     */
     virtual
     real_type
     Dx( real_type x, real_type y ) const = 0;
 
+    /*!
+     * first derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_y(x,y) \f$
+     */
     virtual
     real_type
     Dy( real_type x, real_type y ) const = 0;
 
-    //! Second derivative
+    /*!
+     * value, first and second derivatives at point \f$ (x,y) \f$
+     * - d[0] value of the spline \f$ S(x,y) \f$
+     * - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+     * - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+     * - d[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
+     * - d[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
+     * - d[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
+     */
     virtual
     void
     DD( real_type x, real_type y, real_type dd[6] ) const = 0;
 
+    /*!
+     * second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_{xx}(x,y) \f$
+     */
     virtual
     real_type
     Dxx( real_type x, real_type y ) const = 0;
 
+    /*!
+     * mixed second derivatives: \f$ S_{xy}(x,y) \f$
+     */
     virtual
     real_type
     Dxy( real_type x, real_type y ) const = 0;
 
+    /*!
+     * second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_{yy}(x,y) \f$
+     */
     virtual
     real_type
     Dyy( real_type x, real_type y ) const = 0;
 
-    //! Evaluate spline value
+    //! Evaluate spline value at point \f$ (x,y) \f$
     real_type
     eval( real_type x, real_type y ) const
     { return (*this)(x,y); }
 
-    //! First derivative
+    //! Alias for ``Dx(x,y)``
     real_type
     eval_D_1( real_type x, real_type y ) const
     { return this->Dx(x,y); }
 
+    //! Alias for ``Dy(x,y)``
     real_type
     eval_D_2( real_type x, real_type y ) const
     { return this->Dy(x,y); }
 
-    //! Second derivative
+    //! Alias for ``Dxx(x,y)``
     real_type
     eval_D_1_1( real_type x, real_type y ) const
     { return this->Dxx(x,y); }
 
+    //! Alias for ``Dxy(x,y)``
     real_type
     eval_D_1_2( real_type x, real_type y ) const
     { return this->Dxy(x,y); }
 
+    //! Alias for ``Dyy(x,y)``
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return this->Dyy(x,y); }
@@ -1149,8 +1140,10 @@ namespace Splines {
     //! Return spline typename
     virtual char const * type_name() const = 0;
 
-    string info() const;
+    //! return a string with information about the spline.
+    virtual string info() const;
 
+    //! write a string with information about the spline.
     void
     info( ostream_type & stream ) const
     { stream << this->info() << '\n'; }

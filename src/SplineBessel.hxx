@@ -55,26 +55,15 @@ namespace Splines {
     {}
 
     //! spline destructor
-    virtual
-    ~BesselSpline() override
-    {}
+    ~BesselSpline() override {}
 
     //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return BESSEL_TYPE; }
+    unsigned type() const override { return BESSEL_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Build a Bessel spline from previously inserted points
-    virtual
-    void
-    build() override;
-
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
   };
 
 }

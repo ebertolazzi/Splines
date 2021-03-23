@@ -412,7 +412,7 @@ namespace Splines {
   Spline::dump(
     ostream_type & s,
     integer        nintervals,
-    char const     header[]
+    char const *   header
   ) const {
     s << header << '\n';
     real_type dx = (xMax()-xMin())/nintervals;

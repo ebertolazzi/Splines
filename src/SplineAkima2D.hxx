@@ -28,9 +28,17 @@
 
 namespace Splines {
 
-  //! cubic spline base class
+  /*!
+   *  Smooth Curve Fitting Based on Local Procedures
+   *
+   *  *Reference*
+   *
+   *  - *Hiroshi Akima*, A Method of Bivariate Interpolation and 
+   *    Smooth Surface Fitting for Irregularly Distributed Data Points.  
+   *    ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.
+   */
   class Akima2Dspline : public BiCubicSplineBase {
-    virtual void makeSpline() override;
+    void makeSpline() override;
 
   public:
 
@@ -39,19 +47,10 @@ namespace Splines {
     : BiCubicSplineBase( name )
     {}
 
-    virtual
-    ~Akima2Dspline() override
-    {}
+    ~Akima2Dspline() override {}
 
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const override;
-
-    //! Return spline typename
-    virtual
-    char const *
-    type_name() const override;
+    void writeToStream( ostream_type & s ) const override;
+    char const * type_name() const override;
 
   };
 }

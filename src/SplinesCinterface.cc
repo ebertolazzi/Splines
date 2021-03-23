@@ -153,7 +153,7 @@ extern "C" {
   }
 
   int
-  SPLINE_push( double const x, double const y ) {
+  SPLINE_push( double x, double y ) {
     if ( head != nullptr ) {
       head -> pushBack(x,y);
       return 0;
@@ -187,7 +187,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval( double const x ) {
+  SPLINE_eval( double x ) {
     if ( head != nullptr ) {
       return head -> operator()(x);
     } else {
@@ -196,7 +196,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_D( double const x ) {
+  SPLINE_eval_D( double x ) {
     if ( head != nullptr ) {
       return head -> D(x);
     } else {
@@ -205,7 +205,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DD( double const x ) {
+  SPLINE_eval_DD( double x ) {
     if ( head != nullptr ) {
       return head -> DD(x);
     } else {
@@ -214,7 +214,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDD( double const x ) {
+  SPLINE_eval_DDD( double x ) {
     if ( head != nullptr ) {
       return head -> DDD(x);
     } else {
@@ -223,7 +223,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDDD( double const x ) {
+  SPLINE_eval_DDDD( double x ) {
     if ( head != nullptr ) {
       return head -> DDDD(x);
     } else {
@@ -232,7 +232,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDDDD( double const x ) {
+  SPLINE_eval_DDDDD( double x ) {
     if ( head != nullptr ) {
       return head -> DDDDD(x);
     } else {

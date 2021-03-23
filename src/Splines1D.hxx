@@ -88,7 +88,7 @@ namespace Splines {
     //! Add a support point (x,y) to the spline.
     void pushBack( real_type x, real_type y ) { return m_pSpline->pushBack( x, y ); }
 
-    //! Drop a support point to the spline.
+    //! Drop last inserted point of the spline.
     void dropBack() { m_pSpline->dropBack(); }
 
     //! Build a spline.
@@ -139,8 +139,8 @@ namespace Splines {
      * \brief Build a spline.
      *
      * \param tp spline type
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
+     * \param x  vector of x-coordinates
+     * \param y  vector of y-coordinates
      */
     void
     build(
@@ -200,28 +200,22 @@ namespace Splines {
 
     ///////////////////////////////////////////////////////////////////////////
     //! Evaluate spline value
-    real_type
-    operator () ( real_type x ) const { return (*m_pSpline)(x); }
+    real_type operator () ( real_type x ) const { return (*m_pSpline)(x); }
 
     //! First derivative
-    real_type
-    D( real_type x ) const { return m_pSpline->D(x); }
+    real_type D( real_type x ) const { return m_pSpline->D(x); }
 
     //! Second derivative
-    real_type
-    DD( real_type x ) const { return m_pSpline->DD(x); }
+    real_type DD( real_type x ) const { return m_pSpline->DD(x); }
 
     //! Third derivative
-    real_type
-    DDD( real_type x ) const { return m_pSpline->DDD(x); }
+    real_type DDD( real_type x ) const { return m_pSpline->DDD(x); }
 
     //! 4th derivative
-    real_type
-    DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+    real_type DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
 
     //! 5th derivative
-    real_type
-    DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
+    real_type DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
 
     //! Some aliases
     real_type eval( real_type x ) const { return (*m_pSpline)(x); }

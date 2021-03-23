@@ -1,0 +1,989 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File SplineSetGC.cc &#8212; Splines  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplineSetGC.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="program-listing-for-file-splinesetgc-cc">
+<span id="program-listing-file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesetgc-cc"></span><h1>Program Listing for File SplineSetGC.cc<a class="headerlink" href="#program-listing-for-file-splinesetgc-cc" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplineSetGC.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesetgc-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplineSetGC.cc</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cp">#include</span> <span class="cpf">"Splines.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp"></span>
+
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#endif</span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_INTEGER</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VEC_BOOL</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VEC_INTEGER</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VEC_REAL</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VEC_STRING</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_VECTOR</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_MAP</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">GC_MAT_REAL</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">mat_real_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_int_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vec_string_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">vector_type</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GenericContainerNamespace</span><span class="o">::</span><span class="n">map_type</span><span class="p">;</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">    // gc["spline_type"]</span>
+<span class="cm">    // gc["xdata"]</span>
+<span class="cm">    // gc["ydata"]</span>
+<span class="cm">    // gc["headers"] (opzionale)</span>
+<span class="cm">    */</span>
+    <span class="n">vec_string_type</span>       <span class="n">spline_type_vec</span><span class="p">;</span>
+    <span class="n">vec_real_type</span>         <span class="n">X</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">SplineType1D</span><span class="o">&gt;</span>  <span class="n">stype</span><span class="p">;</span>
+    <span class="n">vec_string_type</span>       <span class="n">headers</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vec_real_type</span><span class="o">&gt;</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Yp</span><span class="p">;</span>
+
+    <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"SplineSet[{}]::setup( gc ): "</span><span class="p">,</span> <span class="n">m_name</span> <span class="p">);</span>
+
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+      <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"spline_type"</span><span class="p">),</span> <span class="s">"{}, missing `spline_type` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span>
+    <span class="p">);</span>
+    <span class="n">gc</span><span class="p">(</span><span class="s">"spline_type"</span><span class="p">).</span><span class="n">copyto_vec_string</span><span class="p">(</span>
+      <span class="n">spline_type_vec</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">"in reading `spline_type'</span><span class="se">\n</span><span class="s">"</span><span class="p">).</span><span class="n">c_str</span><span class="p">()</span>
+    <span class="p">);</span>
+    <span class="n">m_nspl</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">spline_type_vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">stype</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">)</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">spl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">spl</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">);</span> <span class="o">++</span><span class="n">spl</span> <span class="p">)</span>
+      <span class="n">stype</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_splineType</span><span class="p">(</span> <span class="n">spline_type_vec</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="p">);</span>
+
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+      <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">),</span> <span class="s">"{}, missing `xdata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span>
+    <span class="p">);</span>
+    <span class="n">gc</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">).</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">X</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">"reading `xdata'"</span><span class="p">).</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+    <span class="n">m_npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span> <span class="n">X</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">);</span>
+
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+      <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">),</span> <span class="s">"{}, missing `ydata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span>
+    <span class="p">);</span>
+    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_ydata</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">);</span>
+
+    <span class="c1">// allocate for _nspl splines</span>
+    <span class="n">Y</span>  <span class="p">.</span> <span class="n">resize</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">Yp</span> <span class="p">.</span> <span class="n">resize</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">)</span> <span class="p">);</span>
+
+    <span class="c1">// se tipo vettore o matrice deve esserci headers</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">GC_MAT_REAL</span> <span class="o">==</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type</span><span class="p">()</span> <span class="o">||</span>
+         <span class="n">GC_VECTOR</span>   <span class="o">==</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"headers"</span><span class="p">),</span>
+        <span class="s">"{}, missing `headers` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span>
+      <span class="p">);</span>
+      <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_headers</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"headers"</span><span class="p">);</span>
+      <span class="n">gc_headers</span><span class="p">.</span><span class="n">copyto_vec_string</span><span class="p">(</span>
+        <span class="n">headers</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="o">+</span><span class="s">", reading `headers'"</span><span class="p">).</span><span class="n">c_str</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="n">headers</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">),</span>
+        <span class="s">"{}, field `headers` expected to be of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">m_nspl</span><span class="p">,</span> <span class="n">headers</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">GC_MAT_REAL</span> <span class="o">==</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// leggo matrice</span>
+      <span class="n">mat_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_mat_real</span><span class="p">();</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">.</span><span class="n">numCols</span><span class="p">(),</span>
+        <span class="s">"{}, number of splines [{}]</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"differs from the number of `ydata` columns [{}] in data</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">m_nspl</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">numCols</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">.</span><span class="n">numRows</span><span class="p">(),</span>
+        <span class="s">"{}, number of points [{}]</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"differs from the number of `ydata` rows [{}] in data</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">numRows</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+        <span class="n">data</span><span class="p">.</span><span class="n">getColumn</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">GC_VECTOR</span> <span class="o">==</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">vector_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_vector</span><span class="p">();</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">)</span> <span class="o">==</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+        <span class="s">"{}, field `ydata` expected of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">m_nspl</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="n">string</span> <span class="n">msg1</span> <span class="o">=</span> <span class="n">msg</span><span class="o">+</span><span class="s">" reading `ydata` columns"</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">spl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">spl</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">);</span> <span class="o">++</span><span class="n">spl</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">datai</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">spl</span><span class="p">];</span>
+        <span class="n">integer</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">m_npts</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">stype</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">==</span> <span class="n">CONSTANT_TYPE</span> <span class="p">)</span> <span class="o">--</span><span class="n">nrow</span><span class="p">;</span> <span class="c1">// constant spline uses n-1 points</span>
+        <span class="n">datai</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">],</span> <span class="n">msg1</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+          <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="p">)</span> <span class="o">==</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span>
+          <span class="s">"{}, column {} of `ydata` expected of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+          <span class="n">msg</span><span class="p">,</span> <span class="n">spl</span><span class="p">,</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">()</span>
+        <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">GC_MAP</span> <span class="o">==</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">map_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_map</span><span class="p">();</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">),</span>
+        <span class="s">"{}, field `ydata` expected of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">m_nspl</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="n">headers</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span> <span class="n">headers</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+      <span class="n">map_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">im</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+      <span class="n">string</span> <span class="n">msg1</span> <span class="o">=</span> <span class="n">msg</span><span class="o">+</span><span class="s">" reading `ydata` columns"</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">spl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">im</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">im</span><span class="p">,</span> <span class="o">++</span><span class="n">spl</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">headers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">im</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">);</span>
+        <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">datai</span> <span class="o">=</span> <span class="n">im</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">integer</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">m_npts</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">stype</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">==</span> <span class="n">CONSTANT_TYPE</span> <span class="p">)</span> <span class="o">--</span><span class="n">nrow</span><span class="p">;</span> <span class="c1">// constant spline uses n-1 points</span>
+        <span class="n">datai</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">],</span> <span class="n">msg1</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+          <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="p">)</span> <span class="o">==</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span>
+          <span class="s">"{}, column `{}` of `ydata` expected of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+          <span class="n">msg</span><span class="p">,</span> <span class="n">im</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">()</span>
+        <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">UTILS_ERROR</span><span class="p">(</span>
+        <span class="s">"{}, field `data` expected</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"to be of type `mat_real_type`, `vector_type` or `map_type'</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"found: `{}`</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">gc_ydata</span><span class="p">.</span><span class="n">get_type_name</span><span class="p">()</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ypdata"</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// yp puo' essere solo tipo map</span>
+      <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_ypdata</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"ypdata"</span><span class="p">);</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="n">GC_MAP</span> <span class="o">==</span> <span class="n">gc_ypdata</span><span class="p">.</span><span class="n">get_type</span><span class="p">(),</span>
+        <span class="s">"{}, field `ypdata` expected to be of type `map_type` found: `{}`</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">gc_ypdata</span><span class="p">.</span><span class="n">get_type_name</span><span class="p">()</span>
+      <span class="p">);</span>
+
+      <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">integer</span><span class="o">&gt;</span> <span class="n">h_to_pos</span><span class="p">;</span>
+      <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">headers</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">is</span> <span class="o">!=</span> <span class="n">headers</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span>
+        <span class="n">h_to_pos</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span><span class="o">++</span><span class="p">;</span>
+
+      <span class="n">string</span> <span class="n">msg1</span> <span class="o">=</span> <span class="n">msg</span><span class="o">+</span><span class="s">" reading `ypdata` columns"</span><span class="p">;</span>
+      <span class="n">map_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">gc_ypdata</span><span class="p">.</span><span class="n">get_map</span><span class="p">();</span>
+      <span class="n">map_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">im</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+      <span class="k">for</span> <span class="p">(;</span> <span class="n">im</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">im</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// cerca posizione</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">integer</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">is_pos</span> <span class="o">=</span> <span class="n">h_to_pos</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">im</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">);</span>
+        <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+          <span class="n">is_pos</span> <span class="o">!=</span> <span class="n">h_to_pos</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+          <span class="s">"{}, column `{}` of `ypdata` not found</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+          <span class="n">msg</span><span class="p">,</span> <span class="n">im</span><span class="o">-&gt;</span><span class="n">first</span>
+        <span class="p">);</span>
+        <span class="n">integer</span> <span class="n">spl</span> <span class="o">=</span> <span class="n">is_pos</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+
+        <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">datai</span> <span class="o">=</span> <span class="n">im</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">integer</span> <span class="n">nrow</span> <span class="o">=</span> <span class="n">m_npts</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">stype</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">spl</span><span class="p">)]</span> <span class="o">==</span> <span class="n">CONSTANT_TYPE</span> <span class="p">)</span> <span class="o">--</span><span class="n">nrow</span><span class="p">;</span> <span class="c1">// constant spline uses n-1 points</span>
+        <span class="n">datai</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="p">(</span> <span class="n">Yp</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">spl</span><span class="p">)],</span> <span class="n">msg1</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+          <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span><span class="p">)</span> <span class="o">==</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span>
+          <span class="s">"{}, column `{}` of `ypdata` expected of size {} found of size {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+          <span class="n">msg</span><span class="p">,</span> <span class="n">im</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="n">m_npts</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">()</span>
+        <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">Utils</span><span class="o">::</span><span class="n">Malloc</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span> <span class="n">mem</span><span class="p">(</span> <span class="n">msg</span> <span class="p">);</span>
+    <span class="n">mem</span><span class="p">.</span><span class="n">allocate</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span> <span class="mi">3</span><span class="o">*</span><span class="n">m_nspl</span> <span class="p">)</span> <span class="p">);</span>
+
+    <span class="kt">void</span> <span class="o">**</span> <span class="n">__headers</span> <span class="o">=</span> <span class="n">mem</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span> <span class="n">m_nspl</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="kt">void</span> <span class="o">**</span> <span class="n">__Y</span>       <span class="o">=</span> <span class="n">mem</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span> <span class="n">m_nspl</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="kt">void</span> <span class="o">**</span> <span class="n">__Yp</span>      <span class="o">=</span> <span class="n">mem</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span> <span class="n">m_nspl</span> <span class="p">)</span> <span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">spl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">spl</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_nspl</span><span class="p">);</span> <span class="o">++</span><span class="n">spl</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">__headers</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">=</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">*&gt;</span><span class="p">(</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="k">const</span> <span class="o">*&gt;</span><span class="p">(</span>
+        <span class="n">headers</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">c_str</span><span class="p">()</span>
+      <span class="p">)</span> <span class="p">);</span>
+      <span class="n">__Y</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">*&gt;</span><span class="p">(</span>
+        <span class="o">&amp;</span><span class="n">Y</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">front</span><span class="p">()</span>
+      <span class="p">);</span>
+      <span class="n">__Yp</span><span class="p">[</span><span class="n">spl</span><span class="p">]</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="o">*&gt;</span><span class="p">(</span>
+        <span class="n">Yp</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">&amp;</span><span class="n">Yp</span><span class="p">[</span><span class="n">spl</span><span class="p">].</span><span class="n">front</span><span class="p">()</span> <span class="o">:</span> <span class="k">nullptr</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span>
+      <span class="n">m_nspl</span><span class="p">,</span> <span class="n">m_npts</span><span class="p">,</span>
+      <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">__headers</span><span class="p">)),</span>
+      <span class="o">&amp;</span><span class="n">stype</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">X</span><span class="p">.</span><span class="n">front</span><span class="p">(),</span>
+      <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">real_type</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">__Y</span><span class="p">)),</span>
+      <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">real_type</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">void</span> <span class="k">const</span> <span class="o">**&gt;</span><span class="p">(</span><span class="n">__Yp</span><span class="p">))</span>
+    <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"boundary"</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_boundary</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"boundary"</span><span class="p">);</span>
+      <span class="n">integer</span> <span class="n">ne</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">gc_boundary</span><span class="p">.</span><span class="n">get_num_elements</span><span class="p">());</span>
+      <span class="n">UTILS_ASSERT</span><span class="p">(</span>
+        <span class="n">ne</span> <span class="o">==</span> <span class="n">m_nspl</span><span class="p">,</span>
+        <span class="s">"{}, field `boundary` expected a"</span>
+        <span class="s">" generic vector of size: {} but is of size: {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="p">,</span> <span class="n">ne</span><span class="p">,</span> <span class="n">m_nspl</span>
+      <span class="p">);</span>
+
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">ispl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">ispl</span> <span class="o">&lt;</span> <span class="n">ne</span><span class="p">;</span> <span class="o">++</span><span class="n">ispl</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">Spline</span> <span class="o">*</span> <span class="n">S</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">ispl</span><span class="p">)];</span>
+        <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">item</span> <span class="o">=</span> <span class="n">gc_boundary</span><span class="p">(</span><span class="n">ispl</span><span class="p">,</span><span class="s">"SplineSet boundary data"</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="n">item</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"closed"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">item</span><span class="p">(</span><span class="s">"closed"</span><span class="p">).</span><span class="n">get_bool</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_closed</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_opened</span><span class="p">();</span>
+          <span class="k">if</span> <span class="p">(</span> <span class="n">item</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"extend"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">item</span><span class="p">(</span><span class="s">"extend"</span><span class="p">).</span><span class="n">get_bool</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_unbounded</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">item</span><span class="p">(</span><span class="s">"extend_constant"</span><span class="p">).</span><span class="n">get_bool</span><span class="p">()</span> <span class="p">)</span>
+              <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_extended_constant</span><span class="p">();</span>
+            <span class="k">else</span>
+              <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_extended_not_constant</span><span class="p">();</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">S</span><span class="o">-&gt;</span><span class="n">make_bounded</span><span class="p">();</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval</span><span class="p">(</span> <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)];</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">x</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2</span><span class="p">(</span>
+    <span class="n">real_type</span>          <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>            <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2</span><span class="p">(</span>
+    <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>               <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>    <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+            <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/*</span>
+<span class="cm">  //    __ _          _         _           _            _   _</span>
+<span class="cm">  //   / _(_)_ __ ___| |_    __| | ___ _ __(_)_   ____ _| |_(_)_   _____</span>
+<span class="cm">  //  | |_| | '__/ __| __|  / _` |/ _ \ '__| \ \ / / _` | __| \ \ / / _ \</span>
+<span class="cm">  //  |  _| | |  \__ \ |_  | (_| |  __/ |  | |\ V / (_| | |_| |\ V /  __/</span>
+<span class="cm">  //  |_| |_|_|  |___/\__|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|</span>
+<span class="cm">  */</span>
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_D</span><span class="p">(</span> <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)];</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_D</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">x</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_D</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_D</span><span class="p">(</span>
+    <span class="n">real_type</span>          <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>            <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_D</span><span class="p">(</span>
+    <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>               <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>    <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_D</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_D</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+            <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/*                                _       _           _            _   _</span>
+<span class="cm">  //   ___  ___  ___ ___  _ __   __| |   __| | ___ _ __(_)_   ____ _| |_(_)_   _____</span>
+<span class="cm">  //  / __|/ _ \/ __/ _ \| '_ \ / _` |  / _` |/ _ \ '__| \ \ / / _` | __| \ \ / / _ \</span>
+<span class="cm">  //  \__ \  __/ (_| (_) | | | | (_| | | (_| |  __/ |  | |\ V / (_| | |_| |\ V /  __/</span>
+<span class="cm">  //  |___/\___|\___\___/|_| |_|\__,_|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|</span>
+<span class="cm">  */</span>
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DD</span><span class="p">(</span> <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)];</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DD</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">x</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DD</span><span class="p">(</span>
+    <span class="n">real_type</span>          <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>            <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>               <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>    <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DD</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+            <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/*</span>
+<span class="cm">  //   _   _     _         _       _           _            _   _</span>
+<span class="cm">  //  | |_| |__ (_)_ __ __| |   __| | ___ _ __(_)_   ____ _| |_(_)_   _____</span>
+<span class="cm">  //  | __| '_ \| | '__/ _` |  / _` |/ _ \ '__| \ \ / / _` | __| \ \ / / _ \</span>
+<span class="cm">  //  | |_| | | | | | | (_| | | (_| |  __/ |  | |\ V / (_| | |_| |\ V /  __/</span>
+<span class="cm">  //   \__|_| |_|_|_|  \__,_|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|</span>
+<span class="cm">  */</span>
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DDD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>    <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)];</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DDD</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">x</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval_DDD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">vec</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DDD</span><span class="p">(</span>
+    <span class="n">real_type</span>          <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>            <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DDD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>               <span class="n">indep</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>    <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">n_elem</span><span class="p">();</span> <span class="o">++</span><span class="n">pos</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">BinarySearch</span><span class="o">::</span><span class="n">DATA_TYPE</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">D</span> <span class="o">=</span> <span class="n">m_header_to_position</span><span class="p">.</span><span class="n">get_elem</span><span class="p">(</span> <span class="n">pos</span> <span class="p">);</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">D</span><span class="p">.</span><span class="n">first</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_splines</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">second</span><span class="p">)]</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DDD</span><span class="p">(</span>
+    <span class="n">real_type</span>               <span class="n">zeta</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+    <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span>
+  <span class="n">SplineSet</span><span class="o">::</span><span class="n">eval2_DDD</span><span class="p">(</span>
+    <span class="n">vec_real_type</span>   <span class="k">const</span> <span class="o">&amp;</span> <span class="n">zetas</span><span class="p">,</span>
+    <span class="n">integer</span>                 <span class="n">indep</span><span class="p">,</span>
+    <span class="n">vec_string_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">columns</span><span class="p">,</span>
+    <span class="n">GenericContainer</span>      <span class="o">&amp;</span> <span class="n">gc</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">integer</span> <span class="n">npts</span> <span class="o">=</span> <span class="n">integer</span><span class="p">(</span><span class="n">zetas</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">map_type</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="n">set_map</span><span class="p">();</span>
+
+    <span class="c1">// preallocation</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+          <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span>
+      <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">set_vec_real</span><span class="p">(</span> <span class="kt">unsigned</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span> <span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">npts</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">intersect</span><span class="p">(</span> <span class="n">indep</span><span class="p">,</span> <span class="n">zetas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span> <span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span> <span class="n">vec_string_type</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">is</span> <span class="o">=</span> <span class="n">columns</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+            <span class="n">is</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">is</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">vec_real_type</span> <span class="o">&amp;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="o">*</span><span class="n">is</span><span class="p">].</span><span class="n">get_vec_real</span><span class="p">();</span>
+        <span class="n">Spline</span> <span class="k">const</span> <span class="o">*</span> <span class="n">p_spl</span> <span class="o">=</span> <span class="n">getSpline</span><span class="p">(</span> <span class="n">is</span><span class="o">-&gt;</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_spl</span><span class="o">-&gt;</span><span class="n">eval_DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api-cpp/program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSetGC.cc.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplineSetGC.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

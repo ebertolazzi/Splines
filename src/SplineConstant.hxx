@@ -45,8 +45,7 @@ namespace Splines {
     , m_external_alloc(false)
     {}
 
-    ~ConstantSpline() override
-    {}
+    ~ConstantSpline() override {}
 
     //! Use externally allocated memory for `npts` points
     void
@@ -57,13 +56,8 @@ namespace Splines {
     );
 
     // --------------------------- VIRTUALS -----------------------------------
-    //! Build a spline.
-    virtual
-    void
-    build() override
-    {} // nothing to do
+    void build() override {} // nothing to do
 
-    virtual
     void
     build(
       real_type const * x, integer incx,
@@ -71,77 +65,30 @@ namespace Splines {
       integer n
     ) override;
 
-    //! Evaluate spline value at `x`
-    virtual
-    real_type
-    operator () ( real_type x ) const override;
+    real_type operator () ( real_type x ) const override;
+    real_type D( real_type ) const override { return 0; }
+    real_type DD( real_type ) const override { return 0; }
+    real_type DDD( real_type ) const override { return 0; }
 
-    //! First derivative
-    virtual
-    real_type
-    D( real_type ) const override
-    { return 0; }
+    real_type id_eval( integer ni, real_type x ) const override;
+    real_type id_D( integer, real_type ) const override { return 0; }
+    real_type id_DD( integer, real_type ) const override { return 0; }
+    real_type id_DDD( integer, real_type ) const override { return 0; }
 
-    //! Second derivative
-    virtual
-    real_type
-    DD( real_type ) const override
-    { return 0; }
-
-    //! Third derivative
-    virtual
-    real_type
-    DDD( real_type ) const override
-    { return 0; }
-
-    //! Evaluate spline value at `x` knowing interval
-    virtual
-    real_type
-    id_eval( integer ni, real_type x ) const override;
-
-    //! First derivative
-    virtual
-    real_type
-    id_D( integer, real_type ) const override
-    { return 0; }
-
-    //! Second derivative
-    virtual
-    real_type
-    id_DD( integer, real_type ) const override
-    { return 0; }
-
-    //! Third derivative
-    virtual
-    real_type
-    id_DDD( integer, real_type ) const override
-    { return 0; }
-
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & ) const override;
-
-    //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return CONSTANT_TYPE; }
+    void writeToStream( ostream_type & ) const override;
+    unsigned type() const override { return CONSTANT_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
     //! Allocate memory for `npts` points
-    virtual
     void
     reserve( integer npts ) override;
 
     //! Cancel the support points, empty the spline.
-    virtual
     void
     clear() override;
 
     //! get the piecewise polinomials of the spline
-    virtual
     integer // order
     coeffs(
       real_type * const cfs,
@@ -149,13 +96,8 @@ namespace Splines {
       bool              transpose = false
     ) const override;
 
-    virtual
-    integer // order
-    order() const override;
-
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    integer order() const override;
+    void setup( GenericContainer const & gc ) override;
 
   };
 }

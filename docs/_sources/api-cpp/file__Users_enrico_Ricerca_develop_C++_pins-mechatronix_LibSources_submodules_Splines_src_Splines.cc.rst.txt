@@ -1,0 +1,74 @@
+
+.. _file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc:
+
+File Splines.cc
+===============
+
+|exhale_lsh| :ref:`Parent directory <dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/Splines.cc``)
+----------------------------------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``SplinesUtils.hh`` (:ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh`)
+
+- ``cmath``
+
+- ``limits``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespace_splines_1a228f7065a249b0c10a9886fdc85f05f9`
+
+- :ref:`exhale_function_namespace_splines_1a4a9fd3c1d8de964d95d730668e6b6016`
+
+- :ref:`exhale_function_namespace_splines_1aef9996b8a86809bcb1609ed9bab5cea2`
+
+- :ref:`exhale_function_namespace_splines_1a94d2862da920a586358451ce3b3bcb41`
+
+- :ref:`exhale_function_namespace_splines_1ad1cb03ee7c6c9f13f93df88d7612e26e`
+
+- :ref:`exhale_function_namespace_splines_1a62d87177bbdb8da9a92701e528c57f00`
+
+- :ref:`exhale_function_namespace_splines_1a91c8806be0fd7584311f74dffe3ae3f7`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespace_splines_1a052166b362a237026fef2fff7e415070`
+
