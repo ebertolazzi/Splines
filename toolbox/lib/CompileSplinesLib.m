@@ -16,7 +16,7 @@ lst_cc = dir('../src/*.cc');
 
 LIB_SRCS = '';
 LIB_OBJS = '';
-MEX_CMD  = 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src';
+MEX_CMD  = 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src -I../src/Utils ';
 
 CMD = [ MEX_CMD ' -c '];
 if isunix
@@ -49,8 +49,8 @@ for k=1:length(NAMES)
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
   eval(CMD);
 
-  CMD = [ MEX_CMD, ' -output ../lib_matlab/', N ];
-  CMD = [ CMD, ' -largeArrayDims ../src_matlab_interface/mex_', N, '.cc ', LIB_OBJS ];
+  CMD = [ MEX_CMD, ' -output ../bin/', N ];
+  CMD = [ CMD, ' -largeArrayDims ../src_mex/mex_', N, '.cc ', LIB_OBJS ];
   if ismac
     CMD = [CMD, ' CXXFLAGS="\$CXXFLAGS -Wall -O2 -g"'];
   elseif isunix

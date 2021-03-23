@@ -1,6 +1,0 @@
-
-.. _namespace_SplinesLoad:
-
-Namespace SplinesLoad
-=====================
-

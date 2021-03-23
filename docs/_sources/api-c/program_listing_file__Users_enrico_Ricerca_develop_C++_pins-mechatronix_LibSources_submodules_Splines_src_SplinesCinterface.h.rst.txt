@@ -1,0 +1,97 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h:
+
+Program Listing for File SplinesCinterface.h
+============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesCinterface.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   /*--------------------------------------------------------------------------*\
+    |                                                                          |
+    |  Copyright (C) 2016                                                      |
+    |                                                                          |
+    |         , __                 , __                                        |
+    |        /|/  \               /|/  \                                       |
+    |         | __/ _   ,_         | __/ _   ,_                                |
+    |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
+    |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
+    |                           /|                   /|                        |
+    |                           \|                   \|                        |
+    |                                                                          |
+    |      Enrico Bertolazzi                                                   |
+    |      Dipartimento di Ingegneria Industriale                              |
+    |      Universita` degli Studi di Trento                                   |
+    |      email: enrico.bertolazzi@unitn.it                                   |
+    |                                                                          |
+   \*--------------------------------------------------------------------------*/
+   
+   /*\
+    | file: SplinesCinterface.h
+    */
+   
+   /* @{ */
+   #pragma once
+   
+   #ifndef SPLINES_C_INTERFACE_H
+   #define SPLINES_C_INTERFACE_H
+   
+   #ifdef __cplusplus
+   extern "C" {
+   #endif
+   
+     int
+     SPLINE_new(
+       char const * id,
+       char const * type
+     );
+   
+     int SPLINE_select( char const * id );
+   
+     int SPLINE_delete( char const * id );
+   
+     int SPLINE_print();
+   
+     char const * SPLINE_get_type_name();
+   
+     void * SPLINE_mem_ptr( char const * id );
+   
+     int SPLINE_init();
+   
+     int SPLINE_push( double x, double y );
+   
+     int SPLINE_build();
+   
+     int
+     SPLINE_build2(
+       double const * x,
+       double const * y,
+       int            n
+     );
+   
+     double SPLINE_eval( double x );
+   
+     double SPLINE_eval_D( double x );
+   
+     double SPLINE_eval_DD( double x );
+   
+     double SPLINE_eval_DDD( double x );
+   
+     double SPLINE_eval_DDDD( double x );
+   
+     double SPLINE_eval_DDDDD( double x );
+   
+   #ifdef __cplusplus
+   }
+   #endif
+   
+   #endif
+   
+   /* @} */
+   
+   /*
+   // eof: SplineCinterface.hh
+   */

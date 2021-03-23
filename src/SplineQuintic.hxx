@@ -53,9 +53,7 @@ namespace Splines {
     {}
 
     //! spline destructor
-    virtual
-    ~QuinticSpline() override
-    {}
+    ~QuinticSpline() override {}
 
     void
     setQuinticType( QUINTIC_SPLINE_TYPE qt )
@@ -63,13 +61,8 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a Monotone quintic spline from previously inserted points
-    virtual
-    void
-    build() override;
-
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
 
   };
 

@@ -94,17 +94,20 @@ install_local: lib
 	$(MKDIR) ./lib/include
 	cp GC/lib/include/*        ./lib/include
 	cp src/Splines.hh          ./lib/include
+	cp src/*.hxx               ./lib/include
 	cp src/SplinesCinterface.h ./lib/include
 
 install: lib
 	cp src/Splines.hh          $(PREFIX)/include
 	cp src/SplinesCinterface.h $(PREFIX)/include
+	cp src/*.hxx               $(PREFIX)/include
 	cp lib/$(LIB_SPLINE)       $(PREFIX)/lib
 
 install_as_framework: lib
 	$(MKDIR) $(PREFIX)/include/$(FRAMEWORK)
 	cp src/Splines.hh          $(PREFIX)/include/$(FRAMEWORK)
 	cp src/SplinesCinterface.h $(PREFIX)/include/$(FRAMEWORK)
+	cp src/*.hxx               $(PREFIX)/include/$(FRAMEWORK)
 	cp lib/$(LIB_SPLINE)       $(PREFIX)/lib
 
 run:

@@ -30,8 +30,8 @@ namespace Splines {
 
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
-    virtual void makeSpline() override {}
-  public:
+
+    void makeSpline() override {}
 
     using SplineSurf::m_nx;
     using SplineSurf::m_ny;
@@ -40,62 +40,28 @@ namespace Splines {
     using SplineSurf::m_Y;
     using SplineSurf::m_Z;
 
+  public:
+
     //! spline constructor
     BilinearSpline( string const & name = "Spline" )
     : SplineSurf(name)
     {}
 
-    virtual
-    ~BilinearSpline() override
-    {}
+    ~BilinearSpline() override {}
 
-    //! Evaluate spline value
-    virtual
-    real_type
-    operator () ( real_type x, real_type y ) const override;
+    real_type operator () ( real_type x, real_type y ) const override;
 
-    //! First derivative
-    virtual
-    void
-    D( real_type x, real_type y, real_type d[3] ) const override;
+    void D( real_type x, real_type y, real_type d[3] ) const override;
+    real_type Dx( real_type x, real_type y ) const override;
+    real_type Dy( real_type x, real_type y ) const override;
 
-    virtual
-    real_type
-    Dx( real_type x, real_type y ) const override;
+    void DD( real_type x, real_type y, real_type dd[6] ) const override;
+    real_type Dxx( real_type , real_type ) const override { return 0; }
+    real_type Dxy( real_type , real_type ) const override { return 0; }
+    real_type Dyy( real_type , real_type ) const override { return 0; }
 
-    virtual
-    real_type
-    Dy( real_type x, real_type y ) const override;
-
-    //! Second derivative
-    virtual
-    void
-    DD( real_type x, real_type y, real_type dd[6] ) const override;
-
-    virtual
-    real_type
-    Dxx( real_type , real_type ) const override
-    { return 0; }
-
-    virtual
-    real_type
-    Dxy( real_type , real_type ) const override
-    { return 0; }
-
-    virtual
-    real_type
-    Dyy( real_type , real_type ) const override
-    { return 0; }
-
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const override;
-
-    //! Return spline typename
-    virtual
-    char const *
-    type_name() const override;
+    void writeToStream( ostream_type & s ) const override;
+    char const * type_name() const override;
 
   };
 

@@ -40,11 +40,12 @@ namespace Splines {
 
   #endif
 
-  //! Akima spline class
   /*!
-   |  Reference
-   |  =========
-   |  Hiroshi Akima, Journal of the ACM, Vol. 17, No. 4, October 1970, pages 589-602.
+   *  Smooth Curve Fitting Based on Local Procedures
+   *
+   *  *Reference*
+   *
+   * - *Hiroshi Akima*, Journal of the ACM, Vol.17, No. 4, 589-602, 1970.
    */
   class AkimaSpline : public CubicSplineBase {
   public:
@@ -54,32 +55,23 @@ namespace Splines {
     using CubicSplineBase::build;
     #endif
 
-    //! spline constructor
+    /*!
+     * Construct an empty spline of type ``AkimaSpline``
+     */
     AkimaSpline( string const & name = "AkimaSpline" )
     : CubicSplineBase( name )
     {}
 
     //! spline destructor
-    virtual
-    ~AkimaSpline() override
-    {}
+    ~AkimaSpline() override {}
 
     //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return AKIMA_TYPE; }
+    unsigned type() const override { return AKIMA_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Build an Akima spline from previously inserted points
-    virtual
-    void
-    build() override;
-
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
 
   };
 

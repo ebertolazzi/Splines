@@ -35,29 +35,29 @@
 extern "C" {
 #endif
 
-  /*! Create a new `Spline` object 'id' */
+  /*! Create a new ``Spline`` object ``id`` */
   int
   SPLINE_new(
     char const * id,
     char const * type
   );
 
-  /*! Select a `Spline` object 'id' */
+  /*! Select a ``Spline`` object ``id`` */
   int SPLINE_select( char const * id );
 
-  /*! Delete the `Spline` object 'name' */
+  /*! Delete the ``Spline`` object ``id`` */
   int SPLINE_delete( char const * id );
 
-  /*! Print the actual `Spline` */
+  /*! Print the actual ``Spline`` */
   int SPLINE_print();
 
-  /*! Get type of actual pointed element of `Spline` */
+  /*! Get type of actual pointed element of ``Spline`` */
   char const * SPLINE_get_type_name();
 
-  /*! Get pointer to the internal `Spline` object 'id' */
+  /*! Get pointer to the internal ``Spline`` object 'id' */
   void * SPLINE_mem_ptr( char const * id );
 
-  /*! Set actual pointed element of `Spline` to an empty spline. */
+  /*! Set actual pointed element of ``Spline`` to an empty spline. */
   int SPLINE_init();
 
   /*! Push `(x,y)` interpolation point to a spline `bool` */
@@ -74,23 +74,23 @@ extern "C" {
     int            n
   );
 
-  /*! Evaluate spline at x */
-  double SPLINE_eval( double const x );
+  /*! Evaluate spline at ``x`` */
+  double SPLINE_eval( double x );
 
-  /*! Evaluate spline first derivative at x */
-  double SPLINE_eval_D( double const x );
+  /*! Evaluate spline first derivative at ``x`` */
+  double SPLINE_eval_D( double x );
 
-  /*! Evaluate spline second derivative at x */
-  double SPLINE_eval_DD( double const x );
+  /*! Evaluate spline second derivative at ``x`` */
+  double SPLINE_eval_DD( double x );
 
-  /*! Evaluate spline third derivative at x */
-  double SPLINE_eval_DDD( double const x );
+  /*! Evaluate spline third derivative at ``x`` */
+  double SPLINE_eval_DDD( double x );
 
-  /*! Evaluate spline 4th derivative at x */
-  double SPLINE_eval_DDDD( double const x );
+  /*! Evaluate spline 4th derivative at ``x`` */
+  double SPLINE_eval_DDDD( double x );
 
-  /*! Evaluate spline 5th derivative at x */
-  double SPLINE_eval_DDDDD( double const x );
+  /*! Evaluate spline 5th derivative at ``x`` */
+  double SPLINE_eval_DDDDD( double x );
 
 #ifdef __cplusplus
 }

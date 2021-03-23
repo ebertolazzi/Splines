@@ -82,39 +82,31 @@ namespace Splines {
     {}
 
     //! spline destructor
-    virtual
-    ~CubicSpline() override
-    {}
+    ~CubicSpline() override {}
 
     /*!
-     | \param bc0  initial boundary condition.
+     * Set the boudary consition for initial point
+     * \param bc0  initial boundary condition.
      */
     void
     setInitialBC( CUBIC_SPLINE_TYPE_BC bc0 )
     { m_bc0 = bc0; }
 
     /*!
-     | \param bcn final boundary condition.
+     * Set the boudary consition for final point
+     * \param bcn final boundary condition.
      */
     void
     setFinalBC( CUBIC_SPLINE_TYPE_BC bcn )
     { m_bcn = bcn; }
 
     //! Return spline type (as number)
-    virtual
-    unsigned
-    type() const override
-    { return CUBIC_TYPE; }
+    unsigned type() const override { return CUBIC_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    virtual
-    void
-    build() override;
-
-    virtual
-    void
-    setup( GenericContainer const & gc ) override;
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
 
   };
 

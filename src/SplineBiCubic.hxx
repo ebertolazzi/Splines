@@ -38,16 +38,16 @@ namespace Splines {
     real_type * m_DY;
     real_type * m_DXY;
 
-    void load( integer i, integer j, real_type bili3[4][4] ) const;
-
-  public:
-
     using SplineSurf::m_nx;
     using SplineSurf::m_ny;
 
     using SplineSurf::m_X;
     using SplineSurf::m_Y;
     using SplineSurf::m_Z;
+
+    void load( integer i, integer j, real_type bili3[4][4] ) const;
+
+  public:
 
     //! spline constructor
     BiCubicSplineBase( string const & name = "Spline" )
@@ -58,9 +58,7 @@ namespace Splines {
     , m_DXY(nullptr)
     {}
 
-    virtual
-    ~BiCubicSplineBase() override
-    {}
+    ~BiCubicSplineBase() override {}
 
     real_type
     DxNode ( integer i, integer j ) const
@@ -74,40 +72,16 @@ namespace Splines {
     DxyNode( integer i, integer j ) const
     { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
-    //! Evaluate spline value
-    virtual
-    real_type
-    operator () ( real_type x, real_type y ) const override;
+    real_type operator () ( real_type x, real_type y ) const override;
 
-    //! First derivative
-    virtual
-    void
-    D( real_type x, real_type y, real_type d[3] ) const override;
+    void D( real_type x, real_type y, real_type d[3] ) const override;
+    real_type Dx( real_type x, real_type y ) const override;
+    real_type Dy( real_type x, real_type y ) const override;
 
-    virtual
-    real_type
-    Dx( real_type x, real_type y ) const override;
-
-    virtual
-    real_type
-    Dy( real_type x, real_type y ) const override;
-
-    //! Second derivative
-    virtual
-    void
-    DD( real_type x, real_type y, real_type dd[6] ) const override;
-
-    virtual
-    real_type
-    Dxx( real_type x, real_type y ) const override;
-
-    virtual
-    real_type
-    Dxy( real_type x, real_type y ) const override;
-
-    virtual
-    real_type
-    Dyy( real_type x, real_type y ) const override;
+    void DD( real_type x, real_type y, real_type dd[6] ) const override;
+    real_type Dxx( real_type x, real_type y ) const override;
+    real_type Dxy( real_type x, real_type y ) const override;
+    real_type Dyy( real_type x, real_type y ) const override;
   };
 
   /*\
@@ -120,33 +94,24 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class BiCubicSpline : public BiCubicSplineBase {
-    virtual void makeSpline() override;
-
-  public:
+    void makeSpline() override;
 
     using BiCubicSplineBase::m_mem_bicubic;
     using BiCubicSplineBase::m_DX;
     using BiCubicSplineBase::m_DY;
     using BiCubicSplineBase::m_DXY;
 
+  public:
+
     //! spline constructor
     BiCubicSpline( string const & name = "Spline" )
     : BiCubicSplineBase( name )
     {}
 
-    virtual
-    ~BiCubicSpline() override
-    {}
+    ~BiCubicSpline() override {}
 
-    //! Print spline coefficients
-    virtual
-    void
-    writeToStream( ostream_type & s ) const override;
-
-    //! Return spline typename
-    virtual
-    char const *
-    type_name() const override;
+    void writeToStream( ostream_type & s ) const override;
+    char const * type_name() const override;
 
   };
 
