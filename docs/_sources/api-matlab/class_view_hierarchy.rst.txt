@@ -9,7 +9,7 @@ Class Hierarchy
    <script type="text/javascript">
      function getClassHierarchyTree() {
         return [
-         {text:"<span class=\"text-muted\">Class</span> BaseHermite",href:"class_base_hermite.html#exhale-class-class-base-hermite",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline1D",href:"class_spline1_d.html#exhale-class-class-spline1-d",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline2D",href:"class_spline2_d.html#exhale-class-class-spline2-d",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineSet",href:"class_spline_set.html#exhale-class-class-spline-set",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineVec",href:"class_spline_vec.html#exhale-class-class-spline-vec",selectable:false},
+
         ]
      }
    </script><!-- end getClassHierarchyTree() function -->

@@ -109,10 +109,11 @@ To run the test
   rake run     # using rake on linux and osx
   rake run_win # using rake on windows
 
-Online Documentation
---------------------
+Documentation and home
+----------------------
 
-Available at: http://ebertolazzi.github.io/Splines
+- http://ebertolazzi.github.io/Splines
+- https://github.com/ebertolazzi/Splines
 
 Developer
 ---------

@@ -44,22 +44,41 @@ namespace Splines {
     ~Spline2D()
     {}
 
+    //! true if the surface is assumed closed in the `x` direction
     bool is_x_closed() const { return m_pSpline2D->is_x_closed(); }
-    void make_x_closed()     { m_pSpline2D->make_x_closed(); }
-    void make_x_opened()     { m_pSpline2D->make_x_opened(); }
+    //! setup the surface as closed in the `x` direction
+    void make_x_closed() { m_pSpline2D->make_x_closed(); }
+    //! setup the surface as open in the `x` direction
+    void make_x_opened() { m_pSpline2D->make_x_opened(); }
 
+    //! true if the surface is assumed closed in the `y` direction
     bool is_y_closed() const { return m_pSpline2D->is_y_closed(); }
-    void make_y_closed()     { m_pSpline2D->make_y_closed(); }
-    void make_y_opened()     { m_pSpline2D->make_y_opened(); }
+    //! setup the surface as closed in the `y` direction
+    void make_y_closed() { m_pSpline2D->make_y_closed(); }
+    //! setup the surface as open in the `y` direction
+    void make_y_opened() { m_pSpline2D->make_y_opened(); }
 
+    /*!
+     * return true if the parameter `x` assumed bounded.
+     * If false the spline is estrapolated for `x` values outside the range.
+     */
     bool is_x_bounded() const { return m_pSpline2D->is_x_bounded(); }
-    void make_x_unbounded()   { m_pSpline2D->make_x_unbounded(); }
-    void make_x_bounded()     { m_pSpline2D->make_x_bounded(); }
+    //! make the spline surface unbounded in the `x` direction
+    void make_x_unbounded() { m_pSpline2D->make_x_unbounded(); }
+    //! make the spline surface bounded in the `x` direction
+    void make_x_bounded() { m_pSpline2D->make_x_bounded(); }
 
+    /*!
+     * return true if the parameter `y` assumed bounded.
+     * If false the spline is estrapolated for `y` values outside the range.
+     */
     bool is_y_bounded() const { return m_pSpline2D->is_y_bounded(); }
-    void make_y_unbounded()   { m_pSpline2D->make_y_unbounded(); }
+    //! make the spline surface unbounded in the `y` direction
+    void make_y_unbounded() { m_pSpline2D->make_y_unbounded(); }
+    //! make the spline surface bounded in the `y` direction
     void make_y_bounded()     { m_pSpline2D->make_y_bounded(); }
 
+    //! return the name of the spline surface assigned if was constructed
     string const & name() const { return m_pSpline2D->name(); }
 
     //! Cancel the support points, empty the spline.
@@ -196,6 +215,16 @@ namespace Splines {
     setup( GenericContainer const & gc )
     { build(gc); }
 
+    /*!
+     * Build spline surface using a `GenericContainer`
+     *
+     * - gc("spline_type")
+     *     - "bilinear" build a bilinear spline surface
+     *     - "bicubic" build a spline surface with cubic spline
+     *     - "biquintic" build a spline surface with quintic spline
+     *     - "Akima" or "akima "build a spline surface with cubic spline
+     *        using Akima algorithm to avoid obscillation
+     */
     void
     build( GenericContainer const & gc );
 

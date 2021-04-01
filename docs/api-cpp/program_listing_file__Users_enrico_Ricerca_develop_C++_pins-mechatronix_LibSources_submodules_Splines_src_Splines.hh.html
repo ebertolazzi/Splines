@@ -720,20 +720,24 @@
     <span class="o">~</span><span class="n">SplineSurf</span><span class="p">();</span>
 
     <span class="kt">bool</span> <span class="nf">is_x_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_x_closed</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_x_closed</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_x_opened</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">make_x_closed</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">make_x_opened</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="kt">bool</span> <span class="nf">is_y_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_y_closed</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_y_closed</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_y_opened</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">make_y_closed</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">make_y_opened</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_y_closed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="kt">bool</span> <span class="nf">is_x_bounded</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_x_can_extend</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_x_unbounded</span><span class="p">()</span>   <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_x_bounded</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_unbounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_x_bounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_x_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="kt">bool</span> <span class="nf">is_y_bounded</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_y_can_extend</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_y_unbounded</span><span class="p">()</span>   <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">make_y_bounded</span><span class="p">()</span>     <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_unbounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">make_y_bounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_name</span><span class="p">;</span> <span class="p">}</span>
 

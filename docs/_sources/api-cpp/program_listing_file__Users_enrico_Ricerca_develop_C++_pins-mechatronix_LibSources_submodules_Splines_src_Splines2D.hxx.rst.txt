@@ -55,19 +55,19 @@ Program Listing for File Splines2D.hxx
        {}
    
        bool is_x_closed() const { return m_pSpline2D->is_x_closed(); }
-       void make_x_closed()     { m_pSpline2D->make_x_closed(); }
-       void make_x_opened()     { m_pSpline2D->make_x_opened(); }
+       void make_x_closed() { m_pSpline2D->make_x_closed(); }
+       void make_x_opened() { m_pSpline2D->make_x_opened(); }
    
        bool is_y_closed() const { return m_pSpline2D->is_y_closed(); }
-       void make_y_closed()     { m_pSpline2D->make_y_closed(); }
-       void make_y_opened()     { m_pSpline2D->make_y_opened(); }
+       void make_y_closed() { m_pSpline2D->make_y_closed(); }
+       void make_y_opened() { m_pSpline2D->make_y_opened(); }
    
        bool is_x_bounded() const { return m_pSpline2D->is_x_bounded(); }
-       void make_x_unbounded()   { m_pSpline2D->make_x_unbounded(); }
-       void make_x_bounded()     { m_pSpline2D->make_x_bounded(); }
+       void make_x_unbounded() { m_pSpline2D->make_x_unbounded(); }
+       void make_x_bounded() { m_pSpline2D->make_x_bounded(); }
    
        bool is_y_bounded() const { return m_pSpline2D->is_y_bounded(); }
-       void make_y_unbounded()   { m_pSpline2D->make_y_unbounded(); }
+       void make_y_unbounded() { m_pSpline2D->make_y_unbounded(); }
        void make_y_bounded()     { m_pSpline2D->make_y_bounded(); }
    
        string const & name() const { return m_pSpline2D->name(); }

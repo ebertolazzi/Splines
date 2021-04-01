@@ -591,7 +591,26 @@
 <span id="_CPPv3N7Splines11CubicSpline5setupERK16GenericContainer"></span><span id="_CPPv2N7Splines11CubicSpline5setupERK16GenericContainer"></span><span id="Splines::CubicSpline::setup__GenericContainerCR"></span><span class="target" id="class_splines_1_1_cubic_spline_1af1b9a10288bd98e178fb2267de3ec016"></span><em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><span class="pre">GenericContainer</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">gc</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">override</span></em><a class="headerlink" href="#_CPPv4N7Splines11CubicSpline5setupERK16GenericContainer" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build a spline using a generic container. </p>
+<p>Setup a spline using a <code class="docutils literal notranslate"><span class="pre">GenericContainer</span></code></p>
+<p></p>
+<ul class="simple">
+<li><p>gc(“xdata”) vector with the <code class="docutils literal notranslate"><span class="pre">x</span></code> coordinate of the data</p></li>
+<li><p>gc(“ydata”) vector with the <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinate of the data</p></li>
+</ul>
+
+<p>may contain</p>
+<ul class="simple">
+<li>
+<p>gc(“bc_begin”) and/or gc(“bc_end”)</p>
+<ul>
+<li><p>”extrapolate” extrapolate the boundary condition</p></li>
+<li><p>”natural” make second derivative 0 at the border</p></li>
+<li><p>”parabolic” make third derivative 0 at the border</p></li>
+<li><p>”not_a_knot” not a knot condition of De Boor </p></li>
+</ul>
+</li>
+</ul>
+
 </dd>
 </dl>
 

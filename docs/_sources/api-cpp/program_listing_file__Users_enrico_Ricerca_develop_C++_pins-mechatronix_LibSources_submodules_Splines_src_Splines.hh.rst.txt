@@ -663,20 +663,24 @@ Program Listing for File Splines.hh
        ~SplineSurf();
    
        bool is_x_closed() const { return m_x_closed; }
-       void make_x_closed()     { m_x_closed = true; }
-       void make_x_opened()     { m_x_closed = false; }
+   
+       void make_x_closed() { m_x_closed = true; }
+   
+       void make_x_opened() { m_x_closed = false; }
    
        bool is_y_closed() const { return m_y_closed; }
-       void make_y_closed()     { m_y_closed = true; }
-       void make_y_opened()     { m_y_closed = false; }
+   
+       void make_y_closed() { m_y_closed = true; }
+   
+       void make_y_opened() { m_y_closed = false; }
    
        bool is_x_bounded() const { return m_x_can_extend; }
-       void make_x_unbounded()   { m_x_can_extend = true; }
-       void make_x_bounded()     { m_x_can_extend = false; }
+       void make_x_unbounded() { m_x_can_extend = true; }
+       void make_x_bounded() { m_x_can_extend = false; }
    
        bool is_y_bounded() const { return m_y_can_extend; }
-       void make_y_unbounded()   { m_y_can_extend = true; }
-       void make_y_bounded()     { m_y_can_extend = false; }
+       void make_y_unbounded() { m_y_can_extend = true; }
+       void make_y_bounded() { m_y_can_extend = false; }
    
        string const & name() const { return m_name; }
    

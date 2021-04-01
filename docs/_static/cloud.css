@@ -198,7 +198,7 @@ body
 
     
         margin: 1em 1em 0;
-        background: #1A4162;
+        background: #6f6700;
         background-attachment: fixed;
     
 }
@@ -231,7 +231,7 @@ div.related
 {
     margin: 0 auto;
     max-width: 11.5in;
-    background: #5682AD;
+    background: #57A75E;
     line-height: 1.5em;
     padding: .75em 0;
     color: #ffffff;
@@ -343,7 +343,7 @@ div.document
     position: relative;
     margin: 0 auto;
     max-width: 11.5in;
-    background: #F2F2F2;
+    background: #ededed;
 
     
 }
@@ -389,16 +389,16 @@ div.body
 
     
     background-color: #f8f8f8;
-    border-left: 1px solid rgba(0,0,0,.05);
+    border-left: 1px solid rgba(0,0,0,.15);
     
         
             
     
-        -moz-box-shadow: -1px 0 2px rgba(0,0,0,.05);
-        -webkit-box-shadow: -1px 0 2px rgba(0,0,0,.05);
-        -o-box-shadow: -1px 0 2px rgba(0,0,0,.05);
-        -ms-box-shadow: -1px 0 2px rgba(0,0,0,.05);
-        box-shadow: -1px 0 2px rgba(0,0,0,.05);
+        -moz-box-shadow: -1px 0 2px rgba(0,0,0,.15);
+        -webkit-box-shadow: -1px 0 2px rgba(0,0,0,.15);
+        -o-box-shadow: -1px 0 2px rgba(0,0,0,.15);
+        -ms-box-shadow: -1px 0 2px rgba(0,0,0,.15);
+        box-shadow: -1px 0 2px rgba(0,0,0,.15);
     
 
 
@@ -504,7 +504,7 @@ div.sphinxsidebar ul
 
 div.sphinxsidebar a
 {
-    color: #003469;
+    color: #006906;
     border: 1px solid transparent;
     border-width: 1px 0;
 }
@@ -872,7 +872,7 @@ button#sidebar-hide
     
 
     background: transparent;
-    border: 1px solid rgba(0,0,0,.05);
+    border: 1px solid rgba(0,0,0,.15);
     
         border-top-width: 0;
     
@@ -1579,7 +1579,7 @@ table.docutils th + .double-left-divider { border-left-width: 0; }
 
 div.admonition, p.deprecated
 {
-    background: #E7F0FE;
+    background: #D9E4F1;
     
     
         
@@ -1618,13 +1618,13 @@ div.admonition, p.deprecated
 
 
 
-div.caution, div.important { background-color: #FFF7E0; background-image: url("icon-caution.png"); }
-div.warning { background-color: #ffe4e4; background-image: url("icon-warning.png"); }
-div.danger, div.admonition.error { background-color: #ffe4e4; background-image: url("icon-danger.png"); }
+div.caution, div.important { background-color: #eeeeee; background-image: url("icon-caution.png"); }
+div.warning { background-color: #EBC5A7; background-image: url("icon-warning.png"); }
+div.danger, div.admonition.error { background-color: #EBC5A7; background-image: url("icon-danger.png"); }
 
-div.seealso { background-color: #FFF7E0; background-image: url("icon-seealso.png"); }
-div.admonition-todo { background-color: #FFF7E0; background-image: url("icon-todo.png"); }
-p.deprecated { background-color: #fbece0; background-image: url("icon-deprecated.png"); }
+div.seealso { background-color: #eeeeee; background-image: url("icon-seealso.png"); }
+div.admonition-todo { background-color: #eeeeee; background-image: url("icon-todo.png"); }
+p.deprecated { background-color: #ffebab; background-image: url("icon-deprecated.png"); }
 
 
 div.admonition p,
@@ -1790,9 +1790,9 @@ td.linenos pre
 
 div.highlight pre
 {
-    background-color: #eeffcc;
+    background-color: #e8ffe6;
 
-    border: 1px solid #AACC99;
+    border: 1px solid #129100;
     border-width: 1px 0;
     border-style: solid dotted dotted solid;
     
@@ -1851,8 +1851,8 @@ code
 
 code.literal
 {
-    background-color: rgba(0,0,0,.075);
-    border: 1px solid rgba(0,0,0,.05);
+    background-color: rgba(0,0,0,.06);
+    border: 1px solid transparent;
     padding: 0px 4px;
     margin: 1px;
 
@@ -2059,7 +2059,7 @@ div.viewcode-block:target
     dl.attribute > dt
     {
         background-color:
-        #e6e6e6;
+        #ffd5ff;
     }
 
     dl.function > dt,
@@ -2068,20 +2068,20 @@ div.viewcode-block:target
     dl.staticmethod > dt 
     {
         background-color:
-        #deebf5;
+        #eefbff;
     }
 
     dl.class > dt
     {
         background-color:
-        #eee3ce;
+        #fff3df;
         border-width: 0 0 0 6px;
     }
 
     dl.exception > dt
     {
         background-color:
-        #eee3ce;
+        #e9ffd0;
     }
 
     
@@ -2149,7 +2149,7 @@ table.indextable span.category
 {
     font-size: 80%;
     font-style: italic;
-    color: #84ADBE;
+    color: #999999;
 }
 
 table.indextable a,

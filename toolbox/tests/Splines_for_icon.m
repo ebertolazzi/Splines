@@ -43,3 +43,5 @@ ZZ = ak.eval(XX,YY);
 
 surf(XX,YY,ZZ,'Linestyle',':'), view(145,40), set(gca,'Fontsize',16);
 title('akima');
+
+save_png('../icon');

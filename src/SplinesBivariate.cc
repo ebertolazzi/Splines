@@ -455,6 +455,23 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  /*!
+   * Setup a spline surface using a `GenericContainer`
+   *
+   * - `gc("fortran_storage")` if true `zdata` is stored by column, otherwise by rows 
+   * - `gc("transposed")`      if true `zdata` is stored transposed 
+   * 
+   * - `gc("xdata")` vector of mesh point in `x` direction 
+   * - `gc("ydata")` vector of mesh point in `y` direction
+   * - `gc("zdata")` may be
+   *    - matrix of size `nx` x `ny` (`ny` x `nx` if data is transposed)
+   *    - vector of size `nx` x `ny` stiring the data. Data may be stored transposed
+   *      or using fortran or C storage addressing
+   *    - `ny` vector of vector of reals of size `nx` (no transposed no fortran addess)
+   *    - `nx` vector of vector of reals of size `ny` (transposed or fortran addess)
+   *
+   */
+
   void
   SplineSurf::setup( GenericContainer const & gc ) {
     /*
@@ -556,7 +573,7 @@ namespace Splines {
         );
         for ( integer j = 0; j < ny; ++j ) {
           GenericContainer const & row = data[size_t(j)];
-          string msg1 = fmt::format( "{} , reading row {}\n", msg, j );
+          string msg1 = fmt::format( "{}, reading row {}\n", msg, j );
           row.copyto_vec_real( tmp, msg1.c_str() );
           UTILS_ASSERT(
             size_t(nx) == tmp.size(),

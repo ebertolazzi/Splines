@@ -477,7 +477,11 @@ namespace Splines {
     void build() = 0;
 
     /*!
-     * Build a spline using a generic container.
+     *
+     * Setup a spline using a `GenericContainer`
+     *
+     * - gc("xdata") vector with the `x` coordinate of the data
+     * - gc("ydata") vector with the `y` coordinate of the data
      */
     virtual
     void setup( GenericContainer const & gc );
@@ -875,21 +879,43 @@ namespace Splines {
     virtual
     ~SplineSurf();
 
+    //! true if the surface is assumed closed in the `x` direction
     bool is_x_closed() const { return m_x_closed; }
-    void make_x_closed()     { m_x_closed = true; }
-    void make_x_opened()     { m_x_closed = false; }
 
+    //! setup the surface as closed in the `x` direction
+    void make_x_closed() { m_x_closed = true; }
+
+    //! setup the surface as open in the `x` direction
+    void make_x_opened() { m_x_closed = false; }
+
+    //! true if the surface is assumed closed in the `y` direction
     bool is_y_closed() const { return m_y_closed; }
-    void make_y_closed()     { m_y_closed = true; }
-    void make_y_opened()     { m_y_closed = false; }
 
+    //! setup the surface as closed in the `y` direction
+    void make_y_closed() { m_y_closed = true; }
+
+    //! setup the surface as open in the `y` direction
+    void make_y_opened() { m_y_closed = false; }
+
+   /*!
+     * return true if the parameter `x` assumed bounded.
+     * If false the spline is estrapolated for `x` values outside the range.
+     */
     bool is_x_bounded() const { return m_x_can_extend; }
-    void make_x_unbounded()   { m_x_can_extend = true; }
-    void make_x_bounded()     { m_x_can_extend = false; }
+    //! make the spline surface unbounded in the `x` direction
+    void make_x_unbounded() { m_x_can_extend = true; }
+    //! make the spline surface bounded in the `x` direction
+    void make_x_bounded() { m_x_can_extend = false; }
 
+    /*!
+     * return true if the parameter `y` assumed bounded.
+     * If false the spline is estrapolated for `y` values outside the range.
+     */
     bool is_y_bounded() const { return m_y_can_extend; }
-    void make_y_unbounded()   { m_y_can_extend = true; }
-    void make_y_bounded()     { m_y_can_extend = false; }
+    //! make the spline surface unbounded in the `y` direction
+    void make_y_unbounded() { m_y_can_extend = true; }
+    //! make the spline surface bounded in the `x` direction
+    void make_y_bounded() { m_y_can_extend = false; }
 
     string const & name() const { return m_name; }
 
@@ -1072,12 +1098,12 @@ namespace Splines {
 
     /*!
      * value, first and second derivatives at point \f$ (x,y) \f$
-     * - d[0] value of the spline \f$ S(x,y) \f$
-     * - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
-     * - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
-     * - d[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
-     * - d[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
-     * - d[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
+     * - dd[0] value of the spline \f$ S(x,y) \f$
+     * - dd[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+     * - dd[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+     * - dd[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
+     * - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
+     * - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
      */
     virtual
     void

@@ -213,12 +213,12 @@
 <dd>
 <p>value, first and second derivatives at point <span class="math notranslate nohighlight">\( (x,y) \)</span></p>
 <ul class="simple">
-<li><p>d[0] value of the spline <span class="math notranslate nohighlight">\( S(x,y) \)</span></p></li>
-<li><p>d[1] derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_x(x,y) \)</span></p></li>
-<li><p>d[2] derivative respect to <span class="math notranslate nohighlight">\( y \)</span> of the spline: <span class="math notranslate nohighlight">\( S_y(x,y) \)</span></p></li>
-<li><p>d[3] second derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_{xx}(x,y) \)</span></p></li>
-<li><p>d[4] mixed second derivative: <span class="math notranslate nohighlight">\( S_{xy}(x,y) \)</span></p></li>
-<li><p>d[5] second derivative respect to <span class="math notranslate nohighlight">\( y \)</span> of the spline: <span class="math notranslate nohighlight">\( S_{yy}(x,y) \)</span> </p></li>
+<li><p>dd[0] value of the spline <span class="math notranslate nohighlight">\( S(x,y) \)</span></p></li>
+<li><p>dd[1] derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_x(x,y) \)</span></p></li>
+<li><p>dd[2] derivative respect to <span class="math notranslate nohighlight">\( y \)</span> of the spline: <span class="math notranslate nohighlight">\( S_y(x,y) \)</span></p></li>
+<li><p>dd[3] second derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_{xx}(x,y) \)</span></p></li>
+<li><p>dd[4] mixed second derivative: <span class="math notranslate nohighlight">\( S_{xy}(x,y) \)</span></p></li>
+<li><p>dd[5] second derivative respect to <span class="math notranslate nohighlight">\( y \)</span> of the spline: <span class="math notranslate nohighlight">\( S_{yy}(x,y) \)</span> </p></li>
 </ul>
 
 </dd>
@@ -255,84 +255,108 @@
 <dt id="_CPPv4NK7Splines13Akima2Dspline11is_x_closedEv">
 <span id="_CPPv3NK7Splines13Akima2Dspline11is_x_closedEv"></span><span id="_CPPv2NK7Splines13Akima2Dspline11is_x_closedEv"></span><span id="Splines::Akima2Dspline::is_x_closedC"></span><span class="target" id="class_splines_1_1_spline_surf_1ae81c57bd20e9a56f6ec34ab179e0a77e"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">bool</span> <code class="sig-name descname"><span class="pre">is_x_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines13Akima2Dspline11is_x_closedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>true if the surface is assumed closed in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline13make_x_closedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline13make_x_closedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline13make_x_closedEv"></span><span id="Splines::Akima2Dspline::make_x_closed"></span><span class="target" id="class_splines_1_1_spline_surf_1aadb608b2bee5ac6d90972381db7fc474"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_x_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline13make_x_closedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>setup the surface as closed in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline13make_x_openedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline13make_x_openedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline13make_x_openedEv"></span><span id="Splines::Akima2Dspline::make_x_opened"></span><span class="target" id="class_splines_1_1_spline_surf_1abb54ecfeafaac4593d1b0c3788761b7f"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_x_opened</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline13make_x_openedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>setup the surface as open in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK7Splines13Akima2Dspline11is_y_closedEv">
 <span id="_CPPv3NK7Splines13Akima2Dspline11is_y_closedEv"></span><span id="_CPPv2NK7Splines13Akima2Dspline11is_y_closedEv"></span><span id="Splines::Akima2Dspline::is_y_closedC"></span><span class="target" id="class_splines_1_1_spline_surf_1a4b41e49135b384f4a7d61691bf697121"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">bool</span> <code class="sig-name descname"><span class="pre">is_y_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines13Akima2Dspline11is_y_closedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>true if the surface is assumed closed in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline13make_y_closedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline13make_y_closedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline13make_y_closedEv"></span><span id="Splines::Akima2Dspline::make_y_closed"></span><span class="target" id="class_splines_1_1_spline_surf_1aab6a52592ebe995f675fc2a7f53c52f0"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_y_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline13make_y_closedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>setup the surface as closed in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline13make_y_openedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline13make_y_openedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline13make_y_openedEv"></span><span id="Splines::Akima2Dspline::make_y_opened"></span><span class="target" id="class_splines_1_1_spline_surf_1af537a09f1f219b07544f016c925206f2"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_y_opened</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline13make_y_openedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>setup the surface as open in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK7Splines13Akima2Dspline12is_x_boundedEv">
 <span id="_CPPv3NK7Splines13Akima2Dspline12is_x_boundedEv"></span><span id="_CPPv2NK7Splines13Akima2Dspline12is_x_boundedEv"></span><span id="Splines::Akima2Dspline::is_x_boundedC"></span><span class="target" id="class_splines_1_1_spline_surf_1af973208e1cb61064310b805c94373fdf"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">bool</span> <code class="sig-name descname"><span class="pre">is_x_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines13Akima2Dspline12is_x_boundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>return true if the parameter <code class="docutils literal notranslate"><span class="pre">x</span></code> assumed bounded. If false the spline is estrapolated for <code class="docutils literal notranslate"><span class="pre">x</span></code> values outside the range. </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline16make_x_unboundedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline16make_x_unboundedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline16make_x_unboundedEv"></span><span id="Splines::Akima2Dspline::make_x_unbounded"></span><span class="target" id="class_splines_1_1_spline_surf_1a11cddae997421bc327d87ce71b62311d"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_x_unbounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline16make_x_unboundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>make the spline surface unbounded in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline14make_x_boundedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline14make_x_boundedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline14make_x_boundedEv"></span><span id="Splines::Akima2Dspline::make_x_bounded"></span><span class="target" id="class_splines_1_1_spline_surf_1a49881b27fb55ce9715034695fddb6f11"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_x_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline14make_x_boundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>make the spline surface bounded in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK7Splines13Akima2Dspline12is_y_boundedEv">
 <span id="_CPPv3NK7Splines13Akima2Dspline12is_y_boundedEv"></span><span id="_CPPv2NK7Splines13Akima2Dspline12is_y_boundedEv"></span><span id="Splines::Akima2Dspline::is_y_boundedC"></span><span class="target" id="class_splines_1_1_spline_surf_1a9ac734162f244915244f89f72dfced89"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">bool</span> <code class="sig-name descname"><span class="pre">is_y_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines13Akima2Dspline12is_y_boundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>return true if the parameter <code class="docutils literal notranslate"><span class="pre">y</span></code> assumed bounded. If false the spline is estrapolated for <code class="docutils literal notranslate"><span class="pre">y</span></code> values outside the range. </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline16make_y_unboundedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline16make_y_unboundedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline16make_y_unboundedEv"></span><span id="Splines::Akima2Dspline::make_y_unbounded"></span><span class="target" id="class_splines_1_1_spline_surf_1a98fec3ba164a8cc6e193f5c28af87a53"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_y_unbounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline16make_y_unboundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>make the spline surface unbounded in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N7Splines13Akima2Dspline14make_y_boundedEv">
 <span id="_CPPv3N7Splines13Akima2Dspline14make_y_boundedEv"></span><span id="_CPPv2N7Splines13Akima2Dspline14make_y_boundedEv"></span><span id="Splines::Akima2Dspline::make_y_bounded"></span><span class="target" id="class_splines_1_1_spline_surf_1a9539bc72a47a813ee4c10110b6bbd120"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">make_y_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline14make_y_boundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>make the spline surface bounded in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction </p>
+</dd>
 </dl>
 
 <dl class="cpp function">
@@ -557,7 +581,26 @@
 <dt id="_CPPv4N7Splines13Akima2Dspline5setupERK16GenericContainer">
 <span id="_CPPv3N7Splines13Akima2Dspline5setupERK16GenericContainer"></span><span id="_CPPv2N7Splines13Akima2Dspline5setupERK16GenericContainer"></span><span id="Splines::Akima2Dspline::setup__GenericContainerCR"></span><span class="target" id="class_splines_1_1_spline_surf_1a996d1cb82341dbd2c3241891cf206cee"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><span class="pre">GenericContainer</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">gc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines13Akima2Dspline5setupERK16GenericContainer" title="Permalink to this definition">¶</a><br>
 </dt>
-<dd></dd>
+<dd>
+<p>Setup a spline surface using a <code class="docutils literal notranslate"><span class="pre">GenericContainer</span></code></p>
+<p></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gc("fortran_storage")</span></code> if true <code class="docutils literal notranslate"><span class="pre">zdata</span></code> is stored by column, otherwise by rows</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gc("transposed")</span></code> if true <code class="docutils literal notranslate"><span class="pre">zdata</span></code> is stored transposed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gc("xdata")</span></code> vector of mesh point in <code class="docutils literal notranslate"><span class="pre">x</span></code> direction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gc("ydata")</span></code> vector of mesh point in <code class="docutils literal notranslate"><span class="pre">y</span></code> direction</p></li>
+<li>
+<p><code class="docutils literal notranslate"><span class="pre">gc("zdata")</span></code> may be</p>
+<ul>
+<li><p>matrix of size <code class="docutils literal notranslate"><span class="pre">nx</span></code> x <code class="docutils literal notranslate"><span class="pre">ny</span></code> (<code class="docutils literal notranslate"><span class="pre">ny</span></code> x <code class="docutils literal notranslate"><span class="pre">nx</span></code> if data is transposed)</p></li>
+<li><p>vector of size <code class="docutils literal notranslate"><span class="pre">nx</span></code> x <code class="docutils literal notranslate"><span class="pre">ny</span></code> stiring the data. Data may be stored transposed or using fortran or C storage addressing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ny</span></code> vector of vector of reals of size <code class="docutils literal notranslate"><span class="pre">nx</span></code> (no transposed no fortran addess)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nx</span></code> vector of vector of reals of size <code class="docutils literal notranslate"><span class="pre">ny</span></code> (transposed or fortran addess) </p></li>
+</ul>
+</li>
+</ul>
+
+</dd>
 </dl>
 
 <dl class="cpp function">

@@ -568,7 +568,7 @@ Program Listing for File SplinesBivariate.cc
            );
            for ( integer j = 0; j < ny; ++j ) {
              GenericContainer const & row = data[size_t(j)];
-             string msg1 = fmt::format( "{} , reading row {}\n", msg, j );
+             string msg1 = fmt::format( "{}, reading row {}\n", msg, j );
              row.copyto_vec_real( tmp, msg1.c_str() );
              UTILS_ASSERT(
                size_t(nx) == tmp.size(),

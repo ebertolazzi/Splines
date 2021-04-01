@@ -492,6 +492,20 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  /*!
+   *
+   * Setup a spline using a `GenericContainer`
+   *
+   * - gc("xdata") vector with the `x` coordinate of the data
+   * - gc("ydata") vector with the `y` coordinate of the data
+   *
+   * may contain
+   * - gc("bc_begin") and/or gc("bc_end") 
+   *   - "extrapolate" extrapolate the boundary condition
+   *   - "natural"     make second derivative 0 at the border
+   *   - "parabolic"   make third derivative 0 at the border
+   *   - "not_a_knot"  not a knot condition of De Boor 
+   */
   void
   CubicSpline::setup( GenericContainer const & gc ) {
     /*
