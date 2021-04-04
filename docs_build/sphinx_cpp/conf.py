@@ -38,6 +38,7 @@ exhale_args = {
         INPUT               = ../../src
         GENERATE_TREEVIEW   = YES
         XML_OUTPUT          = xml-cpp
+        SHORT_NAMES         = YES
 
         XML_PROGRAMLISTING    = YES
         RECURSIVE             = YES
@@ -55,3 +56,8 @@ exhale_args = {
 ''',
   "lexerMapping": { r".*\.m": "MATLAB" }
 }
+
+cpp_index_common_prefix = ['Splines::']
+
+html_theme_options['logotarget'] = "../index"
+html_theme_options['roottarget'] = "../index"

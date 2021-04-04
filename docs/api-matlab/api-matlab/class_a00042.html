@@ -1,0 +1,518 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class SplineVec &#8212; Splines v1.0.8
+</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Function save_png" href="function_a00008_1a3953e50080941768996abba326a949a7.html" />
+    <link rel="prev" title="Class SplineSet" href="class_a00038.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00008_1a3953e50080941768996abba326a949a7.html" title="Function save_png"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="class_a00038.html" title="Class SplineSet"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="library_root.html" accesskey="U">MATLAB API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Class SplineVec</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="class-splinevec">
+<span id="exhale-class-a00042"></span><h1>Class SplineVec<a class="headerlink" href="#class-splinevec" title="Permalink to this headline">¶</a>
+</h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineVec.m.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-toolbox-lib-splinevec-m"><span class="std std-ref">File SplineVec.m</span></a></p></li>
+</ul>
+<div class="section" id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Permalink to this headline">¶</a>
+</h2>
+<div class="section" id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Permalink to this headline">¶</a>
+</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">handle</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a>
+</h2>
+<dl class="cpp class">
+<dt id="_CPPv49SplineVec">
+<span id="_CPPv39SplineVec"></span><span id="_CPPv29SplineVec"></span><span id="SplineVec"></span><span class="target" id="a00042"></span><em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SplineVec</span></code> <span class="pre">:</span> <em class="property"><span class="pre">public</span></em> <span class="pre">handle</span><a class="headerlink" href="#_CPPv49SplineVec" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>MATLAB class wrapper for the underlying C++ class</p>
+<p>The construction of the spline is done as follows</p>
+<p></p>
+<ul class="simple">
+<li><p>instantiate the spline object</p></li>
+</ul>
+
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SplineVec</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+
+<p></p>
+<ul class="simple">
+<li><p>load the points as a matrix <code class="docutils literal notranslate"><span class="pre">dim</span> <span class="pre">x</span> <span class="pre">npts</span></code> where <code class="docutils literal notranslate"><span class="pre">dim</span></code> is the space dimension and <code class="docutils literal notranslate"><span class="pre">npts</span></code> is the number of poinst</p></li>
+</ul>
+
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c">% P is a dim x npts matrix</span><span class="w"></span>
+</pre></div>
+</div>
+
+
+<p></p>
+<ul class="simple">
+<li><p>build or load the knots</p></li>
+</ul>
+
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="p">.</span><span class="n">knots</span><span class="p">(</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="p">);</span><span class="w">   </span><span class="c">% vector of knots</span><span class="w"></span>
+<span class="n">spl</span><span class="p">.</span><span class="n">chordal</span><span class="p">();</span><span class="w">    </span><span class="c">% build knots using chordal distance</span><span class="w"></span>
+<span class="n">spl</span><span class="p">.</span><span class="n">centripetal</span><span class="p">(;</span><span class="w"> </span><span class="c">% build knots centripetal</span><span class="w"></span>
+</pre></div>
+</div>
+
+
+<p></p>
+<ul class="simple">
+<li><p>build the spline, for the moment only <code class="docutils literal notranslate"><span class="pre">Catmull</span> <span class="pre">Rom</span></code></p></li>
+</ul>
+
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="p">.</span><span class="n">CatmullRom</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec9SplineVecEv">
+<span id="_CPPv3N9SplineVec9SplineVecEv"></span><span id="_CPPv2N9SplineVec9SplineVecEv"></span><span id="SplineVec::SplineVec"></span><span class="target" id="a00042_1ac3772d639c1a4cc2078f0e118857e76f"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">SplineVec</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec9SplineVecEv" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build an empty parametric spline:</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SplineVec</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec5setupE2in2in">
+<span id="_CPPv3N9SplineVec5setupE2in2in"></span><span id="_CPPv2N9SplineVec5setupE2in2in"></span><span id="SplineVec::setup__in.in"></span><span class="target" id="a00042_1aab10e22c4247dd055694c2b37085951c"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em><span class="pre">P</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec5setupE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Setup the point of the spline</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec5knotsE2in2in">
+<span id="_CPPv3N9SplineVec5knotsE2in2in"></span><span id="_CPPv2N9SplineVec5knotsE2in2in"></span><span id="SplineVec::knots__in.in"></span><span class="target" id="a00042_1a517d7f506a0ab2dfa096b94c4adb8ab3"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">knots</span></code><span class="sig-paren">(</span><em><span class="pre">t</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec5knotsE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Setup the knots of the spline</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">spl</span><span class="p">.</span><span class="n">knots</span><span class="p">(</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec9get_knotsE2in">
+<span id="_CPPv3N9SplineVec9get_knotsE2in"></span><span id="_CPPv2N9SplineVec9get_knotsE2in"></span><span id="SplineVec::get_knots__in"></span><span class="target" id="a00042_1a1d95a689ca03b3592d89e470031a27b0"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">get_knots</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec9get_knotsE2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Get the knots of the spline</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">spl</span><span class="p">.</span><span class="n">get_knots</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec7chordalE2in">
+<span id="_CPPv3N9SplineVec7chordalE2in"></span><span id="_CPPv2N9SplineVec7chordalE2in"></span><span id="SplineVec::chordal__in"></span><span class="target" id="a00042_1ade888279a13c8acafbe2a5de9a130962"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">chordal</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec7chordalE2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build the knots using chordal distance</p>
+<p></p>
+<p></p>
+<div class="math notranslate nohighlight">
+\[t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||\]</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec11centripetalE2in">
+<span id="_CPPv3N9SplineVec11centripetalE2in"></span><span id="_CPPv2N9SplineVec11centripetalE2in"></span><span id="SplineVec::centripetal__in"></span><span class="target" id="a00042_1a21f0f1141fe38eda9cd986aadd44a867"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">centripetal</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec11centripetalE2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build the knots using centripetal parametrization</p>
+<p></p>
+<p></p>
+<div class="math notranslate nohighlight">
+\[t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||^{1/2}\]</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec10CatmullRomE2in">
+<span id="_CPPv3N9SplineVec10CatmullRomE2in"></span><span id="_CPPv2N9SplineVec10CatmullRomE2in"></span><span id="SplineVec::CatmullRom__in"></span><span class="target" id="a00042_1aa76e8152df0954f78a6fcefe31cc8c82"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">CatmullRom</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec10CatmullRomE2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Build the spline using Catmull Rom algorithm</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">P</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="mf">1.34</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mf">8.66</span><span class="p">;</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="mf">10.6</span><span class="p">,</span><span class="w"> </span><span class="mf">10.4</span><span class="p">;</span><span class="w"> </span><span class="mf">10.7</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="mf">10.7</span><span class="p">,</span><span class="w"> </span><span class="mf">28.6</span><span class="p">;</span><span class="w"> </span><span class="mf">10.8</span><span class="p">,</span><span class="w"> </span><span class="mf">30.2</span><span class="p">;</span><span class="w"> </span><span class="mf">11.4</span><span class="p">,</span><span class="w"> </span><span class="mf">30.6</span><span class="p">;</span><span class="w"> </span><span class="mf">19.6</span><span class="p">,</span><span class="w"> </span><span class="mf">30.6</span><span class="p">;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="mf">20.2</span><span class="p">,</span><span class="w"> </span><span class="mf">30.2</span><span class="p">;</span><span class="w"> </span><span class="mf">20.3</span><span class="p">,</span><span class="w"> </span><span class="mf">28.6</span><span class="p">;</span><span class="w"> </span><span class="mf">20.3</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"> </span><span class="mf">20.4</span><span class="p">,</span><span class="w"> </span><span class="mf">10.4</span><span class="p">;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="mi">21</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mf">8.66</span><span class="p">;</span><span class="w"> </span><span class="mf">29.66</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
+
+<span class="n">S</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SplineVec</span><span class="p">();</span><span class="w">  </span><span class="c">% initialize spline</span><span class="w"></span>
+<span class="n">S</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span><span class="n">P</span><span class="p">.</span><span class="o">'</span><span class="p">);</span><span class="w">     </span><span class="c">% load points</span><span class="w"></span>
+<span class="n">S</span><span class="p">.</span><span class="n">centripetal</span><span class="p">();</span><span class="w">  </span><span class="c">% setup knots</span><span class="w"></span>
+
+<span class="c">% plot interpolation points</span><span class="w"></span>
+<span class="nb">hold</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="w"> </span><span class="n">P</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">P</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="s">'o'</span><span class="p">,</span><span class="s">'Color'</span><span class="p">,</span><span class="s">'red'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="s">'MarkerSize'</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="s">'MarkerFaceColor'</span><span class="p">,</span><span class="s">'blue'</span><span class="p">,</span><span class="s">'MarkerEdgeColor'</span><span class="p">,</span><span class="s">'green'</span><span class="p">);</span><span class="w"></span>
+<span class="n">hold</span><span class="w"> </span><span class="s">on</span><span class="p">;</span><span class="w"></span>
+<span class="c">% sample spline for plotting</span><span class="w"></span>
+<span class="n">t</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">linspace</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="n">tmin</span><span class="p">(),</span><span class="n">S</span><span class="p">.</span><span class="n">tmax</span><span class="p">(),</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="n">PP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="n">eval</span><span class="p">(</span><span class="n">t</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% plot curve</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="w"> </span><span class="n">PP</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="w"> </span><span class="n">PP</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="w"> </span><span class="s">'-'</span><span class="p">,</span><span class="w"> </span><span class="s">'Color'</span><span class="p">,</span><span class="w"> </span><span class="s">'blue'</span><span class="p">,</span><span class="w"> </span><span class="s">'Linewidth'</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<a class="reference internal" href="../_images/exampleVec.png"><img alt="../_images/exampleVec.png" class="align-center" src="../_images/exampleVec.png" style="width: 80%;"></a>
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec4evalE2in2in">
+<span id="_CPPv3N9SplineVec4evalE2in2in"></span><span id="_CPPv2N9SplineVec4evalE2in2in"></span><span id="SplineVec::eval__in.in"></span><span class="target" id="a00042_1a1d2f8b6a1a7ad12d76936d35277c7419"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec4evalE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec6eval_DE2in2in">
+<span id="_CPPv3N9SplineVec6eval_DE2in2in"></span><span id="_CPPv2N9SplineVec6eval_DE2in2in"></span><span id="SplineVec::eval_D__in.in"></span><span class="target" id="a00042_1a6ac301d500dd62796e66a416ba8f074f"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_D</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec6eval_DE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">p_D</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_D</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec7eval_DDE2in2in">
+<span id="_CPPv3N9SplineVec7eval_DDE2in2in"></span><span id="_CPPv2N9SplineVec7eval_DDE2in2in"></span><span id="SplineVec::eval_DD__in.in"></span><span class="target" id="a00042_1a0f95503f7aa47cc61f58afcfc17a5a9e"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec7eval_DDE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline second derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">p_DD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_DD</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec8eval_DDDE2in2in">
+<span id="_CPPv3N9SplineVec8eval_DDDE2in2in"></span><span id="_CPPv2N9SplineVec8eval_DDDE2in2in"></span><span id="SplineVec::eval_DDD__in.in"></span><span class="target" id="a00042_1a26637f4867a508c51496c0c7db8551c0"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec8eval_DDDE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline third derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">p_DDD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_DDD</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec9curvatureE2in2in">
+<span id="_CPPv3N9SplineVec9curvatureE2in2in"></span><span id="_CPPv2N9SplineVec9curvatureE2in2in"></span><span id="SplineVec::curvature__in.in"></span><span class="target" id="a00042_1a714b8eeff99f13a4fe5a83829efa8f50"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">curvature</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec9curvatureE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline curvature at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">kappa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">curvature</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec11curvature_DE2in2in">
+<span id="_CPPv3N9SplineVec11curvature_DE2in2in"></span><span id="_CPPv2N9SplineVec11curvature_DE2in2in"></span><span id="SplineVec::curvature_D__in.in"></span><span class="target" id="a00042_1ad92bb07abc573bbfcc37d6ea11467cf6"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">curvature_D</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec11curvature_DE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Evaluate spline curvature derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">kappa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">curvature_D</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec4tminE2in2in">
+<span id="_CPPv3N9SplineVec4tminE2in2in"></span><span id="_CPPv2N9SplineVec4tminE2in2in"></span><span id="SplineVec::tmin__in.in"></span><span class="target" id="a00042_1af8d47dc7174da22d833e47c3f8bbf11f"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">tmin</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec4tminE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Return initial t-coordinate of the spline</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">tmin</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N9SplineVec4tmaxE2in2in">
+<span id="_CPPv3N9SplineVec4tmaxE2in2in"></span><span id="_CPPv2N9SplineVec4tmaxE2in2in"></span><span id="SplineVec::tmax__in.in"></span><span class="target" id="a00042_1ad507fba6b83aa791fdbf9cfc41a5a953"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">tmax</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineVec4tmaxE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Return initial t-coordinate of the spline</p>
+<p></p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">tmax</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+ 
+</dd>
+</dl>
+
+</div>
+</dd>
+</dl>
+
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../index.html" title="../index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">MATLAB API</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00008_1a3953e50080941768996abba326a949a7.html" title="Function save_png"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="class_a00038.html" title="Class SplineSet"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="library_root.html" >MATLAB API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Class SplineVec</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

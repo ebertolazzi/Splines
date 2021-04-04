@@ -1,0 +1,13 @@
+.. _exhale_define_a00119_1a7d5567c4bd7d1851b7456989e413ccde:
+
+Define SPLINES_UTILS_HH
+=======================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.hh`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: SPLINES_UTILS_HH

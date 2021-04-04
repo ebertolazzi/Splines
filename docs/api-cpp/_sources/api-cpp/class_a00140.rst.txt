@@ -1,0 +1,25 @@
+.. _exhale_class_a00140:
+
+Class BesselSpline
+==================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineBessel.hxx`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Splines::CubicSplineBase`` (:ref:`exhale_class_a00196`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Splines::BesselSpline
+   :members:
+   :protected-members:
+   :undoc-members:

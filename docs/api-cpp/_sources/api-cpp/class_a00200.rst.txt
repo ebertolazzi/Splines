@@ -1,0 +1,27 @@
+.. _exhale_class_a00200:
+
+Class SplineSurf
+================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Inheritance Relationships
+-------------------------
+
+Derived Types
+*************
+
+- ``public Splines::BiCubicSplineBase`` (:ref:`exhale_class_a00144`)
+- ``public Splines::BiQuinticSplineBase`` (:ref:`exhale_class_a00156`)
+- ``public Splines::BilinearSpline`` (:ref:`exhale_class_a00152`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Splines::SplineSurf
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -488,7 +488,7 @@ namespace Splines {
   }
 
   /*!
-   | Evaluate at `x` and fill a GenericContainer
+   * Evaluate at `x` and fill a GenericContainer
    */
   void
   SplineVec::eval(

@@ -1,7 +1,9 @@
+import os
+
 project   = 'Splines'
 copyright = '2021, Enrico Bertolazzi'
 author    = ':email:`Enrico Bertolazzi <enrico.bertolazzi@unitn.it>`'
-version   = os.popen('git describe --tags').read()
+version   = os.popen('git describe --tags --abbrev=0').read()
 ##release   = '1.0'
 
 # The master toctree document.
@@ -25,8 +27,8 @@ extensions = [
   'sphinx.ext.todo',
 
   # 3rd party extensions
-  #'sphinxcontrib.fulltoc',
-  'sphinx.ext.viewcode',  # mainly to make sure layout works properly
+  'sphinxcontrib.fulltoc',
+  #'sphinx.ext.viewcode',  # mainly to make sure layout works properly
 
   # cloud's extensions
   'cloud_sptheme',
@@ -43,8 +45,8 @@ extensions = [
   #'sphinx.ext.ifconfig',
   #'sphinx.ext.githubpages',
   #'sphinx.ext.intersphinx',
-  #'sphinx.ext.graphviz',
-  #'sphinx.ext.inheritance_diagram',
+  'sphinx.ext.graphviz',
+  'sphinx.ext.inheritance_diagram',
   #'guzzle_sphinx_theme',
   #'sphinx_typo3_theme',
   'sphinxcontrib.email'
@@ -121,3 +123,26 @@ html_theme_options = {
   # index page
   "index_category_color" : "#999999"
 }
+
+# If true, SmartyPants will be used to convert quotes and dashes to
+# typographically correct entities.
+html_use_smartypants = True
+
+# Custom sidebar templates, maps document names to template names.
+html_sidebars = {'**': ['searchbox.html', 'globaltoc.html']}
+
+# If false, no module index is generated.
+# html_domain_indices = False
+
+# If false, no index is generated.
+# html_use_index = False
+
+# If true, the index is split into individual pages for each letter.
+# html_split_index = True
+
+# The name for this set of Sphinx documents.  If None, it defaults to
+# "<project> v<release> documentation".
+html_title = "%s v%s" % (project, version)
+
+# A shorter title for the navigation bar.  Default is the same as html_title.
+html_short_title = "%s" % (project)

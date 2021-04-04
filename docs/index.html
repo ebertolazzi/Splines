@@ -7,9 +7,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Splines &#8212; Splines  documentation</title>
+    <title>Splines &#8212; Splines v1.0.8
+</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="_static/table_styling.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
@@ -34,7 +36,6 @@
         <script src="_static/cloud.js"></script>
     
 
-    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Splines" href="readme.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,15 +46,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
           <a href="#" title="Table Of Contents"
-             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+             accesskey="C">toc</a></li>
         <li class="right" >
           <a href="readme.html" title="Splines"
              accesskey="N">next</a> &nbsp; &nbsp;</li>
-    <li><a href="#">Splines  documentation</a> &#187;</li>
+    <li><a href="#">Splines</a> &#187;</li>
 
         <li class="nav-item nav-item-this"><a href="">Splines</a></li> 
       </ul>
@@ -69,10 +67,8 @@
   <div class="section" id="splines">
 <h1>Splines<a class="headerlink" href="#splines" title="Permalink to this headline">¶</a>
 </h1>
+<p><strong>by Enrico Bertolazzi</strong></p>
 <p>Splines is a set of C++ classes (with MATLAB mex interface) which implements various spline interpolation.</p>
-<div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a>
-</h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1">
@@ -84,31 +80,60 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#documentation-and-home">Documentation and home</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#developer">Developer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#references">References</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#license">License</a></li>
 </ul>
 </li>
 <li class="toctree-l1">
-<a class="reference internal" href="api-cpp/library_root.html">C++ API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api-cpp/library_root.html#class-hierarchy">Class Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-cpp/library_root.html#file-hierarchy">File Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-cpp/library_root.html#full-api">Full API</a></li>
+<a class="reference internal" href="api_c.html">C Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_c.html#id2">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_c.html#id3">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_c.html#id4">Full API</a></li>
 </ul>
 </li>
 <li class="toctree-l1">
-<a class="reference internal" href="api-c/library_root.html">C API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api-c/library_root.html#class-hierarchy">Class Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-c/library_root.html#file-hierarchy">File Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-c/library_root.html#full-api">Full API</a></li>
+<a class="reference internal" href="api_cpp.html">C++ Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_cpp.html#id2">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_cpp.html#id3">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_cpp.html#id4">Full API</a></li>
 </ul>
 </li>
 <li class="toctree-l1">
-<a class="reference internal" href="api-matlab/library_root.html">MATLAB API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api-matlab/library_root.html#class-hierarchy">Class Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-matlab/library_root.html#file-hierarchy">File Hierarchy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-matlab/library_root.html#full-api">Full API</a></li>
+<a class="reference internal" href="api_matlab.html">MATLAB Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_matlab.html#id2">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_matlab.html#id3">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_matlab.html#id4">Full API</a></li>
 </ul>
 </li>
 </ul>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a>
+</h2>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2020</span><span class="p">,</span> <span class="n">Enrico</span> <span class="n">Bertolazzi</span>
+<span class="n">All</span> <span class="n">rights</span> <span class="n">reserved</span><span class="p">.</span>
+
+<span class="n">Redistribution</span> <span class="n">and</span> <span class="n">use</span> <span class="n">in</span> <span class="n">source</span> <span class="n">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="n">with</span> <span class="n">or</span> <span class="n">without</span>
+<span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span>
+<span class="nl">met</span><span class="p">:</span>
+
+    <span class="o">*</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span>
+      <span class="n">notice</span><span class="p">,</span> <span class="k">this</span> <span class="n">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="n">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="p">.</span>
+    <span class="o">*</span> <span class="n">Redistributions</span> <span class="n">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span>
+      <span class="n">notice</span><span class="p">,</span> <span class="k">this</span> <span class="n">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="n">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="n">in</span>
+      <span class="n">the</span> <span class="n">documentation</span> <span class="n">and</span><span class="o">/</span><span class="n">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="n">with</span> <span class="n">the</span> <span class="n">distribution</span>
+
+<span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s">"AS IS"</span>
+<span class="n">AND</span> <span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span>
+<span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span>
+<span class="n">ARE</span> <span class="n">DISCLAIMED</span><span class="p">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">OWNER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span>
+<span class="n">LIABLE</span> <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span>
+<span class="n">CONSEQUENTIAL</span> <span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span>
+<span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span> <span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span>
+<span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span> <span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span>
+<span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span>
+<span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span> <span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span>
+<span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="p">.</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -123,28 +148,7 @@
         <div class="sphinxsidebarwrapper">
         <p class="logo"><a href="#" title="index">
           <img class="logo" src="_static/Spline_interpolation.svg" alt="Logo"/>
-        </a></p><div class="sphinx-toc sphinxlocaltoc">
-    <h3><a href="#">Page contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Splines</a><ul>
-<li><a class="reference internal" href="#contents">Contents</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-  <div class="sphinxnext">
-    <h4>Next page</h4>
-    <p class="topless"><a href="readme.html"
-                          title="Next page">&rarr; Splines  </a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+        </a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -155,6 +159,15 @@
     </div>
 </div>
 <script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="#">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Splines  </a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_c.html">C Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_matlab.html">MATLAB Interface</a></li>
+</ul>
+</div>
         </div>
       </div>
     
@@ -182,15 +195,12 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
           <a href="#" title="Table Of Contents"
-             >toc</a> &nbsp; &nbsp;</li>
+             >toc</a></li>
         <li class="right" >
           <a href="readme.html" title="Splines"
              >next</a> &nbsp; &nbsp;</li>
-    <li><a href="#">Splines  documentation</a> &#187;</li>
+    <li><a href="#">Splines</a> &#187;</li>
 
         <li class="nav-item nav-item-this"><a href="">Splines</a></li> 
       </ul>

@@ -1,0 +1,22 @@
+.. _exhale_class_a00216:
+
+Class SplineSet::BinarySearch
+=============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.hxx`
+
+
+Nested Relationships
+--------------------
+
+This class is a nested type of :ref:`exhale_class_a00212`.
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Splines::SplineSet::BinarySearch
+   :members:
+   :protected-members:
+   :undoc-members:

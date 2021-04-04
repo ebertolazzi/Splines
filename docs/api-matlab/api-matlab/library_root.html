@@ -1,0 +1,354 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MATLAB API &#8212; Splines v1.0.8
+</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class BaseHermite" href="class_a00026.html" />
+    <link rel="prev" title="Splines MATLAB interface" href="../index.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="class_a00026.html" title="Class BaseHermite"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../index.html" title="Splines MATLAB interface"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">MATLAB API</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="matlab-api">
+<h1>MATLAB API<a class="headerlink" href="#matlab-api" title="Permalink to this headline">¶</a>
+</h1>
+<div class="section" id="class-hierarchy">
+<h2>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Permalink to this headline">¶</a>
+</h2>
+<div id="class-treeView"></div>
+<script type="text/javascript">
+  function getClassHierarchyTree() {
+     return [
+      {text:"<span class=\"text-muted\">Class</span> BaseHermite",href:"class_a00026.html#exhale-class-a00026",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline1D",href:"class_a00030.html#exhale-class-a00030",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline2D",href:"class_a00034.html#exhale-class-a00034",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineSet",href:"class_a00038.html#exhale-class-a00038",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineVec",href:"class_a00042.html#exhale-class-a00042",selectable:false},
+     ]
+  }
+</script><!-- end getClassHierarchyTree() function -->
+</div>
+<div class="section" id="file-hierarchy">
+<h2>File Hierarchy<a class="headerlink" href="#file-hierarchy" title="Permalink to this headline">¶</a>
+</h2>
+<div id="file-treeView"></div>
+<script type="text/javascript">
+  function getFileHierarchyTree() {
+     return [
+      {text:"<span class=\"text-muted\">Directory</span> toolbox",href:"dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox.html#dir-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox",selectable:false,tags:['1'],nodes:[{text:"<span class=\"text-muted\">Directory</span> lib",href:"dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib.html#dir-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib",selectable:false,tags:['7'],nodes:[{text:"<span class=\"text-muted\">File</span> BaseHermite.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_BaseHermite.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-BaseHermite.m",selectable:false},{text:"<span class=\"text-muted\">File</span> CompileSplinesLib.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_CompileSplinesLib.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-CompileSplinesLib.m",selectable:false},{text:"<span class=\"text-muted\">File</span> save_png.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_save_png.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-save-png.m",selectable:false},{text:"<span class=\"text-muted\">File</span> Spline1D.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline1D.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-Spline1D.m",selectable:false},{text:"<span class=\"text-muted\">File</span> Spline2D.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline2D.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-Spline2D.m",selectable:false},{text:"<span class=\"text-muted\">File</span> SplineSet.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineSet.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-SplineSet.m",selectable:false},{text:"<span class=\"text-muted\">File</span> SplineVec.m",href:"file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineVec.m.html#file-Users-enrico-Ricerca-develop-C++-pins-mechatronix-LibSources-submodules-Splines-toolbox-lib-SplineVec.m",selectable:false}]}]},
+     ]
+  }
+</script><!-- end getFileHierarchyTree() function -->
+</div>
+<div class="section" id="full-api">
+<h2>Full API<a class="headerlink" href="#full-api" title="Permalink to this headline">¶</a>
+</h2>
+<div class="section" id="classes-and-structs">
+<h3>Classes and Structs<a class="headerlink" href="#classes-and-structs" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00026.html">Class BaseHermite</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00026.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00026.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00026.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00030.html">Class Spline1D</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00030.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00030.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00030.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00034.html">Class Spline2D</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00034.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00034.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00034.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00038.html">Class SplineSet</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00038.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00038.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00038.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00042.html">Class SplineVec</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00042.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00042.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00042.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00008_1a3953e50080941768996abba326a949a7.html">Function save_png</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00008_1a3953e50080941768996abba326a949a7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<script type="text/javascript">
+    /* NOTE: if you are reading this, Exhale generated this directly. */
+    $(document).ready(function() {
+        /* Inspired by very informative answer to get color of links:
+           https://stackoverflow.com/a/2707837/3814202 */
+        var $fake_link = $('<a href="#"></a>').hide().appendTo("body");
+        var linkColor = $fake_link.css("color");
+        $fake_link.remove();
+
+        var $fake_p = $('<p class="text-muted"></p>').hide().appendTo("body");
+        var iconColor = $fake_p.css("color");
+        $fake_p.remove();
+
+        /* After much deliberation, using JavaScript directly to enforce that the
+         * link and glyphicon receive different colors is fruitless, because the
+         * bootstrap treeview library will overwrite the style every time.  Instead,
+         * leaning on the library code itself to append some styling to the head,
+         * I choose to mix a couple of things:
+         *
+         * 1. Set the `color` property of bootstrap treeview globally, this would
+         *    normally affect the color of both the link text and the icon.
+         * 2. Apply custom forced styling of the glyphicon itself in order to make
+         *    it a little more clear to the user (via different colors) that the
+         *    act of clicking the icon and the act of clicking the link text perform
+         *    different actions.  The icon expands, the text navigates to the page.
+         */
+         // Part 1: use linkColor as a parameter to bootstrap treeview
+
+         // apply the class view hierarchy
+         $("#class-treeView").treeview({
+             data: getClassHierarchyTree(),
+             enableLinks: true,
+             color: linkColor,
+             showTags: true,
+             collapseIcon: "glyphicon glyphicon-minus",
+             expandIcon: "glyphicon glyphicon-plus",
+             levels: 1,
+             onhoverColor: "#F5F5F5"
+         });
+
+         // apply the file view hierarchy
+         $("#file-treeView").treeview({
+             data: getFileHierarchyTree(),
+             enableLinks: true,
+             color: linkColor,
+             showTags: true,
+             collapseIcon: "glyphicon glyphicon-minus",
+             expandIcon: "glyphicon glyphicon-plus",
+             levels: 1,
+             onhoverColor: "#F5F5F5"
+         });
+
+         // Part 2: override the style of the glyphicons by injecting some CSS
+         $('<style type="text/css" id="exhaleTreeviewOverride">' +
+           '    .treeview span[class~=icon] { '                 +
+           '        color: ' + iconColor + ' ! important;'       +
+           '    }'                                              +
+           '</style>').appendTo('head');
+    });
+</script>
+</div>
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../index.html" title="../index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MATLAB API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-api">Full API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="class_a00026.html">Class BaseHermite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00030.html">Class Spline1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00034.html">Class Spline2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00038.html">Class SplineSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00042.html">Class SplineVec</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="function_a00008_1a3953e50080941768996abba326a949a7.html">Function save_png</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="class_a00026.html" title="Class BaseHermite"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../index.html" title="Splines MATLAB interface"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">MATLAB API</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

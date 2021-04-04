@@ -47,6 +47,7 @@ exhale_args = {
         INPUT               = ../../toolbox/lib
         GENERATE_TREEVIEW   = YES
         XML_OUTPUT          = xml-matlab
+        SHORT_NAMES         = YES
 
         XML_PROGRAMLISTING    = YES
         RECURSIVE             = YES
@@ -66,3 +67,6 @@ exhale_args = {
 ''',
   "lexerMapping": { r".*\.m": "MATLAB" }
 }
+
+html_theme_options['logotarget'] = "../index"
+html_theme_options['roottarget'] = "../index"

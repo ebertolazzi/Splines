@@ -1,0 +1,13 @@
+.. _exhale_function_a00128_1a22872cf871ce7a12ecda3a1f8d8e6cca:
+
+Function Splines::Pchip_build_new
+=================================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinePchip.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::Pchip_build_new(real_type const *, real_type const *, real_type *, integer)

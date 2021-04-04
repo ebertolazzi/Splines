@@ -1,0 +1,25 @@
+.. _exhale_class_a00026:
+
+Class BaseHermite
+=================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_BaseHermite.m`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public handle``
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: BaseHermite
+   :members:
+   :protected-members:
+   :undoc-members:

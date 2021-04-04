@@ -1,0 +1,25 @@
+.. _exhale_class_a00034:
+
+Class Spline2D
+==============
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline2D.m`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public handle``
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Spline2D
+   :members:
+   :protected-members:
+   :undoc-members:

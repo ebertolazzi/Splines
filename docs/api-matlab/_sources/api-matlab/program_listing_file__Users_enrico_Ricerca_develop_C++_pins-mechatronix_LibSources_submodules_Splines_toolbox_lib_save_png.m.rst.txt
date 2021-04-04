@@ -1,0 +1,19 @@
+
+.. _program_listing_file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_save_png.m:
+
+Program Listing for File save_png.m
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_save_png.m>` (``/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/toolbox/lib/save_png.m``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: MATLAB
+
+   function save_png( fname )
+     % now our solution, export with two background colors
+     exportgraphics(gcf, [ fname, '.pdf'], 'ContentType', 'image','ContentType','vector');
+     system([ '/usr/local/bin/pdf2svg ', fname, '.pdf ', fname, '.svg'] );
+     system([ '/usr/local/bin/pdftoppm -r 600 -png ', fname, '.pdf ', fname]);
+     movefile([fname, '-1.png'], [ fname, '.png'])
+   end

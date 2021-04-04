@@ -1,0 +1,679 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File SplinesUtils.cc &#8212; Splines v1.0.8
+</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplinesUtils.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="program-listing-for-file-splinesutils-cc">
+<span id="program-listing-file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesutils-cc"></span><h1>Program Listing for File SplinesUtils.cc<a class="headerlink" href="#program-listing-for-file-splinesutils-cc" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_src_SplinesUtils.cc.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-src-splinesutils-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/src/SplinesUtils.cc</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cp">#include</span> <span class="cpf">"SplinesUtils.hh"</span><span class="cp"></span>
+
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#endif</span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">;</span>
+
+  <span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+
+  <span class="cm">/*</span>
+<span class="cm">  //    __ _       _ _             _ _  __  __</span>
+<span class="cm">  //   / _(_)_ __ (_) |_ ___    __| (_)/ _|/ _| ___ _ __ ___ _ __   ___ ___</span>
+<span class="cm">  //  | |_| | '_ \| | __/ _ \  / _` | | |_| |_ / _ \ '__/ _ \ '_ \ / __/ _ \</span>
+<span class="cm">  //  |  _| | | | | | ||  __/ | (_| | |  _|  _|  __/ | |  __/ | | | (_|  __/</span>
+<span class="cm">  //  |_| |_|_| |_|_|\__\___|  \__,_|_|_| |_|  \___|_|  \___|_| |_|\___\___|</span>
+<span class="cm">  */</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">first_deriv4p_R</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">DLLL</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hLLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DLL</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DL</span><span class="p">,</span>   <span class="n">real_type</span> <span class="n">hL</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">t2</span>  <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t19</span> <span class="o">=</span> <span class="n">hLL</span><span class="o">*</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t22</span> <span class="o">=</span> <span class="n">DL</span><span class="o">-</span><span class="n">DLL</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t26</span> <span class="o">=</span> <span class="n">hLLL</span><span class="o">*</span><span class="n">hLLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t32</span> <span class="o">=</span> <span class="n">hLL</span><span class="o">+</span><span class="n">hLLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t33</span> <span class="o">=</span> <span class="n">t32</span><span class="o">*</span><span class="n">t32</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="p">((</span><span class="n">DLLL</span><span class="o">-</span><span class="n">DLL</span><span class="p">)</span><span class="o">*</span><span class="n">t2</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t19</span><span class="o">*</span><span class="n">DL</span><span class="mi">-3</span><span class="o">*</span><span class="n">t19</span><span class="o">*</span><span class="n">DLL</span><span class="o">+</span><span class="n">t19</span><span class="o">*</span><span class="n">DLLL</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">hLL</span><span class="o">*</span><span class="n">t22</span><span class="o">*</span><span class="n">hLLL</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t22</span><span class="o">*</span><span class="n">t26</span><span class="p">)</span><span class="o">*</span><span class="n">hL</span> <span class="o">+</span>
+                    <span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">DL</span><span class="mi">-4</span><span class="o">*</span><span class="n">DLL</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">DLLL</span><span class="p">)</span><span class="o">*</span><span class="n">hLL</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">DL</span><span class="o">*</span><span class="n">hLLL</span><span class="mi">-2</span><span class="o">*</span><span class="n">DLL</span><span class="o">*</span><span class="n">hLLL</span><span class="p">)</span><span class="o">*</span><span class="n">t2</span><span class="o">+</span><span class="n">t33</span><span class="o">*</span><span class="n">hLL</span><span class="o">*</span><span class="n">DL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span> <span class="o">=</span> <span class="n">t32</span><span class="o">*</span><span class="p">(</span><span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="o">+</span><span class="n">hLLL</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">first_deriv4p_L</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">DR</span><span class="p">,</span>   <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DRR</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hRR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DRRR</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hRRR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">t2</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t19</span> <span class="o">=</span> <span class="n">hRR</span><span class="o">*</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t22</span> <span class="o">=</span> <span class="n">DR</span><span class="o">-</span><span class="n">DRR</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t26</span> <span class="o">=</span> <span class="n">hRRR</span><span class="o">*</span><span class="n">hRRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t32</span> <span class="o">=</span> <span class="n">hRR</span><span class="o">+</span><span class="n">hRRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t33</span> <span class="o">=</span> <span class="n">t32</span><span class="o">*</span><span class="n">t32</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">DRRR</span><span class="o">-</span><span class="n">DRR</span><span class="p">)</span><span class="o">*</span><span class="n">t2</span> <span class="o">+</span> <span class="n">t19</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">DR</span><span class="mi">-3</span><span class="o">*</span><span class="n">DRR</span><span class="o">+</span><span class="n">DRRR</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">hRR</span><span class="o">*</span><span class="n">t22</span><span class="o">*</span><span class="n">hRRR</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t22</span><span class="o">*</span><span class="n">t26</span><span class="p">)</span><span class="o">*</span><span class="n">hR</span> <span class="o">+</span>
+                    <span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">DR</span><span class="mi">-4</span><span class="o">*</span><span class="n">DRR</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">DRRR</span><span class="p">)</span><span class="o">*</span><span class="n">hRR</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">DR</span><span class="o">*</span><span class="n">hRRR</span><span class="mi">-2</span><span class="o">*</span><span class="n">DRR</span><span class="o">*</span><span class="n">hRRR</span><span class="p">)</span><span class="o">*</span><span class="n">t2</span><span class="o">+</span><span class="n">t33</span><span class="o">*</span><span class="n">hRR</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span> <span class="o">=</span> <span class="n">t32</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="o">+</span><span class="n">hRRR</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">first_deriv5p_C</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">DLL</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DL</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DR</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DRR</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hRR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hhLL</span> <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hhRR</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDRR</span> <span class="o">=</span> <span class="p">(</span><span class="n">DR</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span><span class="n">DRR</span><span class="o">*</span><span class="n">hRR</span><span class="p">)</span><span class="o">/</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDLL</span> <span class="o">=</span> <span class="p">(</span><span class="n">DL</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span><span class="n">DLL</span><span class="o">*</span><span class="n">hLL</span><span class="p">)</span><span class="o">/</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span>  <span class="o">=</span> <span class="n">DL</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span><span class="n">DR</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t4</span>  <span class="o">=</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t6</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t8</span>  <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t10</span> <span class="o">=</span> <span class="o">-</span><span class="n">t6</span><span class="o">*</span><span class="n">DL</span><span class="o">+</span><span class="n">t8</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t12</span> <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t13</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t14</span> <span class="o">=</span> <span class="n">t13</span><span class="o">*</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t17</span> <span class="o">=</span> <span class="n">hhLL</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t20</span> <span class="o">=</span> <span class="n">t4</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t22</span> <span class="o">=</span> <span class="n">t6</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t24</span> <span class="o">=</span> <span class="n">t8</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t26</span> <span class="o">=</span> <span class="o">-</span><span class="n">t22</span><span class="o">*</span><span class="n">DL</span><span class="o">-</span><span class="n">t24</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t41</span> <span class="o">=</span> <span class="o">-</span><span class="n">hhRR</span><span class="o">+</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t43</span> <span class="o">=</span> <span class="n">hhRR</span><span class="o">+</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">hhRR</span><span class="o">*</span><span class="n">t10</span><span class="o">-</span><span class="n">t12</span><span class="o">*</span><span class="n">t14</span><span class="o">+</span><span class="n">t3</span><span class="o">*</span><span class="n">t4</span><span class="p">)</span><span class="o">*</span><span class="n">hhLL</span> <span class="o">+</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">t26</span> <span class="o">+</span> <span class="p">(</span><span class="n">hR</span><span class="o">*</span><span class="n">t24</span><span class="o">-</span><span class="n">hL</span><span class="o">*</span><span class="n">t22</span><span class="p">)</span><span class="o">*</span><span class="n">DDRR</span> <span class="o">+</span> <span class="n">t20</span><span class="o">*</span><span class="n">t3</span><span class="p">)</span><span class="o">*</span><span class="n">t17</span> <span class="o">+</span>
+                    <span class="n">hhLL</span><span class="o">*</span><span class="p">(</span><span class="n">t14</span><span class="o">*</span><span class="n">t6</span><span class="o">*</span><span class="n">t8</span><span class="o">-</span><span class="n">t10</span><span class="o">*</span><span class="n">t20</span><span class="o">+</span><span class="n">t26</span><span class="o">*</span><span class="n">t4</span><span class="p">)</span> <span class="o">+</span> <span class="n">t13</span><span class="o">*</span><span class="n">t43</span><span class="o">*</span><span class="n">t41</span><span class="o">*</span><span class="n">hhRR</span><span class="o">*</span><span class="n">DDLL</span><span class="o">*</span><span class="n">t12</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span> <span class="o">=</span> <span class="n">t41</span><span class="o">*</span><span class="p">(</span><span class="n">hhRR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">)</span><span class="o">*</span><span class="n">t43</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">)</span><span class="o">*</span><span class="n">t13</span><span class="o">*</span><span class="p">(</span><span class="n">hL</span><span class="o">-</span><span class="n">hhLL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">first_deriv5p_L</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">DLL</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DL</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DR</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DRR</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hRR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hhLL</span> <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hhRR</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDRR</span> <span class="o">=</span> <span class="p">(</span><span class="n">DR</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span><span class="n">DRR</span><span class="o">*</span><span class="n">hRR</span><span class="p">)</span><span class="o">/</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDLL</span> <span class="o">=</span> <span class="p">(</span><span class="n">DL</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span><span class="n">DLL</span><span class="o">*</span><span class="n">hLL</span><span class="p">)</span><span class="o">/</span><span class="n">hhLL</span><span class="p">;</span>
+
+    <span class="n">real_type</span> <span class="n">t1</span>   <span class="o">=</span> <span class="o">-</span><span class="n">DR</span><span class="o">+</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span>   <span class="o">=</span> <span class="o">-</span><span class="n">DR</span><span class="o">+</span><span class="n">DDLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t5</span>   <span class="o">=</span> <span class="n">DDLL</span><span class="o">-</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t8</span>   <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t9</span>   <span class="o">=</span> <span class="n">t8</span><span class="o">*</span><span class="n">t8</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t12</span>  <span class="o">=</span> <span class="n">hhLL</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t14</span>  <span class="o">=</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t16</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t21</span>  <span class="o">=</span> <span class="n">t12</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t25</span>  <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">DR</span><span class="mi">-4</span><span class="o">*</span><span class="n">DL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t28</span>  <span class="o">=</span> <span class="n">DL</span><span class="o">-</span><span class="p">(</span><span class="mf">3.0</span><span class="o">/</span><span class="mf">4.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t38</span>  <span class="o">=</span> <span class="n">t14</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t41</span>  <span class="o">=</span> <span class="n">DL</span><span class="o">-</span><span class="p">(</span><span class="mf">3.0</span><span class="o">/</span><span class="mf">4.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t48</span>  <span class="o">=</span> <span class="n">t16</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t58</span>  <span class="o">=</span> <span class="n">DL</span><span class="o">-</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t70</span>  <span class="o">=</span> <span class="o">-</span><span class="n">hhRR</span><span class="o">+</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t80</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">DL</span><span class="o">-</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t83</span>  <span class="o">=</span> <span class="n">DL</span><span class="o">-</span><span class="n">DDRR</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t103</span> <span class="o">=</span> <span class="n">hhRR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t105</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span><span class="p">,</span> <span class="n">bot</span><span class="p">;</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">t51</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">DL</span><span class="mi">-2</span><span class="o">*</span><span class="n">DDLL</span><span class="p">)</span><span class="o">*</span><span class="n">t70</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">t52</span> <span class="o">=</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">t55</span> <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+      <span class="n">top</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">4</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t41</span><span class="o">+</span><span class="n">t12</span><span class="o">*</span><span class="n">t25</span><span class="p">)</span><span class="o">*</span><span class="n">hhRR</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">t12</span><span class="o">*</span><span class="n">t28</span><span class="o">-</span><span class="n">t14</span><span class="o">*</span><span class="n">t41</span><span class="p">)</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span>
+               <span class="n">hhLL</span><span class="o">*</span><span class="p">(</span><span class="n">t14</span><span class="o">*</span><span class="n">t25</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t28</span><span class="p">)</span><span class="o">+</span><span class="n">t21</span><span class="o">*</span><span class="n">t1</span><span class="o">+</span><span class="n">t38</span><span class="o">*</span><span class="n">t3</span><span class="o">-</span><span class="n">t5</span><span class="o">*</span><span class="n">t48</span><span class="p">)</span><span class="o">*</span><span class="n">t8</span><span class="o">+</span>
+               <span class="n">hhRR</span><span class="o">*</span><span class="n">t3</span><span class="o">*</span><span class="n">t9</span><span class="o">-</span><span class="n">hR</span><span class="o">*</span><span class="n">t5</span><span class="o">*</span><span class="n">t9</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">DL</span><span class="o">-</span><span class="n">DDLL</span><span class="p">)</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t14</span><span class="o">*</span><span class="n">t70</span><span class="o">+</span>
+               <span class="n">hhLL</span><span class="o">*</span><span class="n">t1</span><span class="o">*</span><span class="n">t9</span><span class="o">+</span><span class="n">t21</span><span class="o">*</span><span class="n">t14</span><span class="o">*</span><span class="n">t80</span><span class="mi">-2</span><span class="o">*</span><span class="n">t21</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t83</span><span class="o">+</span><span class="n">t12</span><span class="o">*</span><span class="p">(</span><span class="n">t38</span><span class="o">*</span><span class="n">t80</span><span class="mi">-2</span><span class="o">*</span><span class="n">t48</span><span class="o">*</span><span class="n">t83</span><span class="p">))</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span>
+               <span class="n">t8</span><span class="o">*</span><span class="p">(</span><span class="n">t52</span><span class="o">*</span><span class="n">hR</span><span class="o">*</span><span class="n">t51</span><span class="o">+</span><span class="n">hhRR</span><span class="o">*</span><span class="p">(</span><span class="n">t55</span><span class="o">*</span><span class="n">t21</span><span class="o">+</span><span class="n">t55</span><span class="o">*</span><span class="n">t51</span><span class="p">)</span>
+               <span class="mi">-3</span><span class="o">*</span><span class="n">t21</span><span class="o">*</span><span class="n">hR</span><span class="o">*</span><span class="n">t58</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="n">t38</span><span class="o">*</span><span class="n">t55</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">t48</span><span class="o">*</span><span class="n">t58</span><span class="p">)</span><span class="o">*</span><span class="n">hhLL</span><span class="p">)</span>
+               <span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t9</span><span class="o">*</span><span class="p">(</span><span class="n">t14</span><span class="o">*</span><span class="n">t3</span><span class="o">-</span><span class="n">t5</span><span class="o">*</span><span class="n">t16</span><span class="o">-</span><span class="n">t12</span><span class="o">*</span><span class="n">t1</span><span class="p">)</span><span class="o">-</span><span class="n">t105</span><span class="o">*</span><span class="n">t70</span><span class="o">*</span><span class="n">t103</span><span class="o">*</span><span class="n">hhRR</span><span class="o">*</span><span class="n">DL</span><span class="o">*</span><span class="n">hR</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">bot</span> <span class="o">=</span> <span class="p">(</span><span class="n">hhRR</span><span class="o">+</span><span class="n">hL</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hL</span><span class="o">-</span><span class="n">hhLL</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hL</span><span class="p">)</span><span class="o">*</span><span class="n">t70</span><span class="o">*</span><span class="n">t103</span><span class="o">*</span><span class="n">t105</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="nf">first_deriv5p_R</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">DLL</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DL</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DR</span><span class="p">,</span>  <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">DRR</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">hRR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hhLL</span> <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hhRR</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDRR</span> <span class="o">=</span> <span class="p">(</span><span class="n">DR</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span><span class="n">DRR</span><span class="o">*</span><span class="n">hRR</span><span class="p">)</span><span class="o">/</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDLL</span> <span class="o">=</span> <span class="p">(</span><span class="n">DL</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span><span class="n">DLL</span><span class="o">*</span><span class="n">hLL</span><span class="p">)</span><span class="o">/</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t1</span>   <span class="o">=</span> <span class="o">-</span><span class="n">DL</span><span class="o">+</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span>   <span class="o">=</span> <span class="n">DDLL</span><span class="o">-</span><span class="n">DL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t5</span>   <span class="o">=</span> <span class="n">DDLL</span><span class="o">-</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t8</span>   <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t9</span>   <span class="o">=</span> <span class="n">t8</span><span class="o">*</span><span class="n">t8</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t12</span>  <span class="o">=</span> <span class="n">hhLL</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t14</span>  <span class="o">=</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t16</span>  <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t21</span>  <span class="o">=</span> <span class="n">t12</span><span class="o">*</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t25</span>  <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">DL</span><span class="mi">-4</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t28</span>  <span class="o">=</span> <span class="n">DR</span><span class="o">-</span><span class="p">(</span><span class="mf">3.0</span><span class="o">/</span><span class="mf">4.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t38</span>  <span class="o">=</span> <span class="n">t14</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t41</span>  <span class="o">=</span> <span class="n">DR</span><span class="o">-</span><span class="p">(</span><span class="mf">3.0</span><span class="o">/</span><span class="mf">4.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t48</span>  <span class="o">=</span> <span class="n">t16</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t55</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">DL</span><span class="mi">-3</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t58</span>  <span class="o">=</span> <span class="n">DR</span><span class="o">-</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span><span class="o">*</span><span class="n">DDRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t73</span>  <span class="o">=</span> <span class="n">hhRR</span><span class="o">+</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t80</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">DR</span><span class="o">-</span><span class="n">DL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t83</span>  <span class="o">=</span> <span class="n">DR</span><span class="o">-</span><span class="n">DDRR</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t103</span> <span class="o">=</span> <span class="n">hhRR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t105</span> <span class="o">=</span> <span class="o">-</span><span class="n">hhLL</span><span class="o">+</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span><span class="p">,</span> <span class="n">bot</span><span class="p">;</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">t47</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">DDLL</span><span class="mi">-3</span><span class="o">*</span><span class="n">DR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">t49</span> <span class="o">=</span> <span class="n">hhRR</span><span class="o">*</span><span class="n">hhRR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">t53</span> <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">top</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">4</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t41</span><span class="o">+</span><span class="n">t12</span><span class="o">*</span><span class="n">t25</span><span class="p">)</span><span class="o">*</span><span class="n">hhRR</span><span class="o">+</span><span class="p">(</span><span class="mi">-4</span><span class="o">*</span><span class="n">t12</span><span class="o">*</span><span class="n">t28</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t14</span><span class="o">*</span><span class="n">t41</span><span class="p">)</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span>
+            <span class="n">hhLL</span><span class="o">*</span><span class="p">(</span><span class="n">t14</span><span class="o">*</span><span class="n">t25</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t28</span><span class="p">)</span><span class="o">+</span><span class="n">t21</span><span class="o">*</span><span class="n">t1</span><span class="o">+</span><span class="n">t38</span><span class="o">*</span><span class="n">t3</span><span class="o">+</span><span class="n">t5</span><span class="o">*</span><span class="n">t48</span><span class="p">)</span><span class="o">*</span><span class="n">t8</span><span class="o">+</span><span class="n">hhRR</span><span class="o">*</span><span class="n">t3</span><span class="o">*</span><span class="n">t9</span><span class="o">+</span><span class="n">hL</span><span class="o">*</span><span class="n">t5</span><span class="o">*</span><span class="n">t9</span><span class="o">+</span><span class="p">(</span>
+            <span class="mi">-2</span><span class="o">*</span><span class="n">DR</span><span class="o">+</span><span class="n">DDLL</span><span class="p">)</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t14</span><span class="o">*</span><span class="n">t73</span><span class="o">+</span><span class="n">hhLL</span><span class="o">*</span><span class="n">t1</span><span class="o">*</span><span class="n">t9</span><span class="o">+</span><span class="n">t21</span><span class="o">*</span><span class="n">t14</span><span class="o">*</span><span class="n">t80</span>
+            <span class="mi">-2</span><span class="o">*</span><span class="n">t21</span><span class="o">*</span><span class="n">t16</span><span class="o">*</span><span class="n">t83</span><span class="o">+</span><span class="n">t12</span><span class="o">*</span><span class="p">(</span><span class="n">t38</span><span class="o">*</span><span class="n">t80</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t48</span><span class="o">*</span><span class="n">t83</span><span class="p">))</span><span class="o">*</span><span class="n">hR</span><span class="o">+</span>
+            <span class="n">t8</span><span class="o">*</span><span class="p">(</span><span class="n">t49</span><span class="o">*</span><span class="n">hL</span><span class="o">*</span><span class="n">t73</span><span class="o">*</span><span class="n">t47</span><span class="o">+</span><span class="n">hhRR</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">t53</span><span class="o">*</span><span class="n">t73</span><span class="o">*</span><span class="n">t47</span><span class="o">+</span><span class="n">t55</span><span class="o">*</span><span class="n">t21</span><span class="p">)</span>
+            <span class="mi">-3</span><span class="o">*</span><span class="n">t21</span><span class="o">*</span><span class="n">t58</span><span class="o">*</span><span class="n">hL</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="n">t38</span><span class="o">*</span><span class="n">t55</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">t48</span><span class="o">*</span><span class="n">t58</span><span class="p">)</span><span class="o">*</span><span class="n">hhLL</span><span class="p">)</span>
+            <span class="o">-</span><span class="n">t105</span><span class="o">*</span><span class="n">t73</span><span class="o">*</span><span class="n">t103</span><span class="o">*</span><span class="n">hhRR</span><span class="o">*</span><span class="n">DR</span><span class="o">*</span><span class="n">hL</span><span class="o">*</span><span class="n">hhLL</span>
+            <span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t9</span><span class="o">*</span><span class="p">(</span><span class="n">t5</span><span class="o">*</span><span class="n">t16</span><span class="o">+</span><span class="n">t12</span><span class="o">*</span><span class="n">t1</span><span class="o">-</span><span class="n">t14</span><span class="o">*</span><span class="n">t3</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">bot</span> <span class="o">=</span> <span class="p">(</span><span class="n">hR</span><span class="o">-</span><span class="n">hhRR</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hhLL</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">hR</span><span class="o">+</span><span class="n">hL</span><span class="p">)</span><span class="o">*</span><span class="n">t103</span><span class="o">*</span><span class="n">t73</span><span class="o">*</span><span class="n">t105</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="k">static</span>
+  <span class="kt">void</span>
+  <span class="n">deriv_left</span><span class="p">(</span>
+    <span class="n">real_type</span>   <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">SRR</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">hRR</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">DyRR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">dy0</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">dy1</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">hRR</span><span class="o">*</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span><span class="o">*</span><span class="n">SR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span> <span class="o">=</span> <span class="n">DyRR</span><span class="o">/</span><span class="mi">3</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t8</span> <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t14</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hRR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t24</span> <span class="o">=</span> <span class="n">t14</span><span class="o">*</span><span class="n">t14</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hRRR</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">hRR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">dy0</span> <span class="o">=</span> <span class="p">(</span><span class="n">hRRR</span><span class="o">*</span><span class="p">(</span><span class="n">SR</span><span class="o">-</span><span class="n">SRR</span><span class="o">+</span><span class="n">t3</span><span class="p">)</span><span class="o">-</span><span class="n">t8</span><span class="o">*</span><span class="n">SRR</span><span class="o">+</span><span class="n">t8</span><span class="o">*</span><span class="n">DyRR</span><span class="o">+</span><span class="n">t2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">hRR</span><span class="o">*</span><span class="n">t14</span><span class="p">);</span>
+    <span class="n">dy1</span> <span class="o">=</span> <span class="p">((</span><span class="n">hRRR</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t8</span><span class="p">)</span><span class="o">*</span><span class="n">SRR</span><span class="o">-</span><span class="n">hRRR</span><span class="o">*</span><span class="n">t3</span><span class="o">-</span><span class="n">t8</span><span class="o">*</span><span class="n">DyRR</span><span class="o">+</span><span class="n">t2</span><span class="p">)</span><span class="o">/</span><span class="n">t24</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="k">static</span>
+  <span class="kt">void</span>
+  <span class="n">deriv_right</span><span class="p">(</span>
+    <span class="n">real_type</span>   <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">SLL</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">hLL</span><span class="p">,</span>
+    <span class="n">real_type</span>   <span class="n">DyLL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">dyn</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">dynm1</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">hLL</span><span class="o">*</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span><span class="o">*</span><span class="n">SL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span> <span class="o">=</span> <span class="n">DyLL</span><span class="o">/</span><span class="mi">3</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t8</span> <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t14</span> <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hLL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t24</span> <span class="o">=</span> <span class="n">t14</span><span class="o">*</span><span class="n">t14</span><span class="p">;</span>
+    <span class="n">dyn</span>   <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">hLL</span><span class="o">*</span><span class="p">(</span><span class="n">SL</span><span class="o">-</span><span class="n">SLL</span><span class="o">+</span><span class="n">t3</span><span class="p">)</span><span class="o">*</span><span class="n">hL</span><span class="o">-</span><span class="n">t8</span><span class="o">*</span><span class="n">SLL</span><span class="o">+</span><span class="n">t8</span><span class="o">*</span><span class="n">DyLL</span><span class="o">+</span><span class="n">t2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">hLL</span><span class="o">*</span><span class="n">t14</span><span class="p">);</span>
+    <span class="n">dynm1</span> <span class="o">=</span> <span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">hL</span><span class="o">*</span><span class="n">hLL</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">t8</span><span class="p">)</span><span class="o">*</span><span class="n">SLL</span><span class="mi">-3</span><span class="o">*</span><span class="n">hL</span><span class="o">*</span><span class="n">hLL</span><span class="o">*</span><span class="n">t3</span><span class="o">-</span><span class="n">t8</span><span class="o">*</span><span class="n">DyLL</span><span class="o">+</span><span class="n">t2</span><span class="p">)</span><span class="o">/</span><span class="n">t24</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_C</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dp0</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hLR</span> <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL2</span> <span class="o">=</span> <span class="n">hL</span><span class="o">*</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL4</span> <span class="o">=</span> <span class="n">hL2</span><span class="o">*</span><span class="n">hL2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR2</span> <span class="o">=</span> <span class="n">hR</span><span class="o">*</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR4</span> <span class="o">=</span> <span class="n">hR2</span><span class="o">*</span><span class="n">hR2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="n">hL4</span><span class="o">*</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">SR</span><span class="mi">-4</span><span class="o">*</span><span class="n">dp0</span><span class="mi">-2</span><span class="o">*</span><span class="n">dpR</span><span class="p">)</span> <span class="o">+</span> <span class="n">hR4</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">dp0</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">dpL</span><span class="mi">-6</span><span class="o">*</span><span class="n">SL</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="n">hLR</span><span class="o">*</span><span class="p">(</span> <span class="n">hL2</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">SR</span><span class="mi">-8</span><span class="o">*</span><span class="n">dp0</span><span class="mi">-2</span><span class="o">*</span><span class="n">dpR</span><span class="p">)</span> <span class="o">-</span> <span class="n">hR2</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">SL</span><span class="mi">-8</span><span class="o">*</span><span class="n">dp0</span><span class="mi">-2</span><span class="o">*</span><span class="n">dpL</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">real_type</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">hR</span><span class="o">+</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">*</span><span class="n">tmp</span><span class="o">*</span><span class="n">tmp</span><span class="o">*</span><span class="n">hLR</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_C</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dp0</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hh</span>    <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">hL</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">beta</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDR</span>   <span class="o">=</span> <span class="p">(</span><span class="n">SR</span><span class="o">-</span><span class="n">dp0</span><span class="p">)</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">DDL</span>   <span class="o">=</span> <span class="p">(</span><span class="n">dp0</span><span class="o">-</span><span class="n">SL</span><span class="p">)</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">DDR</span><span class="o">+</span><span class="n">beta</span><span class="o">*</span><span class="n">DDL</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_L</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dp0</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hLR</span> <span class="o">=</span> <span class="n">hL</span> <span class="o">*</span> <span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL2</span> <span class="o">=</span> <span class="n">hL</span> <span class="o">*</span> <span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL4</span> <span class="o">=</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hL2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR2</span> <span class="o">=</span> <span class="n">hR</span> <span class="o">*</span> <span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR4</span> <span class="o">=</span> <span class="n">hR2</span> <span class="o">*</span> <span class="n">hR2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="n">hL4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">SR</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dp0</span><span class="o">+</span><span class="n">dpR</span><span class="p">)</span> <span class="p">)</span>
+                  <span class="o">+</span> <span class="n">hR4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">SL</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dp0</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">dpL</span><span class="p">)</span>
+                  <span class="o">+</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hR2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">SL</span> <span class="o">-</span> <span class="mi">12</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dpL</span><span class="p">)</span>
+                  <span class="o">+</span> <span class="n">hLR</span> <span class="o">*</span> <span class="n">hR2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">SL</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">12</span><span class="o">*</span><span class="n">dpL</span><span class="p">)</span>
+                  <span class="o">+</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hLR</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">SR</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">dpR</span><span class="p">);</span>
+    <span class="n">real_type</span> <span class="n">hRpL</span> <span class="o">=</span> <span class="n">hR</span> <span class="o">+</span> <span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span> <span class="o">=</span> <span class="n">hR2</span> <span class="o">*</span> <span class="n">hL</span> <span class="o">*</span> <span class="p">(</span><span class="n">hRpL</span><span class="o">*</span><span class="n">hRpL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_L</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpL</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hh</span>    <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">hL</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">beta</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t1</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">SL</span><span class="mi">-2</span><span class="o">*</span><span class="n">SR</span><span class="mi">-4</span><span class="o">*</span><span class="n">dpL</span><span class="p">)</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span>    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">SL</span><span class="o">-</span><span class="n">dpL</span><span class="p">)</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t2</span>    <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">t3</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">t1</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">alpha</span><span class="o">+</span><span class="n">t2</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">beta</span><span class="o">+</span><span class="n">t3</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">beta</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_R</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dp0</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hLR</span> <span class="o">=</span> <span class="n">hL</span> <span class="o">*</span> <span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL2</span> <span class="o">=</span> <span class="n">hL</span> <span class="o">*</span> <span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hL4</span> <span class="o">=</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hL2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR2</span> <span class="o">=</span> <span class="n">hR</span> <span class="o">*</span> <span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">hR4</span> <span class="o">=</span> <span class="n">hR2</span> <span class="o">*</span> <span class="n">hR2</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">top</span> <span class="o">=</span> <span class="n">hL4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dp0</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">dpR</span> <span class="o">-</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">SR</span><span class="p">)</span>
+                  <span class="o">+</span> <span class="n">hR4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dp0</span><span class="o">+</span><span class="n">dpL</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">SL</span><span class="p">)</span>
+                  <span class="o">-</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hLR</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">SR</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">12</span><span class="o">*</span><span class="n">dpR</span><span class="p">)</span>
+                  <span class="o">-</span> <span class="n">hL2</span> <span class="o">*</span> <span class="n">hR2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">SR</span> <span class="o">-</span> <span class="mi">12</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dpR</span><span class="p">)</span>
+                  <span class="o">-</span> <span class="n">hR2</span> <span class="o">*</span> <span class="n">hLR</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">SL</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">dp0</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">dpL</span><span class="p">);</span>
+    <span class="n">real_type</span> <span class="n">hRpL</span> <span class="o">=</span> <span class="n">hR</span> <span class="o">+</span> <span class="n">hL</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">bot</span>  <span class="o">=</span> <span class="n">hR</span> <span class="o">*</span> <span class="n">hL2</span> <span class="o">*</span> <span class="p">(</span><span class="n">hRpL</span><span class="o">*</span><span class="n">hRpL</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">real_type</span>
+  <span class="n">second_deriv3p_R</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="n">SL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hL</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">SR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">hR</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="n">dpR</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">real_type</span> <span class="n">hh</span>    <span class="o">=</span> <span class="n">hL</span><span class="o">+</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">hL</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">beta</span>  <span class="o">=</span> <span class="n">hR</span><span class="o">/</span><span class="n">hh</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t1</span>    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">dpR</span><span class="o">-</span><span class="n">SR</span><span class="p">)</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t2</span>    <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">t1</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="n">t3</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">SL</span><span class="mi">-6</span><span class="o">*</span><span class="n">SR</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">dpR</span><span class="p">)</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">t1</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">alpha</span><span class="o">+</span><span class="n">t2</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">beta</span><span class="o">+</span><span class="n">t3</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">beta</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">first_derivative_build</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">X</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">Y</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="o">*</span> <span class="n">Yp</span><span class="p">,</span>
+    <span class="n">integer</span>           <span class="n">npts</span>
+  <span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="kt">size_t</span><span class="p">(</span> <span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// special case n=2 -- use linear interpolation.</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">hL</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SL</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="k">switch</span> <span class="p">(</span> <span class="n">npts</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+        <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">SL</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+        <span class="p">{</span>
+          <span class="n">real_type</span> <span class="n">hR</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+          <span class="n">real_type</span> <span class="n">SR</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv3p_L</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv3p_C</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv3p_R</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="k">case</span> <span class="mi">4</span><span class="o">:</span>
+        <span class="p">{</span>
+          <span class="n">real_type</span> <span class="n">hC</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+          <span class="n">real_type</span> <span class="n">SC</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">hC</span><span class="p">;</span>
+          <span class="n">real_type</span> <span class="n">hR</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+          <span class="n">real_type</span> <span class="n">SR</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv4p_L</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SC</span><span class="p">,</span> <span class="n">hC</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv3p_C</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SC</span><span class="p">,</span> <span class="n">hC</span> <span class="p">);</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv3p_C</span><span class="p">(</span> <span class="n">SC</span><span class="p">,</span> <span class="n">hC</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+          <span class="n">Yp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv4p_R</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SC</span><span class="p">,</span> <span class="n">hC</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span> <span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// loop through interior points.</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="mi">-1</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="n">real_type</span> <span class="n">hLL</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="mi">-2</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hL</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hR</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hRR</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+
+      <span class="n">real_type</span> <span class="n">SLL</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-2</span><span class="p">])</span><span class="o">/</span><span class="n">hLL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SL</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SR</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SRR</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">hRR</span><span class="p">;</span>
+
+      <span class="n">Yp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_deriv5p_C</span><span class="p">(</span> <span class="n">SLL</span><span class="p">,</span> <span class="n">hLL</span><span class="p">,</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span><span class="p">,</span> <span class="n">SRR</span><span class="p">,</span> <span class="n">hRR</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">hL</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>   <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hLL</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SL</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>   <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SLL</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">])</span><span class="o">/</span><span class="n">hLL</span><span class="p">;</span>
+      <span class="n">deriv_right</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SLL</span><span class="p">,</span> <span class="n">hLL</span><span class="p">,</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">],</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">]</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">hR</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hRR</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SR</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SRR</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">hRR</span><span class="p">;</span>
+      <span class="n">deriv_left</span><span class="p">(</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span><span class="p">,</span> <span class="n">SRR</span><span class="p">,</span> <span class="n">hRR</span><span class="p">,</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">second_derivative_build</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">X</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">Y</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">Yp</span><span class="p">,</span>
+    <span class="n">real_type</span>       <span class="o">*</span> <span class="n">Ypp</span><span class="p">,</span>
+    <span class="n">integer</span>           <span class="n">npts</span>
+  <span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="kt">size_t</span><span class="p">(</span> <span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// special case n=2 -- use linear interpolation.</span>
+    <span class="k">switch</span> <span class="p">(</span> <span class="n">npts</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+      <span class="n">Ypp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ypp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// loop through interior points.</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+
+      <span class="n">real_type</span> <span class="n">hL</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hR</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SL</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SR</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+
+      <span class="n">real_type</span> <span class="n">dp0</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpL</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpR</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+
+      <span class="n">Ypp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">second_deriv3p_C</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span><span class="p">,</span> <span class="n">dp0</span><span class="p">,</span> <span class="n">dpL</span><span class="p">,</span> <span class="n">dpR</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">hL</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hR</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SL</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SR</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">dp0</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpL</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpR</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+      <span class="n">Ypp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">second_deriv3p_L</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span><span class="p">,</span> <span class="n">dp0</span><span class="p">,</span> <span class="n">dpL</span><span class="p">,</span> <span class="n">dpR</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">real_type</span> <span class="n">hL</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">hR</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">SL</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">])</span><span class="o">/</span><span class="n">hL</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">SR</span>  <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">])</span><span class="o">/</span><span class="n">hR</span><span class="p">;</span>
+      <span class="n">real_type</span> <span class="n">dp0</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="mi">-1</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpL</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="mi">-2</span><span class="p">];</span>
+      <span class="n">real_type</span> <span class="n">dpR</span> <span class="o">=</span> <span class="n">Yp</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+      <span class="n">Ypp</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">second_deriv3p_R</span><span class="p">(</span> <span class="n">SL</span><span class="p">,</span> <span class="n">hL</span><span class="p">,</span> <span class="n">SR</span><span class="p">,</span> <span class="n">hR</span><span class="p">,</span> <span class="n">dp0</span><span class="p">,</span> <span class="n">dpL</span><span class="p">,</span> <span class="n">dpR</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+  <span class="cp">#endif</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../index.html" title="../index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">C++ API</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplinesUtils.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

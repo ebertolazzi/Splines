@@ -1,0 +1,13 @@
+.. _exhale_typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a:
+
+Typedef Splines::real_type
+==========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: Splines::real_type

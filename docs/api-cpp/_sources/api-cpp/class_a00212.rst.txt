@@ -1,0 +1,26 @@
+.. _exhale_class_a00212:
+
+Class SplineSet
+===============
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineSet.hxx`
+
+
+Nested Relationships
+--------------------
+
+
+Nested Types
+************
+
+- :ref:`exhale_class_a00216`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Splines::SplineSet
+   :members:
+   :protected-members:
+   :undoc-members:

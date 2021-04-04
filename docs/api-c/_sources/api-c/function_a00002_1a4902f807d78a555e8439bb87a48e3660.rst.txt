@@ -1,0 +1,13 @@
+.. _exhale_function_a00002_1a4902f807d78a555e8439bb87a48e3660:
+
+Function SPLINE_build2
+======================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplinesCinterface.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: SPLINE_build2(double const *, double const *, int)

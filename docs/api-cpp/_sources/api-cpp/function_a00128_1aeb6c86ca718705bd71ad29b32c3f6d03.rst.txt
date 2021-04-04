@@ -1,0 +1,13 @@
+.. _exhale_function_a00128_1aeb6c86ca718705bd71ad29b32c3f6d03:
+
+Function Splines::backtrace
+===========================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.hh`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::backtrace(ostream_type&)

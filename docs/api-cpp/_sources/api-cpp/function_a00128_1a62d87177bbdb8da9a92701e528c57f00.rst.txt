@@ -1,0 +1,13 @@
+.. _exhale_function_a00128_1a62d87177bbdb8da9a92701e528c57f00:
+
+Function Splines::curvature_DD
+==============================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines.cc`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: Splines::curvature_DD(real_type, Spline const&, Spline const&)

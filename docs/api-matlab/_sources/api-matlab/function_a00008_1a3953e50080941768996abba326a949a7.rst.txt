@@ -1,0 +1,13 @@
+.. _exhale_function_a00008_1a3953e50080941768996abba326a949a7:
+
+Function save_png
+=================
+
+- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_save_png.m`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: save_png(in)
