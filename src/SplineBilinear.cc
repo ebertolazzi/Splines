@@ -122,10 +122,10 @@ namespace Splines {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i = 1; i < m_nx; ++i ) {
       for ( integer j = 1; j < m_ny; ++j ) {
-        size_t i00 = size_t(this->ipos_C(i-1,j-1,m_ny));
-        size_t i10 = size_t(this->ipos_C(i,j-1,m_ny));
-        size_t i01 = size_t(this->ipos_C(i-1,j,m_ny));
-        size_t i11 = size_t(this->ipos_C(i,j,m_ny));
+        size_t i00 = size_t(this->ipos_C(i-1,j-1));
+        size_t i10 = size_t(this->ipos_C(i,j-1));
+        size_t i01 = size_t(this->ipos_C(i-1,j));
+        size_t i11 = size_t(this->ipos_C(i,j));
         fmt::print( s,
           "patch ({},{})\n"
           "  DX  = {:<12.4}  DY  = {:<12.4}\n"

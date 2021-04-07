@@ -40,6 +40,9 @@ namespace Splines {
 
   public:
 
+    //! \name Constructors
+    ///@{
+
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
     #endif
@@ -54,6 +57,8 @@ namespace Splines {
     {}
 
     ~QuinticSplineBase() override {}
+
+    ///@}
 
     void
     copySpline( QuinticSplineBase const & S );

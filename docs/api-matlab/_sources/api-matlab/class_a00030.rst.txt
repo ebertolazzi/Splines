@@ -3,7 +3,7 @@
 Class Spline1D
 ==============
 
-- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline1D.m`
+- Defined in :ref:`file_toolbox_lib_Spline1D.m`
 
 
 Inheritance Relationships

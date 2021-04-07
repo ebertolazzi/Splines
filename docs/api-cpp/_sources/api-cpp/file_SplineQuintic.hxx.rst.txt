@@ -1,0 +1,49 @@
+
+.. _file_SplineQuintic.hxx:
+
+File SplineQuintic.hxx
+======================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineQuintic.hxx``)
+----------------------------------
+
+
+
+
+
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_Splines.hh`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_a00184`
+
+
+Enums
+-----
+
+
+- :ref:`exhale_enum_a00128_1afc8c082d2849822ca15bdf52cb4409fb`
+

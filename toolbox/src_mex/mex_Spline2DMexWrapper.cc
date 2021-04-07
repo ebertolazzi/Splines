@@ -188,7 +188,7 @@ namespace Splines {
     );
 
     bool fortran_storage = true;
-    bool transposed      = false;
+    bool transposed      = true;
 
     integer ldZ = nx;
 

@@ -1,0 +1,42 @@
+
+.. _file_Splines1D.hxx:
+
+File Splines1D.hxx
+==================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``Splines1D.hxx``)
+------------------------------
+
+
+
+
+
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_Splines.hh`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_a00204`
+

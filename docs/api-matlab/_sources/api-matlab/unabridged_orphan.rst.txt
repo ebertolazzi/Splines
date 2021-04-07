@@ -11,12 +11,12 @@ Directories
 .. toctree::
    :maxdepth: 5
 
-   dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox.rst
+   dir_toolbox.rst
 
 .. toctree::
    :maxdepth: 5
 
-   dir__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib.rst
+   dir_toolbox_lib.rst
 
 Files
 *****
@@ -25,34 +25,34 @@ Files
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_BaseHermite.m.rst
+   file_toolbox_lib_BaseHermite.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_CompileSplinesLib.m.rst
+   file_toolbox_lib_CompileSplinesLib.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_save_png.m.rst
+   file_toolbox_lib_save_png.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline1D.m.rst
+   file_toolbox_lib_Spline1D.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_Spline2D.m.rst
+   file_toolbox_lib_Spline2D.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineSet.m.rst
+   file_toolbox_lib_SplineSet.m.rst
 
 .. toctree::
    :maxdepth: 5
 
-   file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineVec.m.rst
+   file_toolbox_lib_SplineVec.m.rst

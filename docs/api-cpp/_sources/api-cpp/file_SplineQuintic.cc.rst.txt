@@ -1,0 +1,39 @@
+
+.. _file_SplineQuintic.cc:
+
+File SplineQuintic.cc
+=====================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineQuintic.cc``)
+---------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+- ``SplinesUtils.hh`` (:ref:`file_SplinesUtils.hh`)
+
+- ``cmath``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+

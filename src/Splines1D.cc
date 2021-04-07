@@ -68,8 +68,8 @@ namespace Splines {
   //                            |_|   |_|
   */
 
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::vec_real_type;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

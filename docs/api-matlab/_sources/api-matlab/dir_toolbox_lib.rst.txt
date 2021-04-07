@@ -1,0 +1,26 @@
+.. _dir_toolbox_lib:
+
+
+Directory lib
+=============
+
+
+|exhale_lsh| :ref:`Parent directory <dir_toolbox>` (``toolbox``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``toolbox/lib``
+
+
+Files
+-----
+
+- :ref:`file_toolbox_lib_BaseHermite.m`
+- :ref:`file_toolbox_lib_CompileSplinesLib.m`
+- :ref:`file_toolbox_lib_save_png.m`
+- :ref:`file_toolbox_lib_Spline1D.m`
+- :ref:`file_toolbox_lib_Spline2D.m`
+- :ref:`file_toolbox_lib_SplineSet.m`
+- :ref:`file_toolbox_lib_SplineVec.m`
+
+

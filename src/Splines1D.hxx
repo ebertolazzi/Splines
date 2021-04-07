@@ -41,6 +41,9 @@ namespace Splines {
 
   public:
 
+    //! \name Constructors
+    ///@{
+
     //! spline constructor
     Spline1D( std::string const & n )
     : m_name(n)
@@ -50,6 +53,8 @@ namespace Splines {
     //! spline destructor
     ~Spline1D()
     {}
+
+    ///@}
 
     string const & name() const { return m_pSpline->name(); }
 

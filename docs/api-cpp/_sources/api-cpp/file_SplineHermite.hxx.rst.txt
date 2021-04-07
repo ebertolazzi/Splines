@@ -1,0 +1,42 @@
+
+.. _file_SplineHermite.hxx:
+
+File SplineHermite.hxx
+======================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineHermite.hxx``)
+----------------------------------
+
+
+
+
+
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_Splines.hh`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_a00172`
+

@@ -22,29 +22,15 @@
     %>
     %> Kind is a string and can be any of 
     %>
-    %> \rst
-    %>
-    %>   .. table::
-    %>
-    %>     +---------------+----------------------------------------------------------+
-    %>     |     kind      |   meaning                                                |
-    %>     +===============+==========================================================+
-    %>     |  'linear'     | linear spline (only continuous)                          |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'cubic'      | cubic spline (:math:`C^2` function)                      |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'akima'      | Akima non oscillatory spline (:math:`C^1` function)      |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'bessel'     | bessel non oscillatory spline (:math:`C^1` function)     |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'pchip'      | Monotone :math:`C^1` function                            |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'hermite'    | Hermite spline (set :math:`p_k` and :math:`p'_k`)        |
-    %>     +---------------+----------------------------------------------------------+
-    %>     |  'quintic'    | Quintic spline (:math:`C^3` function)                    |
-    %>     +---------------+----------------------------------------------------------+
-    %>
-    %> \endrst
+    %> |     kind     |   meaning                                                |
+    %> | :----------- | :------------------------------------------------------- |
+    %> | 'linear'     | linear spline (only continuous)                          |
+    %> | 'cubic'      | cubic spline (\f$ C^2 \f$ function)                      |
+    %> | 'akima'      | Akima non oscillatory spline (\f$ C^1 \f$ function)      |
+    %> | 'bessel'     | bessel non oscillatory spline (\f$ C^1 \f$ function)     |
+    %> | 'pchip'      | Monotone \f$ C^1 \f$ function                            |
+    %> | 'hermite'    | Hermite spline (set \f$ p_k \f$ and \f$ p'_k \f$)        |
+    %> | 'quintic'    | Quintic spline (\f$ C^3 \f$ function)                    |
     %>
     function self = Spline1D( kind, varargin )
       %> kind [, t, pnts, subtype ]

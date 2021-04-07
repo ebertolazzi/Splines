@@ -1,0 +1,42 @@
+
+.. _file_Splines1D.cc:
+
+File Splines1D.cc
+=================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``Splines1D.cc``)
+-----------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_a00128_1a8c7e2a599a7e341f0d8751b1bccb9a04`
+

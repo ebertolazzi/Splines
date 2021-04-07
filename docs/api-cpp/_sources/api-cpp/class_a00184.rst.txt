@@ -3,7 +3,7 @@
 Class QuinticSpline
 ===================
 
-- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineQuintic.hxx`
+- Defined in :ref:`file_SplineQuintic.hxx`
 
 
 Inheritance Relationships

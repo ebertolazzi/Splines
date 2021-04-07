@@ -181,18 +181,37 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  char const * spline_type_2D[] = {
+    "bilinear",  // 0
+    "bicubic",   // 1
+    "biquintic", // 2
+    "akima",     // 3
+    nullptr
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   SplineType1D
-  string_to_splineType( std::string const & nin ) {
+  string_to_splineType1D( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     for ( size_t j = 0; spline_type_1D[j] != nullptr; ++j ) {
       if ( spline_type_1D[j] == n ) return SplineType1D(j);
     }
-    throw std::runtime_error(fmt::format( "string_to_splineType({}) unknown type\n", n ));
+    throw std::runtime_error(fmt::format( "string_to_splineType1D({}) unknown type\n", n ));
   }
 
+  SplineType2D
+  string_to_splineType2D( std::string const & nin ) {
+    std::string n = nin;
+    std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+    for ( size_t j = 0; spline_type_2D[j] != nullptr; ++j ) {
+      if ( spline_type_2D[j] == n ) return SplineType2D(j);
+    }
+    throw std::runtime_error(fmt::format( "string_to_splineType2D({}) unknown type\n", n ));
+  }
   #endif
 
   /*\
@@ -509,8 +528,8 @@ namespace Splines {
   //                            |_|   |_|
   */
 
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::vec_real_type;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

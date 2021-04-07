@@ -1,0 +1,38 @@
+
+.. _file_toolbox_lib_SplineVec.m:
+
+File SplineVec.m
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_toolbox_lib>` (``toolbox/lib``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``toolbox/lib/SplineVec.m``)
+----------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_toolbox_lib_SplineVec.m.rst
+
+
+
+
+
+
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_a00042`
+

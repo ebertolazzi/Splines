@@ -58,6 +58,9 @@
 		D93B176925CB70E30033E2CA /* libUtils_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176625CB70E30033E2CA /* libUtils_osx_static.a */; };
 		D93B176A25CB70E30033E2CA /* libQuartic_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */; };
 		D93B176B25CB70E30033E2CA /* libGenericContainer_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */; };
+		D947003B261D1F49007B1F49 /* libUtils_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176625CB70E30033E2CA /* libUtils_osx_static.a */; };
+		D947003C261D1F4D007B1F49 /* libQuartic_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */; };
+		D947003D261D1F4F007B1F49 /* libGenericContainer_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -86,7 +89,6 @@
 		D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineQuinticBase.cc; sourceTree = "<group>"; };
 		D9268AD225CABC1E0074F122 /* SplineAkima.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineAkima.cc; sourceTree = "<group>"; };
 		D9268AD325CABC1E0074F122 /* SplineSetGC.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineSetGC.cc; sourceTree = "<group>"; };
-		D9268AD425CABC1E0074F122 /* Splines_doxygen.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Splines_doxygen.hh; sourceTree = "<group>"; };
 		D9268AD525CABC1E0074F122 /* SplineLinear.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineLinear.cc; sourceTree = "<group>"; };
 		D9268AD625CABC1E0074F122 /* SplineQuintic.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineQuintic.cc; sourceTree = "<group>"; };
 		D9268AD725CABC1E0074F122 /* SplineCubicBase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineCubicBase.cc; sourceTree = "<group>"; };
@@ -164,6 +166,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D947003C261D1F4D007B1F49 /* libQuartic_osx_static.a in Frameworks */,
+				D947003B261D1F49007B1F49 /* libUtils_osx_static.a in Frameworks */,
+				D947003D261D1F4F007B1F49 /* libGenericContainer_osx_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +212,6 @@
 				D9268AD325CABC1E0074F122 /* SplineSetGC.cc */,
 				D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */,
 				D9268AD225CABC1E0074F122 /* SplineAkima.cc */,
-				D9268AD425CABC1E0074F122 /* Splines_doxygen.hh */,
 				D9268AD525CABC1E0074F122 /* SplineLinear.cc */,
 				D9268AD625CABC1E0074F122 /* SplineQuintic.cc */,
 				D9268AD725CABC1E0074F122 /* SplineCubicBase.cc */,
@@ -372,7 +376,7 @@
 		D9268ABC25CABBFD0074F122 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					D9268AC325CABBFD0074F122 = {
 						CreatedOnToolsVersion = 12.3;
@@ -582,6 +586,7 @@
 		D9268ACC25CABBFD0074F122 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -590,6 +595,7 @@
 		D9268ACD25CABBFD0074F122 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -598,6 +604,7 @@
 		D93B175A25CB709F0033E2CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -606,6 +613,7 @@
 		D93B175B25CB709F0033E2CA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

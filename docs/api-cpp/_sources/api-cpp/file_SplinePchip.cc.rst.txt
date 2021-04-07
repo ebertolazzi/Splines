@@ -1,0 +1,63 @@
+
+.. _file_SplinePchip.cc:
+
+File SplinePchip.cc
+===================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplinePchip.cc``)
+-------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+- ``SplinesUtils.hh`` (:ref:`file_SplinesUtils.hh`)
+
+- ``cmath``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Enums
+-----
+
+
+- :ref:`exhale_enum_a00128_1a1678db4e652dc21a5a18803b3847eabe`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_a00128_1a64d0e892133ce06e0a3577c3bea0f549`
+
+- :ref:`exhale_function_a00128_1ae61f54b18ac4089ead89302e4b99fee4`
+
+- :ref:`exhale_function_a00128_1ac18823b95eb83fa935ba4d33eb4e75a2`
+
+- :ref:`exhale_function_a00128_1afb1c7d06a034be8c501f91321a50af3d`
+
+- :ref:`exhale_function_a00128_1a22872cf871ce7a12ecda3a1f8d8e6cca`
+
+- :ref:`exhale_function_a00128_1a4fe6464c49b4bba331d9751598a44f02`
+

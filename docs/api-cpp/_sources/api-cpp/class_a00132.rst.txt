@@ -3,7 +3,7 @@
 Class AkimaSpline
 =================
 
-- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_SplineAkima.hxx`
+- Defined in :ref:`file_SplineAkima.hxx`
 
 
 Inheritance Relationships
