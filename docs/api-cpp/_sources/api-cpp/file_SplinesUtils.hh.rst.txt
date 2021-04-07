@@ -1,0 +1,56 @@
+
+.. _file_SplinesUtils.hh:
+
+File SplinesUtils.hh
+====================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplinesUtils.hh``)
+--------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_SplinePchip.cc`
+
+- :ref:`file_SplineQuintic.cc`
+
+- :ref:`file_Splines.cc`
+
+- :ref:`file_SplineSet.cc`
+
+- :ref:`file_SplinesUtils.cc`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_a00119_1a7d5567c4bd7d1851b7456989e413ccde`
+

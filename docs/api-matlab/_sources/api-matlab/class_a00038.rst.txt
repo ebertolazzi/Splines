@@ -3,7 +3,7 @@
 Class SplineSet
 ===============
 
-- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineSet.m`
+- Defined in :ref:`file_toolbox_lib_SplineSet.m`
 
 
 Inheritance Relationships

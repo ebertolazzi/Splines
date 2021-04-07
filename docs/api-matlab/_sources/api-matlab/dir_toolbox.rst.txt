@@ -1,0 +1,16 @@
+.. _dir_toolbox:
+
+
+Directory toolbox
+=================
+
+
+*Directory path:* ``toolbox``
+
+Subdirectories
+--------------
+
+- :ref:`dir_toolbox_lib`
+
+
+

@@ -33,7 +33,7 @@ namespace Splines {
   using std::abs;
   using std::sqrt;
 
-  using GenericContainerNamespace::mat_real_type;
+  using GC_namespace::mat_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

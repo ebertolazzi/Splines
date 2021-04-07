@@ -15,7 +15,9 @@ The classes are the following:
   - BesselSpline, for Bessel "non oscillatory" spline interpolation
   - HermiteSpline
   - PchipSpline
-  - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
+  - QuinticSpline, Simple quintic spline based on PCHIP
+
+Online doc at: http://ebertolazzi.github.io/Splines</param.description>
     <param.screenshot>${PROJECT_ROOT}/toolbox/icon.png</param.screenshot>
     <param.version>1.0.8</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>

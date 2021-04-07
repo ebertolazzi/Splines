@@ -32,20 +32,20 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  using GenericContainerNamespace::GC_INTEGER;
-  using GenericContainerNamespace::GC_VEC_BOOL;
-  using GenericContainerNamespace::GC_VEC_INTEGER;
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::GC_VEC_STRING;
-  using GenericContainerNamespace::GC_VECTOR;
-  using GenericContainerNamespace::GC_MAP;
-  using GenericContainerNamespace::GC_MAT_REAL;
-  using GenericContainerNamespace::mat_real_type;
-  using GenericContainerNamespace::vec_int_type;
-  using GenericContainerNamespace::vec_real_type;
-  using GenericContainerNamespace::vec_string_type;
-  using GenericContainerNamespace::vector_type;
-  using GenericContainerNamespace::map_type;
+  using GC_namespace::GC_INTEGER;
+  using GC_namespace::GC_VEC_BOOL;
+  using GC_namespace::GC_VEC_INTEGER;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_VEC_STRING;
+  using GC_namespace::GC_VECTOR;
+  using GC_namespace::GC_MAP;
+  using GC_namespace::GC_MAT_REAL;
+  using GC_namespace::mat_real_type;
+  using GC_namespace::vec_int_type;
+  using GC_namespace::vec_real_type;
+  using GC_namespace::vec_string_type;
+  using GC_namespace::vector_type;
+  using GC_namespace::map_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -74,7 +74,7 @@ namespace Splines {
     m_nspl = integer(spline_type_vec.size());
     stype.resize( size_t(m_nspl) );
     for ( size_t spl = 0; spl < size_t(m_nspl); ++spl )
-      stype[spl] = string_to_splineType( spline_type_vec[spl] );
+      stype[spl] = string_to_splineType1D( spline_type_vec[spl] );
 
     UTILS_ASSERT(
       gc.exists("xdata"), "{}, missing `xdata` field!\n", msg

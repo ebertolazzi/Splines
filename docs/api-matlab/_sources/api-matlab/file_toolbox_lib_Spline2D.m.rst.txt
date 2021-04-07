@@ -1,0 +1,38 @@
+
+.. _file_toolbox_lib_Spline2D.m:
+
+File Spline2D.m
+===============
+
+|exhale_lsh| :ref:`Parent directory <dir_toolbox_lib>` (``toolbox/lib``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``toolbox/lib/Spline2D.m``)
+---------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_toolbox_lib_Spline2D.m.rst
+
+
+
+
+
+
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_a00034`
+

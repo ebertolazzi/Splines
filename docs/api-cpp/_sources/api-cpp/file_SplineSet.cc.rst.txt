@@ -1,0 +1,43 @@
+
+.. _file_SplineSet.cc:
+
+File SplineSet.cc
+=================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineSet.cc``)
+-----------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``PolynomialRoots.hh``
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+- ``SplinesUtils.hh`` (:ref:`file_SplinesUtils.hh`)
+
+- ``cmath``
+
+- ``limits``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+

@@ -7,10 +7,10 @@
 # pip3 install cloud_sptheme
 
 import os
-from past.builtins import execfile
+from pathlib import Path
 
 # -- Project information -----------------------------------------------------
-execfile('../project_common.py')
+exec(open("../project_common.py").read())
 
 #from project_common import *
 
@@ -21,17 +21,21 @@ breathe_default_project = project+"_matlab"
 extensions.append('exhale');
 extensions.append('breathe');
 
+dir_path = os.path.dirname(os.path.realpath(__file__))+"../../../"
+dir_path = Path(dir_path).resolve()
+
+
 # Setup the exhale extension
 exhale_args = {
   # These arguments are required
   "containmentFolder":     "./api-matlab",
   "rootFileName":          "library_root.rst",
   "rootFileTitle":         "MATLAB API",
-  "doxygenStripFromPath":  "..",
+  "doxygenStripFromPath":  str(dir_path),
   # Suggested optional arguments
-  "createTreeView":        True,
+  "createTreeView":        False,
   # TIP: if using the sphinx-bootstrap-theme, you need
-  "treeViewIsBootstrap": True,
+  "treeViewIsBootstrap":   False,
   "exhaleExecutesDoxygen": True,
   #"exhaleDoxygenStdin":    "INPUT = ../../src"
   "exhaleDoxygenStdin":

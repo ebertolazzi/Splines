@@ -18,23 +18,12 @@
 %>
 %> `kind` is a string and can be any of 
 %>
-%> \rst
-%>
-%>   .. table::
-%>
-%>     +---------------+----------------------------------------------------------+
-%>     |     kind      |   meaning                                                |
-%>     +===============+==========================================================+
-%>     |  'bilinear'   | piecewise linear in X e Y direction                      |
-%>     +---------------+----------------------------------------------------------+
-%>     |  'cubic'      | piecewise cubic in X e Y direction                       |
-%>     +---------------+----------------------------------------------------------+
-%>     |  'akima'      | piecewise cubic with Akima non oscillatory construction  |
-%>     +---------------+----------------------------------------------------------+
-%>     |  'biquintic'  | piecewise quintic in X e Y direction                     |
-%>     +---------------+----------------------------------------------------------+
-%>
-%> \endrst
+%> |    kind      |   meaning                                                |
+%> | :----------- | :------------------------------------------------------- |
+%> | 'bilinear'   | piecewise linear in X e Y direction                      |
+%> | 'cubic'      | piecewise cubic in X e Y direction                       |
+%> | 'akima'      | piecewise cubic with Akima non oscillatory construction  |
+%> | 'biquintic'  | piecewise quintic in X e Y direction                     |
 %>
 %> Evaluation is simple
 %>
@@ -76,7 +65,6 @@
 %>
 %> \endrst
 %>
-surf(XX,YY,ZZ,'Linestyle',':'), view(145,40), set(gca,'Fontsize',16);
 classdef Spline2D < handle
   properties (SetAccess = private, Hidden = true)
     objectHandle; % Handle to the underlying C++ class instance

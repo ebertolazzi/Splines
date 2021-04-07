@@ -1,0 +1,43 @@
+
+.. _file_SplinesConfig.hh:
+
+File SplinesConfig.hh
+=====================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplinesConfig.hh``)
+---------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``GenericContainer.hh``
+
+- ``Utils.hh`` (:ref:`file_SplinesUtils.hh`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_Splines.hh`
+
+
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_a00104_1a7dc7bbba00bb80a0e5d5c7c94497a07f`
+

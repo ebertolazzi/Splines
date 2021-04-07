@@ -24,7 +24,7 @@ namespace pySpline {
 
   using pybind11::module;
   
-  using GenericContainerNamespace::GenericContainer;
+  using GC_namespace::GenericContainer;
 
   class PythonicSpline : public Spline {
     public:

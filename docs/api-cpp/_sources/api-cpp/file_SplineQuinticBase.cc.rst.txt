@@ -1,0 +1,37 @@
+
+.. _file_SplineQuinticBase.cc:
+
+File SplineQuinticBase.cc
+=========================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineQuinticBase.cc``)
+-------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+- ``iomanip``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+

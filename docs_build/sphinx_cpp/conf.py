@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
-from past.builtins import execfile
+from pathlib import Path
 
 # -- Project information -----------------------------------------------------
-execfile('../project_common.py')
+exec(open("../project_common.py").read())
 
 # Setup the breathe extension
 breathe_projects = { project+"_cpp": "../xml-cpp" }
@@ -12,47 +12,51 @@ breathe_default_project = project+"_cpp"
 extensions.append('exhale');
 extensions.append('breathe');
 
+dir_path = os.path.dirname(os.path.realpath(__file__))+"../../../src"
+dir_path = Path(dir_path).resolve()
+
 # Setup the exhale extension
 exhale_args = {
   # These arguments are required
   "containmentFolder":     "./api-cpp",
   "rootFileName":          "library_root.rst",
   "rootFileTitle":         "C++ API",
-  "doxygenStripFromPath":  "..",
+  "doxygenStripFromPath":  str(dir_path),
   # Suggested optional arguments
-  "createTreeView":        True,
+  "createTreeView":        False,
   # TIP: if using the sphinx-bootstrap-theme, you need
-  "treeViewIsBootstrap": True,
+  "treeViewIsBootstrap":   False,
   "exhaleExecutesDoxygen": True,
   #"exhaleDoxygenStdin":    "INPUT = ../../src"
   "exhaleDoxygenStdin":
 '''
-        EXTRACT_ALL         = YES
-        SOURCE_BROWSER      = YES
-        EXTRACT_STATIC      = YES
-        HIDE_SCOPE_NAMES    = NO
-        CALLER_GRAPH        = YES
-        GRAPHICAL_HIERARCHY = YES
-        HAVE_DOT            = YES
         QUIET               = NO
         INPUT               = ../../src
         GENERATE_TREEVIEW   = YES
         XML_OUTPUT          = xml-cpp
         SHORT_NAMES         = YES
 
-        XML_PROGRAMLISTING    = YES
-        RECURSIVE             = YES
-        FULL_PATH_NAMES       = YES
-        ENABLE_PREPROCESSING  = YES
-        MACRO_EXPANSION       = YES
-        SKIP_FUNCTION_MACROS  = NO
-        EXPAND_ONLY_PREDEF    = NO
-        INHERIT_DOCS          = YES
-        INLINE_INHERITED_MEMB = YES
-        EXTRACT_PRIVATE       = YES
         PREDEFINED           += protected=private
         EXCLUDE_PATTERNS      = SplinesCinterface.*
-        GENERATE_HTML         = NO
+
+        EXTRACT_ALL            = YES
+        EXTRACT_STATIC         = YES
+        SHORT_NAMES            = YES
+        INHERIT_DOCS           = YES
+        ENABLE_PREPROCESSING   = YES
+        MACRO_EXPANSION        = NO
+        XML_OUTPUT             = xml-cpp
+        XML_PROGRAMLISTING     = NO
+        XML_NS_MEMB_FILE_SCOPE = NO
+        SOURCE_BROWSER         = NO
+        OPTIMIZE_OUTPUT_FOR_C  = NO
+        HIDE_SCOPE_NAMES       = NO
+        SEARCH_INCLUDES        = NO
+        CALLER_GRAPH           = YES
+        GRAPHICAL_HIERARCHY    = NO
+        HAVE_DOT               = NO
+        SHOW_INCLUDE_FILES     = NO
+        GENERATE_TREEVIEW      = YES
 ''',
   "lexerMapping": { r".*\.m": "MATLAB" }
 }

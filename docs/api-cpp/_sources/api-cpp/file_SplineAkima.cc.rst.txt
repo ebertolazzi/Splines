@@ -1,0 +1,37 @@
+
+.. _file_SplineAkima.cc:
+
+File SplineAkima.cc
+===================
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``SplineAkima.cc``)
+-------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``Splines.hh`` (:ref:`file_Splines.hh`)
+
+- ``cmath``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_Splines`
+

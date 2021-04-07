@@ -6,21 +6,20 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Class SplineSet &#8212; Splines v1.0.8
 </title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-treeview/bootstrap-treeview.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/bootstrap-treeview/bootstrap-treeview.min.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     
@@ -76,24 +75,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="class-splineset">
+  <section id="class-splineset">
 <span id="exhale-class-a00038"></span><h1>Class SplineSet<a class="headerlink" href="#class-splineset" title="Permalink to this headline">¶</a>
 </h1>
 <ul class="simple">
-<li><p>Defined in <a class="reference internal" href="file__Users_enrico_Ricerca_develop_C%2B%2B_pins-mechatronix_LibSources_submodules_Splines_toolbox_lib_SplineSet.m.html#file-users-enrico-ricerca-develop-c-pins-mechatronix-libsources-submodules-splines-toolbox-lib-splineset-m"><span class="std std-ref">File SplineSet.m</span></a></p></li>
+<li><p>Defined in <a class="reference internal" href="file_toolbox_lib_SplineSet.m.html#file-toolbox-lib-splineset-m"><span class="std std-ref">File SplineSet.m</span></a></p></li>
 </ul>
-<div class="section" id="inheritance-relationships">
+<section id="inheritance-relationships">
 <h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Permalink to this headline">¶</a>
 </h2>
-<div class="section" id="base-type">
+<section id="base-type">
 <h3>Base Type<a class="headerlink" href="#base-type" title="Permalink to this headline">¶</a>
 </h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">handle</span></code></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="class-documentation">
+</section>
+</section>
+<section id="class-documentation">
 <h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a>
 </h2>
 <dl class="cpp class">
@@ -103,7 +102,7 @@
 <dd>
 <p>MATLAB class wrapper for the underlying C++ class </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N9SplineSet9SplineSetE2in">
 <span id="_CPPv3N9SplineSet9SplineSetE2in"></span><span id="_CPPv2N9SplineSet9SplineSetE2in"></span><span id="SplineSet::SplineSet__in"></span><span class="target" id="a00038_1afb7adee92f5c67868a185326a389e4d8"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">SplineSet</span></code><span class="sig-paren">(</span><em><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9SplineSet9SplineSetE2in" title="Permalink to this definition">¶</a><br>
@@ -113,11 +112,11 @@
 <p></p>
 <p></p>
 <div class="highlight-matlab notranslate">
-<div class="highlight"><pre><span></span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span><span class="c"> ];                % vector or nodes</span><span class="w"></span>
-<span class="n">Y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span><span class="c"> ];                % matrix of values or</span><span class="w"></span>
-<span class="n">Y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="k">...</span><span class="c">],  ..., [...] }; % cell array of vectors</span><span class="w"></span>
-<span class="n">kind</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">...</span><span class="c"> }              % cell array of strings</span><span class="w"></span>
-<span class="w">                            </span><span class="c">% with the kind of each spline</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span><span class="c">. ];                  % vector or nodes</span><span class="w"></span>
+<span class="n">Y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span><span class="c">. ];                  % matrix of values or</span><span class="w"></span>
+<span class="n">Y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="k">...</span><span class="c">.],  ...., [....] }; % cell array of vectors</span><span class="w"></span>
+<span class="n">kind</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">...</span><span class="c">. }                % cell array of strings</span><span class="w"></span>
+<span class="w">                               </span><span class="c">% with the kind of each spline</span><span class="w"></span>
 
 <span class="n">obj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SplineSet</span><span class="p">(</span><span class="w"> </span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 </pre></div>
@@ -126,51 +125,45 @@
 
 <p>Kind is a string and can be any of</p>
 <p></p>
-<p></p>
-<table class="styled-table docutils align-default">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 79%">
-</colgroup>
+<table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd">
-<th class="left-align head"><p>kind</p></th>
-<th class="left-align head"><p>meaning</p></th>
+<th class="head"><p>kind   </p></th>
+<th class="head"><p>meaning    </p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even">
-<td class="left-align"><p>’linear’</p></td>
-<td class="left-align"><p>linear spline (only continuous)</p></td>
+<td><p>‘linear’   </p></td>
+<td><p>linear spline (only continuous)    </p></td>
 </tr>
 <tr class="row-odd">
-<td class="left-align"><p>’cubic’</p></td>
-<td class="left-align"><p>cubic spline (<span class="math notranslate nohighlight">\(C^2\)</span> function)</p></td>
+<td><p>‘cubic’   </p></td>
+<td><p>cubic spline ( <span class="math notranslate nohighlight">\( C^2 \)</span> function)    </p></td>
 </tr>
 <tr class="row-even">
-<td class="left-align"><p>’akima’</p></td>
-<td class="left-align"><p>Akima non oscillatory spline (<span class="math notranslate nohighlight">\(C^1\)</span> function)</p></td>
+<td><p>‘akima’   </p></td>
+<td><p>Akima non oscillatory spline ( <span class="math notranslate nohighlight">\( C^1 \)</span> function)    </p></td>
 </tr>
 <tr class="row-odd">
-<td class="left-align"><p>’bessel’</p></td>
-<td class="left-align"><p>bessel non oscillatory spline (<span class="math notranslate nohighlight">\(C^1\)</span> function)</p></td>
+<td><p>‘bessel’   </p></td>
+<td><p>bessel non oscillatory spline ( <span class="math notranslate nohighlight">\( C^1 \)</span> function)    </p></td>
 </tr>
 <tr class="row-even">
-<td class="left-align"><p>’pchip’</p></td>
-<td class="left-align"><p>Monotone <span class="math notranslate nohighlight">\(C^1\)</span> function</p></td>
+<td><p>‘pchip’   </p></td>
+<td><p>Monotone <span class="math notranslate nohighlight">\( C^1 \)</span> function    </p></td>
 </tr>
 <tr class="row-odd">
-<td class="left-align"><p>’hermite’</p></td>
-<td class="left-align"><p>Hermite spline (set <span class="math notranslate nohighlight">\(p_k\)</span> and <span class="math notranslate nohighlight">\(p'_k\)</span>)</p></td>
+<td><p>‘hermite’   </p></td>
+<td><p>Hermite spline (set <span class="math notranslate nohighlight">\( p_k \)</span> and <span class="math notranslate nohighlight">\( p'_k \)</span>)    </p></td>
 </tr>
 <tr class="row-even">
-<td class="left-align"><p>’quintic’</p></td>
-<td class="left-align"><p>Quintic spline (<span class="math notranslate nohighlight">\(C^3\)</span> function)</p></td>
+<td><p>‘quintic’   </p></td>
+<td><p>Quintic spline ( <span class="math notranslate nohighlight">\( C^3 \)</span> function)   </p></td>
 </tr>
 </tbody>
 </table>
 
- 
 </dd>
 </dl>
 
@@ -297,8 +290,8 @@
 </dd>
 </dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
 
@@ -375,7 +368,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Enrico Bertolazzi.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

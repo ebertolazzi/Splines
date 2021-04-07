@@ -2,18 +2,10 @@
 Class Hierarchy
 ---------------
 
-
-.. raw:: html
-
-   <div id="class-treeView"></div>
-   <script type="text/javascript">
-     function getClassHierarchyTree() {
-        return [
-         {text:"<span class=\"text-muted\">Class</span> BaseHermite",href:"class_a00026.html#exhale-class-a00026",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline1D",href:"class_a00030.html#exhale-class-a00030",selectable:false},{text:"<span class=\"text-muted\">Class</span> Spline2D",href:"class_a00034.html#exhale-class-a00034",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineSet",href:"class_a00038.html#exhale-class-a00038",selectable:false},{text:"<span class=\"text-muted\">Class</span> SplineVec",href:"class_a00042.html#exhale-class-a00042",selectable:false},
-        ]
-     }
-   </script><!-- end getClassHierarchyTree() function -->
-
-.. end raw html for treeView
+- :ref:`exhale_class_a00026`
+- :ref:`exhale_class_a00030`
+- :ref:`exhale_class_a00034`
+- :ref:`exhale_class_a00038`
+- :ref:`exhale_class_a00042`
 
 

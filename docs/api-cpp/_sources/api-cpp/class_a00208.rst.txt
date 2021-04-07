@@ -3,7 +3,7 @@
 Class Spline2D
 ==============
 
-- Defined in :ref:`file__Users_enrico_Ricerca_develop_C++_pins-mechatronix_LibSources_submodules_Splines_src_Splines2D.hxx`
+- Defined in :ref:`file_Splines2D.hxx`
 
 
 Class Documentation

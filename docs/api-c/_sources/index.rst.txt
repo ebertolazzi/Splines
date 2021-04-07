@@ -1,7 +1,0 @@
-Splines C interface
-===================
-
-.. toctree::
-   :maxdepth: 2
-
-   api-c/library_root.rst
