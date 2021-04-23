@@ -282,4 +282,28 @@ namespace Splines {
       );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  CubicSplineBase::y_min_max(
+    real_type & x_min_pos,
+    real_type & y_min,
+    real_type & x_max_pos,
+    real_type & y_max
+  ) const {
+    UTILS_ASSERT0(
+      m_npts > 0, "CubicSplineBase::y_min_max() empty spline!"
+    );
+    // find max min alongh the nodes
+    x_min_pos = x_max_pos = m_X[0];
+    y_min = y_max = m_Y[0];
+    for ( integer i = 1; i < m_npts; ++i ) {
+      Hermite3_to_poly(
+        m_X[i]-m_X[i-1],
+        m_Y[i-1],  m_Y[i],
+        m_Yp[i-1], m_Yp[i],
+        A, B, C, D
+      );
+    }
+  }
 }

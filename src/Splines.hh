@@ -190,16 +190,16 @@ namespace Splines {
     real_type       * t
   );
 
-  /*!
-   * Compute nodes for the spline using chordal distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using chordal distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   chordal(
     integer           dim,
@@ -209,17 +209,17 @@ namespace Splines {
     real_type       * t
   );
 
-  /*!
-   * Compute nodes for the spline using centripetal distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[in]  alpha   power factor
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using centripetal distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[in]  alpha   power factor
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   centripetal(
     integer           dim,
@@ -230,16 +230,16 @@ namespace Splines {
     real_type       * t
   );
 
-  /*!
-   * Compute nodes for the spline using universal distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using universal distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   universal(
     integer           dim,
@@ -249,16 +249,16 @@ namespace Splines {
     real_type       * t
   );
 
-  /*!
-   * Compute nodes for the spline using ``FoleyNielsen`` distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using ``FoleyNielsen`` distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   FoleyNielsen(
     integer           dim,
@@ -268,16 +268,16 @@ namespace Splines {
     real_type       * t
   );
 
-  /*!
-   * Compute nodes for the spline using ``FangHung`` distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using ``FangHung`` distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   FangHung(
     integer           dim,
@@ -503,13 +503,12 @@ namespace Splines {
     virtual
     void build() = 0;
 
-    /*!
-     *
-     * Setup a spline using a `GenericContainer`
-     *
-     * - gc("xdata") vector with the `x` coordinate of the data
-     * - gc("ydata") vector with the `y` coordinate of the data
-     */
+    //!
+    //! Setup a spline using a `GenericContainer`
+    //!
+    //! - gc("xdata") vector with the `x` coordinate of the data
+    //! - gc("ydata") vector with the `y` coordinate of the data
+    //!
     virtual
     void setup( GenericContainer const & gc );
 
@@ -777,6 +776,23 @@ namespace Splines {
       real_type * & p_dy
     );
 
+    //!
+    //! Search the max and min values of `y` along the spline
+    //! with the corresponding `x` position
+    //!
+    //! \param[out] x_min_pos where is the minimum
+    //! \param[out] y_min     the minimum value
+    //! \param[out] x_max_pos where is the maximum
+    //! \param[out] y_min     the maximum value
+    //!
+    void
+    y_min_max(
+      real_type & x_min_pos,
+      real_type & y_min,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const;
+
     // --------------------------- VIRTUALS -----------------------------------
 
     real_type operator () ( real_type x ) const override;
@@ -794,18 +810,17 @@ namespace Splines {
 
     void reserve( integer npts ) override;
 
-    /*!
-     * \brief Build a spline.
-     *
-     * \param x     vector of x-coordinates
-     * \param incx  access elements as x[0], x[incx], x[2*incx],...
-     * \param y     vector of y-coordinates
-     * \param incy  access elements as y[0], y[incy], y[2*incy],...
-     * \param yp    vector of y-defivative
-     * \param incyp access elements as yp[0], yp[incyp], yp[2*incyy],...
-     * \param n     total number of points
-     */
-    // must be defined in derived classes
+    //!
+    //! Build a spline.
+    //!
+    //! \param[in] x     vector of x-coordinates
+    //! \param[in] incx  access elements as x[0], x[incx], x[2*incx],...
+    //! \param[in] y     vector of y-coordinates
+    //! \param[in] incy  access elements as y[0], y[incy], y[2*incy],...
+    //! \param[in] yp    vector of y-defivative
+    //! \param[in] incyp access elements as yp[0], yp[incyp], yp[2*incyy],...
+    //! \param[in] n     total number of points
+    //!
     void
     build(
       real_type const * x,  integer incx,
@@ -814,14 +829,14 @@ namespace Splines {
       integer n
     );
 
-    /*!
-     * \brief Build a spline.
-     *
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     * \param yp vector of y'-coordinates
-     * \param n  total number of points
-     */
+    //!
+    //! Build a spline.
+    //!
+    //! \param[in] x  vector of x-coordinates
+    //! \param[in] y  vector of y-coordinates
+    //! \param[in] yp vector of y'-coordinates
+    //! \param[in] n  total number of points
+    //!
     inline
     void
     build(
@@ -833,13 +848,13 @@ namespace Splines {
       this->build( x, 1, y, 1, yp, 1, n );
     }
 
-    /*!
-     * \brief Build a spline.
-     *
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     * \param yp vector of y'-coordinates
-     */
+    //!
+    //! Build a spline.
+    //!
+    //! \param[in] x  vector of x-coordinates
+    //! \param[in] y  vector of y-coordinates
+    //! \param[in] yp vector of y'-coordinates
+    //!
     void
     build(
       vector<real_type> const & x,
@@ -1038,15 +1053,16 @@ namespace Splines {
       bool transposed      = false
     );
 
-    /*! Build surface spline
-     * \param x       vector of x-coordinates, nx = x.size()
-     * \param y       vector of y-coordinates, ny = y.size()
-     * \param z       matrix of z-values. Elements are stored
-     *                by row Z(i,j) = z[i*ny+j] as C-matrix
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+    //!  Build surface spline
+    //!
+    //! \param x       vector of x-coordinates, nx = x.size()
+    //! \param y       vector of y-coordinates, ny = y.size()
+    //! \param z       matrix of z-values. Elements are stored
+    //!                by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //!
     void
     build(
       vector<real_type> const & x,
@@ -1076,19 +1092,19 @@ namespace Splines {
       bool transposed      = false
     );
 
-    /*!
-     * \brief Build surface spline
-     * 
-     * \param z               matrix of z-values. Elements are stored
-     *                        by row Z(i,j) = z[i*ny+j] as C-matrix.
-     *                        ldZ leading dimension of the matrix is ny for C-storage
-     *                        and nx for Fortran storage.
-     * \param nx              x-dimension
-     * \param ny              y-dimension
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+    //!
+    //! Build surface spline
+    //!
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix.
+    //!                        ldZ leading dimension of the matrix is ny for C-storage
+    //!                        and nx for Fortran storage.
+    //! \param nx              x-dimension
+    //! \param ny              y-dimension
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //!
     void
     build(
       vector<real_type> const & z,
@@ -1112,12 +1128,13 @@ namespace Splines {
     real_type
     operator () ( real_type x, real_type y ) const = 0;
 
-    /*!
-     * value and first derivatives at point \f$ (x,y) \f$
-     * - d[0] value of the spline \f$ S(x,y) \f$
-     * - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
-     * - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
-     */
+    //!
+    //! value and first derivatives at point \f$ (x,y) \f$
+    //!
+    //! - d[0] value of the spline \f$ S(x,y) \f$
+    //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+    //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+    //!
     virtual
     void
     D( real_type x, real_type y, real_type d[3] ) const = 0;
@@ -1136,36 +1153,39 @@ namespace Splines {
     real_type
     Dy( real_type x, real_type y ) const = 0;
 
-    /*!
-     * value, first and second derivatives at point \f$ (x,y) \f$
-     * - dd[0] value of the spline \f$ S(x,y) \f$
-     * - dd[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
-     * - dd[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
-     * - dd[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
-     * - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
-     * - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
-     */
+    //!
+    //! value, first and second derivatives at point \f$ (x,y) \f$
+    //!
+    //! - dd[0] value of the spline \f$ S(x,y) \f$
+    //! - dd[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+    //! - dd[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+    //! - dd[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
+    //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
+    //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
+    //!
     virtual
     void
     DD( real_type x, real_type y, real_type dd[6] ) const = 0;
 
-    /*!
-     * second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_{xx}(x,y) \f$
-     */
+    //!
+    //! second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$
+    //!
     virtual
     real_type
     Dxx( real_type x, real_type y ) const = 0;
 
-    /*!
-     * mixed second derivatives: \f$ S_{xy}(x,y) \f$
-     */
+    //!
+    //! mixed second derivatives: \f$ S_{xy}(x,y) \f$
+    //!
     virtual
     real_type
     Dxy( real_type x, real_type y ) const = 0;
 
-    /*!
-     * second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_{yy}(x,y) \f$
-     */
+    //!
+    //! second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{yy}(x,y) \f$
+    //!
     virtual
     real_type
     Dyy( real_type x, real_type y ) const = 0;

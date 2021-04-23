@@ -2,6 +2,6 @@ Splines C++ interface
 =====================
 
 .. toctree::
-   :maxdepth: 2
+  :includehidden:
 
-   api-cpp/library_root.rst
+  api-cpp/library_root.rst

@@ -9,9 +9,9 @@ Splines is a set of C++ classes (with MATLAB mex interface) which implements var
    :maxdepth: 2
 
    readme.rst
-   api_c.rst
-   api_cpp.rst
    api_matlab.rst
+   api_cpp.rst
+   api_c.rst
 
 License
 -------

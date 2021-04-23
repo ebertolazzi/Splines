@@ -33,11 +33,10 @@ exhale_args = {
         QUIET               = NO
         INPUT               = ../../src
         GENERATE_TREEVIEW   = YES
-        XML_OUTPUT          = xml-cpp
+        XML_OUTPUT          = xml-c
         SHORT_NAMES         = YES
 
         PREDEFINED           += protected=private
-        EXCLUDE_PATTERNS      = SplinesCinterface.*
 
         EXTRACT_ALL            = YES
         EXTRACT_STATIC         = YES
@@ -45,7 +44,7 @@ exhale_args = {
         INHERIT_DOCS           = YES
         ENABLE_PREPROCESSING   = YES
         MACRO_EXPANSION        = NO
-        XML_OUTPUT             = xml-cpp
+        XML_OUTPUT             = xml-c
         XML_PROGRAMLISTING     = NO
         XML_NS_MEMB_FILE_SCOPE = NO
         SOURCE_BROWSER         = NO
@@ -58,7 +57,7 @@ exhale_args = {
         SHOW_INCLUDE_FILES     = NO
         GENERATE_TREEVIEW      = YES
 
-        FILE_PATTERNS         = ../../src/SplinesCinterface.* *.h *.c
+        FILE_PATTERNS         = SplinesCinterface.* *.h *.c
         GENERATE_HTML         = NO
 ''',
   "lexerMapping": { r".*\.m": "MATLAB" }

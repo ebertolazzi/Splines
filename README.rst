@@ -1,5 +1,6 @@
-Splines |Build Status| |View Splines on File Exchange|
-======================================================
+Splines
+=======
+|Build Status| |View Splines on File Exchange|
 
 Introduction
 ------------
