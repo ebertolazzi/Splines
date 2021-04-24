@@ -63,6 +63,25 @@
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
+    %>
+    %> Search the max and min values of `y` along the spline
+    %> with the corresponding `x` position
+    %>
+    %> \param[out] i_min_pos where is the minimum (interval)
+    %> \param[out] x_min_pos where is the minimum
+    %> \param[out] y_min     the minimum value
+    %> \param[out] i_max_pos where is the maximum (interval)
+    %> \param[out] x_max_pos where is the maximum
+    %> \param[out] y_min     the maximum value
+    %>
+    %>
+    function [ i_min_pos, x_min_pos, y_min, ...
+               i_max_pos, x_max_pos, y_max] = eval_y_min_max( self )
+      [ i_min_pos, x_min_pos, y_min, i_max_pos x_max_pos, y_max] ...
+        = Spline1DMexWrapper( 'y_min_max', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
     %> Evaluate spline at `x` returning vaues and derivatives
     %>
     %> \rst

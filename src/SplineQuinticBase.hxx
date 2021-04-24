@@ -87,6 +87,16 @@ namespace Splines {
       real_type * & p_Ypp
     );
 
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const override;
+
     // --------------------------- VIRTUALS -----------------------------------
 
     real_type operator () ( real_type x ) const override;

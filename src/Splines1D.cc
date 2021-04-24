@@ -73,19 +73,18 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  /*!
-   *
-   * Setup a spline using a `GenericContainer`
-   *
-   * - gc("spline_type")
-   *   - "constant"
-   *   - "linear"
-   *   - "cubic"
-   *   - "akima"
-   *   - "bessel"
-   *   - "pchip"
-   *   - "quintic"
-   */
+  //! 
+  //! Setup a spline using a `GenericContainer`
+  //! 
+  //! - gc("spline_type")
+  //!   - "constant"
+  //!   - "linear"
+  //!   - "cubic"
+  //!   - "akima"
+  //!   - "bessel"
+  //!   - "pchip"
+  //!   - "quintic"
+  //! 
   void
   Spline1D::setup( GenericContainer const & gc ) {
     /*

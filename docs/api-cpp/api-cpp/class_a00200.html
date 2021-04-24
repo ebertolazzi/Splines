@@ -209,7 +209,7 @@
 <span id="_CPPv3NK7Splines10SplineSurf12is_y_boundedEv"></span><span id="_CPPv2NK7Splines10SplineSurf12is_y_boundedEv"></span><span id="Splines::SplineSurf::is_y_boundedC"></span><span class="target" id="a00200_1a9ac734162f244915244f89f72dfced89"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">bool</span> <code class="sig-name descname"><span class="pre">is_y_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines10SplineSurf12is_y_boundedEv" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>return true if the parameter <code class="docutils literal notranslate"><span class="pre">y</span></code> assumed bounded. If false the spline is estrapolated for <code class="docutils literal notranslate"><span class="pre">y</span></code> values outside the range. </p>
+<p>return true if the parameter <code class="docutils literal notranslate"><span class="pre">y</span></code> assumed bounded. If false the spline is extrapolated for <code class="docutils literal notranslate"><span class="pre">y</span></code> values outside the range. </p>
 </dd>
 </dl>
 
@@ -384,7 +384,8 @@
 <span id="_CPPv3N7Splines10SplineSurf5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeEbb"></span><span id="_CPPv2N7Splines10SplineSurf5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeEbb"></span><span id="Splines::SplineSurf::build__vector:real_type:CR.vector:real_type:CR.vector:real_type:CR.b.b"></span><span class="target" id="a00200_1ae974861690c40828c831304cee663f34"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">x</span></em>, <span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">y</span></em>, <span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">z</span></em>, <span class="pre">bool</span> <em><span class="pre">fortran_storage</span></em> <span class="pre">=</span> <span class="pre">false</span>, <span class="pre">bool</span> <em><span class="pre">transposed</span></em> <span class="pre">=</span> <span class="pre">false</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines10SplineSurf5buildERK6vectorI9real_typeERK6vectorI9real_typeERK6vectorI9real_typeEbb" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build surface spline </p>
+<p>Build surface spline</p>
+<p></p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt>
 <dd>
@@ -441,7 +442,7 @@
 <span id="_CPPv3N7Splines10SplineSurf5buildERK6vectorI9real_typeE7integer7integerbb"></span><span id="_CPPv2N7Splines10SplineSurf5buildERK6vectorI9real_typeE7integer7integerbb"></span><span id="Splines::SplineSurf::build__vector:real_type:CR.integer.integer.b.b"></span><span class="target" id="a00200_1abc87c149c4634de7bc5f1419b4db312f"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">z</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">nx</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">ny</span></em>, <span class="pre">bool</span> <em><span class="pre">fortran_storage</span></em> <span class="pre">=</span> <span class="pre">false</span>, <span class="pre">bool</span> <em><span class="pre">transposed</span></em> <span class="pre">=</span> <span class="pre">false</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines10SplineSurf5buildERK6vectorI9real_typeE7integer7integerbb" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build surface spline. </p>
+<p>Build surface spline</p>
 <p></p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt>
@@ -525,6 +526,7 @@
 </dt>
 <dd>
 <p>value and first derivatives at point <span class="math notranslate nohighlight">\( (x,y) \)</span></p>
+<p></p>
 <ul class="simple">
 <li><p>d[0] value of the spline <span class="math notranslate nohighlight">\( S(x,y) \)</span></p></li>
 <li><p>d[1] derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_x(x,y) \)</span></p></li>
@@ -558,6 +560,7 @@
 </dt>
 <dd>
 <p>value, first and second derivatives at point <span class="math notranslate nohighlight">\( (x,y) \)</span></p>
+<p></p>
 <ul class="simple">
 <li><p>dd[0] value of the spline <span class="math notranslate nohighlight">\( S(x,y) \)</span></p></li>
 <li><p>dd[1] derivative respect to <span class="math notranslate nohighlight">\( x \)</span> of the spline: <span class="math notranslate nohighlight">\( S_x(x,y) \)</span></p></li>

@@ -183,4 +183,35 @@ namespace Splines {
     this->build( x, y );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  LinearSpline::y_min_max(
+    integer   & i_min_pos,
+    real_type & x_min_pos,
+    real_type & y_min,
+    integer   & i_max_pos,
+    real_type & x_max_pos,
+    real_type & y_max
+  ) const {
+    UTILS_ASSERT0(
+      m_npts > 0, "LinearSpline::y_min_max() empty spline!"
+    );
+    // find max min alongh the nodes
+    i_min_pos = i_max_pos = 0;
+    x_min_pos = x_max_pos = m_X[0];
+    y_min = y_max = m_Y[0];
+    for ( integer i = 1; i < m_npts; ++i ) {
+      real_type const & P1 = m_Y[i];
+      if ( P1 > y_max ) {
+        y_max     = P1;
+        x_max_pos = m_X[i];
+        i_max_pos = i;
+      } else if ( P1 < y_min ) {
+        y_min     = P1;
+        x_min_pos = m_X[i];
+        i_min_pos = i;
+      }
+    }
+  }
 }

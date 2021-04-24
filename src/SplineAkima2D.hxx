@@ -28,15 +28,15 @@
 
 namespace Splines {
 
-  /*!
-   *  Smooth Curve Fitting Based on Local Procedures
-   *
-   *  *Reference*
-   *
-   *  - *Hiroshi Akima*, A Method of Bivariate Interpolation and 
-   *    Smooth Surface Fitting for Irregularly Distributed Data Points.  
-   *    ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.
-   */
+  //! 
+  //! Smooth Curve Fitting Based on Local Procedures
+  //! 
+  //! *Reference*
+  //! 
+  //! - *Hiroshi Akima*, A Method of Bivariate Interpolation and 
+  //!   Smooth Surface Fitting for Irregularly Distributed Data Points.  
+  //!   ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.
+  //! 
   class Akima2Dspline : public BiCubicSplineBase {
     void makeSpline() override;
 

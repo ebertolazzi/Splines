@@ -181,7 +181,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  char const * spline_type_2D[] = {
+  static char const * spline_type_2D[] = {
     "bilinear",  // 0
     "bicubic",   // 1
     "biquintic", // 2

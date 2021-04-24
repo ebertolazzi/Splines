@@ -104,7 +104,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D8Spline1DE2in2in">
-<span id="_CPPv3N8Spline1D8Spline1DE2in2in"></span><span id="_CPPv2N8Spline1D8Spline1DE2in2in"></span><span id="Spline1D::Spline1D__in.in"></span><span class="target" id="a00030_1a02fc0af0cdd4b569fe9af91c0148988e"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">Spline1D</span></code><span class="sig-paren">(</span><em><span class="pre">kind</span></em>,<em><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D8Spline1DE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D8Spline1DE2in2in"></span><span id="_CPPv2N8Spline1D8Spline1DE2in2in"></span><span id="Spline1D::Spline1D__in.in"></span><span class="target" id="a00030_1a02fc0af0cdd4b569fe9af91c0148988e"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">Spline1D</span></code><span class="sig-paren">(</span><em><span class="pre">kind</span></em>,<em><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D8Spline1DE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Build a spline given a table of point and type:</p>
@@ -164,7 +164,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D5buildE2in2in">
-<span id="_CPPv3N8Spline1D5buildE2in2in"></span><span id="_CPPv2N8Spline1D5buildE2in2in"></span><span id="Spline1D::build__in.in"></span><span class="target" id="a00030_1a267092b89db97d5a5d16a4b2fc5831aa"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D5buildE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D5buildE2in2in"></span><span id="_CPPv2N8Spline1D5buildE2in2in"></span><span id="Spline1D::build__in.in"></span><span class="target" id="a00030_1a267092b89db97d5a5d16a4b2fc5831aa"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D5buildE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>kind [, t, pnts, subtype ] </p>
@@ -183,11 +183,35 @@
 </dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N8Spline1D4evalE2in2in">
-<span id="_CPPv3N8Spline1D4evalE2in2in"></span><span id="_CPPv2N8Spline1D4evalE2in2in"></span><span id="Spline1D::eval__in.in"></span><span class="target" id="a00030_1a7a533d318a19ad5a5546dd0eb1f2e8b1"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4evalE2in2in" title="Permalink to this definition">¶</a><br>
+<dt id="_CPPv4N8Spline1D8functionEv">
+<span id="_CPPv3N8Spline1D8functionEv"></span><span id="_CPPv2N8Spline1D8functionEv"></span><span id="Spline1D::function"></span><span class="target" id="a00030_1a57e13803ffb7cb6313fc09feb844ba2e"></span><code class="sig-name descname"><span class="pre">function</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D8functionEv" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>x, y [, yp or subtype] </p>
+<p>Search the max and min values of <code class="docutils literal notranslate"><span class="pre">y</span></code> along the spline with the corresponding <code class="docutils literal notranslate"><span class="pre">x</span></code> position</p>
+<p></p>
+<dl class="simple">
+<dt><strong>Parameters</strong></dt>
+<dd>
+<ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">i_min_pos</span></code>: where is the minimum (interval) </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">x_min_pos</span></code>: where is the minimum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">y_min</span></code>: the minimum value </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">i_max_pos</span></code>: where is the maximum (interval) </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">x_max_pos</span></code>: where is the maximum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">y_min</span></code>: the maximum value </p></li>
+</ul>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N8Spline1D4evalE2in2in">
+<span id="_CPPv3N8Spline1D4evalE2in2in"></span><span id="_CPPv2N8Spline1D4evalE2in2in"></span><span id="Spline1D::eval__in.in"></span><span class="target" id="a00030_1a7a533d318a19ad5a5546dd0eb1f2e8b1"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4evalE2in2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
 <p>Evaluate spline at <code class="docutils literal notranslate"><span class="pre">x</span></code> returning vaues and derivatives</p>
 <p></p>
 <p></p>
@@ -207,7 +231,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D6eval_DE2in2in">
-<span id="_CPPv3N8Spline1D6eval_DE2in2in"></span><span id="_CPPv2N8Spline1D6eval_DE2in2in"></span><span id="Spline1D::eval_D__in.in"></span><span class="target" id="a00030_1a2bd582a09893719a12513f7fd0c10d88"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_D</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6eval_DE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D6eval_DE2in2in"></span><span id="_CPPv2N8Spline1D6eval_DE2in2in"></span><span id="Spline1D::eval_D__in.in"></span><span class="target" id="a00030_1a2bd582a09893719a12513f7fd0c10d88"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval_D</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6eval_DE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Evaluate spline derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
@@ -224,7 +248,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D7eval_DDE2in2in">
-<span id="_CPPv3N8Spline1D7eval_DDE2in2in"></span><span id="_CPPv2N8Spline1D7eval_DDE2in2in"></span><span id="Spline1D::eval_DD__in.in"></span><span class="target" id="a00030_1af4290b63024b00bdad7285295018b28f"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D7eval_DDE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D7eval_DDE2in2in"></span><span id="_CPPv2N8Spline1D7eval_DDE2in2in"></span><span id="Spline1D::eval_DD__in.in"></span><span class="target" id="a00030_1af4290b63024b00bdad7285295018b28f"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval_DD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D7eval_DDE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Evaluate spline second derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
@@ -241,7 +265,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D8eval_DDDE2in2in">
-<span id="_CPPv3N8Spline1D8eval_DDDE2in2in"></span><span id="_CPPv2N8Spline1D8eval_DDDE2in2in"></span><span id="Spline1D::eval_DDD__in.in"></span><span class="target" id="a00030_1a73ec70469bdcf6f23401f68b95d19c68"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D8eval_DDDE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D8eval_DDDE2in2in"></span><span id="_CPPv2N8Spline1D8eval_DDDE2in2in"></span><span id="Spline1D::eval_DDD__in.in"></span><span class="target" id="a00030_1a73ec70469bdcf6f23401f68b95d19c68"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval_DDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D8eval_DDDE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Evaluate spline third derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
@@ -258,7 +282,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D9eval_DDDDE2in2in">
-<span id="_CPPv3N8Spline1D9eval_DDDDE2in2in"></span><span id="_CPPv2N8Spline1D9eval_DDDDE2in2in"></span><span id="Spline1D::eval_DDDD__in.in"></span><span class="target" id="a00030_1a806c1e671df6eb7538673bb43b6b086d"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DDDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D9eval_DDDDE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D9eval_DDDDE2in2in"></span><span id="_CPPv2N8Spline1D9eval_DDDDE2in2in"></span><span id="Spline1D::eval_DDDD__in.in"></span><span class="target" id="a00030_1a806c1e671df6eb7538673bb43b6b086d"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval_DDDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D9eval_DDDDE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Evaluate spline 4th derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
@@ -275,7 +299,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D10eval_DDDDDE2in2in">
-<span id="_CPPv3N8Spline1D10eval_DDDDDE2in2in"></span><span id="_CPPv2N8Spline1D10eval_DDDDDE2in2in"></span><span id="Spline1D::eval_DDDDD__in.in"></span><span class="target" id="a00030_1a4cf8480933b70257ff2b3ad4e609d088"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">eval_DDDDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D10eval_DDDDDE2in2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D10eval_DDDDDE2in2in"></span><span id="_CPPv2N8Spline1D10eval_DDDDDE2in2in"></span><span id="Spline1D::eval_DDDDD__in.in"></span><span class="target" id="a00030_1a4cf8480933b70257ff2b3ad4e609d088"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">eval_DDDDD</span></code><span class="sig-paren">(</span><em><span class="pre">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D10eval_DDDDDE2in2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Evaluate spline 5th derivative at <code class="docutils literal notranslate"><span class="pre">x</span></code></p>
@@ -292,7 +316,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D11make_closedE2in">
-<span id="_CPPv3N8Spline1D11make_closedE2in"></span><span id="_CPPv2N8Spline1D11make_closedE2in"></span><span id="Spline1D::make_closed__in"></span><span class="target" id="a00030_1ae5757d3cdde8be29d412334f1439baaf"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D11make_closedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D11make_closedE2in"></span><span id="_CPPv2N8Spline1D11make_closedE2in"></span><span id="Spline1D::make_closed__in"></span><span class="target" id="a00030_1ae5757d3cdde8be29d412334f1439baaf"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D11make_closedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Set spline as closed</p>
@@ -309,7 +333,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D11make_openedE2in">
-<span id="_CPPv3N8Spline1D11make_openedE2in"></span><span id="_CPPv2N8Spline1D11make_openedE2in"></span><span id="Spline1D::make_opened__in"></span><span class="target" id="a00030_1a54a352ffe125c758f515429f3c8f8804"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_opened</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D11make_openedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D11make_openedE2in"></span><span id="_CPPv2N8Spline1D11make_openedE2in"></span><span id="Spline1D::make_opened__in"></span><span class="target" id="a00030_1a54a352ffe125c758f515429f3c8f8804"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_opened</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D11make_openedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Set spline as opened</p>
@@ -326,7 +350,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D9is_closedE2in">
-<span id="_CPPv3N8Spline1D9is_closedE2in"></span><span id="_CPPv2N8Spline1D9is_closedE2in"></span><span id="Spline1D::is_closed__in"></span><span class="target" id="a00030_1a06decdeb03033ed05a9e12c4432332d0"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">is_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D9is_closedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D9is_closedE2in"></span><span id="_CPPv2N8Spline1D9is_closedE2in"></span><span id="Spline1D::is_closed__in"></span><span class="target" id="a00030_1a06decdeb03033ed05a9e12c4432332d0"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">is_closed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D9is_closedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return true if spline is of closed type</p>
@@ -343,7 +367,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D12make_boundedE2in">
-<span id="_CPPv3N8Spline1D12make_boundedE2in"></span><span id="_CPPv2N8Spline1D12make_boundedE2in"></span><span id="Spline1D::make_bounded__in"></span><span class="target" id="a00030_1a75c0c2bf336e8a6c15b5158984461990"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D12make_boundedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D12make_boundedE2in"></span><span id="_CPPv2N8Spline1D12make_boundedE2in"></span><span id="Spline1D::make_bounded__in"></span><span class="target" id="a00030_1a75c0c2bf336e8a6c15b5158984461990"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D12make_boundedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Make spline computable only in the range is defined. If <code class="docutils literal notranslate"><span class="pre">x</span></code> is outside range an error is produced.</p>
@@ -360,7 +384,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D14make_unboundedE2in">
-<span id="_CPPv3N8Spline1D14make_unboundedE2in"></span><span id="_CPPv2N8Spline1D14make_unboundedE2in"></span><span id="Spline1D::make_unbounded__in"></span><span class="target" id="a00030_1a733d6d4a9a4f48b86011fb3bd0c359cf"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_unbounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D14make_unboundedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D14make_unboundedE2in"></span><span id="_CPPv2N8Spline1D14make_unboundedE2in"></span><span id="Spline1D::make_unbounded__in"></span><span class="target" id="a00030_1a733d6d4a9a4f48b86011fb3bd0c359cf"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_unbounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D14make_unboundedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Make spline computable outside the range is defined. If <code class="docutils literal notranslate"><span class="pre">x</span></code> is outside range value is extrapolated.</p>
@@ -377,7 +401,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D10is_boundedE2in">
-<span id="_CPPv3N8Spline1D10is_boundedE2in"></span><span id="_CPPv2N8Spline1D10is_boundedE2in"></span><span id="Spline1D::is_bounded__in"></span><span class="target" id="a00030_1a2bb9b346ec5f98aa368ed5c11d76730a"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">is_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D10is_boundedE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D10is_boundedE2in"></span><span id="_CPPv2N8Spline1D10is_boundedE2in"></span><span id="Spline1D::is_bounded__in"></span><span class="target" id="a00030_1a2bb9b346ec5f98aa368ed5c11d76730a"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">is_bounded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D10is_boundedE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Check if spline is computable only in the range is defined. Return true if can be computed only in the range.</p>
@@ -394,7 +418,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D22make_extended_constantE2in">
-<span id="_CPPv3N8Spline1D22make_extended_constantE2in"></span><span id="_CPPv2N8Spline1D22make_extended_constantE2in"></span><span id="Spline1D::make_extended_constant__in"></span><span class="target" id="a00030_1a835bc1b52f06182983629bfb06ad5683"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_extended_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D22make_extended_constantE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D22make_extended_constantE2in"></span><span id="_CPPv2N8Spline1D22make_extended_constantE2in"></span><span id="Spline1D::make_extended_constant__in"></span><span class="target" id="a00030_1a835bc1b52f06182983629bfb06ad5683"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_extended_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D22make_extended_constantE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Set extrapolation outside the range as a constant spline</p>
@@ -411,7 +435,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D26make_extended_not_constantE2in">
-<span id="_CPPv3N8Spline1D26make_extended_not_constantE2in"></span><span id="_CPPv2N8Spline1D26make_extended_not_constantE2in"></span><span id="Spline1D::make_extended_not_constant__in"></span><span class="target" id="a00030_1a68ccb447bdd220f856ae3d767913a8e0"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">make_extended_not_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D26make_extended_not_constantE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D26make_extended_not_constantE2in"></span><span id="_CPPv2N8Spline1D26make_extended_not_constantE2in"></span><span id="Spline1D::make_extended_not_constant__in"></span><span class="target" id="a00030_1a68ccb447bdd220f856ae3d767913a8e0"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">make_extended_not_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D26make_extended_not_constantE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Set extrapolation outside the range as a polynomial</p>
@@ -428,7 +452,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D20is_extended_constantE2in">
-<span id="_CPPv3N8Spline1D20is_extended_constantE2in"></span><span id="_CPPv2N8Spline1D20is_extended_constantE2in"></span><span id="Spline1D::is_extended_constant__in"></span><span class="target" id="a00030_1a35dcebbc4a793a8a98d5f5f0f905c621"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">is_extended_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D20is_extended_constantE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D20is_extended_constantE2in"></span><span id="_CPPv2N8Spline1D20is_extended_constantE2in"></span><span id="Spline1D::is_extended_constant__in"></span><span class="target" id="a00030_1a35dcebbc4a793a8a98d5f5f0f905c621"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">is_extended_constant</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D20is_extended_constantE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Check if extrapolation outside the range as a polynomial</p>
@@ -445,7 +469,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D6xBeginE2in">
-<span id="_CPPv3N8Spline1D6xBeginE2in"></span><span id="_CPPv2N8Spline1D6xBeginE2in"></span><span id="Spline1D::xBegin__in"></span><span class="target" id="a00030_1ae5722de35cdc4b8fef8895eecf5bb169"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">xBegin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6xBeginE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D6xBeginE2in"></span><span id="_CPPv2N8Spline1D6xBeginE2in"></span><span id="Spline1D::xBegin__in"></span><span class="target" id="a00030_1ae5722de35cdc4b8fef8895eecf5bb169"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">xBegin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6xBeginE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return initial x-coordinate of the spline</p>
@@ -462,7 +486,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4xEndE2in">
-<span id="_CPPv3N8Spline1D4xEndE2in"></span><span id="_CPPv2N8Spline1D4xEndE2in"></span><span id="Spline1D::xEnd__in"></span><span class="target" id="a00030_1a4412098a1ca6a3e55e9ca9186c7ad0e2"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">xEnd</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xEndE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4xEndE2in"></span><span id="_CPPv2N8Spline1D4xEndE2in"></span><span id="Spline1D::xEnd__in"></span><span class="target" id="a00030_1a4412098a1ca6a3e55e9ca9186c7ad0e2"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">xEnd</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xEndE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return final x-coordinate of the spline</p>
@@ -479,7 +503,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D6yBeginE2in">
-<span id="_CPPv3N8Spline1D6yBeginE2in"></span><span id="_CPPv2N8Spline1D6yBeginE2in"></span><span id="Spline1D::yBegin__in"></span><span class="target" id="a00030_1a239779c3a31e302f5050f9c47da77056"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">yBegin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6yBeginE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D6yBeginE2in"></span><span id="_CPPv2N8Spline1D6yBeginE2in"></span><span id="Spline1D::yBegin__in"></span><span class="target" id="a00030_1a239779c3a31e302f5050f9c47da77056"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">yBegin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D6yBeginE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return initial y-coordinate of the spline</p>
@@ -496,7 +520,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4yEndE2in">
-<span id="_CPPv3N8Spline1D4yEndE2in"></span><span id="_CPPv2N8Spline1D4yEndE2in"></span><span id="Spline1D::yEnd__in"></span><span class="target" id="a00030_1aefb77a81914395c2e333a6530239d510"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">yEnd</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yEndE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4yEndE2in"></span><span id="_CPPv2N8Spline1D4yEndE2in"></span><span id="Spline1D::yEnd__in"></span><span class="target" id="a00030_1aefb77a81914395c2e333a6530239d510"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">yEnd</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yEndE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return final y-coordinate of the spline</p>
@@ -513,7 +537,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4xMinE2in">
-<span id="_CPPv3N8Spline1D4xMinE2in"></span><span id="_CPPv2N8Spline1D4xMinE2in"></span><span id="Spline1D::xMin__in"></span><span class="target" id="a00030_1a948bbbaa2d256bf5a4a7fdc167f0e002"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">xMin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xMinE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4xMinE2in"></span><span id="_CPPv2N8Spline1D4xMinE2in"></span><span id="Spline1D::xMin__in"></span><span class="target" id="a00030_1a948bbbaa2d256bf5a4a7fdc167f0e002"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">xMin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xMinE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return minimum x-coordinate of the spline</p>
@@ -530,7 +554,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4xMaxE2in">
-<span id="_CPPv3N8Spline1D4xMaxE2in"></span><span id="_CPPv2N8Spline1D4xMaxE2in"></span><span id="Spline1D::xMax__in"></span><span class="target" id="a00030_1ab806e9a1efadaa5cb45a9225aa8606ce"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">xMax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xMaxE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4xMaxE2in"></span><span id="_CPPv2N8Spline1D4xMaxE2in"></span><span id="Spline1D::xMax__in"></span><span class="target" id="a00030_1ab806e9a1efadaa5cb45a9225aa8606ce"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">xMax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4xMaxE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return maximum x-coordinate of the spline</p>
@@ -547,7 +571,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4yMinE2in">
-<span id="_CPPv3N8Spline1D4yMinE2in"></span><span id="_CPPv2N8Spline1D4yMinE2in"></span><span id="Spline1D::yMin__in"></span><span class="target" id="a00030_1a3f8e91c47e383f6eff3666306f65bc37"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">yMin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yMinE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4yMinE2in"></span><span id="_CPPv2N8Spline1D4yMinE2in"></span><span id="Spline1D::yMin__in"></span><span class="target" id="a00030_1a3f8e91c47e383f6eff3666306f65bc37"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">yMin</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yMinE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return minimum y-coordinate of the spline</p>
@@ -564,7 +588,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N8Spline1D4yMaxE2in">
-<span id="_CPPv3N8Spline1D4yMaxE2in"></span><span id="_CPPv2N8Spline1D4yMaxE2in"></span><span id="Spline1D::yMax__in"></span><span class="target" id="a00030_1a5419b6bdd99aace61610d944268e01e5"></span><span class="pre">function</span> <code class="sig-name descname"><span class="pre">yMax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yMaxE2in" title="Permalink to this definition">¶</a><br>
+<span id="_CPPv3N8Spline1D4yMaxE2in"></span><span id="_CPPv2N8Spline1D4yMaxE2in"></span><span id="Spline1D::yMax__in"></span><span class="target" id="a00030_1a5419b6bdd99aace61610d944268e01e5"></span><a class="reference internal" href="#_CPPv4N8Spline1D8functionEv" title="Spline1D::function"><span class="pre">function</span></a> <code class="sig-name descname"><span class="pre">yMax</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D4yMaxE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
 <p>Return maximum y-coordinate of the spline</p>

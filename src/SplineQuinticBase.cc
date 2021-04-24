@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "PolynomialRoots.hh"
 #include <iomanip>
 
 #ifdef __clang__
@@ -299,4 +300,48 @@ namespace Splines {
       );
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  QuinticSplineBase::y_min_max(
+    integer   & i_min_pos,
+    real_type & x_min_pos,
+    real_type & y_min,
+    integer   & i_max_pos,
+    real_type & x_max_pos,
+    real_type & y_max
+  ) const {
+    UTILS_ASSERT0(
+      m_npts > 0, "QuinticSplineBase::y_min_max() empty spline!"
+    );
+    // find max min alongh the nodes
+    i_min_pos = i_max_pos = 0;
+    x_min_pos = x_max_pos = m_X[0];
+    y_min = y_max = m_Y[0];
+    PolynomialRoots::Quartic q;
+    for ( integer i = 1; i < m_npts; ++i ) {
+      real_type const & X0   = m_X[i-1];
+      real_type const & X1   = m_X[i];
+      real_type const & P0   = m_Y[i-1];
+      real_type const & P1   = m_Y[i];
+      real_type const & DP0  = m_Yp[i-1];
+      real_type const & DP1  = m_Yp[i];
+      real_type const & DDP0 = m_Ypp[i-1];
+      real_type const & DDP1 = m_Ypp[i];
+      real_type H = X1 - X0;
+      real_type A, B, C, D, E, F;
+      Hermite5toPoly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
+      q.setup( 5*A, 4*B, 3*C, 2*D, E );
+      real_type r[4];
+      integer nr = q.getRootsInOpenRange( 0, H, r );
+      for ( integer j = 0; j < nr; ++j ) {
+        real_type rr = r[j];
+        real_type yy = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
+        if      ( yy > y_max ) { y_max = yy; x_max_pos = X0+rr; i_max_pos = i; }
+        else if ( yy < y_min ) { y_min = yy; x_min_pos = X0+rr; i_min_pos = i; }
+      }
+      if      ( P1 > y_max ) { y_max = P1; x_max_pos = X1; i_max_pos = i; }
+      else if ( P1 < y_min ) { y_min = P1; x_min_pos = X1; i_min_pos = i; }
+    }
+  }
 }

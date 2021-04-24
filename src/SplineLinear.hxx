@@ -94,6 +94,16 @@ namespace Splines {
     integer order() const override;
     void setup( GenericContainer const & gc ) override;
 
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const override;
+
   };
 
 }
