@@ -68,7 +68,6 @@ namespace Splines {
     //! Build a Monotone quintic spline from previously inserted points
     void build() override;
     void setup( GenericContainer const & gc ) override;
-
   };
 
 }

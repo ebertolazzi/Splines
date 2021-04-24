@@ -269,14 +269,14 @@ namespace Splines {
   using GC_namespace::GC_VEC_REAL;
   using GC_namespace::vec_real_type;
 
-  /*!
-   *
-   * Setup a spline using a `GenericContainer`
-   *
-   * - gc("xdata")  vector with the `x` coordinate of the data
-   * - gc("ydata")  vector with the `y` coordinate of the data
-   * - gc("ypdata") vector with the `y` derivative of the data
-   */
+  //! 
+  //! 
+  //! Setup a spline using a `GenericContainer`
+  //! 
+  //! - gc("xdata")  vector with the `x` coordinate of the data
+  //! - gc("ydata")  vector with the `y` coordinate of the data
+  //! - gc("ypdata") vector with the `y` derivative of the data
+  //! 
   void
   HermiteSpline::setup( GenericContainer const & gc ) {
     /*

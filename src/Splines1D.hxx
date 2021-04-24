@@ -103,16 +103,16 @@ namespace Splines {
     void setup( GenericContainer const & gc );
     void build( GenericContainer const & gc ) { setup(gc); }
 
-    /*!
-     * \brief Build a spline.
-     * 
-     * \param tp   spline type
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], x[2*incy],...
-     * \param n    total number of points
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param tp   spline type
+    //! \param x    vector of x-coordinates
+    //! \param incx access elements as x[0], x[incx], x[2*incx],...
+    //! \param y    vector of y-coordinates
+    //! \param incy access elements as y[0], y[incy], x[2*incy],...
+    //! \param n    total number of points
+    //! 
     // must be defined in derived classes
     void
     build(
@@ -122,14 +122,14 @@ namespace Splines {
       integer n
     );
 
-    /*!
-     * \brief Build a spline.
-     *
-     * \param tp spline type
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     * \param n  total number of points
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param tp spline type
+    //! \param x  vector of x-coordinates
+    //! \param y  vector of y-coordinates
+    //! \param n  total number of points
+    //! 
     void
     build(
       SplineType1D      tp,
@@ -140,13 +140,13 @@ namespace Splines {
       this->build( tp, x, 1, y, 1, n );
     }
 
-    /*!
-     * \brief Build a spline.
-     *
-     * \param tp spline type
-     * \param x  vector of x-coordinates
-     * \param y  vector of y-coordinates
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param tp spline type
+    //! \param x  vector of x-coordinates
+    //! \param y  vector of y-coordinates
+    //! 
     void
     build(
       SplineType1D              tp,

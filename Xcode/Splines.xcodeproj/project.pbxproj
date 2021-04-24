@@ -7,30 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D9268AED25CABC1E0074F122 /* SplineQuinticBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */; };
-		D9268AEE25CABC1E0074F122 /* SplineAkima.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD225CABC1E0074F122 /* SplineAkima.cc */; };
-		D9268AEF25CABC1E0074F122 /* SplineSetGC.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD325CABC1E0074F122 /* SplineSetGC.cc */; };
-		D9268AF025CABC1E0074F122 /* SplineLinear.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD525CABC1E0074F122 /* SplineLinear.cc */; };
-		D9268AF125CABC1E0074F122 /* SplineQuintic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD625CABC1E0074F122 /* SplineQuintic.cc */; };
-		D9268AF225CABC1E0074F122 /* SplineCubicBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD725CABC1E0074F122 /* SplineCubicBase.cc */; };
-		D9268AF325CABC1E0074F122 /* SplineSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD825CABC1E0074F122 /* SplineSet.cc */; };
-		D9268AF425CABC1E0074F122 /* SplineConstant.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD925CABC1E0074F122 /* SplineConstant.cc */; };
-		D9268AF525CABC1E0074F122 /* SplineBiQuintic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADA25CABC1E0074F122 /* SplineBiQuintic.cc */; };
-		D9268AF625CABC1E0074F122 /* SplinePchip.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADB25CABC1E0074F122 /* SplinePchip.cc */; };
-		D9268AF725CABC1E0074F122 /* SplinesUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADC25CABC1E0074F122 /* SplinesUtils.cc */; };
-		D9268AF825CABC1E0074F122 /* SplineBessel.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADD25CABC1E0074F122 /* SplineBessel.cc */; };
-		D9268AF925CABC1E0074F122 /* SplinesBivariate.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADE25CABC1E0074F122 /* SplinesBivariate.cc */; };
-		D9268AFA25CABC1E0074F122 /* SplineVec.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE025CABC1E0074F122 /* SplineVec.cc */; };
-		D9268AFB25CABC1E0074F122 /* Splines.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE125CABC1E0074F122 /* Splines.cc */; };
-		D9268AFC25CABC1E0074F122 /* Splines2D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE225CABC1E0074F122 /* Splines2D.cc */; };
-		D9268AFD25CABC1E0074F122 /* SplineBiCubic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE325CABC1E0074F122 /* SplineBiCubic.cc */; };
-		D9268AFE25CABC1E0074F122 /* Splines1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE525CABC1E0074F122 /* Splines1D.cc */; };
-		D9268AFF25CABC1E0074F122 /* SplineCubic.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE625CABC1E0074F122 /* SplineCubic.cc */; };
-		D9268B0025CABC1E0074F122 /* SplineHermite.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE925CABC1E0074F122 /* SplineHermite.cc */; };
-		D9268B0125CABC1E0074F122 /* SplineBilinear.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEA25CABC1E0074F122 /* SplineBilinear.cc */; };
-		D9268B0225CABC1E0074F122 /* SplinesCinterface.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEB25CABC1E0074F122 /* SplinesCinterface.cc */; };
-		D9268B0325CABC1E0074F122 /* SplineAkima2D.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AEC25CABC1E0074F122 /* SplineAkima2D.cc */; };
-		D9268B3F25CABD430074F122 /* test9.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268B0725CABC270074F122 /* test9.cc */; };
 		D93B173C25CB709F0033E2CA /* SplineBessel.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADD25CABC1E0074F122 /* SplineBessel.cc */; };
 		D93B173D25CB709F0033E2CA /* SplineHermite.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AE925CABC1E0074F122 /* SplineHermite.cc */; };
 		D93B173E25CB709F0033E2CA /* SplineCubicBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD725CABC1E0074F122 /* SplineCubicBase.cc */; };
@@ -54,25 +30,13 @@
 		D93B175025CB709F0033E2CA /* SplineSet.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD825CABC1E0074F122 /* SplineSet.cc */; };
 		D93B175225CB709F0033E2CA /* SplinesUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268ADC25CABC1E0074F122 /* SplinesUtils.cc */; };
 		D93B175325CB709F0033E2CA /* SplineQuinticBase.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */; };
-		D93B176125CB70AC0033E2CA /* test2.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268B0925CABC270074F122 /* test2.cc */; };
 		D93B176925CB70E30033E2CA /* libUtils_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176625CB70E30033E2CA /* libUtils_osx_static.a */; };
 		D93B176A25CB70E30033E2CA /* libQuartic_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */; };
 		D93B176B25CB70E30033E2CA /* libGenericContainer_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */; };
-		D947003B261D1F49007B1F49 /* libUtils_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176625CB70E30033E2CA /* libUtils_osx_static.a */; };
-		D947003C261D1F4D007B1F49 /* libQuartic_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */; };
-		D947003D261D1F4F007B1F49 /* libGenericContainer_osx_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */; };
+		D988F7C326347D2C00EF8E76 /* test1.cc in Sources */ = {isa = PBXBuildFile; fileRef = D9268B0E25CABC270074F122 /* test1.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D9268AC225CABBFD0074F122 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		D93B175825CB709F0033E2CA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,7 +49,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D9268AC425CABBFD0074F122 /* test9 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test9; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9268AD125CABC1E0074F122 /* SplineQuinticBase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineQuinticBase.cc; sourceTree = "<group>"; };
 		D9268AD225CABC1E0074F122 /* SplineAkima.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineAkima.cc; sourceTree = "<group>"; };
 		D9268AD325CABC1E0074F122 /* SplineSetGC.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplineSetGC.cc; sourceTree = "<group>"; };
@@ -155,23 +118,13 @@
 		D9268B3925CABC6E0074F122 /* ozstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ozstream.hpp; sourceTree = "<group>"; };
 		D9268B3A25CABC6E0074F122 /* ThreadPool.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hxx; sourceTree = "<group>"; };
 		D9268B3B25CABC6E0074F122 /* GenericContainer_doc.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GenericContainer_doc.hh; sourceTree = "<group>"; };
-		D93B175C25CB709F0033E2CA /* test2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test2; sourceTree = BUILT_PRODUCTS_DIR; };
+		D93B175C25CB709F0033E2CA /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		D93B176625CB70E30033E2CA /* libUtils_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUtils_osx_static.a; sourceTree = "<group>"; };
 		D93B176725CB70E30033E2CA /* libQuartic_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQuartic_osx_static.a; sourceTree = "<group>"; };
 		D93B176825CB70E30033E2CA /* libGenericContainer_osx_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGenericContainer_osx_static.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D9268AC125CABBFD0074F122 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D947003C261D1F4D007B1F49 /* libQuartic_osx_static.a in Frameworks */,
-				D947003B261D1F49007B1F49 /* libUtils_osx_static.a in Frameworks */,
-				D947003D261D1F4F007B1F49 /* libGenericContainer_osx_static.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D93B175425CB709F0033E2CA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,8 +152,7 @@
 		D9268AC525CABBFD0074F122 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D9268AC425CABBFD0074F122 /* test9 */,
-				D93B175C25CB709F0033E2CA /* test2 */,
+				D93B175C25CB709F0033E2CA /* test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -336,26 +288,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D9268AC325CABBFD0074F122 /* test9 */ = {
+		D93B173A25CB709F0033E2CA /* test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9268ACB25CABBFD0074F122 /* Build configuration list for PBXNativeTarget "test9" */;
-			buildPhases = (
-				D9268AC025CABBFD0074F122 /* Sources */,
-				D9268AC125CABBFD0074F122 /* Frameworks */,
-				D9268AC225CABBFD0074F122 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = test9;
-			productName = Splines;
-			productReference = D9268AC425CABBFD0074F122 /* test9 */;
-			productType = "com.apple.product-type.tool";
-		};
-		D93B173A25CB709F0033E2CA /* test2 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test2" */;
+			buildConfigurationList = D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test" */;
 			buildPhases = (
 				D93B173B25CB709F0033E2CA /* Sources */,
 				D93B175425CB709F0033E2CA /* Frameworks */,
@@ -365,9 +300,9 @@
 			);
 			dependencies = (
 			);
-			name = test2;
+			name = test;
 			productName = Splines;
-			productReference = D93B175C25CB709F0033E2CA /* test2 */;
+			productReference = D93B175C25CB709F0033E2CA /* test */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -377,11 +312,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1240;
-				TargetAttributes = {
-					D9268AC325CABBFD0074F122 = {
-						CreatedOnToolsVersion = 12.3;
-					};
-				};
 			};
 			buildConfigurationList = D9268ABF25CABBFD0074F122 /* Build configuration list for PBXProject "Splines" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -396,44 +326,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D93B173A25CB709F0033E2CA /* test2 */,
-				D9268AC325CABBFD0074F122 /* test9 */,
+				D93B173A25CB709F0033E2CA /* test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D9268AC025CABBFD0074F122 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D9268AF825CABC1E0074F122 /* SplineBessel.cc in Sources */,
-				D9268B0025CABC1E0074F122 /* SplineHermite.cc in Sources */,
-				D9268AF225CABC1E0074F122 /* SplineCubicBase.cc in Sources */,
-				D9268AF625CABC1E0074F122 /* SplinePchip.cc in Sources */,
-				D9268AEF25CABC1E0074F122 /* SplineSetGC.cc in Sources */,
-				D9268AFC25CABC1E0074F122 /* Splines2D.cc in Sources */,
-				D9268AFD25CABC1E0074F122 /* SplineBiCubic.cc in Sources */,
-				D9268B0125CABC1E0074F122 /* SplineBilinear.cc in Sources */,
-				D9268AF425CABC1E0074F122 /* SplineConstant.cc in Sources */,
-				D9268AF025CABC1E0074F122 /* SplineLinear.cc in Sources */,
-				D9268AF125CABC1E0074F122 /* SplineQuintic.cc in Sources */,
-				D9268AFB25CABC1E0074F122 /* Splines.cc in Sources */,
-				D9268AFA25CABC1E0074F122 /* SplineVec.cc in Sources */,
-				D9268AFF25CABC1E0074F122 /* SplineCubic.cc in Sources */,
-				D9268AF525CABC1E0074F122 /* SplineBiQuintic.cc in Sources */,
-				D9268AEE25CABC1E0074F122 /* SplineAkima.cc in Sources */,
-				D9268B0225CABC1E0074F122 /* SplinesCinterface.cc in Sources */,
-				D9268AFE25CABC1E0074F122 /* Splines1D.cc in Sources */,
-				D9268AF925CABC1E0074F122 /* SplinesBivariate.cc in Sources */,
-				D9268B0325CABC1E0074F122 /* SplineAkima2D.cc in Sources */,
-				D9268AF325CABC1E0074F122 /* SplineSet.cc in Sources */,
-				D9268B3F25CABD430074F122 /* test9.cc in Sources */,
-				D9268AF725CABC1E0074F122 /* SplinesUtils.cc in Sources */,
-				D9268AED25CABC1E0074F122 /* SplineQuinticBase.cc in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D93B173B25CB709F0033E2CA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -457,8 +355,8 @@
 				D93B174C25CB709F0033E2CA /* SplinesCinterface.cc in Sources */,
 				D93B174D25CB709F0033E2CA /* Splines1D.cc in Sources */,
 				D93B174E25CB709F0033E2CA /* SplinesBivariate.cc in Sources */,
+				D988F7C326347D2C00EF8E76 /* test1.cc in Sources */,
 				D93B174F25CB709F0033E2CA /* SplineAkima2D.cc in Sources */,
-				D93B176125CB70AC0033E2CA /* test2.cc in Sources */,
 				D93B175025CB709F0033E2CA /* SplineSet.cc in Sources */,
 				D93B175225CB709F0033E2CA /* SplinesUtils.cc in Sources */,
 				D93B175325CB709F0033E2CA /* SplineQuinticBase.cc in Sources */,
@@ -583,24 +481,6 @@
 			};
 			name = Release;
 		};
-		D9268ACC25CABBFD0074F122 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		D9268ACD25CABBFD0074F122 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		D93B175A25CB709F0033E2CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -631,16 +511,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9268ACB25CABBFD0074F122 /* Build configuration list for PBXNativeTarget "test9" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D9268ACC25CABBFD0074F122 /* Debug */,
-				D9268ACD25CABBFD0074F122 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test2" */ = {
+		D93B175925CB709F0033E2CA /* Build configuration list for PBXNativeTarget "test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D93B175A25CB709F0033E2CA /* Debug */,

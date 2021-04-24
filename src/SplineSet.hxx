@@ -80,10 +80,10 @@ namespace Splines {
 
   private:
 
-    /*!
-     | find `x` value such that the monotone spline
-     | `(spline[spl])(x)` intersect the value `zeta`
-     */
+    //! 
+    //! find `x` value such that the monotone spline
+    //! `(spline[spl])(x)` intersect the value `zeta`
+    //! 
     Spline const *
     intersect( integer spl, real_type zeta, real_type & x ) const;
 
@@ -1257,17 +1257,17 @@ namespace Splines {
     ///@{
 
     ///////////////////////////////////////////////////////////////////////////
-    /*!
-     * \brief Build a set of splines
-     * 
-     * \param nspl    the number of splines
-     * \param npts    the number of points of each splines
-     * \param headers the names of the splines
-     * \param stype   the type of each spline
-     * \param X       pointer to X independent values
-     * \param Y       vector of `nspl` pointers to Y depentendent values.
-     * \param Yp      vector of `nspl` pointers to Y derivative depentendent values.
-     */
+    //! 
+    //! Build a set of splines
+    //! 
+    //! \param nspl    the number of splines
+    //! \param npts    the number of points of each splines
+    //! \param headers the names of the splines
+    //! \param stype   the type of each spline
+    //! \param X       pointer to X independent values
+    //! \param Y       vector of `nspl` pointers to Y depentendent values.
+    //! \param Yp      vector of `nspl` pointers to Y derivative depentendent values.
+    //! 
     void
     build(
       integer               nspl,

@@ -300,6 +300,30 @@
 </dd>
 </dl>
 
+<dl class="cpp function">
+<dt id="_CPPv4NK7Splines6Spline9y_min_maxER7integerR9real_typeR9real_typeR7integerR9real_typeR9real_type">
+<span id="_CPPv3NK7Splines6Spline9y_min_maxER7integerR9real_typeR9real_typeR7integerR9real_typeR9real_type"></span><span id="_CPPv2NK7Splines6Spline9y_min_maxER7integerR9real_typeR9real_typeR7integerR9real_typeR9real_type"></span><span id="Splines::Spline::y_min_max__integerR.real_typeR.real_typeR.integerR.real_typeR.real_typeRC"></span><span class="target" id="a00192_1ae45b877d4c843d71b94df7572923ce7d"></span><em class="property"><span class="pre">inline</span></em> <em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">y_min_max</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <span class="pre">&amp;</span><em><span class="pre">i_min_pos</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">&amp;</span><em><span class="pre">x_min_pos</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">&amp;</span><em><span class="pre">y_min</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <span class="pre">&amp;</span><em><span class="pre">i_max_pos</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">&amp;</span><em><span class="pre">x_max_pos</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <span class="pre">&amp;</span><em><span class="pre">y_max</span></em><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK7Splines6Spline9y_min_maxER7integerR9real_typeR9real_typeR7integerR9real_typeR9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Search the max and min values of <code class="docutils literal notranslate"><span class="pre">y</span></code> along the spline with the corresponding <code class="docutils literal notranslate"><span class="pre">x</span></code> position</p>
+<p></p>
+<dl class="simple">
+<dt><strong>Parameters</strong></dt>
+<dd>
+<ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">i_min_pos</span></code>: interval where is the minimum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">x_min_pos</span></code>: where is the minimum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">y_min</span></code>: the minimum value </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">i_max_pos</span></code>: interval where is the maximum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">x_max_pos</span></code>: where is the maximum </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[out]</span> <span class="pre">y_max</span></code>: the maximum value </p></li>
+</ul>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-build">Build</p>
@@ -317,7 +341,7 @@
 <span id="_CPPv3N7Splines6Spline5buildEPK9real_type7integerPK9real_type7integer7integer"></span><span id="_CPPv2N7Splines6Spline5buildEPK9real_type7integerPK9real_type7integer7integer"></span><span id="Splines::Spline::build__real_typeCP.integer.real_typeCP.integer.integer"></span><span class="target" id="a00192_1a2d9e2514ca0985322993761694f5b4da"></span><em class="property"><span class="pre">virtual</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <span class="pre">*</span><em><span class="pre">x</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">incx</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <span class="pre">*</span><em><span class="pre">y</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">incy</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines6Spline5buildEPK9real_type7integerPK9real_type7integer7integer" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build a spline. </p>
+<p>Build a spline.</p>
 <p></p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt>
@@ -340,7 +364,7 @@
 <span id="_CPPv3N7Splines6Spline5buildEPK9real_typePK9real_type7integer"></span><span id="_CPPv2N7Splines6Spline5buildEPK9real_typePK9real_type7integer"></span><span id="Splines::Spline::build__real_typeCP.real_typeCP.integer"></span><span class="target" id="a00192_1a2b16211271f39ccf4d9e109725beb4db"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <span class="pre">*</span><em><span class="pre">x</span></em>, <a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a> <em class="property"><span class="pre">const</span></em> <span class="pre">*</span><em><span class="pre">y</span></em>, <a class="reference internal" href="typedef_a00128_1a0b83d8865bf650fca7ad1d657245a8a1.html#_CPPv4N7Splines7integerE" title="Splines::integer"><span class="pre">integer</span></a> <em><span class="pre">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines6Spline5buildEPK9real_typePK9real_type7integer" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build a spline. </p>
+<p>Build a spline.</p>
 <p></p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt>
@@ -361,7 +385,7 @@
 <span id="_CPPv3N7Splines6Spline5buildERK6vectorI9real_typeERK6vectorI9real_typeE"></span><span id="_CPPv2N7Splines6Spline5buildERK6vectorI9real_typeERK6vectorI9real_typeE"></span><span id="Splines::Spline::build__vector:real_type:CR.vector:real_type:CR"></span><span class="target" id="a00192_1a006b9d1017bd68ad2947ea5ba2ac9e9d"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">x</span></em>, <span class="pre">vector</span><span class="pre">&lt;</span><a class="reference internal" href="typedef_a00128_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="pre">real_type</span></a><span class="pre">&gt;</span> <em class="property"><span class="pre">const</span></em> <span class="pre">&amp;</span><em><span class="pre">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines6Spline5buildERK6vectorI9real_typeERK6vectorI9real_typeE" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>Build a spline. </p>
+<p>Build a spline.</p>
 <p></p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt>

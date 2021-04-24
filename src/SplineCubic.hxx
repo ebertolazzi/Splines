@@ -123,7 +123,6 @@ namespace Splines {
     //! Return spline type (as number)
     //!
     unsigned type() const override { return CUBIC_TYPE; }
-
   };
 
 }

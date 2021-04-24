@@ -285,12 +285,12 @@ namespace Splines {
 
   #endif
 
-  /*!
-   * This subroutine estimates three partial derivatives, zx, zy, and
-   * zxy, of a bivariate function, z(x,y), on a rectangular grid in
-   * the x-y plane.  It is based on the revised Akima method that has
-   * the accuracy of a bicubic polynomial.
-   */
+  //! 
+  //! This subroutine estimates three partial derivatives, zx, zy, and
+  //! zxy, of a bivariate function, z(x,y), on a rectangular grid in
+  //! the x-y plane.  It is based on the revised Akima method that has
+  //! the accuracy of a bicubic polynomial.
+  //! 
   void
   Akima2Dspline::makeSpline() {
 

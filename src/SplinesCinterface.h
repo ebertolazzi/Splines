@@ -22,9 +22,8 @@
  */
 
 /*!
- | \addtogroup Splines C interface
+ * \addtogroup Splines C interface
  */
-
 /* @{ */
 #pragma once
 

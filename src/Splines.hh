@@ -37,19 +37,19 @@
 #include "SplinesConfig.hh"
 #include <fstream>
 
-/*!
-  \mainpage  Splines
-  \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
-  \version   1.0.7
-  \note      first release Jan 12, 1998
-  \date      2020
-  \copyright see License.txt.
-  \par       Affiliation:
-             Department of Industrial Engineering<br>
-             University of Trento<br>
-             Via Sommarive 9, I -- 38123 Trento, Italy <br>
-             enrico.bertolazzi@unitn.it
-*/
+//!
+//! \mainpage  Splines
+//! \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
+//! \version   1.0.7
+//! \note      first release Jan 12, 1998
+//! \date      2020
+//! \copyright see License.txt.
+//! \par       Affiliation:
+//!            Department of Industrial Engineering<br>
+//!            University of Trento<br>
+//!            Via Sommarive 9, I -- 38123 Trento, Italy <br>
+//!            enrico.bertolazzi@unitn.it
+//! 
 
 namespace Splines {
 
@@ -128,6 +128,81 @@ namespace Splines {
 
   #endif
 
+  //!
+  //! Convert polynomial defined using Hermite base
+  //!
+  //! \f[ p(x) = p_0 h_0(t) + p_1 h_1(t) +  p'_0 h_2(t) + p'_1 h_3(t) \f]
+  //!
+  //! to standard form
+  //!
+  //! \f[ p(x) = A t^3 + B t^2 + C t + D \f]
+  //!
+  //!
+  static
+  inline
+  void
+  Hermite3toPoly(
+    real_type   H,
+    real_type   P0,
+    real_type   P1,
+    real_type   DP0,
+    real_type   DP1,
+    real_type & A,
+    real_type & B,
+    real_type & C,
+    real_type & D
+  ) {
+    real_type H2  = H*H;
+    real_type P10 = P1-P0;
+    A = (DP0+DP1-2*P10/H)/H2;
+    B = (3*P10/H-(2*DP0+DP1))/H;
+    C = DP0;
+    D = P0;
+  }
+
+  //!
+  //! Convert polynomial defined using Hermite base
+  //!
+  //! \f[ p(x) = p_0 h_0(t) + p_1 h_1(t) +
+  //!     p'_0 h_2(t) + p'_1 h_3(t) +
+  //!     p''_0 h_4(t) + p''_1 h_5(t) \f]
+  //!
+  //! to standard form
+  //!
+  //! \f[ p(x) = A t^5 + B t^4 + C t^3 + D t^2 + E t + F \f]
+  //!
+  //!
+  static
+  inline
+  void
+  Hermite5toPoly(
+    real_type   h,
+    real_type   P0,
+    real_type   P1,
+    real_type   DP0,
+    real_type   DP1,
+    real_type   DDP0,
+    real_type   DDP1,
+    real_type & A,
+    real_type & B,
+    real_type & C,
+    real_type & D,
+    real_type & E,
+    real_type & F
+  ) {
+    real_type h2  = h*h;
+    real_type h3  = h*h2;
+    real_type P10 = P1-P0;
+    A = ( (DDP1-DDP0)/2+(6*P10/h-3*(DP0+DP1))/h)/h3;
+    B = ( (1.5*DDP0-DDP1)+ ((8*DP0+7*DP1)-15*P10/h)/h )/h2;
+    C = ( 0.5*DDP1-1.5*DDP0 + (10*P10/h -(6*DP0+4*DP1))/h )/h;
+    D = DDP0/2;
+    E = DP0;
+    F = P0;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   /*
   //   ____  _ _ _
   //  | __ )(_) (_)_ __   ___  __ _ _ __
@@ -171,16 +246,16 @@ namespace Splines {
    |
   \*/
 
-  /*!
-   * Compute nodes for the spline using uniform distribution
-   *
-   * \param[in]  dim     dimension of the points
-   * \param[in]  npts    number of points
-   * \param[in]  pnts    matrix whose columns are the points
-   * \param[in]  ld_pnts leading dimension of the matrix (fortran storage)  
-   * \param[out] t       vector of the computed nodes
-   * 
-   */
+  //!
+  //! Compute nodes for the spline using uniform distribution
+  //!
+  //! \param[in]  dim     dimension of the points
+  //! \param[in]  npts    number of points
+  //! \param[in]  pnts    matrix whose columns are the points
+  //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
+  //! \param[out] t       vector of the computed nodes
+  //!
+  //!
   void
   uniform(
     integer           dim,
@@ -438,6 +513,35 @@ namespace Splines {
       return *std::max_element(m_Y,m_Y+N);
     }
 
+    //!
+    //! Search the max and min values of `y` along the spline
+    //! with the corresponding `x` position
+    //!
+    //! \param[out] i_min_pos interval where is the minimum
+    //! \param[out] x_min_pos where is the minimum
+    //! \param[out] y_min     the minimum value
+    //! \param[out] i_max_pos interval where is the maximum
+    //! \param[out] x_max_pos where is the maximum
+    //! \param[out] y_max     the maximum value
+    //!
+    virtual
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const {
+      i_min_pos = i_max_pos = 0;
+      x_min_pos = y_min = x_max_pos = y_max = 0;
+      UTILS_ERROR(
+        "In spline: {} y_min_max not implemented\n",
+        info()
+      );
+    }
+
     ///@}
 
     //! \name Build
@@ -450,15 +554,15 @@ namespace Splines {
     build( GenericContainer const & gc )
     { setup(gc); }
 
-    /*!
-     * \brief Build a spline.
-     * 
-     * \param x    vector of x-coordinates
-     * \param incx access elements as x[0], x[incx], x[2*incx],...
-     * \param y    vector of y-coordinates
-     * \param incy access elements as y[0], y[incy], y[2*incy],...
-     * \param n    total number of points
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param x    vector of x-coordinates
+    //! \param incx access elements as x[0], x[incx], x[2*incx],...
+    //! \param y    vector of y-coordinates
+    //! \param incy access elements as y[0], y[incy], y[2*incy],...
+    //! \param n    total number of points
+    //! 
     virtual
     void
     build(
@@ -467,13 +571,13 @@ namespace Splines {
       integer n
     );
 
-    /*!
-     * \brief Build a spline.
-     * 
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     * \param n total number of points
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param x vector of x-coordinates
+    //! \param y vector of y-coordinates
+    //! \param n total number of points
+    //! 
     inline
     void
     build(
@@ -483,12 +587,12 @@ namespace Splines {
     )
     { this->build( x, 1, y, 1, n ); }
 
-    /*!
-     * \brief Build a spline.
-     * 
-     * \param x vector of x-coordinates
-     * \param y vector of y-coordinates
-     */
+    //! 
+    //! Build a spline.
+    //! 
+    //! \param x vector of x-coordinates
+    //! \param y vector of y-coordinates
+    //! 
     inline
     void
     build( vector<real_type> const & x, vector<real_type> const & y ) {
@@ -497,9 +601,9 @@ namespace Splines {
       this->build( &x.front(), 1, &y.front(), 1, N );
     }
 
-    /*!
-     * Build a spline using internal stored data 
-     */
+    //! 
+    //! Build a spline using internal stored data 
+    //! 
     virtual
     void build() = 0;
 
@@ -776,22 +880,15 @@ namespace Splines {
       real_type * & p_dy
     );
 
-    //!
-    //! Search the max and min values of `y` along the spline
-    //! with the corresponding `x` position
-    //!
-    //! \param[out] x_min_pos where is the minimum
-    //! \param[out] y_min     the minimum value
-    //! \param[out] x_max_pos where is the maximum
-    //! \param[out] y_min     the maximum value
-    //!
     void
     y_min_max(
+      integer   & i_min_pos,
       real_type & x_min_pos,
       real_type & y_min,
+      integer   & i_max_pos,
       real_type & x_max_pos,
       real_type & y_max
-    ) const;
+    ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -982,20 +1079,22 @@ namespace Splines {
     //! setup the surface as open in the `y` direction
     void make_y_opened() { m_y_closed = false; }
 
-    /*!
-     * return true if the parameter `x` assumed bounded.
-     * If false the spline is estrapolated for `x` values outside the range.
-     */
+    //! 
+    //! return true if the parameter `x` assumed bounded.
+    //! If false the spline is estrapolated for `x` values
+    //! outside the range.
+    //! 
     bool is_x_bounded() const { return m_x_can_extend; }
     //! make the spline surface unbounded in the `x` direction
     void make_x_unbounded() { m_x_can_extend = true; }
     //! make the spline surface bounded in the `x` direction
     void make_x_bounded() { m_x_can_extend = false; }
 
-    /*!
-     * return true if the parameter `y` assumed bounded.
-     * If false the spline is estrapolated for `y` values outside the range.
-     */
+    //! 
+    //! return true if the parameter `y` assumed bounded.
+    //! If false the spline is extrapolated for `y` values
+    //! outside the range.
+    //! 
     bool is_y_bounded() const { return m_y_can_extend; }
     //! make the spline surface unbounded in the `y` direction
     void make_y_unbounded() { m_y_can_extend = true; }
@@ -1139,16 +1238,18 @@ namespace Splines {
     void
     D( real_type x, real_type y, real_type d[3] ) const = 0;
 
-    /*!
-     * first derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_x(x,y) \f$
-     */
+    //!
+    //! first derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$
+    //!
     virtual
     real_type
     Dx( real_type x, real_type y ) const = 0;
 
-    /*!
-     * first derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$ of the spline: \f$ S_y(x,y) \f$
-     */
+    //!
+    //! first derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_y(x,y) \f$
+    //!
     virtual
     real_type
     Dy( real_type x, real_type y ) const = 0;

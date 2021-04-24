@@ -73,20 +73,22 @@ namespace Splines {
     //! setup the surface as open in the `y` direction
     void make_y_opened() { m_spline_2D->make_y_opened(); }
 
-    /*!
-     * return true if the parameter `x` assumed bounded.
-     * If false the spline is estrapolated for `x` values outside the range.
-     */
+    //! 
+    //! return true if the parameter `x` assumed bounded.
+    //! If false the spline is estrapolated for `x` values
+    //! outside the range.
+    //! 
     bool is_x_bounded() const { return m_spline_2D->is_x_bounded(); }
     //! make the spline surface unbounded in the `x` direction
     void make_x_unbounded() { m_spline_2D->make_x_unbounded(); }
     //! make the spline surface bounded in the `x` direction
     void make_x_bounded() { m_spline_2D->make_x_bounded(); }
 
-    /*!
-     * return true if the parameter `y` assumed bounded.
-     * If false the spline is estrapolated for `y` values outside the range.
-     */
+    //! 
+    //! return true if the parameter `y` assumed bounded.
+    //! If false the spline is estrapolated for `y` values
+    //! outside the range.
+    //! 
     bool is_y_bounded() const { return m_spline_2D->is_y_bounded(); }
     //! make the spline surface unbounded in the `y` direction
     void make_y_unbounded() { m_spline_2D->make_y_unbounded(); }
@@ -166,18 +168,18 @@ namespace Splines {
       );
     }
 
-    /*!
-     * \brief Build surface spline
-     * 
-     * \param tp              spline type
-     * \param x                vector of x-coordinates, nx = x.size()
-     * \param y                vector of y-coordinates, ny = y.size()
-     * \param z                matrix of z-values. Elements are stored
-     *                         by row Z(i,j) = z[i*ny+j] as C-matrix
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+    //! 
+    //! Build surface spline
+    //! 
+    //! \param tp              spline type
+    //! \param x               vector of x-coordinates, nx = x.size()
+    //! \param y               vector of y-coordinates, ny = y.size()
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //! 
     void
     build(
       SplineType2D              tp,
@@ -191,20 +193,20 @@ namespace Splines {
       m_spline_2D->build( x, y, z, fortran_storage, transposed );
     }
 
-    /*!
-     * \brief Build surface spline
-     * 
-     * \param tp              spline type
-     * \param z               matrix of z-values. Elements are stored
-     *                        by row Z(i,j) = z[i*ny+j] as C-matrix
-     * \param ldZ             leading dimension of the matrix. Elements are stored
-     *                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
-     * \param nx              x-dimension
-     * \param ny              y-dimension
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+    //! 
+    //! Build surface spline
+    //! 
+    //! \param tp              spline type
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! \param ldZ             leading dimension of the matrix. Elements are stored
+    //!                        by row Z(i,j) = z[i*ldZ+j] as C-matrix
+    //! \param nx              x-dimension
+    //! \param ny              y-dimension
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //! 
     void
     build(
       SplineType2D      tp,
@@ -219,20 +221,20 @@ namespace Splines {
       m_spline_2D->build( z, ldZ, nx, ny, fortran_storage, transposed );
     }
 
-    /*!
-     * \brief Build surface spline
-     * 
-     * \param tp              spline type
-     * \param z               matrix of z-values. Elements are stored
-     *                        by row Z(i,j) = z[i*ny+j] as C-matrix.
-     *                        ldZ leading dimension of the matrix is ny for C-storage
-     *                        and nx for Fortran storage.
-     * \param nx              x-dimension
-     * \param ny              y-dimension
-     * \param fortran_storage if true elements are stored by column
-     *                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
-     * \param transposed      if true matrix Z is stored transposed
-     */
+    //! 
+    //! Build surface spline
+    //! 
+    //! \param tp              spline type
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix.
+    //!                        ldZ leading dimension of the matrix is ny for C-storage
+    //!                        and nx for Fortran storage.
+    //! \param nx              x-dimension
+    //! \param ny              y-dimension
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //! 
     void
     build(
       SplineType2D              tp,
@@ -246,16 +248,16 @@ namespace Splines {
       m_spline_2D->build( z, nx, ny, fortran_storage, transposed );
     }
 
-    /*!
-     * Build spline surface using a `GenericContainer`
-     *
-     * - gc("spline_type")
-     *     - "bilinear" build a bilinear spline surface
-     *     - "bicubic" build a spline surface with cubic spline
-     *     - "biquintic" build a spline surface with quintic spline
-     *     - "Akima" or "akima "build a spline surface with cubic spline
-     *        using Akima algorithm to avoid obscillation
-     */
+    //! 
+    //! Build spline surface using a `GenericContainer`
+    //! 
+    //! - gc("spline_type")
+    //!     - "bilinear" build a bilinear spline surface
+    //!     - "bicubic" build a spline surface with cubic spline
+    //!     - "biquintic" build a spline surface with quintic spline
+    //!     - "Akima" or "akima "build a spline surface with cubic spline
+    //!        using Akima algorithm to avoid obscillation
+    //! 
     void
     setup( GenericContainer const & gc ) {
       string msg = fmt::format("Spline2D[{}]::setup( gc ):", m_name );

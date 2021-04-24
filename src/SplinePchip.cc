@@ -107,18 +107,18 @@ namespace Splines {
     return sa*sb;
   }
 
-  /*!
-   * Reference:
-   * ==========
-   *
-   * F.N. Fritsch, R.E. Carlson:
-   * Monotone Piecewise Cubic Interpolation,
-   * SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
-   *
-   * F.N. Fritsch and J. Butland:
-   * A method for constructing local monotone piecewise cubic interpolants,
-   * SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
-   */
+  //! 
+  //! References:
+  //! ==========
+  //! 
+  //! F.N. Fritsch, R.E. Carlson:
+  //! Monotone Piecewise Cubic Interpolation,
+  //! SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
+  //! 
+  //! F.N. Fritsch and J. Butland:
+  //! A method for constructing local monotone piecewise cubic interpolants,
+  //! SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
+  //! 
   void
   Pchip_build(
     real_type const * X,
