@@ -46,16 +46,16 @@ exhale_args = {
         ENABLE_PREPROCESSING   = YES
         MACRO_EXPANSION        = NO
         XML_OUTPUT             = xml-cpp
-        XML_PROGRAMLISTING     = NO
+        XML_PROGRAMLISTING     = YES
         XML_NS_MEMB_FILE_SCOPE = NO
         SOURCE_BROWSER         = NO
         OPTIMIZE_OUTPUT_FOR_C  = NO
         HIDE_SCOPE_NAMES       = NO
         SEARCH_INCLUDES        = NO
         CALLER_GRAPH           = YES
-        GRAPHICAL_HIERARCHY    = NO
-        HAVE_DOT               = NO
-        SHOW_INCLUDE_FILES     = NO
+        GRAPHICAL_HIERARCHY    = YES
+        HAVE_DOT               = YES
+        SHOW_INCLUDE_FILES     = YES
         GENERATE_TREEVIEW      = YES
 ''',
   "lexerMapping": { r".*\.m": "MATLAB" }

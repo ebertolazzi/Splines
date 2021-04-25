@@ -21,9 +21,10 @@ exhale_args = {
   "containmentFolder":     "./api-c",
   "rootFileName":          "library_root.rst",
   "rootFileTitle":         "C API",
+  "unabridgedOrphanKinds": {"namespace","class"},
   "doxygenStripFromPath":  str(dir_path),
   # Suggested optional arguments
-  "createTreeView":        False,
+  "createTreeView":        True,
   # TIP: if using the sphinx-bootstrap-theme, you need
   "treeViewIsBootstrap":   False,
   "exhaleExecutesDoxygen": True,
@@ -45,16 +46,16 @@ exhale_args = {
         ENABLE_PREPROCESSING   = YES
         MACRO_EXPANSION        = NO
         XML_OUTPUT             = xml-c
-        XML_PROGRAMLISTING     = NO
+        XML_PROGRAMLISTING     = YES
         XML_NS_MEMB_FILE_SCOPE = NO
         SOURCE_BROWSER         = NO
         OPTIMIZE_OUTPUT_FOR_C  = NO
         HIDE_SCOPE_NAMES       = NO
         SEARCH_INCLUDES        = NO
         CALLER_GRAPH           = YES
-        GRAPHICAL_HIERARCHY    = NO
-        HAVE_DOT               = NO
-        SHOW_INCLUDE_FILES     = NO
+        GRAPHICAL_HIERARCHY    = YES
+        HAVE_DOT               = YES
+        SHOW_INCLUDE_FILES     = YES
         GENERATE_TREEVIEW      = YES
 
         FILE_PATTERNS         = SplinesCinterface.* *.h *.c

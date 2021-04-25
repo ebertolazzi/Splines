@@ -56,8 +56,6 @@ email_automode       = True
 autodoc_member_order = 'bysource'
 
 html_theme_options = {
-  "logotarget"           : "../index",
-  "roottarget"           : "../index",
   "lighter_header_decor" : False,
   "borderless_decor"     : False
 }

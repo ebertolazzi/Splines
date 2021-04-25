@@ -20,7 +20,7 @@ clean:
 	@rm -rf xml-c
 	@rm -rf xml-cpp
 	@rm -rf xml-matlab
-	@rm -rf sphinx*/api-*
+	@rm -rf sphinx_*/api-*
 	@rm -rf sphinx*/_build
 	@cd sphinx_c;      make clean; cd ..
 	@cd sphinx_cpp;    make clean; cd ..

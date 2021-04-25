@@ -1,3 +1,10 @@
+
+.. |Build Status| image:: https://travis-ci.org/ebertolazzi/Splines.svg?branch=master
+   :target: https://travis-ci.org/ebertolazzi/Splines
+
+.. |View Splines on File Exchange| image:: https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg
+   :target: https://www.mathworks.com/matlabcentral/fileexchange/54481-splines
+
 Splines
 =======
 |Build Status| |View Splines on File Exchange|
@@ -7,6 +14,9 @@ Introduction
 
 ``Splines`` is a set of C++ classes (with MATLAB mex interface) which
 implements varios spline interpolation.
+
+- `online manuals <http://ebertolazzi.github.io/Splines>`__
+- `github repos <https://github.com/ebertolazzi/Splines>`__
 
 Matlab Toolbox
 --------------
@@ -90,7 +100,7 @@ Compile and tests
 
 Edit makefile file to match compiler of your OS and do:
 
-.. code:: sh
+.. code::  bash
 
   make
 
@@ -109,12 +119,6 @@ To run the test
   make run     # using makefile
   rake run     # using rake on linux and osx
   rake run_win # using rake on windows
-
-Documentation and home
-----------------------
-
-- http://ebertolazzi.github.io/Splines
-- https://github.com/ebertolazzi/Splines
 
 Developer
 ---------
@@ -138,8 +142,3 @@ References
 - **Hiroshi Akima**,
   *A Method of Bivariate Interpolation and Smooth Surface Fitting for Irregularly Distributed Data Points*.
   ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.
-
-.. |Build Status| image:: https://travis-ci.org/ebertolazzi/Splines.svg?branch=master
-   :target: https://travis-ci.org/ebertolazzi/Splines
-.. |View Splines on File Exchange| image:: https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg
-   :target: https://www.mathworks.com/matlabcentral/fileexchange/54481-splines
