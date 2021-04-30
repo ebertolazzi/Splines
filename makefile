@@ -136,7 +136,6 @@ depend:
 src/SplineAkima.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineAkima.o: submodules/Utils/src/Utils.hh
 src/SplineAkima.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineAkima.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineAkima.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineAkima.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineAkima.o: submodules/Utils/src/Utils/fmt/format.h
@@ -151,6 +150,7 @@ src/SplineAkima.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineAkima.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineAkima.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineAkima.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineAkima.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineAkima.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineAkima.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineAkima.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -159,10 +159,17 @@ src/SplineAkima.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineAkima.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineAkima.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineAkima.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineAkima.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineAkima.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineAkima.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineAkima.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineAkima.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineAkima.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineAkima.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineAkima.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineAkima2D.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineAkima2D.o: submodules/Utils/src/Utils.hh
 src/SplineAkima2D.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineAkima2D.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineAkima2D.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineAkima2D.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineAkima2D.o: submodules/Utils/src/Utils/fmt/format.h
@@ -177,6 +184,7 @@ src/SplineAkima2D.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineAkima2D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineAkima2D.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineAkima2D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineAkima2D.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineAkima2D.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineAkima2D.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineAkima2D.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -185,10 +193,17 @@ src/SplineAkima2D.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineAkima2D.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineAkima2D.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineAkima2D.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineAkima2D.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineAkima2D.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineAkima2D.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineAkima2D.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineAkima2D.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineAkima2D.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineAkima2D.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineAkima2D.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineBessel.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineBessel.o: submodules/Utils/src/Utils.hh
 src/SplineBessel.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineBessel.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineBessel.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineBessel.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineBessel.o: submodules/Utils/src/Utils/fmt/format.h
@@ -203,6 +218,7 @@ src/SplineBessel.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineBessel.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineBessel.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineBessel.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineBessel.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineBessel.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineBessel.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineBessel.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -211,10 +227,17 @@ src/SplineBessel.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineBessel.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineBessel.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineBessel.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineBessel.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineBessel.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineBessel.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineBessel.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineBessel.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineBessel.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineBessel.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineBessel.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineBiCubic.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineBiCubic.o: submodules/Utils/src/Utils.hh
 src/SplineBiCubic.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineBiCubic.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineBiCubic.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineBiCubic.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineBiCubic.o: submodules/Utils/src/Utils/fmt/format.h
@@ -229,6 +252,7 @@ src/SplineBiCubic.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineBiCubic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineBiCubic.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineBiCubic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineBiCubic.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineBiCubic.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineBiCubic.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineBiCubic.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -237,10 +261,17 @@ src/SplineBiCubic.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineBiCubic.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineBiCubic.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineBiCubic.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineBiCubic.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineBiCubic.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineBiCubic.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineBiCubic.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineBiCubic.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineBiCubic.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineBiCubic.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineBiCubic.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineBiQuintic.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineBiQuintic.o: submodules/Utils/src/Utils.hh
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineBiQuintic.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/fmt/format.h
@@ -255,6 +286,7 @@ src/SplineBiQuintic.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineBiQuintic.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -263,10 +295,17 @@ src/SplineBiQuintic.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineBiQuintic.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineBiQuintic.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineBiQuintic.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineBiQuintic.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineBiQuintic.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineBiQuintic.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineBiQuintic.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineBiQuintic.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineBiQuintic.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineBiQuintic.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineBiQuintic.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineBilinear.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineBilinear.o: submodules/Utils/src/Utils.hh
 src/SplineBilinear.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineBilinear.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineBilinear.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineBilinear.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineBilinear.o: submodules/Utils/src/Utils/fmt/format.h
@@ -281,6 +320,7 @@ src/SplineBilinear.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineBilinear.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineBilinear.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineBilinear.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineBilinear.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineBilinear.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineBilinear.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineBilinear.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -289,10 +329,17 @@ src/SplineBilinear.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineBilinear.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineBilinear.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineBilinear.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineBilinear.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineBilinear.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineBilinear.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineBilinear.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineBilinear.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineBilinear.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineBilinear.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineBilinear.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineConstant.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineConstant.o: submodules/Utils/src/Utils.hh
 src/SplineConstant.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineConstant.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineConstant.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineConstant.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineConstant.o: submodules/Utils/src/Utils/fmt/format.h
@@ -307,6 +354,7 @@ src/SplineConstant.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineConstant.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineConstant.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineConstant.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineConstant.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineConstant.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineConstant.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineConstant.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -315,10 +363,17 @@ src/SplineConstant.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineConstant.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineConstant.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineConstant.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineConstant.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineConstant.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineConstant.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineConstant.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineConstant.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineConstant.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineConstant.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineConstant.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineCubic.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineCubic.o: submodules/Utils/src/Utils.hh
 src/SplineCubic.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineCubic.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineCubic.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineCubic.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineCubic.o: submodules/Utils/src/Utils/fmt/format.h
@@ -333,6 +388,7 @@ src/SplineCubic.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineCubic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineCubic.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineCubic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineCubic.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineCubic.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineCubic.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineCubic.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -341,10 +397,17 @@ src/SplineCubic.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineCubic.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineCubic.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineCubic.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineCubic.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineCubic.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineCubic.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineCubic.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineCubic.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineCubic.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineCubic.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineCubic.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineCubicBase.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineCubicBase.o: submodules/Utils/src/Utils.hh
 src/SplineCubicBase.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineCubicBase.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineCubicBase.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineCubicBase.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineCubicBase.o: submodules/Utils/src/Utils/fmt/format.h
@@ -359,6 +422,7 @@ src/SplineCubicBase.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineCubicBase.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineCubicBase.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineCubicBase.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineCubicBase.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineCubicBase.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineCubicBase.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineCubicBase.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -367,10 +431,18 @@ src/SplineCubicBase.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineCubicBase.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineCubicBase.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineCubicBase.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineCubicBase.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineCubicBase.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineCubicBase.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineCubicBase.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineCubicBase.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineCubicBase.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineCubicBase.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineCubicBase.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
+src/SplineCubicBase.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
 src/SplineHermite.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineHermite.o: submodules/Utils/src/Utils.hh
 src/SplineHermite.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineHermite.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineHermite.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineHermite.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineHermite.o: submodules/Utils/src/Utils/fmt/format.h
@@ -385,6 +457,7 @@ src/SplineHermite.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineHermite.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineHermite.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineHermite.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineHermite.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineHermite.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineHermite.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineHermite.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -393,10 +466,17 @@ src/SplineHermite.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineHermite.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineHermite.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineHermite.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineHermite.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineHermite.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineHermite.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineHermite.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineHermite.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineHermite.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineHermite.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineHermite.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineLinear.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineLinear.o: submodules/Utils/src/Utils.hh
 src/SplineLinear.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineLinear.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineLinear.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineLinear.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineLinear.o: submodules/Utils/src/Utils/fmt/format.h
@@ -411,6 +491,7 @@ src/SplineLinear.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineLinear.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineLinear.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineLinear.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineLinear.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineLinear.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineLinear.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineLinear.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -419,10 +500,17 @@ src/SplineLinear.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineLinear.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineLinear.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineLinear.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineLinear.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineLinear.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineLinear.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineLinear.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineLinear.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineLinear.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineLinear.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineLinear.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplinePchip.o: src/Splines.hh src/SplinesConfig.hh
 src/SplinePchip.o: submodules/Utils/src/Utils.hh
 src/SplinePchip.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplinePchip.o: submodules/Utils/src/Utils/rang.hpp
 src/SplinePchip.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplinePchip.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplinePchip.o: submodules/Utils/src/Utils/fmt/format.h
@@ -437,6 +525,7 @@ src/SplinePchip.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplinePchip.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplinePchip.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplinePchip.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplinePchip.o: submodules/Utils/src/Utils/rang.hxx
 src/SplinePchip.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplinePchip.o: submodules/Utils/src/Utils/Console.hxx
 src/SplinePchip.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -445,11 +534,18 @@ src/SplinePchip.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplinePchip.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplinePchip.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplinePchip.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplinePchip.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplinePchip.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplinePchip.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplinePchip.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplinePchip.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplinePchip.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplinePchip.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplinePchip.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplinePchip.o: src/SplinesUtils.hh
 src/SplineQuintic.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineQuintic.o: submodules/Utils/src/Utils.hh
 src/SplineQuintic.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineQuintic.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineQuintic.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineQuintic.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineQuintic.o: submodules/Utils/src/Utils/fmt/format.h
@@ -464,6 +560,7 @@ src/SplineQuintic.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineQuintic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineQuintic.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineQuintic.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineQuintic.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineQuintic.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineQuintic.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineQuintic.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -472,11 +569,18 @@ src/SplineQuintic.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineQuintic.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineQuintic.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineQuintic.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineQuintic.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineQuintic.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineQuintic.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineQuintic.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineQuintic.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineQuintic.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineQuintic.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineQuintic.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineQuintic.o: src/SplinesUtils.hh
 src/SplineQuinticBase.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineQuinticBase.o: submodules/Utils/src/Utils.hh
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineQuinticBase.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/fmt/format.h
@@ -491,6 +595,7 @@ src/SplineQuinticBase.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineQuinticBase.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -499,10 +604,19 @@ src/SplineQuinticBase.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineQuinticBase.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineQuinticBase.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineQuinticBase.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineQuinticBase.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineQuinticBase.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineQuinticBase.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineQuinticBase.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineQuinticBase.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineQuinticBase.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineQuinticBase.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineQuinticBase.o: src/SplineSet.hxx src/Splines1D.hxx
+src/SplineQuinticBase.o: src/Splines2D.hxx
+src/SplineQuinticBase.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
 src/SplineSet.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineSet.o: submodules/Utils/src/Utils.hh
 src/SplineSet.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineSet.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineSet.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineSet.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineSet.o: submodules/Utils/src/Utils/fmt/format.h
@@ -517,6 +631,7 @@ src/SplineSet.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineSet.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineSet.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineSet.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineSet.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineSet.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineSet.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineSet.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -525,12 +640,18 @@ src/SplineSet.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineSet.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineSet.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineSet.o: submodules/GenericContainer/src/GenericContainerConfig.hh
-src/SplineSet.o: src/SplinesUtils.hh
+src/SplineSet.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineSet.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineSet.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineSet.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineSet.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineSet.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineSet.o: src/SplineBiQuintic.hxx src/SplineVec.hxx src/SplineSet.hxx
+src/SplineSet.o: src/Splines1D.hxx src/Splines2D.hxx src/SplinesUtils.hh
 src/SplineSet.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
 src/SplineSetGC.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineSetGC.o: submodules/Utils/src/Utils.hh
 src/SplineSetGC.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineSetGC.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineSetGC.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineSetGC.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineSetGC.o: submodules/Utils/src/Utils/fmt/format.h
@@ -545,6 +666,7 @@ src/SplineSetGC.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineSetGC.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineSetGC.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineSetGC.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineSetGC.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineSetGC.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineSetGC.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineSetGC.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -553,10 +675,17 @@ src/SplineSetGC.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineSetGC.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineSetGC.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineSetGC.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineSetGC.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineSetGC.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineSetGC.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineSetGC.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineSetGC.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineSetGC.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineSetGC.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplineSetGC.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplineVec.o: src/Splines.hh src/SplinesConfig.hh
 src/SplineVec.o: submodules/Utils/src/Utils.hh
 src/SplineVec.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplineVec.o: submodules/Utils/src/Utils/rang.hpp
 src/SplineVec.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplineVec.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplineVec.o: submodules/Utils/src/Utils/fmt/format.h
@@ -571,6 +700,7 @@ src/SplineVec.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplineVec.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplineVec.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplineVec.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplineVec.o: submodules/Utils/src/Utils/rang.hxx
 src/SplineVec.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplineVec.o: submodules/Utils/src/Utils/Console.hxx
 src/SplineVec.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -579,10 +709,17 @@ src/SplineVec.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplineVec.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplineVec.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplineVec.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplineVec.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplineVec.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplineVec.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplineVec.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplineVec.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplineVec.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplineVec.o: src/SplineBiQuintic.hxx src/SplineVec.hxx src/SplineSet.hxx
+src/SplineVec.o: src/Splines1D.hxx src/Splines2D.hxx
 src/Splines.o: src/SplinesUtils.hh src/Splines.hh src/SplinesConfig.hh
 src/Splines.o: submodules/Utils/src/Utils.hh
 src/Splines.o: submodules/Utils/src/Utils/Utils.hxx
-src/Splines.o: submodules/Utils/src/Utils/rang.hpp
 src/Splines.o: submodules/Utils/src/Utils/fmt/printf.h
 src/Splines.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/Splines.o: submodules/Utils/src/Utils/fmt/format.h
@@ -597,6 +734,7 @@ src/Splines.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/Splines.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/Splines.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/Splines.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/Splines.o: submodules/Utils/src/Utils/rang.hxx
 src/Splines.o: submodules/Utils/src/Utils/Trace.hxx
 src/Splines.o: submodules/Utils/src/Utils/Console.hxx
 src/Splines.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -605,10 +743,17 @@ src/Splines.o: submodules/Utils/src/Utils/TicToc.hxx
 src/Splines.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/Splines.o: submodules/GenericContainer/src/GenericContainer.hh
 src/Splines.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/Splines.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/Splines.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/Splines.o: src/SplineCubic.hxx src/SplineHermite.hxx src/SplinePchip.hxx
+src/Splines.o: src/SplineQuinticBase.hxx src/SplineQuintic.hxx
+src/Splines.o: src/SplineBilinear.hxx src/SplineBiCubic.hxx
+src/Splines.o: src/SplineAkima2D.hxx src/SplineBiQuintic.hxx
+src/Splines.o: src/SplineVec.hxx src/SplineSet.hxx src/Splines1D.hxx
+src/Splines.o: src/Splines2D.hxx
 src/Splines1D.o: src/Splines.hh src/SplinesConfig.hh
 src/Splines1D.o: submodules/Utils/src/Utils.hh
 src/Splines1D.o: submodules/Utils/src/Utils/Utils.hxx
-src/Splines1D.o: submodules/Utils/src/Utils/rang.hpp
 src/Splines1D.o: submodules/Utils/src/Utils/fmt/printf.h
 src/Splines1D.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/Splines1D.o: submodules/Utils/src/Utils/fmt/format.h
@@ -623,6 +768,7 @@ src/Splines1D.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/Splines1D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/Splines1D.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/Splines1D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/Splines1D.o: submodules/Utils/src/Utils/rang.hxx
 src/Splines1D.o: submodules/Utils/src/Utils/Trace.hxx
 src/Splines1D.o: submodules/Utils/src/Utils/Console.hxx
 src/Splines1D.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -631,10 +777,17 @@ src/Splines1D.o: submodules/Utils/src/Utils/TicToc.hxx
 src/Splines1D.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/Splines1D.o: submodules/GenericContainer/src/GenericContainer.hh
 src/Splines1D.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/Splines1D.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/Splines1D.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/Splines1D.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/Splines1D.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/Splines1D.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/Splines1D.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/Splines1D.o: src/SplineBiQuintic.hxx src/SplineVec.hxx src/SplineSet.hxx
+src/Splines1D.o: src/Splines1D.hxx src/Splines2D.hxx
 src/Splines2D.o: src/Splines.hh src/SplinesConfig.hh
 src/Splines2D.o: submodules/Utils/src/Utils.hh
 src/Splines2D.o: submodules/Utils/src/Utils/Utils.hxx
-src/Splines2D.o: submodules/Utils/src/Utils/rang.hpp
 src/Splines2D.o: submodules/Utils/src/Utils/fmt/printf.h
 src/Splines2D.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/Splines2D.o: submodules/Utils/src/Utils/fmt/format.h
@@ -649,6 +802,7 @@ src/Splines2D.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/Splines2D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/Splines2D.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/Splines2D.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/Splines2D.o: submodules/Utils/src/Utils/rang.hxx
 src/Splines2D.o: submodules/Utils/src/Utils/Trace.hxx
 src/Splines2D.o: submodules/Utils/src/Utils/Console.hxx
 src/Splines2D.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -657,10 +811,17 @@ src/Splines2D.o: submodules/Utils/src/Utils/TicToc.hxx
 src/Splines2D.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/Splines2D.o: submodules/GenericContainer/src/GenericContainer.hh
 src/Splines2D.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/Splines2D.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/Splines2D.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/Splines2D.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/Splines2D.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/Splines2D.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/Splines2D.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/Splines2D.o: src/SplineBiQuintic.hxx src/SplineVec.hxx src/SplineSet.hxx
+src/Splines2D.o: src/Splines1D.hxx src/Splines2D.hxx
 src/SplinesBivariate.o: src/Splines.hh src/SplinesConfig.hh
 src/SplinesBivariate.o: submodules/Utils/src/Utils.hh
 src/SplinesBivariate.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplinesBivariate.o: submodules/Utils/src/Utils/rang.hpp
 src/SplinesBivariate.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplinesBivariate.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplinesBivariate.o: submodules/Utils/src/Utils/fmt/format.h
@@ -675,6 +836,7 @@ src/SplinesBivariate.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplinesBivariate.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplinesBivariate.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplinesBivariate.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplinesBivariate.o: submodules/Utils/src/Utils/rang.hxx
 src/SplinesBivariate.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplinesBivariate.o: submodules/Utils/src/Utils/Console.hxx
 src/SplinesBivariate.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -683,10 +845,17 @@ src/SplinesBivariate.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplinesBivariate.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplinesBivariate.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplinesBivariate.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplinesBivariate.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplinesBivariate.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplinesBivariate.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplinesBivariate.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplinesBivariate.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplinesBivariate.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplinesBivariate.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplinesBivariate.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 src/SplinesCinterface.o: src/Splines.hh src/SplinesConfig.hh
 src/SplinesCinterface.o: submodules/Utils/src/Utils.hh
 src/SplinesCinterface.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplinesCinterface.o: submodules/Utils/src/Utils/rang.hpp
 src/SplinesCinterface.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplinesCinterface.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplinesCinterface.o: submodules/Utils/src/Utils/fmt/format.h
@@ -701,6 +870,7 @@ src/SplinesCinterface.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplinesCinterface.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplinesCinterface.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplinesCinterface.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplinesCinterface.o: submodules/Utils/src/Utils/rang.hxx
 src/SplinesCinterface.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplinesCinterface.o: submodules/Utils/src/Utils/Console.hxx
 src/SplinesCinterface.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -709,11 +879,18 @@ src/SplinesCinterface.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplinesCinterface.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplinesCinterface.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplinesCinterface.o: submodules/GenericContainer/src/GenericContainerConfig.hh
-src/SplinesCinterface.o: src/SplinesCinterface.h
+src/SplinesCinterface.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplinesCinterface.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplinesCinterface.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplinesCinterface.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplinesCinterface.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplinesCinterface.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplinesCinterface.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplinesCinterface.o: src/SplineSet.hxx src/Splines1D.hxx
+src/SplinesCinterface.o: src/Splines2D.hxx src/SplinesCinterface.h
 src/SplinesUtils.o: src/SplinesUtils.hh src/Splines.hh src/SplinesConfig.hh
 src/SplinesUtils.o: submodules/Utils/src/Utils.hh
 src/SplinesUtils.o: submodules/Utils/src/Utils/Utils.hxx
-src/SplinesUtils.o: submodules/Utils/src/Utils/rang.hpp
 src/SplinesUtils.o: submodules/Utils/src/Utils/fmt/printf.h
 src/SplinesUtils.o: submodules/Utils/src/Utils/fmt/ostream.h
 src/SplinesUtils.o: submodules/Utils/src/Utils/fmt/format.h
@@ -728,6 +905,7 @@ src/SplinesUtils.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 src/SplinesUtils.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 src/SplinesUtils.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 src/SplinesUtils.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+src/SplinesUtils.o: submodules/Utils/src/Utils/rang.hxx
 src/SplinesUtils.o: submodules/Utils/src/Utils/Trace.hxx
 src/SplinesUtils.o: submodules/Utils/src/Utils/Console.hxx
 src/SplinesUtils.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -736,9 +914,16 @@ src/SplinesUtils.o: submodules/Utils/src/Utils/TicToc.hxx
 src/SplinesUtils.o: submodules/Utils/src/Utils/ThreadPool.hxx
 src/SplinesUtils.o: submodules/GenericContainer/src/GenericContainer.hh
 src/SplinesUtils.o: submodules/GenericContainer/src/GenericContainerConfig.hh
+src/SplinesUtils.o: src/SplineAkima.hxx src/SplineBessel.hxx
+src/SplinesUtils.o: src/SplineConstant.hxx src/SplineLinear.hxx
+src/SplinesUtils.o: src/SplineCubic.hxx src/SplineHermite.hxx
+src/SplinesUtils.o: src/SplinePchip.hxx src/SplineQuinticBase.hxx
+src/SplinesUtils.o: src/SplineQuintic.hxx src/SplineBilinear.hxx
+src/SplinesUtils.o: src/SplineBiCubic.hxx src/SplineAkima2D.hxx
+src/SplinesUtils.o: src/SplineBiQuintic.hxx src/SplineVec.hxx
+src/SplinesUtils.o: src/SplineSet.hxx src/Splines1D.hxx src/Splines2D.hxx
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils.hh
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/Utils.hxx
-submodules/Utils/src/Console.o: submodules/Utils/src/Utils/rang.hpp
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/fmt/printf.h
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/fmt/ostream.h
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/fmt/format.h
@@ -753,6 +938,7 @@ submodules/Utils/src/Console.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/Console.o: submodules/Utils/src/Utils/rang.hxx
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/Trace.hxx
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/Console.hxx
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -761,7 +947,6 @@ submodules/Utils/src/Console.o: submodules/Utils/src/Utils/TicToc.hxx
 submodules/Utils/src/Console.o: submodules/Utils/src/Utils/ThreadPool.hxx
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils.hh
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/Utils.hxx
-submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/rang.hpp
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/fmt/printf.h
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/fmt/ostream.h
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/fmt/format.h
@@ -776,6 +961,7 @@ submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/rang.hxx
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/Trace.hxx
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/Console.hxx
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -784,7 +970,6 @@ submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/TicToc.hxx
 submodules/Utils/src/Malloc.o: submodules/Utils/src/Utils/ThreadPool.hxx
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils.hh
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/Utils.hxx
-submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/rang.hpp
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/fmt/printf.h
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/fmt/ostream.h
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/fmt/format.h
@@ -799,6 +984,7 @@ submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/rang.hxx
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/Trace.hxx
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/Console.hxx
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -807,7 +993,6 @@ submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/TicToc.hxx
 submodules/Utils/src/Numbers.o: submodules/Utils/src/Utils/ThreadPool.hxx
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils.hh
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/Utils.hxx
-submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/rang.hpp
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/fmt/printf.h
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/fmt/ostream.h
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/fmt/format.h
@@ -822,6 +1007,7 @@ submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/rang.hxx
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/Trace.hxx
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/Console.hxx
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/Malloc.hxx
@@ -830,7 +1016,6 @@ submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/TicToc.hxx
 submodules/Utils/src/Trace.o: submodules/Utils/src/Utils/ThreadPool.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils.hh
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/Utils.hxx
-submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/rang.hpp
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/fmt/printf.h
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/fmt/ostream.h
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/fmt/format.h
@@ -845,12 +1030,48 @@ submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/zstream/izstream.hpp
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/rang.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/Trace.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/Console.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/Malloc.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/Numbers.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/TicToc.hxx
 submodules/Utils/src/Utils.o: submodules/Utils/src/Utils/ThreadPool.hxx
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/os.cc
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/os.h
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/format.h
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/core.h
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/format.cc
+submodules/Utils/src/fmt.o: submodules/Utils/src/Utils/fmt/format-inl.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils.hh
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/Utils.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/printf.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/ostream.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/format.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/core.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/chrono.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/locale.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/fmt/ostream.h
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/izstream.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/zstream_common.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/izstream_impl.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/izstream.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/ozstream_impl.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/zstream/ozstream.hpp
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/rang.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/Trace.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/Console.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/Malloc.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/Numbers.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/TicToc.hxx
+submodules/Utils/src/rang.o: submodules/Utils/src/Utils/ThreadPool.hxx
+submodules/Utils/src/Utils/fmt/format.o: submodules/Utils/src/Utils/fmt/format-inl.h
+submodules/Utils/src/Utils/fmt/format.o: submodules/Utils/src/Utils/fmt/format.h
+submodules/Utils/src/Utils/fmt/format.o: submodules/Utils/src/Utils/fmt/core.h
+submodules/Utils/src/Utils/fmt/os.o: submodules/Utils/src/Utils/fmt/os.h
+submodules/Utils/src/Utils/fmt/os.o: submodules/Utils/src/Utils/fmt/format.h
+submodules/Utils/src/Utils/fmt/os.o: submodules/Utils/src/Utils/fmt/core.h
 submodules/quarticRootsFlocke/src/PolynomialRoots-1-Quadratic.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
 submodules/quarticRootsFlocke/src/PolynomialRoots-2-Cubic.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
 submodules/quarticRootsFlocke/src/PolynomialRoots-3-Quartic.o: submodules/quarticRootsFlocke/src/PolynomialRoots.hh
