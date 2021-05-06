@@ -29,7 +29,9 @@
 
 namespace Splines {
 
-  //! cubic quintic base class
+  //!
+  //! Quintic spline base class
+  //!
   class QuinticSplineBase : public Spline {
   protected:
     Utils::Malloc<real_type> m_baseValue;
@@ -40,11 +42,16 @@ namespace Splines {
 
   public:
 
+    //! \name Constructors
+    ///@{
+
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
     #endif
 
-    //! spline constructor
+    //!
+    //! Spline constructor
+    //!
     QuinticSplineBase( string const & name = "Spline" )
     : Spline(name)
     , m_baseValue(name+"_memeory")
@@ -55,24 +62,34 @@ namespace Splines {
 
     ~QuinticSplineBase() override {}
 
+    ///@}
+
     void
     copySpline( QuinticSplineBase const & S );
 
-    //! return the i-th node of the spline (y' component).
+    //!
+    //! Return the i-th node of the spline (y' component).
+    //!
     real_type
     ypNode( integer i ) const
     { return m_Yp[size_t(i)]; }
 
-    //! return the i-th node of the spline (y'' component).
+    //!
+    //! Return the i-th node of the spline (y'' component).
+    //!
     real_type
     yppNode( integer i ) const
     { return m_Ypp[size_t(i)]; }
 
-    //! change X-range of the spline
+    //!
+    //! Change X-range of the spline
+    //!
     void
     setRange( real_type xmin, real_type xmax );
 
+    //!
     //! Use externally allocated memory for `npts` points
+    //!
     void
     reserve_external(
       integer       n,
@@ -81,6 +98,16 @@ namespace Splines {
       real_type * & p_Yp,
       real_type * & p_Ypp
     );
+
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -103,7 +130,9 @@ namespace Splines {
     void reserve( integer npts ) override;
     void clear() override;
 
-    //! get the piecewise polinomials of the spline
+    //!
+    //! Get the piecewise polinomials of the spline
+    //!
     integer // order
     coeffs(
       real_type * const cfs,

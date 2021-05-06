@@ -41,6 +41,9 @@ namespace Splines {
     QUINTIC_SPLINE_TYPE m_q_sub_type;
   public:
 
+    //! \name Constructors
+    ///@{
+
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using QuinticSplineBase::build;
     using QuinticSplineBase::reserve;
@@ -55,6 +58,8 @@ namespace Splines {
     //! spline destructor
     ~QuinticSpline() override {}
 
+    ///@}
+
     void
     setQuinticType( QUINTIC_SPLINE_TYPE qt )
     { m_q_sub_type = qt; }
@@ -63,7 +68,6 @@ namespace Splines {
     //! Build a Monotone quintic spline from previously inserted points
     void build() override;
     void setup( GenericContainer const & gc ) override;
-
   };
 
 }

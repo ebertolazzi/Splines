@@ -1,0 +1,363 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program Listing for File SplineConstant.cc &#8212; Splines v1.0.9
+</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplineConstant.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="program-listing-for-file-splineconstant-cc">
+<span id="program-listing-file-splineconstant-cc"></span><h1>Program Listing for File SplineConstant.cc<a class="headerlink" href="#program-listing-for-file-splineconstant-cc" title="Permalink to this headline">¶</a>
+</h1>
+<p>↰ <a class="reference internal" href="file_SplineConstant.cc.html#file-splineconstant-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">SplineConstant.cc</span></code>)</p>
+<div class="highlight-cpp notranslate">
+<div class="highlight"><pre><span></span><span class="cm">/*--------------------------------------------------------------------------*\</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |  Copyright (C) 2016                                                      |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |         , __                 , __                                        |</span>
+<span class="cm"> |        /|/  \               /|/  \                                       |</span>
+<span class="cm"> |         | __/ _   ,_         | __/ _   ,_                                |</span>
+<span class="cm"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span>
+<span class="cm"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span>
+<span class="cm"> |                           /|                   /|                        |</span>
+<span class="cm"> |                           \|                   \|                        |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm"> |      Enrico Bertolazzi                                                   |</span>
+<span class="cm"> |      Dipartimento di Ingegneria Industriale                              |</span>
+<span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
+<span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
+<span class="cm"> |                                                                          |</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span>
+
+<span class="cp">#include</span> <span class="cpf">"Splines.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+
+<span class="cp">#ifdef __clang__</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// load standard namspace</span>
+<span class="cp">#endif</span>
+
+<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">reserve_external</span><span class="p">(</span>
+    <span class="n">integer</span>      <span class="n">n</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">*&amp;</span> <span class="n">p_x</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">*&amp;</span> <span class="n">p_y</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">m_external_alloc</span> <span class="p">)</span> <span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+    <span class="n">m_npts</span>           <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">m_npts_reserved</span>  <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">m_X</span>              <span class="o">=</span> <span class="n">p_x</span><span class="p">;</span>
+    <span class="n">m_Y</span>              <span class="o">=</span> <span class="n">p_y</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">n</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">m_external_alloc</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">m_npts_reserved</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// nothing to do!, already allocated</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">m_baseValue</span><span class="p">.</span><span class="n">reallocate</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
+      <span class="n">m_npts_reserved</span>  <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+      <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+      <span class="n">m_X</span>              <span class="o">=</span> <span class="n">m_baseValue</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
+      <span class="n">m_Y</span>              <span class="o">=</span> <span class="n">m_baseValue</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">initLastInterval</span><span class="p">();</span>
+    <span class="n">m_npts</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="p">)];</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">real_type</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">ni</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">build</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
+    <span class="n">integer</span> <span class="n">n</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="n">reserve</span><span class="p">(</span> <span class="n">n</span> <span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span>   <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="kt">size_t</span><span class="p">(</span><span class="n">incx</span><span class="p">)];</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="kt">size_t</span><span class="p">(</span><span class="n">incy</span><span class="p">)];</span>
+    <span class="n">m_npts</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">build</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">clear</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">m_external_alloc</span> <span class="p">)</span> <span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+    <span class="n">m_npts</span> <span class="o">=</span> <span class="n">m_npts_reserved</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">m_X</span> <span class="o">=</span> <span class="n">m_Y</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">nseg</span> <span class="o">=</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_npts</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nseg</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
+      <span class="n">fmt</span><span class="o">::</span><span class="n">print</span><span class="p">(</span> <span class="n">s</span><span class="p">,</span>
+        <span class="s">"segment N. {:4} X:[{},{}] Y:{}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+        <span class="n">i</span><span class="p">,</span>  <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">integer</span> <span class="c1">// order</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">coeffs</span><span class="p">(</span>
+    <span class="n">real_type</span> <span class="o">*</span> <span class="k">const</span> <span class="n">cfs</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">*</span> <span class="k">const</span> <span class="n">nodes</span><span class="p">,</span>
+    <span class="kt">bool</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="n">nseg</span> <span class="o">=</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_npts</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nseg</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="n">cfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="n">integer</span> <span class="c1">// order</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">order</span><span class="p">()</span> <span class="k">const</span>
+  <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="k">using</span> <span class="n">GC_namespace</span><span class="o">::</span><span class="n">GC_VEC_REAL</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">GC_namespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">    // gc["xdata"]</span>
+<span class="cm">    // gc["ydata"]</span>
+<span class="cm">    //</span>
+<span class="cm">    */</span>
+    <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"ConstantSpline[{}]::setup( gc ):"</span><span class="p">,</span> <span class="n">m_name</span> <span class="p">);</span>
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">),</span> <span class="s">"{} missing `xdata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">),</span> <span class="s">"{} missing `ydata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+
+    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_x</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">);</span>
+    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_y</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">);</span>
+
+    <span class="n">vec_real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `xdata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+      <span class="n">gc_x</span><span class="p">.</span><span class="n">copyto_vec_real</span> <span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `ydata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+      <span class="n">gc_y</span><span class="p">.</span><span class="n">copyto_vec_real</span> <span class="p">(</span> <span class="n">y</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+
+  <span class="kt">void</span>
+  <span class="n">ConstantSpline</span><span class="o">::</span><span class="n">y_min_max</span><span class="p">(</span>
+    <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
+    <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
+    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_max</span>
+  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">UTILS_ASSERT0</span><span class="p">(</span>
+      <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"ConstantSpline::y_min_max() empty spline!"</span>
+    <span class="p">);</span>
+    <span class="c1">// find max min alongh the nodes</span>
+    <span class="n">i_min_pos</span> <span class="o">=</span> <span class="n">i_max_pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">x_min_pos</span> <span class="o">=</span> <span class="n">x_max_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">y_min</span> <span class="o">=</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_npts</span><span class="mi">-1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="n">real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">P1</span>  <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&gt;</span> <span class="n">y_max</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">y_max</span>     <span class="o">=</span> <span class="n">P1</span><span class="p">;</span>
+        <span class="n">x_max_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">i_max_pos</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&lt;</span> <span class="n">y_min</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">y_min</span>     <span class="o">=</span> <span class="n">P1</span><span class="p">;</span>
+        <span class="n">x_min_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">i_min_pos</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Program Listing for File SplineConstant.cc</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

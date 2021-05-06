@@ -30,6 +30,8 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   SplineSurf::~SplineSurf()
@@ -47,7 +49,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::clear(void) {
+  SplineSurf::clear() {
     m_mem.free();
     m_nx = m_ny = 0;
     m_X = m_Y = m_Z = nullptr;
@@ -57,7 +59,85 @@ namespace Splines {
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  void
+  SplineSurf::load_Z(
+    real_type const * z,
+    integer           ldZ,
+    bool              fortran_storage,
+    bool              transposed
+  ) {
+    if ( transposed ) {
+      if ( fortran_storage ) {
+        UTILS_ASSERT(
+          ldZ >= m_nx,
+          "SplineSurf::load_Z[transposed+fortran_storage]\n"
+          "ldZ = {} must be >= of nx = {}\n",
+          ldZ, m_nx
+        );
+        for ( integer i = 0; i < m_nx; ++i )
+          for ( integer j = 0; j < m_ny; ++j )
+            m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_C(j,i,ldZ))];
+      } else {
+        UTILS_ASSERT(
+          ldZ >= m_ny,
+          "SplineSurf::load_Z[transposed]\n"
+          "ldZ = {} must be >= of ny = {}\n",
+          ldZ, m_ny
+        );
+        for ( integer i = 0; i < m_nx; ++i )
+          for ( integer j = 0; j < m_ny; ++j )
+            m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_F(j,i,ldZ))];
+      }
+    } else {
+      if ( fortran_storage ) {
+        UTILS_ASSERT(
+          ldZ >= m_ny,
+          "SplineSurf::load_Z[fortran_storage]\n"
+          "ldZ = {} must be >= of ny = {}\n",
+          ldZ, m_ny
+        );
+        for ( integer i = 0; i < m_nx; ++i )
+          for ( integer j = 0; j < m_ny; ++j )
+            m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_C(i,j,ldZ))];
+      } else {
+        UTILS_ASSERT(
+          ldZ >= m_nx,
+          "SplineSurf::load_Z\n"
+          "ldZ = {} must be >= of nx = {}\n",
+          ldZ, m_nx
+        );
+        for ( integer i = 0; i < m_nx; ++i )
+          for ( integer j = 0; j < m_ny; ++j )
+            m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_F(i,j,ldZ))];
+      }
+    }
+    m_Z_max = *std::max_element(m_Z,m_Z+m_nx*m_ny);
+    m_Z_min = *std::min_element(m_Z,m_Z+m_nx*m_ny);
+    makeSpline();
+  }
 
+  #endif
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //!
+  //! Build a spline surface with data
+  //!
+  //! - `x` the vector of x-nodes (size `nx`)
+  //! - `y` the vector of y-nodes (size `ny`)
+  //! - `z` the matrix of z-values, \f$ z_{ij} = f(x_i,y_j) \f$
+  //!
+  //! \code{.unparsed}
+  //!            +----------+
+  //!            |          |  internally data is stored by column
+  //!   index j  ny  zij    |  zij = data[ i*ny + j ]
+  //!            |          |
+  //!            +--- nx ---+
+  //!              index i
+  //! \endcode
+  //!
+  //! - `fortran_storage` is `true` if matrix `z` is stored by column
+  //! - `transposed` is true means that data are stored transposed
+  //!
   void
   SplineSurf::build(
     real_type const * x, integer incx,
@@ -76,30 +156,32 @@ namespace Splines {
     m_Z = m_mem( size_t(nx*ny) );
     for ( size_t i = 0; i < size_t(nx); ++i ) m_X[i] = x[i*size_t(incx)];
     for ( size_t i = 0; i < size_t(ny); ++i ) m_Y[i] = y[i*size_t(incy)];
-    if ( (fortran_storage && transposed) || (!fortran_storage && !transposed) ) {
-      UTILS_ASSERT(
-        ldZ >= ny,
-        "SplineSurf::build, ldZ = {} must be >= of nx = {}\n", ldZ, ny
-      );
-      for ( integer i = 0; i < nx; ++i )
-        for ( integer j = 0; j < ny; ++j )
-          m_Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_C(i,j,ldZ))];
-    } else {
-      UTILS_ASSERT(
-        ldZ >= nx,
-        "SplineSurf::build, ldZ = {} must be >= of ny = {}\n", ldZ, nx
-      );
-      for ( integer i = 0; i < nx; ++i )
-        for ( integer j = 0; j < ny; ++j )
-          m_Z[size_t(ipos_C(i,j,ny))] = z[size_t(ipos_F(i,j,ldZ))];
-    }
-    m_Z_max = *std::max_element(m_Z,m_Z+nx*ny);
-    m_Z_min = *std::min_element(m_Z,m_Z+nx*ny);
-    makeSpline();
+    load_Z( z, ldZ, fortran_storage, transposed );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  //!
+  //! Build a spline surface with data
+  //!
+  //! - `z`    the matrix of z-values, \f$ z_{ij} = f(x_i,y_j) \f$
+  //! - `ldZ`  leading dimension of matriz `z`
+  //! - `nx`   number of nodes in x-direction
+  //! - `ny`   number of nodes in y-direction
+  //!
+  //! nodes are equispaced in x and y directions.
+  //!
+  //! \code{.unparsed}
+  //!            +----------+
+  //!            |          |  internally data is stored by column
+  //!   index j  ny  zij    |  zij = data[ i*ny + j ]
+  //!            |          |
+  //!            +--- nx ---+
+  //!              index i
+  //! \endcode
+  //!
+  //! - `fortran_storage` is `true` if matrix `z` is stored by column
+  //! - `transposed` is true means that data are stored transposed
+  //!
   void
   SplineSurf::build(
     real_type const * z,
@@ -109,13 +191,15 @@ namespace Splines {
     bool              fortran_storage,
     bool              transposed
   ) {
-    Utils::Malloc<real_type> mem("SplineSurf::build");
-    mem.allocate( size_t(nx+ny) );
-    real_type * XX = mem( size_t(nx) );
-    real_type * YY = mem( size_t(ny) ); // temporary vector
-    for ( size_t i = 0; i < size_t(nx); ++i ) XX[i] = real_type(i);
-    for ( size_t i = 0; i < size_t(ny); ++i ) YY[i] = real_type(i);
-    build( XX, 1, YY, 1, z, ldZ, nx, ny, fortran_storage, transposed );
+    m_nx = nx;
+    m_ny = ny;
+    m_mem.reallocate( size_t((nx+1)*(ny+1)) );
+    m_X = m_mem( size_t(nx) );
+    m_Y = m_mem( size_t(ny) );
+    m_Z = m_mem( size_t(nx*ny) );
+    for ( size_t i = 0; i < size_t(nx); ++i ) m_X[i] = real_type(i);
+    for ( size_t i = 0; i < size_t(ny); ++i ) m_Y[i] = real_type(i);
+    load_Z( z, ldZ, fortran_storage, transposed );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -129,10 +213,10 @@ namespace Splines {
     //
     //  0    2
     //
-    size_t i0 = size_t(ipos_C(i,j,m_ny));
-    size_t i1 = size_t(ipos_C(i,j+1,m_ny));
-    size_t i2 = size_t(ipos_C(i+1,j,m_ny));
-    size_t i3 = size_t(ipos_C(i+1,j+1,m_ny));
+    size_t i0 = size_t(ipos_C(i,j));
+    size_t i1 = size_t(ipos_C(i,j+1));
+    size_t i2 = size_t(ipos_C(i+1,j));
+    size_t i3 = size_t(ipos_C(i+1,j+1));
 
     bili3[0][0] = m_Z[i0];   bili3[0][1] = m_Z[i1];
     bili3[0][2] = m_DY[i0];  bili3[0][3] = m_DY[i1];
@@ -271,10 +355,10 @@ namespace Splines {
     integer i, integer j, real_type bili5[6][6]
   ) const {
 
-    size_t i00 = size_t(ipos_C(i,j,m_ny));
-    size_t i01 = size_t(ipos_C(i,j+1,m_ny));
-    size_t i10 = size_t(ipos_C(i+1,j,m_ny));
-    size_t i11 = size_t(ipos_C(i+1,j+1,m_ny));
+    size_t i00 = size_t(ipos_C(i,j));
+    size_t i01 = size_t(ipos_C(i,j+1));
+    size_t i10 = size_t(ipos_C(i+1,j));
+    size_t i11 = size_t(ipos_C(i+1,j+1));
 
     //
     //  1    3
@@ -446,15 +530,65 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  using GenericContainerNamespace::GC_VECTOR;
-  using GenericContainerNamespace::GC_VEC_INTEGER;
-  using GenericContainerNamespace::GC_VEC_LONG;
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::GC_MAT_REAL;
-  using GenericContainerNamespace::mat_real_type;
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+  void
+  SplineSurf::dump_data( ostream_type & s ) const {
+    s << "X = [ " << m_X[0];
+    for ( integer i = 1; i < m_nx; ++i ) s << ", " << m_X[size_t(i)];
+    s << " ]\nY = [ " << m_Y[0];
+    for ( integer i = 1; i < m_ny; ++i ) s << ", " << m_Y[size_t(i)];
+    s << " ]\nZ = [\n";
+    for ( integer j = 0; j < m_ny; ++j ) {
+      s << "  [ " << m_Z[size_t(ipos_C(0,j))];
+      for ( integer i = 1; i < m_nx; ++i )
+        s << ", " << m_Z[size_t(ipos_C(i,j))];
+      s << " ]\n";
+    }
+    s << "\n];\n";
+  }
+  
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  using GC_namespace::GC_VECTOR;
+  using GC_namespace::GC_VEC_INTEGER;
+  using GC_namespace::GC_VEC_LONG;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_MAT_REAL;
+  using GC_namespace::mat_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //!
+  //! Setup a spline surface using a `GenericContainer`
+  //!
+  //! - `gc("fortran_storage")` if true `zdata` is stored by column, otherwise by rows 
+  //! - `gc("transposed")`      if true `zdata` is stored transposed 
+  //! 
+  //! - `gc("xdata")` vector of mesh point in `x` direction 
+  //! - `gc("ydata")` vector of mesh point in `y` direction
+  //! - `gc("zdata")` may be
+  //!    - matrix of size `nx` x `ny` (`ny` x `nx` if data is transposed)
+  //!    - vector of size `nx` x `ny` stiring the data.
+  //!
+  //! - `nx` number of nodes in x-direction the size of vector in `x` direction 
+  //! - `ny` number of nodes in y-direction the size of vector in `y` direction 
+  //!
+  //! nodes are equispaced in x and y directions.
+  //!
+  //! \code{.unparsed}
+  //!            +----------+
+  //!            |          |  internally data is stored by column
+  //!   index j  ny  zij    |  zij = data[ i*ny + j ]
+  //!            |          |
+  //!            +--- nx ---+
+  //!              index i
+  //! \endcode
+  //!
+  //! - `fortran_storage` is `true` if matrix `z` is stored by column
+  //! - `transposed` is true means that data are stored transposed
+  //!
   void
   SplineSurf::setup( GenericContainer const & gc ) {
     /*
@@ -472,105 +606,82 @@ namespace Splines {
     GenericContainer const & gc_y = gc("ydata");
     GenericContainer const & gc_z = gc("zdata");
 
-    vec_real_type x, y;
-    gc_x.copyto_vec_real( x, (msg+" field `xdata'").c_str() );
-    gc_y.copyto_vec_real( y, (msg+" field `ydata'").c_str() );
+    m_nx = gc_x.get_num_elements();
+    m_ny = gc_y.get_num_elements();
+    m_mem.reallocate( size_t((m_nx+1)*(m_ny+1)) );
+    m_X = m_mem( size_t(m_nx) );
+    m_Y = m_mem( size_t(m_ny) );
+    m_Z = m_mem( size_t(m_nx*m_ny) );
+
+    for ( integer i = 0; i < m_nx; ++i ) m_X[size_t(i)] = gc_x.get_number_at(i);
+    for ( integer i = 0; i < m_ny; ++i ) m_Y[size_t(i)] = gc_y.get_number_at(i);
 
     bool fortran_storage = false;
+    bool transposed      = false;
     gc.get_if_exists("fortran_storage",fortran_storage);
-
-    bool transposed = false;
     gc.get_if_exists("transposed",transposed);
 
+
     /*
-    //  +------+
-    //  ny     |
-    //  +  nx  +
+    //     +------+
+    //  j ny      | (xi,yj)
+    //     +  nx  +
+    //         i
     */
 
-    integer nx  = integer( x.size() ); // ncols
-    integer ny  = integer( y.size() ); // nrows
-    integer ldz = integer( fortran_storage ? ny : nx );
+    // cosa mi aspetto in lettura
+    integer N, M;
+    if ( transposed ) { N = m_ny; M = m_nx; }
+    else              { N = m_nx; M = m_ny; }
+    integer LD = fortran_storage ? N : M;
 
     if ( GC_MAT_REAL == gc_z.get_type() ) {
       mat_real_type const & z = gc_z.get_mat_real();
-      if ( transposed ) {
-        UTILS_ASSERT(
-          unsigned(ny) == z.numCols() && unsigned(nx) == z.numCols(),
-           "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
-          msg, ny, nx, z.numRows(), z.numCols()
-        );
-      } else {
-        UTILS_ASSERT(
-          unsigned(nx) == z.numCols() && unsigned(ny) == z.numCols(),
-           "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
-          msg, nx, ny, z.numRows(), z.numCols()
-        );
-      }
-      build(
-        &x.front(), 1, &y.front(), 1, z.data(), ldz,
-        nx, ny, fortran_storage, transposed
+      UTILS_ASSERT(
+        unsigned(N) == z.numRows() && unsigned(M) == z.numCols(),
+        "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
+        msg, N, M, z.numRows(), z.numCols()
       );
+      load_Z( m_Z, LD, fortran_storage, transposed );
     } else if ( GC_VEC_INTEGER == gc_z.get_type() ||
                 GC_VEC_LONG    == gc_z.get_type() ||
                 GC_VEC_REAL    == gc_z.get_type() ) {
-      vec_real_type z;
-      gc_z.copyto_vec_real( z, "SplineSurf::setup, field `z'" );
-      integer nz = integer(z.size());
+
+      integer nz  = gc_z.get_num_elements();
+      integer nxy = m_nx * m_ny;
       UTILS_ASSERT(
-        nz == nx*ny,
+        nz == nxy,
         "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
-        msg, nx*ny, nx, ny, nz
+        msg, nxy, m_nx, m_ny, nz
       );
-      build(
-        &x.front(), 1, &y.front(), 1, &z.front(), ldz,
-        nx, ny, fortran_storage, transposed
-      );
+      for ( integer i = 0; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
+      load_Z( m_Z, LD, fortran_storage, transposed );
     } else if ( GC_VECTOR == gc_z.get_type() ) {
       vector_type const & data = gc_z.get_vector();
-      vec_real_type tmp, z;
-      z.resize( nx * ny );
-      if ( fortran_storage ) {
+      vec_real_type tmp;
+      UTILS_ASSERT(
+        size_t(M) == data.size(),
+        "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
+        msg, M, data.size()
+      );
+      for ( integer j = 0; j < M; ++j ) {
+        GenericContainer const & row = data[size_t(j)];
+        string msg1 = fmt::format( "{}, reading row {}\n", msg, j );
+        row.copyto_vec_real( tmp, msg1.c_str() );
         UTILS_ASSERT(
-          size_t(nx) == data.size(),
-          "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
-          msg, nx, data.size()
+          size_t(N) == tmp.size(),
+          "{}, row {}-th of size {}, expected {}\n",
+          msg, j, tmp.size(), N
         );
-        for ( integer i = 0; i < nx; ++i ) {
-          GenericContainer const & col = data[size_t(i)];
-          string msg1 = fmt::format( "{} reading column {}\n", msg, i );
-          col.copyto_vec_real( tmp, msg1.c_str() );
-          UTILS_ASSERT(
-            size_t(ny) == tmp.size(),
-            "{}, column {}-th of size {}, expected {}\n",
-            msg, i, tmp.size(), ny
-          );
-          for ( integer j = 0; j < ny; ++j )
-            z[size_t(ipos_C(i,j,ny))] = tmp[size_t(j)];
-        }
-      } else {
-        UTILS_ASSERT(
-          size_t(ny) == data.size(),
-          "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
-          msg, ny, data.size()
-        );
-        for ( integer j = 0; j < ny; ++j ) {
-          GenericContainer const & row = data[size_t(j)];
-          string msg1 = fmt::format( "{} , reading row {}\n", msg, j );
-          row.copyto_vec_real( tmp, msg1.c_str() );
-          UTILS_ASSERT(
-            size_t(nx) == tmp.size(),
-            "{}, row {}-th of size {}, expected {}\n",
-            msg, j, tmp.size(), nx
-          );
-          for ( integer i = 0; i < nx; ++i )
-            z[size_t(ipos_C(i,j,ny))] = tmp[size_t(i)];
+        if ( transposed ) {
+          for ( integer i = 0; i < N; ++i )
+            m_Z[size_t(ipos_C(j,i))] = tmp[size_t(i)];
+        } else {
+          for ( integer i = 0; i < N; ++i )
+            m_Z[size_t(ipos_C(i,j))] = tmp[size_t(i)];
         }
       }
-      build(
-        &x.front(), 1, &y.front(), 1, &z.front(), nx,
-        nx, ny, false, false
-      );
+      load_Z( m_Z, m_ny, true, false );
     } else {
       UTILS_ERROR(
         "{}, field `z` expected to be of type"

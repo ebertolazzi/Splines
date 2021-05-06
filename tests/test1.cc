@@ -50,7 +50,7 @@ static real_type xx4[] = { 595,   635,   695,   795,   855,   875,   895,   915,
 static real_type yy4[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.598, 0.916, 0.607, 0.603, 0.608 };
 
 // toolpath
-static real_type xx5[] = { 0.11, 0.12, 0.15, 0.16 };
+static real_type xx5[] = { 0.11,   0.12,   0.15,   0.16   };
 static real_type yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 };
 
 static integer n[] = { 11, 11, 11, 9, 12, 4 };
@@ -96,28 +96,46 @@ main() {
     real_type xmin = xx[0];
     real_type xmax = xx[n[k]-1];
 
-    #define SAVE(S) \
-    cout << #S": n[k] = " << n[k] << '\n'; \
-    S.clear(); \
-    S.reserve(n[k]); \
+    #define SAVE(NAME,S)                                                   \
+    cout << "\n\n\n" << NAME << "\n\n\n";                                  \
+    cout << #S": n[k] = " << n[k] << '\n';                                 \
+    S.clear();                                                             \
+    S.reserve(n[k]);                                                       \
     for ( integer i = 0; i < integer(n[k]); ++i ) S.pushBack(xx[i],yy[i]); \
-    S.build(); /*( xx, yy, n[k] );*/ \
-    cout << #S": xMin    = " << S.xMin()   << '\n'; \
-    cout << #S": xMax    = " << S.xMax()   << '\n'; \
-    cout << #S": xx[0]   = " << xx[0]      << '\n'; \
-    cout << #S": xx[end] = " << xx[n[k]-1] << '\n'; \
-    file_##S << "x\ty\tDy\tDDy\n"; \
-    for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 ) \
+    S.build(); /*( xx, yy, n[k] );*/                                       \
+    {                                                                      \
+      integer   i_min_pos;                                                 \
+      real_type x_min_pos;                                                 \
+      real_type y_min;                                                     \
+      integer   i_max_pos;                                                 \
+      real_type x_max_pos;                                                 \
+      real_type y_max;                                                     \
+      S.y_min_max(                                                         \
+        i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max           \
+      );                                                                   \
+      cout << "i_min_pos = " << i_min_pos << "\n";                         \
+      cout << "x_min_pos = " << x_min_pos << "\n";                         \
+      cout << "y_min     = " << y_min << "\n";                             \
+      cout << "i_max_pos = " << i_max_pos << "\n";                         \
+      cout << "x_max_pos = " << x_max_pos << "\n";                         \
+      cout << "y_max     = " << y_max << "\n";                             \
+    }                                                                      \
+    cout << #S": xMin    = " << S.xMin()   << '\n';                        \
+    cout << #S": xMax    = " << S.xMax()   << '\n';                        \
+    cout << #S": xx[0]   = " << xx[0]      << '\n';                        \
+    cout << #S": xx[end] = " << xx[n[k]-1] << '\n';                        \
+    file_##S << "x\ty\tDy\tDDy\n";                                         \
+    for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )           \
       file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n'; \
     file_##S.close()
     
-    SAVE(li);
-    SAVE(co);
-    SAVE(ak);
-    SAVE(cs);
-    SAVE(be);
-    SAVE(pc);
-    SAVE(qs);
+    SAVE("LinearSpline",   li);
+    SAVE("ConstantSpline", co);
+    SAVE("AkimaSpline",    ak);
+    SAVE("CubicSpline",    cs);
+    SAVE("BesselSpline",   be);
+    SAVE("PchipSpline",    pc);
+    SAVE("QuinticSpline",  qs);
   }
   cout << "\nALL DONE!\n\n";
 }

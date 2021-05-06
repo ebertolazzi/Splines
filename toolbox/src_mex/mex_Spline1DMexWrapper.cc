@@ -313,6 +313,33 @@ namespace Splines {
 
   static
   void
+  do_y_min_max(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+    #define CMD "Spline1DMexWrapper('y_min_max',OBJ): "
+    MEX_ASSERT2( nlhs == 6, CMD "expected 6 output, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    Spline * ptr = DATA_GET( arg_in_1 );
+    integer   i_min_pos, i_max_pos;
+    real_type x_min_pos, y_min, x_max_pos, y_max;
+    ptr->y_min_max(
+      i_min_pos, x_min_pos, y_min,
+      i_max_pos, x_max_pos, y_max
+    );
+    setScalarInt  ( arg_out_0, i_min_pos );
+    setScalarValue( arg_out_1, x_min_pos );
+    setScalarValue( arg_out_2, y_min     );
+    setScalarInt  ( arg_out_3, i_max_pos );
+    setScalarValue( arg_out_4, x_max_pos );
+    setScalarValue( arg_out_5, y_max     );
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_eval(
     int nlhs, mxArray       *plhs[],
     int nrhs, mxArray const *prhs[]
@@ -821,6 +848,7 @@ namespace Splines {
     {"build",do_build},
     {"degree",do_degree},
     {"order",do_order},
+    {"y_min_max",do_y_min_max},
     {"eval",do_eval},
     {"eval_D",do_eval_D},
     {"eval_DD",do_eval_DD},
