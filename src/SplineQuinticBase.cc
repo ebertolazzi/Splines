@@ -76,7 +76,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSplineBase::clear(void) {
+  QuinticSplineBase::clear() {
     if ( !m_external_alloc ) m_baseValue.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;

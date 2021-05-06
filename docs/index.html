@@ -12,13 +12,21 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/cloud.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/table_styling.css" />
-    <link rel="stylesheet" type="text/css" href="_static/cloud.css" />
+    <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
 
     
     
@@ -36,6 +44,7 @@
         <script src="_static/cloud.js"></script>
     
 
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Splines" href="readme.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,8 +55,11 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
           <a href="#" title="Table Of Contents"
-             accesskey="C">toc</a></li>
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="readme.html" title="Splines"
              accesskey="N">next</a> &nbsp; &nbsp;</li>
@@ -68,7 +80,8 @@
 <h1>Splines<a class="headerlink" href="#splines" title="Permalink to this headline">¶</a>
 </h1>
 <p><strong>by Enrico Bertolazzi</strong></p>
-<p>Splines is a set of C++ classes (with MATLAB mex interface) which implements various spline interpolation.</p>
+<p>Splines is a set of C++ classes (with MATLAB mex interface)
+which implements various spline interpolation algorithm.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1">
@@ -81,9 +94,609 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html">MATLAB Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html#c-interface">C++ Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html#id6">C Interface</a></li>
+<li class="toctree-l1">
+<a class="reference internal" href="api-cpp/root.html">C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api-cpp/root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-cpp/root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2">
+<a class="reference internal" href="api-cpp/root.html#full-api">Full API</a><ul>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#namespaces">Namespaces</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/namespace_Splines.html">Namespace Splines</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/namespace_Splines.html#classes">Classes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/namespace_Splines.html#enums">Enums</a></li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/namespace_Splines.html#functions">Functions</a></li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/namespace_Splines.html#typedefs">Typedefs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/namespace_Splines.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00151.html">Class Akima2Dspline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00151.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00151.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00151.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00147.html">Class AkimaSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00147.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00147.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00147.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00155.html">Class BesselSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00155.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00155.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00155.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00163.html">Class BiCubicSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00163.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00163.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00163.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00159.html">Class BiCubicSplineBase</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00159.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00159.html#base-type">Base Type</a></li>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00159.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00159.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00167.html">Class BilinearSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00167.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00167.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00167.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00175.html">Class BiQuinticSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00175.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00175.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00175.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00171.html">Class BiQuinticSplineBase</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00171.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00171.html#base-type">Base Type</a></li>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00171.html#derived-type">Derived Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00171.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00179.html">Class ConstantSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00179.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00179.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00179.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00183.html">Class CubicSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00183.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00183.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00183.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00211.html">Class CubicSplineBase</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00211.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00211.html#base-type">Base Type</a></li>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00211.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00211.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00187.html">Class HermiteSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00187.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00187.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00187.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00191.html">Class LinearSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00191.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00191.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00191.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00195.html">Class PchipSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00195.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00195.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00195.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00199.html">Class QuinticSpline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00199.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00199.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00199.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00203.html">Class QuinticSplineBase</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00203.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00203.html#base-type">Base Type</a></li>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00203.html#derived-type">Derived Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00203.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00207.html">Class Spline</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00207.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00207.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00207.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00219.html">Class Spline1D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00219.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00223.html">Class Spline2D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00223.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00227.html">Class SplineSet</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00227.html#nested-relationships">Nested Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00227.html#nested-types">Nested Types</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00227.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00231.html">Class SplineSet::BinarySearch</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00231.html#nested-relationships">Nested Relationships</a></li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00231.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00215.html">Class SplineSurf</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-cpp/class_a00215.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-cpp/class_a00215.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00215.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/class_a00235.html">Class SplineVec</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/class_a00235.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#enums">Enums</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html">Enum CUBIC_SPLINE_TYPE_BC</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html">Enum QUINTIC_SPLINE_TYPE</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html">Enum REGION_ABCDEM</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html">Enum SplineType1D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/enum_a00143_1aa6410df8c515cad4d238820f523fead7.html">Enum SplineType2D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/enum_a00143_1aa6410df8c515cad4d238820f523fead7.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#functions">Functions</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1aeb6c86ca718705bd71ad29b32c3f6d03.html">Function Splines::backtrace</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1aeb6c86ca718705bd71ad29b32c3f6d03.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a228f7065a249b0c10a9886fdc85f05f9.html">Function Splines::centripetal</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a228f7065a249b0c10a9886fdc85f05f9.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a4a9fd3c1d8de964d95d730668e6b6016.html">Function Splines::checkCubicSplineMonotonicity</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a4a9fd3c1d8de964d95d730668e6b6016.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1aef9996b8a86809bcb1609ed9bab5cea2.html">Function Splines::chordal</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1aef9996b8a86809bcb1609ed9bab5cea2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a94d2862da920a586358451ce3b3bcb41.html">Function Splines::curvature</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a94d2862da920a586358451ce3b3bcb41.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ad1cb03ee7c6c9f13f93df88d7612e26e.html">Function Splines::curvature_D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ad1cb03ee7c6c9f13f93df88d7612e26e.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a62d87177bbdb8da9a92701e528c57f00.html">Function Splines::curvature_DD</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a62d87177bbdb8da9a92701e528c57f00.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1aeea9f9f28b21dbf93715fd27a7c7106c.html">Function Splines::FangHung</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1aeea9f9f28b21dbf93715fd27a7c7106c.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ac5930dd87f51e2577e79a2bdd746c6b2.html">Function Splines::FoleyNielsen</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ac5930dd87f51e2577e79a2bdd746c6b2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a64d0e892133ce06e0a3577c3bea0f549.html">Function Splines::get_region</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a64d0e892133ce06e0a3577c3bea0f549.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ab131f65c6191734b6f2e502257b57d0f.html">Function Splines::Hermite3toPoly</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ab131f65c6191734b6f2e502257b57d0f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ac224d3e03da08343b0bf26eb4170d6a2.html">Function Splines::Hermite5toPoly</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ac224d3e03da08343b0bf26eb4170d6a2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ae61f54b18ac4089ead89302e4b99fee4.html">Function Splines::max_abs</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ae61f54b18ac4089ead89302e4b99fee4.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1ac18823b95eb83fa935ba4d33eb4e75a2.html">Function Splines::min_abs</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1ac18823b95eb83fa935ba4d33eb4e75a2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a8c7e2a599a7e341f0d8751b1bccb9a04.html">Function Splines::new_Spline1D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a8c7e2a599a7e341f0d8751b1bccb9a04.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1afb1c7d06a034be8c501f91321a50af3d.html">Function Splines::Pchip_build</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1afb1c7d06a034be8c501f91321a50af3d.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a22872cf871ce7a12ecda3a1f8d8e6cca.html">Function Splines::Pchip_build_new</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a22872cf871ce7a12ecda3a1f8d8e6cca.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a4fe6464c49b4bba331d9751598a44f02.html">Function Splines::signTest</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a4fe6464c49b4bba331d9751598a44f02.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a91c8806be0fd7584311f74dffe3ae3f7.html">Function Splines::uniform</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a91c8806be0fd7584311f74dffe3ae3f7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/function_a00143_1a9437a6461e2735153715bb43bc7d734f.html">Function Splines::universal</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/function_a00143_1a9437a6461e2735153715bb43bc7d734f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#variables">Variables</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/variable_a00143_1a052166b362a237026fef2fff7e415070.html">Variable Splines::spline_type_1D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/variable_a00143_1a052166b362a237026fef2fff7e415070.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/variable_a00143_1abc365c9dfbe2a2107c842e479391be2c.html">Variable Splines::spline_type_2D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/variable_a00143_1abc365c9dfbe2a2107c842e479391be2c.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#defines">Defines</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/define_a00119_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html">Define SPLINES_CONFIG_HH</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/define_a00119_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/define_a00101_1a258c7c0530540979548721b55b2338c9.html">Define SPLINES_HH</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/define_a00101_1a258c7c0530540979548721b55b2338c9.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/define_a00134_1a7d5567c4bd7d1851b7456989e413ccde.html">Define SPLINES_UTILS_HH</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/define_a00134_1a7d5567c4bd7d1851b7456989e413ccde.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-cpp/root.html#typedefs">Typedefs</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/typedef_a00143_1a0b83d8865bf650fca7ad1d657245a8a1.html">Typedef Splines::integer</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/typedef_a00143_1a0b83d8865bf650fca7ad1d657245a8a1.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/typedef_a00143_1a943d4ae4896c10228d57d004bd991e7f.html">Typedef Splines::ostream_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/typedef_a00143_1a943d4ae4896c10228d57d004bd991e7f.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-cpp/typedef_a00143_1afabb8610fb01952c2fcf1f17337bd44a.html">Typedef Splines::real_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-cpp/typedef_a00143_1afabb8610fb01952c2fcf1f17337bd44a.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="api-c/root.html">C API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api-c/root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-c/root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2">
+<a class="reference internal" href="api-c/root.html#full-api">Full API</a><ul>
+<li class="toctree-l3">
+<a class="reference internal" href="api-c/root.html#functions">Functions</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a562f6cae383a972ff70c7b987c17cce0.html">Function SPLINE_build</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a562f6cae383a972ff70c7b987c17cce0.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a4902f807d78a555e8439bb87a48e3660.html">Function SPLINE_build2</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a4902f807d78a555e8439bb87a48e3660.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1af29f47a6ce8296c7fb0f4021b35997df.html">Function SPLINE_delete</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1af29f47a6ce8296c7fb0f4021b35997df.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a60354e5e10bea276df88937a859e36a4.html">Function SPLINE_eval</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a60354e5e10bea276df88937a859e36a4.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a5eb493ea98ed5f24685c240c5bcfb390.html">Function SPLINE_eval_D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a5eb493ea98ed5f24685c240c5bcfb390.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1aa9a0988e747d636bd7a48b7dfb2b697e.html">Function SPLINE_eval_DD</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1aa9a0988e747d636bd7a48b7dfb2b697e.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a9352cde120110961745d3cd48d67de8f.html">Function SPLINE_eval_DDD</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a9352cde120110961745d3cd48d67de8f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a91da53c00f32c7e4f4aeaf8cdc8c4f70.html">Function SPLINE_eval_DDDD</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a91da53c00f32c7e4f4aeaf8cdc8c4f70.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1ac15f1700b8ccf2d2e5266992cf38c132.html">Function SPLINE_eval_DDDDD</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1ac15f1700b8ccf2d2e5266992cf38c132.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a9b683ceadd58baaadaa58ca28268360a.html">Function SPLINE_get_type_name</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a9b683ceadd58baaadaa58ca28268360a.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a8cd7b632a4eb70a3464d02cb31c74709.html">Function SPLINE_init</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a8cd7b632a4eb70a3464d02cb31c74709.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1ab920995b11229ff331fcaaee2eeefc97.html">Function SPLINE_mem_ptr</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1ab920995b11229ff331fcaaee2eeefc97.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1acdd57564fa775755a38daf483ffdf0e8.html">Function SPLINE_new</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1acdd57564fa775755a38daf483ffdf0e8.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1aba9ab3ef53dc9452a0155168b80b499a.html">Function SPLINE_print</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1aba9ab3ef53dc9452a0155168b80b499a.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a42401ba59200b4447ddf50065bc54e19.html">Function SPLINE_push</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a42401ba59200b4447ddf50065bc54e19.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/function_a00020_1a5781fa56546770ce18340a2b63b57b27.html">Function SPLINE_select</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/function_a00020_1a5781fa56546770ce18340a2b63b57b27.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-c/root.html#defines">Defines</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-c/define_a00020_1ade8086f0fd9d3bd49264ebd0bd5b6cdc.html">Define SPLINES_C_INTERFACE_H</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-c/define_a00020_1ade8086f0fd9d3bd49264ebd0bd5b6cdc.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="api-matlab/root.html">MATLAB API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api-matlab/root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-matlab/root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2">
+<a class="reference internal" href="api-matlab/root.html#full-api">Full API</a><ul>
+<li class="toctree-l3">
+<a class="reference internal" href="api-matlab/root.html#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/class_a00041.html">Class BaseHermite</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-matlab/class_a00041.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-matlab/class_a00041.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/class_a00041.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/class_a00045.html">Class Spline1D</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-matlab/class_a00045.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-matlab/class_a00045.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/class_a00045.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/class_a00049.html">Class Spline2D</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-matlab/class_a00049.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-matlab/class_a00049.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/class_a00049.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/class_a00053.html">Class SplineSet</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-matlab/class_a00053.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-matlab/class_a00053.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/class_a00053.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/class_a00057.html">Class SplineVec</a><ul>
+<li class="toctree-l5">
+<a class="reference internal" href="api-matlab/class_a00057.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="api-matlab/class_a00057.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/class_a00057.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3">
+<a class="reference internal" href="api-matlab/root.html#functions">Functions</a><ul>
+<li class="toctree-l4">
+<a class="reference internal" href="api-matlab/function_a00023_1a3953e50080941768996abba326a949a7.html">Function save_png</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api-matlab/function_a00023_1a3953e50080941768996abba326a949a7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="license">
@@ -144,9 +757,9 @@
 <h3><a href="#">Table of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Splines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html">MATLAB Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html#c-interface">C++ Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html#id6">C Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-cpp/root.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-c/root.html">C API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-matlab/root.html">MATLAB API</a></li>
 </ul>
 </div>
         </div>
@@ -176,8 +789,11 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
           <a href="#" title="Table Of Contents"
-             >toc</a></li>
+             >toc</a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="readme.html" title="Splines"
              >next</a> &nbsp; &nbsp;</li>
@@ -190,7 +806,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Enrico Bertolazzi.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

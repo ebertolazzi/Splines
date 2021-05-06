@@ -42,7 +42,9 @@ namespace Splines {
 
   public:
 
+    //!
     //! spline constructor
+    //!
     Akima2Dspline( string const & name = "Spline" )
     : BiCubicSplineBase( name )
     {}

@@ -40,7 +40,9 @@ namespace Splines {
 
   #endif
 
+  //!
   //! Bessel spline class
+  //!
   class BesselSpline : public CubicSplineBase {
   public:
 
@@ -49,15 +51,21 @@ namespace Splines {
     using CubicSplineBase::reserve;
     #endif
 
+    //!
     //! spline constructor
+    //!
     BesselSpline( string const & name = "BesselSpline" )
     : CubicSplineBase( name )
     {}
 
+    //!
     //! spline destructor
+    //!
     ~BesselSpline() override {}
 
+    //!
     //! Return spline type (as number)
+    //!
     unsigned type() const override { return BESSEL_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------

@@ -30,6 +30,8 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   SplineSurf::~SplineSurf()
@@ -47,7 +49,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSurf::clear(void) {
+  SplineSurf::clear() {
     m_mem.free();
     m_nx = m_ny = 0;
     m_X = m_Y = m_Z = nullptr;
@@ -113,6 +115,8 @@ namespace Splines {
     m_Z_min = *std::min_element(m_Z,m_Z+m_nx*m_ny);
     makeSpline();
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //!
@@ -526,6 +530,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   SplineSurf::dump_data( ostream_type & s ) const {
     s << "X = [ " << m_X[0];
@@ -541,6 +547,8 @@ namespace Splines {
     }
     s << "\n];\n";
   }
+  
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

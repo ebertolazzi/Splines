@@ -1,4 +1,6 @@
+  %>
   %> MATLAB class wrapper for the underlying C++ class
+  %>
   classdef Spline1D < handle
   properties (SetAccess = private, Hidden = true)
     %> Handle to the underlying C++ class instance
@@ -14,9 +16,10 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     % build a spline given points and spline spline
     %>     obj = Spline1D( x, y, kind );
-    %>
-    %>     obj = Spline1D( x, y, yp ); % build Hermite type spline, not use kind
+    %>     % build Hermite type spline (do not use kind)
+    %>     obj = Spline1D( x, y, yp );
     %>
     %> \endrst
     %>
@@ -33,7 +36,6 @@
     %> | 'quintic'    | Quintic spline (\f$ C^3 \f$ function)                    |
     %>
     function self = Spline1D( kind, varargin )
-      %> kind [, t, pnts, subtype ]
       self.objectHandle = Spline1DMexWrapper( 'new', kind );
       if nargin > 1
         Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
@@ -63,22 +65,18 @@
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
-    %>
     %> Search the max and min values of `y` along the spline
     %> with the corresponding `x` position
     %>
-    %> \param[out] i_min_pos where is the minimum (interval)
-    %> \param[out] x_min_pos where is the minimum
-    %> \param[out] y_min     the minimum value
-    %> \param[out] i_max_pos where is the maximum (interval)
-    %> \param[out] x_max_pos where is the maximum
-    %> \param[out] y_min     the maximum value
+    %> - [out] i_min_pos where is the minimum (interval)
+    %> - [out] x_min_pos where is the minimum
+    %> - [out] y_min     the minimum value
+    %> - [out] i_max_pos where is the maximum (interval)
+    %> - [out] x_max_pos where is the maximum
+    %> - [out] y_max     the maximum value
     %>
-    %>
-    function [ i_min_pos, x_min_pos, y_min, ...
-               i_max_pos, x_max_pos, y_max] = eval_y_min_max( self )
-      [ i_min_pos, x_min_pos, y_min, i_max_pos x_max_pos, y_max] ...
-        = Spline1DMexWrapper( 'y_min_max', self.objectHandle );
+    function [ i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max] = eval_y_min_max( self )
+      [ i_min_pos, x_min_pos, y_min, i_max_pos x_max_pos, y_max] = Spline1DMexWrapper( 'y_min_max', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>

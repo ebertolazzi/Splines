@@ -56,16 +56,20 @@ namespace Splines {
     #endif
 
     //! 
-    //! Construct an empty spline of type ``AkimaSpline``
+    //! Construct an empty spline of type `AkimaSpline`
     //! 
     AkimaSpline( string const & name = "AkimaSpline" )
     : CubicSplineBase( name )
     {}
 
-    //! spline destructor
+    //!
+    //! Spline destructor.
+    //!
     ~AkimaSpline() override {}
 
-    //! Return spline type (as number)
+    //!
+    //! Return spline type (as number).
+    //!
     unsigned type() const override { return AKIMA_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------

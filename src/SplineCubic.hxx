@@ -63,7 +63,9 @@ namespace Splines {
 
   #endif
 
+  //!
   //! Cubic Spline Management Class
+  //!
   class CubicSpline : public CubicSplineBase {
   private:
     CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;

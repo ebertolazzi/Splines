@@ -30,7 +30,6 @@
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 namespace Splines {
 
@@ -74,7 +73,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  CubicSplineBase::clear(void) {
+  CubicSplineBase::clear() {
     if ( !m_external_alloc ) m_baseValue.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;
@@ -326,3 +325,5 @@ namespace Splines {
     }
   }
 }
+
+#endif

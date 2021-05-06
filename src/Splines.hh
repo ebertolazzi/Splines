@@ -37,20 +37,6 @@
 #include "SplinesConfig.hh"
 #include <fstream>
 
-//!
-//! \mainpage  Splines
-//! \author    Enrico Bertolazzi (enrico.bertolazzi@unitn.it), homepage: http://www.ing.unitn.it/~bertolaz
-//! \version   1.0.7
-//! \note      first release Jan 12, 1998
-//! \date      2020
-//! \copyright see License.txt.
-//! \par       Affiliation:
-//!            Department of Industrial Engineering<br>
-//!            University of Trento<br>
-//!            Via Sommarive 9, I -- 38123 Trento, Italy <br>
-//!            enrico.bertolazzi@unitn.it
-//! 
-
 namespace Splines {
 
   using std::vector;
@@ -163,9 +149,11 @@ namespace Splines {
   //!
   //! Convert polynomial defined using Hermite base
   //!
-  //! \f[ p(x) = p_0 h_0(t) + p_1 h_1(t) +
-  //!     p'_0 h_2(t) + p'_1 h_3(t) +
-  //!     p''_0 h_4(t) + p''_1 h_5(t) \f]
+  //! \f[
+  //! p(x) = p_0 h_0(t) + p_1 h_1(t) +
+  //! p'_0 h_2(t) + p'_1 h_3(t) +
+  //! p''_0 h_4(t) + p''_1 h_5(t)
+  //! \f]
   //!
   //! to standard form
   //!
@@ -255,7 +243,6 @@ namespace Splines {
   //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
   //! \param[out] t       vector of the computed nodes
   //!
-  //!
   void
   uniform(
     integer           dim,
@@ -273,7 +260,6 @@ namespace Splines {
   //! \param[in]  pnts    matrix whose columns are the points
   //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
   //! \param[out] t       vector of the computed nodes
-  //!
   //!
   void
   chordal(
@@ -294,7 +280,6 @@ namespace Splines {
   //! \param[in]  alpha   power factor
   //! \param[out] t       vector of the computed nodes
   //!
-  //!
   void
   centripetal(
     integer           dim,
@@ -314,7 +299,6 @@ namespace Splines {
   //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
   //! \param[out] t       vector of the computed nodes
   //!
-  //!
   void
   universal(
     integer           dim,
@@ -325,14 +309,13 @@ namespace Splines {
   );
 
   //!
-  //! Compute nodes for the spline using ``FoleyNielsen`` distribution
+  //! Compute nodes for the spline using `FoleyNielsen` distribution
   //!
   //! \param[in]  dim     dimension of the points
   //! \param[in]  npts    number of points
   //! \param[in]  pnts    matrix whose columns are the points
   //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
   //! \param[out] t       vector of the computed nodes
-  //!
   //!
   void
   FoleyNielsen(
@@ -344,14 +327,13 @@ namespace Splines {
   );
 
   //!
-  //! Compute nodes for the spline using ``FangHung`` distribution
+  //! Compute nodes for the spline using `FangHung` distribution
   //!
   //! \param[in]  dim     dimension of the points
   //! \param[in]  npts    number of points
   //! \param[in]  pnts    matrix whose columns are the points
   //! \param[in]  ld_pnts leading dimension of the matrix (fortran storage)
   //! \param[out] t       vector of the computed nodes
-  //!
   //!
   void
   FangHung(
@@ -370,7 +352,9 @@ namespace Splines {
    |  |____/| .__/|_|_|_| |_|\___|
    |        |_|
   \*/
+  //!
   //! Spline Management Class
+  //!
   class Spline {
     friend class SplineSet;
   protected:
@@ -422,13 +406,17 @@ namespace Splines {
 
     ///@}
 
-    //! find interval containing ``x`` using binary search.
+    //!
+    //! Find interval containing `x` using binary search.
+    //!
     integer search( real_type & x ) const;
 
     //! \name Open/Close
     ///@{
 
-    //! return the name of the spline used in the constructor
+    //!
+    //! Return the name of the spline used in the constructor
+    //!
     string const & name() const { return m_name; }
 
     bool is_closed() const { return m_curve_is_closed;  }
@@ -637,7 +625,7 @@ namespace Splines {
     void dropBack() { if ( m_npts > 0 ) --m_npts; }
 
     //!
-    //! Cancel the support points, empty the spline.
+    //! Delete the support points, empty the spline.
     //!
     virtual void clear() = 0;
 
@@ -835,7 +823,9 @@ namespace Splines {
    |   \____\__,_|_.__/|_|\___| |____/| .__/|_|_|_| |_|\___| |____/ \__,_|___/\___|
    |                                  |_|
   \*/
+  //!
   //! cubic spline base class
+  //!
   class CubicSplineBase : public Spline {
   protected:
     Utils::Malloc<real_type> m_baseValue;
@@ -849,7 +839,9 @@ namespace Splines {
     using Spline::build;
     #endif
 
-    //! spline constructor
+    //!
+    //! Spline constructor.
+    //!
     CubicSplineBase( string const & name = "CubicSplineBase" )
     : Spline(name)
     , m_baseValue(name+"_memory")
@@ -862,16 +854,22 @@ namespace Splines {
     void
     copySpline( CubicSplineBase const & S );
 
-    //! return the i-th node of the spline (y' component).
+    //!
+    //! Return the i-th node of the spline (y' component).
+    //!
     real_type
     ypNode( integer i ) const
     { return m_Yp[size_t(i)]; }
 
-    //! change X-range of the spline
+    //!
+    //! Change X-range of the spline.
+    //!
     void
     setRange( real_type xmin, real_type xmax );
 
-    //! Use externally allocated memory for `npts` points
+    //!
+    //! Use externally allocated memory for `npts` points.
+    //!
     void
     reserve_external(
       integer       n,
@@ -959,10 +957,8 @@ namespace Splines {
       vector<real_type> const & yp
     );
 
-    //! Cancel the support points, empty the spline.
     void clear() override;
 
-    //! get the piecewise polinomials of the spline
     integer // order
     coeffs(
       real_type * const cfs,
@@ -982,7 +978,10 @@ namespace Splines {
    |  |____/| .__/|_|_|_| |_|\___|____/ \__,_|_|  |_|
    |        |_|
   \*/
+
+  //!
   //! Spline Management Class
+  //!
   class SplineSurf {
 
     SplineSurf( SplineSurf const & ) = delete; // block copy constructor
@@ -1033,11 +1032,20 @@ namespace Splines {
     { return this->ipos_F(i,j,m_nx); }
 
     virtual void makeSpline() = 0;
-    void load_Z( real_type const * z, integer ldZ, bool fortran_storage, bool transposed );
+
+    void
+    load_Z(
+      real_type const * z,
+      integer           ldZ,
+      bool              fortran_storage,
+      bool              transposed
+    );
 
   public:
 
-    //! spline constructor
+    //!
+    //! Spline constructor
+    //!
     SplineSurf( string const & name = "Spline" )
     : m_mem("SplineSurf")
     , m_name(name)
@@ -1057,88 +1065,138 @@ namespace Splines {
       this->initLastInterval_y();
     }
 
-    //! spline destructor
+    //!
+    //! Spline destructor
+    //!
     virtual
     ~SplineSurf();
 
-    //! true if the surface is assumed closed in the `x` direction
+    //!
+    //! Return `true` if the surface is assumed closed in the `x` direction.
+    //!
     bool is_x_closed() const { return m_x_closed; }
 
-    //! setup the surface as closed in the `x` direction
+    //!
+    //! Setup the surface as closed in the `x` direction.
+    //!
     void make_x_closed() { m_x_closed = true; }
 
-    //! setup the surface as open in the `x` direction
+    //!
+    //! Setup the surface as open in the `x` direction.
+    //!
     void make_x_opened() { m_x_closed = false; }
 
-    //! true if the surface is assumed closed in the `y` direction
+    //!
+    //! Return `true` if the surface is assumed closed in the `y` direction.
+    //!
     bool is_y_closed() const { return m_y_closed; }
 
-    //! setup the surface as closed in the `y` direction
+    //!
+    //! Setup the surface as closed in the `y` direction.
+    //!
     void make_y_closed() { m_y_closed = true; }
 
-    //! setup the surface as open in the `y` direction
+    //!
+    //! Setup the surface as open in the `y` direction.
+    //!
     void make_y_opened() { m_y_closed = false; }
 
     //! 
-    //! return true if the parameter `x` assumed bounded.
+    //! Return `true` if the parameter `x` assumed bounded.
     //! If false the spline is estrapolated for `x` values
     //! outside the range.
     //! 
     bool is_x_bounded() const { return m_x_can_extend; }
-    //! make the spline surface unbounded in the `x` direction
+
+    //!
+    //! Make the spline surface unbounded in the `x` direction.
+    //!
     void make_x_unbounded() { m_x_can_extend = true; }
-    //! make the spline surface bounded in the `x` direction
+
+    //!
+    //! Make the spline surface bounded in the `x` direction.
+    //!
     void make_x_bounded() { m_x_can_extend = false; }
 
     //! 
-    //! return true if the parameter `y` assumed bounded.
+    //! Return `true` if the parameter `y` assumed bounded.
     //! If false the spline is extrapolated for `y` values
     //! outside the range.
     //! 
     bool is_y_bounded() const { return m_y_can_extend; }
-    //! make the spline surface unbounded in the `y` direction
+
+    //!
+    //! Make the spline surface unbounded in the `y` direction
+    //!
     void make_y_unbounded() { m_y_can_extend = true; }
-    //! make the spline surface bounded in the `x` direction
+
+    //!
+    //! Make the spline surface bounded in the `x` direction.
+    //!
     void make_y_bounded() { m_y_can_extend = false; }
 
     string const & name() const { return m_name; }
 
+    //!
     //! Cancel the support points, empty the spline.
+    //!
     void clear();
 
-    //! return the number of support points of the spline along x direction
+    //!
+    //! Return the number of support points of the spline along x direction.
+    //!
     integer numPointX() const { return m_nx; }
 
-    //! return the number of support points of the spline along y direction
+    //!
+    //! Return the number of support points of the spline along y direction.
+    //!
     integer numPointY() const { return m_ny; }
 
-    //! return the i-th node of the spline (x component).
+    //!
+    //! Return the i-th node of the spline (x component).
+    //!
     real_type xNode( integer i ) const { return m_X[size_t(i)]; }
 
-    //! return the i-th node of the spline (y component).
+    //!
+    //! Return the i-th node of the spline (y component).
+    //!
     real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
 
-    //! return the i-th node of the spline (y component).
+    //!
+    //! Return the i-th node of the spline (y component).
+    //!
     real_type
     zNode( integer i, integer j ) const
     { return m_Z[size_t(this->ipos_C(i,j))]; }
 
-    //! return x-minumum spline value
+    //!
+    //! Return x-minumum spline value.
+    //!
     real_type xMin() const { return m_X[0]; }
 
-    //! return x-maximum spline value
+    //!
+    //! Return x-maximum spline value.
+    //!
     real_type xMax() const { return m_X[m_nx-1]; }
 
-    //! return y-minumum spline value
+    //!
+    //! Return y-minumum spline value.
+    //!
     real_type yMin() const { return m_Y[0]; }
 
-    //! return y-maximum spline value
+    //!
+    //! Return y-maximum spline value.
+    //!
     real_type yMax() const { return m_Y[m_ny-1]; }
 
-    //! return z-minumum spline value
+    //!
+    //! Return z-minumum spline value.
+    //!
     real_type zMin() const { return m_Z_min; }
 
-    //! return z-maximum spline value
+    //!
+    //! Return z-maximum spline value.
+    //!
     real_type zMax() const { return m_Z_max; }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -1152,12 +1210,13 @@ namespace Splines {
       bool transposed      = false
     );
 
-    //!  Build surface spline
     //!
-    //! \param x       vector of x-coordinates, nx = x.size()
-    //! \param y       vector of y-coordinates, ny = y.size()
-    //! \param z       matrix of z-values. Elements are stored
-    //!                by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! Build surface spline
+    //!
+    //! \param x               vector of x-coordinates, nx = x.size()
+    //! \param y               vector of y-coordinates, ny = y.size()
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
     //! \param fortran_storage if true elements are stored by column
     //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
     //! \param transposed      if true matrix Z is stored transposed
@@ -1222,13 +1281,15 @@ namespace Splines {
     build( GenericContainer const & gc )
     { setup(gc); }
 
-    //! Evaluate spline value at point \f$ (x,y) \f$
+    //!
+    //! Evaluate spline value at point \f$ (x,y) \f$.
+    //!
     virtual
     real_type
     operator () ( real_type x, real_type y ) const = 0;
 
     //!
-    //! value and first derivatives at point \f$ (x,y) \f$
+    //! Value and first derivatives at point \f$ (x,y) \f$:
     //!
     //! - d[0] value of the spline \f$ S(x,y) \f$
     //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
@@ -1239,23 +1300,23 @@ namespace Splines {
     D( real_type x, real_type y, real_type d[3] ) const = 0;
 
     //!
-    //! first derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
-    //! of the spline: \f$ S_x(x,y) \f$
+    //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$.
     //!
     virtual
     real_type
     Dx( real_type x, real_type y ) const = 0;
 
     //!
-    //! first derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
-    //! of the spline: \f$ S_y(x,y) \f$
+    //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_y(x,y) \f$.
     //!
     virtual
     real_type
     Dy( real_type x, real_type y ) const = 0;
 
     //!
-    //! value, first and second derivatives at point \f$ (x,y) \f$
+    //! Value, first and second derivatives at point \f$ (x,y) \f$:
     //!
     //! - dd[0] value of the spline \f$ S(x,y) \f$
     //! - dd[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
@@ -1269,73 +1330,95 @@ namespace Splines {
     DD( real_type x, real_type y, real_type dd[6] ) const = 0;
 
     //!
-    //! second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
-    //! of the spline: \f$ S_{xx}(x,y) \f$
+    //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
     virtual
     real_type
     Dxx( real_type x, real_type y ) const = 0;
 
     //!
-    //! mixed second derivatives: \f$ S_{xy}(x,y) \f$
+    //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
     virtual
     real_type
     Dxy( real_type x, real_type y ) const = 0;
 
     //!
-    //! second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
-    //! of the spline: \f$ S_{yy}(x,y) \f$
+    //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{yy}(x,y) \f$.
     //!
     virtual
     real_type
     Dyy( real_type x, real_type y ) const = 0;
 
-    //! Evaluate spline value at point \f$ (x,y) \f$
+    //!
+    //! Evaluate spline value at point \f$ (x,y) \f$.
+    //!
     real_type
     eval( real_type x, real_type y ) const
     { return (*this)(x,y); }
 
-    //! Alias for ``Dx(x,y)``
+    //!
+    //! Alias for `Dx(x,y)`
+    //!
     real_type
     eval_D_1( real_type x, real_type y ) const
     { return this->Dx(x,y); }
 
-    //! Alias for ``Dy(x,y)``
+    //!
+    //! Alias for `Dy(x,y)`
+    //!
     real_type
     eval_D_2( real_type x, real_type y ) const
     { return this->Dy(x,y); }
 
-    //! Alias for ``Dxx(x,y)``
+    //!
+    //! Alias for `Dxx(x,y)`
+    //!
     real_type
     eval_D_1_1( real_type x, real_type y ) const
     { return this->Dxx(x,y); }
 
-    //! Alias for ``Dxy(x,y)``
+    //!
+    //! Alias for `Dxy(x,y)`
+    //!
     real_type
     eval_D_1_2( real_type x, real_type y ) const
     { return this->Dxy(x,y); }
 
-    //! Alias for ``Dyy(x,y)``
+    //!
+    //! Alias for `Dyy(x,y)`
+    //!
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return this->Dyy(x,y); }
 
-    //! Print spline coefficients
+    //!
+    //! Print spline coefficients.
+    //!
     virtual void writeToStream( ostream_type & s ) const = 0;
 
-    //! Return spline type as a string pointer
+    //!
+    //! Return spline type as a string pointer.
+    //!
     virtual char const * type_name() const = 0;
 
-    //! return a string with information about the spline.
+    //!
+    //! Return a string with information about the spline.
+    //!
     virtual string info() const;
 
+    //!
     //! write a string with information about the spline.
+    //!
     void
     info( ostream_type & stream ) const
     { stream << this->info() << '\n'; }
 
-    //! Print stored data x, y, and matrix z
+    //!
+    //! Print stored data x, y, and matrix z.
+    //!
     void dump_data( ostream_type & s ) const;
 
   };

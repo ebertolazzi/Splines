@@ -74,16 +74,10 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Allocate memory for `npts` points
     void reserve( integer npts ) override;
-
-    //! added for compatibility with cubic splines
     void build() override {}
-
-    //! Cancel the support points, empty the spline.
     void clear() override;
 
-    //! get the piecewise polinomials of the spline
     integer // order
     coeffs(
       real_type * const cfs,

@@ -28,7 +28,9 @@
 
 namespace Splines {
 
+  //!
   //! Bi-quintic spline base class
+  //!
   class Spline2D {
   protected:
     std::string  m_name;
@@ -59,65 +61,107 @@ namespace Splines {
 
     ///@}
 
-    //! true if the surface is assumed closed in the `x` direction
+    //!
+    //! Return `true` if the surface is assumed closed in the `x` direction
+    //!
     bool is_x_closed() const { return m_spline_2D->is_x_closed(); }
-    //! setup the surface as closed in the `x` direction
+
+    //!
+    //! Setup the surface as closed in the `x` direction.
+    //!
     void make_x_closed() { m_spline_2D->make_x_closed(); }
-    //! setup the surface as open in the `x` direction
+
+    //!
+    //! Setup the surface as open in the `x` direction.
+    //!
     void make_x_opened() { m_spline_2D->make_x_opened(); }
 
-    //! true if the surface is assumed closed in the `y` direction
+    //!
+    //! Return `true` if the surface is assumed closed in the `y` direction.
+    //!
     bool is_y_closed() const { return m_spline_2D->is_y_closed(); }
-    //! setup the surface as closed in the `y` direction
+
+    //!
+    //! Setup the surface as closed in the `y` direction.
+    //!
     void make_y_closed() { m_spline_2D->make_y_closed(); }
-    //! setup the surface as open in the `y` direction
+
+    //!
+    //! Setup the surface as open in the `y` direction.
+    //!
     void make_y_opened() { m_spline_2D->make_y_opened(); }
 
     //! 
-    //! return true if the parameter `x` assumed bounded.
+    //! Return `true` if the parameter `x` assumed bounded.
     //! If false the spline is estrapolated for `x` values
     //! outside the range.
     //! 
     bool is_x_bounded() const { return m_spline_2D->is_x_bounded(); }
-    //! make the spline surface unbounded in the `x` direction
+
+    //!
+    //! Make the spline surface unbounded in the `x` direction.
+    //!
     void make_x_unbounded() { m_spline_2D->make_x_unbounded(); }
-    //! make the spline surface bounded in the `x` direction
+
+    //!
+    //! Make the spline surface bounded in the `x` direction.
+    //!
     void make_x_bounded() { m_spline_2D->make_x_bounded(); }
 
     //! 
-    //! return true if the parameter `y` assumed bounded.
+    //! Return `true` if the parameter `y` assumed bounded.
     //! If false the spline is estrapolated for `y` values
     //! outside the range.
     //! 
     bool is_y_bounded() const { return m_spline_2D->is_y_bounded(); }
-    //! make the spline surface unbounded in the `y` direction
+
+    //!
+    //! Make the spline surface unbounded in the `y` direction
+    //!
     void make_y_unbounded() { m_spline_2D->make_y_unbounded(); }
-    //! make the spline surface bounded in the `y` direction
+
+    //!
+    //! Make the spline surface bounded in the `y` direction
+    //!
     void make_y_bounded() { m_spline_2D->make_y_bounded(); }
 
-    //! return the name of the spline surface assigned if was constructed
+    //!
+    //! Return the name of the spline surface assigned if was constructed.
+    //!
     string const & name() const { return m_spline_2D->name(); }
 
+    //!
     //! Cancel the support points, empty the spline.
+    //!
     void clear() { m_spline_2D->clear(); }
 
-    //! return the number of support points of the spline along x direction
+    //!
+    //! Return the number of support points of the spline along x direction.
+    //!
     integer
     numPointX() const { return m_spline_2D->numPointX(); }
 
-    //! return the number of support points of the spline along y direction
+    //!
+    //! Return the number of support points of the spline along y direction.
+    //!
     integer
     numPointY() const { return m_spline_2D->numPointY(); }
 
-    //! return the i-th node of the spline (x component).
+    //!
+    //! Return the i-th node of the spline (x component).
+    //!
     real_type
     xNode( integer i ) const { return m_spline_2D->xNode(i); }
 
-    //! return the i-th node of the spline (y component).
+    //!
+    //! Return the i-th node of the spline (y component).
+    //!
     real_type
     yNode( integer i ) const { return m_spline_2D->yNode(i); }
 
-    //! return the i-th node of the spline (y component).
+    //!
+    //! Return the i-th node of the spline (y component).
+    //!
     real_type
     zNode( integer i, integer j ) const { return m_spline_2D->zNode(i,j); }
 
@@ -126,22 +170,34 @@ namespace Splines {
     //!
     ///@{
 
-    //! return x-minumum spline value
+    //!
+    //! Return x-minumum spline value.
+    //!
     real_type xMin() const { return m_spline_2D->xMin(); }
 
-    //! return x-maximum spline value
+    //!
+    //! Return x-maximum spline value.
+    //!
     real_type xMax() const { return m_spline_2D->xMax(); }
 
-    //! return y-minumum spline value
+    //!
+    //! Return y-minumum spline value.
+    //!
     real_type yMin() const { return m_spline_2D->yMin(); }
 
-    //! return y-maximum spline value
+    //!
+    //! Return y-maximum spline value
+    //!
     real_type yMax() const { return m_spline_2D->yMax(); }
 
-    //! return z-minumum spline value
+    //!
+    //! Return z-minumum spline value
+    //!
     real_type zMin() const { return m_spline_2D->zMin(); }
 
-    //! return z-maximum spline value
+    //!
+    //! Return z-maximum spline value
+    //!
     real_type zMax() const { return m_spline_2D->zMax(); }
 
     ///@}
@@ -281,12 +337,24 @@ namespace Splines {
     //!
     ///@{
 
-    //! Evaluate spline value
+    //!
+    //! Evaluate spline value at `(x,y)`.
+    //!
     real_type
     operator () ( real_type x, real_type y ) const
     { return (*m_spline_2D)( x, y ); }
 
-    //! First derivative
+    //!
+    //! Evaluate spline value at `(x,y)`.
+    //!
+    real_type
+    eval( real_type x, real_type y ) const
+    { return (*this)(x,y); }
+
+    ///@}
+
+    //! \name First derivatives:
+    ///@{
     void
     D( real_type x, real_type y, real_type d[3] ) const
     { return m_spline_2D->D( x, y, d ); }
@@ -299,7 +367,18 @@ namespace Splines {
     Dy( real_type x, real_type y ) const
     { return m_spline_2D->Dy( x, y ); }
 
-    //! Second derivative
+    real_type
+    eval_D_1( real_type x, real_type y ) const
+    { return this->Dx(x,y); }
+
+    real_type
+    eval_D_2( real_type x, real_type y ) const
+    { return this->Dy(x,y); }
+
+    ///@}
+
+    //! \name Second derivatives:
+    ///@{
     void
     DD( real_type x, real_type y, real_type dd[6] ) const
     { return m_spline_2D->DD( x, y, dd ); }
@@ -316,21 +395,6 @@ namespace Splines {
     Dyy( real_type x, real_type y ) const
     { return m_spline_2D->Dyy( x, y ); }
 
-    //! Evaluate spline value
-    real_type
-    eval( real_type x, real_type y ) const
-    { return (*this)(x,y); }
-
-    //! First derivative
-    real_type
-    eval_D_1( real_type x, real_type y ) const
-    { return this->Dx(x,y); }
-
-    real_type
-    eval_D_2( real_type x, real_type y ) const
-    { return this->Dy(x,y); }
-
-    //! Second derivative
     real_type
     eval_D_1_1( real_type x, real_type y ) const
     { return this->Dxx(x,y); }
@@ -342,15 +406,18 @@ namespace Splines {
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return this->Dyy(x,y); }
-
     ///@}
 
-    //! Print spline coefficients
+    //!
+    //! Print spline coefficients.
+    //!
     void
     writeToStream( ostream_type & s ) const
     { return m_spline_2D->writeToStream( s ); }
 
+    //!
     //! Return spline typename
+    //!
     char const * type_name() const { return m_spline_2D->type_name(); }
 
     string

@@ -1,0 +1,1069 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C++ API &#8212; Splines v1.0.9
+</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace Splines" href="namespace_Splines.html" />
+    <link rel="prev" title="Splines" href="../readme.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="namespace_Splines.html" title="Namespace Splines"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../readme.html" title="Splines"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">C++ API</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="c-api">
+<h1>C++ API<a class="headerlink" href="#c-api" title="Permalink to this headline">¶</a>
+</h1>
+<div class="section" id="class-hierarchy">
+<h2>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="treeView" id="class-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li class="lastChild">Namespace <a href="namespace_Splines.html#namespace-Splines">Splines</a><ul>
+<li>Class <a href="class_a00151.html#exhale-class-a00151">Akima2Dspline</a>
+</li>
+<li>Class <a href="class_a00147.html#exhale-class-a00147">AkimaSpline</a>
+</li>
+<li>Class <a href="class_a00155.html#exhale-class-a00155">BesselSpline</a>
+</li>
+<li>Class <a href="class_a00163.html#exhale-class-a00163">BiCubicSpline</a>
+</li>
+<li>Class <a href="class_a00159.html#exhale-class-a00159">BiCubicSplineBase</a>
+</li>
+<li>Class <a href="class_a00167.html#exhale-class-a00167">BilinearSpline</a>
+</li>
+<li>Class <a href="class_a00175.html#exhale-class-a00175">BiQuinticSpline</a>
+</li>
+<li>Class <a href="class_a00171.html#exhale-class-a00171">BiQuinticSplineBase</a>
+</li>
+<li>Class <a href="class_a00179.html#exhale-class-a00179">ConstantSpline</a>
+</li>
+<li>Class <a href="class_a00183.html#exhale-class-a00183">CubicSpline</a>
+</li>
+<li>Class <a href="class_a00211.html#exhale-class-a00211">CubicSplineBase</a>
+</li>
+<li>Class <a href="class_a00187.html#exhale-class-a00187">HermiteSpline</a>
+</li>
+<li>Class <a href="class_a00191.html#exhale-class-a00191">LinearSpline</a>
+</li>
+<li>Class <a href="class_a00195.html#exhale-class-a00195">PchipSpline</a>
+</li>
+<li>Class <a href="class_a00199.html#exhale-class-a00199">QuinticSpline</a>
+</li>
+<li>Class <a href="class_a00203.html#exhale-class-a00203">QuinticSplineBase</a>
+</li>
+<li>Class <a href="class_a00207.html#exhale-class-a00207">Spline</a>
+</li>
+<li>Class <a href="class_a00219.html#exhale-class-a00219">Spline1D</a>
+</li>
+<li>Class <a href="class_a00223.html#exhale-class-a00223">Spline2D</a>
+</li>
+<li>Class <a href="class_a00227.html#exhale-class-a00227">SplineSet</a><ul><li class="lastChild">Class <a href="class_a00231.html#exhale-class-a00231">SplineSet::BinarySearch</a>
+</li></ul>
+</li>
+<li>Class <a href="class_a00215.html#exhale-class-a00215">SplineSurf</a>
+</li>
+<li>Class <a href="class_a00235.html#exhale-class-a00235">SplineVec</a>
+</li>
+<li>Enum <a href="enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html#exhale-enum-a00143-1a96aa14ec624ad77d84a7e5afa435c1ed">CUBIC_SPLINE_TYPE_BC</a>
+</li>
+<li>Enum <a href="enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html#exhale-enum-a00143-1afc8c082d2849822ca15bdf52cb4409fb">QUINTIC_SPLINE_TYPE</a>
+</li>
+<li>Enum <a href="enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html#exhale-enum-a00143-1a1678db4e652dc21a5a18803b3847eabe">REGION_ABCDEM</a>
+</li>
+<li>Enum <a href="enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html#exhale-enum-a00143-1afebc3f20f002ddfdcbd2d725d1aa55df">SplineType1D</a>
+</li>
+<li class="lastChild">Enum <a href="enum_a00143_1aa6410df8c515cad4d238820f523fead7.html#exhale-enum-a00143-1aa6410df8c515cad4d238820f523fead7">SplineType2D</a>
+</li>
+</ul>
+</li>
+    </ul>
+  </li>
+<!-- only tree view element -->
+</ul>
+<!-- /treeView class-treeView -->
+</div>
+<div class="section" id="file-hierarchy">
+<h2>File Hierarchy<a class="headerlink" href="#file-hierarchy" title="Permalink to this headline">¶</a>
+</h2>
+<ul class="treeView" id="file-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li>File <a href="file_SplineAkima.cc.html#file-SplineAkima.cc">SplineAkima.cc</a>
+</li>
+<li>File <a href="file_SplineAkima.hxx.html#file-SplineAkima.hxx">SplineAkima.hxx</a>
+</li>
+<li>File <a href="file_SplineAkima2D.cc.html#file-SplineAkima2D.cc">SplineAkima2D.cc</a>
+</li>
+<li>File <a href="file_SplineAkima2D.hxx.html#file-SplineAkima2D.hxx">SplineAkima2D.hxx</a>
+</li>
+<li>File <a href="file_SplineBessel.cc.html#file-SplineBessel.cc">SplineBessel.cc</a>
+</li>
+<li>File <a href="file_SplineBessel.hxx.html#file-SplineBessel.hxx">SplineBessel.hxx</a>
+</li>
+<li>File <a href="file_SplineBiCubic.cc.html#file-SplineBiCubic.cc">SplineBiCubic.cc</a>
+</li>
+<li>File <a href="file_SplineBiCubic.hxx.html#file-SplineBiCubic.hxx">SplineBiCubic.hxx</a>
+</li>
+<li>File <a href="file_SplineBilinear.cc.html#file-SplineBilinear.cc">SplineBilinear.cc</a>
+</li>
+<li>File <a href="file_SplineBilinear.hxx.html#file-SplineBilinear.hxx">SplineBilinear.hxx</a>
+</li>
+<li>File <a href="file_SplineBiQuintic.cc.html#file-SplineBiQuintic.cc">SplineBiQuintic.cc</a>
+</li>
+<li>File <a href="file_SplineBiQuintic.hxx.html#file-SplineBiQuintic.hxx">SplineBiQuintic.hxx</a>
+</li>
+<li>File <a href="file_SplineConstant.cc.html#file-SplineConstant.cc">SplineConstant.cc</a>
+</li>
+<li>File <a href="file_SplineConstant.hxx.html#file-SplineConstant.hxx">SplineConstant.hxx</a>
+</li>
+<li>File <a href="file_SplineCubic.cc.html#file-SplineCubic.cc">SplineCubic.cc</a>
+</li>
+<li>File <a href="file_SplineCubic.hxx.html#file-SplineCubic.hxx">SplineCubic.hxx</a>
+</li>
+<li>File <a href="file_SplineCubicBase.cc.html#file-SplineCubicBase.cc">SplineCubicBase.cc</a>
+</li>
+<li>File <a href="file_SplineHermite.cc.html#file-SplineHermite.cc">SplineHermite.cc</a>
+</li>
+<li>File <a href="file_SplineHermite.hxx.html#file-SplineHermite.hxx">SplineHermite.hxx</a>
+</li>
+<li>File <a href="file_SplineLinear.cc.html#file-SplineLinear.cc">SplineLinear.cc</a>
+</li>
+<li>File <a href="file_SplineLinear.hxx.html#file-SplineLinear.hxx">SplineLinear.hxx</a>
+</li>
+<li>File <a href="file_SplinePchip.cc.html#file-SplinePchip.cc">SplinePchip.cc</a>
+</li>
+<li>File <a href="file_SplinePchip.hxx.html#file-SplinePchip.hxx">SplinePchip.hxx</a>
+</li>
+<li>File <a href="file_SplineQuintic.cc.html#file-SplineQuintic.cc">SplineQuintic.cc</a>
+</li>
+<li>File <a href="file_SplineQuintic.hxx.html#file-SplineQuintic.hxx">SplineQuintic.hxx</a>
+</li>
+<li>File <a href="file_SplineQuinticBase.cc.html#file-SplineQuinticBase.cc">SplineQuinticBase.cc</a>
+</li>
+<li>File <a href="file_SplineQuinticBase.hxx.html#file-SplineQuinticBase.hxx">SplineQuinticBase.hxx</a>
+</li>
+<li>File <a href="file_Splines.cc.html#file-Splines.cc">Splines.cc</a>
+</li>
+<li>File <a href="file_Splines.hh.html#file-Splines.hh">Splines.hh</a>
+</li>
+<li>File <a href="file_Splines1D.cc.html#file-Splines1D.cc">Splines1D.cc</a>
+</li>
+<li>File <a href="file_Splines1D.hxx.html#file-Splines1D.hxx">Splines1D.hxx</a>
+</li>
+<li>File <a href="file_Splines2D.cc.html#file-Splines2D.cc">Splines2D.cc</a>
+</li>
+<li>File <a href="file_Splines2D.hxx.html#file-Splines2D.hxx">Splines2D.hxx</a>
+</li>
+<li>File <a href="file_SplinesBivariate.cc.html#file-SplinesBivariate.cc">SplinesBivariate.cc</a>
+</li>
+<li>File <a href="file_SplinesConfig.hh.html#file-SplinesConfig.hh">SplinesConfig.hh</a>
+</li>
+<li>File <a href="file_SplineSet.cc.html#file-SplineSet.cc">SplineSet.cc</a>
+</li>
+<li>File <a href="file_SplineSet.hxx.html#file-SplineSet.hxx">SplineSet.hxx</a>
+</li>
+<li>File <a href="file_SplineSetGC.cc.html#file-SplineSetGC.cc">SplineSetGC.cc</a>
+</li>
+<li>File <a href="file_SplinesUtils.cc.html#file-SplinesUtils.cc">SplinesUtils.cc</a>
+</li>
+<li>File <a href="file_SplinesUtils.hh.html#file-SplinesUtils.hh">SplinesUtils.hh</a>
+</li>
+<li>File <a href="file_SplineVec.cc.html#file-SplineVec.cc">SplineVec.cc</a>
+</li>
+<li class="lastChild">File <a href="file_SplineVec.hxx.html#file-SplineVec.hxx">SplineVec.hxx</a>
+</li>
+    </ul>
+  </li>
+<!-- only tree view element -->
+</ul>
+<!-- /treeView file-treeView -->
+</div>
+<div class="section" id="full-api">
+<h2>Full API<a class="headerlink" href="#full-api" title="Permalink to this headline">¶</a>
+</h2>
+<div class="section" id="namespaces">
+<h3>Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="namespace_Splines.html">Namespace Splines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Splines.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Splines.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Splines.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Splines.html#typedefs">Typedefs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_Splines.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="classes-and-structs">
+<h3>Classes and Structs<a class="headerlink" href="#classes-and-structs" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00151.html">Class Akima2Dspline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00151.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00151.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00151.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00147.html">Class AkimaSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00147.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00147.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00147.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00155.html">Class BesselSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00155.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00155.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00155.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00163.html">Class BiCubicSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00163.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00163.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00163.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00159.html">Class BiCubicSplineBase</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00159.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00159.html#base-type">Base Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class_a00159.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00159.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00167.html">Class BilinearSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00167.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00167.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00167.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00175.html">Class BiQuinticSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00175.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00175.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00175.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00171.html">Class BiQuinticSplineBase</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00171.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00171.html#base-type">Base Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class_a00171.html#derived-type">Derived Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00171.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00179.html">Class ConstantSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00179.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00179.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00179.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00183.html">Class CubicSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00183.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00183.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00183.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00211.html">Class CubicSplineBase</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00211.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00211.html#base-type">Base Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class_a00211.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00211.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00187.html">Class HermiteSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00187.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00187.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00187.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00191.html">Class LinearSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00191.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00191.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00191.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00195.html">Class PchipSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00195.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00195.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00195.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00199.html">Class QuinticSpline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00199.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00199.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00199.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00203.html">Class QuinticSplineBase</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00203.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00203.html#base-type">Base Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class_a00203.html#derived-type">Derived Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00203.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00207.html">Class Spline</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00207.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00207.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00207.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00219.html">Class Spline1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_a00219.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00223.html">Class Spline2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_a00223.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00227.html">Class SplineSet</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00227.html#nested-relationships">Nested Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00227.html#nested-types">Nested Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00227.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00231.html">Class SplineSet::BinarySearch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_a00231.html#nested-relationships">Nested Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00231.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00215.html">Class SplineSurf</a><ul>
+<li class="toctree-l2">
+<a class="reference internal" href="class_a00215.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="class_a00215.html#derived-types">Derived Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="class_a00215.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="class_a00235.html">Class SplineVec</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_a00235.html#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="enums">
+<h3>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html">Enum CUBIC_SPLINE_TYPE_BC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html">Enum QUINTIC_SPLINE_TYPE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html">Enum REGION_ABCDEM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html">Enum SplineType1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="enum_a00143_1aa6410df8c515cad4d238820f523fead7.html">Enum SplineType2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum_a00143_1aa6410df8c515cad4d238820f523fead7.html#enum-documentation">Enum Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1aeb6c86ca718705bd71ad29b32c3f6d03.html">Function Splines::backtrace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1aeb6c86ca718705bd71ad29b32c3f6d03.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a228f7065a249b0c10a9886fdc85f05f9.html">Function Splines::centripetal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a228f7065a249b0c10a9886fdc85f05f9.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a4a9fd3c1d8de964d95d730668e6b6016.html">Function Splines::checkCubicSplineMonotonicity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a4a9fd3c1d8de964d95d730668e6b6016.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1aef9996b8a86809bcb1609ed9bab5cea2.html">Function Splines::chordal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1aef9996b8a86809bcb1609ed9bab5cea2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a94d2862da920a586358451ce3b3bcb41.html">Function Splines::curvature</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a94d2862da920a586358451ce3b3bcb41.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ad1cb03ee7c6c9f13f93df88d7612e26e.html">Function Splines::curvature_D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ad1cb03ee7c6c9f13f93df88d7612e26e.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a62d87177bbdb8da9a92701e528c57f00.html">Function Splines::curvature_DD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a62d87177bbdb8da9a92701e528c57f00.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1aeea9f9f28b21dbf93715fd27a7c7106c.html">Function Splines::FangHung</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1aeea9f9f28b21dbf93715fd27a7c7106c.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ac5930dd87f51e2577e79a2bdd746c6b2.html">Function Splines::FoleyNielsen</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ac5930dd87f51e2577e79a2bdd746c6b2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a64d0e892133ce06e0a3577c3bea0f549.html">Function Splines::get_region</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a64d0e892133ce06e0a3577c3bea0f549.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ab131f65c6191734b6f2e502257b57d0f.html">Function Splines::Hermite3toPoly</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ab131f65c6191734b6f2e502257b57d0f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ac224d3e03da08343b0bf26eb4170d6a2.html">Function Splines::Hermite5toPoly</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ac224d3e03da08343b0bf26eb4170d6a2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ae61f54b18ac4089ead89302e4b99fee4.html">Function Splines::max_abs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ae61f54b18ac4089ead89302e4b99fee4.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1ac18823b95eb83fa935ba4d33eb4e75a2.html">Function Splines::min_abs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1ac18823b95eb83fa935ba4d33eb4e75a2.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a8c7e2a599a7e341f0d8751b1bccb9a04.html">Function Splines::new_Spline1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a8c7e2a599a7e341f0d8751b1bccb9a04.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1afb1c7d06a034be8c501f91321a50af3d.html">Function Splines::Pchip_build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1afb1c7d06a034be8c501f91321a50af3d.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a22872cf871ce7a12ecda3a1f8d8e6cca.html">Function Splines::Pchip_build_new</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a22872cf871ce7a12ecda3a1f8d8e6cca.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a4fe6464c49b4bba331d9751598a44f02.html">Function Splines::signTest</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a4fe6464c49b4bba331d9751598a44f02.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a91c8806be0fd7584311f74dffe3ae3f7.html">Function Splines::uniform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a91c8806be0fd7584311f74dffe3ae3f7.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="function_a00143_1a9437a6461e2735153715bb43bc7d734f.html">Function Splines::universal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_a00143_1a9437a6461e2735153715bb43bc7d734f.html#function-documentation">Function Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="variable_a00143_1a052166b362a237026fef2fff7e415070.html">Variable Splines::spline_type_1D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_a00143_1a052166b362a237026fef2fff7e415070.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="variable_a00143_1abc365c9dfbe2a2107c842e479391be2c.html">Variable Splines::spline_type_2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_a00143_1abc365c9dfbe2a2107c842e479391be2c.html#variable-documentation">Variable Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="defines">
+<h3>Defines<a class="headerlink" href="#defines" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="define_a00119_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html">Define SPLINES_CONFIG_HH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_a00119_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="define_a00101_1a258c7c0530540979548721b55b2338c9.html">Define SPLINES_HH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_a00101_1a258c7c0530540979548721b55b2338c9.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="define_a00134_1a7d5567c4bd7d1851b7456989e413ccde.html">Define SPLINES_UTILS_HH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_a00134_1a7d5567c4bd7d1851b7456989e413ccde.html#define-documentation">Define Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="typedefs">
+<h3>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline">¶</a>
+</h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="typedef_a00143_1a0b83d8865bf650fca7ad1d657245a8a1.html">Typedef Splines::integer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_a00143_1a0b83d8865bf650fca7ad1d657245a8a1.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="typedef_a00143_1a943d4ae4896c10228d57d004bd991e7f.html">Typedef Splines::ostream_type</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_a00143_1a943d4ae4896c10228d57d004bd991e7f.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1">
+<a class="reference internal" href="typedef_a00143_1afabb8610fb01952c2fcf1f17337bd44a.html">Typedef Splines::real_type</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_a00143_1afabb8610fb01952c2fcf1f17337bd44a.html#typedef-documentation">Typedef Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-api">Full API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#namespaces">Namespaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="namespace_Splines.html">Namespace Splines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="class_a00151.html">Class Akima2Dspline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00147.html">Class AkimaSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00155.html">Class BesselSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00163.html">Class BiCubicSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00159.html">Class BiCubicSplineBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00167.html">Class BilinearSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00175.html">Class BiQuinticSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00171.html">Class BiQuinticSplineBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00179.html">Class ConstantSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00183.html">Class CubicSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00211.html">Class CubicSplineBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00187.html">Class HermiteSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00191.html">Class LinearSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00195.html">Class PchipSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00199.html">Class QuinticSpline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00203.html">Class QuinticSplineBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00207.html">Class Spline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00219.html">Class Spline1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00223.html">Class Spline2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00227.html">Class SplineSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00231.html">Class SplineSet::BinarySearch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00215.html">Class SplineSurf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="class_a00235.html">Class SplineVec</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="enum_a00143_1a96aa14ec624ad77d84a7e5afa435c1ed.html">Enum CUBIC_SPLINE_TYPE_BC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_a00143_1afc8c082d2849822ca15bdf52cb4409fb.html">Enum QUINTIC_SPLINE_TYPE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_a00143_1a1678db4e652dc21a5a18803b3847eabe.html">Enum REGION_ABCDEM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_a00143_1afebc3f20f002ddfdcbd2d725d1aa55df.html">Enum SplineType1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_a00143_1aa6410df8c515cad4d238820f523fead7.html">Enum SplineType2D</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1aeb6c86ca718705bd71ad29b32c3f6d03.html">Function Splines::backtrace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a228f7065a249b0c10a9886fdc85f05f9.html">Function Splines::centripetal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a4a9fd3c1d8de964d95d730668e6b6016.html">Function Splines::checkCubicSplineMonotonicity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1aef9996b8a86809bcb1609ed9bab5cea2.html">Function Splines::chordal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a94d2862da920a586358451ce3b3bcb41.html">Function Splines::curvature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ad1cb03ee7c6c9f13f93df88d7612e26e.html">Function Splines::curvature_D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a62d87177bbdb8da9a92701e528c57f00.html">Function Splines::curvature_DD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1aeea9f9f28b21dbf93715fd27a7c7106c.html">Function Splines::FangHung</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ac5930dd87f51e2577e79a2bdd746c6b2.html">Function Splines::FoleyNielsen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a64d0e892133ce06e0a3577c3bea0f549.html">Function Splines::get_region</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ab131f65c6191734b6f2e502257b57d0f.html">Function Splines::Hermite3toPoly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ac224d3e03da08343b0bf26eb4170d6a2.html">Function Splines::Hermite5toPoly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ae61f54b18ac4089ead89302e4b99fee4.html">Function Splines::max_abs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1ac18823b95eb83fa935ba4d33eb4e75a2.html">Function Splines::min_abs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a8c7e2a599a7e341f0d8751b1bccb9a04.html">Function Splines::new_Spline1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1afb1c7d06a034be8c501f91321a50af3d.html">Function Splines::Pchip_build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a22872cf871ce7a12ecda3a1f8d8e6cca.html">Function Splines::Pchip_build_new</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a4fe6464c49b4bba331d9751598a44f02.html">Function Splines::signTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a91c8806be0fd7584311f74dffe3ae3f7.html">Function Splines::uniform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_a00143_1a9437a6461e2735153715bb43bc7d734f.html">Function Splines::universal</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="variable_a00143_1a052166b362a237026fef2fff7e415070.html">Variable Splines::spline_type_1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_a00143_1abc365c9dfbe2a2107c842e479391be2c.html">Variable Splines::spline_type_2D</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#defines">Defines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="define_a00119_1a7dc7bbba00bb80a0e5d5c7c94497a07f.html">Define SPLINES_CONFIG_HH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_a00101_1a258c7c0530540979548721b55b2338c9.html">Define SPLINES_HH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_a00134_1a7d5567c4bd7d1851b7456989e413ccde.html">Define SPLINES_UTILS_HH</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#typedefs">Typedefs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="typedef_a00143_1a0b83d8865bf650fca7ad1d657245a8a1.html">Typedef Splines::integer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_a00143_1a943d4ae4896c10228d57d004bd991e7f.html">Typedef Splines::ostream_type</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_a00143_1afabb8610fb01952c2fcf1f17337bd44a.html">Typedef Splines::real_type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="namespace_Splines.html" title="Namespace Splines"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../readme.html" title="Splines"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">C++ API</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
