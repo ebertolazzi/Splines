@@ -21,10 +21,10 @@
 // file: SplineCinterface.cc
 //
 
-/*!
- | \file SplinesCinterface.cc
- | This file contains the sources for the C interface to `Splines`
- */
+//! 
+//! \file SplinesCinterface.cc
+//! This file contains the sources for the C interface to `Splines`
+//! 
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

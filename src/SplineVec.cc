@@ -33,7 +33,7 @@ namespace Splines {
   using std::abs;
   using std::sqrt;
 
-  using GenericContainerNamespace::mat_real_type;
+  using GC_namespace::mat_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -487,9 +487,9 @@ namespace Splines {
            + 3 * x_1 * y_1 * ( t9 - t17 ) ) / ( t28 * t27 );
   }
 
-  /*!
-   | Evaluate at `x` and fill a GenericContainer
-   */
+  //! 
+  //! Evaluate at `x` and fill a GenericContainer
+  //! 
   void
   SplineVec::eval(
     vec_real_type const & x,

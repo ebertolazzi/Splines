@@ -486,12 +486,26 @@ namespace Splines {
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::vec_real_type;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::vec_real_type;
   #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  //! 
+  //! 
+  //! Setup a spline using a `GenericContainer`
+  //! 
+  //! - gc("xdata") vector with the `x` coordinate of the data
+  //! - gc("ydata") vector with the `y` coordinate of the data
+  //! 
+  //! may contain
+  //! - gc("bc_begin") and/or gc("bc_end") 
+  //!   - "extrapolate" extrapolate the boundary condition
+  //!   - "natural"     make second derivative 0 at the border
+  //!   - "parabolic"   make third derivative 0 at the border
+  //!   - "not_a_knot"  not a knot condition of De Boor 
+  //! 
   void
   CubicSpline::setup( GenericContainer const & gc ) {
     /*

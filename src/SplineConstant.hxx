@@ -80,15 +80,10 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    //! Allocate memory for `npts` points
-    void
-    reserve( integer npts ) override;
+    void reserve( integer npts ) override;
 
-    //! Cancel the support points, empty the spline.
-    void
-    clear() override;
+    void clear() override;
 
-    //! get the piecewise polinomials of the spline
     integer // order
     coeffs(
       real_type * const cfs,
@@ -98,6 +93,16 @@ namespace Splines {
 
     integer order() const override;
     void setup( GenericContainer const & gc ) override;
+
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const override;
 
   };
 }
