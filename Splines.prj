@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="1526834762" file="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="376350134" file="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -15,9 +15,11 @@ The classes are the following:
   - BesselSpline, for Bessel "non oscillatory" spline interpolation
   - HermiteSpline
   - PchipSpline
-  - QuinticSpline, Simple quintic spline based on PCHIP</param.description>
-    <param.screenshot>${PROJECT_ROOT}/toolbox/tests/icon.jpg</param.screenshot>
-    <param.version>1.0.6</param.version>
+  - QuinticSpline, Simple quintic spline based on PCHIP
+
+Online doc at: http://ebertolazzi.github.io/Splines</param.description>
+    <param.screenshot>${PROJECT_ROOT}/toolbox/icon.png</param.screenshot>
+    <param.version>1.1.0</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -114,8 +116,12 @@ setup.m</param.exclude.filters>
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
+      <file>${PROJECT_ROOT}/toolbox/GenericContainer-e7b1dc76.o.tmp</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
+      <file>${PROJECT_ROOT}/toolbox/icon.pdf</file>
+      <file>${PROJECT_ROOT}/toolbox/icon.png</file>
+      <file>${PROJECT_ROOT}/toolbox/icon.svg</file>
       <file>${PROJECT_ROOT}/toolbox/lib</file>
       <file>${PROJECT_ROOT}/toolbox/license.txt</file>
       <file>${PROJECT_ROOT}/toolbox/src</file>

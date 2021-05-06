@@ -133,8 +133,8 @@ namespace Splines {
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
-  using GenericContainerNamespace::GC_VEC_REAL;
-  using GenericContainerNamespace::vec_real_type;
+  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::vec_real_type;
   #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

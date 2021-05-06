@@ -63,51 +63,68 @@ namespace Splines {
 
   #endif
 
+  //!
   //! Cubic Spline Management Class
+  //!
   class CubicSpline : public CubicSplineBase {
   private:
     CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;
   public:
+
+    //! \name Constructor
+    ///@{
 
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
     #endif
 
+    //!
     //! spline constructor
+    //!
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
     , m_bc0( EXTRAPOLATE_BC )
     , m_bcn( EXTRAPOLATE_BC )
     {}
 
+    //!
     //! spline destructor
+    //!
     ~CubicSpline() override {}
 
-    /*!
-     * Set the boudary consition for initial point
-     * \param bc0  initial boundary condition.
-     */
+    ///@}
+
+    //! \name Setup
+    ///@{
+
+    //!
+    //! Set the boudary consition for initial point
+    //! \param[in] bc0  initial boundary condition.
+    //!
     void
     setInitialBC( CUBIC_SPLINE_TYPE_BC bc0 )
     { m_bc0 = bc0; }
 
-    /*!
-     * Set the boudary consition for final point
-     * \param bcn final boundary condition.
-     */
+    //!
+    //! Set the boudary consition for final point
+    //! \param[in] bcn final boundary condition.
+    //!
     void
     setFinalBC( CUBIC_SPLINE_TYPE_BC bcn )
     { m_bcn = bcn; }
-
-    //! Return spline type (as number)
-    unsigned type() const override { return CUBIC_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
     void build() override;
     void setup( GenericContainer const & gc ) override;
 
+    ///@}
+
+    //!
+    //! Return spline type (as number)
+    //!
+    unsigned type() const override { return CUBIC_TYPE; }
   };
 
 }

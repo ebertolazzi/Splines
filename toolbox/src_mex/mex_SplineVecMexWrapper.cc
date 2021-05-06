@@ -46,7 +46,7 @@ either expressed or implied, of the FreeBSD Project.
 "%   SplineVecMexWrapper( 'delete', obj );                              %\n" \
 "%   SplineVecMexWrapper( 'setup', obj, Y );                            %\n" \
 "%   SplineVecMexWrapper( 'knots', obj, X );                            %\n" \
-"%   SplineVecMexWrapper( 'chord', obj );                               %\n" \
+"%   SplineVecMexWrapper( 'chordal', obj );                             %\n" \
 "%   SplineVecMexWrapper( 'centripetal', obj );                         %\n" \
 "%   SplineVecMexWrapper( 'CatmullRom', obj );                          %\n" \
 "%   P    = SplineVecMexWrapper( 'eval', obj, X );                      %\n" \
@@ -181,10 +181,10 @@ namespace Splines {
 
   static
   void
-  do_chord( int nlhs, mxArray       *plhs[],
-            int nrhs, mxArray const *prhs[] ) {
+  do_chordal( int nlhs, mxArray       *plhs[],
+              int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineVecMexWrapper( 'chord', obj ): "
+    #define CMD "SplineVecMexWrapper( 'chordal', obj ): "
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
@@ -447,7 +447,7 @@ namespace Splines {
     {"delete",do_delete},
     {"setup",do_setup},
     {"knots",do_knots},
-    {"chord",do_chord},
+    {"chordal",do_chordal},
     {"centripetal",do_centripetal},
     {"CatmullRom",do_CatmullRom},
     {"getNodes",do_getNodes},
