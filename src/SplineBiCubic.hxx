@@ -28,7 +28,9 @@ namespace Splines {
    |                                        |_|
   \*/
 
+  //!
   //! Bi-cubic spline base class
+  //!
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
@@ -59,19 +61,30 @@ namespace Splines {
     {}
 
     ~BiCubicSplineBase() override {}
+  
+    //!
+    //! \name Estimated derivatives at interpolation nodes
+    //!
+    ///@{
 
     real_type
-    DxNode ( integer i, integer j ) const
+    DxNode( integer i, integer j ) const
     { return m_DX[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DyNode ( integer i, integer j ) const
+    DyNode( integer i, integer j ) const
     { return m_DY[size_t(this->ipos_C(i,j))]; }
 
     real_type
     DxyNode( integer i, integer j ) const
     { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
+    ///@}
+
+    //!
+    //! \name Evaluate
+    //!
+    ///@{
     real_type operator () ( real_type x, real_type y ) const override;
 
     void D( real_type x, real_type y, real_type d[3] ) const override;
@@ -82,6 +95,7 @@ namespace Splines {
     real_type Dxx( real_type x, real_type y ) const override;
     real_type Dxy( real_type x, real_type y ) const override;
     real_type Dyy( real_type x, real_type y ) const override;
+    ///@}  
   };
 
   /*\
@@ -92,7 +106,9 @@ namespace Splines {
    |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
    |                                        |_|
   \*/
-  //! cubic spline base class
+  //!
+  //! Cubic spline base class
+  //!
   class BiCubicSpline : public BiCubicSplineBase {
     void makeSpline() override;
 
@@ -103,7 +119,9 @@ namespace Splines {
 
   public:
 
-    //! spline constructor
+    //!
+    //! Spline constructor
+    //!
     BiCubicSpline( string const & name = "Spline" )
     : BiCubicSplineBase( name )
     {}

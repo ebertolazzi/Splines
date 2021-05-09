@@ -70,8 +70,9 @@ namespace Splines {
   private:
     CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;
   public:
-
-    //! \name Constructor
+    //!
+    //! \name Constructors
+    //!
     ///@{
 
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -95,7 +96,9 @@ namespace Splines {
 
     ///@}
 
+    //!
     //! \name Setup
+    //!
     ///@{
 
     //!

@@ -62,6 +62,11 @@ namespace Splines {
     ///@}
 
     //!
+    //! \name Open/Close/Bound
+    //!
+    ///@{
+
+    //!
     //! Return `true` if the surface is assumed closed in the `x` direction
     //!
     bool is_x_closed() const { return m_spline_2D->is_x_closed(); }
@@ -125,15 +130,17 @@ namespace Splines {
     //!
     void make_y_bounded() { m_spline_2D->make_y_bounded(); }
 
+    ///@}
+
+    //!
+    //! \name Info
+    //!
+    ///@{
+
     //!
     //! Return the name of the spline surface assigned if was constructed.
     //!
     string const & name() const { return m_spline_2D->name(); }
-
-    //!
-    //! Cancel the support points, empty the spline.
-    //!
-    void clear() { m_spline_2D->clear(); }
 
     //!
     //! Return the number of support points of the spline along x direction.
@@ -164,6 +171,13 @@ namespace Splines {
     //!
     real_type
     zNode( integer i, integer j ) const { return m_spline_2D->zNode(i,j); }
+
+    ///@}
+
+    //!
+    //! Cancel the support points, empty the spline.
+    //!
+    void clear() { m_spline_2D->clear(); }
 
     //!
     //! \name Get bounds
@@ -377,7 +391,9 @@ namespace Splines {
 
     ///@}
 
+    //!
     //! \name Second derivatives:
+    //!
     ///@{
     void
     DD( real_type x, real_type y, real_type dd[6] ) const

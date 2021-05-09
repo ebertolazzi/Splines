@@ -63,8 +63,8 @@ namespace Splines {
     string const & name() const { return m_pSpline->name(); }
 
     bool is_closed() const { return m_pSpline->is_closed(); }
-    void make_closed() { m_pSpline->make_closed(); }
-    void make_opened() { m_pSpline->make_opened(); }
+    void make_closed()     { m_pSpline->make_closed(); }
+    void make_opened()     { m_pSpline->make_opened(); }
 
     bool is_bounded() const { return m_pSpline->is_bounded(); }
     void make_unbounded()   { m_pSpline->make_unbounded(); }
@@ -243,6 +243,9 @@ namespace Splines {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    //! \name Evaluation
+    ///@{
+
     //!
     //! Evaluate spline value at `x`.
     //!
@@ -273,8 +276,11 @@ namespace Splines {
     //!
     real_type DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
 
+    ///@}
+
     //!
-    //! \name Some aliases.
+    //! \name Evaluation Aliases
+    //!
     ///@{
     real_type eval( real_type x ) const { return (*m_pSpline)(x); }
     real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
@@ -286,7 +292,7 @@ namespace Splines {
   
     ///////////////////////////////////////////////////////////////////////////
     //!
-    //! \name Evaluate spline value knowing interval.
+    //! \name Evaluation when segment is known
     ///@{
     //!
     //! Evaluate spline at `x`.

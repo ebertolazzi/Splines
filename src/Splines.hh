@@ -411,7 +411,9 @@ namespace Splines {
     //!
     integer search( real_type & x ) const;
 
+    //!
     //! \name Open/Close
+    //!
     ///@{
 
     //!
@@ -713,18 +715,45 @@ namespace Splines {
     //!
     virtual real_type DDDDD( real_type ) const { return real_type(0); }
 
-    //!
-    //! Some aliases
-    //!
-    real_type eval( real_type x ) const { return (*this)(x); }
-    real_type eval_D( real_type x ) const { return this->D(x); }
-    real_type eval_DD( real_type x ) const { return this->DD(x); }
-    real_type eval_DDD( real_type x ) const { return this->DDD(x); }
-    real_type eval_DDDD( real_type x ) const { return this->DDDD(x); }
-    real_type eval_DDDDD( real_type x ) const { return this->DDDDD(x); }
+    ///@}
 
     //!
-    //! Evaluate spline value when interval is known
+    //! \name Evaluation Aliases
+    //!
+    ///@{
+    //!
+    //! Alias for `operator () ( real_type x )`
+    //!
+    real_type eval( real_type x ) const { return (*this)(x); }
+    //!
+    //! Alias for `real_type D( real_type x )`
+    //!
+    real_type eval_D( real_type x ) const { return this->D(x); }
+    //!
+    //! Alias for `real_type DD( real_type x )`
+    //!
+    real_type eval_DD( real_type x ) const { return this->DD(x); }
+    //!
+    //! Alias for `real_type DDD( real_type x )`
+    //!
+    real_type eval_DDD( real_type x ) const { return this->DDD(x); }
+    //!
+    //! Alias for `real_type DDDD( real_type x )`
+    //!
+    real_type eval_DDDD( real_type x ) const { return this->DDDD(x); }
+    //!
+    //! Alias for `real_type DDDD( real_type x )`
+    //!
+    real_type eval_DDDDD( real_type x ) const { return this->DDDDD(x); }
+    ///@}
+
+    //!
+    //! \name Evaluation when segment is known
+    //!
+    ///@{
+
+    //!
+    //! Evaluate spline value
     //!
     virtual real_type id_eval( integer ni, real_type x ) const = 0;
 
@@ -840,6 +869,9 @@ namespace Splines {
     #endif
 
     //!
+    //! \name Contructors/Destructors
+    ///@{
+    //!
     //! Spline constructor.
     //!
     CubicSplineBase( string const & name = "CubicSplineBase" )
@@ -850,6 +882,7 @@ namespace Splines {
     {}
 
     ~CubicSplineBase() override {}
+    ///@}
 
     void
     copySpline( CubicSplineBase const & S );
@@ -890,21 +923,38 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
+    //!
+    //! \name Evaluation
+    //!
+    ///@{
     real_type operator () ( real_type x ) const override;
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;
+    real_type DDDD( real_type x ) const override { return 0; }
+    real_type DDDDD( real_type x ) const override { return 0; }
+    ///@}
+
+    //!
+    //! \name Evaluation when segment is known
+    ///@{
     real_type id_eval( integer ni, real_type x ) const override;
     real_type id_D( integer ni, real_type x ) const override;
     real_type id_DD( integer ni, real_type x ) const override;
     real_type id_DDD( integer ni, real_type x ) const override;
+    real_type id_DDDD( integer ni, real_type x ) const override { return 0; }
+    real_type id_DDDDD( integer ni, real_type x ) const override { return 0; }
+    ///@}
 
     void writeToStream( ostream_type & s ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    void reserve( integer npts ) override;
-
+    //!
+    //! \name Build
+    //!
+    ///@{
+ 
     //!
     //! Build a spline.
     //!
@@ -956,6 +1006,10 @@ namespace Splines {
       vector<real_type> const & y,
       vector<real_type> const & yp
     );
+
+    void reserve( integer npts ) override;
+
+    ///@}
 
     void clear() override;
 
@@ -1072,6 +1126,11 @@ namespace Splines {
     ~SplineSurf();
 
     //!
+    //! \name Open/Close
+    //!
+    ///@{
+
+    //!
     //! Return `true` if the surface is assumed closed in the `x` direction.
     //!
     bool is_x_closed() const { return m_x_closed; }
@@ -1135,12 +1194,19 @@ namespace Splines {
     //!
     void make_y_bounded() { m_y_can_extend = false; }
 
-    string const & name() const { return m_name; }
+    ///@}
 
     //!
     //! Cancel the support points, empty the spline.
     //!
     void clear();
+
+    //!
+    //! \name Info
+    //!
+    ///@{
+
+    string const & name() const { return m_name; }
 
     //!
     //! Return the number of support points of the spline along x direction.
@@ -1199,7 +1265,13 @@ namespace Splines {
     //!
     real_type zMax() const { return m_Z_max; }
 
-    ///////////////////////////////////////////////////////////////////////////
+    ///@}
+
+    //!
+    //! \name Build Spline
+    //!
+    ///@{
+
     void
     build(
       real_type const * x, integer incx,
@@ -1280,6 +1352,13 @@ namespace Splines {
     void
     build( GenericContainer const & gc )
     { setup(gc); }
+
+    ///@}
+
+    //!
+    //! \name Evaluate
+    //!
+    ///@{
 
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
@@ -1393,6 +1472,8 @@ namespace Splines {
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return this->Dyy(x,y); }
+
+    ///@}
 
     //!
     //! Print spline coefficients.

@@ -56,6 +56,10 @@ namespace Splines {
     );
 
     // --------------------------- VIRTUALS -----------------------------------
+    //!
+    //! \name Build
+    //!
+    ///@{
     void build() override {} // nothing to do
 
     void
@@ -64,16 +68,27 @@ namespace Splines {
       real_type const * y, integer incy,
       integer n
     ) override;
+    ///@}
 
+    //!
+    //! \name Evaluate
+    //!
+    ///@{
     real_type operator () ( real_type x ) const override;
     real_type D( real_type ) const override { return 0; }
     real_type DD( real_type ) const override { return 0; }
     real_type DDD( real_type ) const override { return 0; }
+    ///@}
 
+    //!
+    //! \name Evaluation when segment is known
+    //!
+    ///@{
     real_type id_eval( integer ni, real_type x ) const override;
     real_type id_D( integer, real_type ) const override { return 0; }
     real_type id_DD( integer, real_type ) const override { return 0; }
     real_type id_DDD( integer, real_type ) const override { return 0; }
+    ///@}
 
     void writeToStream( ostream_type & ) const override;
     unsigned type() const override { return CONSTANT_TYPE; }

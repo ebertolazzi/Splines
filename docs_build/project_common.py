@@ -117,7 +117,7 @@ html_theme = 'cloud'
 html_logo  = '../Spline_interpolation.svg'
 
 email_automode       = True
-autodoc_member_order = 'bysource'
+autodoc_member_order = 'groupwise' ## 'alphabetical' ##'bysource'
 
 html_theme_options = {
   "lighter_header_decor" : False,

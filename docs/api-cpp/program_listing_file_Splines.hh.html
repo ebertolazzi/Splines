@@ -550,12 +550,14 @@
 
     <span class="k">virtual</span> <span class="n">real_type</span> <span class="n">DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">real_type</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="p">}</span>
 
+
     <span class="n">real_type</span> <span class="n">eval</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="n">real_type</span> <span class="n">eval_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="n">real_type</span> <span class="n">eval_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="n">real_type</span> <span class="n">eval_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="n">real_type</span> <span class="n">eval_DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="n">real_type</span> <span class="n">eval_DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">DDDDD</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+
 
     <span class="k">virtual</span> <span class="n">real_type</span> <span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -664,16 +666,20 @@
     <span class="n">real_type</span> <span class="nf">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="nf">DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="nf">DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
     <span class="n">real_type</span> <span class="nf">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_D</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_DD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_DDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+    <span class="n">real_type</span> <span class="nf">id_DDDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="nf">id_DDDDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="kt">void</span> <span class="nf">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
 
     <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
 
-    <span class="kt">void</span> <span class="nf">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
 
     <span class="kt">void</span>
     <span class="nf">build</span><span class="p">(</span>
@@ -700,6 +706,9 @@
       <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span>
       <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">yp</span>
     <span class="p">);</span>
+
+    <span class="kt">void</span> <span class="nf">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
 
     <span class="kt">void</span> <span class="nf">clear</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
@@ -806,6 +815,7 @@
     <span class="k">virtual</span>
     <span class="o">~</span><span class="n">SplineSurf</span><span class="p">();</span>
 
+
     <span class="kt">bool</span> <span class="nf">is_x_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_x_closed</span><span class="p">;</span> <span class="p">}</span>
 
     <span class="kt">void</span> <span class="nf">make_x_closed</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_x_closed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="p">}</span>
@@ -830,36 +840,40 @@
 
     <span class="kt">void</span> <span class="nf">make_y_bounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_y_can_extend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
 
+
+    <span class="kt">void</span> <span class="nf">clear</span><span class="p">();</span>
+
+
     <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_name</span><span class="p">;</span> <span class="p">}</span>
 
-    <span class="kt">void</span> <span class="n">clear</span><span class="p">();</span>
+    <span class="n">integer</span> <span class="n">numPointX</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_nx</span><span class="p">;</span> <span class="p">}</span>
 
-    <span class="n">integer</span> <span class="nf">numPointX</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_nx</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">integer</span> <span class="n">numPointY</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_ny</span><span class="p">;</span> <span class="p">}</span>
 
-    <span class="n">integer</span> <span class="nf">numPointY</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_ny</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">xNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">xNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
-
-    <span class="n">real_type</span> <span class="nf">yNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">yNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
 
     <span class="n">real_type</span>
-    <span class="nf">zNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="n">zNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">xMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">xMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">xMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_nx</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">xMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_nx</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">yMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">yMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">yMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">m_ny</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">yMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">m_ny</span><span class="mi">-1</span><span class="p">];</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">zMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_min</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">zMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_min</span><span class="p">;</span> <span class="p">}</span>
 
-    <span class="n">real_type</span> <span class="nf">zMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_max</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">real_type</span> <span class="n">zMax</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Z_max</span><span class="p">;</span> <span class="p">}</span>
+
+
 
     <span class="kt">void</span>
-    <span class="nf">build</span><span class="p">(</span>
+    <span class="n">build</span><span class="p">(</span>
       <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">integer</span> <span class="n">incx</span><span class="p">,</span>
       <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">integer</span> <span class="n">incy</span><span class="p">,</span>
       <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">z</span><span class="p">,</span> <span class="n">integer</span> <span class="n">ldZ</span><span class="p">,</span>
@@ -914,6 +928,8 @@
     <span class="kt">void</span>
     <span class="nf">build</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span>
     <span class="p">{</span> <span class="n">setup</span><span class="p">(</span><span class="n">gc</span><span class="p">);</span> <span class="p">}</span>
+
+
 
     <span class="k">virtual</span>
     <span class="n">real_type</span>
@@ -970,6 +986,7 @@
     <span class="n">real_type</span>
     <span class="nf">eval_D_2_2</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">Dyy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+
 
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -1072,7 +1089,6 @@
 <div class="sphinx-toc sphinxglobaltoc">
 <h3><a href="../index.html">Table of Contents</a></h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>
