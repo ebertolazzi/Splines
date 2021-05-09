@@ -41,7 +41,9 @@ namespace Splines {
     QUINTIC_SPLINE_TYPE m_q_sub_type;
   public:
 
+    //!
     //! \name Constructors
+    //!
     ///@{
 
     #ifndef DOXYGEN_SHOULD_SKIP_THIS

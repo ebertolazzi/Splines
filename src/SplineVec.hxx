@@ -82,7 +82,9 @@ namespace Splines {
     //!
     string const & name() const { return m_name; }
 
+    //!
     //! \name Open/Close
+    //!
     ///@{
     bool is_closed() const { return m_curve_is_closed; }
     void make_closed()     { m_curve_is_closed = true; }
@@ -93,7 +95,9 @@ namespace Splines {
     void make_buonded()     { m_curve_can_extend = false; }
     ///@}
 
+    //!
     //! \name Info
+    //!
     ///@{
 
     //!
@@ -135,7 +139,9 @@ namespace Splines {
 
     ///@}
 
-    //! \name Evaluate
+    //!
+    //! \name Evaluation when segment is known
+    //!
     ///@{
 
     //!
@@ -201,6 +207,13 @@ namespace Splines {
     eval_DDDDD( real_type x, integer i ) const
     { return this->DDDDD(x,i); }
 
+    ///@}
+
+    //!
+    //! \name Evaluate all the splines in a vector
+    //!
+    ///@{
+
     //!
     //! Evaluate all the splines at `x`
     //!
@@ -260,6 +273,12 @@ namespace Splines {
       real_type * const vals,
       integer           inc
     ) const;
+    ///@}
+
+    //!
+    //! \name Evaluate all the splines in an STL vector
+    //!
+    ///@{
 
     //!
     //! Evaluate all the splines at `x`
@@ -290,33 +309,60 @@ namespace Splines {
     //! Evaluate the 5th derivative of all the splines at `x`
     //!
     void eval_DDDDD( real_type x, vector<real_type> & vals ) const;
+    ///@}
 
     //!
-    //! Evaluate at `x` and fill a GenericContainer
+    //! \name Evaluate all the splines in a `GenericContainer`
+    //!
+    ///@{
+
+    //!
+    //! Evaluate at `x` and fill a `GenericContainer`
     //!
     void
     eval( real_type x, GenericContainer & vals ) const
     { eval( x, vals.set_vec_real() ); }
 
+    //!
+    //! Evaluate first derivatives at `x` and fill a `GenericContainer`
+    //!
     void
     eval_D( real_type x, GenericContainer & vals ) const
     { eval_D( x, vals.set_vec_real() ); }
 
+    //!
+    //! Evaluate second derivatives at `x` and fill a `GenericContainer`
+    //!
     void
     eval_DD( real_type x, GenericContainer & vals ) const
     { eval_DD( x, vals.set_vec_real() ); }
 
+    //!
+    //! Evaluate third derivatives at `x` and fill a `GenericContainer`
+    //!
     void
     eval_DDD( real_type x, GenericContainer & vals ) const
     { eval_DDD( x, vals.set_vec_real() ); }
 
+    //!
+    //! Evaluate 4th derivatives at `x` and fill a `GenericContainer`
+    //!
     void
     eval_DDDD( real_type x, GenericContainer & vals ) const
     { eval_DDDD( x, vals.set_vec_real() ); }
 
+    //!
+    //! Evaluate 5th derivatives at `x` and fill a `GenericContainer`
+    //!
     void
     eval_DDDDD( real_type x, GenericContainer & vals ) const
     { eval_DDDDD( x, vals.set_vec_real() ); }
+    ///@}
+
+    //!
+    //! \name Evaluate all the splines in a point set in a `GenericContainer`
+    //!
+    ///@{
 
     //!
     //! Evaluate at `x` (x is a vector with many values) and fill a GenericContainer
@@ -324,23 +370,40 @@ namespace Splines {
     void
     eval( vec_real_type const & x, GenericContainer & vals ) const;
 
+    //!
+    //! Evaluate first derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //!
     void
     eval_D( vec_real_type const & x, GenericContainer & vals ) const;
 
+    //!
+    //! Evaluate second derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //!
     void
     eval_DD( vec_real_type const & x, GenericContainer & vals ) const;
 
+    //!
+    //! Evaluate third derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //!
     void
     eval_DDD( vec_real_type const & x, GenericContainer & vals ) const;
 
+    //!
+    //! Evaluate 4th derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //!
     void
     eval_DDDD( vec_real_type const & x, GenericContainer & vals ) const;
 
+    //!
+    //! Evaluate 5th derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //!
     void
     eval_DDDDD( vec_real_type const & x, GenericContainer & vals ) const;
     ///@}
 
+    //!
     //! \name Setup Spline
+    //!
     ///@{
 
     //!

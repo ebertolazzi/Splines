@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Program Listing for File SplineBiCubic.hxx &#8212; Splines v1.0.9
+    <title>Program Listing for File SplineBiCubic.hxx &#8212; Splines v1.1.1
 </title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
@@ -137,17 +137,19 @@
 
     <span class="o">~</span><span class="n">BiCubicSplineBase</span><span class="p">()</span> <span class="k">override</span> <span class="p">{}</span>
 
+
     <span class="n">real_type</span>
-    <span class="n">DxNode</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="n">DxNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_DX</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))];</span> <span class="p">}</span>
 
     <span class="n">real_type</span>
-    <span class="n">DyNode</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
+    <span class="n">DyNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_DY</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))];</span> <span class="p">}</span>
 
     <span class="n">real_type</span>
     <span class="n">DxyNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_DXY</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ipos_C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))];</span> <span class="p">}</span>
+
 
     <span class="n">real_type</span> <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">y</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
 
@@ -221,7 +223,6 @@
 <div class="sphinx-toc sphinxglobaltoc">
 <h3><a href="../index.html">Table of Contents</a></h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>

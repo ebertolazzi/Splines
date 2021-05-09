@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Program Listing for File SplineQuinticBase.hxx &#8212; Splines v1.0.9
+    <title>Program Listing for File SplineQuinticBase.hxx &#8212; Splines v1.1.1
 </title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
@@ -137,6 +137,7 @@
     <span class="kt">void</span>
     <span class="n">copySpline</span><span class="p">(</span> <span class="n">QuinticSplineBase</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">S</span> <span class="p">);</span>
 
+
     <span class="n">real_type</span>
     <span class="nf">ypNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_Yp</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
@@ -144,6 +145,21 @@
     <span class="n">real_type</span>
     <span class="nf">yppNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_Ypp</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span> <span class="p">}</span>
+
+    <span class="kt">void</span>
+    <span class="nf">y_min_max</span><span class="p">(</span>
+      <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
+      <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
+      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_max</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+    <span class="kt">unsigned</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="n">QUINTIC_TYPE</span><span class="p">;</span> <span class="p">}</span>
+
 
     <span class="kt">void</span>
     <span class="nf">setRange</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">xmax</span> <span class="p">);</span>
@@ -157,16 +173,6 @@
       <span class="n">real_type</span> <span class="o">*</span> <span class="o">&amp;</span> <span class="n">p_Ypp</span>
     <span class="p">);</span>
 
-    <span class="kt">void</span>
-    <span class="nf">y_min_max</span><span class="p">(</span>
-      <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
-      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
-      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
-      <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
-      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
-      <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_max</span>
-    <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
-
     <span class="c1">// --------------------------- VIRTUALS -----------------------------------</span>
 
     <span class="n">real_type</span> <span class="nf">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
@@ -175,6 +181,7 @@
     <span class="n">real_type</span> <span class="nf">DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
     <span class="n">real_type</span> <span class="nf">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_D</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_DD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
@@ -182,9 +189,6 @@
     <span class="n">real_type</span> <span class="nf">id_DDDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
     <span class="n">real_type</span> <span class="nf">id_DDDDD</span><span class="p">(</span> <span class="n">integer</span> <span class="n">ni</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
 
-    <span class="kt">void</span> <span class="nf">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
-
-    <span class="kt">unsigned</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="n">QUINTIC_TYPE</span><span class="p">;</span> <span class="p">}</span>
     <span class="kt">void</span> <span class="nf">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npts</span> <span class="p">)</span> <span class="k">override</span><span class="p">;</span>
     <span class="kt">void</span> <span class="nf">clear</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
@@ -230,7 +234,6 @@
 <div class="sphinx-toc sphinxglobaltoc">
 <h3><a href="../index.html">Table of Contents</a></h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>

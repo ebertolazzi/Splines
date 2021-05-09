@@ -42,7 +42,9 @@ namespace Splines {
 
   public:
 
+    //!
     //! \name Constructors
+    //!
     ///@{
 
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -68,6 +70,11 @@ namespace Splines {
     copySpline( QuinticSplineBase const & S );
 
     //!
+    //! \name Info
+    //!
+    ///@{
+
+    //!
     //! Return the i-th node of the spline (y' component).
     //!
     real_type
@@ -80,6 +87,22 @@ namespace Splines {
     real_type
     yppNode( integer i ) const
     { return m_Ypp[size_t(i)]; }
+
+    void
+    y_min_max(
+      integer   & i_min_pos,
+      real_type & x_min_pos,
+      real_type & y_min,
+      integer   & i_max_pos,
+      real_type & x_max_pos,
+      real_type & y_max
+    ) const override;
+
+    void writeToStream( ostream_type & s ) const override;
+
+    unsigned type() const override { return QUINTIC_TYPE; }
+
+    ///@}
 
     //!
     //! Change X-range of the spline
@@ -99,34 +122,31 @@ namespace Splines {
       real_type * & p_Ypp
     );
 
-    void
-    y_min_max(
-      integer   & i_min_pos,
-      real_type & x_min_pos,
-      real_type & y_min,
-      integer   & i_max_pos,
-      real_type & x_max_pos,
-      real_type & y_max
-    ) const override;
-
     // --------------------------- VIRTUALS -----------------------------------
 
+    //!
+    //! \name Evaluation Aliases
+    //!
+    ///@{
     real_type operator () ( real_type x ) const override;
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;
     real_type DDDD( real_type x ) const override;
     real_type DDDDD( real_type x ) const override;
+    ///@}
+
+    //!
+    //! \name Evaluation when segment is known
+    ///@{
     real_type id_eval( integer ni, real_type x ) const override;
     real_type id_D( integer ni, real_type x ) const override;
     real_type id_DD( integer ni, real_type x ) const override;
     real_type id_DDD( integer ni, real_type x ) const override;
     real_type id_DDDD( integer ni, real_type x ) const override;
     real_type id_DDDDD( integer ni, real_type x ) const override;
+    ///@}
 
-    void writeToStream( ostream_type & s ) const override;
-
-    unsigned type() const override { return QUINTIC_TYPE; }
     void reserve( integer npts ) override;
     void clear() override;
 

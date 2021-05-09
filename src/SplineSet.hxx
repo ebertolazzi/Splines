@@ -89,18 +89,26 @@ namespace Splines {
 
   public:
 
+    //!
     //! \name Constructors
+    //!
     ///@{
 
-    //! spline constructor
+    //!
+    //! Spline constructor
+    //!
     SplineSet( string const & name = "SplineSet" );
 
-    //! spline destructor
+    //!
+    //! Spline destructor
+    //!
     virtual
     ~SplineSet();
     ///@}
 
+    //!
     //! \name Info
+    //!
     ///@{
     string const & name() const { return m_name; }
 
@@ -109,9 +117,14 @@ namespace Splines {
     { return m_splines[i]->name(); }
 
     // vectorial values
-    //! fill a vector of strings with the names of the splines
+    //!
+    //! Fill a vector of strings with the names of the splines.
+    //!
     void get_headers( std::vector<std::string> & names ) const;
 
+    //!
+    //! Return a string with the names of the splines.
+    //!
     string name_list() const;
 
     // return +1 = strict monotone, 0 weak monotone, -1 non monotone
@@ -119,51 +132,78 @@ namespace Splines {
     isMonotone( integer i ) const
     { return m_is_monotone[i]; }
 
-    //! return the number of support points of the splines
+    //!
+    //! Return the number of support points of the splines.
+    //!
     integer numPoints() const { return m_npts; }
 
-    //! return the number splines in the spline set
+    //!
+    //! Return the number splines in the spline set.
+    //!
     integer numSplines() const { return m_nspl; }
 
-    //! return the column with header(i) == hdr, return -1 if not found
+    //!
+    //! Return the column with header(i) == hdr,
+    //! return -1 if not found.
+    //!
     integer getPosition( char const * hdr ) const;
 
-    //! return the vector of values of x-nodes
+    //!
+    //! Return the vector of values of x-nodes.
+    //!
     real_type const * xNodes() const { return m_X; }
 
-    //! return the vector of values of x-nodes
+    //!
+    //! Return the vector of values of x-nodes.
+    //!
     real_type const * yNodes( integer i ) const;
 
-    //! return the i-th node of the spline (x component).
+    //!
+    //! Return the i-th node of the spline (x component).
+    //!
     real_type
     xNode( integer npt ) const
     { return m_X[npt]; }
 
-    //! return the i-th node of the spline (y component).
+    //!
+    //! Return the i-th node of the spline (y component).
+    //!
     real_type
     yNode( integer npt, integer spl ) const
     { return m_Y[spl][npt]; }
 
-    //! return x-minumum spline value
+    //!
+    //! Return x-minumum spline value.
+    //!
     real_type xMin() const { return m_X[0]; }
 
-    //! return x-maximum spline value
+    //!
+    //! Return x-maximum spline value.
+    //!
     real_type xMax() const { return m_X[m_npts-1]; }
 
-    //! return y-minumum spline value
+    //!
+    //! Return y-minumum spline value.
+    //!
     real_type yMin( integer spl ) const { return m_Ymin[size_t(spl)]; }
 
-    //! return y-maximum spline value
+    //!
+    //! Return y-maximum spline value.
+    //!
     real_type yMax( integer spl ) const { return m_Ymax[size_t(spl)]; }
 
-    //! return y-minumum spline value
+    //!
+    //! Return y-minumum spline value.
+    //!
     real_type
     yMin( char const * spl ) const {
       integer idx = this->getPosition(spl);
       return m_Ymin[idx];
     }
 
-    //! return y-maximum spline value
+    //!
+    //! Return y-maximum spline value.
+    //!
     real_type
     yMax( char const * spl ) const {
       integer idx = this->getPosition(spl);
@@ -175,10 +215,14 @@ namespace Splines {
     //! \name Access splines
     ///@{
 
-    //! Return pointer to the `i`-th spline
+    //!
+    //! Return pointer to the `i`-th spline.
+    //!
     Spline * getSpline( integer i ) const;
 
-    //! Return pointer to the `i`-th spline
+    //!
+    //! Return pointer to the `i`-th spline.
+    //!
     Spline *
     getSpline( char const * hdr ) const {
       integer idx = this->getPosition(hdr);
@@ -190,120 +234,162 @@ namespace Splines {
     //! \name Evaluate
     ///@{
 
-    //! Evaluate spline value
+    //!
+    //! Evaluate spline n. `spl` at `x`.
+    //!
     real_type
     operator () ( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return (*S)(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` at `x`.
+    //!
     real_type
     eval( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return (*S)(x);
     }
 
-    //! First derivative
+    //!
+    //! Evaluate spline n. `spl` first derivative at `x`.
+    //!
     real_type
     D( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->D(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` first derivative at `x`.
+    //!
     real_type
     eval_D( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->D(x);
     }
 
-    //! Second derivative
+    //!
+    //! Evaluate spline n. `spl` second derivative at `x`.
+    //!
     real_type
     DD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DD(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` second derivative at `x`.
+    //!
     real_type
     eval_DD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DD(x);
     }
 
-    //! Third derivative
+    //!
+    //! Evaluate spline n. `spl` third derivative at `x`.
+    //!
     real_type
     DDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDD(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` third derivative at `x`.
+    //!
     real_type
     eval_DDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDD(x);
     }
 
-    //! 4th derivative
+    //!
+    //! Evaluate spline n. `spl` 4th derivative at `x`.
+    //!
     real_type
     DDDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDDD(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` 4th derivative at `x`.
+    //!
     real_type
     eval_DDDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDDD(x);
     }
 
-    //! 5th derivative
+    //!
+    //! Evaluate spline n. `spl` 5th derivative at `x`.
+    //!
     real_type
     DDDDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDDDD(x);
     }
 
+    //!
+    //! Evaluate spline n. `spl` 5th derivative at `x`.
+    //!
     real_type
     eval_DDDDD( real_type x, integer spl ) const {
       Spline const * S = this->getSpline(spl);
       return S->DDDDD(x);
     }
 
-    //! Evaluate spline value
+    //!
+    //! Evaluate spline `name` at `x`.
+    //!
     real_type
     eval( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
       return (*S)(x);
     }
 
-    //! First derivative
+    //!
+    //! Evaluate spline `name` first derivative at `x`.
+    //!
     real_type
     eval_D( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
       return S->D(x);
     }
 
-    //! Second derivative
+    //!
+    //! Evaluate spline `name` second derivative at `x`.
+    //!
     real_type
     eval_DD( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
       return S->DD(x);
     }
 
-    //! Third derivative
+    //!
+    //! Evaluate spline `name` third derivative at `x`.
+    //!
     real_type
     eval_DDD( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
       return S->DDD(x);
     }
 
-    //! 4th derivative
+    //!
+    //! Evaluate spline `name` 4th derivative at `x`.
+    //!
     real_type
     eval_DDDD( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
       return S->DDDD(x);
     }
 
-    //! 5th derivative
+    //!
+    //! Evaluate spline `name` 5th derivative at `x`.
+    //!
     real_type
     eval_DDDDD( real_type x, char const * name ) const {
       Spline const * S = this->getSpline(name);
@@ -314,7 +400,9 @@ namespace Splines {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    //!
     //! \name Evaluate to std vector
+    //!
     ///@{
 
     //!
@@ -323,7 +411,7 @@ namespace Splines {
     void eval( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x`
+    //! Evaluate the first derivative of all the splines at `x`
     //!
     void eval_D( real_type x, vector<real_type> & vals ) const;
 
@@ -363,7 +451,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x`
+    //! Evaluate the first derivative of all the splines at `x`
     //!
     void
     eval_D(
@@ -428,7 +516,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines
+    //! Evaluate the first derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
     void

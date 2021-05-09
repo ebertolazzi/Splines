@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Program Listing for File Splines2D.hxx &#8212; Splines v1.0.9
+    <title>Program Listing for File Splines2D.hxx &#8212; Splines v1.1.1
 </title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
@@ -131,6 +131,7 @@
     <span class="p">}</span>
 
 
+
     <span class="kt">bool</span> <span class="n">is_x_closed</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">is_x_closed</span><span class="p">();</span> <span class="p">}</span>
 
     <span class="kt">void</span> <span class="n">make_x_closed</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">make_x_closed</span><span class="p">();</span> <span class="p">}</span>
@@ -155,9 +156,9 @@
 
     <span class="kt">void</span> <span class="n">make_y_bounded</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">make_y_bounded</span><span class="p">();</span> <span class="p">}</span>
 
-    <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">();</span> <span class="p">}</span>
 
-    <span class="kt">void</span> <span class="n">clear</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">clear</span><span class="p">();</span> <span class="p">}</span>
+
+    <span class="n">string</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">();</span> <span class="p">}</span>
 
     <span class="n">integer</span>
     <span class="n">numPointX</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">numPointX</span><span class="p">();</span> <span class="p">}</span>
@@ -173,6 +174,9 @@
 
     <span class="n">real_type</span>
     <span class="n">zNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">zNode</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">);</span> <span class="p">}</span>
+
+
+    <span class="kt">void</span> <span class="n">clear</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">clear</span><span class="p">();</span> <span class="p">}</span>
 
 
     <span class="n">real_type</span> <span class="n">xMin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_spline_2D</span><span class="o">-&gt;</span><span class="n">xMin</span><span class="p">();</span> <span class="p">}</span>
@@ -373,7 +377,6 @@
 <div class="sphinx-toc sphinxglobaltoc">
 <h3><a href="../index.html">Table of Contents</a></h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Splines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>
