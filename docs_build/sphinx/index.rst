@@ -5,7 +5,7 @@ Introduction
 ------------
 
 ``Splines`` is a set of C++ classes (with MATLAB mex interface) which
-implements varios spline interpolation.
+implements various spline interpolation.
 
 - `Github repository <https://github.com/ebertolazzi/Splines>`__
 - `Matlab Toolbox <https://github.com/ebertolazzi/Splines/releases>`__
