@@ -196,13 +196,28 @@
 <p>x, y [, yp or subtype] </p>
 <p>Search the max and min values of <code class="docutils literal notranslate"><span class="pre">y</span></code> along the spline with the corresponding <code class="docutils literal notranslate"><span class="pre">x</span></code> position</p>
 <p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i_min_pos</span><span class="p">,</span><span class="n">x_min_pos</span><span class="p">,</span><span class="n">y_min</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w"> </span><span class="n">i_max_pos</span><span class="p">,</span><span class="n">x_max_pos</span><span class="p">,</span><span class="n">y_max</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_y_min_max</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">SS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_y_min_max</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+<p></p>
 <ul class="simple">
 <li><p>[out] i_min_pos where is the minimum (interval)</p></li>
 <li><p>[out] x_min_pos where is the minimum</p></li>
 <li><p>[out] y_min the minimum value</p></li>
 <li><p>[out] i_max_pos where is the maximum (interval)</p></li>
 <li><p>[out] x_max_pos where is the maximum</p></li>
-<li><p>[out] y_max the maximum value </p></li>
+<li><p>[out] y_max the maximum value</p></li>
+<li><p>[out] SS.i_min_pos vector where is the local minimum (interval)</p></li>
+<li><p>[out] SS.x_min_pos vector where is the local minimum</p></li>
+<li><p>[out] SS.y_min vector where is the local minimum value</p></li>
+<li><p>[out] SS.i_max_pos vector where is the local maximum (interval)</p></li>
+<li><p>[out] SS.x_max_pos vector where is the local maximum</p></li>
+<li><p>[out] SS.y_max vector where is the local maximum value </p></li>
 </ul>
 
 </dd>

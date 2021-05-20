@@ -324,6 +324,96 @@ namespace Splines {
       else if ( P1 < y_min ) { y_min = P1; x_min_pos = X1; i_min_pos = i; }
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  CubicSplineBase::y_min_max(
+    vector<integer>   & i_min_pos,
+    vector<real_type> & x_min_pos,
+    vector<real_type> & y_min,
+    vector<integer>   & i_max_pos,
+    vector<real_type> & x_max_pos,
+    vector<real_type> & y_max
+  ) const {
+    real_type epsi = 1e-8;
+    i_min_pos.clear();
+    i_max_pos.clear();
+    x_min_pos.clear();
+    x_max_pos.clear();
+    y_min.clear();
+    y_max.clear();
+    UTILS_ASSERT0(
+      m_npts > 0, "CubicSplineBase::y_min_max() empty spline!"
+    );
+    // find max min along the nodes
+    if ( m_Yp[0] >= 0 ) {
+      y_min.push_back(m_Y[0]);
+      x_min_pos.push_back(m_X[0]);
+      i_min_pos.push_back(0);
+    }
+    if ( m_Yp[0] <= 0 ) {
+      y_max.push_back(m_Y[0]);
+      x_max_pos.push_back(m_X[0]);
+      i_max_pos.push_back(0);
+    }
+    PolynomialRoots::Quadratic q;
+    for ( integer i = 1; i < m_npts; ++i ) {
+      real_type const & X0  = m_X[i-1];
+      real_type const & X1  = m_X[i];
+      real_type const & P0  = m_Y[i-1];
+      real_type const & P1  = m_Y[i];
+      real_type const & DP0 = m_Yp[i-1];
+      real_type const & DP1 = m_Yp[i];
+      real_type H = X1 - X0;
+      real_type A, B, C, D;
+      Hermite3toPoly( H, P0, P1, DP0, DP1, A, B, C, D );
+      q.setup( 3*A, 2*B, C );
+      real_type r[2];
+      integer nr = q.getRootsInOpenRange( 0, H, r );
+      for ( integer j = 0; j < nr; ++j ) {
+        real_type rr  = r[j];
+        real_type yy  = (((A*rr)+B)*rr+C)*rr+D;
+        real_type ddy = 3*A*rr+B;
+        if ( ddy > 0 ) {
+          y_min.push_back(yy);
+          x_min_pos.push_back(X0+rr);
+          i_min_pos.push_back(i);
+        } else if ( ddy < 0 ) {
+          y_max.push_back(yy);
+          x_max_pos.push_back(X0+rr);
+          i_max_pos.push_back(i);
+        }
+      }
+      if ( i+1 >= m_npts ) continue;
+      if ( abs(DP1) > (m_X[i+1]-m_X[i-1])*epsi ) continue;
+      real_type const & X2  = m_X[i+1];
+      real_type const & P2  = m_Y[i+1];
+      real_type const & DP2 = m_Yp[i+1];
+      real_type A1, B1, C1, D1;
+      Hermite3toPoly( X2-X1, P1, P2, DP1, DP2, A1, B1, C1, D1 );
+      real_type DD = 2*A*H+B;
+      if ( DD >= 0 && B1 >= 0 ) {
+        y_min.push_back(P1);
+        x_min_pos.push_back(X1);
+        i_min_pos.push_back(i);
+      } else if ( DD <= 0 && B1 <= 0 ) {
+        y_max.push_back(P1);
+        x_max_pos.push_back(X1);
+        i_max_pos.push_back(i);
+      }
+    }
+    if ( m_Yp[m_npts-1] <= 0 ) {
+      y_min.push_back(m_Y[m_npts-1]);
+      x_min_pos.push_back(m_X[m_npts-1]);
+      i_min_pos.push_back(0);
+    }
+    if ( m_Yp[m_npts-1] >= 0 ) {
+      y_max.push_back(m_Y[m_npts-1]);
+      x_max_pos.push_back(m_X[m_npts-1]);
+      i_max_pos.push_back(m_npts-1);
+    }
+  }
 }
 
 #endif

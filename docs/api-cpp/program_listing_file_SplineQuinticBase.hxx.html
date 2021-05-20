@@ -156,6 +156,16 @@
       <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_max</span>
     <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
 
+    <span class="kt">void</span>
+    <span class="nf">y_min_max</span><span class="p">(</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
+      <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">y_max</span>
+    <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
     <span class="kt">void</span> <span class="nf">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
 
     <span class="kt">unsigned</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="n">QUINTIC_TYPE</span><span class="p">;</span> <span class="p">}</span>

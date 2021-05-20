@@ -68,6 +68,17 @@
     %> Search the max and min values of `y` along the spline
     %> with the corresponding `x` position
     %>
+    %> \rst
+    %>
+    %>   .. code-block:: matlab
+    %>
+    %>     [i_min_pos,x_min_pos,y_min,...
+    %>      i_max_pos,x_max_pos,y_max] = obj.eval_y_min_max();
+    %>
+    %>     SS = obj.eval_y_min_max();
+    %>
+    %> \endrst
+    %>
     %> - [out] i_min_pos where is the minimum (interval)
     %> - [out] x_min_pos where is the minimum
     %> - [out] y_min     the minimum value
@@ -75,8 +86,15 @@
     %> - [out] x_max_pos where is the maximum
     %> - [out] y_max     the maximum value
     %>
-    function [ i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max] = eval_y_min_max( self )
-      [ i_min_pos, x_min_pos, y_min, i_max_pos x_max_pos, y_max] = Spline1DMexWrapper( 'y_min_max', self.objectHandle );
+    %> - [out] SS.i_min_pos vector where is the local minimum (interval)
+    %> - [out] SS.x_min_pos vector where is the local minimum
+    %> - [out] SS.y_min     vector where is the local minimum value
+    %> - [out] SS.i_max_pos vector where is the local maximum (interval)
+    %> - [out] SS.x_max_pos vector where is the local maximum
+    %> - [out] SS.y_max     vector where is the local maximum value
+    %>
+    function varargout = eval_y_min_max( self )
+      [varargout{1:nargout}] = Spline1DMexWrapper( 'y_min_max', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>

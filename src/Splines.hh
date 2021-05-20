@@ -532,6 +532,39 @@ namespace Splines {
       );
     }
 
+    //!
+    //! Search the max and min values of `y` along the spline
+    //! with the corresponding `x` position
+    //!
+    //! \param[out] i_min_pos interval where is the minimum
+    //! \param[out] x_min_pos where is the minimum
+    //! \param[out] y_min     the minimum value
+    //! \param[out] i_max_pos interval where is the maximum
+    //! \param[out] x_max_pos where is the maximum
+    //! \param[out] y_max     the maximum value
+    //!
+    virtual
+    void
+    y_min_max(
+      vector<integer>   & i_min_pos,
+      vector<real_type> & x_min_pos,
+      vector<real_type> & y_min,
+      vector<integer>   & i_max_pos,
+      vector<real_type> & x_max_pos,
+      vector<real_type> & y_max
+    ) const {
+      i_min_pos.clear();
+      i_max_pos.clear();
+      x_min_pos.clear();
+      x_max_pos.clear();
+      y_min.clear();
+      y_max.clear();
+      UTILS_ERROR(
+        "In spline: {} y_min_max not implemented\n",
+        info()
+      );
+    }
+
     ///@}
 
     //! \name Build
@@ -919,6 +952,16 @@ namespace Splines {
       integer   & i_max_pos,
       real_type & x_max_pos,
       real_type & y_max
+    ) const override;
+
+    void
+    y_min_max(
+      vector<integer>   & i_min_pos,
+      vector<real_type> & x_min_pos,
+      vector<real_type> & y_min,
+      vector<integer>   & i_max_pos,
+      vector<real_type> & x_max_pos,
+      vector<real_type> & y_max
     ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------

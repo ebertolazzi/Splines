@@ -318,21 +318,77 @@ namespace Splines {
     int nrhs, mxArray const *prhs[]
   ) {
     #define CMD "Spline1DMexWrapper('y_min_max',OBJ): "
-    MEX_ASSERT2( nlhs == 6, CMD "expected 6 output, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nlhs == 1 || nlhs == 6, CMD "expected 1 or 6 output, nlhs = {}\n", nlhs );
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
     Spline * ptr = DATA_GET( arg_in_1 );
-    integer   i_min_pos, i_max_pos;
-    real_type x_min_pos, y_min, x_max_pos, y_max;
-    ptr->y_min_max(
-      i_min_pos, x_min_pos, y_min,
-      i_max_pos, x_max_pos, y_max
-    );
-    setScalarInt  ( arg_out_0, i_min_pos );
-    setScalarValue( arg_out_1, x_min_pos );
-    setScalarValue( arg_out_2, y_min     );
-    setScalarInt  ( arg_out_3, i_max_pos );
-    setScalarValue( arg_out_4, x_max_pos );
-    setScalarValue( arg_out_5, y_max     );
+
+    if ( nlhs == 1 ) {
+
+      vector<integer>   i_min_pos, i_max_pos;
+      vector<real_type> x_min_pos, y_min, x_max_pos, y_max;
+
+      ptr->y_min_max(
+        i_min_pos, x_min_pos, y_min,
+        i_max_pos, x_max_pos, y_max
+      );
+
+      static char const * fieldnames[] = {
+        "i_min_pos",
+        "x_min_pos",
+        "y_min",
+        "i_max_pos",
+        "x_max_pos",
+        "y_max"
+      };
+
+      arg_out_0 = mxCreateStructMatrix(1,1,6,fieldnames);
+
+      mxArray * mx_i_min_pos;
+      mxArray * mx_x_min_pos;
+      mxArray * mx_y_min;
+      mxArray * mx_i_max_pos;
+      mxArray * mx_x_max_pos;
+      mxArray * mx_y_max;
+
+      real_type * ptr_i_min_pos = createMatrixValue( mx_i_min_pos, i_min_pos.size(), 1 );
+      real_type * ptr_x_min_pos = createMatrixValue( mx_x_min_pos, x_min_pos.size(), 1 );
+      real_type * ptr_y_min     = createMatrixValue( mx_y_min,     y_min.size(),     1 );
+      real_type * ptr_i_max_pos = createMatrixValue( mx_i_max_pos, i_max_pos.size(), 1 );
+      real_type * ptr_x_max_pos = createMatrixValue( mx_x_max_pos, x_max_pos.size(), 1 );
+      real_type * ptr_y_max     = createMatrixValue( mx_y_max,     y_max.size(),     1 );
+
+      std::copy( i_min_pos.begin(), i_min_pos.end(), ptr_i_min_pos );
+      std::copy( x_min_pos.begin(), x_min_pos.end(), ptr_x_min_pos );
+      std::copy( y_min.begin(),     y_min.end(),     ptr_y_min     );
+      std::copy( i_max_pos.begin(), i_max_pos.end(), ptr_i_max_pos );
+      std::copy( x_max_pos.begin(), x_max_pos.end(), ptr_x_max_pos );
+      std::copy( y_max.begin(),     y_max.end(),     ptr_y_max     );
+
+      mxSetFieldByNumber( arg_out_0, 0, 0, mx_i_min_pos );
+      mxSetFieldByNumber( arg_out_0, 0, 1, mx_x_min_pos );
+      mxSetFieldByNumber( arg_out_0, 0, 2, mx_y_min     );
+      mxSetFieldByNumber( arg_out_0, 0, 3, mx_i_max_pos );
+      mxSetFieldByNumber( arg_out_0, 0, 4, mx_x_max_pos );
+      mxSetFieldByNumber( arg_out_0, 0, 5, mx_y_max     );
+
+    } else {
+
+      integer   i_min_pos, i_max_pos;
+      real_type x_min_pos, y_min, x_max_pos, y_max;
+
+      ptr->y_min_max(
+        i_min_pos, x_min_pos, y_min,
+        i_max_pos, x_max_pos, y_max
+      );
+
+      setScalarInt  ( arg_out_0, i_min_pos );
+      setScalarValue( arg_out_1, x_min_pos );
+      setScalarValue( arg_out_2, y_min     );
+      setScalarInt  ( arg_out_3, i_max_pos );
+      setScalarValue( arg_out_4, x_max_pos );
+      setScalarValue( arg_out_5, y_max     );
+
+    }
     #undef CMD
   }
 
