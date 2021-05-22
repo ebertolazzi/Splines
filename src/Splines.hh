@@ -974,8 +974,8 @@ namespace Splines {
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;
-    real_type DDDD( real_type x ) const override { return 0; }
-    real_type DDDDD( real_type x ) const override { return 0; }
+    real_type DDDD( real_type ) const override { return 0; }
+    real_type DDDDD( real_type ) const override { return 0; }
     ///@}
 
     //!
@@ -985,8 +985,8 @@ namespace Splines {
     real_type id_D( integer ni, real_type x ) const override;
     real_type id_DD( integer ni, real_type x ) const override;
     real_type id_DDD( integer ni, real_type x ) const override;
-    real_type id_DDDD( integer ni, real_type x ) const override { return 0; }
-    real_type id_DDDDD( integer ni, real_type x ) const override { return 0; }
+    real_type id_DDDD( integer, real_type ) const override { return 0; }
+    real_type id_DDDDD( integer, real_type ) const override { return 0; }
     ///@}
 
     void writeToStream( ostream_type & s ) const override;
