@@ -13,9 +13,9 @@
   class BSpline : public Spline {
   protected:
     Utils::Malloc<real_type> baseValue;
-    real_type * knots;
-    real_type * yPolygon;
-    bool        _external_alloc;
+    real_ptr knots;
+    real_ptr yPolygon;
+    bool     _external_alloc;
 
     integer knot_search( real_type x ) const;
 
@@ -55,11 +55,13 @@
 
     //! Use externally allocated memory for `npts` points
     void
-    reserve_external( integer      n,
-                      real_type *& p_x,
-                      real_type *& p_y,
-                      real_type *& p_knots,
-                      real_type *& p_yPolygon );
+    reserve_external(
+      integer   n,
+      real_ptr& p_x,
+      real_ptr& p_y,
+      real_ptr& p_knots,
+      real_ptr& p_yPolygon
+    );
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -549,15 +551,15 @@ namespace Splines {
   static
   void
   solveBanded(
-    real_type * rows,
-    real_type * rhs,
-    integer     n,
-    integer     ndiag
+    real_ptr rows,
+    real_ptr rhs,
+    integer  n,
+    integer  ndiag
   ) {
     // forward
-    integer rsize = 1+2*ndiag;
-    integer i = 0;
-    real_type * rowsi = rows + ndiag;
+    integer  rsize = 1+2*ndiag;
+    integer  i     = 0;
+    real_ptr rowsi = rows + ndiag;
     do {
       // pivot
       real_type pivot = rowsi[0]; // elemento sulla diagonale
@@ -569,8 +571,8 @@ namespace Splines {
       // azzera colonna
       integer nr = i+ndiag >= n ? n-i-1 : ndiag;
       for ( integer k = 1; k <= nr; ++k ) {
-        real_type * rowsk = rowsi + k * (rsize-1);
-        real_type tmp = rowsk[0];
+        real_ptr  rowsk = rowsi + k * (rsize-1);
+        real_type tmp   = rowsk[0];
         rowsk[0] = 0;
         for ( integer j = 1; j <= nr; ++j ) rowsk[j] -= tmp*rowsi[j];
         rhs[i+k] -= tmp*rhs[i];
@@ -593,7 +595,7 @@ namespace Splines {
     Utils::Malloc<real_type> mem("BSpline<_degree>::build");
     size_t mem_size = npts*(2*integer(_degree)+1);
     mem.allocate( mem_size );
-    real_type * band = mem( mem_size );
+    real_ptr band = mem( mem_size );
 
     std::fill_n( band, mem_size, 0 );
     knots_sequence( npts, X, knots );
@@ -604,15 +606,15 @@ namespace Splines {
     // knot[degree] <= x <= knot[degree+1]
     integer nr = integer(2*_degree+1);
     for ( integer i = 0; i < npts; ++i ) {
-      real_type * rowi = &band[size_t(nr * i)];
-      integer ii = knot_search( X[i] );
+      real_ptr rowi = &band[size_t(nr * i)];
+      integer  ii   = knot_search( X[i] );
       BSplineBase<_degree>::eval( X[i], knots+ii, (rowi + ii + _degree) - i );
       yPolygon[i] = Y[i];
     }
     solveBanded( band, yPolygon, npts, _degree );
     // extrapolation
-    real_type const * knots_R    = knots    + npts - _degree - 1;
-    real_type const * yPolygon_R = yPolygon + npts - _degree - 1;
+    real_const_ptr knots_R    = knots    + npts - _degree - 1;
+    real_const_ptr yPolygon_R = yPolygon + npts - _degree - 1;
     real_type x_L = X[0];
     real_type x_R = X[npts-1];
     s_L   = BSplineEval<_degree>::eval(x_L,knots,yPolygon);
@@ -652,11 +654,13 @@ namespace Splines {
 
   template <size_t _degree>
   void
-  BSpline<_degree>::reserve_external( integer      n,
-                                      real_type *& p_x,
-                                      real_type *& p_y,
-                                      real_type *& p_knots,
-                                      real_type *& p_yPolygon ) {
+  BSpline<_degree>::reserve_external(
+    integer   n,
+    real_ptr& p_x,
+    real_ptr& p_y,
+    real_ptr& p_knots,
+    real_ptr& p_yPolygon
+  ) {
     npts_reserved   = n;
     X               = p_x;
     Y               = p_y;
@@ -819,7 +823,7 @@ namespace Splines {
   BSpline<_degree>::setRange( real_type xmin, real_type xmax ) {
     Spline::setRange( xmin, xmax );
     real_type recS = ( X[npts-1] - X[0] ) / (xmax - xmin);
-    real_type * iy = Y;
+    real_ptr  iy   = Y;
     while ( iy < Y + npts ) *iy++ *= recS;
   }
 
