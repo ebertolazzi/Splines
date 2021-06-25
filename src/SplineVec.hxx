@@ -60,13 +60,19 @@ namespace Splines {
 
   public:
 
+    //!
     //! \name Constructors
+    //!
     ///@{
 
-    //! spline constructor
+    //!
+    //! Spline constructor.
+    //!
     SplineVec( string const & name = "SplineVec" );
 
-    //! spline destructor
+    //!
+    //! Spline destructor.
+    //!
     virtual
     ~SplineVec();
 
@@ -101,64 +107,69 @@ namespace Splines {
     ///@{
 
     //!
-    //! return the number of support points of the splines
+    //! Return the number of support points of the splines.
     //!
     integer numPoints() const { return m_npts; }
 
     //!
-    //! return the number splines in the spline set
+    //! Return the number splines in the spline set.
     //!
     integer dimension() const { return m_dim; }
 
     //!
-    //! return the vector of values of x-nodes
+    //! Return the vector of values of x-nodes.
     //!
     real_type const * xNodes() const { return m_X; }
 
     //!
-    //! return the npt-th node of the spline (x component).
+    //! Return the npt-th node of the spline (x component).
     //!
     real_type xNode( integer npt ) const { return m_X[size_t(npt)]; }
 
     //!
-    //! return the npt-th node of the spline (y component).
+    //! Return the vector of values of y-nodes, component `j`
+    //!
+    real_type const * yNodes( integer j ) const { return m_Y[size_t(j)]; }
+
+    //!
+    //! Return the npt-th node of the spline (`j` component of y).
     //!
     real_type
     yNode( integer npt, integer j ) const
     { return m_Y[size_t(j)][size_t(npt)]; }
 
     //!
-    //! return x-minumum spline value
+    //! Return x-minumum spline value.
     //!
     real_type xMin() const { return m_X[0]; }
 
     //!
-    //! return x-maximum spline value
+    //! Return x-maximum spline value.
     //!
     real_type xMax() const { return m_X[size_t(m_npts-1)]; }
 
     ///@}
 
     //!
-    //! \name Evaluation when segment is known
+    //! \name Evaluation when segment is known.
     //!
     ///@{
 
     //!
-    //! Evaluate spline value
+    //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
     operator () ( real_type x, integer i ) const;
 
     //!
-    //! Evaluate spline value at segment `i`
+    //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
     eval( real_type x, integer i ) const
     { return operator() (x,i); }
 
     //!
-    //! First derivative
+    //! First derivative value at `x` component `i`-th.
     //!
     real_type
     D( real_type x, integer i ) const;
@@ -168,7 +179,7 @@ namespace Splines {
     { return this->D(x,i); }
 
     //!
-    //! Second derivative
+    //! Second derivative value at `x` component `i`-th.
     //!
     real_type
     DD( real_type x, integer i ) const;
@@ -178,7 +189,7 @@ namespace Splines {
     { return this->DD(x,i); }
 
     //!
-    //! Third derivative
+    //! Third derivative value at `x` component `i`-th.
     //!
     real_type
     DDD( real_type x, integer i ) const;
@@ -188,7 +199,7 @@ namespace Splines {
     { return this->DDD(x,i); }
 
     //!
-    //! 4th derivative
+    //! 4th derivative value at `x` component `i`-th.
     //!
     real_type
     DDDD( real_type x, integer i ) const;
@@ -198,7 +209,7 @@ namespace Splines {
     { return this->DDDD(x,i); }
 
     //!
-    //! 5th derivative
+    //! 5th derivative value at `x` component `i`-th.
     //!
     real_type
     DDDDD( real_type x, integer i ) const;
@@ -210,12 +221,13 @@ namespace Splines {
     ///@}
 
     //!
-    //! \name Evaluate all the splines in a vector
+    //! \name Evaluate all the splines in a vector.
     //!
     ///@{
 
     //!
-    //! Evaluate all the splines at `x`
+    //! Evaluate all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval(
@@ -225,7 +237,8 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x`
+    //! Evaluate the fist derivative of all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval_D(
@@ -235,7 +248,8 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the second derivative of all the splines at `x`
+    //! Evaluate the second derivative of all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval_DD(
@@ -245,7 +259,8 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the third derivative of all the splines at `x`
+    //! Evaluate the third derivative of all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval_DDD(
@@ -255,7 +270,8 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the 4th derivative of all the splines at `x`
+    //! Evaluate the 4th derivative of all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval_DDDD(
@@ -265,7 +281,8 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the 5th derivative of all the splines at `x`
+    //! Evaluate the 5th derivative of all the splines at `x` and 
+    //! store values in `vals` with stride `inc`.
     //!
     void
     eval_DDDDD(
@@ -281,38 +298,44 @@ namespace Splines {
     ///@{
 
     //!
-    //! Evaluate all the splines at `x`
+    //! Evaluate all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x`
+    //! Evaluate the fist derivative of all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval_D( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the second derivative of all the splines at `x`
+    //! Evaluate the second derivative of all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval_DD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the third derivative of all the splines at `x`
+    //! Evaluate the third derivative of all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval_DDD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the 4th derivative of all the splines at `x`
+    //! Evaluate the 4th derivative of all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval_DDDD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the 5th derivative of all the splines at `x`
+    //! Evaluate the 5th derivative of all the splines at `x` and 
+    //! store values in `vals`.
     //!
     void eval_DDDDD( real_type x, vector<real_type> & vals ) const;
     ///@}
 
     //!
-    //! \name Evaluate all the splines in a `GenericContainer`
+    //! \name Evaluate all the splines in a `GenericContainer`.
     //!
     ///@{
 
@@ -321,42 +344,42 @@ namespace Splines {
     //!
     void
     eval( real_type x, GenericContainer & vals ) const
-    { eval( x, vals.set_vec_real() ); }
+    { eval( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate first derivatives at `x` and fill a `GenericContainer`
     //!
     void
     eval_D( real_type x, GenericContainer & vals ) const
-    { eval_D( x, vals.set_vec_real() ); }
+    { eval_D( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate second derivatives at `x` and fill a `GenericContainer`
     //!
     void
     eval_DD( real_type x, GenericContainer & vals ) const
-    { eval_DD( x, vals.set_vec_real() ); }
+    { eval_DD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate third derivatives at `x` and fill a `GenericContainer`
     //!
     void
     eval_DDD( real_type x, GenericContainer & vals ) const
-    { eval_DDD( x, vals.set_vec_real() ); }
+    { eval_DDD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate 4th derivatives at `x` and fill a `GenericContainer`
     //!
     void
     eval_DDDD( real_type x, GenericContainer & vals ) const
-    { eval_DDDD( x, vals.set_vec_real() ); }
+    { eval_DDDD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate 5th derivatives at `x` and fill a `GenericContainer`
     //!
     void
     eval_DDDDD( real_type x, GenericContainer & vals ) const
-    { eval_DDDDD( x, vals.set_vec_real() ); }
+    { eval_DDDDD( x, vals.set_vec_real(m_dim) ); }
     ///@}
 
     //!
@@ -365,53 +388,61 @@ namespace Splines {
     ///@{
 
     //!
-    //! Evaluate at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval( vec_real_type const & x, GenericContainer & vals ) const;
 
     //!
-    //! Evaluate first derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate first derivative at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval_D( vec_real_type const & x, GenericContainer & vals ) const;
 
     //!
-    //! Evaluate second derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate second derivative at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval_DD( vec_real_type const & x, GenericContainer & vals ) const;
 
     //!
-    //! Evaluate third derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate third derivative at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval_DDD( vec_real_type const & x, GenericContainer & vals ) const;
 
     //!
-    //! Evaluate 4th derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate 4th derivative at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval_DDDD( vec_real_type const & x, GenericContainer & vals ) const;
 
     //!
-    //! Evaluate 5th derivative at `x` (x is a vector with many values) and fill a GenericContainer
+    //! Evaluate 5th derivative at `x` (x is a vector with many values)
+    //! and fill a GenericContainer
     //!
     void
     eval_DDDDD( vec_real_type const & x, GenericContainer & vals ) const;
     ///@}
 
     //!
-    //! \name Setup Spline
+    //! \name Setup Splines.
     //!
     ///@{
 
     //!
-    //! Initialize the interpolation point of the splines
+    //! Initialize the interpolation point of the splines.
+    //! 
     //! \param[in] dim  the dimension of the points
     //! \param[in] npts the numeber of interpolation points
     //! \param[in] Y    the matrix of points values, `Y[i]` is the 
-    //!                 pointer to the i-th components 
+    //!                 pointer to the i-th components
+    //!
     void
     setup(
       integer            dim,
@@ -420,7 +451,8 @@ namespace Splines {
     );
 
     //!
-    //! Initialize the interpolation point of the splines
+    //! Initialize the interpolation point of the splines.
+    //!
     //! \param[in] dim  the dimension of the points
     //! \param[in] npts the numeber of interpolation points
     //! \param[in] Y    the matrix of points values
@@ -435,22 +467,22 @@ namespace Splines {
     );
 
     //!
-    //! Set the knots of the spline
+    //! Set the knots of the spline.
     //!
     void setKnots( real_type const * X );
 
     //!
-    //! Computes the knots of the spline using chordal length
+    //! Computes the knots of the spline using chordal length.
     //!
     void setKnotsChordLength();
 
     //!
-    //! Computes the knots of the spline using centripetal approach
+    //! Computes the knots of the spline using centripetal approach.
     //!
     void setKnotsCentripetal();
 
     //!
-    //! Computes the knots of the spline using Foley algorithm
+    //! Computes the knots of the spline using Foley algorithm.
     //!
     void setKnotsFoley();
 
@@ -467,18 +499,20 @@ namespace Splines {
     ///@}
 
     //!
-    //! Compute spline curvature at `x`
+    //! Compute spline curvature at `x`.
     //!
     real_type curvature( real_type x ) const;
 
     //!
-    //! Compute spline curvature derivative at `x`
+    //! Compute spline curvature derivative at `x`.
     //!
     real_type curvature_D( real_type x ) const;
 
     void setup( GenericContainer const & gc );
 
-    //! Return spline type (as number)
+    //!
+    //! Return spline type (as number).
+    //!
     unsigned type() const { return SPLINE_VEC_TYPE; }
 
     string info() const;
