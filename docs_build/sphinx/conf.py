@@ -9,9 +9,9 @@ extensions.append('breathe');
 extensions.append('exhale');
 
 breathe_projects = {
-  "doc_matlab": "_doxygen/"+"doc_matlab/xml-matlab",
-  "doc_cpp":    "_doxygen/"+"doc_cpp/xml-cpp",
-  "doc_c":      "_doxygen/"+"doc_c/xml-c",
+  "doc_matlab": "_doxygen/doc_matlab/xml-matlab",
+  "doc_cpp":    "_doxygen/doc_cpp/xml-cpp",
+  "doc_c":      "_doxygen/doc_c/xml-c",
 }
 
 breathe_default_project = "doc_c"
@@ -26,17 +26,17 @@ dir_path_matlab = os.path.dirname(os.path.realpath(__file__))+"../../../toolbox/
 dir_path_matlab = Path(dir_path_matlab).resolve()
 
 doxygen_common_stdin = """
-        EXTRACT_ALL         = YES
-        SOURCE_BROWSER      = YES
-        EXTRACT_STATIC      = YES
-        HIDE_SCOPE_NAMES    = NO
-        CALLER_GRAPH        = YES
-        GRAPHICAL_HIERARCHY = YES
-        HAVE_DOT            = YES
-        QUIET               = NO
-        GENERATE_TREEVIEW   = YES
-        SHORT_NAMES         = YES
-        IMAGE_PATH          = ../images
+        EXTRACT_ALL           = YES
+        SOURCE_BROWSER        = YES
+        EXTRACT_STATIC        = YES
+        HIDE_SCOPE_NAMES      = NO
+        CALLER_GRAPH          = YES
+        GRAPHICAL_HIERARCHY   = YES
+        HAVE_DOT              = YES
+        QUIET                 = NO
+        GENERATE_TREEVIEW     = YES
+        SHORT_NAMES           = YES
+        IMAGE_PATH            = ../images
 
         XML_PROGRAMLISTING    = YES
         RECURSIVE             = NO
@@ -52,15 +52,13 @@ doxygen_common_stdin = """
         GENERATE_HTML         = NO
 """
 
-exhale_projects_args = {
-  # Third Party Project Includes
-  "doc_matlab": {
+doc_matlab = {
     'verboseBuild':          True,
     "rootFileName":          "root.rst",
     "createTreeView":        True,
     "exhaleExecutesDoxygen": True,
     "doxygenStripFromPath":  str(dir_path_matlab),
-    "exhaleDoxygenStdin":   '''
+    "exhaleDoxygenStdin":    '''
         INPUT               = ../../toolbox/lib
         PREDEFINED         += protected=private
         XML_OUTPUT          = xml-matlab
@@ -71,15 +69,15 @@ exhale_projects_args = {
     "containmentFolder":    os.path.realpath('./api-matlab'),
     "rootFileTitle":        "MATLAB API",
     "lexerMapping": { r".*\.m": "MATLAB" }
-  },
+}
 
-  "doc_cpp": {
+doc_cpp = {
     'verboseBuild':          True,
     "rootFileName":          "root.rst",
     "createTreeView":        True,
     "exhaleExecutesDoxygen": True,
     "doxygenStripFromPath":  str(dir_path_cpp),
-    "exhaleDoxygenStdin":   '''
+    "exhaleDoxygenStdin":    '''
         INPUT               = ../../src
         PREDEFINED         += protected=private
         XML_OUTPUT          = xml-cpp
@@ -87,23 +85,29 @@ exhale_projects_args = {
 '''+doxygen_common_stdin,
     "containmentFolder":    os.path.realpath('./api-cpp'),
     "rootFileTitle":        "C++ API",
-  },
+}
 
-  "doc_c": {
+doc_c = {
     'verboseBuild':          True,
     "rootFileName":          "root.rst",
     "createTreeView":        True,
     "exhaleExecutesDoxygen": True,
     "doxygenStripFromPath":  str(dir_path_c),
-    "exhaleDoxygenStdin":   '''
+    "exhaleDoxygenStdin":    '''
         INPUT               = ../../src
         PREDEFINED         += protected=private
         XML_OUTPUT          = xml-c
-        FILE_PATTERNS       = SplinesCinterface.* *.h *.c
+        FILE_PATTERNS       = SplinesCinterface.h *.h *.c
 '''+doxygen_common_stdin,
     "containmentFolder":    os.path.realpath('./api-c'),
     "rootFileTitle":        "C API",
-  }
+}
+
+exhale_projects_args = {
+  # Third Party Project Includes
+  "doc_matlab": doc_matlab,
+  "doc_cpp":    doc_cpp,
+  "doc_c":      doc_c
 }
 
 cpp_index_common_prefix = ['Splines::']

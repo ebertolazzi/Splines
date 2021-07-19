@@ -164,6 +164,8 @@
 
     <span class="n">real_type</span> <span class="n">xNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npt</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_X</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npt</span><span class="p">)];</span> <span class="p">}</span>
 
+    <span class="n">real_type</span> <span class="k">const</span> <span class="o">*</span> <span class="n">yNodes</span><span class="p">(</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">j</span><span class="p">)];</span> <span class="p">}</span>
+
     <span class="n">real_type</span>
     <span class="n">yNode</span><span class="p">(</span> <span class="n">integer</span> <span class="n">npt</span><span class="p">,</span> <span class="n">integer</span> <span class="n">j</span> <span class="p">)</span> <span class="k">const</span>
     <span class="p">{</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="kt">size_t</span><span class="p">(</span><span class="n">j</span><span class="p">)][</span><span class="kt">size_t</span><span class="p">(</span><span class="n">npt</span><span class="p">)];</span> <span class="p">}</span>
@@ -276,27 +278,27 @@
 
     <span class="kt">void</span>
     <span class="nf">eval</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
     <span class="kt">void</span>
     <span class="nf">eval_D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval_D</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval_D</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
     <span class="kt">void</span>
     <span class="nf">eval_DD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval_DD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval_DD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
     <span class="kt">void</span>
     <span class="nf">eval_DDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval_DDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval_DDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
     <span class="kt">void</span>
     <span class="nf">eval_DDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval_DDDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval_DDDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
     <span class="kt">void</span>
     <span class="nf">eval_DDDDD</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">GenericContainer</span> <span class="o">&amp;</span> <span class="n">vals</span> <span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span> <span class="n">eval_DDDDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">()</span> <span class="p">);</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="n">eval_DDDDD</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">vals</span><span class="p">.</span><span class="n">set_vec_real</span><span class="p">(</span><span class="n">m_dim</span><span class="p">)</span> <span class="p">);</span> <span class="p">}</span>
 
 
     <span class="kt">void</span>

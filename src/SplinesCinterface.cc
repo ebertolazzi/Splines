@@ -21,12 +21,12 @@
 // file: SplineCinterface.cc
 //
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 //! 
 //! \file SplinesCinterface.cc
 //! This file contains the sources for the C interface to `Splines`
 //! 
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #include "Splines.hh"
 #include "SplinesCinterface.h"
@@ -38,9 +38,7 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace SplinesLoad;
-#endif
 
 #include <vector>
 #include <map>
@@ -54,9 +52,7 @@ using namespace SplinesLoad;
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 extern "C" {
 

@@ -100,15 +100,18 @@
 <span class="cm"> | file: SplinesCinterface.h</span>
 <span class="cm"> */</span>
 
-<span class="cm">/* @{ */</span>
 <span class="cp">#pragma once</span>
 
 <span class="cp">#ifndef SPLINES_C_INTERFACE_H</span>
 <span class="cp">#define SPLINES_C_INTERFACE_H</span>
 
+<span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
 <span class="cp">#ifdef __cplusplus</span>
 <span class="k">extern</span> <span class="s">"C"</span> <span class="p">{</span>
 <span class="cp">#endif</span>
+<span class="cp">#endif</span>
+
+  <span class="cm">/* @{ */</span>
 
   <span class="kt">int</span>
   <span class="nf">SPLINE_new</span><span class="p">(</span>
@@ -151,13 +154,15 @@
 
   <span class="kt">double</span> <span class="nf">SPLINE_eval_DDDDD</span><span class="p">(</span> <span class="kt">double</span> <span class="n">x</span> <span class="p">);</span>
 
+  <span class="cm">/* @} */</span>
+
+<span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
 <span class="cp">#ifdef __cplusplus</span>
 <span class="p">}</span>
 <span class="cp">#endif</span>
-
 <span class="cp">#endif</span>
 
-<span class="cm">/* @} */</span>
+<span class="cp">#endif</span>
 
 <span class="cm">/*</span>
 <span class="cm">// eof: SplineCinterface.hh</span>

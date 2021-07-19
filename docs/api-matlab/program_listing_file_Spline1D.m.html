@@ -147,6 +147,17 @@
 <span class="w">    </span><span class="c">%&gt; Search the max and min values of `y` along the spline</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; with the corresponding `x` position</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; \rst</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;   .. code-block:: matlab</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;     [i_min_pos,x_min_pos,y_min,...</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;      i_max_pos,x_max_pos,y_max] = obj.eval_y_min_max();</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;     SS = obj.eval_y_min_max();</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; \endrst</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; - [out] i_min_pos where is the minimum (interval)</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; - [out] x_min_pos where is the minimum</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; - [out] y_min     the minimum value</span><span class="w"></span>
@@ -154,8 +165,15 @@
 <span class="w">    </span><span class="c">%&gt; - [out] x_max_pos where is the maximum</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; - [out] y_max     the maximum value</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
-<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="nf">[ i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max] = eval_y_min_max</span><span class="p">(</span> self <span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="p">[</span><span class="w"> </span><span class="n">i_min_pos</span><span class="p">,</span><span class="w"> </span><span class="n">x_min_pos</span><span class="p">,</span><span class="w"> </span><span class="n">y_min</span><span class="p">,</span><span class="w"> </span><span class="n">i_max_pos</span><span class="w"> </span><span class="n">x_max_pos</span><span class="p">,</span><span class="w"> </span><span class="n">y_max</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Spline1DMexWrapper</span><span class="p">(</span><span class="w"> </span><span class="s">'y_min_max'</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">objectHandle</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.i_min_pos vector where is the local minimum (interval)</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.x_min_pos vector where is the local minimum</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.y_min     vector where is the local minimum value</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.i_max_pos vector where is the local maximum (interval)</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.x_max_pos vector where is the local maximum</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] SS.y_max     vector where is the local maximum value</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span>varargout<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">eval_y_min_max</span><span class="p">(</span> self <span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">[</span><span class="nb">varargout</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="nb">nargout</span><span class="p">}]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Spline1DMexWrapper</span><span class="p">(</span><span class="w"> </span><span class="s">'y_min_max'</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">objectHandle</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
 <span class="w">    </span><span class="c">% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
