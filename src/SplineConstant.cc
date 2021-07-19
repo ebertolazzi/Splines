@@ -191,7 +191,7 @@ namespace Splines {
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
     for ( integer i = 1; i < m_npts-1; ++i ) {
-      real_type const & P1  = m_Y[i];
+      real_type const & P1 = m_Y[i];
       if ( P1 > y_max ) {
         y_max     = P1;
         x_max_pos = m_X[i];
@@ -200,6 +200,43 @@ namespace Splines {
         y_min     = P1;
         x_min_pos = m_X[i];
         i_min_pos = i;
+      }
+    }
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  ConstantSpline::y_min_max(
+    vector<integer>   & i_min_pos,
+    vector<real_type> & x_min_pos,
+    vector<real_type> & y_min,
+    vector<integer>   & i_max_pos,
+    vector<real_type> & x_max_pos,
+    vector<real_type> & y_max
+  ) const {
+    i_min_pos.clear();
+    i_max_pos.clear();
+    x_min_pos.clear();
+    x_max_pos.clear();
+    y_min.clear();
+    y_max.clear();
+    UTILS_ASSERT0(
+      m_npts > 0, "ConstantSpline::y_min_max() empty spline!"
+    );
+    // find max min along the nodes
+    for ( integer i = 1; i < m_npts-1; ++i ) {
+      real_type const & P0 = m_Y[i-1];
+      real_type const & P1 = m_Y[i];
+      real_type const & P2 = m_Y[i+1];
+      if ( P1 > P0 && P1 > P2 ) {
+        y_max.push_back(P1);
+        x_max_pos.push_back(m_X[i]);
+        i_max_pos.push_back(i);
+      } else if ( P1 < P0 && P1 < P2 ) {
+        y_min.push_back(P1);
+        x_min_pos.push_back(m_X[i]);
+        i_min_pos.push_back(i);
       }
     }
   }

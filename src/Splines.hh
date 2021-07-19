@@ -532,6 +532,39 @@ namespace Splines {
       );
     }
 
+    //!
+    //! Search the max and min values of `y` along the spline
+    //! with the corresponding `x` position
+    //!
+    //! \param[out] i_min_pos interval where is the minimum
+    //! \param[out] x_min_pos where is the minimum
+    //! \param[out] y_min     the minimum value
+    //! \param[out] i_max_pos interval where is the maximum
+    //! \param[out] x_max_pos where is the maximum
+    //! \param[out] y_max     the maximum value
+    //!
+    virtual
+    void
+    y_min_max(
+      vector<integer>   & i_min_pos,
+      vector<real_type> & x_min_pos,
+      vector<real_type> & y_min,
+      vector<integer>   & i_max_pos,
+      vector<real_type> & x_max_pos,
+      vector<real_type> & y_max
+    ) const {
+      i_min_pos.clear();
+      i_max_pos.clear();
+      x_min_pos.clear();
+      x_max_pos.clear();
+      y_min.clear();
+      y_max.clear();
+      UTILS_ERROR(
+        "In spline: {} y_min_max not implemented\n",
+        info()
+      );
+    }
+
     ///@}
 
     //! \name Build
@@ -921,6 +954,16 @@ namespace Splines {
       real_type & y_max
     ) const override;
 
+    void
+    y_min_max(
+      vector<integer>   & i_min_pos,
+      vector<real_type> & x_min_pos,
+      vector<real_type> & y_min,
+      vector<integer>   & i_max_pos,
+      vector<real_type> & x_max_pos,
+      vector<real_type> & y_max
+    ) const override;
+
     // --------------------------- VIRTUALS -----------------------------------
 
     //!
@@ -931,8 +974,8 @@ namespace Splines {
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;
-    real_type DDDD( real_type x ) const override { return 0; }
-    real_type DDDDD( real_type x ) const override { return 0; }
+    real_type DDDD( real_type ) const override { return 0; }
+    real_type DDDDD( real_type ) const override { return 0; }
     ///@}
 
     //!
@@ -942,8 +985,8 @@ namespace Splines {
     real_type id_D( integer ni, real_type x ) const override;
     real_type id_DD( integer ni, real_type x ) const override;
     real_type id_DDD( integer ni, real_type x ) const override;
-    real_type id_DDDD( integer ni, real_type x ) const override { return 0; }
-    real_type id_DDDDD( integer ni, real_type x ) const override { return 0; }
+    real_type id_DDDD( integer, real_type ) const override { return 0; }
+    real_type id_DDDDD( integer, real_type ) const override { return 0; }
     ///@}
 
     void writeToStream( ostream_type & s ) const override;

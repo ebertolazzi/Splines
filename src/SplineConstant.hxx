@@ -119,6 +119,16 @@ namespace Splines {
       real_type & y_max
     ) const override;
 
+    void
+    y_min_max(
+      vector<integer>   & i_min_pos,
+      vector<real_type> & x_min_pos,
+      vector<real_type> & y_min,
+      vector<integer>   & i_max_pos,
+      vector<real_type> & x_max_pos,
+      vector<real_type> & y_max
+    ) const override;
+
   };
 }
 
