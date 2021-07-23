@@ -4,6 +4,7 @@
 /bin/*
 /lib/*
 /lib3rd/*
+/vs_*
 /Documentation
 /no_git
 /cmake-build-debug
