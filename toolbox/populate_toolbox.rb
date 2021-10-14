@@ -16,6 +16,12 @@ lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);
 end
 
+lst = Dir["../src/Splines/*.h*"]
+lst.each do |filename|
+  FileUtils.cp filename, "./src/Splines/" + File.basename(filename);
+end
+
+
 lst = Dir["../submodules/GenericContainer/src/*.cc"]
 lst.each do |filename|
   FileUtils.cp filename, "./src/" + File.basename(filename);

@@ -9,173 +9,169 @@
 #                                                                          #
 ############################################################################
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.0)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+# set(CMAKE_INSTALL_MESSAGE NEVER)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-PROJECT( Splines CXX C )
+if(ENABLE_CTEST)
+  enable_testing()
+endif()
 
-SET( CMAKE_VERBOSE_MAKEFILE OFF )
-SET( CMAKE_INSTALL_MESSAGE NEVER )
+# get version from the git tag
+execute_process(COMMAND git describe --tags --abbrev=0 OUTPUT_VARIABLE VERSION)
+string(REGEX REPLACE "\n$" "" VERSION "${VERSION}")
 
-IF ( CMAKE_BUILD_TYPE STREQUAL "Debug" )
-  SET( DEBUG_SUFFIX "_debug" )
-ELSE()
-  SET( DEBUG_SUFFIX )
-ENDIF()
 
-IF ( BUILD_SHARED )
-  IF ( APPLE )
-    SET( TARGET Splines_osx${DEBUG_SUFFIX} )
-  ELSEIF( LINUX OR UNIX )
-    SET( TARGET Splines_linux${DEBUG_SUFFIX} )
-  ELSE()
-    SET( TARGET Splines_win_${BITS}${DEBUG_SUFFIX} )
-    SET( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
-  ENDIF()
-ENDIF()
+project(
+  Splines
+  VERSION ${VERSION}
+  HOMEPAGE_URL "https://ebertolazzi.github.io/Clothoids/"
+)
 
-IF ( APPLE )
-  SET( TARGETS Splines_osx_static${DEBUG_SUFFIX} )
-ELSEIF( LINUX OR UNIX )
-  SET( TARGETS Splines_linux_static${DEBUG_SUFFIX} )
-ELSE()
-  SET( TARGETS Splines_win_${BITS}_static${DEBUG_SUFFIX} )
-ENDIF()
+# NOTE: Predictable target name
+set(STATIC_PROJECT "${PROJECT_NAME}Static")
+set(DYNAMIC_PROJECT "${PROJECT_NAME}")
 
-INCLUDE( ./CMakeLists-cflags.txt )
-MESSAGE( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}")
+include(./CPackConfig.cmake)
+include(./CMakeLists-cflags.txt)
+include(./CMakeUtilities.txt)
 
-SET( CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} )
-SET( CMAKE_C_FLAGS_DEBUG   ${CMAKE_CXX_FLAGS_DEBUG} )
+# Evaluating the suffix to append to target built by this CMake file
+ebertolazzi_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
+if(BUILD_SHARED)
+  ebertolazzi_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
+endif()
 
-SET( SOURCES )
-FILE( GLOB S ./src/*.cc )
-FOREACH (F ${S})
-  FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-  LIST( APPEND SOURCES ${RF} )
-ENDFOREACH (F ${S})
-SET( HEADERS )
+# DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
+set(UPDIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set(DIRGC    "${CMAKE_CURRENT_SOURCE_DIR}/extern/GC")
+set(DIRUTILS "${CMAKE_CURRENT_SOURCE_DIR}/extern/Utils")
+set(DIRROOTS "${CMAKE_CURRENT_SOURCE_DIR}/extern/Flocke")
+if(FALSE AND EXISTS "${UPDIR}/GC")
+  add_subdirectory("${UPDIR}/GC" "${DIRGC}")
+else()
+  #add_subdirectory(./submodules/GenericContainer "${DIRGC}") # NON FUNZIONA
+  add_subdirectory(./submodules/GenericContainer)
+endif()
+if(FALSE AND EXISTS "${UPDIR}/Utils")
+  add_subdirectory("${UPDIR}/Utils" "${DIRUTILS}")
+else()
+  #add_subdirectory(./submodules/Utils "${DIRUTILS}") # NON FUNZIONA
+  add_subdirectory(./submodules/Utils)
+endif()
+if(FALSE AND EXISTS "${UPDIR}/quarticRootsFlocke")
+  add_subdirectory("${UPDIR}/quarticRootsFlocke" "${DIRROOTS}")
+else()
+  #add_subdirectory(./submodules/quarticRootsFlocke "${DIRROOTS}") # NON FUNZIONA
+  add_subdirectory(./submodules/quarticRootsFlocke)
+endif()
+
+include_directories(lib3rd/include)
+
+message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}")
+set(CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+set(CMAKE_C_FLAGS_DEBUG   ${CMAKE_CXX_FLAGS_DEBUG})
+
+# NOTE: Glob shall be avoided. Headers and sources shall be declared 
+# manually in order to rebuild cmake-cache automatically.
+# Ref: https://cmake.org/cmake/help/v3.15/command/file.html?highlight=glob#filesystem
+set(Splines_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+set( SOURCES )
+file( GLOB S ./src/*.cc )
+foreach (F ${S})
+  file( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
+  list( APPEND SOURCES ${RF} )
+endforeach (F ${S})
+
+set( HEADERS )
 FILE( GLOB S ./src/*.hh )
-FOREACH (F ${S})
-  FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-  LIST( APPEND HEADERS ${RF} )
-ENDFOREACH (F ${S})
-FILE( GLOB S ./src/*.h )
-FOREACH (F ${S})
-  FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-  LIST( APPEND HEADERS ${RF} )
-ENDFOREACH (F ${S})
-FILE( GLOB S ./src/*.hxx )
-FOREACH (F ${S})
-  FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-  LIST( APPEND HEADERS ${RF} )
-ENDFOREACH (F ${S})
+foreach (F ${S})
+  file( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
+  list( APPEND HEADERS ${RF} )
+endforeach (F ${S})
 
-INCLUDE_DIRECTORIES( src lib3rd/include )
+FILE( GLOB S ./src/*.h* )
+foreach (F ${S})
+  file( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
+  list( APPEND HEADERS ${RF} )
+endforeach (F ${S})
 
-IF ( APPLE )
-  FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_osx_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    UTILS NAMES Utils_osx_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    QUARTIC NAMES Quartic_osx_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-ELSEIF( LINUX OR UNIX )
-  FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_linux_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    UTILS NAMES Utils_linux_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    QUARTIC NAMES Quartic_linux_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-ELSE()
-  FIND_LIBRARY(
-    GC_LIB NAMES GenericContainer_win_${BITS}_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    QUARTIC NAMES Quartic_win_${BITS}_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-  FIND_LIBRARY(
-    UTILS NAMES Utils_win_${BITS}_static${DEBUG_SUFFIX}
-    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib
-  )
-ENDIF()
+set( HEADERS2 )
+FILE( GLOB S ./src/Splines/*.h* )
+foreach (F ${S})
+  file( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
+  list( APPEND HEADERS2 ${RF} )
+endforeach (F ${S})
 
 
-IF ( BUILD_SHARED )
-  IF ( APPLE )
-    FIND_LIBRARY(
-      GC_LIB_SHARED NAMES GenericContainer_osx${DEBUG_SUFFIX}
-      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
+add_library(${STATIC_PROJECT} STATIC ${SOURCES})
+target_include_directories(
+  ${STATIC_PROJECT} PUBLIC 
+  "$<BUILD_INTERFACE:${Splines_DIR}>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+)
+set_target_properties(
+  ${STATIC_PROJECT} PROPERTIES
+  OUTPUT_NAME "${PROJECT_NAME}${ARTIFACTS_STATIC_SUFFIX}"
+  # FIXME: I'm not sure if this is required for OSX Framework
+  #PUBLIC_HEADER "${HEADERS}"
+  POSITION_INDEPENDENT_CODE ON
+)
+
+if(BUILD_SHARED)
+  add_library(${DYNAMIC_PROJECT} SHARED ${SOURCES})
+  set_target_properties(
+    ${DYNAMIC_PROJECT} PROPERTIES
+    OUTPUT_NAME "${PROJECT_NAME}${ARTIFACTS_DYNAMIC_SUFFIX}"
+    # FIXME: I'm not sure if this is required for OSX Framework
+    # PUBLIC_HEADER "${HEADERS}"
+    POSITION_INDEPENDENT_CODE ON
+  )
+  target_include_directories(
+    ${DYNAMIC_PROJECT} PUBLIC 
+    "$<BUILD_INTERFACE:${Splines_DIR}>"
+    "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+  )
+  target_link_libraries( ${DYNAMIC_PROJECT} PUBLIC GenericContainerStatic UtilsStatic QuarticStatic )
+  if(WIN32)
+    set_target_properties(
+      ${DYNAMIC_PROJECT} PROPERTIES 
+      WINDOWS_EXPORT_ALL_SYMBOLS TRUE
     )
-  ELSEIF( LINUX OR UNIX )
-    FIND_LIBRARY(
-      GC_LIB_SHARED NAMES GenericContainer_linux${DEBUG_SUFFIX}
-      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
-    )
-  ELSE()
-    FIND_LIBRARY(
-      GC_LIB_SHARED NAMES GenericContainer_win_${BITS}${DEBUG_SUFFIX}
-      HINTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib ${CMAKE_CURRENT_SOURCE_DIR}/lib/dll
-    )
-  ENDIF()
-ENDIF()
+  endif()
+endif()
 
-SET( CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lib )
-
-IF ( BUILD_SHARED )
-  ADD_LIBRARY( ${TARGETS} STATIC ${SOURCES} ${HEADERS} )
-  ADD_LIBRARY( ${TARGET}  SHARED ${SOURCES} ${HEADERS} )
-  TARGET_LINK_LIBRARIES( ${TARGET} ${GC_LIB_SHARED} ${QUARTIC} ${UTILS} )
-  INSTALL(
-    TARGETS ${TARGET} ${TARGETS}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/dll
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+if(BUILD_EXECUTABLE OR ENABLE_CTEST)
+  enable_testing()
+  set(TEST_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+  set(
+    EXECUTABLES
+    test1.cc test2.cc test3.cc test4.cc test5.cc
+    test6.cc test7.cc test8.cc test9.cc test10.cc
   )
-ELSE()
-  ADD_LIBRARY( ${TARGETS} STATIC ${SOURCES} ${HEADERS} )
-  INSTALL(
-    TARGETS ${TARGETS}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/dll
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-  )
-ENDIF()
+  foreach(EXE ${EXECUTABLES})
+    add_executable(${EXE} tests-cpp/${EXE}.cc)
+    target_link_libraries(${EXE} PRIVATE ${STATIC_PROJECT} Utils ${CMAKE_DL_LIBS})
+    set_target_properties(
+      ${EXE} PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY "${TEST_OUTPUT_PATH}"
+    )
+    add_test(${EXE} "${CMAKE_CURRENT_SOURCE_DIR}/bin/${EXE}")
+  endforeach()
+endif()
 
-SET_PROPERTY( TARGET ${TARGETS} PROPERTY POSITION_INDEPENDENT_CODE ON )
+# INSTALL TARGETS
 
-INSTALL( FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
+set(INSTALL_TARGETS ${STATIC_PROJECT})
+add_dependencies( ${STATIC_PROJECT} GenericContainerStatic UtilsStatic QuarticStatic )
+if(BUILD_SHARED)
+  add_dependencies( ${STATIC_PROJECT} GenericContainerStatic UtilsStatic QuarticStatic )
+  set(INSTALL_TARGETS ${INSTALL_TARGETS} ${DYNAMIC_PROJECT})
+endif()
 
-IF( BUILD_EXECUTABLE )
-
-  SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
-  FILE( MAKE_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/bin )
-
-  FILE( GLOB S ./tests/*.cc )
-  FOREACH( F ${S} )
-    FILE( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
-    GET_FILENAME_COMPONENT( TEXE ${RF} NAME_WE )
-    ADD_EXECUTABLE( ${TEXE} ${RF} )
-    IF ( UNIX )
-      TARGET_LINK_LIBRARIES( ${TEXE} ${TARGETS} ${GC_LIB} ${QUARTIC} ${UTILS} -ldl )
-    ELSE()
-      TARGET_LINK_LIBRARIES( ${TEXE} ${TARGETS} ${GC_LIB} ${QUARTIC} ${UTILS} )
-    ENDIF()
-  ENDFOREACH( F ${S} )
-ENDIF()
+include("${CMAKE_CURRENT_SOURCE_DIR}/CMakeInstall.txt")
 
 MESSAGE( STATUS "Using ${SSE_FLAGS} extensions")
 MESSAGE( STATUS "C compiler                  = ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER}" )

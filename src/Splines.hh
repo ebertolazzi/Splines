@@ -1549,24 +1549,24 @@ namespace Splines {
 
 }
 
-#include "SplineAkima.hxx"
-#include "SplineBessel.hxx"
-#include "SplineConstant.hxx"
-#include "SplineLinear.hxx"
-#include "SplineCubic.hxx"
-#include "SplineHermite.hxx"
-#include "SplinePchip.hxx"
-#include "SplineQuinticBase.hxx"
-#include "SplineQuintic.hxx"
-#include "SplineBilinear.hxx"
-#include "SplineBiCubic.hxx"
-#include "SplineAkima2D.hxx"
-#include "SplineBiQuintic.hxx"
+#include "Splines/SplineAkima.hxx"
+#include "Splines/SplineBessel.hxx"
+#include "Splines/SplineConstant.hxx"
+#include "Splines/SplineLinear.hxx"
+#include "Splines/SplineCubic.hxx"
+#include "Splines/SplineHermite.hxx"
+#include "Splines/SplinePchip.hxx"
+#include "Splines/SplineQuinticBase.hxx"
+#include "Splines/SplineQuintic.hxx"
+#include "Splines/SplineBilinear.hxx"
+#include "Splines/SplineBiCubic.hxx"
+#include "Splines/SplineAkima2D.hxx"
+#include "Splines/SplineBiQuintic.hxx"
 
-#include "SplineVec.hxx"
-#include "SplineSet.hxx"
-#include "Splines1D.hxx"
-#include "Splines2D.hxx"
+#include "Splines/SplineVec.hxx"
+#include "Splines/SplineSet.hxx"
+#include "Splines/Splines1D.hxx"
+#include "Splines/Splines2D.hxx"
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

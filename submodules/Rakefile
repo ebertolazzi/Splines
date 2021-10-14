@@ -9,8 +9,12 @@ task :copy_submodules, [:arg] do |t, args|
   FileUtils.mkdir_p "../lib3rd/dll/"
   FileUtils.mkdir_p "../lib3rd/bin/"
   tmp = '_' + args.arg
-  ["./Utils/","./quarticRootsFlocke/", "./GenericContainer/"].each do |base|
-    FileUtils.cp_r base + "lib/.", "../lib3rd/"
+  ["Utils"].each do |base|
+    FileUtils.cp_r "./#{base}/lib/include/#{base}/.", "../lib3rd/include"
+    FileUtils.cp_r "./#{base}/lib/.", "../lib3rd"
+  end
+  ["quarticRootsFlocke","GenericContainer"].each do |base|
+    FileUtils.cp_r "./#{base}/lib/.", "../lib3rd/"
   end
 end
 

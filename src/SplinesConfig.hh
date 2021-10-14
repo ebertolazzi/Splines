@@ -37,6 +37,6 @@
 // #define DEBUG
 
 #include "Utils.hh"
-#include "GenericContainer.hh"
+#include "GenericContainer/GenericContainer.hh"
 
 #endif

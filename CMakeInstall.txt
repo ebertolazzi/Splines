@@ -1,0 +1,81 @@
+if(INSTALL_HERE) 
+  # install in the home of the whole project
+  if ( ${CMAKE_HOME_DIRECTORY} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR} )
+    set(INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/lib")
+  else()
+    set(INSTALL_PREFIX "${CMAKE_HOME_DIRECTORY}/lib3rd")
+  endif()
+  set(PROJECT_PUBLIC_HEADER_DESTINATION "${INSTALL_PREFIX}/include")
+else()
+  set(INSTALL_TARGETS ${INSTALL_TARGETS} GenericContainerStatic UtilsStatic QuarticStatic)
+  set(INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+  set(PROJECT_PUBLIC_HEADER_DESTINATION "${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}")
+endif()
+
+#MESSAGE( STATUS "\n\n\nCMAKE_HOME_DIRECTORY     = ${CMAKE_HOME_DIRECTORY}\n\n\n")
+#MESSAGE( STATUS "\n\n\nCMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}\n\n\n")
+#MESSAGE( STATUS "\n\n\nINSTALL_PREFIX           = ${INSTALL_PREFIX}\n\n\n")
+
+# Installing Dependencies
+install(
+  TARGETS ${INSTALL_TARGETS}
+  EXPORT SplinesTargets
+  RUNTIME DESTINATION "${INSTALL_PREFIX}/bin"
+  ARCHIVE DESTINATION "${INSTALL_PREFIX}/lib"
+  LIBRARY DESTINATION "${INSTALL_PREFIX}/dll"
+  PUBLIC_HEADER DESTINATION "${PROJECT_PUBLIC_HEADER_DESTINATION}"
+)
+
+# FIXME: The header structure forces me to do this... And this will create issues!
+install(FILES "${Splines_DIR}/Splines.hh" DESTINATION "${PROJECT_PUBLIC_HEADER_DESTINATION}")
+install(FILES "${Splines_DIR}/SplinesConfig.hh" DESTINATION "${PROJECT_PUBLIC_HEADER_DESTINATION}")
+install(FILES "${Splines_DIR}/SplinesUtils.hh" DESTINATION "${PROJECT_PUBLIC_HEADER_DESTINATION}")
+install(DIRECTORY "${Splines_DIR}/Splines" DESTINATION "${PROJECT_PUBLIC_HEADER_DESTINATION}")
+
+#----------------------------------------
+
+install(
+  EXPORT SplinesTargets
+  FILE SplinesTargets.cmake 
+  DESTINATION lib/cmake/Splines
+)
+
+# CPACK INSTALL TARGETS (Leaving almost as it is...)
+
+set(INCLUDE_INSTALL_DIR include/ CACHE STRING "Include install directory")
+set(LIBRARIES_INSTALL_DIR lib/ CACHE STRING "Libraries install directory")
+get_target_property(SPLINES_LIB_OUTPUT_NAME ${STATIC_PROJECT} OUTPUT_NAME)
+if(UNIX)
+  set(SPLINES_LIB_PREFIX lib)
+  set(SPLINES_LIB_SUFFIX .a)
+else()
+  set(SPLINES_LIB_PREFIX "")
+  set(SPLINES_LIB_SUFFIX .lib)
+endif()
+set(SPLINES_LIB_NAME "${SPLINES_LIB_PREFIX}${SPLINES_LIB_OUTPUT_NAME}${SPLINES_LIB_SUFFIX}")
+set(LIBRARIES lib/${SPLINES_LIB_NAME} CACHE STRING "Libraries directory")
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+  SplinesConfig.cmake.in 
+  "${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake"
+  INSTALL_DESTINATION "lib/Splines/cmake"
+  PATH_VARS INCLUDE_INSTALL_DIR LIBRARIES_INSTALL_DIR LIBRARIES
+)
+write_basic_package_version_file(
+  "SplinesConfigVersion.cmake"
+  COMPATIBILITY SameMajorVersion
+)
+install(
+  FILES 
+  ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfigVersion.cmake
+  DESTINATION lib/cmake/Splines
+)
+
+if(INSTALL_HERE)
+  add_custom_command(
+    TARGET ${STATIC_PROJECT} POST_BUILD
+    COMMAND cmake --build . --config Release  --target install
+  )
+endif()
