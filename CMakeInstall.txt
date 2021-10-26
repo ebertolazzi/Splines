@@ -34,44 +34,48 @@ install(DIRECTORY "${Splines_DIR}/Splines" DESTINATION "${PROJECT_PUBLIC_HEADER_
 
 #----------------------------------------
 
-install(
+if ( APPLE OR UNIX OR LINUX )
+
+  install(
   EXPORT SplinesTargets
   FILE SplinesTargets.cmake 
   DESTINATION lib/cmake/Splines
-)
+  )
+  
+  # CPACK INSTALL TARGETS (Leaving almost as it is...)
+  
+  set(INCLUDE_INSTALL_DIR include/ CACHE STRING "Include install directory")
+  set(LIBRARIES_INSTALL_DIR lib/ CACHE STRING "Libraries install directory")
+  get_target_property(SPLINES_LIB_OUTPUT_NAME ${STATIC_PROJECT} OUTPUT_NAME)
+  if(UNIX)
+    set(SPLINES_LIB_PREFIX lib)
+    set(SPLINES_LIB_SUFFIX .a)
+  else()
+    set(SPLINES_LIB_PREFIX "")
+    set(SPLINES_LIB_SUFFIX .lib)
+  endif()
+  set(SPLINES_LIB_NAME "${SPLINES_LIB_PREFIX}${SPLINES_LIB_OUTPUT_NAME}${SPLINES_LIB_SUFFIX}")
+  set(LIBRARIES lib/${SPLINES_LIB_NAME} CACHE STRING "Libraries directory")
+  
+  include(CMakePackageConfigHelpers)
+  configure_package_config_file(
+    SplinesConfig.cmake.in 
+    "${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake"
+    INSTALL_DESTINATION "lib/Splines/cmake"
+    PATH_VARS INCLUDE_INSTALL_DIR LIBRARIES_INSTALL_DIR LIBRARIES
+  )
+  write_basic_package_version_file(
+    "SplinesConfigVersion.cmake"
+    COMPATIBILITY SameMajorVersion
+  )
+  install(
+    FILES 
+    ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfigVersion.cmake
+    DESTINATION lib/cmake/Splines
+  )
 
-# CPACK INSTALL TARGETS (Leaving almost as it is...)
-
-set(INCLUDE_INSTALL_DIR include/ CACHE STRING "Include install directory")
-set(LIBRARIES_INSTALL_DIR lib/ CACHE STRING "Libraries install directory")
-get_target_property(SPLINES_LIB_OUTPUT_NAME ${STATIC_PROJECT} OUTPUT_NAME)
-if(UNIX)
-  set(SPLINES_LIB_PREFIX lib)
-  set(SPLINES_LIB_SUFFIX .a)
-else()
-  set(SPLINES_LIB_PREFIX "")
-  set(SPLINES_LIB_SUFFIX .lib)
 endif()
-set(SPLINES_LIB_NAME "${SPLINES_LIB_PREFIX}${SPLINES_LIB_OUTPUT_NAME}${SPLINES_LIB_SUFFIX}")
-set(LIBRARIES lib/${SPLINES_LIB_NAME} CACHE STRING "Libraries directory")
-
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-  SplinesConfig.cmake.in 
-  "${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake"
-  INSTALL_DESTINATION "lib/Splines/cmake"
-  PATH_VARS INCLUDE_INSTALL_DIR LIBRARIES_INSTALL_DIR LIBRARIES
-)
-write_basic_package_version_file(
-  "SplinesConfigVersion.cmake"
-  COMPATIBILITY SameMajorVersion
-)
-install(
-  FILES 
-  ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfig.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/SplinesConfigVersion.cmake
-  DESTINATION lib/cmake/Splines
-)
 
 if(INSTALL_HERE)
   add_custom_command(
