@@ -17,8 +17,8 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
+#include <GenericContainer/GenericContainer.hh>
 #include "Splines.hh"
-#include "GenericContainer.hh"
 #include <fstream>
 
 #ifdef __clang__

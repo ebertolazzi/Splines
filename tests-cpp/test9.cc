@@ -17,7 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#include "GenericContainer.hh"
+#include <GenericContainer/GenericContainer.hh>
 #include "Splines.hh"
 #include <fstream>
 

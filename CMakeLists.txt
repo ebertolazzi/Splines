@@ -148,12 +148,12 @@ if(BUILD_EXECUTABLE OR ENABLE_CTEST)
   set(TEST_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin")
   set(
     EXECUTABLES
-    test1.cc test2.cc test3.cc test4.cc test5.cc
-    test6.cc test7.cc test8.cc test9.cc test10.cc
+    test1 test2 test3 test4 test5
+    test6 test8 test9 test10
   )
   foreach(EXE ${EXECUTABLES})
     add_executable(${EXE} tests-cpp/${EXE}.cc)
-    target_link_libraries(${EXE} PRIVATE ${STATIC_PROJECT} Utils ${CMAKE_DL_LIBS})
+    target_link_libraries(${EXE} PRIVATE ${STATIC_PROJECT} QuarticStatic UtilsStatic GenericContainerStatic ${CMAKE_DL_LIBS})
     set_target_properties(
       ${EXE} PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY "${TEST_OUTPUT_PATH}"
@@ -165,9 +165,9 @@ endif()
 # INSTALL TARGETS
 
 set(INSTALL_TARGETS ${STATIC_PROJECT})
-add_dependencies( ${STATIC_PROJECT} GenericContainerStatic UtilsStatic QuarticStatic )
+add_dependencies( ${STATIC_PROJECT} QuarticStatic UtilsStatic GenericContainerStatic )
 if(BUILD_SHARED)
-  add_dependencies( ${STATIC_PROJECT} GenericContainerStatic UtilsStatic QuarticStatic )
+  add_dependencies( ${STATIC_PROJECT} QuarticStatic UtilsStatic GenericContainerStatic )
   set(INSTALL_TARGETS ${INSTALL_TARGETS} ${DYNAMIC_PROJECT})
 endif()
 
