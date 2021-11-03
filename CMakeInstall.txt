@@ -34,7 +34,7 @@ install(DIRECTORY "${Splines_DIR}/Splines" DESTINATION "${PROJECT_PUBLIC_HEADER_
 
 #----------------------------------------
 
-if ( APPLE OR UNIX OR LINUX )
+if ( (APPLE OR UNIX OR LINUX) AND NOT ${INSTALL_LOCAL} )
 
   install(
   EXPORT SplinesTargets
