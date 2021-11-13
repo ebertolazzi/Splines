@@ -218,6 +218,7 @@
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif
 
 /**
