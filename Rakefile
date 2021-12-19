@@ -36,11 +36,18 @@ if COMPILE_DEBUG then
 else
   cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Release --loglevel=WARNING '
 end
-cmd_cmake_build += " -DINSTALL_HERE:VAR=true "
+cmd_cmake_build += " -DEB_INSTALL_LOCAL=ON "
 
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/Utils/cmake/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/cmake/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
+
+desc "run tests"
+task :test do
+  FileUtils.cd "build"
+  sh 'ctest --output-on-failure'
+  FileUtils.cd '..'
+end
 
 desc "run tests"
 task :run do
@@ -127,6 +134,15 @@ end
 desc "compile for OSX"
 task :build_osx do
   Rake::Task[:build].invoke("osx")
+end
+
+desc 'pack for OSX/LINUX/WINDOWS'
+task :cpack do
+  FileUtils.cd "build"
+  puts "run CPACK for ROOTS".yellow
+  sh 'cpack -C CPackConfig.cmake'
+  sh 'cpack -C CPackSourceConfig.cmake'
+  FileUtils.cd ".."
 end
 
 task :clean_osx do
