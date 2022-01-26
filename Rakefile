@@ -22,14 +22,14 @@ file_base = File.expand_path(File.dirname(__FILE__)).to_s+'/lib'
 
 cmd_cmake_build = ""
 if COMPILE_EXECUTABLE then
-  cmd_cmake_build += ' -DBUILD_EXECUTABLE:VAR=true '
+  cmd_cmake_build += ' -DEB_ENABLE_TESTS:VAR=ON '
 else
-  cmd_cmake_build += ' -DBUILD_EXECUTABLE:VAR=false '
+  cmd_cmake_build += ' -DEB_ENABLE_TESTS:VAR=OFF '
 end
 if COMPILE_DYNAMIC then
-  cmd_cmake_build += ' -DBUILD_SHARED:VAR=true '
+  cmd_cmake_build += ' -DEB_BUILD_SHARED:VAR=ON '
 else
-  cmd_cmake_build += ' -DBUILD_SHARED:VAR=false '
+  cmd_cmake_build += ' -DEB_BUILD_SHARED:VAR=OFF '
 end
 if COMPILE_DEBUG then
   cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Debug --loglevel=WARNING '

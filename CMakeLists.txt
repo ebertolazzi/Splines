@@ -11,10 +11,11 @@
 
 cmake_minimum_required(VERSION 3.14)
 
+project( Splines )
 include(./cmake/CMakeLists-common.txt)
 
 project(
-  Splines
+  ${PROJECT_NAME}
   VERSION ${EB_PROJECT_VERSION}
   HOMEPAGE_URL "https://ebertolazzi.github.io/Clothoids/"
 )
@@ -30,7 +31,7 @@ include(./cmake/CMakeLists-utilities.txt)
 
 # Evaluating the suffix to append to target built by this CMake file
 ebertolazzi_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
-if(BUILD_SHARED)
+if( EB_BUILD_SHARED )
   ebertolazzi_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
 endif()
 
@@ -101,6 +102,7 @@ if( UTILS )
 else()
   message("NOT Found Utils${ARTIFACTS_STATIC_SUFFIX}")
   add_subdirectory(./submodules/Utils)
+  include_directories(./submodules/Utils/src)
   set( UTILS ebertolazzi_Utils_Static )
   set( DEPEND_TARGETS ${DEPEND_TARGETS} ${UTILS} )
 endif()
@@ -117,6 +119,7 @@ if( ROOTS )
 else()
   message("NOT Found quarticRootsFlocke${ARTIFACTS_STATIC_SUFFIX}")
   add_subdirectory(./submodules/quarticRootsFlocke)
+  include_directories(./submodules/quarticRootsFlocke/src)
   set( ROOTS ebertolazzi_quarticRootsFlocke_Static )
   set( DEPEND_TARGETS ${DEPEND_TARGETS} ${ROOTS} )
 endif()
@@ -133,6 +136,7 @@ if( GC )
 else()
   message("NOT Found GenericContainer${ARTIFACTS_STATIC_SUFFIX}")
   add_subdirectory(./submodules/GenericContainer)
+  include_directories(./submodules/GenericContainer/include)
   set( GC ebertolazzi_GenericContainer_Static )
   set( DEPEND_TARGETS ${DEPEND_TARGETS} ${GC} )
 endif()
@@ -152,7 +156,7 @@ ebertolazzi_setup_target(
   "${PUBLIC_HEADERS}"
   "${PRIVATE_HEADERS}"
 )
-if ( BUILD_SHARED )
+if ( EB_BUILD_SHARED )
   ebertolazzi_setup_target(
     ${PROJECT_NAME}
     FALSE # build dynamic
@@ -161,6 +165,13 @@ if ( BUILD_SHARED )
     "${PUBLIC_HEADERS}"
     "${PRIVATE_HEADERS}"
   )
+  if ( DEPEND_TARGETS )
+    target_link_libraries( ${EB_NAMESPACE}_${PROJECT_NAME} ${DEPEND_TARGETS} )
+  endif()
+endif()
+
+if ( DEPEND_TARGETS )
+  add_dependencies( ${EB_NAMESPACE}_${PROJECT_NAME}_Static ${DEPEND_TARGETS} )
 endif()
 
 #   _____       _
@@ -168,7 +179,7 @@ endif()
 #    | |/ -_|_-<  _(_-<
 #    |_|\___/__/\__/__/
 #
-if ( BUILD_EXECUTABLE OR EB_ENABLE_CTEST )
+if ( EB_ENABLE_TESTS )
 
   enable_testing()
 
@@ -180,7 +191,7 @@ if ( BUILD_EXECUTABLE OR EB_ENABLE_CTEST )
     test1 test2 test3 test4 test5 test6 test8 test9 test10
   )
 
-  add_custom_target( all_tests ALL )
+  add_custom_target( "${PROJECT_NAME}_all_tests" ALL )
 
   set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
   set( LIBS ${EB_NAMESPACE}_${PROJECT_NAME}_Static ${UTILS} ${ROOTS} ${GC} ${CMAKE_DL_LIBS} )
@@ -192,7 +203,7 @@ if ( BUILD_EXECUTABLE OR EB_ENABLE_CTEST )
       COMMAND ./bin/${S}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
-    add_dependencies( all_tests ${S} )
+    add_dependencies( "${PROJECT_NAME}_all_tests" ${S} )
   endforeach()
 
 endif()

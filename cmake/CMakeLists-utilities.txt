@@ -91,7 +91,7 @@ function(
   set( TARGETS_TO_BE_INSTALLED ${TARGETS_TO_BE_INSTALLED} ${TARGET_S} PARENT_SCOPE )
 
   if ( EQ_INSTALL_LOCAL )
-    add_dependencies( post_build_Splines ${TARGET_S} )
+    add_dependencies( post_build_${PROJECT_NAME} ${TARGET_S} )
   endif()
 
 endfunction()

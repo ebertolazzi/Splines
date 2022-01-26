@@ -127,7 +127,7 @@ namespace Splines {
   static
   inline
   void
-  Hermite3toPoly(
+  Hermite3_to_poly(
     real_type   H,
     real_type   P0,
     real_type   P1,
@@ -163,7 +163,7 @@ namespace Splines {
   static
   inline
   void
-  Hermite5toPoly(
+  Hermite5_to_poly(
     real_type   h,
     real_type   P0,
     real_type   P1,
@@ -463,7 +463,7 @@ namespace Splines {
     //!
     real_type yBegin() const { return m_Y[0]; }
 
-    //! 
+    //!
     //! last node of the spline (x component).
     //!
     real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
@@ -577,15 +577,15 @@ namespace Splines {
     build( GenericContainer const & gc )
     { setup(gc); }
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param x    vector of x-coordinates
     //! \param incx access elements as x[0], x[incx], x[2*incx],...
     //! \param y    vector of y-coordinates
     //! \param incy access elements as y[0], y[incy], y[2*incy],...
     //! \param n    total number of points
-    //! 
+    //!
     virtual
     void
     build(
@@ -594,13 +594,13 @@ namespace Splines {
       integer n
     );
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param x vector of x-coordinates
     //! \param y vector of y-coordinates
     //! \param n total number of points
-    //! 
+    //!
     inline
     void
     build(
@@ -610,12 +610,12 @@ namespace Splines {
     )
     { this->build( x, 1, y, 1, n ); }
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param x vector of x-coordinates
     //! \param y vector of y-coordinates
-    //! 
+    //!
     inline
     void
     build( vector<real_type> const & x, vector<real_type> const & y ) {
@@ -624,9 +624,9 @@ namespace Splines {
       this->build( &x.front(), 1, &y.front(), 1, N );
     }
 
-    //! 
-    //! Build a spline using internal stored data 
-    //! 
+    //!
+    //! Build a spline using internal stored data
+    //!
     virtual
     void build() = 0;
 
@@ -832,7 +832,7 @@ namespace Splines {
     ) const = 0;
 
     //!
-    //! Spline order of the piecewise polynomial 
+    //! Spline order of the piecewise polynomial
     //!
     virtual integer order() const = 0;
 

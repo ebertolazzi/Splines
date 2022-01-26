@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Function Splines::Hermite5toPoly &#8212; Splines v1.1.1
+</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cloud.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Function Splines::max_abs" href="function_a00089_1ae61f54b18ac4089ead89302e4b99fee4.html" />
+    <link rel="prev" title="Function Splines::Hermite3toPoly" href="function_a00089_1ab131f65c6191734b6f2e502257b57d0f.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C">toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00089_1ae61f54b18ac4089ead89302e4b99fee4.html" title="Function Splines::max_abs"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00089_1ab131f65c6191734b6f2e502257b57d0f.html" title="Function Splines::Hermite3toPoly"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="root.html" accesskey="U">C++ API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Function Splines::Hermite5toPoly</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="function-splines-hermite5topoly">
+<span id="exhale-function-a00089-1ac224d3e03da08343b0bf26eb4170d6a2"></span><h1>Function Splines::Hermite5toPoly<a class="headerlink" href="#function-splines-hermite5topoly" title="Permalink to this headline">¶</a>
+</h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_Splines.hh.html#file-splines-hh"><span class="std std-ref">File Splines.hh</span></a></p></li>
+</ul>
+<section id="function-documentation">
+<h2>Function Documentation<a class="headerlink" href="#function-documentation" title="Permalink to this headline">¶</a>
+</h2>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7Splines14Hermite5toPolyE9real_type9real_type9real_type9real_type9real_type9real_type9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_type">
+<span id="_CPPv3N7Splines14Hermite5toPolyE9real_type9real_type9real_type9real_type9real_type9real_type9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_type"></span><span id="_CPPv2N7Splines14Hermite5toPolyE9real_type9real_type9real_type9real_type9real_type9real_type9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_type"></span><span id="Splines::Hermite5toPoly__real_type.real_type.real_type.real_type.real_type.real_type.real_type.real_typeR.real_typeR.real_typeR.real_typeR.real_typeR.real_typeR"></span><span class="target" id="a00089_1ac224d3e03da08343b0bf26eb4170d6a2"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">Splines</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Hermite5toPoly</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">h</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">P0</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">P1</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">DP0</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">DP1</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">DDP0</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">DDP1</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">A</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">B</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">C</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">D</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">E</span></span>, <a class="reference internal" href="typedef_a00089_1afabb8610fb01952c2fcf1f17337bd44a.html#_CPPv4N7Splines9real_typeE" title="Splines::real_type"><span class="n"><span class="pre">real_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">F</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7Splines14Hermite5toPolyE9real_type9real_type9real_type9real_type9real_type9real_type9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_typeR9real_type" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>Convert polynomial defined using Hermite base</p>
+<p></p>
+<div class="math notranslate nohighlight">
+\[ p(x) = p_0 h_0(t) + p_1 h_1(t) + p'_0 h_2(t) + p'_1 h_3(t) + p''_0 h_4(t) + p''_1 h_5(t) \]</div>
+
+<p>to standard form</p>
+<p></p>
+<div class="math notranslate nohighlight">
+\[ p(x) = A t^5 + B t^4 + C t^3 + D t^2 + E t + F \]</div>
+ 
+</dd>
+</dl>
+
+</section>
+</section>
+
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/Spline_interpolation.svg" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="root.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-c/root.html">C API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-matlab/root.html">MATLAB API</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             >toc</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00089_1ae61f54b18ac4089ead89302e4b99fee4.html" title="Function Splines::max_abs"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="function_a00089_1ab131f65c6191734b6f2e502257b57d0f.html" title="Function Splines::Hermite3toPoly"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Splines</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="root.html" >C++ API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Function Splines::Hermite5toPoly</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Enrico Bertolazzi.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

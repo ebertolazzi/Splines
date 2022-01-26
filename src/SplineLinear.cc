@@ -134,7 +134,6 @@ namespace Splines {
   ) const {
     integer n = m_npts > 0 ? m_npts-1 : 0;
     for ( integer i = 0; i < n; ++i ) {
-      nodes[i] = m_X[i];
       real_type a = m_Y[i];
       real_type b = (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]);
       if ( transpose ) {
@@ -145,6 +144,7 @@ namespace Splines {
         cfs[i]   = b;
       }
     }
+    std::copy_n( m_X, m_npts, nodes );
     return 2;
   }
 

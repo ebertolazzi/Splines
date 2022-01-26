@@ -3,8 +3,8 @@ if File.exists?(File.expand_path('../Rakefile_conf.rb', File.dirname(__FILE__)))
   require_relative '../Rakefile_conf.rb'
 else
   COMPILE_DEBUG      = false
-  COMPILE_DYNAMIC    = false
-  COMPILE_EXECUTABLE = false
+  COMPILE_DYNAMIC    = true
+  COMPILE_EXECUTABLE = true
   USE_NMAKE          = true
 
   case RUBY_PLATFORM

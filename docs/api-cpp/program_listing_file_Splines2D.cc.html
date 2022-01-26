@@ -6,18 +6,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Program Listing for File Splines2D.cc &#8212; Splines v1.1.1
 </title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cloud.css" />
     <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -72,7 +73,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="program-listing-for-file-splines2d-cc">
+  <section id="program-listing-for-file-splines2d-cc">
 <span id="program-listing-file-splines2d-cc"></span><h1>Program Listing for File Splines2D.cc<a class="headerlink" href="#program-listing-for-file-splines2d-cc" title="Permalink to this headline">¶</a>
 </h1>
 <p>↰ <a class="reference internal" href="file_Splines2D.cc.html#file-splines2d-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">Splines2D.cc</span></code>)</p>
@@ -94,49 +95,50 @@
 <span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
 <span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
 <span class="cm"> |                                                                          |</span>
-<span class="cm">\*--------------------------------------------------------------------------*/</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span><span class="w"></span>
 
-<span class="cp">#include</span> <span class="cpf">"Splines.hh"</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"Splines.hh"</span><span class="cp"></span>
 
 <span class="cp">#ifdef __clang__</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"</span>
 <span class="cp">#endif</span>
 
-<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">Splines</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">Spline2D</span><span class="o">::</span><span class="n">new_spline</span><span class="p">(</span> <span class="n">SplineType2D</span> <span class="n">tp</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">m_spline_2D</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="k">delete</span> <span class="n">m_spline_2D</span><span class="p">;</span>
-      <span class="n">m_spline_2D</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">switch</span> <span class="p">(</span> <span class="n">tp</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nl">BILINEAR_TYPE</span><span class="p">:</span>
-      <span class="n">m_spline_2D</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BilinearSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">BICUBIC_TYPE</span><span class="p">:</span>
-      <span class="n">m_spline_2D</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BiCubicSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">BIQUINTIC_TYPE</span><span class="p">:</span>
-      <span class="n">m_spline_2D</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BiQuinticSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">AKIMA2D_TYPE</span><span class="p">:</span>
-      <span class="n">m_spline_2D</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Akima2Dspline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>
-      <span class="n">UTILS_ERROR</span><span class="p">(</span> <span class="s">"new_spline, type `{}` unknown</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">tp</span> <span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">Spline2D::new_spline</span><span class="p">(</span><span class="w"> </span><span class="n">SplineType2D</span><span class="w"> </span><span class="n">tp</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">delete</span><span class="w"> </span><span class="n">m_spline_2D</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">tp</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">BILINEAR_TYPE</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BilinearSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">BICUBIC_TYPE</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BiCubicSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">BIQUINTIC_TYPE</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BiQuinticSpline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">AKIMA2D_TYPE</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_spline_2D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Akima2Dspline</span><span class="p">(</span><span class="n">m_name</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">UTILS_ERROR</span><span class="p">(</span><span class="w"> </span><span class="s">"new_spline, type `{}` unknown</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">tp</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
 
@@ -153,7 +155,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -208,7 +210,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Enrico Bertolazzi.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

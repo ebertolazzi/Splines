@@ -129,10 +129,8 @@ namespace Splines {
     bool
   ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
-    for ( size_t i = 0; i < nseg; ++i ) {
-      nodes[i] = m_X[i];
-      cfs[i]   = m_Y[i];
-    }
+    std::copy_n( m_X, m_npts, nodes );
+    std::copy_n( m_Y, nseg,   cfs   );
     return 1;
   }
 
