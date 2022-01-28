@@ -143,6 +143,25 @@
 <span class="w">      </span><span class="c">%&gt; x, y [, yp or subtype]</span><span class="w"></span>
 <span class="w">      </span><span class="n">Spline1DMexWrapper</span><span class="p">(</span><span class="w"> </span><span class="s">'build'</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">objectHandle</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:}</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; Return the coeffs of the polynomial of the spline</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; \rst</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;   .. code-block:: matlab</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;     [coeffs,nodes] = obj.eval_coeffs();</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; \endrst</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] coeffs matrix which rows are the polynomial coeffs</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt; - [out] nodes where the spline is defined</span><span class="w"></span>
+<span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span>varargout<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">eval_coeffs</span><span class="p">(</span> self <span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">[</span><span class="nb">varargout</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="nb">nargout</span><span class="p">}]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Spline1DMexWrapper</span><span class="p">(</span><span class="w"> </span><span class="s">'coeffs'</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">objectHandle</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 <span class="w">    </span><span class="c">% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="c">%&gt; Search the max and min values of `y` along the spline</span><span class="w"></span>

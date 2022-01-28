@@ -84,6 +84,8 @@
 
 <span class="n">old_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cd</span><span class="p">(</span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">)));</span><span class="w"></span>
 
+<span class="nb">tic</span><span class="p">;</span><span class="w"></span>
+
 <span class="n">NAMES</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="s">'SplineSetMexWrapper'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
 <span class="w">  </span><span class="s">'BaseHermiteWrapper'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
@@ -96,7 +98,7 @@
 
 <span class="n">LIB_SRCS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">''</span><span class="p">;</span><span class="w"></span>
 <span class="n">LIB_OBJS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">''</span><span class="p">;</span><span class="w"></span>
-<span class="n">MEX_CMD</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src -I../src/Utils '</span><span class="p">;</span><span class="w"></span>
+<span class="n">MEX_CMD</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">'mex -largeArrayDims -I../src -I../src/Utils '</span><span class="p">;</span><span class="w"></span>
 
 <span class="n">CMD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">MEX_CMD</span><span class="w"> </span><span class="s">' -c '</span><span class="p">];</span><span class="w"></span>
 <span class="k">if</span><span class="w"> </span><span class="nb">isunix</span><span class="w"></span>
@@ -105,7 +107,6 @@
 <span class="k">end</span><span class="w"></span>
 <span class="n">CMD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">CMD</span><span class="p">,</span><span class="w"> </span><span class="n">LIB_SRCS</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">'---------------------------------------------------------'</span><span class="p">);</span><span class="w"></span>
 <span class="k">for</span><span class="w"> </span><span class="n">kk</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">lst_cc</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">name</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="n">lst_cc</span><span class="p">(</span><span class="n">kk</span><span class="p">).</span><span class="n">name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="n">LIB_SRCS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">LIB_SRCS</span><span class="p">,</span><span class="w"> </span><span class="s">' ../src/'</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">'.cc'</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
@@ -115,6 +116,7 @@
 <span class="w">    </span><span class="n">LIB_OBJS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">LIB_OBJS</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">'.obj '</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
 <span class="w">  </span><span class="k">end</span><span class="w"></span>
 <span class="w">  </span><span class="n">CMD1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">CMD</span><span class="w"> </span><span class="s">' ../src/'</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">'.cc'</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">'---------------------------------------------------------'</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nb">fprintf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">'Compiling: %s.cc\n'</span><span class="p">,</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nb">eval</span><span class="p">(</span><span class="n">CMD1</span><span class="p">);</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
@@ -123,7 +125,7 @@
 
 <span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">NAMES</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="n">NAMES</span><span class="p">{</span><span class="n">k</span><span class="p">};</span><span class="w"></span>
-<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">'---------------------------------------------------------'</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">'========================================================='</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nb">fprintf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">'Compiling: %s\n'</span><span class="p">,</span><span class="n">N</span><span class="p">);</span><span class="w"></span>
 
 <span class="w">  </span><span class="n">CMD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s">'while mislocked('''</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="s">'''); munlock('''</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="s">'''); end;'</span><span class="p">];</span><span class="w"></span>
@@ -162,6 +164,8 @@
 <span class="nb">cd</span><span class="p">(</span><span class="n">old_dir</span><span class="p">);</span><span class="w"></span>
 
 <span class="nb">disp</span><span class="p">(</span><span class="s">'----------------------- DONE ----------------------------'</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">toc</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

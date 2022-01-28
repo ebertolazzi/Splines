@@ -40,7 +40,7 @@ cmd_cmake_build += " -DEB_INSTALL_LOCAL=ON "
 
 FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/Utils/cmake/CMakeLists-cflags.txt'
 FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/cmake/CMakeLists-cflags.txt'
-FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/GenericContainer/cmake/CMakeLists-cflags.txt'
 
 desc "run tests"
 task :test do
@@ -97,14 +97,18 @@ task :build_win, [:year, :bits] do |t, args|
     sh 'cmake  --build . --config Release  --target install '+PARALLEL+QUIET
   end
 
+  if RUN_CPACK then
+    puts "run CPACK for SPLINES".yellow
+    sh 'cpack -C CPackConfig.cmake'
+    sh 'cpack -C CPackSourceConfig.cmake'
+  end
+
   FileUtils.cd '..'
 end
 
 
-desc "compile for OSX"
-task :build, [:os] do |t, args|
-
-  args.with_defaults( :os => "osx" )
+desc "compile for OSX/LINUX"
+task :build do
 
   dir = "build"
 
@@ -120,7 +124,13 @@ task :build, [:os] do |t, args|
   if COMPILE_DEBUG then
     sh 'cmake --build . --config Debug --target install '+PARALLEL+QUIET
   else
-    sh 'cmake  --build . --config Release  --target install '+PARALLEL+QUIET
+    sh 'cmake --build . --config Release  --target install '+PARALLEL+QUIET
+  end
+
+  if RUN_CPACK then
+    puts "run CPACK for SPLINES".yellow
+    sh 'cpack -C CPackConfig.cmake'
+    sh 'cpack -C CPackSourceConfig.cmake'
   end
 
   FileUtils.cd '..'
@@ -128,21 +138,12 @@ end
 
 desc "compile for LINUX"
 task :build_linux do
-  Rake::Task[:build].invoke("linux")
+  Rake::Task[:build].invoke()
 end
 
 desc "compile for OSX"
 task :build_osx do
-  Rake::Task[:build].invoke("osx")
-end
-
-desc 'pack for OSX/LINUX/WINDOWS'
-task :cpack do
-  FileUtils.cd "build"
-  puts "run CPACK for ROOTS".yellow
-  sh 'cpack -C CPackConfig.cmake'
-  sh 'cpack -C CPackSourceConfig.cmake'
-  FileUtils.cd ".."
+  Rake::Task[:build].invoke()
 end
 
 task :clean_osx do
