@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="4205278448" file="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="369575358" file="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -19,7 +19,7 @@ The classes are the following:
 
 Online doc at: http://ebertolazzi.github.io/Splines</param.description>
     <param.screenshot>${PROJECT_ROOT}/toolbox/icon.png</param.screenshot>
-    <param.version>1.1.1</param.version>
+    <param.version>1.1.2</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -28,7 +28,7 @@ Online doc at: http://ebertolazzi.github.io/Splines</param.description>
       <item>1</item>
     </param.products.id>
     <param.products.version>
-      <item>9.9</item>
+      <item>9.11</item>
     </param.products.version>
     <param.platforms />
     <param.guid>0dba433b-d115-42b4-a271-d863497f90fb</param.guid>
@@ -115,7 +115,6 @@ setup.m</param.exclude.filters>
       <file>${PROJECT_ROOT}/toolbox</file>
     </fileset.rootdir>
     <fileset.rootfiles>
-      <file>${PROJECT_ROOT}/toolbox/CompileSplinesLib.m</file>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
       <file>${PROJECT_ROOT}/toolbox/icon.pdf</file>
@@ -131,12 +130,43 @@ setup.m</param.exclude.filters>
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/C++/pins-mechatronix/LibSources/submodules/Splines/Splines.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>/Applications/MATLAB_R2020b.app</root>
-      <toolboxes />
+      <root>/Applications/MATLAB_R2021b.app</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
     </matlab>
     <platform>
       <unix>true</unix>
@@ -147,7 +177,7 @@ setup.m</param.exclude.filters>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.15.7</osver>
+      <osver>12.1</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>

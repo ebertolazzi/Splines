@@ -4,6 +4,8 @@ clear functions;
 
 old_dir = cd(fileparts(which(mfilename)));
 
+tic;
+
 NAMES = {
   'SplineSetMexWrapper', ...
   'BaseHermiteWrapper', ...
@@ -16,7 +18,7 @@ lst_cc = dir('../src/*.cc');
 
 LIB_SRCS = '';
 LIB_OBJS = '';
-MEX_CMD  = 'mex -DSPLINES_DO_NOT_USE_GENERIC_CONTAINER -largeArrayDims -I../src -I../src/Utils ';
+MEX_CMD  = 'mex -largeArrayDims -I../src -I../src/Utils ';
 
 CMD = [ MEX_CMD ' -c '];
 if isunix
@@ -25,7 +27,6 @@ elseif ispc
 end
 CMD = [ CMD, LIB_SRCS ];
 
-disp('---------------------------------------------------------');
 for kk=1:length(lst_cc)
   name     = lst_cc(kk).name(1:end-3);
   LIB_SRCS = [ LIB_SRCS, ' ../src/', name, '.cc' ];
@@ -35,6 +36,7 @@ for kk=1:length(lst_cc)
     LIB_OBJS = [ LIB_OBJS, name, '.obj ' ];
   end
   CMD1 = [ CMD ' ../src/', name, '.cc' ];
+  disp('---------------------------------------------------------');
   fprintf(1,'Compiling: %s.cc\n',name);
   eval(CMD1);
 end
@@ -43,7 +45,7 @@ MROOT = matlabroot;
 
 for k=1:length(NAMES)
   N=NAMES{k};
-  disp('---------------------------------------------------------');
+  disp('=========================================================');
   fprintf(1,'Compiling: %s\n',N);
 
   CMD = [ 'while mislocked(''' N '''); munlock(''' N '''); end;'];
@@ -82,3 +84,5 @@ end
 cd(old_dir);
 
 disp('----------------------- DONE ----------------------------');
+
+toc

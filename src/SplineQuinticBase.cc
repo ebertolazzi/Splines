@@ -26,6 +26,7 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -238,14 +239,15 @@ namespace Splines {
   ) const {
     size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {
-      nodes[i] = m_X[i];
       real_type H = m_X[i+1]-m_X[i];
-      real_type a = m_Y[i];
-      real_type b = m_Yp[i];
-      real_type c = m_Ypp[i]/2;
-      real_type d = ((10*(m_Y[i+1]-m_Y[i])/H-6*m_Yp[i]-4*m_Yp[i+1])/H-1.5*m_Ypp[i]+0.5*m_Ypp[i+1])/H;
-      real_type e = ((15*(m_Y[i]-m_Y[i+1])/H+8*m_Yp[i]+7*m_Yp[i+1])/H+1.5*m_Ypp[i]-m_Ypp[i+1])/(H*H);
-      real_type f = ((6*(m_Y[i+1]-m_Y[i])/H-3*(m_Yp[i]+m_Yp[i+1]))/H-0.5*m_Ypp[i]+0.5*m_Ypp[i+1])/(H*H*H);
+      real_type a, b, c, d, e, f;
+      Hermite5_to_poly(
+        H,
+        m_Y[i], m_Y[i+1], 
+        m_Yp[i], m_Yp[i+1], 
+        m_Ypp[i], m_Ypp[i+1],
+        a, b, c, d, e, f
+      );
       if ( transpose ) {
         cfs[6*i+5] = a;
         cfs[6*i+4] = b;
@@ -262,6 +264,7 @@ namespace Splines {
         cfs[i+0*n] = f;
       }
     }
+    std::copy_n( m_X, m_npts, nodes );
     return 6;
   }
 
@@ -330,7 +333,7 @@ namespace Splines {
       real_type const & DDP1 = m_Ypp[i];
       real_type H = X1 - X0;
       real_type A, B, C, D, E, F;
-      Hermite5toPoly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
+      Hermite5_to_poly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
       integer nr = q.getRootsInOpenRange( 0, H, r );
@@ -390,7 +393,7 @@ namespace Splines {
       real_type const & DDP1 = m_Ypp[i];
       real_type H = X1 - X0;
       real_type A, B, C, D, E, F;
-      Hermite5toPoly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
+      Hermite5_to_poly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
       integer nr = q.getRootsInOpenRange( 0, H, r );
@@ -415,7 +418,7 @@ namespace Splines {
       real_type const & DP2  = m_Yp[i+1];
       real_type const & DDP2 = m_Ypp[i+1];
       real_type A1, B1, C1, D1, E1, F1;
-      Hermite5toPoly( X2-X1, P1, P2, DP1, DP2, DDP1, DDP2, A1, B1, C1, D1, E1, F1 );
+      Hermite5_to_poly( X2-X1, P1, P2, DP1, DP2, DDP1, DDP2, A1, B1, C1, D1, E1, F1 );
       real_type DD = (((20*A*H)+12*B)*H+6*C)*H+2*D;
       if ( DD >= 0 && D1 >= 0 ) {
         y_min.push_back(P1);

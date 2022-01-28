@@ -22,25 +22,32 @@ file_base = File.expand_path(File.dirname(__FILE__)).to_s+'/lib'
 
 cmd_cmake_build = ""
 if COMPILE_EXECUTABLE then
-  cmd_cmake_build += ' -DBUILD_EXECUTABLE:VAR=true '
+  cmd_cmake_build += ' -DEB_ENABLE_TESTS:VAR=ON '
 else
-  cmd_cmake_build += ' -DBUILD_EXECUTABLE:VAR=false '
+  cmd_cmake_build += ' -DEB_ENABLE_TESTS:VAR=OFF '
 end
 if COMPILE_DYNAMIC then
-  cmd_cmake_build += ' -DBUILD_SHARED:VAR=true '
+  cmd_cmake_build += ' -DEB_BUILD_SHARED:VAR=ON '
 else
-  cmd_cmake_build += ' -DBUILD_SHARED:VAR=false '
+  cmd_cmake_build += ' -DEB_BUILD_SHARED:VAR=OFF '
 end
 if COMPILE_DEBUG then
   cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Debug --loglevel=WARNING '
 else
   cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Release --loglevel=WARNING '
 end
-cmd_cmake_build += " -DINSTALL_HERE:VAR=true "
+cmd_cmake_build += " -DEB_INSTALL_LOCAL=ON "
 
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/Utils/CMakeLists-cflags.txt'
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/CMakeLists-cflags.txt'
-FileUtils.cp 'CMakeLists-cflags.txt', 'submodules/GenericContainer/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/Utils/cmake/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/cmake/CMakeLists-cflags.txt'
+FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/GenericContainer/cmake/CMakeLists-cflags.txt'
+
+desc "run tests"
+task :test do
+  FileUtils.cd "build"
+  sh 'ctest --output-on-failure'
+  FileUtils.cd '..'
+end
 
 desc "run tests"
 task :run do
@@ -90,14 +97,18 @@ task :build_win, [:year, :bits] do |t, args|
     sh 'cmake  --build . --config Release  --target install '+PARALLEL+QUIET
   end
 
+  if RUN_CPACK then
+    puts "run CPACK for SPLINES".yellow
+    sh 'cpack -C CPackConfig.cmake'
+    sh 'cpack -C CPackSourceConfig.cmake'
+  end
+
   FileUtils.cd '..'
 end
 
 
-desc "compile for OSX"
-task :build, [:os] do |t, args|
-
-  args.with_defaults( :os => "osx" )
+desc "compile for OSX/LINUX"
+task :build do
 
   dir = "build"
 
@@ -113,7 +124,13 @@ task :build, [:os] do |t, args|
   if COMPILE_DEBUG then
     sh 'cmake --build . --config Debug --target install '+PARALLEL+QUIET
   else
-    sh 'cmake  --build . --config Release  --target install '+PARALLEL+QUIET
+    sh 'cmake --build . --config Release  --target install '+PARALLEL+QUIET
+  end
+
+  if RUN_CPACK then
+    puts "run CPACK for SPLINES".yellow
+    sh 'cpack -C CPackConfig.cmake'
+    sh 'cpack -C CPackSourceConfig.cmake'
   end
 
   FileUtils.cd '..'
@@ -121,12 +138,12 @@ end
 
 desc "compile for LINUX"
 task :build_linux do
-  Rake::Task[:build].invoke("linux")
+  Rake::Task[:build].invoke()
 end
 
 desc "compile for OSX"
 task :build_osx do
-  Rake::Task[:build].invoke("osx")
+  Rake::Task[:build].invoke()
 end
 
 task :clean_osx do

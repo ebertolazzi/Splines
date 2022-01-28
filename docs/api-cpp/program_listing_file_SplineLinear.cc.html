@@ -6,18 +6,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Program Listing for File SplineLinear.cc &#8212; Splines v1.1.1
 </title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cloud.css" />
     <link rel="stylesheet" type="text/css" href="../_static/table_styling.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -72,7 +73,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="program-listing-for-file-splinelinear-cc">
+  <section id="program-listing-for-file-splinelinear-cc">
 <span id="program-listing-file-splinelinear-cc"></span><h1>Program Listing for File SplineLinear.cc<a class="headerlink" href="#program-listing-for-file-splinelinear-cc" title="Permalink to this headline">¶</a>
 </h1>
 <p>↰ <a class="reference internal" href="file_SplineLinear.cc.html#file-splinelinear-cc"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">SplineLinear.cc</span></code>)</p>
@@ -94,245 +95,246 @@
 <span class="cm"> |      Universita` degli Studi di Trento                                   |</span>
 <span class="cm"> |      email: enrico.bertolazzi@unitn.it                                   |</span>
 <span class="cm"> |                                                                          |</span>
-<span class="cm">\*--------------------------------------------------------------------------*/</span>
+<span class="cm">\*--------------------------------------------------------------------------*/</span><span class="w"></span>
 
-<span class="cp">#include</span> <span class="cpf">"Splines.hh"</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"Splines.hh"</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
 
 <span class="cp">#ifdef __clang__</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wglobal-constructors"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"</span>
 <span class="cp">#pragma clang diagnostic ignored "-Wpoison-system-directories"</span>
+<span class="cp">#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"</span>
 <span class="cp">#endif</span>
 
 <span class="cp">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// load standard namspace</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span><span class="w"> </span><span class="c1">// load standard namspace</span>
 <span class="cp">#endif</span>
 
-<span class="k">namespace</span> <span class="n">Splines</span> <span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">Splines</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-  <span class="n">real_type</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">id_eval</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">m_curve_can_extend</span> <span class="o">&amp;&amp;</span> <span class="n">m_curve_extended_constant</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>        <span class="p">)</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span> <span class="p">)</span> <span class="k">return</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">real_type</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="n">real_type</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::id_eval</span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">real_type</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_curve_can_extend</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">m_curve_extended_constant</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">real_type</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="k">operator</span> <span class="p">()</span> <span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="n">integer</span> <span class="n">idx</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span> <span class="n">x</span> <span class="p">);</span> <span class="c1">// eval idx can modify x</span>
-    <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">id_eval</span><span class="p">(</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="n">real_type</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::operator</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">real_type</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// eval idx can modify x</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">id_eval</span><span class="p">(</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">real_type</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">id_D</span><span class="p">(</span> <span class="n">integer</span> <span class="n">i</span><span class="p">,</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">m_curve_can_extend</span> <span class="o">&amp;&amp;</span> <span class="n">m_curve_extended_constant</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span> <span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="p">(</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="n">real_type</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::id_D</span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">real_type</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_curve_can_extend</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">m_curve_extended_constant</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">real_type</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">D</span><span class="p">(</span> <span class="n">real_type</span> <span class="n">x</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">m_curve_can_extend</span> <span class="o">&amp;&amp;</span> <span class="n">m_curve_extended_constant</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span> <span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">integer</span> <span class="n">idx</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span> <span class="n">x</span> <span class="p">);</span> <span class="c1">// eval idx can modify x</span>
-    <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">id_D</span><span class="p">(</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span> <span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="n">real_type</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::D</span><span class="p">(</span><span class="w"> </span><span class="n">real_type</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_curve_can_extend</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">m_curve_extended_constant</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// eval idx can modify x</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">id_D</span><span class="p">(</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">reserve_external</span><span class="p">(</span>
-    <span class="n">integer</span>      <span class="n">n</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">*&amp;</span> <span class="n">p_x</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">*&amp;</span> <span class="n">p_y</span>
-  <span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">m_external_alloc</span> <span class="p">)</span> <span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
-    <span class="n">m_npts</span>           <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">m_npts_reserved</span>  <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-    <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="n">m_X</span>              <span class="o">=</span> <span class="n">p_x</span><span class="p">;</span>
-    <span class="n">m_Y</span>              <span class="o">=</span> <span class="n">p_y</span><span class="p">;</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::reserve_external</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w">      </span><span class="n">n</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">*&amp;</span><span class="w"> </span><span class="n">p_x</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">*&amp;</span><span class="w"> </span><span class="n">p_y</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">m_external_alloc</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_npts</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_npts_reserved</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_external_alloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_X</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">p_x</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_Y</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">p_y</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">reserve</span><span class="p">(</span> <span class="n">integer</span> <span class="n">n</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="n">m_external_alloc</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">m_npts_reserved</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// nothing to do!, already allocated</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">m_baseValue</span><span class="p">.</span><span class="n">reallocate</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
-      <span class="n">m_npts_reserved</span>  <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-      <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-      <span class="n">m_X</span>              <span class="o">=</span> <span class="n">m_baseValue</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
-      <span class="n">m_Y</span>              <span class="o">=</span> <span class="n">m_baseValue</span><span class="p">(</span> <span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">initLastInterval</span><span class="p">();</span>
-    <span class="n">m_npts</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::reserve</span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_external_alloc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m_npts_reserved</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// nothing to do!, already allocated</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_baseValue</span><span class="p">.</span><span class="n">reallocate</span><span class="p">(</span><span class="w"> </span><span class="kt">size_t</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_npts_reserved</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_external_alloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_X</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">m_baseValue</span><span class="p">(</span><span class="w"> </span><span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_Y</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">m_baseValue</span><span class="p">(</span><span class="w"> </span><span class="kt">size_t</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">initLastInterval</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">clear</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">m_external_alloc</span> <span class="p">)</span> <span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
-    <span class="n">m_npts</span> <span class="o">=</span> <span class="n">m_npts_reserved</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">m_external_alloc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="n">m_X</span> <span class="o">=</span> <span class="n">m_Y</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::clear</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">m_external_alloc</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_baseValue</span><span class="p">.</span><span class="n">free</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_npts_reserved</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_external_alloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">writeToStream</span><span class="p">(</span> <span class="n">ostream_type</span> <span class="o">&amp;</span> <span class="n">s</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="n">integer</span> <span class="n">nseg</span> <span class="o">=</span> <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_npts</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nseg</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
-      <span class="n">fmt</span><span class="o">::</span><span class="n">print</span><span class="p">(</span> <span class="n">s</span><span class="p">,</span>
-        <span class="s">"segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
-        <span class="n">i</span><span class="p">,</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
-        <span class="p">(</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-      <span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::writeToStream</span><span class="p">(</span><span class="w"> </span><span class="n">ostream_type</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w"> </span><span class="n">nseg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_npts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">m_npts</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nseg</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">fmt</span><span class="o">::</span><span class="n">print</span><span class="p">(</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s">"segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"></span>
+<span class="w">      </span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="n">integer</span> <span class="c1">// order</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">coeffs</span><span class="p">(</span>
-    <span class="n">real_type</span> <span class="o">*</span> <span class="k">const</span> <span class="n">cfs</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">*</span> <span class="k">const</span> <span class="n">nodes</span><span class="p">,</span>
-    <span class="kt">bool</span>              <span class="n">transpose</span>
-  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="n">integer</span> <span class="n">n</span> <span class="o">=</span> <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_npts</span><span class="mi">-1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-      <span class="n">real_type</span> <span class="n">a</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-      <span class="n">real_type</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">transpose</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">cfs</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
-        <span class="n">cfs</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">cfs</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
-        <span class="n">cfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="n">integer</span><span class="w"> </span><span class="c1">// order</span>
+<span class="w">  </span><span class="n">LinearSpline</span><span class="o">::</span><span class="n">coeffs</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">cfs</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">nodes</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="kt">bool</span><span class="w">              </span><span class="n">transpose</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_npts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">m_npts</span><span class="mi">-1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">transpose</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">cfs</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cfs</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">cfs</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy_n</span><span class="p">(</span><span class="w"> </span><span class="n">m_X</span><span class="p">,</span><span class="w"> </span><span class="n">m_npts</span><span class="p">,</span><span class="w"> </span><span class="n">nodes</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="n">integer</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">order</span><span class="p">(</span> <span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span> <span class="p">}</span>
+<span class="w">  </span><span class="n">integer</span><span class="w"></span>
+<span class="w">  </span><span class="n">LinearSpline</span><span class="o">::</span><span class="n">order</span><span class="p">(</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-  <span class="k">using</span> <span class="n">GC_namespace</span><span class="o">::</span><span class="n">GC_VEC_REAL</span><span class="p">;</span>
-  <span class="k">using</span> <span class="n">GC_namespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">GC_namespace</span><span class="o">::</span><span class="n">GC_VEC_REAL</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">GC_namespace</span><span class="o">::</span><span class="n">vec_real_type</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">setup</span><span class="p">(</span> <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/*</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::setup</span><span class="p">(</span><span class="w"> </span><span class="n">GenericContainer</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gc</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/*</span>
 <span class="cm">    // gc["xdata"]</span>
 <span class="cm">    // gc["ydata"]</span>
 <span class="cm">    //</span>
-<span class="cm">    */</span>
-    <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"LinearSpline[{}]::setup( gc ):"</span><span class="p">,</span> <span class="n">m_name</span> <span class="p">);</span>
-    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">),</span> <span class="s">"{} missing `xdata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
-    <span class="n">UTILS_ASSERT</span><span class="p">(</span> <span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">),</span> <span class="s">"{} missing `ydata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
+<span class="cm">    */</span><span class="w"></span>
+<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"LinearSpline[{}]::setup( gc ):"</span><span class="p">,</span><span class="w"> </span><span class="n">m_name</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">UTILS_ASSERT</span><span class="p">(</span><span class="w"> </span><span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">),</span><span class="w"> </span><span class="s">"{} missing `xdata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">UTILS_ASSERT</span><span class="p">(</span><span class="w"> </span><span class="n">gc</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">),</span><span class="w"> </span><span class="s">"{} missing `ydata` field!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_x</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">);</span>
-    <span class="n">GenericContainer</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">gc_y</span> <span class="o">=</span> <span class="n">gc</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">GenericContainer</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gc_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gc</span><span class="p">(</span><span class="s">"xdata"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">GenericContainer</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gc_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gc</span><span class="p">(</span><span class="s">"ydata"</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">vec_real_type</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
-    <span class="p">{</span>
-      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `xdata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
-      <span class="n">gc_x</span><span class="p">.</span><span class="n">copyto_vec_real</span> <span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
-    <span class="p">}</span>
-    <span class="p">{</span>
-      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ff</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span> <span class="s">"{}, field `ydata'"</span><span class="p">,</span> <span class="n">msg</span> <span class="p">);</span>
-      <span class="n">gc_y</span><span class="p">.</span><span class="n">copyto_vec_real</span> <span class="p">(</span> <span class="n">y</span><span class="p">,</span> <span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span> <span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">    </span><span class="n">vec_real_type</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">ff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="w"> </span><span class="s">"{}, field `xdata'"</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">gc_x</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">ff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fmt</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="w"> </span><span class="s">"{}, field `ydata'"</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">gc_y</span><span class="p">.</span><span class="n">copyto_vec_real</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">ff</span><span class="p">.</span><span class="n">c_str</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">build</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">y_min_max</span><span class="p">(</span>
-    <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
-    <span class="n">integer</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
-    <span class="n">real_type</span> <span class="o">&amp;</span> <span class="n">y_max</span>
-  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="n">UTILS_ASSERT0</span><span class="p">(</span>
-      <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"LinearSpline::y_min_max() empty spline!"</span>
-    <span class="p">);</span>
-    <span class="c1">// find max min along the nodes</span>
-    <span class="n">i_min_pos</span> <span class="o">=</span> <span class="n">i_max_pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">x_min_pos</span> <span class="o">=</span> <span class="n">x_max_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="n">y_min</span> <span class="o">=</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_npts</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="n">real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">P1</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&gt;</span> <span class="n">y_max</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">y_max</span>     <span class="o">=</span> <span class="n">P1</span><span class="p">;</span>
-        <span class="n">x_max_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">i_max_pos</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&lt;</span> <span class="n">y_min</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">y_min</span>     <span class="o">=</span> <span class="n">P1</span><span class="p">;</span>
-        <span class="n">x_min_pos</span> <span class="o">=</span> <span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">i_min_pos</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::y_min_max</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">i_min_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x_min_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">y_min</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">integer</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">i_max_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x_max_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">real_type</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">y_max</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">UTILS_ASSERT0</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_npts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"LinearSpline::y_min_max() empty spline!"</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// find max min along the nodes</span>
+<span class="w">    </span><span class="n">i_min_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_max_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">x_min_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_max_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">y_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m_npts</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y_max</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">y_max</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">P1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">x_max_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_max_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">y_min</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">y_min</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">P1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">x_min_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_min_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="w">  </span><span class="c1">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
 
-  <span class="kt">void</span>
-  <span class="n">LinearSpline</span><span class="o">::</span><span class="n">y_min_max</span><span class="p">(</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span>   <span class="o">&amp;</span> <span class="n">i_min_pos</span><span class="p">,</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">x_min_pos</span><span class="p">,</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">y_min</span><span class="p">,</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span>   <span class="o">&amp;</span> <span class="n">i_max_pos</span><span class="p">,</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">x_max_pos</span><span class="p">,</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">y_max</span>
-  <span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="n">i_min_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">i_max_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">x_min_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">x_max_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">y_min</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">y_max</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-    <span class="n">UTILS_ASSERT0</span><span class="p">(</span>
-      <span class="n">m_npts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"LinearSpline::y_min_max() empty spline!"</span>
-    <span class="p">);</span>
-    <span class="c1">// find max min along the nodes</span>
-    <span class="k">for</span> <span class="p">(</span> <span class="n">integer</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_npts</span><span class="mi">-1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
-      <span class="n">real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">P0</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span>
-      <span class="n">real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">P1</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-      <span class="n">real_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&gt;</span> <span class="n">P0</span> <span class="o">&amp;&amp;</span> <span class="n">P1</span> <span class="o">&gt;</span> <span class="n">P2</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">y_max</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">P1</span><span class="p">);</span>
-        <span class="n">x_max_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="n">i_max_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">P1</span> <span class="o">&lt;</span> <span class="n">P0</span> <span class="o">&amp;&amp;</span> <span class="n">P1</span> <span class="o">&lt;</span> <span class="n">P2</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">y_min</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">P1</span><span class="p">);</span>
-        <span class="n">x_min_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="n">i_min_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"></span>
+<span class="w">  </span><span class="nf">LinearSpline::y_min_max</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">i_min_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x_min_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">y_min</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="w">   </span><span class="o">&amp;</span><span class="w"> </span><span class="n">i_max_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x_max_pos</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">real_type</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">y_max</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">i_min_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">i_max_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">x_min_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">x_max_pos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">y_min</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">y_max</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">UTILS_ASSERT0</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">m_npts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"LinearSpline::y_min_max() empty spline!"</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// find max min along the nodes</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m_npts</span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">P0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="n">real_type</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">P2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">P0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">P2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">y_max</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">P1</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">x_max_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_max_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">P0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">P1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">P2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">y_min</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">P1</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">x_min_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">m_X</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_min_pos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
+</section>
 
 
 
@@ -349,7 +351,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -404,7 +406,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Enrico Bertolazzi.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
