@@ -190,11 +190,32 @@
 </dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8Spline1D11eval_coeffsE2in">
+<span id="_CPPv3N8Spline1D11eval_coeffsE2in"></span><span id="_CPPv2N8Spline1D11eval_coeffsE2in"></span><span id="Spline1D::eval_coeffs__in"></span><span class="target" id="a00042_1a58219a48d2a3f19028baf13893ba5100"></span><span class="n"><span class="pre">function</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eval_coeffs</span></span></span><span class="sig-paren">(</span><span class="n"></span><span class="w"> </span><span class="n sig-param"><span class="pre">self</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D11eval_coeffsE2in" title="Permalink to this definition">¶</a><br>
+</dt>
+<dd>
+<p>x, y [, yp or subtype] </p>
+<p>Return the coeffs of the polynomial of the spline</p>
+<p></p>
+<div class="highlight-matlab notranslate">
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">coeffs</span><span class="p">,</span><span class="n">nodes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">eval_coeffs</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+
+<p></p>
+<ul class="simple">
+<li><p>[out] coeffs matrix which rows are the polynomial coeffs</p></li>
+<li><p>[out] nodes where the spline is defined </p></li>
+</ul>
+
+</dd>
+</dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N8Spline1D14eval_y_min_maxE2in">
 <span id="_CPPv3N8Spline1D14eval_y_min_maxE2in"></span><span id="_CPPv2N8Spline1D14eval_y_min_maxE2in"></span><span id="Spline1D::eval_y_min_max__in"></span><span class="target" id="a00042_1abc98272afe43e90f4b06cb4cdd1cf7c6"></span><span class="n"><span class="pre">function</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eval_y_min_max</span></span></span><span class="sig-paren">(</span><span class="n"></span><span class="w"> </span><span class="n sig-param"><span class="pre">self</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8Spline1D14eval_y_min_maxE2in" title="Permalink to this definition">¶</a><br>
 </dt>
 <dd>
-<p>x, y [, yp or subtype] </p>
 <p>Search the max and min values of <code class="docutils literal notranslate"><span class="pre">y</span></code> along the spline with the corresponding <code class="docutils literal notranslate"><span class="pre">x</span></code> position</p>
 <p></p>
 <div class="highlight-matlab notranslate">
