@@ -313,6 +313,33 @@ namespace Splines {
 
   static
   void
+  do_coeffs(
+    int nlhs, mxArray       *plhs[],
+    int nrhs, mxArray const *prhs[]
+  ) {
+
+    #define CMD "Spline1DMexWrapper('coeffs',OBJ): "
+
+    MEX_ASSERT2( nlhs == 2, CMD "expected 2 output, nlhs = {}\n", nlhs );
+    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+
+    Spline * ptr = DATA_GET( arg_in_1 );
+
+    integer ord = ptr->order();
+    integer npt = ptr->numPoints();
+
+    real_type * cfs   = createMatrixValue( arg_out_0, npt-1, ord );
+    real_type * nodes = createMatrixValue( arg_out_1, npt,   1   );
+
+    ptr->coeffs( cfs, nodes, false );
+
+    #undef CMD
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  static
+  void
   do_y_min_max(
     int nlhs, mxArray       *plhs[],
     int nrhs, mxArray const *prhs[]
@@ -904,6 +931,7 @@ namespace Splines {
     {"build",do_build},
     {"degree",do_degree},
     {"order",do_order},
+    {"coeffs",do_coeffs},
     {"y_min_max",do_y_min_max},
     {"eval",do_eval},
     {"eval_D",do_eval_D},

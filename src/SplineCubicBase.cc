@@ -219,13 +219,11 @@ namespace Splines {
   ) const {
     size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
     for ( size_t i = 0; i < n; ++i ) {
-      nodes[i] = m_X[i];
       real_type H  = m_X[i+1]-m_X[i];
-      real_type DY = (m_Y[i+1]-m_Y[i])/H;
-      real_type a = m_Y[i];
-      real_type b = m_Yp[i];
-      real_type c = (3*DY-2*m_Yp[i]-m_Yp[i+1])/H;
-      real_type d = (m_Yp[i+1]+m_Yp[i]-2*DY)/(H*H);
+      real_type a, b, c, d;
+
+      Hermite3_to_poly( H, m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1], a, b, c, d );
+
       if ( transpose ) {
         cfs[4*i+3] = a;
         cfs[4*i+2] = b;
@@ -238,6 +236,7 @@ namespace Splines {
         cfs[i+0*n] = d;
       }
     }
+    std::copy_n( m_X, m_npts, nodes );
     return 4;
   }
 
@@ -311,7 +310,7 @@ namespace Splines {
       real_type const & DP1 = m_Yp[i];
       real_type H = X1 - X0;
       real_type A, B, C, D;
-      Hermite3toPoly( H, P0, P1, DP0, DP1, A, B, C, D );
+      Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3*A, 2*B, C );
       real_type r[2];
       integer nr = q.getRootsInOpenRange( 0, H, r );
@@ -368,7 +367,7 @@ namespace Splines {
       real_type const & DP1 = m_Yp[i];
       real_type H = X1 - X0;
       real_type A, B, C, D;
-      Hermite3toPoly( H, P0, P1, DP0, DP1, A, B, C, D );
+      Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3*A, 2*B, C );
       real_type r[2];
       integer nr = q.getRootsInOpenRange( 0, H, r );
@@ -392,7 +391,7 @@ namespace Splines {
       real_type const & P2  = m_Y[i+1];
       real_type const & DP2 = m_Yp[i+1];
       real_type A1, B1, C1, D1;
-      Hermite3toPoly( X2-X1, P1, P2, DP1, DP2, A1, B1, C1, D1 );
+      Hermite3_to_poly( X2-X1, P1, P2, DP1, DP2, A1, B1, C1, D1 );
       real_type DD = 2*A*H+B;
       if ( DD >= 0 && B1 >= 0 ) {
         y_min.push_back(P1);

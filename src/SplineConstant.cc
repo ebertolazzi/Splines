@@ -25,6 +25,7 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -128,10 +129,8 @@ namespace Splines {
     bool
   ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
-    for ( size_t i = 0; i < nseg; ++i ) {
-      nodes[i] = m_X[i];
-      cfs[i]   = m_Y[i];
-    }
+    std::copy_n( m_X, m_npts, nodes );
+    std::copy_n( m_Y, nseg,   cfs   );
     return 1;
   }
 

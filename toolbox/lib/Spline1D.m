@@ -63,6 +63,25 @@
       %> x, y [, yp or subtype]
       Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
     end
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Return the coeffs of the polynomial of the spline
+    %>
+    %> \rst
+    %>
+    %>   .. code-block:: matlab
+    %>
+    %>     [coeffs,nodes] = obj.eval_coeffs();
+    %>
+    %> \endrst
+    %>
+    %> - [out] coeffs matrix which rows are the polynomial coeffs
+    %> - [out] nodes where the spline is defined
+    %>
+    function varargout = eval_coeffs( self )
+      [varargout{1:nargout}] = Spline1DMexWrapper( 'coeffs', self.objectHandle );
+    end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
     %> Search the max and min values of `y` along the spline
