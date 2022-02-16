@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="2172842652" file="/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines/Splines.prj" location="/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="3322472236" file="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -117,7 +117,6 @@ setup.m</param.exclude.filters>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
-      <file>${PROJECT_ROOT}/toolbox/doc</file>
       <file>${PROJECT_ROOT}/toolbox/icon.pdf</file>
       <file>${PROJECT_ROOT}/toolbox/icon.png</file>
       <file>${PROJECT_ROOT}/toolbox/icon.svg</file>
@@ -131,7 +130,7 @@ setup.m</param.exclude.filters>
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines/Splines.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>

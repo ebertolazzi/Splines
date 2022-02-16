@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -109,6 +109,7 @@ namespace Splines {
     //!
     //! Return the number of support points of the splines.
     //!
+    integer num_points() const { return m_npts; }
     integer numPoints() const { return m_npts; }
 
     //!
@@ -226,7 +227,7 @@ namespace Splines {
     ///@{
 
     //!
-    //! Evaluate all the splines at `x` and 
+    //! Evaluate all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -237,7 +238,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x` and 
+    //! Evaluate the fist derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -248,7 +249,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the second derivative of all the splines at `x` and 
+    //! Evaluate the second derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -259,7 +260,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the third derivative of all the splines at `x` and 
+    //! Evaluate the third derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -270,7 +271,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the 4th derivative of all the splines at `x` and 
+    //! Evaluate the 4th derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -281,7 +282,7 @@ namespace Splines {
     ) const;
 
     //!
-    //! Evaluate the 5th derivative of all the splines at `x` and 
+    //! Evaluate the 5th derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
     void
@@ -298,37 +299,37 @@ namespace Splines {
     ///@{
 
     //!
-    //! Evaluate all the splines at `x` and 
+    //! Evaluate all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the fist derivative of all the splines at `x` and 
+    //! Evaluate the fist derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval_D( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the second derivative of all the splines at `x` and 
+    //! Evaluate the second derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval_DD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the third derivative of all the splines at `x` and 
+    //! Evaluate the third derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval_DDD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the 4th derivative of all the splines at `x` and 
+    //! Evaluate the 4th derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval_DDDD( real_type x, vector<real_type> & vals ) const;
 
     //!
-    //! Evaluate the 5th derivative of all the splines at `x` and 
+    //! Evaluate the 5th derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
     void eval_DDDDD( real_type x, vector<real_type> & vals ) const;
@@ -437,10 +438,10 @@ namespace Splines {
 
     //!
     //! Initialize the interpolation point of the splines.
-    //! 
+    //!
     //! \param[in] dim  the dimension of the points
     //! \param[in] npts the numeber of interpolation points
-    //! \param[in] Y    the matrix of points values, `Y[i]` is the 
+    //! \param[in] Y    the matrix of points values, `Y[i]` is the
     //!                 pointer to the i-th components
     //!
     void

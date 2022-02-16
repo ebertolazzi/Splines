@@ -441,6 +441,7 @@ namespace Splines {
     //!
     //! the number of support points of the spline.
     //!
+    integer num_points() const { return m_npts; }
     integer numPoints() const { return m_npts; }
 
     //!
@@ -997,7 +998,7 @@ namespace Splines {
     //! \name Build
     //!
     ///@{
- 
+
     //!
     //! Build a spline.
     //!
@@ -1203,11 +1204,11 @@ namespace Splines {
     //!
     void make_y_opened() { m_y_closed = false; }
 
-    //! 
+    //!
     //! Return `true` if the parameter `x` assumed bounded.
     //! If false the spline is estrapolated for `x` values
     //! outside the range.
-    //! 
+    //!
     bool is_x_bounded() const { return m_x_can_extend; }
 
     //!
@@ -1220,11 +1221,11 @@ namespace Splines {
     //!
     void make_x_bounded() { m_x_can_extend = false; }
 
-    //! 
+    //!
     //! Return `true` if the parameter `y` assumed bounded.
     //! If false the spline is extrapolated for `y` values
     //! outside the range.
-    //! 
+    //!
     bool is_y_bounded() const { return m_y_can_extend; }
 
     //!
@@ -1254,11 +1255,13 @@ namespace Splines {
     //!
     //! Return the number of support points of the spline along x direction.
     //!
+    integer num_point_x() const { return m_nx; }
     integer numPointX() const { return m_nx; }
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
+    integer num_point_y() const { return m_ny; }
     integer numPointY() const { return m_ny; }
 
     //!

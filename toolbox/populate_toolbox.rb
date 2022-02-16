@@ -10,7 +10,9 @@ FileUtils.cp_r  "../submodules/quarticRootsFlocke/src/.",   "./src";
 FileUtils.cp_r  "../submodules/Utils/src/.",                "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/src/.",     "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/include/.", "./src";
+# elimino dipendenze da Eigen
 FileUtils.rm_rf "./src/Eigen";
+FileUtils.rm_rf "./src/Utils_Poly.cc";
 
 #lst = Dir["../doc/*"]
 #lst.each do |filename|

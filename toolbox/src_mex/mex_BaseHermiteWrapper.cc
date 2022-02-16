@@ -9,7 +9,7 @@
 \****************************************************************************/
 
 #include "Splines.hh"
-#include "mex_utils.hh"
+#include "Utils_mex.hh"
 
 #define MEX_ERROR_MESSAGE \
 "=====================================================================================\n" \
@@ -70,21 +70,21 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
     double *out4 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 4);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 4);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
     } else if ( nlhs == 4 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -109,21 +109,21 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
     double *out4 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 4);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 4);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
     } else if ( nlhs == 4 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -148,21 +148,21 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
     double *out4 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 4);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 4);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
     } else if ( nlhs == 4 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -187,21 +187,21 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
     double *out4 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 4);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 4);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
     } else if ( nlhs == 4 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -225,18 +225,18 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite3( t[i], H, tmp );
@@ -257,18 +257,18 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite3_D( t[i], H, tmp );
@@ -289,18 +289,18 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite3_DD( t[i], H, tmp );
@@ -321,18 +321,18 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       nr2, nr3, nr4, nr5
     );
     if ( nrhs == 7 ) H = getScalarValue( arg_in_6, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite3_DDD( t[i], H, tmp );
@@ -352,20 +352,20 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 4, CMD "expected 4 inputs, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 4, CMD "expected 4 output, nlhs = {}\n", nlhs );
     mwSize n1, n2, n3, n4;
-    double const * P0 = getVectorPointer( arg_in_1, n1, CMD "P0" );
-    double const * P1 = getVectorPointer( arg_in_2, n2, CMD "P1" );
-    double const * T0 = getVectorPointer( arg_in_3, n3, CMD "T0" );
-    double const * T1 = getVectorPointer( arg_in_4, n4, CMD "T1" );
+    double const * P0 = Utils::mex_vector_pointer( arg_in_1, n1, CMD "P0" );
+    double const * P1 = Utils::mex_vector_pointer( arg_in_2, n2, CMD "P1" );
+    double const * T0 = Utils::mex_vector_pointer( arg_in_3, n3, CMD "T0" );
+    double const * T1 = Utils::mex_vector_pointer( arg_in_4, n4, CMD "T1" );
 
     MEX_ASSERT2(
       n1 == n2 && n2 == n3 && n3 == n4,
       CMD "bad dimensions |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       n1, n2, n3, n4
     );
-    double * oP0 = createMatrixValue( arg_out_0, n1, 1);
-    double * oP1 = createMatrixValue( arg_out_1, n1, 1);
-    double * oP2 = createMatrixValue( arg_out_2, n1, 1);
-    double * oP3 = createMatrixValue( arg_out_3, n1, 1);
+    double * oP0 = Utils::mex_create_matrix_value( arg_out_0, n1, 1);
+    double * oP1 = Utils::mex_create_matrix_value( arg_out_1, n1, 1);
+    double * oP2 = Utils::mex_create_matrix_value( arg_out_2, n1, 1);
+    double * oP3 = Utils::mex_create_matrix_value( arg_out_3, n1, 1);
     for ( mwSize i = 0; i < n1; ++i ) {
       oP0[i] = P0[i];
       oP1[i] = P0[i] + T0[i]/3 ;
@@ -385,20 +385,20 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 4, CMD "expected 4 inputs, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 4, CMD "expected 4 output, nlhs = {}\n", nlhs );
     mwSize n1, n2, n3, n4;
-    double const * P0 = getVectorPointer( arg_in_1, n1, CMD "P0" );
-    double const * P1 = getVectorPointer( arg_in_2, n2, CMD "P1" );
-    double const * P2 = getVectorPointer( arg_in_3, n3, CMD "P2" );
-    double const * P3 = getVectorPointer( arg_in_4, n4, CMD "P3" );
+    double const * P0 = Utils::mex_vector_pointer( arg_in_1, n1, CMD "P0" );
+    double const * P1 = Utils::mex_vector_pointer( arg_in_2, n2, CMD "P1" );
+    double const * P2 = Utils::mex_vector_pointer( arg_in_3, n3, CMD "P2" );
+    double const * P3 = Utils::mex_vector_pointer( arg_in_4, n4, CMD "P3" );
 
     MEX_ASSERT2(
       n1 == n2 && n2 == n3 && n3 == n4,
       CMD "bad dimensions |P0| = {} |P1| = {} |P2| = {} |P3| = {}\n",
       n1, n2, n3, n4
     );
-    double * oP0 = createMatrixValue( arg_out_0, n1, 1);
-    double * oP1 = createMatrixValue( arg_out_1, n1, 1);
-    double * oT0 = createMatrixValue( arg_out_2, n1, 1);
-    double * oT1 = createMatrixValue( arg_out_3, n1, 1);
+    double * oP0 = Utils::mex_create_matrix_value( arg_out_0, n1, 1);
+    double * oP1 = Utils::mex_create_matrix_value( arg_out_1, n1, 1);
+    double * oT0 = Utils::mex_create_matrix_value( arg_out_2, n1, 1);
+    double * oT1 = Utils::mex_create_matrix_value( arg_out_3, n1, 1);
     for ( mwSize i = 0; i < n1; ++i ) {
       oP0[i] = P0[i];
       oP1[i] = P3[i];
@@ -418,7 +418,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
-    double * sqrtD1 = createMatrixValue( arg_out_0, 3, 4 );
+    double * sqrtD1 = Utils::mex_create_matrix_value( arg_out_0, 3, 4 );
 
     double t1 = sqrt(5.0)/5.0;
     double t2 = sqrt(3.0)/6.0;
@@ -451,7 +451,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
-    double * sqrtD2 = createMatrixValue( arg_out_0, 2, 4 );
+    double * sqrtD2 = Utils::mex_create_matrix_value( arg_out_0, 2, 4 );
 
     double t1 = sqrt(3.0);
 
@@ -478,7 +478,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 1, CMD "expected 1 input, nrhs = {}\n", nrhs );
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     #undef CMD
-    double * sqrtD3 = createMatrixValue( arg_out_0, 1, 4 );
+    double * sqrtD3 = Utils::mex_create_matrix_value( arg_out_0, 1, 4 );
 
     *sqrtD3++ = 12;
     *sqrtD3++ = -12;
@@ -498,7 +498,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -506,19 +506,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -545,7 +545,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -553,19 +553,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -592,7 +592,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -600,19 +600,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -639,7 +639,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -647,19 +647,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -686,7 +686,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -694,19 +694,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -733,7 +733,7 @@ namespace Splines {
     mwSize nr;
     double H = 1;
     if ( nrhs == 3 ) H = getScalarValue( arg_in_2, CMD "argument H" );
-    double const * t = getVectorPointer( arg_in_1, nr, CMD "argument t");
+    double const * t = Utils::mex_vector_pointer( arg_in_1, nr, CMD "argument t");
     double *out1 = nullptr;
     double *out2 = nullptr;
     double *out3 = nullptr;
@@ -741,19 +741,19 @@ namespace Splines {
     double *out5 = nullptr;
     double *out6 = nullptr;
     if ( nlhs == 1 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 6);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 6);
       out2 = out1 + nr;
       out3 = out2 + nr;
       out4 = out3 + nr;
       out5 = out4 + nr;
       out6 = out5 + nr;
     } else if ( nlhs == 6 ) {
-      out1 = createMatrixValue( arg_out_0, nr, 1);
-      out2 = createMatrixValue( arg_out_1, nr, 1);
-      out3 = createMatrixValue( arg_out_2, nr, 1);
-      out4 = createMatrixValue( arg_out_3, nr, 1);
-      out5 = createMatrixValue( arg_out_4, nr, 1);
-      out6 = createMatrixValue( arg_out_5, nr, 1);
+      out1 = Utils::mex_create_matrix_value( arg_out_0, nr, 1);
+      out2 = Utils::mex_create_matrix_value( arg_out_1, nr, 1);
+      out3 = Utils::mex_create_matrix_value( arg_out_2, nr, 1);
+      out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
+      out5 = Utils::mex_create_matrix_value( arg_out_4, nr, 1);
+      out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
@@ -779,13 +779,13 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0| = " << nr2 << " |P1| = " << nr3 <<
@@ -793,7 +793,7 @@ namespace Splines {
       " |J0| = " << nr6 << " |J1| = " << nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5( t[i], H, tmp );
@@ -816,20 +816,20 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
       nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5_D( t[i], H, tmp );
@@ -852,20 +852,20 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
       nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5_DD( t[i], H, tmp );
@@ -888,20 +888,20 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
       nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5_DDD( t[i], H, tmp );
@@ -924,20 +924,20 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
       nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5_DDDD( t[i], H, tmp );
@@ -960,20 +960,20 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr, nr2, nr3, nr4, nr5, nr6, nr7;
     double H = 1;
-    double const * t  = getVectorPointer( arg_in_1, nr,  CMD "argument t");
-    double const * P0 = getVectorPointer( arg_in_2, nr2, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * J0 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
-    double const * J1 = getVectorPointer( arg_in_7, nr7, CMD "argument t");
+    double const * t  = Utils::mex_vector_pointer( arg_in_1, nr,  CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * J0 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
+    double const * J1 = Utils::mex_vector_pointer( arg_in_7, nr7, CMD "argument t");
     MEX_ASSERT2(
       nr2 == nr3 && nr3 == nr4 && nr4 == nr5 && nr5 == nr6 && nr6 == nr7,
       CMD " bad dimension |P0|={} |P1|={} |T0|={} |T1|={} |J0|={} |J1|={}\n",
       nr2, nr3, nr4, nr5, nr6, nr7
     );
     if ( nrhs == 9 ) H = getScalarValue( arg_in_8, CMD "argument H" );
-    double * out = createMatrixValue( arg_out_0, nr2, nr );
+    double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
     for ( mwSize i = 0; i < nr; ++i ) {
       Hermite5_DDDDD( t[i], H, tmp );
@@ -998,20 +998,20 @@ namespace Splines {
     double H = 1;
     double const   a  = getScalarValue( arg_in_1, CMD "argument a");
     double const   b  = getScalarValue( arg_in_2, CMD "argument b");
-    double const * P0 = getVectorPointer( arg_in_3, nr3, CMD "argument t");
-    double const * P1 = getVectorPointer( arg_in_4, nr4, CMD "argument t");
-    double const * T0 = getVectorPointer( arg_in_5, nr5, CMD "argument t");
-    double const * T1 = getVectorPointer( arg_in_6, nr6, CMD "argument t");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument t");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument t");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_5, nr5, CMD "argument t");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_6, nr6, CMD "argument t");
     MEX_ASSERT2(
       nr3 == nr4 && nr4 == nr5 && nr5 == nr6,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
       nr3, nr4, nr5, nr6
     );
     if ( nrhs == 8 ) H = getScalarValue( arg_in_7, CMD "argument H" );
-    double * oP0 = createMatrixValue( arg_out_0, nr3, 1 );
-    double * oP1 = createMatrixValue( arg_out_1, nr3, 1 );
-    double * oT0 = createMatrixValue( arg_out_2, nr3, 1 );
-    double * oT1 = createMatrixValue( arg_out_3, nr3, 1 );
+    double * oP0 = Utils::mex_create_matrix_value( arg_out_0, nr3, 1 );
+    double * oP1 = Utils::mex_create_matrix_value( arg_out_1, nr3, 1 );
+    double * oT0 = Utils::mex_create_matrix_value( arg_out_2, nr3, 1 );
+    double * oT1 = Utils::mex_create_matrix_value( arg_out_3, nr3, 1 );
     double A[4], DA[4], B[4], DB[4];
     Hermite3( a, H, A ); Hermite3_D( a, H, DA );
     Hermite3( b, H, B ); Hermite3_D( b, H, DB );
@@ -1039,10 +1039,10 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     mwSize nr1, nr2, nr3, nr4;
     double H = 1;
-    double const * P0 = getVectorPointer( arg_in_1, nr1, CMD "argument P0");
-    double const * P1 = getVectorPointer( arg_in_2, nr2, CMD "argument P1");
-    double const * T0 = getVectorPointer( arg_in_3, nr3, CMD "argument T0");
-    double const * T1 = getVectorPointer( arg_in_4, nr4, CMD "argument T1");
+    double const * P0 = Utils::mex_vector_pointer( arg_in_1, nr1, CMD "argument P0");
+    double const * P1 = Utils::mex_vector_pointer( arg_in_2, nr2, CMD "argument P1");
+    double const * T0 = Utils::mex_vector_pointer( arg_in_3, nr3, CMD "argument T0");
+    double const * T1 = Utils::mex_vector_pointer( arg_in_4, nr4, CMD "argument T1");
     MEX_ASSERT2(
       nr1 == nr2 && nr2 == nr3 && nr3 == nr4,
       CMD " bad dimension |P0| = {} |P1| = {} |T0| = {} |T1| = {}\n",
@@ -1070,7 +1070,7 @@ namespace Splines {
       }
       len += sqrt( dst2 );
     }
-    setScalarValue( arg_out_0, len );
+    Utils::mex_set_scalar_value( arg_out_0, len );
 
     #undef CMD
   }

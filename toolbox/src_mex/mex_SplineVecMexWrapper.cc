@@ -28,7 +28,7 @@ either expressed or implied, of the FreeBSD Project.
 \****************************************************************************/
 
 #include "Splines.hh"
-#include "mex_utils.hh"
+#include "Utils_mex.hh"
 
 #define ASSERT(COND,MSG)                           \
   if ( !(COND) ) {                                 \
@@ -94,7 +94,7 @@ namespace Splines {
   static
   void
   DATA_DELETE( mxArray const * & mx_id ) {
-    destroyObject<SplineVec>(mx_id);
+    Utils::destroy_object<SplineVec>(mx_id);
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -144,7 +144,7 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize dim, npts;
-    real_type const * Y = getMatrixPointer(
+    real_type const * Y = Utils::mex_matrix_pointer(
       arg_in_2, dim, npts, CMD "error in reading 'Y'"
     );
     ptr->setup( dim, npts, Y, dim );
@@ -166,11 +166,11 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize npts;
-    real_type const * X = getVectorPointer(
+    real_type const * X = Utils::mex_vector_pointer(
       arg_in_2, npts, CMD "error in reading 'X'"
     );
     MEX_ASSERT(
-      npts == ptr->numPoints(),
+      npts == ptr->num_points(),
       CMD "size(X) = " << npts << " must be = " << ptr->dimension()
     );
     ptr->setKnots( X );
@@ -242,8 +242,8 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     //! return the number of support points of the splines
-    integer N = ptr->numPoints();
-    real_type * X = createMatrixValue( arg_out_0, 1, N );
+    integer N = ptr->num_points();
+    real_type * X = Utils::mex_create_matrix_value( arg_out_0, 1, N );
     for ( integer i = 0; i < N; ++i ) X[i] = ptr->xNode( i );
     #undef CMD
   }
@@ -262,12 +262,12 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
     mwSize dim = ptr->dimension();
-    real_type * Y = createMatrixValue( arg_out_0, dim, nx );
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval( x[i], Y, 1 );
@@ -288,12 +288,12 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
     mwSize dim = ptr->dimension();
-    real_type * Y = createMatrixValue( arg_out_0, dim, nx );
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_D( x[i], Y, 1 );
@@ -314,12 +314,12 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
     mwSize dim = ptr->dimension();
-    real_type * Y = createMatrixValue( arg_out_0, dim, nx );
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_DD( x[i], Y, 1 );
@@ -340,12 +340,12 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
     mwSize dim = ptr->dimension();
-    real_type * Y = createMatrixValue( arg_out_0, dim, nx );
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize i = 0; i < nx; ++i, Y += dim )
       ptr->eval_DDD( x[i], Y, 1 );
@@ -366,11 +366,11 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
-    real_type * curvature = createMatrixValue( arg_out_0, 1, nx );
+    real_type * curvature = Utils::mex_create_matrix_value( arg_out_0, 1, nx );
 
     for ( mwSize i = 0; i < nx; ++i )
       curvature[i] = ptr->curvature( x[i] );
@@ -391,11 +391,11 @@ namespace Splines {
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
 
-    real_type * curvature_D = createMatrixValue( arg_out_0, 1, nx );
+    real_type * curvature_D = Utils::mex_create_matrix_value( arg_out_0, 1, nx );
 
     for ( mwSize i = 0; i < nx; ++i )
       curvature_D[i] = ptr->curvature_D( x[i] );
@@ -416,7 +416,7 @@ namespace Splines {
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
-    setScalarValue( arg_out_0, ptr->xMin() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->xMin() );
     #undef CMD
   }
 
@@ -434,7 +434,7 @@ namespace Splines {
 
     SplineVec * ptr = DATA_GET( arg_in_1 );
 
-    setScalarValue( arg_out_0, ptr->xMax() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->xMax() );
     #undef CMD
   }
 

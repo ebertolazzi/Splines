@@ -1,6 +1,6 @@
 /**
  * PYTHON Wrapper for Splines
- * 
+ *
  * License MIT - See LICENSE file
  * 2019 Matteo Ragni, Claudio Kerov Ghiglianovich, Enrico Bertolazzi
  */
@@ -74,7 +74,7 @@ namespace pySpline {
       .def("is_bounded", &Spline::is_bounded)
       .def("make_unbounded", &Spline::make_unbounded)
       .def("make_bounded", &Spline::make_bounded)
-      .def("numPoints", &Spline::numPoints)
+      .def("num_points", &Spline::num_points)
       .def("xNode", &Spline::xNode)
       .def("yNode", &Spline::yNode)
       .def("xBegin", &Spline::xBegin)
@@ -105,11 +105,11 @@ namespace pySpline {
       .def("eval_DDD", &Spline::eval_DDD)
       .def("eval_DDDD", &Spline::eval_DDDD)
       .def("eval_DDDDD", &Spline::eval_DDDDD)
-      .def("coeffs", [](Spline & self, bool transpose) 
+      .def("coeffs", [](Spline & self, bool transpose)
         -> std::tuple< std::vector<real_type>, std::vector<real_type> > {
-        integer n_nodes = self.numPoints() - 1;
+        integer n_nodes = self.num_points() - 1;
         integer n_order = self.order();
-        std::vector<real_type> cfs(n_order * n_nodes); 
+        std::vector<real_type> cfs(n_order * n_nodes);
         std::vector<real_type> nodes(n_nodes);
         self.coeffs(cfs.data(), nodes.data(), transpose);
         return std::make_tuple(cfs, nodes);
@@ -128,7 +128,7 @@ namespace pySpline {
         self.writeToStream(str);
         return str.str();
       })
-      .def("dump", [](const Spline & self, integer nintervals, std::string header) 
+      .def("dump", [](const Spline & self, integer nintervals, std::string header)
         -> std::string {
         std::ostringstream str;
         self.dump(str, nintervals, header.c_str());
@@ -207,7 +207,7 @@ PYBIND11_MODULE(Splines, m) {
   pySpline::python_register_cubic_splines_class(m);
   pySpline::python_register_constant_splines_class(m);
   pySpline::python_register_akima_splines_class(m);
-  pySpline::python_register_bessel_splines_class(m); 
+  pySpline::python_register_bessel_splines_class(m);
   pySpline::python_register_hermite_splines_class(m);
   pySpline::python_register_linear_splines_class(m);
   pySpline::python_register_pchip_splines_class(m);

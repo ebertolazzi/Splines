@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -96,11 +96,11 @@ namespace Splines {
     //!
     void make_y_opened() { m_spline_2D->make_y_opened(); }
 
-    //! 
+    //!
     //! Return `true` if the parameter `x` assumed bounded.
     //! If false the spline is estrapolated for `x` values
     //! outside the range.
-    //! 
+    //!
     bool is_x_bounded() const { return m_spline_2D->is_x_bounded(); }
 
     //!
@@ -113,11 +113,11 @@ namespace Splines {
     //!
     void make_x_bounded() { m_spline_2D->make_x_bounded(); }
 
-    //! 
+    //!
     //! Return `true` if the parameter `y` assumed bounded.
     //! If false the spline is estrapolated for `y` values
     //! outside the range.
-    //! 
+    //!
     bool is_y_bounded() const { return m_spline_2D->is_y_bounded(); }
 
     //!
@@ -145,14 +145,14 @@ namespace Splines {
     //!
     //! Return the number of support points of the spline along x direction.
     //!
-    integer
-    numPointX() const { return m_spline_2D->numPointX(); }
+    integer num_point_x() const { return m_spline_2D->num_point_x(); }
+    integer numPointX() const { return m_spline_2D->num_point_x(); }
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
-    integer
-    numPointY() const { return m_spline_2D->numPointY(); }
+    integer num_point_y() const { return m_spline_2D->num_point_y(); }
+    integer numPointY() const { return m_spline_2D->num_point_y(); }
 
     //!
     //! Return the i-th node of the spline (x component).
@@ -238,9 +238,9 @@ namespace Splines {
       );
     }
 
-    //! 
+    //!
     //! Build surface spline
-    //! 
+    //!
     //! \param tp              spline type
     //! \param x               vector of x-coordinates, nx = x.size()
     //! \param y               vector of y-coordinates, ny = y.size()
@@ -249,7 +249,7 @@ namespace Splines {
     //! \param fortran_storage if true elements are stored by column
     //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
     //! \param transposed      if true matrix Z is stored transposed
-    //! 
+    //!
     void
     build(
       SplineType2D              tp,
@@ -263,9 +263,9 @@ namespace Splines {
       m_spline_2D->build( x, y, z, fortran_storage, transposed );
     }
 
-    //! 
+    //!
     //! Build surface spline
-    //! 
+    //!
     //! \param tp              spline type
     //! \param z               matrix of z-values. Elements are stored
     //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
@@ -276,7 +276,7 @@ namespace Splines {
     //! \param fortran_storage if true elements are stored by column
     //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
     //! \param transposed      if true matrix Z is stored transposed
-    //! 
+    //!
     void
     build(
       SplineType2D      tp,
@@ -291,9 +291,9 @@ namespace Splines {
       m_spline_2D->build( z, ldZ, nx, ny, fortran_storage, transposed );
     }
 
-    //! 
+    //!
     //! Build surface spline
-    //! 
+    //!
     //! \param tp              spline type
     //! \param z               matrix of z-values. Elements are stored
     //!                        by row Z(i,j) = z[i*ny+j] as C-matrix.
@@ -304,7 +304,7 @@ namespace Splines {
     //! \param fortran_storage if true elements are stored by column
     //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
     //! \param transposed      if true matrix Z is stored transposed
-    //! 
+    //!
     void
     build(
       SplineType2D              tp,
@@ -318,16 +318,16 @@ namespace Splines {
       m_spline_2D->build( z, nx, ny, fortran_storage, transposed );
     }
 
-    //! 
+    //!
     //! Build spline surface using a `GenericContainer`
-    //! 
+    //!
     //! - gc("spline_type")
     //!     - "bilinear" build a bilinear spline surface
     //!     - "bicubic" build a spline surface with cubic spline
     //!     - "biquintic" build a spline surface with quintic spline
     //!     - "Akima" or "akima "build a spline surface with cubic spline
     //!        using Akima algorithm to avoid obscillation
-    //! 
+    //!
     void
     setup( GenericContainer const & gc ) {
       string msg = fmt::format("Spline2D[{}]::setup( gc ):", m_name );

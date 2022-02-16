@@ -14,7 +14,7 @@ end
 require "rake/clean"
 require_relative "./Rakefile_common.rb"
 
-CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build"]
+CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build", "./lib", "./lib3rd"]
 CLOBBER.include []
 CLEAN.exclude('**/[cC][oO][rR][eE]')
 

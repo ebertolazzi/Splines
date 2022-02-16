@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -73,7 +73,8 @@ namespace Splines {
     //!
     //! Return the number of support points of the spline.
     //!
-    integer numPoints() const { return m_pSpline->numPoints(); }
+    integer num_points() const { return m_pSpline->num_points(); }
+    integer numPoints() const { return m_pSpline->num_points(); }
 
     //!
     //! Return the i-th node of the spline (x component).
@@ -129,16 +130,16 @@ namespace Splines {
     void setup( GenericContainer const & gc );
     void build( GenericContainer const & gc ) { setup(gc); }
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param tp   spline type
     //! \param x    vector of x-coordinates
     //! \param incx access elements as x[0], x[incx], x[2*incx],...
     //! \param y    vector of y-coordinates
     //! \param incy access elements as y[0], y[incy], x[2*incy],...
     //! \param n    total number of points
-    //! 
+    //!
     // must be defined in derived classes
     void
     build(
@@ -148,14 +149,14 @@ namespace Splines {
       integer n
     );
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param tp spline type
     //! \param x  vector of x-coordinates
     //! \param y  vector of y-coordinates
     //! \param n  total number of points
-    //! 
+    //!
     void
     build(
       SplineType1D      tp,
@@ -166,13 +167,13 @@ namespace Splines {
       this->build( tp, x, 1, y, 1, n );
     }
 
-    //! 
+    //!
     //! Build a spline.
-    //! 
+    //!
     //! \param tp spline type
     //! \param x  vector of x-coordinates
     //! \param y  vector of y-coordinates
-    //! 
+    //!
     void
     build(
       SplineType1D              tp,
@@ -289,7 +290,7 @@ namespace Splines {
     real_type eval_DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
     real_type eval_DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
     ///@}
-  
+
     ///////////////////////////////////////////////////////////////////////////
     //!
     //! \name Evaluation when segment is known

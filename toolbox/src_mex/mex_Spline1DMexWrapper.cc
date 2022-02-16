@@ -28,7 +28,7 @@ either expressed or implied, of the FreeBSD Project.
 \****************************************************************************/
 
 #include "Splines.hh"
-#include "mex_utils.hh"
+#include "Utils_mex.hh"
 
 #define ASSERT(COND,MSG)                          \
   if ( !(COND) ) {                                \
@@ -84,7 +84,7 @@ namespace Splines {
   static
   Spline *
   DATA_NEW( mxArray * & mx_id, Spline * ptr ) {
-    mx_id = convertPtr2Mat<Spline>(ptr);
+    mx_id = Utils::convert_ptr_to_mat<Spline>(ptr);
     return ptr;
   }
 
@@ -98,7 +98,7 @@ namespace Splines {
   static
   void
   DATA_DELETE( mxArray const * & mx_id ) {
-    destroyObject<Spline>(mx_id);
+    Utils::destroy_object<Spline>(mx_id);
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -179,8 +179,8 @@ namespace Splines {
     real_type const * x  = nullptr;
     real_type const * y  = nullptr;
     real_type const * yp = nullptr;
-    x = getVectorPointer( arg_in_2, nx, CMD "error in reading 'x'" );
-    y = getVectorPointer( arg_in_3, ny, CMD "error in reading 'y'" );
+    x = Utils::mex_vector_pointer( arg_in_2, nx, CMD "error in reading 'x'" );
+    y = Utils::mex_vector_pointer( arg_in_3, ny, CMD "error in reading 'y'" );
 
     MEX_ASSERT( nx == ny, "lenght of 'x' must be the lenght of 'y'" );
 
@@ -248,7 +248,7 @@ namespace Splines {
           "yp can be specified only for Hermite type Spline"
         );
         mwSize nyp;
-        yp = getVectorPointer( arg_in_4, nyp, CMD "error in reading 'yp'" );
+        yp = Utils::mex_vector_pointer( arg_in_4, nyp, CMD "error in reading 'yp'" );
         MEX_ASSERT( ny == nyp, "lenght of 'yp' must be the lenght of 'y'" );
       }
     }
@@ -285,7 +285,7 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarInt( arg_out_0, ptr->order()-1 );
+    Utils::mex_set_scalar_int32( arg_out_0, ptr->order()-1 );
 
     #undef CMD
   }
@@ -304,7 +304,7 @@ namespace Splines {
     MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarInt( arg_out_0, ptr->order() );
+    Utils::mex_set_scalar_int32( arg_out_0, ptr->order() );
 
     #undef CMD
   }
@@ -326,10 +326,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     integer ord = ptr->order();
-    integer npt = ptr->numPoints();
+    integer npt = ptr->num_points();
 
-    real_type * cfs   = createMatrixValue( arg_out_0, npt-1, ord );
-    real_type * nodes = createMatrixValue( arg_out_1, npt,   1   );
+    real_type * cfs   = Utils::mex_create_matrix_value( arg_out_0, npt-1, ord );
+    real_type * nodes = Utils::mex_create_matrix_value( arg_out_1, npt,   1   );
 
     ptr->coeffs( cfs, nodes, false );
 
@@ -377,12 +377,12 @@ namespace Splines {
       mxArray * mx_x_max_pos;
       mxArray * mx_y_max;
 
-      real_type * ptr_i_min_pos = createMatrixValue( mx_i_min_pos, i_min_pos.size(), 1 );
-      real_type * ptr_x_min_pos = createMatrixValue( mx_x_min_pos, x_min_pos.size(), 1 );
-      real_type * ptr_y_min     = createMatrixValue( mx_y_min,     y_min.size(),     1 );
-      real_type * ptr_i_max_pos = createMatrixValue( mx_i_max_pos, i_max_pos.size(), 1 );
-      real_type * ptr_x_max_pos = createMatrixValue( mx_x_max_pos, x_max_pos.size(), 1 );
-      real_type * ptr_y_max     = createMatrixValue( mx_y_max,     y_max.size(),     1 );
+      real_type * ptr_i_min_pos = Utils::mex_create_matrix_value( mx_i_min_pos, i_min_pos.size(), 1 );
+      real_type * ptr_x_min_pos = Utils::mex_create_matrix_value( mx_x_min_pos, x_min_pos.size(), 1 );
+      real_type * ptr_y_min     = Utils::mex_create_matrix_value( mx_y_min,     y_min.size(),     1 );
+      real_type * ptr_i_max_pos = Utils::mex_create_matrix_value( mx_i_max_pos, i_max_pos.size(), 1 );
+      real_type * ptr_x_max_pos = Utils::mex_create_matrix_value( mx_x_max_pos, x_max_pos.size(), 1 );
+      real_type * ptr_y_max     = Utils::mex_create_matrix_value( mx_y_max,     y_max.size(),     1 );
 
       std::copy( i_min_pos.begin(), i_min_pos.end(), ptr_i_min_pos );
       std::copy( x_min_pos.begin(), x_min_pos.end(), ptr_x_min_pos );
@@ -408,12 +408,12 @@ namespace Splines {
         i_max_pos, x_max_pos, y_max
       );
 
-      setScalarInt  ( arg_out_0, i_min_pos );
-      setScalarValue( arg_out_1, x_min_pos );
-      setScalarValue( arg_out_2, y_min     );
-      setScalarInt  ( arg_out_3, i_max_pos );
-      setScalarValue( arg_out_4, x_max_pos );
-      setScalarValue( arg_out_5, y_max     );
+      Utils::mex_set_scalar_int32  ( arg_out_0, i_min_pos );
+      Utils::mex_set_scalar_value( arg_out_1, x_min_pos );
+      Utils::mex_set_scalar_value( arg_out_2, y_min     );
+      Utils::mex_set_scalar_int32  ( arg_out_3, i_max_pos );
+      Utils::mex_set_scalar_value( arg_out_4, x_max_pos );
+      Utils::mex_set_scalar_value( arg_out_5, y_max     );
 
     }
     #undef CMD
@@ -436,10 +436,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval( *x++ );
 
@@ -463,10 +463,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_D( *x++ );
 
@@ -490,10 +490,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DD( *x++ );
 
@@ -517,10 +517,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDD( *x++ );
 
@@ -544,10 +544,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDDD( *x++ );
 
@@ -571,10 +571,10 @@ namespace Splines {
     Spline * ptr = DATA_GET( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = getVectorPointer(
+    real_type const * x = Utils::mex_vector_pointer(
       arg_in_2, nx, CMD "error in reading `x`"
     );
-    real_type * y = createMatrixValue( arg_out_0, nx, 1 );
+    real_type * y = Utils::mex_create_matrix_value( arg_out_0, nx, 1 );
 
     for ( mwSize i = 0; i < nx; ++i ) *y++ = ptr->eval_DDDDD( *x++ );
 
@@ -636,7 +636,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->is_closed() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->is_closed() );
 
     #undef CMD
   }
@@ -696,7 +696,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->is_bounded() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->is_bounded() );
 
     #undef CMD
   }
@@ -756,7 +756,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->is_extended_constant() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->is_extended_constant() );
 
     #undef CMD
   }
@@ -776,7 +776,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->xBegin() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->xBegin() );
 
     #undef CMD
   }
@@ -796,7 +796,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->yBegin() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->yBegin() );
 
     #undef CMD
   }
@@ -816,7 +816,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->xEnd() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->xEnd() );
 
     #undef CMD
   }
@@ -836,7 +836,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->yEnd() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->yEnd() );
 
     #undef CMD
   }
@@ -856,7 +856,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->xMin() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->xMin() );
 
     #undef CMD
   }
@@ -876,7 +876,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->yMin() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->yMin() );
 
     #undef CMD
   }
@@ -896,7 +896,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->xMax() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->xMax() );
 
     #undef CMD
   }
@@ -916,7 +916,7 @@ namespace Splines {
     MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = DATA_GET( arg_in_1 );
-    setScalarBool( arg_out_0, ptr->yMax() );
+    Utils::mex_set_scalar_bool( arg_out_0, ptr->yMax() );
 
     #undef CMD
   }
