@@ -23,7 +23,7 @@
     %>
     %> \endrst
     %>
-    %> Kind is a string and can be any of 
+    %> Kind is a string and can be any of
     %>
     %> |     kind     |   meaning                                                |
     %> | :----------- | :------------------------------------------------------- |
@@ -146,7 +146,7 @@
       if nargout >= 5
         varargout{5} = Spline1DMexWrapper( 'eval_DDDD', self.objectHandle, x );
       end
-      if ~( nargout == 1 || nargout == 2 || nargout == 3 ) 
+      if ~( nargout == 1 || nargout == 2 || nargout == 3 )
         error( 'Spline1D.eval, nargout = %d must be 1, 2, 3, 4 or 5\n', nargout );
       end
     end
@@ -372,11 +372,15 @@
     %>   .. code-block:: matlab
     %>
     %>     x = obj.xBegin();
+    %>     x = obj.x_begin();
     %>
     %> \endrst
     %>
+    function x = x_begin( self )
+      x = Spline1DMexWrapper( 'x_begin', self.objectHandle );
+    end
     function x = xBegin( self )
-      x = Spline1DMexWrapper( 'xBegin', self.objectHandle );
+      x = Spline1DMexWrapper( 'x_begin', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -387,11 +391,15 @@
     %>   .. code-block:: matlab
     %>
     %>     x = obj.xEnd();
+    %>     x = obj.x_end();
     %>
     %> \endrst
     %>
     function x = xEnd( self )
-      x = Spline1DMexWrapper( 'xEnd', self.objectHandle );
+      x = Spline1DMexWrapper( 'x_end', self.objectHandle );
+    end
+    function x = x_end( self )
+      x = Spline1DMexWrapper( 'x_end', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -401,12 +409,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     y = obj.y_begin();
     %>     y = obj.yBegin();
     %>
     %> \endrst
     %>
+    function y = y_begin( self )
+      y = Spline1DMexWrapper( 'y_begin', self.objectHandle );
+    end
     function y = yBegin( self )
-      y = Spline1DMexWrapper( 'yBegin', self.objectHandle );
+      y = Spline1DMexWrapper( 'y_begin', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -416,12 +428,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     y = obj.y_end();
     %>     y = obj.yEnd();
     %>
     %> \endrst
     %>
+    function y = y_end( self )
+      y = Spline1DMexWrapper( 'y_end', self.objectHandle );
+    end
     function y = yEnd( self )
-      y = Spline1DMexWrapper( 'yEnd', self.objectHandle );
+      y = Spline1DMexWrapper( 'y_end', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -431,12 +447,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     x = obj.x_min();
     %>     x = obj.xMin();
     %>
     %> \endrst
     %>
+    function x = x_min( self )
+      x = Spline1DMexWrapper( 'x_min', self.objectHandle );
+    end
     function x = xMin( self )
-      x = Spline1DMexWrapper( 'xMin', self.objectHandle );
+      x = Spline1DMexWrapper( 'x_min', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -446,12 +466,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     x = obj.x_max();
     %>     x = obj.xMax();
     %>
     %> \endrst
     %>
+    function x = x_max( self )
+      x = Spline1DMexWrapper( 'x_max', self.objectHandle );
+    end
     function x = xMax( self )
-      x = Spline1DMexWrapper( 'xMax', self.objectHandle );
+      x = Spline1DMexWrapper( 'x_max', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -461,12 +485,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     y = obj.y_min();
     %>     y = obj.yMin();
     %>
     %> \endrst
     %>
+    function y = y_min( self )
+      y = Spline1DMexWrapper( 'y_min', self.objectHandle );
+    end
     function y = yMin( self )
-      y = Spline1DMexWrapper( 'yMin', self.objectHandle );
+      y = Spline1DMexWrapper( 'y_min', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -476,12 +504,16 @@
     %>
     %>   .. code-block:: matlab
     %>
+    %>     y = obj.y_max();
     %>     y = obj.yMax();
     %>
     %> \endrst
     %>
+    function y = y_max( self )
+      y = Spline1DMexWrapper( 'y_max', self.objectHandle );
+    end
     function y = yMax( self )
-      y = Spline1DMexWrapper( 'yMax', self.objectHandle );
+      y = Spline1DMexWrapper( 'y_max', self.objectHandle );
     end
   end
 end

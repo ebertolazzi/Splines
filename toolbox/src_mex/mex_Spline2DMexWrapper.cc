@@ -81,20 +81,20 @@ namespace Splines {
   static
   void
   DATA_NEW( mxArray * & mx_id, SplineSurf * ptr ) {
-    mx_id = Utils::convert_ptr_to_mat<SplineSurf>(ptr);
+    mx_id = Utils::mex_convert_ptr_to_mx<SplineSurf>(ptr);
   }
 
   static
   inline
   SplineSurf *
   DATA_GET( mxArray const * & mx_id ) {
-    return Utils::convert_ptr_to_mat<SplineSurf>(mx_id);
+    return Utils::mex_convert_mx_to_ptr<SplineSurf>(mx_id);
   }
 
   static
   void
   DATA_DELETE( mxArray const * & mx_id ) {
-    Utils::destroy_object<SplineSurf>(mx_id);
+    Utils::mex_destroy_object<SplineSurf>(mx_id);
   }
 
 
@@ -106,10 +106,10 @@ namespace Splines {
           int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "Spline1DMexWrapper( 'new', kind ): "
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       mxIsChar(arg_in_1),
       CMD "second argument must be a string, found ``{}''\n",
       mxGetClassName(arg_in_1)
@@ -124,7 +124,7 @@ namespace Splines {
     else if ( tname == "akima"     ) v = new Splines::Akima2Dspline();
     else if ( tname == "biquintic" ) v = new Splines::BiQuinticSpline();
     else {
-      MEX_ASSERT(
+      UTILS_MEX_ASSERT0(
         false,
         "Second argument must be one of the strings:\n"
         "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
@@ -144,8 +144,8 @@ namespace Splines {
              int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "Spline1DMexWrapper( 'delete', OBJ ): "
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     // Destroy the C++ object
     DATA_DELETE(arg_in_1);
@@ -161,8 +161,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('build',OBJ,x,y,z): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected no output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 5, CMD "expected 5 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected no output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 5, CMD "expected 5 input, nrhs = {}\n", nrhs );
 
     mwSize nx, ny, nnx, nny;
     real_type const * x = Utils::mex_vector_pointer(
@@ -175,13 +175,13 @@ namespace Splines {
       arg_in_4, nnx, nny, CMD "error in reading 'z'"
     );
 
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       nx == nnx,
       CMD "lenght of 'x' ({}) must be the number of row of 'z' ({})\n",
       nx, nnx
     );
 
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       ny == nny,
       CMD "lenght of 'y' ({}) must be the number of column of 'z' ({})\n",
       ny, nny
@@ -208,8 +208,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('nx',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -227,8 +227,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('nx',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -247,8 +247,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('xMin',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -267,8 +267,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('xMax',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -287,8 +287,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('yMin',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -307,8 +307,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('yMax',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -327,8 +327,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('zMin',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -347,8 +347,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('zMax',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -367,8 +367,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -379,10 +379,10 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
-      CMD "size(x) = " << nx << " x " << ny <<
-      " must be equal to size(y) = " << mx << " x " << my
+      CMD "size(x) = {} x {} must be equal to size(y) = {} x {}",
+      nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
     for ( mwSize j = 0; j < mx*nx; ++j )
@@ -400,8 +400,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval_Dx',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -412,7 +412,7 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
       CMD "size(x) = {} x {} must be equal to size(y) = {} x {}\n",
       nx, ny, mx, my
@@ -432,8 +432,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval_Dy',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -444,10 +444,10 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
-      CMD "size(x) = " << nx << " x " << ny <<
-      " must be equal to size(y) = " << mx << " x " << my
+      CMD "size(x) = {} x {} must be equal to size(y) = {} x {}",
+      nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
     for ( mwSize j = 0; j < mx*nx; ++j )
@@ -464,8 +464,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval_Dxx',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -476,7 +476,7 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
       CMD "size(x) = {} x {} must be equal to size(y) = {} x {}\n",
       nx, ny, mx, my
@@ -496,8 +496,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval_Dxy',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -508,7 +508,7 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
       CMD "size(x) = {} x {} must be equal to size(y) = {} x {}\n",
       nx, ny, mx, my
@@ -528,8 +528,8 @@ namespace Splines {
 
     #define CMD "Spline2DMexWrapper('eval_Dyy',OBJ,x,y): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 4, CMD "expected 4 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
 
@@ -540,7 +540,7 @@ namespace Splines {
     real_type const * y = Utils::mex_matrix_pointer(
       arg_in_3, ny, my, CMD "error in reading `y`"
     );
-    MEX_ASSERT2(
+    UTILS_MEX_ASSERT(
       nx == ny && mx == my,
       CMD "size(x) = {} x {} must be equal to size(y) = {} x {}\n",
       nx, ny, mx, my
@@ -560,8 +560,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_x_closed',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_x_closed();
@@ -578,8 +578,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_x_opened',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_x_opened();
@@ -596,8 +596,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('is_x_closed',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_x_closed() );
@@ -614,8 +614,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_x_bounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_y_bounded();
@@ -632,8 +632,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_x_unbounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_x_unbounded();
@@ -650,8 +650,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('is_x_bounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_x_bounded() );
@@ -668,8 +668,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_y_closed',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_y_closed();
@@ -686,8 +686,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_y_opened',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_y_opened();
@@ -704,8 +704,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('is_y_closed',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_y_closed() );
@@ -722,8 +722,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_y_bounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_y_bounded();
@@ -740,8 +740,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('make_y_unbounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     ptr->make_y_unbounded();
@@ -758,8 +758,8 @@ namespace Splines {
 
     #define CMD "Spline1DMexWrapper('is_y_bounded',OBJ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSurf * ptr = DATA_GET( arg_in_1 );
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_y_bounded() );
@@ -816,7 +816,7 @@ namespace Splines {
     }
 
     try {
-      MEX_ASSERT( mxIsChar(arg_in_0), "First argument must be a string" );
+      UTILS_MEX_ASSERT0( mxIsChar(arg_in_0), "First argument must be a string" );
       string cmd = mxArrayToString(arg_in_0);
       DO_CMD pfun = cmd_to_fun.at(cmd);
       pfun( nlhs, plhs, nrhs, prhs );

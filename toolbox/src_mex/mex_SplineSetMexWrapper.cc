@@ -78,23 +78,22 @@ using namespace std;
 namespace Splines {
 
   static
-  SplineSet *
+  void
   DATA_NEW( mxArray * & mx_id, SplineSet * ptr ) {
-    mx_id = Utils::convert_ptr_to_mat<SplineSet>(ptr);
-    return ptr;
+    mx_id = Utils::mex_convert_ptr_to_mx<SplineSet>(ptr);
   }
 
   static
   inline
   SplineSet *
   DATA_GET( mxArray const * & mx_id ) {
-    return Utils::convert_ptr_to_mat<SplineSet>(mx_id);
+    return Utils::mex_convert_mx_to_ptr<SplineSet>(mx_id);
   }
 
   static
   void
   DATA_DELETE( mxArray const * & mx_id ) {
-    Utils::destroy_object<SplineSet>(mx_id);
+    Utils::mex_destroy_object<SplineSet>(mx_id);
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -105,8 +104,8 @@ namespace Splines {
           int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineSetMexWrapper( 'new' ): "
-    MEX_ASSERT2( nrhs == 1, CMD "expected 1 inputs, nrhs = {}\n", nrhs );
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 1, CMD "expected 1 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
 
     DATA_NEW( arg_out_0, new SplineSet() );
 
@@ -121,8 +120,8 @@ namespace Splines {
              int nrhs, mxArray const *prhs[] ) {
 
     #define CMD "SplineSetMexWrapper( 'delete', OBJ ): "
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
-    MEX_ASSERT2( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
 
     // Destroy the C++ object
     DATA_DELETE(arg_in_1);
@@ -139,8 +138,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'build', OBJ, kinds, X, Y ): "
 
-    MEX_ASSERT2( nlhs == 0, CMD "expected NO output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 5, CMD "expected 5 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected NO output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 5, CMD "expected 5 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -152,7 +151,10 @@ namespace Splines {
       arg_in_4, nn, nspl, CMD "error in reading 'y'"
     );
 
-    MEX_ASSERT( n == nn, CMD "lenght of 'x' must be the number of rows of 'y'" );
+    UTILS_MEX_ASSERT0(
+      n == nn,
+      CMD "lenght of 'x' must be the number of rows of 'y'"
+    );
 
     std::vector<Splines::SplineType1D> types;
     types.reserve(nspl);
@@ -167,7 +169,7 @@ namespace Splines {
       else if ( tname == "pchip"   ) st = PCHIP_TYPE;
       else if ( tname == "quintic" ) st = QUINTIC_TYPE;
       else {
-        MEX_ASSERT(
+        UTILS_MEX_ASSERT0(
           false,
           CMD "Cell array of strings must contains the strings:\n"
           "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
@@ -178,7 +180,7 @@ namespace Splines {
     } else if ( mxIsCell(arg_in_2) ) {
 
       mwSize const *dims = mxGetDimensions(arg_in_2);
-      MEX_ASSERT2(
+      UTILS_MEX_ASSERT(
         dims[0] == nspl && dims[1] == 1,
         CMD "Third argument expected to be cell array {} x 1, found {} x {}\n",
         nspl, dims[0], dims[1]
@@ -186,7 +188,7 @@ namespace Splines {
 
       for ( mwSize i = 0; i < nspl; ++i ) {
         mxArray const * cell = mxGetCell(arg_in_2,i);
-        MEX_ASSERT(
+        UTILS_MEX_ASSERT0(
           mxIsChar(cell),
           CMD "Third argument expected to be cell array of strings"
         );
@@ -199,7 +201,7 @@ namespace Splines {
         else if ( tname == "pchip"   ) st = PCHIP_TYPE;
         else if ( tname == "quintic" ) st = QUINTIC_TYPE;
         else {
-          MEX_ASSERT(
+          UTILS_MEX_ASSERT0(
             false,
             CMD "Cell array of strings must contains the strings:\n"
             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
@@ -208,7 +210,7 @@ namespace Splines {
         types.push_back(st);
       }
     } else {
-      MEX_ASSERT2(
+      UTILS_MEX_ASSERT(
         false,
         CMD "Third argument expected to be a string\n"
         "of a cell array of strings, found ``{}''\n",
@@ -242,8 +244,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'eval', OBJ, X ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -273,8 +275,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -304,8 +306,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -335,8 +337,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -366,8 +368,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper( 'tmin', OBJ ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -385,8 +387,8 @@ namespace Splines {
 
     #define CMD "SplineSetMexWrapper('tmax',OBJ): "
 
-    MEX_ASSERT2( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    MEX_ASSERT2( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
 
     SplineSet * ptr = DATA_GET( arg_in_1 );
 
@@ -424,7 +426,9 @@ namespace Splines {
     }
 
     try {
-      MEX_ASSERT( mxIsChar(arg_in_0), "First argument must be a string" );
+      UTILS_MEX_ASSERT0(
+        mxIsChar(arg_in_0), "First argument must be a string"
+      );
       string cmd = mxArrayToString(arg_in_0);
       DO_CMD pfun = cmd_to_fun.at(cmd);
       pfun( nlhs, plhs, nrhs, prhs );

@@ -152,64 +152,76 @@ namespace Splines {
     //!
     //! Return the vector of values of x-nodes.
     //!
+    real_type const * x_nodes() const { return m_X; }
     real_type const * xNodes() const { return m_X; }
 
     //!
     //! Return the vector of values of x-nodes.
     //!
+    real_type const * y_nodes( integer i ) const;
     real_type const * yNodes( integer i ) const;
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type
-    xNode( integer npt ) const
-    { return m_X[npt]; }
+    real_type x_node( integer npt ) const { return m_X[npt]; }
+    real_type xNode( integer npt ) const { return this->x_node(npt); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type
-    yNode( integer npt, integer spl ) const
-    { return m_Y[spl][npt]; }
+    real_type y_node( integer npt, integer spl ) const { return m_Y[spl][npt]; }
+    real_type yNode( integer npt, integer spl ) const { return this->y_node(npt,spl); }
 
     //!
     //! Return x-minumum spline value.
     //!
-    real_type xMin() const { return m_X[0]; }
+    real_type x_min() const { return m_X[0]; }
+    real_type xMin() const { return this->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
-    real_type xMax() const { return m_X[m_npts-1]; }
+    real_type x_max() const { return m_X[m_npts-1]; }
+    real_type xMax() const { return this->x_max(); }
 
     //!
     //! Return y-minumum spline value.
     //!
-    real_type yMin( integer spl ) const { return m_Ymin[size_t(spl)]; }
+    real_type y_min( integer spl ) const { return m_Ymin[size_t(spl)]; }
+    real_type yMin( integer spl ) const { return this->y_min( spl ); }
 
     //!
     //! Return y-maximum spline value.
     //!
-    real_type yMax( integer spl ) const { return m_Ymax[size_t(spl)]; }
+    real_type y_max( integer spl ) const { return m_Ymax[size_t(spl)]; }
+    real_type yMax( integer spl ) const { return this->y_max( spl ); }
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type
-    yMin( char const * spl ) const {
+    y_min( char const * spl ) const {
       integer idx = this->getPosition(spl);
       return m_Ymin[idx];
     }
 
+    real_type
+    yMin( char const * spl ) const
+    { return this->y_min(spl); }
+
     //!
     //! Return y-maximum spline value.
     //!
     real_type
-    yMax( char const * spl ) const {
+    y_max( char const * spl ) const {
       integer idx = this->getPosition(spl);
       return m_Ymax[idx];
     }
+
+    real_type
+    yMax( char const * spl ) const
+    { return this->y_max(spl); }
 
     ///@}
 
@@ -219,16 +231,24 @@ namespace Splines {
     //!
     //! Return pointer to the `i`-th spline.
     //!
-    Spline * getSpline( integer i ) const;
+    Spline * get_spline( integer i ) const;
+
+    Spline *
+    getSpline( integer i ) const
+    { return this->get_spline(i); }
 
     //!
     //! Return pointer to the `i`-th spline.
     //!
     Spline *
-    getSpline( char const * hdr ) const {
+    get_spline( char const * hdr ) const {
       integer idx = this->getPosition(hdr);
       return m_splines[idx];
     }
+
+    Spline *
+    getSpline( char const * hdr ) const
+    { return this->get_spline( hdr ); }
 
     ///@}
 
@@ -240,7 +260,7 @@ namespace Splines {
     //!
     real_type
     operator () ( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return (*S)(x);
     }
 
@@ -249,7 +269,7 @@ namespace Splines {
     //!
     real_type
     eval( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return (*S)(x);
     }
 
@@ -258,7 +278,7 @@ namespace Splines {
     //!
     real_type
     D( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->D(x);
     }
 
@@ -267,7 +287,7 @@ namespace Splines {
     //!
     real_type
     eval_D( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->D(x);
     }
 
@@ -276,7 +296,7 @@ namespace Splines {
     //!
     real_type
     DD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DD(x);
     }
 
@@ -285,7 +305,7 @@ namespace Splines {
     //!
     real_type
     eval_DD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DD(x);
     }
 
@@ -294,7 +314,7 @@ namespace Splines {
     //!
     real_type
     DDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDD(x);
     }
 
@@ -303,7 +323,7 @@ namespace Splines {
     //!
     real_type
     eval_DDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDD(x);
     }
 
@@ -312,7 +332,7 @@ namespace Splines {
     //!
     real_type
     DDDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDDD(x);
     }
 
@@ -321,7 +341,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDDD(x);
     }
 
@@ -330,7 +350,7 @@ namespace Splines {
     //!
     real_type
     DDDDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDDDD(x);
     }
 
@@ -339,7 +359,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDDD( real_type x, integer spl ) const {
-      Spline const * S = this->getSpline(spl);
+      Spline const * S = this->get_spline(spl);
       return S->DDDDD(x);
     }
 
@@ -348,7 +368,7 @@ namespace Splines {
     //!
     real_type
     eval( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return (*S)(x);
     }
 
@@ -357,7 +377,7 @@ namespace Splines {
     //!
     real_type
     eval_D( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return S->D(x);
     }
 
@@ -366,7 +386,7 @@ namespace Splines {
     //!
     real_type
     eval_DD( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return S->DD(x);
     }
 
@@ -375,7 +395,7 @@ namespace Splines {
     //!
     real_type
     eval_DDD( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return S->DDD(x);
     }
 
@@ -384,7 +404,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDD( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return S->DDDD(x);
     }
 
@@ -393,7 +413,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDDD( real_type x, char const * name ) const {
-      Spline const * S = this->getSpline(name);
+      Spline const * S = this->get_spline(name);
       return S->DDDDD(x);
     }
 

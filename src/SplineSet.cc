@@ -165,10 +165,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   Spline *
-  SplineSet::getSpline( integer i ) const {
+  SplineSet::get_spline( integer i ) const {
     UTILS_ASSERT(
       i >= 0 && i < m_nspl,
-      "SplineSet::getSpline({}) argument out of range [0,{}]\n",
+      "SplineSet::get_spline({}) argument out of range [0,{}]\n",
       i, m_nspl-1
     );
     return m_splines[i];
@@ -186,7 +186,7 @@ namespace Splines {
     stream << '\n';
 
     for ( integer j = 0; j < num_points; ++j ) {
-      real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
+      real_type s = x_min() + ((x_max()-x_min())*j)/(num_points-1);
       this->eval( s, vals, 1 );
       stream << s;
       for ( integer i = 0; i < m_nspl; ++i ) stream << '\t' << vals[size_t(i)];

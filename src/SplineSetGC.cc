@@ -274,10 +274,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` and fill
   //! a map of values in a GenericContainer
-  //! 
+  //!
   void
   SplineSet::eval( real_type x, GenericContainer & gc ) const {
     map_type & vals = gc.set_map();
@@ -287,10 +287,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec
   //! and fill a map of vector in a GenericContainer
-  //! 
+  //!
   void
   SplineSet::eval( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
@@ -303,10 +303,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` and fill a map of values
   //! in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval(
     real_type               x,
@@ -316,15 +316,15 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec
   //! and fill a map of vector in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval(
     vec_real_type   const & vec,
@@ -335,16 +335,16 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vec_real_type & v = vals[*is].set_vec_real(unsigned(npts));
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2(
     real_type          zeta,
@@ -360,11 +360,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2(
     vec_real_type const & zetas,
@@ -391,11 +391,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer with keys in `columns` and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2(
     real_type               zeta,
@@ -408,16 +408,16 @@ namespace Splines {
     intersect( indep, zeta, x );
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained
   //! in vec and fill a map of vector in a GenericContainer
   //! with keys in `columns` and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2(
     vec_real_type   const & zetas,
@@ -439,7 +439,7 @@ namespace Splines {
       for ( vec_string_type::const_iterator is = columns.begin();
             is != columns.end(); ++is ) {
         vec_real_type & v = vals[*is].get_vec_real();
-        Spline const * p_spl = getSpline( is->c_str() );
+        Spline const * p_spl = get_spline( is->c_str() );
         v[i] = p_spl->eval(x);
       }
     }
@@ -461,10 +461,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec and
   //! fill a map of vector in a GenericContainer
-  //! 
+  //!
   void
   SplineSet::eval_D( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
@@ -477,10 +477,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` and fill a map of values in
   //! a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_D(
     real_type               x,
@@ -490,15 +490,15 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_D(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec
   //! and fill a map of vector in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_D(
     vec_real_type   const & vec,
@@ -509,16 +509,16 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vec_real_type & v = vals[*is].set_vec_real(unsigned(npts));
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_D(
     real_type          zeta,
@@ -534,11 +534,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_D(
     vec_real_type const & zetas,
@@ -565,11 +565,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer with keys in `columns` and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_D(
     real_type               zeta,
@@ -582,16 +582,16 @@ namespace Splines {
     intersect( indep, zeta, x );
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_D(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer with keys
   //! in `columns` and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_D(
     vec_real_type   const & zetas,
@@ -613,7 +613,7 @@ namespace Splines {
       for ( vec_string_type::const_iterator is = columns.begin();
             is != columns.end(); ++is ) {
         vec_real_type & v = vals[*is].get_vec_real();
-        Spline const * p_spl = getSpline( is->c_str() );
+        Spline const * p_spl = get_spline( is->c_str() );
         v[i] = p_spl->eval_D(x);
       }
     }
@@ -634,10 +634,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec
   //! and fill a map of vector in a GenericContainer
-  //! 
+  //!
   void
   SplineSet::eval_DD( vec_real_type const & vec, GenericContainer & gc ) const {
     integer npts = integer(vec.size());
@@ -650,10 +650,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` and fill a map of values in
   //! a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_DD(
     real_type               x,
@@ -663,15 +663,15 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_DD(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec and
   //! fill a map of vector in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_DD(
     vec_real_type   const & vec,
@@ -682,16 +682,16 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vec_real_type & v = vals[*is].set_vec_real(unsigned(npts));
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DD(
     real_type          zeta,
@@ -707,11 +707,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DD(
     vec_real_type const & zetas,
@@ -738,11 +738,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer with keys in `columns` and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DD(
     real_type               zeta,
@@ -755,16 +755,16 @@ namespace Splines {
     intersect( indep, zeta, x );
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_DD(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer with keys
   //! in `columns` and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DD(
     vec_real_type   const & zetas,
@@ -786,7 +786,7 @@ namespace Splines {
       for ( vec_string_type::const_iterator is = columns.begin();
             is != columns.end(); ++is ) {
         vec_real_type & v = vals[*is].get_vec_real();
-        Spline const * p_spl = getSpline( is->c_str() );
+        Spline const * p_spl = get_spline( is->c_str() );
         v[i] = p_spl->eval_DD(x);
       }
     }
@@ -808,10 +808,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec
   //! and fill a map of vector in a GenericContainer
-  //! 
+  //!
   void
   SplineSet::eval_DDD(
     vec_real_type const & vec,
@@ -827,10 +827,10 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` and fill a map of values
   //! in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_DDD(
     real_type               x,
@@ -840,15 +840,15 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_DDD(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `x` values contained in vec and
   //! fill a map of vector in a GenericContainer with keys in `columns`
-  //! 
+  //!
   void
   SplineSet::eval_DDD(
     vec_real_type   const & vec,
@@ -859,16 +859,16 @@ namespace Splines {
     map_type & vals = gc.set_map();
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vec_real_type & v = vals[*is].set_vec_real(unsigned(npts));
       for ( size_t i = 0; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DDD(
     real_type          zeta,
@@ -884,11 +884,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DDD(
     vec_real_type const & zetas,
@@ -915,11 +915,11 @@ namespace Splines {
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` and fill a map of values
   //! in a GenericContainer with keys in `columns` and `indep`
   //! as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DDD(
     real_type               zeta,
@@ -932,16 +932,16 @@ namespace Splines {
     intersect( indep, zeta, x );
     for ( vec_string_type::const_iterator is = columns.begin();
           is != columns.end(); ++is ) {
-      Spline const * p_spl = getSpline( is->c_str() );
+      Spline const * p_spl = get_spline( is->c_str() );
       vals[*is] = p_spl->eval_DDD(x);
     }
   }
 
-  //! 
+  //!
   //! Evaluate all the splines at `zeta` values contained in vec
   //! and fill a map of vector in a GenericContainer with keys
   //! in `columns` and `indep` as independent spline
-  //! 
+  //!
   void
   SplineSet::eval2_DDD(
     vec_real_type   const & zetas,
@@ -963,7 +963,7 @@ namespace Splines {
       for ( vec_string_type::const_iterator is = columns.begin();
             is != columns.end(); ++is ) {
         vec_real_type & v = vals[*is].get_vec_real();
-        Spline const * p_spl = getSpline( is->c_str() );
+        Spline const * p_spl = get_spline( is->c_str() );
         v[i] = p_spl->eval_DDD(x);
       }
     }

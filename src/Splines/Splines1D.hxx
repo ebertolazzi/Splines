@@ -79,32 +79,38 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type xNode( integer i ) const { return m_pSpline->xNode(i); }
+    real_type x_node( integer i ) const { return m_pSpline->xNode(i); }
+    real_type xNode( integer i ) const { return this->x_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type yNode( integer i ) const { return m_pSpline->yNode(i); }
+    real_type y_node( integer i ) const { return m_pSpline->yNode(i); }
+    real_type yNode( integer i ) const { return this->y_node(i); }
 
     //!
     //! Return first node of the spline (x component).
     //!
-    real_type xBegin() const { return m_pSpline->xBegin(); }
+    real_type x_begin() const { return m_pSpline->xBegin(); }
+    real_type xBegin() const { return this->x_begin(); }
 
     //!
     //! Return first node of the spline (y component).
     //!
-    real_type yBegin() const { return m_pSpline->yBegin(); }
+    real_type y_begin() const { return m_pSpline->yBegin(); }
+    real_type yBegin() const { return this->y_begin(); }
 
     //!
     //! Return last node of the spline (x component).
     //!
-    real_type xEnd() const { return m_pSpline->xEnd(); }
+    real_type x_end() const { return m_pSpline->xEnd(); }
+    real_type xEnd() const { return this->x_end(); }
 
     //!
     //! Return last node of the spline (y component).
     //!
-    real_type yEnd() const { return m_pSpline->yEnd(); }
+    real_type y_end() const { return m_pSpline->yEnd(); }
+    real_type yEnd() const { return this->y_end(); }
 
     //!
     //! Allocate memory for `npts` points.
@@ -192,22 +198,26 @@ namespace Splines {
     //!
     //! Return x-minumum spline value.
     //!
-    real_type xMin() const { return m_pSpline->xMin(); }
+    real_type x_min() const { return m_pSpline->x_min(); }
+    real_type xMin() const { return m_pSpline->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
-    real_type xMax() const { return m_pSpline->xMax(); }
+    real_type x_max() const { return m_pSpline->x_max(); }
+    real_type xMax() const { return m_pSpline->x_max(); }
 
     //!
     //! Return y-minumum spline value (on the support point of the spline).
     //!
-    real_type yMin() const { return m_pSpline->yMin(); }
+    real_type y_min() const { return m_pSpline->y_min(); }
+    real_type yMin() const { return m_pSpline->y_min(); }
 
     //!
     //! Return y-maximum spline value (on the support point of the spline).
     //!
-    real_type yMax() const { return m_pSpline->yMax(); }
+    real_type y_max() const { return m_pSpline->y_max(); }
+    real_type yMax() const { return m_pSpline->y_max(); }
 
     ///////////////////////////////////////////////////////////////////////////
     //!

@@ -120,33 +120,42 @@ namespace Splines {
     //!
     //! Return the vector of values of x-nodes.
     //!
+    real_type const * x_nodes() const { return m_X; }
     real_type const * xNodes() const { return m_X; }
 
     //!
     //! Return the npt-th node of the spline (x component).
     //!
+    real_type x_node( integer npt ) const { return m_X[size_t(npt)]; }
     real_type xNode( integer npt ) const { return m_X[size_t(npt)]; }
 
     //!
     //! Return the vector of values of y-nodes, component `j`
     //!
+    real_type const * y_nodes( integer j ) const { return m_Y[size_t(j)]; }
     real_type const * yNodes( integer j ) const { return m_Y[size_t(j)]; }
 
     //!
     //! Return the npt-th node of the spline (`j` component of y).
     //!
     real_type
-    yNode( integer npt, integer j ) const
+    y_node( integer npt, integer j ) const
     { return m_Y[size_t(j)][size_t(npt)]; }
+
+    real_type
+    yNode( integer npt, integer j ) const
+    { return y_node(npt,j); }
 
     //!
     //! Return x-minumum spline value.
     //!
+    real_type x_min() const { return m_X[0]; }
     real_type xMin() const { return m_X[0]; }
 
     //!
     //! Return x-maximum spline value.
     //!
+    real_type x_max() const { return m_X[size_t(m_npts-1)]; }
     real_type xMax() const { return m_X[size_t(m_npts-1)]; }
 
     ///@}

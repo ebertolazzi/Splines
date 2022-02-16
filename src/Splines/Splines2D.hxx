@@ -158,19 +158,28 @@ namespace Splines {
     //! Return the i-th node of the spline (x component).
     //!
     real_type
-    xNode( integer i ) const { return m_spline_2D->xNode(i); }
+    x_node( integer i ) const { return m_spline_2D->x_node(i); }
+
+    real_type
+    xNode( integer i ) const { return this->x_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type
-    yNode( integer i ) const { return m_spline_2D->yNode(i); }
+    y_node( integer i ) const { return m_spline_2D->y_node(i); }
+
+    real_type
+    yNode( integer i ) const { return this->y_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type
-    zNode( integer i, integer j ) const { return m_spline_2D->zNode(i,j); }
+    z_node( integer i, integer j ) const { return m_spline_2D->z_node(i,j); }
+
+    real_type
+    zNode( integer i, integer j ) const { return this->z_node(i,j); }
 
     ///@}
 
@@ -187,32 +196,38 @@ namespace Splines {
     //!
     //! Return x-minumum spline value.
     //!
-    real_type xMin() const { return m_spline_2D->xMin(); }
+    real_type x_min() const { return m_spline_2D->x_min(); }
+    real_type xMin() const { return this->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
-    real_type xMax() const { return m_spline_2D->xMax(); }
+    real_type x_max() const { return m_spline_2D->x_max(); }
+    real_type xMax() const { return this->x_max(); }
 
     //!
     //! Return y-minumum spline value.
     //!
-    real_type yMin() const { return m_spline_2D->yMin(); }
+    real_type y_min() const { return m_spline_2D->y_min(); }
+    real_type yMin() const { return this->y_min(); }
 
     //!
     //! Return y-maximum spline value
     //!
-    real_type yMax() const { return m_spline_2D->yMax(); }
+    real_type y_max() const { return m_spline_2D->y_max(); }
+    real_type yMax() const { return this->y_max(); }
 
     //!
     //! Return z-minumum spline value
     //!
-    real_type zMin() const { return m_spline_2D->zMin(); }
+    real_type z_min() const { return m_spline_2D->z_min(); }
+    real_type zMin() const { return this->z_min(); }
 
     //!
     //! Return z-maximum spline value
     //!
-    real_type zMax() const { return m_spline_2D->zMax(); }
+    real_type z_max() const { return m_spline_2D->z_max(); }
+    real_type zMax() const { return this->z_max(); }
 
     ///@}
 

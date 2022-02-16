@@ -5,25 +5,25 @@ MATLAB interface for C++ Splines library
 
 **Compilation**
 
-To compile the mex files run the script `Compile.m` in MATLAB.
-After the compilation the scripts `spline1d` for univariate
-spline and `spline2d` for bivariate spline are available.
+To compile the mex files run the script `CompileSplinesLib.m` in MATLAB.
+After the compilation the class `Spline1D` for univariate
+spline and the class `Spline2D` for bivariate spline are available.
 
 **Univariate splines**
 
 To build a univariate spline use to command
 
 ~~~
-S = Spline1D( 'type', X, Y ); 
+S = Spline1D( 'type', X, Y );
 
-S = Spline1D( 'type' ); 
-S.build( X, Y ); 
+S = Spline1D( 'type' );
+S.build( X, Y );
 ~~~
 
 - `type` is a string with the type of spline you are building.
          Possibile values are:
          linear, cubic, akima, bessel, pchip, quintic.
-- X, Y   two vectors with the x and y coordinates of the point 
+- X, Y   two vectors with the x and y coordinates of the point
          to be interpolated, X must be increasing.
 
 after the build spline can be used as follows
@@ -44,7 +44,7 @@ dy  = S.eval_D(X);
 ddy = S.eval_DD(X);
 ~~~
 
-where `dy` is a vector with the first derivative and 
+where `dy` is a vector with the first derivative and
 `ddy` is a vector with the second derivative.
 
 **Bivariate splines**
@@ -61,7 +61,7 @@ S.build( X, Y, Z );
 - `type` is a string with the type of spline you are building.
          Possibile values are:
          bilinear, bicubic, akima, biquintic.
-- X, Y   two vectors with the x and y coordinates of the mesh 
+- X, Y   two vectors with the x and y coordinates of the mesh
          to be interpolated, X and Y must be increasing.
 - Z      matrix of dimension `length(X)` x `length(Y)`
          where `Z(i,j)` is the z elevation at point

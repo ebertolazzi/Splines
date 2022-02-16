@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -107,7 +107,7 @@ namespace Splines {
     for ( integer i = 0; i < m_dim; ++i ) stream << '\t' << i;
     stream << '\n';
     for ( integer j = 0; j < num_points; ++j ) {
-      real_type s = xMin() + ((xMax()-xMin())*j)/(num_points-1);
+      real_type s = x_min() + ((x_max()-x_min())*j)/(num_points-1);
       this->eval( s, vals );
       stream << s;
       for ( integer i = 0; i < m_dim; ++i )
@@ -487,9 +487,9 @@ namespace Splines {
            + 3 * x_1 * y_1 * ( t9 - t17 ) ) / ( t28 * t27 );
   }
 
-  //! 
+  //!
   //! Evaluate at `x` and fill a GenericContainer
-  //! 
+  //!
   void
   SplineVec::eval(
     vec_real_type const & x,

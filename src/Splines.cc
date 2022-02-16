@@ -364,8 +364,8 @@ namespace Splines {
     );
     if ( m_npts > 0 )
       res += fmt::format(
-        "\nxMin = {} xMax = {} yMin = {} yMax = {}",
-        xMin(), xMax(), yMin(), yMax()
+        "\nx_min = {} x_max = {} y_min = {} y_max = {}",
+        x_min(), x_max(), y_min(), y_max()
       );
     return res;
   }
@@ -435,9 +435,9 @@ namespace Splines {
     char const *   header
   ) const {
     s << header << '\n';
-    real_type dx = (xMax()-xMin())/nintervals;
+    real_type dx = (x_max()-x_min())/nintervals;
     for ( integer i = 0; i <= nintervals; ++i ) {
-      real_type x = xMin() + i*dx;
+      real_type x = x_min() + i*dx;
       fmt::print( s, "{}\t{}\n", x, (*this)(x) );
     }
   }

@@ -13,7 +13,7 @@
 %>
 %> \endrst
 %>
-%> - load the points as a matrix `dim x npts` where 
+%> - load the points as a matrix `dim x npts` where
 %>   `dim` is the space dimension and `npts` is the
 %>    number of poinst
 %>
@@ -116,7 +116,7 @@ classdef SplineVec < handle
     %> \endrst
     %>
     function k = get_knots( self )
-      k = SplineVecMexWrapper( 'getNodes', self.objectHandle );
+      k = SplineVecMexWrapper( 'get_knots', self.objectHandle );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -160,11 +160,11 @@ classdef SplineVec < handle
     %>           10.7, 28.6; 10.8, 30.2; 11.4, 30.6; 19.6, 30.6; ...
     %>           20.2, 30.2; 20.3, 28.6; 20.3, 12; 20.4, 10.4; ...
     %>           21, 10; 26, 8.66; 29.66, 5; 31, 0 ];
-    %>     
+    %>
     %>     S = SplineVec();  % initialize spline
     %>     S.setup(P.');     % load points
     %>     S.centripetal();  % setup knots
-    %>     
+    %>
     %>     % plot interpolation points
     %>     hold off;
     %>     plot( P(:,1), P(:,2), 'o','Color','red', ...
