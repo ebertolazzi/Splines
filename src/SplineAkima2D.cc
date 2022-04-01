@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -286,16 +286,16 @@ namespace Splines {
 
   #endif
 
-  //! 
+  //!
   //! This subroutine estimates three partial derivatives, zx, zy, and
   //! zxy, of a bivariate function, z(x,y), on a rectangular grid in
   //! the x-y plane.  It is based on the revised Akima method that has
   //! the accuracy of a bicubic polynomial.
-  //! 
+  //!
   void
   Akima2Dspline::makeSpline() {
 
-    size_t nn = size_t( m_nx*m_ny ); 
+    size_t nn = size_t( m_nx*m_ny );
     m_mem_bicubic.reallocate( 3*nn );
     m_DX  = m_mem_bicubic( nn );
     m_DY  = m_mem_bicubic( nn );
@@ -392,7 +392,7 @@ namespace Splines {
   }
 
   void
-  Akima2Dspline::writeToStream( ostream_type & s ) const {
+  Akima2Dspline::write_to_stream( ostream_type & s ) const {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i = 1; i < m_nx; ++i ) {
       for ( integer j = 1; j < m_ny; ++j ) {

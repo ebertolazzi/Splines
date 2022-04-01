@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -61,7 +61,7 @@ main() {
   bl.build( X, 1, Y, 1, Z, 6, 6, 6 );
   ak.build( X, 1, Y, 1, Z, 6, 6, 6 );
 
-  //bl.writeToStream( cout );
+  //bl.write_to_stream( cout );
 
   {
     ofstream file_bl("out/bilinear.txt");

@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -60,7 +60,7 @@ namespace Splines {
     real_type Dxy( real_type , real_type ) const override { return 0; }
     real_type Dyy( real_type , real_type ) const override { return 0; }
 
-    void writeToStream( ostream_type & s ) const override;
+    void write_to_stream( ostream_type & s ) const override;
     char const * type_name() const override;
 
   };

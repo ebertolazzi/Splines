@@ -722,7 +722,8 @@ namespace Splines {
     //!
     //! Print spline coefficients
     //!
-    virtual void writeToStream( ostream_type & s ) const = 0;
+    virtual void write_to_stream( ostream_type & s ) const = 0;
+    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
 
     ///@}
 
@@ -1000,7 +1001,7 @@ namespace Splines {
     real_type id_DDDDD( integer, real_type ) const override { return 0; }
     ///@}
 
-    void writeToStream( ostream_type & s ) const override;
+    void write_to_stream( ostream_type & s ) const override;
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -1546,7 +1547,8 @@ namespace Splines {
     //!
     //! Print spline coefficients.
     //!
-    virtual void writeToStream( ostream_type & s ) const = 0;
+    virtual void write_to_stream( ostream_type & s ) const = 0;
+    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
 
     //!
     //! Return spline type as a string pointer.

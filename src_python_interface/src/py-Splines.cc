@@ -125,7 +125,7 @@ namespace pySpline {
       .def("writeToString", [](const Spline & self)
         -> std::string {
         std::ostringstream str;
-        self.writeToStream(str);
+        self.write_to_stream(str);
         return str.str();
       })
       .def("dump", [](const Spline & self, integer nintervals, std::string header)

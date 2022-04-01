@@ -443,8 +443,8 @@ namespace Splines {
     //! Print spline coefficients.
     //!
     void
-    writeToStream( ostream_type & s ) const
-    { return m_spline_2D->writeToStream( s ); }
+    write_to_stream( ostream_type & s ) const
+    { return m_spline_2D->write_to_stream( s ); }
 
     //!
     //! Return spline typename

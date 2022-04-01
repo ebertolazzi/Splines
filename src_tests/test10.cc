@@ -59,7 +59,7 @@ main() {
 
   int ldZ = nx;
   _p_spline->build(x, 1, y, 1, z, ldZ, nx, ny, false,  false);
-  _p_spline->writeToStream(cout);
+  _p_spline->write_to_stream(cout);
 
   cout << "\nALL DONE!\n\n";
 }

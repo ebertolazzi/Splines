@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -61,7 +61,7 @@ namespace Splines {
     {}
 
     ~BiCubicSplineBase() override {}
-  
+
     //!
     //! \name Estimated derivatives at interpolation nodes
     //!
@@ -95,7 +95,7 @@ namespace Splines {
     real_type Dxx( real_type x, real_type y ) const override;
     real_type Dxy( real_type x, real_type y ) const override;
     real_type Dyy( real_type x, real_type y ) const override;
-    ///@}  
+    ///@}
   };
 
   /*\
@@ -128,7 +128,7 @@ namespace Splines {
 
     ~BiCubicSpline() override {}
 
-    void writeToStream( ostream_type & s ) const override;
+    void write_to_stream( ostream_type & s ) const override;
     char const * type_name() const override;
 
   };

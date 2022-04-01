@@ -361,8 +361,8 @@ namespace Splines {
     //! Print spline coefficients.
     //!
     void
-    writeToStream( ostream_type & s ) const
-    { return m_pSpline->writeToStream( s ); }
+    write_to_stream( ostream_type & s ) const
+    { return m_pSpline->write_to_stream( s ); }
 
     //!
     //! Return spline typename.

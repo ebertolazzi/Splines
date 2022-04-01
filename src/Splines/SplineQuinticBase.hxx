@@ -108,7 +108,7 @@ namespace Splines {
       vector<real_type> & y_max
     ) const override;
 
-    void writeToStream( ostream_type & s ) const override;
+    void write_to_stream( ostream_type & s ) const override;
 
     unsigned type() const override { return QUINTIC_TYPE; }
 

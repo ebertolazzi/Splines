@@ -90,7 +90,7 @@ namespace Splines {
     real_type id_DDD( integer, real_type ) const override { return 0; }
     ///@}
 
-    void writeToStream( ostream_type & ) const override;
+    void write_to_stream( ostream_type & ) const override;
     unsigned type() const override { return CONSTANT_TYPE; }
 
     // --------------------------- VIRTUALS -----------------------------------

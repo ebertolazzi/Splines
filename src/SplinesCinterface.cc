@@ -23,10 +23,10 @@
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-//! 
+//!
 //! \file SplinesCinterface.cc
 //! This file contains the sources for the C interface to `Splines`
-//! 
+//!
 
 #include "Splines.hh"
 #include "SplinesCinterface.h"
@@ -57,7 +57,7 @@ using namespace std; // load standard namspace
 extern "C" {
 
   typedef std::map<std::string,Spline*> MAP_SPLINE;
-  
+
   static std::map<std::string,Spline*> spline_stored;
   static Spline * head = nullptr;
 
@@ -90,7 +90,7 @@ extern "C" {
     }
     return ok;
   }
-  
+
   int
   SPLINE_select( char const * id ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
@@ -101,7 +101,7 @@ extern "C" {
     }
     return 0;
   }
-  
+
   int
   SPLINE_delete( char const * id ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
@@ -118,7 +118,7 @@ extern "C" {
   int
   SPLINE_print() {
     if ( head != nullptr ) {
-      head -> writeToStream( cout );
+      head->write_to_stream( cout );
       return 0;
     } else {
       cout << "No Spline!\n";

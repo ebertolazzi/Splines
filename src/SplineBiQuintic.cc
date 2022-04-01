@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -103,7 +103,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiQuinticSpline::writeToStream( ostream_type & s ) const {
+  BiQuinticSpline::write_to_stream( ostream_type & s ) const {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i = 1; i < m_nx; ++i ) {
       for ( integer j = 1; j < m_ny; ++j ) {

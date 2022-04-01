@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -272,7 +272,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  CubicSplineBase::writeToStream( ostream_type & s ) const {
+  CubicSplineBase::write_to_stream( ostream_type & s ) const {
     size_t nseg = size_t( m_npts > 0 ? m_npts - 1 : 0 );
     for ( size_t i = 0; i < nseg; ++i )
       fmt::print( s,

@@ -114,7 +114,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  LinearSpline::writeToStream( ostream_type & s ) const {
+  LinearSpline::write_to_stream( ostream_type & s ) const {
     integer nseg = m_npts > 0 ? m_npts - 1 : 0;
     for ( integer i = 0; i < nseg; ++i )
       fmt::print( s,

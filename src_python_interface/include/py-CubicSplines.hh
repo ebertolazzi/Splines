@@ -1,6 +1,6 @@
 /**
  * PYTHON Wrapper for Splines
- * 
+ *
  * License MIT - See LICENSE file
  * 2019 Matteo Ragni, Claudio Kerov Ghiglianovich, Enrico Bertolazzi
  */
@@ -13,7 +13,7 @@
 
 namespace pySpline {
   using Splines::real_type;
-  using Splines::integer; 
+  using Splines::integer;
   using Splines::ostream_type;
 
   using Splines::CubicSplineBase;
@@ -27,7 +27,7 @@ namespace pySpline {
 
     real_type operator()(real_type x) const override {
       PYBIND11_OVERLOAD_PURE(real_type, CubicSplineBase, operator(), x);
-    } 
+    }
 
     real_type D(real_type x) const override {
       PYBIND11_OVERLOAD_PURE(real_type, CubicSplineBase, D, x);
@@ -49,8 +49,8 @@ namespace pySpline {
       PYBIND11_OVERLOAD_PURE(integer, CubicSplineBase, order);
     }
 
-    void writeToStream(ostream_type & s) const override {
-      PYBIND11_OVERLOAD_PURE(void, CubicSplineBase, writeToStream, s);
+    void write_to_stream(ostream_type & s) const override {
+      PYBIND11_OVERLOAD_PURE(void, CubicSplineBase, write_to_stream, s);
     }
 
     unsigned type() const override {
@@ -67,12 +67,12 @@ namespace pySpline {
 
     void build() override {
       PYBIND11_OVERLOAD_PURE(void, CubicSplineBase, build);
-    } 
+    }
   };
 
   void python_register_cubic_splines_base_class(module & m);
   void python_register_cubic_splines_class(module & m);
-  
+
 }
 
 #endif /* PY_CUBIC_SPLINES_HH */

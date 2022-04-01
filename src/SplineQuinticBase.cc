@@ -243,8 +243,8 @@ namespace Splines {
       real_type a, b, c, d, e, f;
       Hermite5_to_poly(
         H,
-        m_Y[i], m_Y[i+1], 
-        m_Yp[i], m_Yp[i+1], 
+        m_Y[i], m_Y[i+1],
+        m_Yp[i], m_Yp[i+1],
         m_Ypp[i], m_Ypp[i+1],
         a, b, c, d, e, f
       );
@@ -289,7 +289,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSplineBase::writeToStream( ostream_type & s ) const {
+  QuinticSplineBase::write_to_stream( ostream_type & s ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
     for ( size_t i = 0; i < nseg; ++i )
       fmt::print( s,

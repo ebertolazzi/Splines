@@ -1,6 +1,6 @@
 /**
  * PYTHON Wrapper for Splines
- * 
+ *
  * License MIT - See LICENSE file
  * 2019 Matteo Ragni, Claudio Kerov Ghiglianovich, Enrico Bertolazzi
  */
@@ -23,21 +23,21 @@ namespace pySpline {
   using Splines::integer;
 
   using pybind11::module;
-  
+
   using GC_namespace::GenericContainer;
 
   class PythonicSpline : public Spline {
     public:
-    
+
     PythonicSpline(std::string const & name = "Spline") : Spline(name) {}
-    
+
     void reserve(integer npts) override {
       PYBIND11_OVERLOAD_PURE(void, Spline, reserve, npts);
     }
 
     void build() override {
       PYBIND11_OVERLOAD_PURE(void, Spline, build);
-    }    
+    }
 
     void setup(GenericContainer const & gc) override {
       PYBIND11_OVERLOAD_PURE(void, Spline, setup, gc);
@@ -87,8 +87,8 @@ namespace pySpline {
       PYBIND11_OVERLOAD_PURE(integer, Spline, order);
     }
 
-    void writeToStream(ostream_type & s) const override {
-      PYBIND11_OVERLOAD_PURE(void, Spline, writeToStream, s);
+    void write_to_stream(ostream_type & s) const override {
+      PYBIND11_OVERLOAD_PURE(void, Spline, write_to_stream, s);
     }
   };
 
