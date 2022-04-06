@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="1554798198" file="/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines/Splines.prj" location="/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="2365462678" file="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.prj" location="/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines" name="Splines" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Splines</param.appname>
     <param.authnamewatermark>Enrico Bertolazzi</param.authnamewatermark>
     <param.email>enico.bertolazzi@unitn.it</param.email>
@@ -19,7 +19,7 @@ The classes are the following:
 
 Online doc at: http://ebertolazzi.github.io/Splines</param.description>
     <param.screenshot>${PROJECT_ROOT}/toolbox/icon.png</param.screenshot>
-    <param.version>1.1.3</param.version>
+    <param.version>1.1.4</param.version>
     <param.output>${PROJECT_ROOT}/Splines.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
@@ -117,7 +117,6 @@ setup.m</param.exclude.filters>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}/toolbox/bin</file>
       <file>${PROJECT_ROOT}/toolbox/demos.xml</file>
-      <file>${PROJECT_ROOT}/toolbox/doc</file>
       <file>${PROJECT_ROOT}/toolbox/icon.pdf</file>
       <file>${PROJECT_ROOT}/toolbox/icon.png</file>
       <file>${PROJECT_ROOT}/toolbox/icon.svg</file>
@@ -131,7 +130,7 @@ setup.m</param.exclude.filters>
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/Software/REPOS/myReposGit/Splines/Splines.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Splines.mltbx" optional="false">/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/Splines.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>
@@ -178,7 +177,7 @@ setup.m</param.exclude.filters>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>12.1</osver>
+      <osver>12.3.1</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>
