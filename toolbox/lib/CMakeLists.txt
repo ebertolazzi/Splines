@@ -43,6 +43,8 @@ foreach( BASE ${MEX_LIST})
     "${CMAKE_CURRENT_SOURCE_DIR}/../bin"
   )
 
-  target_link_libraries( ${BASE}MexWrapper ws2_32.lib iphlpapi.lib iphlpapi.lib kernel32.lib winpthread )
+  if ( NOT UNIX )
+    target_link_libraries( ${BASE}MexWrapper ws2_32.lib iphlpapi.lib iphlpapi.lib kernel32.lib winpthread )
+  endif()
 
 endforeach()
