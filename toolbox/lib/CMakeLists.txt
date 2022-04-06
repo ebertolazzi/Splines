@@ -21,9 +21,14 @@ endforeach()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../src ${CMAKE_CURRENT_SOURCE_DIR}/../src/Utils )
 
-if ( (UNIX OR LINUX) AND NOT APPLE )
-  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-  set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+if ( UNIX OR LINUX )
+  if ( NOT APPLE )
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+    set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+  endif()
+else()
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+  add_definitions(-mwindows)
 endif()
 
 set( MEX_LIST BaseHermite Spline1D Spline2D SplineSet SplineVec )
@@ -37,4 +42,7 @@ foreach( BASE ${MEX_LIST})
     "$<TARGET_FILE:${BASE}MexWrapper>"
     "${CMAKE_CURRENT_SOURCE_DIR}/../bin"
   )
+
+  target_link_libraries( ${BASE}MexWrapper ws2_32.lib iphlpapi.lib iphlpapi.lib kernel32.lib winpthread )
+
 endforeach()

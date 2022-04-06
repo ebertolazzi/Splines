@@ -15,7 +15,14 @@ elseif ispc
 end
 
 old_dir = cd(fileparts(which(mfilename)));
-system('cmake -Bbuild .');
-system('cmake --build build --parallel 8');
+%system('rmdir /S build');
+if isunix
+  system('cmake -Bbuild .');
+  system('cd build; make -j 10; cd ..');
+elseif ispc
+  system('cmake -G "MinGW Makefiles" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -Bbuild .');
+  system('cd build && make -j 10 && cd ..');
+end
+%system('cmake --build build --parallel 8');
 cd(old_dir);
 
