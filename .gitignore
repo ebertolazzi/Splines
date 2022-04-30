@@ -81,3 +81,4 @@ docs_build/xml-c
 docs_build/xml-cpp
 docs_build/xml-matlab
 docs_build/sphinx/_doxygen
+toolbox/lib/cmake-build-debug
