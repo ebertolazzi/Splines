@@ -23,8 +23,8 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../src ${CMAKE_CURRENT_SOURCE_D
 
 if ( UNIX OR LINUX )
   if ( NOT APPLE )
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-    set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgfortran -static-libstdc++ -static-libgcc")
+    set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran -static-libstdc++ -static-libgcc")
   endif()
 else()
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
