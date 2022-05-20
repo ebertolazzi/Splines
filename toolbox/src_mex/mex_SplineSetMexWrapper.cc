@@ -37,77 +37,24 @@ either expressed or implied, of the FreeBSD Project.
     mexErrMsgTxt(ost.str().c_str());               \
   }
 
-#define MEX_ERROR_MESSAGE \
-"%======================================================================%\n" \
-"% SplineSetMexWrapper:  Compute spline curve                           %\n" \
-"%                                                                      %\n" \
-"% USAGE:                                                               %\n" \
-"%   obj = SplineSetMexWrapper( 'new' );                                %\n" \
-"%   SplineSetMexWrapper( 'delete', obj );                              %\n" \
-"%   SplineSetMexWrapper( 'build', obj, kinds, X, Y );                  %\n" \
-"%   P    = SplineSetMexWrapper( 'eval', obj, X );                      %\n" \
-"%   DP   = SplineSetMexWrapper( 'eval_D', obj, X );                    %\n" \
-"%   DDP  = SplineSetMexWrapper( 'eval_DD', obj, X );                   %\n" \
-"%   DDDP = SplineSetMexWrapper( 'eval_DDD', obj, X );                  %\n" \
-"%                                                                      %\n" \
-"% On input:                                                            %\n" \
-"%                                                                      %\n" \
-"%  kinds = string cell array with the kind of spline, any of:          %\n" \
-"%          'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'    %\n" \
-"%  X = vector of X coordinates                                         %\n" \
-"%  Y = vector of Y coordinates                                         %\n" \
-"%                                                                      %\n" \
-"% On output:                                                           %\n" \
-"%                                                                      %\n" \
-"%  P    = vector of Y values                                           %\n" \
-"%  DP   = vector of dimension size(X) with derivative                  %\n" \
-"%  DDP  = vector of dimension size(X) with second derivative           %\n" \
-"%  DDDP = vector of dimension size(X) with third derivative            %\n" \
-"%                                                                      %\n" \
-"%======================================================================%\n" \
-"%                                                                      %\n" \
-"%  Autor: Enrico Bertolazzi                                            %\n" \
-"%         Department of Industrial Engineering                         %\n" \
-"%         University of Trento                                         %\n" \
-"%         enrico.bertolazzi@unitn.it                                   %\n" \
-"%                                                                      %\n" \
-"%======================================================================%\n"
-
 using namespace std;
 
 namespace Splines {
-
-  static
-  void
-  DATA_NEW( mxArray * & mx_id, SplineSet * ptr ) {
-    mx_id = Utils::mex_convert_ptr_to_mx<SplineSet>(ptr);
-  }
-
-  static
-  inline
-  SplineSet *
-  DATA_GET( mxArray const * & mx_id ) {
-    return Utils::mex_convert_mx_to_ptr<SplineSet>(mx_id);
-  }
-
-  static
-  void
-  DATA_DELETE( mxArray const * & mx_id ) {
-    Utils::mex_destroy_object<SplineSet>(mx_id);
-  }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
   static
   void
   do_new( int nlhs, mxArray       *plhs[],
-          int nrhs, mxArray const *prhs[] ) {
+          int nrhs, mxArray const *[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'new' ): "
-    UTILS_MEX_ASSERT( nrhs == 1, CMD "expected 1 inputs, nrhs = {}\n", nrhs );
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
+    #define MEX_ERROR_MESSAGE_1 "SplineSetMexWrapper( 'new' )"
+    #define CMD MEX_ERROR_MESSAGE_1
 
-    DATA_NEW( arg_out_0, new SplineSet() );
+    UTILS_MEX_ASSERT( nrhs == 1, CMD ": expected 1 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+
+    arg_out_0 = Utils::mex_convert_ptr_to_mx<SplineSet>( new SplineSet() );
 
     #undef CMD
   }
@@ -116,15 +63,17 @@ namespace Splines {
 
   static
   void
-  do_delete( int nlhs, mxArray       *plhs[],
+  do_delete( int nlhs, mxArray       *[],
              int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'delete', OBJ ): "
-    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 inputs, nrhs = {}\n", nrhs );
-    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected 0 output, nlhs = {}\n", nlhs );
+    #define MEX_ERROR_MESSAGE_2 "SplineSetMexWrapper( 'delete', OBJ )"
+    #define CMD MEX_ERROR_MESSAGE_2
+
+    UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 inputs, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
 
     // Destroy the C++ object
-    DATA_DELETE(arg_in_1);
+    Utils::mex_destroy_object<SplineSet>(arg_in_1);
 
     #undef CMD
   }
@@ -133,27 +82,24 @@ namespace Splines {
 
   static
   void
-  do_build( int nlhs, mxArray       *plhs[],
+  do_build( int nlhs, mxArray       *[],
             int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'build', OBJ, kinds, X, Y ): "
+    #define MEX_ERROR_MESSAGE_3 "SplineSetMexWrapper( 'build', OBJ, kinds, X, Y )"
+    #define CMD MEX_ERROR_MESSAGE_3
 
-    UTILS_MEX_ASSERT( nlhs == 0, CMD "expected NO output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 5, CMD "expected 5 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected NO output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 5, CMD ": expected 5 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
     mwSize n, nn, nspl;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_3, n, CMD "error in reading 'x'"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_4, nn, nspl, CMD "error in reading 'y'"
-    );
+    real_type const * x = Utils::mex_vector_pointer( arg_in_3, n, CMD ": error in reading 'x'" );
+    real_type const * y = Utils::mex_matrix_pointer( arg_in_4, nn, nspl, CMD ": error in reading 'y'" );
 
     UTILS_MEX_ASSERT0(
       n == nn,
-      CMD "lenght of 'x' must be the number of rows of 'y'"
+      CMD ": lenght of 'x' must be the number of rows of 'y'"
     );
 
     std::vector<Splines::SplineType1D> types;
@@ -171,7 +117,7 @@ namespace Splines {
       else {
         UTILS_MEX_ASSERT0(
           false,
-          CMD "Cell array of strings must contains the strings:\n"
+          CMD ": cell array of strings must contains the strings:\n"
           "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
         );
       }
@@ -182,7 +128,7 @@ namespace Splines {
       mwSize const *dims = mxGetDimensions(arg_in_2);
       UTILS_MEX_ASSERT(
         dims[0] == nspl && dims[1] == 1,
-        CMD "Third argument expected to be cell array {} x 1, found {} x {}\n",
+        CMD ": third argument expected to be cell array {} x 1, found {} x {}\n",
         nspl, dims[0], dims[1]
       );
 
@@ -190,7 +136,7 @@ namespace Splines {
         mxArray const * cell = mxGetCell(arg_in_2,i);
         UTILS_MEX_ASSERT0(
           mxIsChar(cell),
-          CMD "Third argument expected to be cell array of strings"
+          CMD ": third argument expected to be cell array of strings"
         );
         string tname = mxArrayToString(cell);
         Splines::SplineType1D st;
@@ -203,7 +149,7 @@ namespace Splines {
         else {
           UTILS_MEX_ASSERT0(
             false,
-            CMD "Cell array of strings must contains the strings:\n"
+            CMD ": cell array of strings must contains the strings:\n"
             "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
           );
         }
@@ -212,7 +158,7 @@ namespace Splines {
     } else {
       UTILS_MEX_ASSERT(
         false,
-        CMD "Third argument expected to be a string\n"
+        CMD ": third argument expected to be a string\n"
         "of a cell array of strings, found ``{}''\n",
         mxGetClassName(arg_in_2)
       );
@@ -242,17 +188,16 @@ namespace Splines {
   do_eval( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'eval', OBJ, X ): "
+    #define MEX_ERROR_MESSAGE_4 "y(x) = SplineSetMexWrapper( 'eval', OBJ, x )"
+    #define CMD MEX_ERROR_MESSAGE_4
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_2, nx, CMD "error in reading `x`"
-    );
+    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
     mwSize dim = ptr->numSplines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
@@ -273,17 +218,16 @@ namespace Splines {
   do_eval_D( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
+    #define MEX_ERROR_MESSAGE_5 "y'(x) = SplineSetMexWrapper( 'eval_D', OBJ, x )"
+    #define CMD MEX_ERROR_MESSAGE_5
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_2, nx, CMD "error in reading `x`"
-    );
+    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
     mwSize dim = ptr->numSplines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
@@ -304,17 +248,16 @@ namespace Splines {
   do_eval_DD( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
+    #define MEX_ERROR_MESSAGE_6 "y''(x) = SplineSetMexWrapper( 'eval_DD', OBJ, x )"
+    #define CMD MEX_ERROR_MESSAGE_6
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_2, nx, CMD "error in reading `x`"
-    );
+    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
     mwSize dim = ptr->numSplines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
@@ -335,17 +278,16 @@ namespace Splines {
   do_eval_DDD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'eval_D', OBJ, X ): "
+    #define MEX_ERROR_MESSAGE_7 "y'''(x) = SplineSetMexWrapper( 'eval_DDD', OBJ, x )"
+    #define CMD MEX_ERROR_MESSAGE_7
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD "expected 3 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_2, nx, CMD "error in reading `x`"
-    );
+    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
     mwSize dim = ptr->numSplines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
@@ -366,14 +308,15 @@ namespace Splines {
   do_tmin( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper( 'tmin', OBJ ): "
+    #define MEX_ERROR_MESSAGE_8 "tmin = SplineSetMexWrapper( 'tmin', OBJ )"
+    #define CMD MEX_ERROR_MESSAGE_8
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
-    Utils::mex_set_scalar_value( arg_out_0, ptr->xMin() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_min() );
 
     #undef CMD
   }
@@ -385,14 +328,15 @@ namespace Splines {
   do_tmax( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
 
-    #define CMD "SplineSetMexWrapper('tmax',OBJ): "
+    #define MEX_ERROR_MESSAGE_9 "tmax = SplineSetMexWrapper('tmax',OBJ)"
+    #define CMD MEX_ERROR_MESSAGE_9
 
-    UTILS_MEX_ASSERT( nlhs == 1, CMD "expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 2, CMD "expected 2 input, nrhs = {}\n", nrhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = DATA_GET( arg_in_1 );
+    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
 
-    Utils::mex_set_scalar_value( arg_out_0, ptr->xMax() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_max() );
 
     #undef CMD
   }
@@ -412,6 +356,32 @@ namespace Splines {
     {"tmin",do_tmin},
     {"tmax",do_tmax}
   };
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+#define MEX_ERROR_MESSAGE \
+"%======================================================================%\n" \
+"SplineSetMexWrapper:  Compute spline curve\n" \
+"\n" \
+"USAGE:\n" \
+"\n" \
+MEX_ERROR_MESSAGE_1 "\n" \
+MEX_ERROR_MESSAGE_2 "\n" \
+MEX_ERROR_MESSAGE_3 "\n" \
+MEX_ERROR_MESSAGE_4 "\n" \
+MEX_ERROR_MESSAGE_5 "\n" \
+MEX_ERROR_MESSAGE_6 "\n" \
+MEX_ERROR_MESSAGE_7 "\n" \
+MEX_ERROR_MESSAGE_9 "\n" \
+"\n" \
+"%======================================================================%\n" \
+"%                                                                      %\n" \
+"%  Autor: Enrico Bertolazzi                                            %\n" \
+"%         Department of Industrial Engineering                         %\n" \
+"%         University of Trento                                         %\n" \
+"%         enrico.bertolazzi@unitn.it                                   %\n" \
+"%                                                                      %\n" \
+"%======================================================================%\n"
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
