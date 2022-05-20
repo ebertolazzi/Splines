@@ -30,8 +30,9 @@ message( STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}" )
 message( STATUS "PROJECT_NAME    = ${PROJECT_NAME}" )
 
 if ( (UNIX OR LINUX) AND NOT APPLE )
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined")
+  find_package( Threads REQUIRED )
+  set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined" )
+  set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined" )
 endif()
 
 include(./cmake/CMakeLists-cflags.txt)
@@ -120,19 +121,30 @@ set(
   SplineSetMexWrapper
   SplineVecMexWrapper
 )
+
+if ( (UNIX OR LINUX) AND NOT APPLE )
+  set( EXTRA_LIBS Threads::Threads ${CMAKE_DL_LIBS} )
+else()
+  set( EXTRA_LIBS ${CMAKE_DL_LIBS} )
+endif()
+
+
 foreach(MEX ${MEX_LIST})
+
   matlab_add_mex(
     NAME mex_${MEX}
     SRC src_mex/mex_${MEX}.cc ${SOURCES}
+    LINK_TO ${EXTRA_LIBS}
     OUTPUT_NAME ${MEX}
   )
+
   add_custom_command(
     TARGET mex_${MEX}
     POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
     "$<TARGET_FILE:mex_${MEX}>"
     "${CMAKE_CURRENT_SOURCE_DIR}/bin"
   )
-  #target_precompile_headers(mex_${MEX} PUBLIC ${PRECOMPILED_HEADERS})
+
 endforeach()
 
 set (CMAKE_CXX_STANDARD 11)
