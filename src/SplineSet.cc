@@ -336,7 +336,7 @@ namespace Splines {
         { integer flag = 1;
           for ( integer j = 1; j < m_npts; ++j ) {
             if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
-            if ( Utils::isZero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
+            if ( Utils::is_zero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
           }
           m_is_monotone[spl] = flag;
         }
@@ -524,7 +524,7 @@ namespace Splines {
 
     integer interval = integer(lower_bound( X, X+m_npts, zeta ) - X);
     if ( interval > 0 ) --interval;
-    if ( Utils::isZero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
+    if ( Utils::is_zero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
     if ( interval >= m_npts-1 ) interval = m_npts-2;
 
     // compute intersection

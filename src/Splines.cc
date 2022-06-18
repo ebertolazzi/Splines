@@ -310,7 +310,7 @@ namespace Splines {
     integer flag = 1;
     for ( size_t i = 1; i < size_t(npts); ++i ) {
       if ( Y[i-1] > Y[i] ) return -2; // non monotone data
-      if ( Utils::isZero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
+      if ( Utils::is_zero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
     }
     // pag 146 Methods of Shape-Preserving Spline Approximation, K
     for ( size_t i = 1; i < size_t(npts); ++i ) {
@@ -321,9 +321,9 @@ namespace Splines {
       if ( m0 < 0 || m1 < 0 ) return -1; // non monotone
       if ( m0 <= 3 && m1 <= 3 ) {
         if ( flag > 0 && i > 1 &&
-             (Utils::isZero(m0) || Utils::isZero(m0-3) ) ) flag = 0;
+             (Utils::is_zero(m0) || Utils::is_zero(m0-3) ) ) flag = 0;
         if ( flag > 0 && i < size_t(npts-1) &&
-             (Utils::isZero(m1) || Utils::isZero(m1-3) ) ) flag = 0;
+             (Utils::is_zero(m1) || Utils::is_zero(m1-3) ) ) flag = 0;
       } else {
         real_type tmp1 = 2*m0+m1-3;
         real_type tmp2 = 2*(m0+m1-2);
@@ -333,7 +333,7 @@ namespace Splines {
         } else {
           if ( tmp3 > 0 ) return -1;
         }
-        if ( Utils::isZero(tmp3) ) flag = 0;
+        if ( Utils::is_zero(tmp3) ) flag = 0;
       }
     }
     return flag; // passed all check

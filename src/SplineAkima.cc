@@ -119,8 +119,8 @@ namespace Splines {
     UTILS_ASSERT(
       m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X ").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y ").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X ").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y ").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -130,7 +130,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS

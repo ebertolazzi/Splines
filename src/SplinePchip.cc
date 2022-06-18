@@ -108,18 +108,18 @@ namespace Splines {
     return sa*sb;
   }
 
-  //! 
+  //!
   //! References:
   //! ==========
-  //! 
+  //!
   //! F.N. Fritsch, R.E. Carlson:
   //! Monotone Piecewise Cubic Interpolation,
   //! SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
-  //! 
+  //!
   //! F.N. Fritsch and J. Butland:
   //! A method for constructing local monotone piecewise cubic interpolants,
   //! SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
-  //! 
+  //!
   void
   Pchip_build(
     real_type const * X,
@@ -171,7 +171,7 @@ namespace Splines {
       // count number of changes in direction of monotonicity.
       switch ( signTest(del1,del2) ) {
       case -1:
-        if ( Utils::isZero(del2) ) break;
+        if ( Utils::is_zero(del2) ) break;
         if ( signTest(dsave,del2) < 0 ) ++ierr;
         dsave = del2;
         break;
@@ -256,8 +256,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -272,7 +272,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
   using GC_namespace::GC_VEC_REAL;

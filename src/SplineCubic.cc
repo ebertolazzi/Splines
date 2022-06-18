@@ -462,8 +462,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -483,7 +483,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -493,20 +493,20 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  //! 
-  //! 
+  //!
+  //!
   //! Setup a spline using a `GenericContainer`
-  //! 
+  //!
   //! - gc("xdata") vector with the `x` coordinate of the data
   //! - gc("ydata") vector with the `y` coordinate of the data
-  //! 
+  //!
   //! may contain
-  //! - gc("bc_begin") and/or gc("bc_end") 
+  //! - gc("bc_begin") and/or gc("bc_end")
   //!   - "extrapolate" extrapolate the boundary condition
   //!   - "natural"     make second derivative 0 at the border
   //!   - "parabolic"   make third derivative 0 at the border
-  //!   - "not_a_knot"  not a knot condition of De Boor 
-  //! 
+  //!   - "not_a_knot"  not a knot condition of De Boor
+  //!
   void
   CubicSpline::setup( GenericContainer const & gc ) {
     /*
