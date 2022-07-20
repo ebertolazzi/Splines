@@ -228,7 +228,7 @@ namespace Splines {
 
   integer
   Spline::search( real_type & x ) const {
-    UTILS_ASSERT0( m_npts > 0, "in Spline::search(...), npts == 0!" );
+    UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
     bool ok;
     integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
     if ( !ok ) lastInterval = 0;
@@ -244,7 +244,7 @@ namespace Splines {
   }
 
   void
-  Spline::initLastInterval() {
+  Spline::init_last_interval() {
     bool ok;
     integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
     lastInterval = 0;
@@ -267,7 +267,7 @@ namespace Splines {
   }
 
   void
-  SplineSurf::initLastInterval_x() {
+  SplineSurf::init_last_interval_x() {
     bool ok;
     integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
     lastInterval = 0;
@@ -290,7 +290,7 @@ namespace Splines {
   }
 
   void
-  SplineSurf::initLastInterval_y() {
+  SplineSurf::init_last_interval_y() {
     bool ok;
     integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
     lastInterval = 0;
@@ -373,11 +373,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::pushBack( real_type x, real_type y ) {
+  Spline::push_back( real_type x, real_type y ) {
     if ( m_npts > 0 ) {
       UTILS_ASSERT(
         x >= m_X[size_t(m_npts-1)], // ammetto punti doppi
-        "Spline[{}]::pushBack, non monotone insert at insert N.{}"
+        "Spline[{}]::push_back, non monotone insert at insert N.{}"
         "\nX[{}] = {}\nX[{}] = {}\n",
         m_name, m_npts, m_npts-1, m_X[size_t(m_npts-1)], m_npts, x
       );
@@ -387,7 +387,7 @@ namespace Splines {
     } else if ( m_npts >= m_npts_reserved ) {
       // riallocazione & copia
       integer saved_npts = m_npts; // salvo npts perche reserve lo azzera
-      Utils::Malloc<real_type> mem("Spline::pushBack");
+      Malloc_real mem("Spline::push_back");
       mem.allocate( size_t(2*m_npts) );
       real_type * Xsaved = mem( size_t(m_npts) );
       real_type * Ysaved = mem( size_t(m_npts) );
@@ -407,7 +407,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::setOrigin( real_type x0 ) {
+  Spline::set_origin( real_type x0 ) {
     real_type Tx = x0 - m_X[0];
     real_type *ix = m_X;
     while ( ix < m_X+m_npts ) *ix++ += Tx;
@@ -416,10 +416,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::setRange( real_type xmin, real_type xmax ) {
+  Spline::set_range( real_type xmin, real_type xmax ) {
     UTILS_ASSERT(
       xmax > xmin,
-      "Spline[{}]::setRange({},{}) bad range ", m_name, xmin, xmax
+      "Spline[{}]::set_range({},{}) bad range ", m_name, xmin, xmax
     );
     real_type S  = (xmax - xmin) / ( m_X[m_npts-1] - m_X[0] );
     real_type Tx = xmin - S * m_X[0];

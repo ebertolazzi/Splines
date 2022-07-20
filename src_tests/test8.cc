@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -36,18 +36,18 @@ template <typename STYPE>
 void
 testSpline( STYPE & sp ) {
   sp.clear();
-  sp.pushBack(595,0.644);
-  sp.pushBack(635,0.652);
-  sp.pushBack(695,0.644);
-  sp.pushBack(795,0.694);
-  sp.pushBack(855,0.907);
-  sp.pushBack(875,1.336);
-  sp.pushBack(895,2.169);
-  sp.pushBack(915,1.598);
-  sp.pushBack(935,0.916);
-  sp.pushBack(985,0.607);
-  sp.pushBack(1035,0.603);
-  sp.pushBack(1075,0.608);
+  sp.push_back(595,0.644);
+  sp.push_back(635,0.652);
+  sp.push_back(695,0.644);
+  sp.push_back(795,0.694);
+  sp.push_back(855,0.907);
+  sp.push_back(875,1.336);
+  sp.push_back(895,2.169);
+  sp.push_back(915,1.598);
+  sp.push_back(935,0.916);
+  sp.push_back(985,0.607);
+  sp.push_back(1035,0.603);
+  sp.push_back(1075,0.608);
   sp.build();
   sp.info(cout);
 

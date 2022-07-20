@@ -30,8 +30,8 @@ namespace Splines {
 
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
-    Utils::Malloc<real_type> m_baseValue;
-    bool                     m_external_alloc;
+    Malloc_real m_baseValue;
+    bool        m_external_alloc;
 
   public:
 

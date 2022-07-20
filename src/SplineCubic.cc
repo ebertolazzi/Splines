@@ -441,7 +441,7 @@ namespace Splines {
     CUBIC_SPLINE_TYPE_BC bc0,
     CUBIC_SPLINE_TYPE_BC bcn
   ) {
-    Utils::Malloc<real_type> mem("CubicSpline_build");
+    Malloc_real mem("CubicSpline_build");
     mem.allocate( size_t(4*npts) );
     real_type * L = mem( size_t( npts ) );
     real_type * D = mem( size_t( npts ) );

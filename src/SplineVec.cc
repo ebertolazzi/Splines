@@ -50,7 +50,7 @@ namespace Splines {
   , m_Y(nullptr)
   , m_Yp(nullptr)
   {
-    initLastInterval();
+    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,7 +65,7 @@ namespace Splines {
 
   integer
   SplineVec::search( real_type & x ) const {
-    UTILS_ASSERT0( m_npts > 0, "in SplineVec::search(...), npts == 0!" );
+    UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
     bool ok;
     integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
     if ( !ok ) *p_lastInterval = 0;
@@ -83,7 +83,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::initLastInterval() {
+  SplineVec::init_last_interval() {
     bool ok;
     integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
     *p_lastInterval = 0;
@@ -122,10 +122,10 @@ namespace Splines {
   SplineVec::allocate( integer dim, integer npts ) {
 
     UTILS_ASSERT(
-      dim > 0, "SplineVec::build expected positive dim = {}\n", dim
+      dim > 0, "SplineVec[{}]::build expected positive dim = {}\n", m_name, dim
     );
     UTILS_ASSERT(
-      npts > 1, "SplineVec::build expected npts = {} greather than 1\n", npts
+      npts > 1, "SplineVec[{}]::build expected npts = {} greather than 1\n", m_name, npts
     );
     m_dim  = dim;
     m_npts = npts;

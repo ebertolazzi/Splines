@@ -74,43 +74,57 @@ namespace Splines {
     //! Return the number of support points of the spline.
     //!
     integer num_points() const { return m_pSpline->num_points(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     integer numPoints() const { return m_pSpline->num_points(); }
+    #endif
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_pSpline->xNode(i); }
+    real_type x_node( integer i ) const { return m_pSpline->x_node(i); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xNode( integer i ) const { return this->x_node(i); }
+    #endif
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_pSpline->yNode(i); }
+    real_type y_node( integer i ) const { return m_pSpline->y_node(i); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yNode( integer i ) const { return this->y_node(i); }
+    #endif
 
     //!
     //! Return first node of the spline (x component).
     //!
-    real_type x_begin() const { return m_pSpline->xBegin(); }
+    real_type x_begin() const { return m_pSpline->x_begin(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xBegin() const { return this->x_begin(); }
+    #endif
 
     //!
     //! Return first node of the spline (y component).
     //!
-    real_type y_begin() const { return m_pSpline->yBegin(); }
+    real_type y_begin() const { return m_pSpline->y_begin(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yBegin() const { return this->y_begin(); }
+    #endif
 
     //!
     //! Return last node of the spline (x component).
     //!
-    real_type x_end() const { return m_pSpline->xEnd(); }
+    real_type x_end() const { return m_pSpline->x_end(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xEnd() const { return this->x_end(); }
+    #endif
 
     //!
     //! Return last node of the spline (y component).
     //!
-    real_type y_end() const { return m_pSpline->yEnd(); }
+    real_type y_end() const { return m_pSpline->y_end(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yEnd() const { return this->y_end(); }
+    #endif
 
     //!
     //! Allocate memory for `npts` points.
@@ -120,12 +134,17 @@ namespace Splines {
     //!
     //! Add a support point (x,y) to the spline.
     //!
-    void pushBack( real_type x, real_type y ) { return m_pSpline->pushBack( x, y ); }
-
+    void push_back( real_type x, real_type y ) { return m_pSpline->push_back( x, y ); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void pushBack( real_type x, real_type y ) { return this->push_back( x, y ); }
+    #endif
     //!
     //! Drop last inserted point of the spline.
     //!
-    void dropBack() { m_pSpline->dropBack(); }
+    void drop_back() { m_pSpline->drop_back(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void dropBack() { this->drop_back(); }
+    #endif
 
     //!
     //! Build a spline.
@@ -199,40 +218,50 @@ namespace Splines {
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_pSpline->x_min(); }
-    real_type xMin() const { return m_pSpline->x_min(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type xMin() const { return this->x_min(); }
+    #endif
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_pSpline->x_max(); }
-    real_type xMax() const { return m_pSpline->x_max(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type xMax() const { return this->x_max(); }
+    #endif
 
     //!
     //! Return y-minumum spline value (on the support point of the spline).
     //!
     real_type y_min() const { return m_pSpline->y_min(); }
-    real_type yMin() const { return m_pSpline->y_min(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type yMin() const { return this->y_min(); }
+    #endif
 
     //!
     //! Return y-maximum spline value (on the support point of the spline).
     //!
     real_type y_max() const { return m_pSpline->y_max(); }
-    real_type yMax() const { return m_pSpline->y_max(); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type yMax() const { return this->y_max(); }
+    #endif
 
     ///////////////////////////////////////////////////////////////////////////
     //!
     //! Change X-origin of the spline.
     //!
-    void
-    setOrigin( real_type x0 )
-    { return m_pSpline->setOrigin( x0 ); }
+    void set_origin( real_type x0 ) { return m_pSpline->set_origin( x0 ); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setOrigin( real_type x0 ) { return this->set_origin( x0 ); }
+    #endif
 
     //!
     //! Change X-range of the spline.
     //!
-    void
-    setRange( real_type xmin, real_type xmax )
-    { return m_pSpline->setRange( xmin, xmax ); }
+    void set_range( real_type xmin, real_type xmax ) { return m_pSpline->set_range( xmin, xmax ); }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setRange( real_type xmin, real_type xmax ) { return this->set_range( xmin, xmax ); }
+    #endif
 
     ///////////////////////////////////////////////////////////////////////////
     void

@@ -129,7 +129,7 @@ extern "C" {
   char const *
   SPLINE_get_type_name() {
     if ( head == nullptr ) return "NOTYPE - head = nullptr";
-    return head -> type_name();
+    return head->type_name();
   }
 
   void *
@@ -141,7 +141,7 @@ extern "C" {
   int
   SPLINE_init() {
     if ( head != nullptr ) {
-      head -> clear();
+      head->clear();
       return 0;
     } else {
       return -1;
@@ -151,7 +151,7 @@ extern "C" {
   int
   SPLINE_push( double x, double y ) {
     if ( head != nullptr ) {
-      head -> pushBack(x,y);
+      head->push_back(x,y);
       return 0;
     } else {
       return -1;
@@ -175,7 +175,7 @@ extern "C" {
     int            n
   ) {
     if ( head != nullptr ) {
-      head -> build( x, y, n );
+      head->build( x, y, n );
       return 0;
     } else {
       return -1;
@@ -185,7 +185,7 @@ extern "C" {
   double
   SPLINE_eval( double x ) {
     if ( head != nullptr ) {
-      return head -> operator()(x);
+      return head->operator()(x);
     } else {
       return 0;
     }
@@ -194,7 +194,7 @@ extern "C" {
   double
   SPLINE_eval_D( double x ) {
     if ( head != nullptr ) {
-      return head -> D(x);
+      return head->D(x);
     } else {
       return 0;
     }
@@ -203,7 +203,7 @@ extern "C" {
   double
   SPLINE_eval_DD( double x ) {
     if ( head != nullptr ) {
-      return head -> DD(x);
+      return head->DD(x);
     } else {
       return 0;
     }
@@ -212,7 +212,7 @@ extern "C" {
   double
   SPLINE_eval_DDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDD(x);
+      return head->DDD(x);
     } else {
       return 0;
     }
@@ -221,7 +221,7 @@ extern "C" {
   double
   SPLINE_eval_DDDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDDD(x);
+      return head->DDDD(x);
     } else {
       return 0;
     }
@@ -230,7 +230,7 @@ extern "C" {
   double
   SPLINE_eval_DDDDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDDDD(x);
+      return head->DDDDD(x);
     } else {
       return 0;
     }

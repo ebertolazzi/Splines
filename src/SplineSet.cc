@@ -42,9 +42,6 @@ namespace Splines {
 
   integer
   SplineSet::BinarySearch::search( std::string const & id ) const {\
-    //for ( auto e : data )
-    //  std::cout << e.first << " -> " << e.second << '\n';
-    // binary search
     size_t U = data.size();
     size_t L = 0;
     while ( U-L > 1 ) {
@@ -156,8 +153,8 @@ namespace Splines {
   SplineSet::yNodes( integer i ) const {
     UTILS_ASSERT(
       i >=0 && i < m_nspl,
-      "SplineSet::yNodes({}) argument out of range [0,{}]\n",
-      i, m_nspl-1
+      "SplineSet[{}]::yNodes({}) argument out of range [0,{}]\n",
+      m_name, i, m_nspl-1
     );
     return m_Y[i];
   }
@@ -168,8 +165,8 @@ namespace Splines {
   SplineSet::get_spline( integer i ) const {
     UTILS_ASSERT(
       i >= 0 && i < m_nspl,
-      "SplineSet::get_spline({}) argument out of range [0,{}]\n",
-      i, m_nspl-1
+      "SplineSet[{}]::get_spline({}) argument out of range [0,{}]\n",
+      m_name, i, m_nspl-1
     );
     return m_splines[i];
   }
@@ -178,7 +175,7 @@ namespace Splines {
 
   void
   SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
-    Utils::Malloc<real_type> mem("SplineSet::dump_table");
+    Malloc_real mem("SplineSet::dump_table");
     mem.allocate( size_t(m_nspl) );
     real_type * vals = mem( size_t(m_nspl) );
     stream << 's';
@@ -201,9 +198,9 @@ namespace Splines {
     integer pos = m_header_to_position.search(hdr);
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
-      "SplineSet::getPosition(\"{}\") not found!\n"
+      "SplineSet[{}]::getPosition(\"{}\") not found!\n"
       "available keys: {}\n",
-      hdr, name_list()
+      m_name, hdr, name_list()
     );
     return pos;
   }

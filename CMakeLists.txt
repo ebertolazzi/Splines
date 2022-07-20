@@ -138,6 +138,8 @@ else()
   set( DEPEND_TARGETS ${DEPEND_TARGETS} ${GC} )
 endif()
 
+add_definitions( -DSPLINES_NO_COMPATIBILITY )
+
 #   _____                  _
 #  |_   _|_ _ _ _ __ _ ___| |_ ___
 #    | |/ _` | '_/ _` / -_)  _(_-<

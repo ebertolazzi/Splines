@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -55,7 +55,7 @@ namespace Splines {
   ) {
     if ( m_pSpline != nullptr ) delete m_pSpline;
     m_pSpline = new_Spline1D(m_name,tp);
-    UTILS_ASSERT0( m_pSpline != nullptr, "Spline1D::build, failed\n" );
+    UTILS_ASSERT( m_pSpline != nullptr, "Spline1D[{}]::build, failed\n", m_name );
     m_pSpline->build( x, incx, y, incy, n );
   }
 
@@ -73,9 +73,9 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  //! 
+  //!
   //! Setup a spline using a `GenericContainer`
-  //! 
+  //!
   //! - gc("spline_type")
   //!   - "constant"
   //!   - "linear"
@@ -84,7 +84,7 @@ namespace Splines {
   //!   - "bessel"
   //!   - "pchip"
   //!   - "quintic"
-  //! 
+  //!
   void
   Spline1D::setup( GenericContainer const & gc ) {
     /*

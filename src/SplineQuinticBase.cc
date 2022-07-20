@@ -70,7 +70,7 @@ namespace Splines {
       m_Yp             = m_baseValue( size_t(n) );
       m_Ypp            = m_baseValue( size_t(n) );
     }
-    initLastInterval();
+    init_last_interval();
     m_npts = 0;
   }
 
@@ -277,7 +277,7 @@ namespace Splines {
 
   // Implementation
   void
-  QuinticSplineBase::copySpline( QuinticSplineBase const & S ) {
+  QuinticSplineBase::copy_spline( QuinticSplineBase const & S ) {
     QuinticSplineBase::reserve(S.m_npts);
     m_npts = S.m_npts;
     std::copy_n( S.m_X,   m_npts, m_X   );
@@ -314,8 +314,8 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT0(
-      m_npts > 0, "QuinticSplineBase::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name
     );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
@@ -366,8 +366,8 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT0(
-      m_npts > 0, "QuinticSplineBase::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name
     );
     // find max min alongh the nodes
     // find max min along the nodes

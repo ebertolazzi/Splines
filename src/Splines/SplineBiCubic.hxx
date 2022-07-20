@@ -34,7 +34,7 @@ namespace Splines {
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
-    Utils::Malloc<real_type> m_mem_bicubic;
+    Malloc_real m_mem_bicubic;
 
     real_type * m_DX;
     real_type * m_DY;

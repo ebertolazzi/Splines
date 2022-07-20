@@ -30,8 +30,8 @@ namespace Splines {
 
   //! Linear spline class
   class LinearSpline : public Spline {
-    Utils::Malloc<real_type> m_baseValue;
-    bool                     m_external_alloc;
+    Malloc_real m_baseValue;
+    bool        m_external_alloc;
 
   public:
 

@@ -65,7 +65,7 @@ namespace Splines {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-    Utils::Malloc<real_type> mem("QuinticSpline_Yppp_continuous");
+    Malloc_real mem("QuinticSpline_Yppp_continuous");
     mem.allocate( size_t(3*(n+1)) );
     real_type * L = mem( size_t( n+1 ) );
     real_type * D = mem( size_t( n+1 ) );
@@ -218,7 +218,7 @@ namespace Splines {
       {
         size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-        Utils::Malloc<real_type> mem("QuinticSpline_Yppp_continuous");
+        Malloc_real mem("QuinticSpline_Yppp_continuous");
         mem.allocate( size_t(3*(n+1)) );
         real_type * L = mem( size_t( n+1 ) );
         real_type * D = mem( size_t( n+1 ) );

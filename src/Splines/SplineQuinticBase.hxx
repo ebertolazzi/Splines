@@ -34,8 +34,7 @@ namespace Splines {
   //!
   class QuinticSplineBase : public Spline {
   protected:
-    Utils::Malloc<real_type> m_baseValue;
-
+    Malloc_real m_baseValue;
     real_type * m_Yp;
     real_type * m_Ypp;
     bool        m_external_alloc;
@@ -66,8 +65,10 @@ namespace Splines {
 
     ///@}
 
-    void
-    copySpline( QuinticSplineBase const & S );
+    void copy_spline( QuinticSplineBase const & S );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void copySpline( QuinticSplineBase const & S ) { this->copy_spline(S); }
+    #endif
 
     //!
     //! \name Info
@@ -77,16 +78,18 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type
-    ypNode( integer i ) const
-    { return m_Yp[size_t(i)]; }
+    real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type ypNode( integer i ) const { return this->yp_node(i); }
+    #endif
 
     //!
     //! Return the i-th node of the spline (y'' component).
     //!
-    real_type
-    yppNode( integer i ) const
-    { return m_Ypp[size_t(i)]; }
+    real_type ypp_node( integer i ) const { return m_Ypp[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type yppNode( integer i ) const { return this->ypp_node(i); }
+    #endif
 
     void
     y_min_max(
@@ -117,8 +120,10 @@ namespace Splines {
     //!
     //! Change X-range of the spline
     //!
-    void
-    setRange( real_type xmin, real_type xmax );
+    void set_range( real_type xmin, real_type xmax );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setRange( real_type xmin, real_type xmax ) { this->set_range( xmin, xmax ); }
+    #endif
 
     //!
     //! Use externally allocated memory for `npts` points

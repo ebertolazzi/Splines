@@ -95,7 +95,7 @@ namespace Splines {
       m_Yp = m_baseValue( size_t(n) );
       m_external_alloc = false;
     }
-    initLastInterval();
+    init_last_interval();
     m_npts = 0;
   }
 
@@ -113,7 +113,7 @@ namespace Splines {
     m_Y              = p_y;
     m_Yp             = p_dy;
     m_external_alloc = true;
-    initLastInterval();
+    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -250,7 +250,7 @@ namespace Splines {
 
   // Implementation
   void
-  CubicSplineBase::copySpline( CubicSplineBase const & S ) {
+  CubicSplineBase::copy_spline( CubicSplineBase const & S ) {
     CubicSplineBase::reserve(S.m_npts);
     m_npts = S.m_npts;
     std::copy_n( S.m_X,  m_npts, m_X  );
@@ -262,8 +262,8 @@ namespace Splines {
 
   //! change X-range of the spline
   void
-  CubicSplineBase::setRange( real_type xmin, real_type xmax ) {
-    Spline::setRange( xmin, xmax );
+  CubicSplineBase::set_range( real_type xmin, real_type xmax ) {
+    Spline::set_range( xmin, xmax );
     real_type recS = ( m_X[m_npts-1] - m_X[0] ) / (xmax - xmin);
     real_type * iy = m_Y;
     while ( iy < m_Y + m_npts ) *iy++ *= recS;
@@ -293,8 +293,8 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT0(
-      m_npts > 0, "CubicSplineBase::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name
     );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
@@ -343,8 +343,8 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT0(
-      m_npts > 0, "CubicSplineBase::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name
     );
     // find max min along the nodes
     if ( m_Yp[0] >= 0 ) {

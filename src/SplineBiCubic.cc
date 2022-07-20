@@ -50,12 +50,12 @@ namespace Splines {
     for ( integer j = 0; j < m_ny; ++j ) {
       sp.build( m_X, 1, &m_Z[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       for ( integer i = 0; i < m_nx; ++i )
-        m_DX[size_t(this->ipos_C(i,j))] = sp.ypNode(i);
+        m_DX[size_t(this->ipos_C(i,j))] = sp.yp_node(i);
     }
     for ( integer i = 0; i < m_nx; ++i ) {
       sp.build( m_Y, 1, &m_Z[size_t(this->ipos_C(i,0))], 1, m_ny );
       for ( integer j = 0; j < m_ny; ++j )
-        m_DY[size_t(this->ipos_C(i,j))] = sp.ypNode(j);
+        m_DY[size_t(this->ipos_C(i,j))] = sp.yp_node(j);
     }
     std::fill_n( m_DXY, nn, 0 );
   }

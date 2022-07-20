@@ -54,7 +54,7 @@ namespace Splines {
 
     mutable Utils::BinarySearch<integer> m_bs;
 
-    void initLastInterval();
+    void init_last_interval();
     void allocate( integer dim, integer npts );
     void computeChords();
 

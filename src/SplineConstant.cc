@@ -63,7 +63,7 @@ namespace Splines {
       m_X              = m_baseValue( size_t(n) );
       m_Y              = m_baseValue( size_t(n) );
     }
-    initLastInterval();
+    init_last_interval();
     m_npts = 0;
   }
 
@@ -182,8 +182,8 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT0(
-      m_npts > 0, "ConstantSpline::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name
     );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
@@ -220,8 +220,8 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT0(
-      m_npts > 0, "ConstantSpline::y_min_max() empty spline!"
+    UTILS_ASSERT(
+      m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name
     );
     // find max min along the nodes
     for ( integer i = 1; i < m_npts-1; ++i ) {

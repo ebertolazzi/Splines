@@ -81,7 +81,7 @@ namespace Splines {
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
-      Utils::Malloc<real_type> mem("Akima_build");
+      Malloc_real mem("Akima_build");
       real_type * m = mem.malloc( size_t(npts+3) );
 
       // calcolo slopes (npts-1) intervals + 4

@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -101,7 +101,8 @@ main() {
     cout << #S": n[k] = " << n[k] << '\n';                                 \
     S.clear();                                                             \
     S.reserve(n[k]);                                                       \
-    for ( integer i = 0; i < integer(n[k]); ++i ) S.pushBack(xx[i],yy[i]); \
+    for ( integer i = 0; i < integer(n[k]); ++i )                          \
+      S.push_back(xx[i],yy[i]);                                            \
     S.build(); /*( xx, yy, n[k] );*/                                       \
     {                                                                      \
       integer   i_min_pos;                                                 \
@@ -120,15 +121,15 @@ main() {
       cout << "x_max_pos = " << x_max_pos << "\n";                         \
       cout << "y_max     = " << y_max << "\n";                             \
     }                                                                      \
-    cout << #S": xMin    = " << S.xMin()   << '\n';                        \
-    cout << #S": xMax    = " << S.xMax()   << '\n';                        \
+    cout << #S": xMin    = " << S.x_min()  << '\n';                        \
+    cout << #S": xMax    = " << S.x_max()  << '\n';                        \
     cout << #S": xx[0]   = " << xx[0]      << '\n';                        \
     cout << #S": xx[end] = " << xx[n[k]-1] << '\n';                        \
     file_##S << "x\ty\tDy\tDDy\n";                                         \
     for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )           \
       file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n'; \
     file_##S.close()
-    
+
     SAVE("LinearSpline",   li);
     SAVE("ConstantSpline", co);
     SAVE("AkimaSpline",    ak);

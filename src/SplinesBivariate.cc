@@ -54,8 +54,8 @@ namespace Splines {
     m_nx = m_ny = 0;
     m_X = m_Y = m_Z = nullptr;
     m_Z_min = m_Z_max = 0;
-    this->initLastInterval_x();
-    this->initLastInterval_y();
+    this->init_last_interval_x();
+    this->init_last_interval_y();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -70,9 +70,9 @@ namespace Splines {
       if ( fortran_storage ) {
         UTILS_ASSERT(
           ldZ >= m_nx,
-          "SplineSurf::load_Z[transposed+fortran_storage]\n"
+          "SplineSurf[{}]::load_Z[transposed+fortran_storage]\n"
           "ldZ = {} must be >= of nx = {}\n",
-          ldZ, m_nx
+          m_name, ldZ, m_nx
         );
         for ( integer i = 0; i < m_nx; ++i )
           for ( integer j = 0; j < m_ny; ++j )
@@ -80,9 +80,9 @@ namespace Splines {
       } else {
         UTILS_ASSERT(
           ldZ >= m_ny,
-          "SplineSurf::load_Z[transposed]\n"
+          "SplineSurf[{}]::load_Z[transposed]\n"
           "ldZ = {} must be >= of ny = {}\n",
-          ldZ, m_ny
+          m_name, ldZ, m_ny
         );
         for ( integer i = 0; i < m_nx; ++i )
           for ( integer j = 0; j < m_ny; ++j )
@@ -92,9 +92,9 @@ namespace Splines {
       if ( fortran_storage ) {
         UTILS_ASSERT(
           ldZ >= m_ny,
-          "SplineSurf::load_Z[fortran_storage]\n"
+          "SplineSurf[{}]::load_Z[fortran_storage]\n"
           "ldZ = {} must be >= of ny = {}\n",
-          ldZ, m_ny
+          m_name, ldZ, m_ny
         );
         for ( integer i = 0; i < m_nx; ++i )
           for ( integer j = 0; j < m_ny; ++j )
@@ -102,9 +102,9 @@ namespace Splines {
       } else {
         UTILS_ASSERT(
           ldZ >= m_nx,
-          "SplineSurf::load_Z\n"
+          "SplineSurf[{}]::load_Z\n"
           "ldZ = {} must be >= of nx = {}\n",
-          ldZ, m_nx
+          m_name, ldZ, m_nx
         );
         for ( integer i = 0; i < m_nx; ++i )
           for ( integer j = 0; j < m_ny; ++j )
@@ -547,7 +547,7 @@ namespace Splines {
     }
     s << "\n];\n";
   }
-  
+
   #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -563,17 +563,17 @@ namespace Splines {
   //!
   //! Setup a spline surface using a `GenericContainer`
   //!
-  //! - `gc("fortran_storage")` if true `zdata` is stored by column, otherwise by rows 
-  //! - `gc("transposed")`      if true `zdata` is stored transposed 
-  //! 
-  //! - `gc("xdata")` vector of mesh point in `x` direction 
+  //! - `gc("fortran_storage")` if true `zdata` is stored by column, otherwise by rows
+  //! - `gc("transposed")`      if true `zdata` is stored transposed
+  //!
+  //! - `gc("xdata")` vector of mesh point in `x` direction
   //! - `gc("ydata")` vector of mesh point in `y` direction
   //! - `gc("zdata")` may be
   //!    - matrix of size `nx` x `ny` (`ny` x `nx` if data is transposed)
   //!    - vector of size `nx` x `ny` stiring the data.
   //!
-  //! - `nx` number of nodes in x-direction the size of vector in `x` direction 
-  //! - `ny` number of nodes in y-direction the size of vector in `y` direction 
+  //! - `nx` number of nodes in x-direction the size of vector in `x` direction
+  //! - `ny` number of nodes in y-direction the size of vector in `y` direction
   //!
   //! nodes are equispaced in x and y directions.
   //!

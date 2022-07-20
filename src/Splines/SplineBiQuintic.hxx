@@ -32,7 +32,7 @@ namespace Splines {
   class BiQuinticSplineBase : public SplineSurf {
   protected:
 
-    Utils::Malloc<real_type> mem;
+    Malloc_real mem;
 
     real_type * m_DX;
     real_type * m_DXX;
