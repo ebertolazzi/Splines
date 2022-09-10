@@ -1,8 +1,4 @@
-#
-#
-#
-
-%w( colorize rake fileutils ).each do |gem|
+%w(colorize rake fileutils).each do |gem|
   begin
     require gem
   rescue LoadError
@@ -11,14 +7,26 @@
   end
 end
 
-require "rake/clean"
-require_relative "./Rakefile_common.rb"
+require 'rake/clean'
 
 CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build", "./lib", "./lib3rd"]
 CLOBBER.include []
-CLEAN.exclude('**/[cC][oO][rR][eE]')
+CLEAN.clear_exclude.exclude { |fn| fn.pathmap("%f").downcase == "core" }
 
-file_base = File.expand_path(File.dirname(__FILE__)).to_s+'/lib'
+case RUBY_PLATFORM
+when /darwin/
+  OS = :mac
+when /linux/
+  OS = :linux
+when /cygwin|mswin|mingw|bccwin|wince|emx/
+  OS = :win
+when /msys/
+  OS = :win
+end
+
+require_relative "./Rakefile_common.rb"
+
+file_base = File.expand_path(File.dirname(__FILE__)).to_s
 
 cmd_cmake_build = ""
 if COMPILE_EXECUTABLE then
@@ -32,11 +40,13 @@ else
   cmd_cmake_build += ' -DEB_BUILD_SHARED:VAR=OFF '
 end
 if COMPILE_DEBUG then
-  cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Debug --loglevel=WARNING '
+  cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Debug --loglevel=STATUS '
 else
-  cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Release --loglevel=WARNING '
+  cmd_cmake_build += ' -DCMAKE_BUILD_TYPE:VAR=Release --loglevel=STATUS '
 end
-cmd_cmake_build += " -DEB_INSTALL_LOCAL=ON "
+
+desc "default task --> build"
+task :default => :build
 
 FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/Utils/cmake/CMakeLists-cflags.txt'
 FileUtils.cp './cmake/CMakeLists-cflags.txt', 'submodules/quarticRootsFlocke/cmake/CMakeLists-cflags.txt'
@@ -75,6 +85,36 @@ task :run_win do
   sh "./bin/Release/test9"
 end
 
+desc "build SPLINES"
+task :build do
+  case OS
+  when :mac
+    puts "SPLINES build (osx)".green
+    Rake::Task[:build_osx].invoke
+  when :linux
+    puts "SPLINES build (linux)".green
+    Rake::Task[:build_linux].invoke
+  when :win
+    puts "SPLINES build (windows)".green
+    Rake::Task[:build_win].invoke
+  end
+end
+
+desc "clean SPLINES"
+task :clean do
+  case OS
+  when :mac
+    puts "SPLINES clean (osx)".green
+    Rake::Task[:clean_osx].invoke
+  when :linux
+    puts "SPLINES clean (linux)".green
+    Rake::Task[:clean_linux].invoke
+  when :win
+    puts "SPLINES clean (windows)".green
+    Rake::Task[:clean_win].invoke
+  end
+end
+
 desc "compile for Visual Studio [default year=2017, bits=x64]"
 task :build_win, [:year, :bits] do |t, args|
 
@@ -108,7 +148,7 @@ end
 
 
 desc "compile for OSX/LINUX"
-task :build do
+task :build_common do
 
   dir = "build"
 
@@ -138,12 +178,12 @@ end
 
 desc "compile for LINUX"
 task :build_linux do
-  Rake::Task[:build].invoke()
+  Rake::Task[:build_common].invoke()
 end
 
 desc "compile for OSX"
 task :build_osx do
-  Rake::Task[:build].invoke()
+  Rake::Task[:build_common].invoke()
 end
 
 task :clean_osx do
