@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -78,13 +78,13 @@ main() {
       case 5: xx = xx5; yy = yy5; break;
       case 6: xx = xx6; yy = yy6; break;
     }
-    char fname[100];
-    sprintf( fname, "out/SplineSet%d.txt", k);
-    file.open(fname);
+    string fname;
+    fname = fmt::format( "out/SplineSet{}.txt", k );
+    file.open(fname.c_str());
 
-    sprintf( fname, "out/SplineSet%d_D.txt", k);
-    file_D.open(fname);
-    
+    fname = fmt::format( "out/SplineSet{}_D.txt", k );
+    file_D.open(fname.c_str());
+
     real_type xmin = xx[0];
     real_type xmax = xx[n[k]-1];
 
@@ -100,7 +100,7 @@ main() {
       "SPLINE_PCHIP",
       "SPLINE_QUINTIC"
     };
-    
+
     SplineType1D const stype[] = {
        Splines::CONSTANT_TYPE,
        Splines::LINEAR_TYPE,
@@ -138,6 +138,6 @@ main() {
     file.close();
     file_D.close();
   }
-  
+
   cout << "\nALL DONE!\n\n";
 }

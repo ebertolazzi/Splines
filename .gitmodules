@@ -7,3 +7,6 @@ url=https://github.com/ebertolazzi/quarticRootsFlocke.git
 [submodule "submodules/GenericContainer"]
 	path = submodules/GenericContainer
 url=https://github.com/ebertolazzi/GenericContainer.git
+[submodule "cmake_utils"]
+	path = cmake_utils
+	url = git@github.com:ebertolazzi/cmake_utils.git
