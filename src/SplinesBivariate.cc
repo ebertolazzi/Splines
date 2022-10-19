@@ -552,11 +552,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  using GC_namespace::GC_VECTOR;
-  using GC_namespace::GC_VEC_INTEGER;
-  using GC_namespace::GC_VEC_LONG;
-  using GC_namespace::GC_VEC_REAL;
-  using GC_namespace::GC_MAT_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::mat_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -635,7 +631,7 @@ namespace Splines {
     else              { N = m_nx; M = m_ny; }
     integer LD = fortran_storage ? N : M;
 
-    if ( GC_MAT_REAL == gc_z.get_type() ) {
+    if ( GC_type::MAT_REAL == gc_z.get_type() ) {
       mat_real_type const & z = gc_z.get_mat_real();
       UTILS_ASSERT(
         unsigned(N) == z.numRows() && unsigned(M) == z.numCols(),
@@ -643,9 +639,9 @@ namespace Splines {
         msg, N, M, z.numRows(), z.numCols()
       );
       load_Z( m_Z, LD, fortran_storage, transposed );
-    } else if ( GC_VEC_INTEGER == gc_z.get_type() ||
-                GC_VEC_LONG    == gc_z.get_type() ||
-                GC_VEC_REAL    == gc_z.get_type() ) {
+    } else if ( GC_type::VEC_INTEGER == gc_z.get_type() ||
+                GC_type::VEC_LONG    == gc_z.get_type() ||
+                GC_type::VEC_REAL    == gc_z.get_type() ) {
 
       integer nz  = gc_z.get_num_elements();
       integer nxy = m_nx * m_ny;
@@ -656,7 +652,7 @@ namespace Splines {
       );
       for ( integer i = 0; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
       load_Z( m_Z, LD, fortran_storage, transposed );
-    } else if ( GC_VECTOR == gc_z.get_type() ) {
+    } else if ( GC_type::VECTOR == gc_z.get_type() ) {
       vector_type const & data = gc_z.get_vector();
       vec_real_type tmp;
       UTILS_ASSERT(

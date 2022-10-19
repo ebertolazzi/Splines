@@ -153,7 +153,7 @@ namespace Splines {
   integer
   LinearSpline::order( ) const { return 2; }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

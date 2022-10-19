@@ -33,14 +33,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  using GC_namespace::GC_INTEGER;
-  using GC_namespace::GC_VEC_BOOL;
-  using GC_namespace::GC_VEC_INTEGER;
-  using GC_namespace::GC_VEC_REAL;
-  using GC_namespace::GC_VEC_STRING;
-  using GC_namespace::GC_VECTOR;
-  using GC_namespace::GC_MAP;
-  using GC_namespace::GC_MAT_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::mat_real_type;
   using GC_namespace::vec_int_type;
   using GC_namespace::vec_real_type;
@@ -93,8 +86,8 @@ namespace Splines {
     Yp . resize( size_t(m_nspl) );
 
     // se tipo vettore o matrice deve esserci headers
-    if ( GC_MAT_REAL == gc_ydata.get_type() ||
-         GC_VECTOR   == gc_ydata.get_type() ) {
+    if ( GC_type::MAT_REAL == gc_ydata.get_type() ||
+         GC_type::VECTOR   == gc_ydata.get_type() ) {
       UTILS_ASSERT(
         gc.exists("headers"),
         "{}, missing `headers` field!\n", msg
@@ -110,7 +103,7 @@ namespace Splines {
       );
     }
 
-    if ( GC_MAT_REAL == gc_ydata.get_type() ) {
+    if ( GC_type::MAT_REAL == gc_ydata.get_type() ) {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
       UTILS_ASSERT(
@@ -127,7 +120,7 @@ namespace Splines {
       );
       for ( size_t i = 0; i < size_t(m_nspl); ++i )
         data.getColumn(unsigned(i),Y[i]);
-    } else if ( GC_VECTOR == gc_ydata.get_type() ) {
+    } else if ( GC_type::VECTOR == gc_ydata.get_type() ) {
       vector_type const & data = gc_ydata.get_vector();
       UTILS_ASSERT(
         size_t(m_nspl) == data.size(),
@@ -146,7 +139,7 @@ namespace Splines {
           msg, spl, m_npts, Y[spl].size()
         );
       }
-    } else if ( GC_MAP == gc_ydata.get_type() ) {
+    } else if ( GC_type::MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map();
       UTILS_ASSERT(
         data.size() == size_t(m_nspl),
@@ -180,7 +173,7 @@ namespace Splines {
     if ( gc.exists("ypdata") ) { // yp puo' essere solo tipo map
       GenericContainer const & gc_ypdata = gc("ypdata");
       UTILS_ASSERT(
-        GC_MAP == gc_ypdata.get_type(),
+        GC_type::MAP == gc_ypdata.get_type(),
         "{}, field `ypdata` expected to be of type `map_type` found: `{}`\n",
         msg, gc_ypdata.get_type_name()
       );

@@ -275,7 +275,7 @@ namespace Splines {
     Utils::check_NaN( m_Ypp, (msg+" Ypp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

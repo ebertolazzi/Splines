@@ -134,7 +134,7 @@ namespace Splines {
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
   #endif
 
