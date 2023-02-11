@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -66,13 +66,13 @@ main() {
   };
 
   SplineType1D const stype[] = {
-    Splines::CONSTANT_TYPE,
-    Splines::LINEAR_TYPE,
-    Splines::CUBIC_TYPE,
-    Splines::AKIMA_TYPE,
-    Splines::BESSEL_TYPE,
-    Splines::PCHIP_TYPE,
-    Splines::QUINTIC_TYPE
+    SplineType1D::CONSTANT,
+    SplineType1D::LINEAR,
+    SplineType1D::CUBIC,
+    SplineType1D::AKIMA,
+    SplineType1D::BESSEL,
+    SplineType1D::PCHIP,
+    SplineType1D::QUINTIC
   };
 
   Utils::Malloc<real_type> mem("test5");

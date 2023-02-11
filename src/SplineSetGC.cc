@@ -131,7 +131,7 @@ namespace Splines {
       for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
         GenericContainer const & datai = data[spl];
         integer nrow = m_npts;
-        if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
           size_t(m_npts) == Y[spl].size(),
@@ -153,7 +153,7 @@ namespace Splines {
         headers.push_back(im->first);
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
-        if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
           size_t(m_npts) == Y[spl].size(),
@@ -198,7 +198,7 @@ namespace Splines {
 
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
-        if ( stype[size_t(spl)] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[size_t(spl)] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Yp[size_t(spl)], msg1.c_str() );
         UTILS_ASSERT(
           size_t(m_npts) == Y[spl].size(),

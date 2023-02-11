@@ -11,6 +11,12 @@
 #include "Splines.hh"
 #include "Utils_mex.hh"
 
+#ifdef __clang__
+  #pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
+#include <unordered_map>
+
 namespace Splines {
 
   using namespace std;
@@ -1102,7 +1108,7 @@ namespace Splines {
 
   typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  static map<string,DO_CMD> cmd_to_fun = {
+  static unordered_map<string,DO_CMD> cmd_to_fun = {
     {"base",do_base},
     {"base_D",do_base_D},
     {"base_DD",do_base_DD},
@@ -1181,17 +1187,16 @@ MEX_ERROR_MESSAGE_27 "\n" \
   void
   mexFunction( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
+
+    char cmd[256];
+
     // the first argument must be a string
-    if ( nrhs == 0 ) {
-      mexErrMsgTxt(MEX_ERROR_MESSAGE);
-      return;
-    }
+    if ( nrhs == 0 ) { mexErrMsgTxt(MEX_ERROR_MESSAGE); return; }
 
     try {
       UTILS_MEX_ASSERT0( mxIsChar(arg_in_0), "First argument must be a string" );
-      string cmd = mxArrayToString(arg_in_0);
-      DO_CMD pfun = cmd_to_fun.at(cmd);
-      pfun( nlhs, plhs, nrhs, prhs );
+      mxGetString( arg_in_0, cmd, 256 );
+      cmd_to_fun.at(cmd)( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
       mexErrMsgTxt( fmt::format( "BaseHermite Error: {}", e.what() ).c_str() );
     } catch (...) {

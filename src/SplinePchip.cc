@@ -47,6 +47,7 @@ namespace Splines {
     region_M
   } REGION_ABCDEM;
 
+  #if 0
   static
   REGION_ABCDEM
   get_region( real_type alpha, real_type beta ) {
@@ -63,6 +64,7 @@ namespace Splines {
     if ( beta >= alpha ) return region_B;
     else                 return region_D;
   }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -204,6 +206,7 @@ namespace Splines {
     // cout << "ierr = " << ierr << '\n';
   }
 
+  #if 0
   static // non usata per ora
   void
   Pchip_build_new(
@@ -245,6 +248,7 @@ namespace Splines {
       Yp[i] = fp;
     }
   }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

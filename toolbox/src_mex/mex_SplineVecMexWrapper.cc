@@ -37,9 +37,15 @@ either expressed or implied, of the FreeBSD Project.
     mexErrMsgTxt(ost.str().c_str());               \
   }
 
-using namespace std;
+#ifdef __clang__
+  #pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
+#include <unordered_map>
 
 namespace Splines {
+
+  using namespace std;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
@@ -401,7 +407,7 @@ namespace Splines {
 
   typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  static map<string,DO_CMD> cmd_to_fun = {
+  static unordered_map<string,DO_CMD> cmd_to_fun = {
     {"new",do_new},
     {"delete",do_delete},
     {"setup",do_setup},
@@ -460,19 +466,16 @@ MEX_ERROR_MESSAGE_16 "\n" \
   void
   mexFunction( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
+
+    char cmd[256];
+
     // the first argument must be a string
-    if ( nrhs == 0 ) {
-      mexErrMsgTxt(MEX_ERROR_MESSAGE);
-      return;
-    }
+    if ( nrhs == 0 ) { mexErrMsgTxt(MEX_ERROR_MESSAGE); return; }
 
     try {
-      UTILS_MEX_ASSERT0(
-        mxIsChar(arg_in_0), "First argument must be a string"
-      );
-      string cmd = mxArrayToString(arg_in_0);
-      DO_CMD pfun = cmd_to_fun.at(cmd);
-      pfun( nlhs, plhs, nrhs, prhs );
+      UTILS_MEX_ASSERT0( mxIsChar(arg_in_0), "First argument must be a string" );
+      mxGetString( arg_in_0, cmd, 256 );
+      cmd_to_fun.at(cmd)( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
       mexErrMsgTxt( fmt::format( "SplineVecMexWrapper Error: {}", e.what() ).c_str() );
     } catch (...) {

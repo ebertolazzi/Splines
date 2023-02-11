@@ -70,24 +70,20 @@ extern "C" {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) delete it->second;
     int ok = 0;
-    if ( strcmp( type, Splines::spline_type_1D[Splines::AKIMA_TYPE]) == 0 ) {
-      head = spline_stored[id] = new AkimaSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::BESSEL_TYPE]) == 0 ) {
-      head = spline_stored[id] = new BesselSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::PCHIP_TYPE]) == 0 ) {
-      head = spline_stored[id] = new PchipSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CUBIC_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new CubicSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::LINEAR_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new LinearSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CONSTANT_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new ConstantSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::QUINTIC_TYPE]) == 0 ) {
-      head = spline_stored[id] = new QuinticSpline;
-    } else {
+    switch ( Splines::string_to_splineType1D(type) ) {
+    case SplineType1D::AKIMA:    head = new AkimaSpline;    break;
+    case SplineType1D::BESSEL:   head = new BesselSpline;   break;
+    case SplineType1D::PCHIP:    head = new PchipSpline;    break;
+    case SplineType1D::CUBIC:    head = new CubicSpline;    break;
+    case SplineType1D::LINEAR:   head = new LinearSpline;   break;
+    case SplineType1D::CONSTANT: head = new ConstantSpline; break;
+    case SplineType1D::QUINTIC:  head = new QuinticSpline;  break;
+    default:
       head = nullptr;
-      ok = -1;
+      ok   = -1;
+      break;
     }
+    spline_stored[id] = head;
     return ok;
   }
 

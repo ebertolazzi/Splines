@@ -37,9 +37,15 @@ either expressed or implied, of the FreeBSD Project.
     mexErrMsgTxt(ost.str().c_str());              \
   }
 
-using namespace std;
+#ifdef __clang__
+  #pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
+#include <unordered_map>
 
 namespace Splines {
+
+  using namespace std;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
@@ -88,7 +94,7 @@ namespace Splines {
   static
   void
   do_delete(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
     #define MEX_ERROR_MESSAGE_2 "Spline1DMexWrapper( 'delete', OBJ )"
@@ -107,7 +113,7 @@ namespace Splines {
   static
   void
   do_build(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
 
@@ -134,31 +140,31 @@ namespace Splines {
     if ( nrhs == 5 ) {
       if ( mxIsChar(arg_in_4) ) {
         UTILS_MEX_ASSERT0(
-          ptr->type() == CUBIC_TYPE || ptr->type() == QUINTIC_TYPE,
+          ptr->type() == SplineType1D::CUBIC || ptr->type() == SplineType1D::QUINTIC,
           "subtype can be specifiewd only for Cubic or Quintic spline"
         );
         string subtype = mxArrayToString(arg_in_4);
         switch ( ptr->type() ) {
-        case CONSTANT_TYPE:
-        case LINEAR_TYPE:
-        case AKIMA_TYPE:
-        case BESSEL_TYPE:
-        case PCHIP_TYPE:
-        case HERMITE_TYPE:
+        case SplineType1D::CONSTANT:
+        case SplineType1D::LINEAR:
+        case SplineType1D::AKIMA:
+        case SplineType1D::BESSEL:
+        case SplineType1D::PCHIP:
+        case SplineType1D::HERMITE:
           break;
-        case CUBIC_TYPE:
+        case SplineType1D::CUBIC:
           if ( subtype == "extrapolate" ) {
-            static_cast<CubicSpline*>(ptr)->setInitialBC( EXTRAPOLATE_BC );
-            static_cast<CubicSpline*>(ptr)->setFinalBC( EXTRAPOLATE_BC );
+            static_cast<CubicSpline*>(ptr)->set_initial_BC( CubicSpline_BC::EXTRAPOLATE );
+            static_cast<CubicSpline*>(ptr)->set_final_BC( CubicSpline_BC::EXTRAPOLATE );
           } else if ( subtype == "natural" ) {
-            static_cast<CubicSpline*>(ptr)->setInitialBC( NATURAL_BC );
-            static_cast<CubicSpline*>(ptr)->setFinalBC( NATURAL_BC );
+            static_cast<CubicSpline*>(ptr)->set_initial_BC( CubicSpline_BC::NATURAL );
+            static_cast<CubicSpline*>(ptr)->set_final_BC( CubicSpline_BC::NATURAL );
           } else if ( subtype == "parabolic"  ) {
-            static_cast<CubicSpline*>(ptr)->setInitialBC( PARABOLIC_RUNOUT_BC );
-            static_cast<CubicSpline*>(ptr)->setFinalBC( PARABOLIC_RUNOUT_BC );
+            static_cast<CubicSpline*>(ptr)->set_initial_BC( CubicSpline_BC::PARABOLIC_RUNOUT );
+            static_cast<CubicSpline*>(ptr)->set_final_BC( CubicSpline_BC::PARABOLIC_RUNOUT );
           } else if ( subtype == "not_a_knot" ) {
-            static_cast<CubicSpline*>(ptr)->setInitialBC( NOT_A_KNOT );
-            static_cast<CubicSpline*>(ptr)->setFinalBC( NOT_A_KNOT );
+            static_cast<CubicSpline*>(ptr)->set_initial_BC( CubicSpline_BC::NOT_A_KNOT );
+            static_cast<CubicSpline*>(ptr)->set_final_BC( CubicSpline_BC::NOT_A_KNOT );
           } else {
             UTILS_MEX_ASSERT(
               false,
@@ -168,15 +174,15 @@ namespace Splines {
             );
           }
           break;
-        case QUINTIC_TYPE:
+        case SplineType1D::QUINTIC:
           if ( subtype == "cubic" ) {
-            static_cast<QuinticSpline*>(ptr)->setQuinticType( CUBIC_QUINTIC );
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( QuinticSpline_sub_type::CUBIC );
           } else if ( subtype == "pchip"  ) {
-            static_cast<QuinticSpline*>(ptr)->setQuinticType( PCHIP_QUINTIC );
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( QuinticSpline_sub_type::PCHIP );
           } else if ( subtype == "akima" ) {
-            static_cast<QuinticSpline*>(ptr)->setQuinticType( AKIMA_QUINTIC );
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( QuinticSpline_sub_type::AKIMA );
           } else if ( subtype == "bessel" ) {
-            static_cast<QuinticSpline*>(ptr)->setQuinticType( BESSEL_QUINTIC );
+            static_cast<QuinticSpline*>(ptr)->setQuinticType( QuinticSpline_sub_type::BESSEL );
           } else {
             UTILS_MEX_ASSERT(
               false,
@@ -186,10 +192,12 @@ namespace Splines {
             );
           }
           break;
+        default:
+          break;
         }
       } else {
         UTILS_MEX_ASSERT0(
-          ptr->type() == HERMITE_TYPE,
+          ptr->type() == SplineType1D::HERMITE,
           CMD ": yp can be specified only for Hermite type Spline"
         );
         mwSize nyp;
@@ -201,7 +209,7 @@ namespace Splines {
       }
     }
     switch ( ptr->type() ) {
-    case HERMITE_TYPE:
+    case SplineType1D::HERMITE:
       UTILS_MEX_ASSERT0(
         x != nullptr && y != nullptr && yp != nullptr,
         CMD ": something go wrong in reading x, y, or yp"
@@ -566,7 +574,7 @@ namespace Splines {
   static
   void
   do_make_opened(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
 
@@ -594,7 +602,7 @@ namespace Splines {
     #define MEX_ERROR_MESSAGE_16 "Spline1DMexWrapper('is_closed',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_16
 
-    UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
@@ -608,7 +616,7 @@ namespace Splines {
   static
   void
   do_make_bounded(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
 
@@ -629,7 +637,7 @@ namespace Splines {
   static
   void
   do_make_unbounded(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
 
@@ -657,7 +665,7 @@ namespace Splines {
     #define MEX_ERROR_MESSAGE_19 "res = Spline1DMexWrapper('is_bounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_19
 
-    UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 1 output, nlhs = {}\n", nlhs );
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
@@ -692,7 +700,7 @@ namespace Splines {
   static
   void
   do_make_extended_not_constant(
-    int nlhs, mxArray       *plhs[],
+    int nlhs, mxArray       *[],
     int nrhs, mxArray const *prhs[]
   ) {
 
@@ -901,7 +909,7 @@ namespace Splines {
 
   typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  static map<string,DO_CMD> cmd_to_fun = {
+  static unordered_map<string,DO_CMD> cmd_to_fun = {
     {"new",do_new},
     {"delete",do_delete},
     {"build",do_build},
@@ -987,18 +995,16 @@ MEX_ERROR_MESSAGE_30 "\n" \
   void
   mexFunction( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
+
+    char cmd[256];
+
     // the first argument must be a string
-    if ( nrhs == 0 ) {
-      mexErrMsgTxt(MEX_ERROR_MESSAGE);
-      return;
-    }
+    if ( nrhs == 0 ) { mexErrMsgTxt(MEX_ERROR_MESSAGE); return; }
 
     try {
-
       UTILS_MEX_ASSERT0( mxIsChar(arg_in_0), "First argument must be a string" );
-      string cmd = mxArrayToString(arg_in_0);
-      DO_CMD pfun = cmd_to_fun.at(cmd);
-      pfun( nlhs, plhs, nrhs, prhs );
+      mxGetString( arg_in_0, cmd, 256 );
+      cmd_to_fun.at(cmd)( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
       mexErrMsgTxt( fmt::format( "SplineSetMexWrapper Error: {}", e.what() ).c_str() );
     } catch (...) {

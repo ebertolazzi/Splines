@@ -113,7 +113,7 @@ namespace Splines {
 
     void write_to_stream( ostream_type & s ) const override;
 
-    unsigned type() const override { return QUINTIC_TYPE; }
+    SplineType1D type() const override { return SplineType1D::QUINTIC; }
 
     ///@}
 

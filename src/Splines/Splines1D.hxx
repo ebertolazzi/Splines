@@ -403,7 +403,7 @@ namespace Splines {
     //!
     //! Return spline type (as number).
     //!
-    unsigned
+    SplineType1D
     type() const
     { return m_pSpline->type(); }
 

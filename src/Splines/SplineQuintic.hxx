@@ -29,16 +29,16 @@
 
 namespace Splines {
 
-  typedef enum {
-    CUBIC_QUINTIC = 0,
-    PCHIP_QUINTIC,
-    AKIMA_QUINTIC,
-    BESSEL_QUINTIC
-  } QUINTIC_SPLINE_TYPE;
+  using QuinticSpline_sub_type = enum class QuinticSpline_sub_type : integer {
+    CUBIC  = 0,
+    PCHIP  = 1,
+    AKIMA  = 2,
+    BESSEL = 3
+  };
 
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
-    QUINTIC_SPLINE_TYPE m_q_sub_type;
+    QuinticSpline_sub_type m_q_sub_type{QuinticSpline_sub_type::CUBIC};
   public:
 
     //!
@@ -54,7 +54,6 @@ namespace Splines {
     //! spline constructor
     QuinticSpline( string const & name = "Spline" )
     : QuinticSplineBase( name )
-    , m_q_sub_type(CUBIC_QUINTIC)
     {}
 
     //! spline destructor
@@ -63,7 +62,7 @@ namespace Splines {
     ///@}
 
     void
-    setQuinticType( QUINTIC_SPLINE_TYPE qt )
+    setQuinticType( QuinticSpline_sub_type qt )
     { m_q_sub_type = qt; }
 
     // --------------------------- VIRTUALS -----------------------------------

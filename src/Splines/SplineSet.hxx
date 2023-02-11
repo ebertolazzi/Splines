@@ -1398,9 +1398,9 @@ namespace Splines {
     ///@}
 
     //! Return spline type (as number)
-    unsigned
+    SplineType1D
     type() const
-    { return SPLINE_SET_TYPE; }
+    { return SplineType1D::SPLINE_SET; }
 
     string
     info() const;

@@ -13,6 +13,9 @@ FileUtils.cp_r  "../submodules/GenericContainer/include/.", "./src";
 # elimino dipendenze da Eigen
 FileUtils.rm_rf "./src/Eigen";
 FileUtils.rm_rf "./src/Utils_Poly.cc";
+FileUtils.rm_rf "./src/Utils_GG2D.cc";
+FileUtils.rm_rf "./src/Utils_HJPatternSearch.cc";
+FileUtils.rm_rf "./src/Utils_NelderMead.cc";
 
 #lst = Dir["../doc/*"]
 #lst.each do |filename|

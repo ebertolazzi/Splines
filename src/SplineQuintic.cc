@@ -206,7 +206,7 @@ namespace Splines {
   static
   void
   Quintic_build(
-    QUINTIC_SPLINE_TYPE q_sub_type,
+    QuinticSpline_sub_type q_sub_type,
     real_type const * X,
     real_type const * Y,
     real_type       * Yp,
@@ -214,7 +214,7 @@ namespace Splines {
     integer           npts
   ) {
     switch ( q_sub_type ) {
-    case CUBIC_QUINTIC:
+    case QuinticSpline_sub_type::CUBIC:
       {
         size_t n = size_t(npts > 0 ? npts-1 : 0);
 
@@ -224,19 +224,21 @@ namespace Splines {
         real_type * D = mem( size_t( n+1 ) );
         real_type * U = mem( size_t( n+1 ) );
         CubicSpline_build(
-          X, Y, Yp, Ypp, L, D, U, npts, EXTRAPOLATE_BC, EXTRAPOLATE_BC
+          X, Y, Yp, Ypp, L, D, U, npts,
+          CubicSpline_BC::EXTRAPOLATE,
+          CubicSpline_BC::EXTRAPOLATE
         );
         mem.free();
         QuinticSpline_Yppp_continuous( X, Y, Yp, Ypp, npts, false );
       }
       return;
-    case PCHIP_QUINTIC:
+    case QuinticSpline_sub_type::PCHIP:
       Pchip_build( X, Y, Yp, npts );
       break;
-    case AKIMA_QUINTIC:
+    case QuinticSpline_sub_type::AKIMA:
       Akima_build( X, Y, Yp, npts );
       break;
-    case BESSEL_QUINTIC:
+    case QuinticSpline_sub_type::BESSEL:
       Bessel_build( X, Y, Yp, npts );
       break;
     }
@@ -305,10 +307,10 @@ namespace Splines {
     }
     if ( gc.exists("spline_sub_type") ) {
       std::string const & st = gc("spline_sub_type").get_string();
-      if      ( st == "cubic"  ) m_q_sub_type = CUBIC_QUINTIC;
-      else if ( st == "pchip"  ) m_q_sub_type = PCHIP_QUINTIC;
-      else if ( st == "akima"  ) m_q_sub_type = AKIMA_QUINTIC;
-      else if ( st == "bessel" ) m_q_sub_type = BESSEL_QUINTIC;
+      if      ( st == "cubic"  ) m_q_sub_type = QuinticSpline_sub_type::CUBIC;
+      else if ( st == "pchip"  ) m_q_sub_type = QuinticSpline_sub_type::PCHIP;
+      else if ( st == "akima"  ) m_q_sub_type = QuinticSpline_sub_type::AKIMA;
+      else if ( st == "bessel" ) m_q_sub_type = QuinticSpline_sub_type::BESSEL;
       else {
         UTILS_ERROR( "{} unknow sub type: {}\n", msg, st );
       }

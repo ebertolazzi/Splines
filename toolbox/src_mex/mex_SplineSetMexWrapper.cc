@@ -37,9 +37,15 @@ either expressed or implied, of the FreeBSD Project.
     mexErrMsgTxt(ost.str().c_str());               \
   }
 
-using namespace std;
+#ifdef __clang__
+  #pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
+#include <unordered_map>
 
 namespace Splines {
+
+  using namespace std;
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
@@ -108,12 +114,12 @@ namespace Splines {
     if ( mxIsChar(arg_in_2) ) {
       string tname = mxArrayToString(arg_in_2);
       Splines::SplineType1D st;
-      if      ( tname == "linear"  ) st = LINEAR_TYPE;
-      else if ( tname == "cubic"   ) st = CUBIC_TYPE;
-      else if ( tname == "akima"   ) st = AKIMA_TYPE;
-      else if ( tname == "bessel"  ) st = BESSEL_TYPE;
-      else if ( tname == "pchip"   ) st = PCHIP_TYPE;
-      else if ( tname == "quintic" ) st = QUINTIC_TYPE;
+      if      ( tname == "linear"  ) st = SplineType1D::LINEAR;
+      else if ( tname == "cubic"   ) st = SplineType1D::CUBIC;
+      else if ( tname == "akima"   ) st = SplineType1D::AKIMA;
+      else if ( tname == "bessel"  ) st = SplineType1D::BESSEL;
+      else if ( tname == "pchip"   ) st = SplineType1D::PCHIP;
+      else if ( tname == "quintic" ) st = SplineType1D::QUINTIC;
       else {
         UTILS_MEX_ASSERT0(
           false,
@@ -140,12 +146,12 @@ namespace Splines {
         );
         string tname = mxArrayToString(cell);
         Splines::SplineType1D st;
-        if      ( tname == "linear"  ) st = LINEAR_TYPE;
-        else if ( tname == "cubic"   ) st = CUBIC_TYPE;
-        else if ( tname == "akima"   ) st = AKIMA_TYPE;
-        else if ( tname == "bessel"  ) st = BESSEL_TYPE;
-        else if ( tname == "pchip"   ) st = PCHIP_TYPE;
-        else if ( tname == "quintic" ) st = QUINTIC_TYPE;
+        if      ( tname == "linear"  ) st = SplineType1D::LINEAR;
+        else if ( tname == "cubic"   ) st = SplineType1D::CUBIC;
+        else if ( tname == "akima"   ) st = SplineType1D::AKIMA;
+        else if ( tname == "bessel"  ) st = SplineType1D::BESSEL;
+        else if ( tname == "pchip"   ) st = SplineType1D::PCHIP;
+        else if ( tname == "quintic" ) st = SplineType1D::QUINTIC;
         else {
           UTILS_MEX_ASSERT0(
             false,
@@ -345,7 +351,7 @@ namespace Splines {
 
   typedef void (*DO_CMD)( int nlhs, mxArray *plhs[], int nrhs, mxArray const *prhs[] );
 
-  static map<string,DO_CMD> cmd_to_fun = {
+  static unordered_map<string,DO_CMD> cmd_to_fun = {
     {"new",do_new},
     {"delete",do_delete},
     {"build",do_build},
@@ -389,19 +395,16 @@ MEX_ERROR_MESSAGE_9 "\n" \
   void
   mexFunction( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
+
+    char cmd[256];
+
     // the first argument must be a string
-    if ( nrhs == 0 ) {
-      mexErrMsgTxt(MEX_ERROR_MESSAGE);
-      return;
-    }
+    if ( nrhs == 0 ) { mexErrMsgTxt(MEX_ERROR_MESSAGE); return; }
 
     try {
-      UTILS_MEX_ASSERT0(
-        mxIsChar(arg_in_0), "First argument must be a string"
-      );
-      string cmd = mxArrayToString(arg_in_0);
-      DO_CMD pfun = cmd_to_fun.at(cmd);
-      pfun( nlhs, plhs, nrhs, prhs );
+      UTILS_MEX_ASSERT0( mxIsChar(arg_in_0), "First argument must be a string" );
+      mxGetString( arg_in_0, cmd, 256 );
+      cmd_to_fun.at(cmd)( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
       mexErrMsgTxt( fmt::format( "SplineSetMexWrapper Error: {}", e.what() ).c_str() );
     } catch (...) {

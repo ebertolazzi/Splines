@@ -47,6 +47,8 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  using std::abs;
+
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -60,8 +62,8 @@ namespace Splines {
     real_type di,
     real_type di_p1
   ) {
-    real_type wl  = std::abs(di_p1 - di);
-    real_type wr  = std::abs(di_m1 - di_m2);
+    real_type wl  = abs(di_p1 - di);
+    real_type wr  = abs(di_m1 - di_m2);
     real_type den = wl + wr;
     if ( den <= epsi ) { wl = wr = 0.5; den = 1; } // if epsi == 0
     real_type num = wl * di_m1 + wr * di;

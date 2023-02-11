@@ -92,13 +92,13 @@ main() {
     };
 
     SplineType1D const stype[] = {
-      Splines::CONSTANT_TYPE,
-      Splines::LINEAR_TYPE,
-      Splines::AKIMA_TYPE,
-      Splines::BESSEL_TYPE,
-      Splines::PCHIP_TYPE,
-      Splines::CUBIC_TYPE,
-      Splines::QUINTIC_TYPE
+      SplineType1D::CONSTANT,
+      SplineType1D::LINEAR,
+      SplineType1D::AKIMA,
+      SplineType1D::BESSEL,
+      SplineType1D::PCHIP,
+      SplineType1D::CUBIC,
+      SplineType1D::QUINTIC
     };
 
     // bool const rp_policy[] = { true, true, true, true, true, true, true };

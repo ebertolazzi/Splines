@@ -32,16 +32,16 @@ namespace Splines {
   Spline *
   new_Spline1D( string const & _name, SplineType1D tp ) {
     switch ( tp ) {
-    case CONSTANT_TYPE:   return new ConstantSpline(_name);
-    case LINEAR_TYPE:     return new LinearSpline(_name);
-    case CUBIC_TYPE:      return new CubicSpline(_name);
-    case AKIMA_TYPE:      return new AkimaSpline(_name);
-    case BESSEL_TYPE:     return new BesselSpline(_name);
-    case PCHIP_TYPE:      return new PchipSpline(_name);
-    case QUINTIC_TYPE:    return new QuinticSpline(_name);
-    case HERMITE_TYPE:    break;
-    case SPLINE_SET_TYPE: break;
-    case SPLINE_VEC_TYPE: break;
+    case SplineType1D::CONSTANT:   return new ConstantSpline(_name);
+    case SplineType1D::LINEAR:     return new LinearSpline(_name);
+    case SplineType1D::CUBIC:      return new CubicSpline(_name);
+    case SplineType1D::AKIMA:      return new AkimaSpline(_name);
+    case SplineType1D::BESSEL:     return new BesselSpline(_name);
+    case SplineType1D::PCHIP:      return new PchipSpline(_name);
+    case SplineType1D::QUINTIC:    return new QuinticSpline(_name);
+    case SplineType1D::HERMITE:    break;
+    case SplineType1D::SPLINE_SET: break;
+    case SplineType1D::SPLINE_VEC: break;
     }
     return nullptr;
   }
@@ -97,19 +97,19 @@ namespace Splines {
     );
     SplineType1D tp;
     if ( spl_type == "constant" ) {
-      tp = CONSTANT_TYPE;
+      tp = SplineType1D::CONSTANT;
     } else if ( spl_type == "linear" ) {
-      tp = LINEAR_TYPE;
+      tp = SplineType1D::LINEAR;
     } else if ( spl_type == "cubic" ) {
-      tp = CUBIC_TYPE;
+      tp = SplineType1D::CUBIC;
     } else if ( spl_type == "akima" ) {
-      tp = AKIMA_TYPE;
+      tp = SplineType1D::AKIMA;
     } else if ( spl_type == "bessel" ) {
-      tp = BESSEL_TYPE;
+      tp = SplineType1D::BESSEL;
     } else if ( spl_type == "pchip" ) {
-      tp = PCHIP_TYPE;
+      tp = SplineType1D::PCHIP;
     } else if ( spl_type == "quintic" ) {
-      tp = QUINTIC_TYPE;
+      tp = SplineType1D::QUINTIC;
     } else {
       UTILS_ERROR(
        "Spline1D::setup[{}] unknown type {}, not in "

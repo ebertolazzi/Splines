@@ -273,8 +273,8 @@ namespace Splines {
     real_type       * D,
     real_type       * U,
     integer           npts,
-    CUBIC_SPLINE_TYPE_BC bc0,
-    CUBIC_SPLINE_TYPE_BC bcn
+    CubicSpline_BC    bc0,
+    CubicSpline_BC    bcn
   ) {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
@@ -294,7 +294,7 @@ namespace Splines {
     real_type UU = 0, LL = 0;
 
     switch ( bc0 ) {
-    case EXTRAPOLATE_BC:
+    case CubicSpline_BC::EXTRAPOLATE:
       L[0] = 0; D[0] = 1; U[0] = 0;
       if ( npts == 2 ) {
         Z[0] = 0;
@@ -324,13 +324,13 @@ namespace Splines {
         Z[0] = deriv2_5p_L( SR, hR, SRR, hRR, SRRR, hRRR, SRRRR, hRRRR );
       }
       break;
-    case NATURAL_BC:
+    case CubicSpline_BC::NATURAL:
       L[0] = 0; D[0] = 1; U[0] = 0; Z[0] = 0;
       break;
-    case PARABOLIC_RUNOUT_BC:
+    case CubicSpline_BC::PARABOLIC_RUNOUT:
       L[0] = 0; D[0] = 1; U[0] = -1; Z[0] = 0;
       break;
-    case NOT_A_KNOT:
+    case CubicSpline_BC::NOT_A_KNOT:
       {
         real_type r = (X[1] - X[0])/(X[2] - X[1]);
         // v0 - v1*(1+r) + r*v2 == 0
@@ -344,7 +344,7 @@ namespace Splines {
     }
 
     switch ( bcn ) {
-    case EXTRAPOLATE_BC:
+    case CubicSpline_BC::EXTRAPOLATE:
       L[n] = 0;  D[n] = 1; U[n] = 0;
       if ( npts == 2 ) {
         Z[n] = 0;
@@ -374,13 +374,13 @@ namespace Splines {
         Z[n] = deriv2_5p_R(  SL, hL, SLL, hLL, SLLL, hLLL, SLLLL, hLLLL );
       }
       break;
-    case NATURAL_BC:
+    case CubicSpline_BC::NATURAL:
       L[n] = 0;  D[n] = 1; U[n] = 0; Z[n] = 0;
       break;
-    case PARABOLIC_RUNOUT_BC:
+    case CubicSpline_BC::PARABOLIC_RUNOUT:
       L[n] = -1; D[n] = 1; U[n] = 0; Z[n] = 0;
       break;
-    case NOT_A_KNOT:
+    case CubicSpline_BC::NOT_A_KNOT:
       {
         real_type r = (X[n-1] - X[n-2])/(X[n] - X[n-1]);
         // r*v0 - v1*(1+r) + v2 == 0
@@ -438,8 +438,8 @@ namespace Splines {
     real_type const * Y,
     real_type       * Yp,
     integer           npts,
-    CUBIC_SPLINE_TYPE_BC bc0,
-    CUBIC_SPLINE_TYPE_BC bcn
+    CubicSpline_BC    bc0,
+    CubicSpline_BC    bcn
   ) {
     Malloc_real mem("CubicSpline_build");
     mem.allocate( size_t(4*npts) );
@@ -469,8 +469,8 @@ namespace Splines {
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
-      CUBIC_SPLINE_TYPE_BC seg_bc0 = NOT_A_KNOT;
-      CUBIC_SPLINE_TYPE_BC seg_bcn = NOT_A_KNOT;
+      CubicSpline_BC seg_bc0 = CubicSpline_BC::NOT_A_KNOT;
+      CubicSpline_BC seg_bcn = CubicSpline_BC::NOT_A_KNOT;
       if ( ibegin == 0      ) seg_bc0 = m_bc0;
       if ( iend   == m_npts ) seg_bcn = m_bcn;
       CubicSpline_build(
@@ -532,10 +532,10 @@ namespace Splines {
     }
     if ( gc.exists("bc_begin") ) {
       std::string const & bc = gc("bc_begin").get_string();
-      if      ( bc == "extrapolate" ) m_bc0 = EXTRAPOLATE_BC;
-      else if ( bc == "natural"     ) m_bc0 = NATURAL_BC;
-      else if ( bc == "parabolic"   ) m_bc0 = PARABOLIC_RUNOUT_BC;
-      else if ( bc == "not_a_knot"  ) m_bc0 = NOT_A_KNOT;
+      if      ( bc == "extrapolate" ) m_bc0 = CubicSpline_BC::EXTRAPOLATE;
+      else if ( bc == "natural"     ) m_bc0 = CubicSpline_BC::NATURAL;
+      else if ( bc == "parabolic"   ) m_bc0 = CubicSpline_BC::PARABOLIC_RUNOUT;
+      else if ( bc == "not_a_knot"  ) m_bc0 = CubicSpline_BC::NOT_A_KNOT;
       else {
         UTILS_ERROR( "{} unknow initial bc: {}\n", msg, bc );
       }
@@ -547,10 +547,10 @@ namespace Splines {
 
     if ( gc.exists("bc_end") ) {
       std::string const & bc = gc("bc_end").get_string();
-      if      ( bc == "extrapolate" ) m_bcn = EXTRAPOLATE_BC;
-      else if ( bc == "natural"     ) m_bcn = NATURAL_BC;
-      else if ( bc == "parabolic"   ) m_bcn = PARABOLIC_RUNOUT_BC;
-      else if ( bc == "not_a_knot"  ) m_bcn = NOT_A_KNOT;
+      if      ( bc == "extrapolate" ) m_bcn = CubicSpline_BC::EXTRAPOLATE;
+      else if ( bc == "natural"     ) m_bcn = CubicSpline_BC::NATURAL;
+      else if ( bc == "parabolic"   ) m_bcn = CubicSpline_BC::PARABOLIC_RUNOUT;
+      else if ( bc == "not_a_knot"  ) m_bcn = CubicSpline_BC::NOT_A_KNOT;
       else {
         UTILS_ERROR( "{} unknow final bc: {}\n", msg, bc );
       }

@@ -166,41 +166,22 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  char const * spline_type_1D[] = {
-    "constant",    // 0
-    "linear",      // 1
-    "cubic",       // 2
-    "akima",       // 3
-    "bessel",      // 4
-    "pchip",       // 5
-    "quintic",     // 6
-    "hermite",     // 7
-    "spline set",  // 8
-    "spline vec",  // 9
-    nullptr
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  static char const * spline_type_2D[] = {
-    "bilinear",  // 0
-    "bicubic",   // 1
-    "biquintic", // 2
-    "akima",     // 3
-    nullptr
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   SplineType1D
   string_to_splineType1D( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-    for ( size_t j = 0; spline_type_1D[j] != nullptr; ++j ) {
-      if ( spline_type_1D[j] == n ) return SplineType1D(j);
-    }
+    if      ( n == "constant" )   return SplineType1D::CONSTANT;
+    else if ( n == "linear" )     return SplineType1D::LINEAR;
+    else if ( n == "cubic" )      return SplineType1D::CUBIC;
+    else if ( n == "akima" )      return SplineType1D::AKIMA;
+    else if ( n == "bessel" )     return SplineType1D::BESSEL;
+    else if ( n == "pchip" )      return SplineType1D::PCHIP;
+    else if ( n == "quintic" )    return SplineType1D::QUINTIC;
+    else if ( n == "hermite" )    return SplineType1D::HERMITE;
+    else if ( n == "spline_set" ) return SplineType1D::SPLINE_SET;
+    else if ( n == "spline_vec" ) return SplineType1D::SPLINE_VEC;
     throw std::runtime_error(fmt::format( "string_to_splineType1D({}) unknown type\n", n ));
   }
 
@@ -208,11 +189,41 @@ namespace Splines {
   string_to_splineType2D( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-    for ( size_t j = 0; spline_type_2D[j] != nullptr; ++j ) {
-      if ( spline_type_2D[j] == n ) return SplineType2D(j);
-    }
+    if      ( n == "bilinear"  ) return SplineType2D::BILINEAR;
+    else if ( n == "bicubic"   ) return SplineType2D::BICUBIC;
+    else if ( n == "biquintic" ) return SplineType2D::BIQUINTIC;
+    else if ( n == "akima"     ) return SplineType2D::AKIMA2D;
     throw std::runtime_error(fmt::format( "string_to_splineType2D({}) unknown type\n", n ));
   }
+
+  char const *
+  to_string( SplineType1D t ) {
+    switch( t ) {
+      case SplineType1D::CONSTANT:   return "SPLINE_CONSTANT";
+      case SplineType1D::LINEAR:     return "SPLINE_LINEAR";
+      case SplineType1D::CUBIC:      return "SPLINE_CUBIC";
+      case SplineType1D::AKIMA:      return "SPLINE_AKIMA";
+      case SplineType1D::BESSEL:     return "SPLINE_BESSEL";
+      case SplineType1D::PCHIP:      return "SPLINE_PCHIP";
+      case SplineType1D::QUINTIC:    return "SPLINE_QUINTIC";
+      case SplineType1D::HERMITE:    return "SPLINE_HERMITE";
+      case SplineType1D::SPLINE_SET: return "SPLINE_SPLINE_SET";
+      case SplineType1D::SPLINE_VEC: return "SPLINE_SPLINE_VEC";
+    }
+    return "NO_TYPE";
+  };
+
+  char const *
+  to_string( SplineType2D t ) {
+    switch( t ) {
+      case SplineType2D::BILINEAR:  return "SPLINE2D_BILINEAR";
+      case SplineType2D::BICUBIC:   return "SPLINE2D_BICUBIC";
+      case SplineType2D::BIQUINTIC: return "SPLINE2D_BIQUINTIC";
+      case SplineType2D::AKIMA2D:   return "SPLINE2D_AKIMA2D";
+    }
+    return "NO_TYPE";
+  };
+
   #endif
 
   /*\

@@ -28,12 +28,12 @@
 
 namespace Splines {
 
-  typedef enum {
-    EXTRAPOLATE_BC = 0,
-    NATURAL_BC,
-    PARABOLIC_RUNOUT_BC,
-    NOT_A_KNOT
-  } CUBIC_SPLINE_TYPE_BC;
+  using CubicSpline_BC = enum class CubicSpline_BC : integer {
+    EXTRAPOLATE      = 0,
+    NATURAL          = 1,
+    PARABOLIC_RUNOUT = 2,
+    NOT_A_KNOT       = 3
+  };
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -43,8 +43,8 @@ namespace Splines {
     real_type const * Y,
     real_type       * Yp,
     integer           npts,
-    CUBIC_SPLINE_TYPE_BC bc0,
-    CUBIC_SPLINE_TYPE_BC bcn
+    CubicSpline_BC    bc0,
+    CubicSpline_BC    bcn
   );
 
   void
@@ -57,8 +57,8 @@ namespace Splines {
     real_type       * D,
     real_type       * U,
     integer           npts,
-    CUBIC_SPLINE_TYPE_BC bc0,
-    CUBIC_SPLINE_TYPE_BC bcn
+    CubicSpline_BC    bc0,
+    CubicSpline_BC    bcn
   );
 
   #endif
@@ -68,7 +68,8 @@ namespace Splines {
   //!
   class CubicSpline : public CubicSplineBase {
   private:
-    CUBIC_SPLINE_TYPE_BC m_bc0, m_bcn;
+    CubicSpline_BC m_bc0{CubicSpline_BC::EXTRAPOLATE};
+    CubicSpline_BC m_bcn{CubicSpline_BC::EXTRAPOLATE};
   public:
     //!
     //! \name Constructors
@@ -85,8 +86,6 @@ namespace Splines {
     //!
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
-    , m_bc0( EXTRAPOLATE_BC )
-    , m_bcn( EXTRAPOLATE_BC )
     {}
 
     //!
@@ -106,7 +105,11 @@ namespace Splines {
     //! \param[in] bc0  initial boundary condition.
     //!
     void
-    setInitialBC( CUBIC_SPLINE_TYPE_BC bc0 )
+    set_initial_BC( CubicSpline_BC bc0 )
+    { m_bc0 = bc0; }
+
+    void
+    setInitialBC( CubicSpline_BC bc0 )
     { m_bc0 = bc0; }
 
     //!
@@ -114,7 +117,11 @@ namespace Splines {
     //! \param[in] bcn final boundary condition.
     //!
     void
-    setFinalBC( CUBIC_SPLINE_TYPE_BC bcn )
+    set_final_BC( CubicSpline_BC bcn )
+    { m_bcn = bcn; }
+
+    void
+    setFinalBC( CubicSpline_BC bcn )
     { m_bcn = bcn; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -127,7 +134,7 @@ namespace Splines {
     //!
     //! Return spline type (as number)
     //!
-    unsigned type() const override { return CUBIC_TYPE; }
+    SplineType1D type() const override { return SplineType1D::CUBIC; }
   };
 
 }

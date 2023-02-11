@@ -523,7 +523,7 @@ namespace Splines {
     //!
     //! Return spline type (as number).
     //!
-    unsigned type() const { return SPLINE_VEC_TYPE; }
+    SplineType1D type() const { return SplineType1D::SPLINE_VEC; }
 
     string info() const;
 

@@ -91,7 +91,7 @@ namespace Splines {
     ///@}
 
     void write_to_stream( ostream_type & ) const override;
-    unsigned type() const override { return CONSTANT_TYPE; }
+    SplineType1D type() const override { return SplineType1D::CONSTANT; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
