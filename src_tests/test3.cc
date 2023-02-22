@@ -57,7 +57,7 @@ static real_type yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 };
 static real_type xx6[] = { 0, 1, 2, 3, 4 };
 static real_type yy6[] = { 0, 1, 1.1, 2.0, 2.1 };
 
-static integer n[] = { 11, 11, 11, 9, 12, 4, 5 };
+static integer nn[] = { 11, 11, 11, 9, 12, 4, 5 };
 
 int
 main() {
@@ -86,10 +86,10 @@ main() {
     file_D.open(fname.c_str());
 
     real_type xmin = xx[0];
-    real_type xmax = xx[n[k]-1];
+    real_type xmax = xx[nn[k]-1];
 
     integer nspl = 7;
-    integer npts = n[k];
+    integer npts = nn[k];
 
     char const *headers[] = {
       "SPLINE_CONSTANT",

@@ -53,7 +53,7 @@ static real_type yy4[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.59
 static real_type xx5[] = { 0.11,   0.12,   0.15,   0.16   };
 static real_type yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 };
 
-static integer n[] = { 11, 11, 11, 9, 12, 4 };
+static integer nn[] = { 11, 11, 11, 9, 12, 4 };
 
 int
 main() {
@@ -75,7 +75,7 @@ main() {
   ofstream       file_qs;
 
   for ( integer k = 0; k < 6; ++ k ) {
-    fmt::print("\n\nk = {}\n", k );
+    fmt::print( "\n\nk = {}\n", k );
     real_type * xx = nullptr, * yy = nullptr;
     switch ( k ) {
       case 0: xx = xx0; yy = yy0; break;
@@ -94,14 +94,14 @@ main() {
     fname = fmt::format( "out/Pchip{}.txt",    k); file_pc.open(fname.c_str());
     fname = fmt::format( "out/Quintic{}.txt",  k); file_qs.open(fname.c_str());
     real_type xmin = xx[0];
-    real_type xmax = xx[n[k]-1];
+    real_type xmax = xx[nn[k]-1];
 
     #define SAVE(NAME,S)                                                   \
     fmt::print( "\n\n\n{}\n\n\n", NAME );                                  \
-    fmt::print( #S": n[k] = {}\n", n[k] );                                 \
+    fmt::print( #S": n[k] = {}\n", nn[k] );                                 \
     S.clear();                                                             \
-    S.reserve(n[k]);                                                       \
-    for ( integer i = 0; i < integer(n[k]); ++i )                          \
+    S.reserve(nn[k]);                                                       \
+    for ( integer i = 0; i < integer(nn[k]); ++i )                          \
       S.push_back(xx[i],yy[i]);                                            \
     S.build(); /*( xx, yy, n[k] );*/                                       \
     {                                                                      \
@@ -124,7 +124,7 @@ main() {
     fmt::print( #S": xMin    = {}\n", S.x_min() );                         \
     fmt::print( #S": xMax    = {}\n", S.x_max() );                         \
     fmt::print( #S": xx[0]   = {}\n", xx[0] );                             \
-    fmt::print( #S": xx[end] = {}\n", xx[n[k]-1] );                        \
+    fmt::print( #S": xx[end] = {}\n", xx[nn[k]-1] );                        \
     file_##S << "x\ty\tDy\tDDy\n";                                         \
     for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )           \
       fmt::print( file_##S, "{}\t{}\t{}\t{}\n", x, S(x), S.D(x), S.DD(x) ); \
