@@ -194,11 +194,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::getPosition( char const * hdr ) const {
+  SplineSet::get_position( char const * hdr ) const {
     integer pos = m_header_to_position.search(hdr);
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
-      "SplineSet[{}]::getPosition(\"{}\") not found!\n"
+      "SplineSet[{}]::get_position(\"{}\") not found!\n"
       "available keys: {}\n",
       m_name, hdr, name_list()
     );
@@ -616,7 +616,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -669,7 +669,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_D(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -730,7 +730,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_DD(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -794,7 +794,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_DDD(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 }

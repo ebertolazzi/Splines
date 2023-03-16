@@ -85,13 +85,13 @@ main() {
   ss.build( nspl, npts, headers, stype, xx, Y );
   ss.info(cout);
 
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CONSTANT") );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_LINEAR")   );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CUBIC")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_AKIMA")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_BESSEL")   );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_PCHIP")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_QUINTIC")  );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_CONSTANT") );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_LINEAR")   );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_CUBIC")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_AKIMA")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_BESSEL")   );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_PCHIP")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_QUINTIC")  );
 
 
   file   << "x";

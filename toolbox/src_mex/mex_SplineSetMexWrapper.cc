@@ -205,7 +205,7 @@ namespace Splines {
     mwSize nx;
     real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
-    mwSize dim = ptr->numSplines();
+    mwSize dim = ptr->num_splines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
@@ -235,7 +235,7 @@ namespace Splines {
     mwSize nx;
     real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
-    mwSize dim = ptr->numSplines();
+    mwSize dim = ptr->num_splines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
@@ -265,7 +265,7 @@ namespace Splines {
     mwSize nx;
     real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
-    mwSize dim = ptr->numSplines();
+    mwSize dim = ptr->num_splines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
@@ -295,7 +295,7 @@ namespace Splines {
     mwSize nx;
     real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
 
-    mwSize dim = ptr->numSplines();
+    mwSize dim = ptr->num_splines();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
