@@ -18,11 +18,13 @@ cmake_minimum_required( VERSION 3.14 )
 
 project( Splines )
 
-include(./cmake/CMakeLists-common.txt)
+include(./cmake_utils/CMakeLists-common.txt)
 
 project( ${PROJECT_NAME} VERSION ${EB_PROJECT_VERSION} )
 
-set( CMAKE_BUILD_TYPE Release )
+if ( NOT DEFINED CMAKE_BUILD_TYPE )
+  set( CMAKE_BUILD_TYPE Release )
+endif()
 
 find_package( Matlab REQUIRED )
 
@@ -35,13 +37,13 @@ if ( (UNIX OR LINUX) AND NOT APPLE )
   set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined" )
 endif()
 
-include(./cmake/CMakeLists-cflags.txt)
-include(./cmake/CMakeLists-utilities.txt)
+include(./cmake_utils/CMakeLists-cflags.txt)
+include(./cmake_utils/CMakeLists-utilities.txt)
 
 # Evaluating the suffix to append to target built by this CMake file
-ebertolazzi_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
-if( EB_BUILD_SHARED )
-  ebertolazzi_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
+utils_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
+if( UTILS_BUILD_SHARED )
+  utils_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
 endif()
 
 message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}" )
@@ -111,7 +113,16 @@ include_directories( src src_lib src/Utils )
 
 message( STATUS "SOURCES = ${SOURCES}" )
 
-ebertolazzi_final_messages()
+#   _____                  _
+#  |_   _|_ _ _ _ __ _ ___| |_ ___
+#    | |/ _` | '_/ _` / -_)  _(_-<
+#    |_|\__,_|_| \__, \___|\__/__/
+#                |___/
+#
+
+utils_final_messages()
+
+add_library( Splines STATIC ${SOURCES} )
 
 set(
   MEX_LIST
@@ -122,18 +133,27 @@ set(
   SplineVecMexWrapper
 )
 
+message( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
+if ( CMAKE_BUILD_TYPE MATCHES Debug )
+  message( STATUS "DEBUG MODE\n\n")
+  add_compile_definitions(DEBUG)
+endif()
+
 if ( (UNIX OR LINUX) AND NOT APPLE )
   set( EXTRA_LIBS Threads::Threads ${CMAKE_DL_LIBS} )
 else()
   set( EXTRA_LIBS ${CMAKE_DL_LIBS} )
 endif()
 
+set( EXTRA_LIBS ${EXTRA_LIBS} Splines )
+
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
 foreach(MEX ${MEX_LIST})
 
   matlab_add_mex(
     NAME mex_${MEX}
-    SRC src_mex/mex_${MEX}.cc ${SOURCES}
+    SRC src_mex/mex_${MEX}.cc
     LINK_TO ${EXTRA_LIBS}
     OUTPUT_NAME ${MEX}
   )

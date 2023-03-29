@@ -6,6 +6,7 @@ FileUtils.rm_rf "src"
 Dir.glob("bin/*.mex*").each { |file| File.delete(file)}
 
 FileUtils.cp_r  "../src/.", "./src";
+FileUtils.cp_r  "../cmake_utils/.",   "./cmake_utils";
 FileUtils.cp_r  "../submodules/quarticRootsFlocke/src/.",   "./src";
 FileUtils.cp_r  "../submodules/Utils/src/.",                "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/src/.",     "./src";
@@ -25,6 +26,6 @@ FileUtils.rm_rf "./src/Utils_NelderMead.cc";
 FileUtils.cp "../license.txt", "license.txt"
 
 FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.cc",
-             "./src/GenericContainerMatlabInterface.cc"
+             "./src_mex/GenericContainerMatlabInterface.cc"
 
 FileUtils.cp "../license.txt", "license.txt"
