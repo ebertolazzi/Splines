@@ -7,6 +7,7 @@ Dir.glob("bin/*.mex*").each { |file| File.delete(file)}
 
 FileUtils.cp_r  "../src/.", "./src";
 FileUtils.cp_r  "../cmake_utils/.",   "./cmake_utils";
+FileUtils.rm_rf "./cmake_utils/.git"; # remove git struture
 FileUtils.cp_r  "../submodules/quarticRootsFlocke/src/.",   "./src";
 FileUtils.cp_r  "../submodules/Utils/src/.",                "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/src/.",     "./src";

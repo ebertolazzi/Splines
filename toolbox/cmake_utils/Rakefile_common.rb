@@ -25,14 +25,13 @@ require_relative "./Rakefile_configure.rb"
 case RUBY_PLATFORM
 when /darwin/
   OS = :mac
-when /linux/
+when /linux|cygwin/ # cygwin compile as a linux system
   OS = :linux
-when /cygwin|mswin|mingw|bccwin|wince|emx/
-  # detect windows shell not in msys2
-  OS = :win
 when /msys/
   # msys2 envirorment to compile with MINGW
   OS = :mingw
+else # assume windows
+  OS = :win
 end
 #
 #    ____ __  __    _    _  _______
