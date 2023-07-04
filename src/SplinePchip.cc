@@ -132,12 +132,12 @@ namespace Splines {
 
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
 
-    integer ierr = 0;
+    //integer ierr = 0;
 
     // function definition is ok, go on.
     real_type h1    = X[1] - X[0];
     real_type del1  = (Y[1]-Y[0])/h1;
-    real_type dsave = del1;
+    //real_type dsave = del1;
 
     // special case n=2 -- use linear interpolation.
     if ( n == 1 ) { Yp[0] = Yp[1] = del1; return; }
@@ -174,12 +174,12 @@ namespace Splines {
       switch ( signTest(del1,del2) ) {
       case -1:
         if ( Utils::is_zero(del2) ) break;
-        if ( signTest(dsave,del2) < 0 ) ++ierr;
-        dsave = del2;
+        //if ( signTest(dsave,del2) < 0 ) ++ierr;
+        //dsave = del2;
         break;
       case 0:
-        ++ierr;
-        dsave = del2;
+        //++ierr;
+        //dsave = del2;
         break;
       case 1: // use brodlie modification of butland formula.
         w1   = (1+h1/hsum)/3;

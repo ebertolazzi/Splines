@@ -134,9 +134,9 @@ namespace Splines {
         if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
+          size_t(nrow) == Y[spl].size(),
           "{}, column {} of `ydata` expected of size {} found of size {}\n",
-          msg, spl, m_npts, Y[spl].size()
+          msg, spl, nrow, Y[spl].size()
         );
       }
     } else if ( GC_type::MAP == gc_ydata.get_type() ) {
@@ -156,9 +156,9 @@ namespace Splines {
         if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
+          size_t(nrow) == Y[spl].size(),
           "{}, column `{}` of `ydata` expected of size {} found of size {}\n",
-          msg, im->first, m_npts, Y[spl].size()
+          msg, im->first, nrow, Y[spl].size()
         );
       }
     } else {
@@ -201,9 +201,9 @@ namespace Splines {
         if ( stype[size_t(spl)] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Yp[size_t(spl)], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
+          size_t(nrow) == Y[spl].size(),
           "{}, column `{}` of `ypdata` expected of size {} found of size {}\n",
-          msg, im->first, m_npts, Y[spl].size()
+          msg, im->first, nrow, Y[spl].size()
         );
       }
     }
