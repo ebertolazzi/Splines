@@ -52,7 +52,11 @@ namespace Splines {
     real_type ** m_Y;
     real_type ** m_Yp;
 
-    mutable Utils::BinarySearch<integer> m_bs;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval;
+    #else
+    mutable integer m_last_interval;
+    #endif
 
     void init_last_interval();
     void allocate( integer dim, integer npts );

@@ -240,71 +240,95 @@ namespace Splines {
   integer
   Spline::search( real_type & x ) const {
     UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
-    bool ok;
-    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
     Utils::searchInterval(
       m_npts,
       m_X,
       x,
-      lastInterval,
+      last_interval,
       m_curve_is_closed,
       m_curve_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
   Spline::init_last_interval() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
+    last_interval = 0;
   }
 
   integer
   SplineSurf::search_x( real_type & x ) const {
-    bool ok;
-    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval_x;
+    #endif
     Utils::searchInterval(
       m_nx,
       m_X,
       x,
-      lastInterval,
+      last_interval,
       m_x_closed,
       m_x_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
   SplineSurf::init_last_interval_x() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval_x;
+    #endif
+    last_interval = 0;
   }
 
   integer
   SplineSurf::search_y( real_type & y ) const {
-    bool ok;
-    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval_y;
+    #endif
     Utils::searchInterval(
       m_ny,
       m_Y,
       y,
-      lastInterval,
+      last_interval,
       m_y_closed,
       m_y_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
   SplineSurf::init_last_interval_y() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval_y;
+    #endif
+    last_interval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

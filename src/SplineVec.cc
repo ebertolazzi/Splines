@@ -66,36 +66,42 @@ namespace Splines {
   integer
   SplineVec::search( real_type & x ) const {
     UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
-    bool ok;
-    integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
-    if ( !ok ) *p_lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
     Utils::searchInterval(
       m_npts,
       m_X,
       x,
-      *p_lastInterval,
+      last_interval,
       m_curve_is_closed,
       m_curve_can_extend
     );
-    return *p_lastInterval;
+    return last_interval;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   SplineVec::init_last_interval() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer * p_lastInterval = m_bs.search( std::this_thread::get_id(), ok );
-    *p_lastInterval = 0;
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
+    last_interval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   string
   SplineVec::info() const {
-    return fmt::format(
-      "SplineVec[{}] n.points = {}  dim = {}", name(), m_npts, m_dim
-    );
+    return fmt::format( "SplineVec[{}] n.points = {}  dim = {}", name(), m_npts, m_dim );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

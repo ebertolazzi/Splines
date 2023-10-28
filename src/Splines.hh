@@ -378,7 +378,11 @@ namespace Splines {
     real_type * m_X{nullptr}; // allocated in the derived class!
     real_type * m_Y{nullptr}; // allocated in the derived class!
 
-    mutable Utils::BinarySearch<integer> m_bs;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval;
+    #else
+    mutable integer m_last_interval;
+    #endif
 
     void init_last_interval();
 
@@ -1155,8 +1159,13 @@ namespace Splines {
     real_type    m_Z_min{0};
     real_type    m_Z_max{0};
 
-    mutable Utils::BinarySearch<integer> m_bs_x;
-    mutable Utils::BinarySearch<integer> m_bs_y;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval_x;
+    mutable Utils::BinarySearch<integer> m_last_interval_y;
+    #else
+    mutable integer m_last_interval_x;
+    mutable integer m_last_interval_y;
+    #endif
 
     integer search_x( real_type & x ) const;
     integer search_y( real_type & y ) const;
