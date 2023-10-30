@@ -593,14 +593,10 @@ namespace Splines {
     // gc["zdata"]
     //
     */
-    string msg = fmt::format("SplineSurf[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{}, missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{}, missing `ydata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("zdata"), "{}, missing `zdata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
-    GenericContainer const & gc_z = gc("zdata");
+    string where = fmt::format("SplineSurf[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    GenericContainer const & gc_z = gc("zdata",where.c_str());
 
     m_nx = gc_x.get_num_elements();
     m_ny = gc_y.get_num_elements();
@@ -636,7 +632,7 @@ namespace Splines {
       UTILS_ASSERT(
         unsigned(N) == z.numRows() && unsigned(M) == z.numCols(),
         "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
-        msg, N, M, z.numRows(), z.numCols()
+        where, N, M, z.numRows(), z.numCols()
       );
       load_Z( m_Z, LD, fortran_storage, transposed );
     } else if ( GC_type::VEC_INTEGER == gc_z.get_type() ||
@@ -648,7 +644,7 @@ namespace Splines {
       UTILS_ASSERT(
         nz == nxy,
         "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
-        msg, nxy, m_nx, m_ny, nz
+        where, nxy, m_nx, m_ny, nz
       );
       for ( integer i = 0; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
       load_Z( m_Z, LD, fortran_storage, transposed );
@@ -658,16 +654,16 @@ namespace Splines {
       UTILS_ASSERT(
         size_t(M) == data.size(),
         "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
-        msg, M, data.size()
+        where, M, data.size()
       );
       for ( integer j = 0; j < M; ++j ) {
         GenericContainer const & row = data[size_t(j)];
-        string msg1 = fmt::format( "{}, reading row {}\n", msg, j );
+        string msg1 = fmt::format( "{}, reading row {}\n", where, j );
         row.copyto_vec_real( tmp, msg1.c_str() );
         UTILS_ASSERT(
           size_t(N) == tmp.size(),
           "{}, row {}-th of size {}, expected {}\n",
-          msg, j, tmp.size(), N
+          where, j, tmp.size(), N
         );
         if ( transposed ) {
           for ( integer i = 0; i < N; ++i )
@@ -682,7 +678,7 @@ namespace Splines {
       UTILS_ERROR(
         "{}, field `z` expected to be of type"
         " `mat_real_type` or  `vec_real_type` or `vector_type` found: `{}`\n",
-        msg, gc_z.get_type_name()
+        where, gc_z.get_type_name()
       );
     }
 

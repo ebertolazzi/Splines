@@ -285,26 +285,22 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("HermiteSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"),  "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"),  "{} missing `ydata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ypdata"), "{} missing `ypdata` field!\n", msg );
-
-    GenericContainer const & gc_x  = gc("xdata");
-    GenericContainer const & gc_y  = gc("ydata");
-    GenericContainer const & gc_yp = gc("ypdata");
+    string where = fmt::format("HermiteSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x  = gc("xdata",where.c_str());
+    GenericContainer const & gc_y  = gc("ydata",where.c_str());
+    GenericContainer const & gc_yp = gc("ypdata",where.c_str());
 
     vec_real_type x, y, yp;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ypdata'", msg );
+      std::string ff = fmt::format( "{}, field `ypdata'", where );
       gc_yp.copyto_vec_real( yp, ff.c_str() );
     }
     this->build( x, y, yp );

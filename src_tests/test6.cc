@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -48,7 +48,7 @@ main() {
   file_D.open("out/SplineSet_D.txt");
   fileR.open("out/SplineSetR.txt");
   fileR_D.open("out/SplineSetR_D.txt");
-  
+
   real_type xmin = xx[0];
   real_type xmax = xx[npt-1];
 
@@ -82,8 +82,14 @@ main() {
   for ( integer i = 0; i < nspl; ++i ) {
     GC::GenericContainer & di = data[size_t(i)];
     GC::vec_real_type    & v  = di.set_vec_real();
-    v.resize( size_t(npts) );
-    std::copy_n( Y[i], npts, v.begin() );
+    if ( i == 0 ) {
+      // spline constante ha 1 punto in meno
+      v.resize( size_t(npts-1) );
+      std::copy_n( Y[i], npts-1, v.begin() );
+    } else {
+      v.resize( size_t(npts) );
+      std::copy_n( Y[i], npts, v.begin() );
+    }
   }
 
   GC::vec_real_type & xdata = gc["xdata"].set_vec_real();

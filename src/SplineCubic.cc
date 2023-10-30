@@ -514,49 +514,46 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("CubicSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `y`data field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("CubicSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     if ( gc.exists("bc_begin") ) {
-      std::string const & bc = gc("bc_begin").get_string();
+      std::string const & bc = gc.get_map_string("bc_begin",where.c_str());
       if      ( bc == "extrapolate" ) m_bc0 = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bc0 = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bc0 = CubicSpline_BC::PARABOLIC_RUNOUT;
       else if ( bc == "not_a_knot"  ) m_bc0 = CubicSpline_BC::NOT_A_KNOT;
       else {
-        UTILS_ERROR( "{} unknow initial bc: {}\n", msg, bc );
+        UTILS_ERROR( "{} unknow initial bc: {}\n", where, bc );
       }
     } else {
       UTILS_WARNING( false,
-        "{}, missing field `bc_begin` using `extrapolate` as default value\n", msg
+        "{}, missing field `bc_begin` using `extrapolate` as default value\n", where
       );
     }
 
     if ( gc.exists("bc_end") ) {
-      std::string const & bc = gc("bc_end").get_string();
+      std::string const & bc = gc.get_map_string("bc_end",where.c_str());
       if      ( bc == "extrapolate" ) m_bcn = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bcn = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bcn = CubicSpline_BC::PARABOLIC_RUNOUT;
       else if ( bc == "not_a_knot"  ) m_bcn = CubicSpline_BC::NOT_A_KNOT;
       else {
-        UTILS_ERROR( "{} unknow final bc: {}\n", msg, bc );
+        UTILS_ERROR( "{} unknow final bc: {}\n", where, bc );
       }
     } else {
       UTILS_WARNING( false,
-        "{}, missing field `bc_begin` using `extrapolate` as default value\n", msg
+        "{}, missing field `bc_begin` using `extrapolate` as default value\n", where
       );
     }
     this->build( x, y );

@@ -557,6 +557,7 @@ namespace Splines {
   SplineVec::setup( GenericContainer const & ) {
     //allocate( integer dim, integer npts );
     // DA COMPLETARE
+    UTILS_ERROR("SplineVec::setup not yet implemented");
   }
 
 }

@@ -92,9 +92,9 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    std::string spl_type = gc("spline_type").get_string(
-      "Spline1D::setup, spline_type expected to be a string\n"
-    );
+    string where = fmt::format("Spline1D[{}]::setup( gc ):", m_name );
+    std::string const & spl_type = gc.get_map_string("spline_type",where.c_str());
+
     SplineType1D tp;
     if ( spl_type == "constant" ) {
       tp = SplineType1D::CONSTANT;
