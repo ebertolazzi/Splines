@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -57,7 +57,7 @@ static real_type yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 };
 static real_type xx6[] = { 0, 1, 2, 3, 4 };
 static real_type yy6[] = { 0, 1, 1.1, 2.0, 2.1 };
 
-static integer n[] = { 11, 11, 11, 9, 12, 4, 5 };
+static integer nn[] = { 11, 11, 11, 9, 12, 4, 5 };
 
 int
 main() {
@@ -78,18 +78,18 @@ main() {
       case 5: xx = xx5; yy = yy5; break;
       case 6: xx = xx6; yy = yy6; break;
     }
-    char fname[100];
-    sprintf( fname, "out/SplineSet%d.txt", k);
-    file.open(fname);
+    string fname;
+    fname = fmt::format( "out/SplineSet{}.txt", k );
+    file.open(fname.c_str());
 
-    sprintf( fname, "out/SplineSet%d_D.txt", k);
-    file_D.open(fname);
-    
+    fname = fmt::format( "out/SplineSet{}_D.txt", k );
+    file_D.open(fname.c_str());
+
     real_type xmin = xx[0];
-    real_type xmax = xx[n[k]-1];
+    real_type xmax = xx[nn[k]-1];
 
     integer nspl = 7;
-    integer npts = n[k];
+    integer npts = nn[k];
 
     char const *headers[] = {
       "SPLINE_CONSTANT",
@@ -100,15 +100,15 @@ main() {
       "SPLINE_PCHIP",
       "SPLINE_QUINTIC"
     };
-    
+
     SplineType1D const stype[] = {
-       Splines::CONSTANT_TYPE,
-       Splines::LINEAR_TYPE,
-       Splines::CUBIC_TYPE,
-       Splines::AKIMA_TYPE,
-       Splines::BESSEL_TYPE,
-       Splines::PCHIP_TYPE,
-       Splines::QUINTIC_TYPE
+       SplineType1D::CONSTANT,
+       SplineType1D::LINEAR,
+       SplineType1D::CUBIC,
+       SplineType1D::AKIMA,
+       SplineType1D::BESSEL,
+       SplineType1D::PCHIP,
+       SplineType1D::QUINTIC
     };
 
     //bool const rp_policy[] = { true, true, true, true, true, true, true };
@@ -138,6 +138,6 @@ main() {
     file.close();
     file_D.close();
   }
-  
+
   cout << "\nALL DONE!\n\n";
 }

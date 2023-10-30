@@ -47,6 +47,7 @@ namespace Splines {
     region_M
   } REGION_ABCDEM;
 
+  #if 0
   static
   REGION_ABCDEM
   get_region( real_type alpha, real_type beta ) {
@@ -63,6 +64,7 @@ namespace Splines {
     if ( beta >= alpha ) return region_B;
     else                 return region_D;
   }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -108,18 +110,18 @@ namespace Splines {
     return sa*sb;
   }
 
-  //! 
+  //!
   //! References:
   //! ==========
-  //! 
+  //!
   //! F.N. Fritsch, R.E. Carlson:
   //! Monotone Piecewise Cubic Interpolation,
   //! SIAM J. Numer. Anal. Vol 17, No. 2, April 1980
-  //! 
+  //!
   //! F.N. Fritsch and J. Butland:
   //! A method for constructing local monotone piecewise cubic interpolants,
   //! SIAM Journal on Scientific and Statistical Computing 5, 2 (June 1984), pp. 300-304.
-  //! 
+  //!
   void
   Pchip_build(
     real_type const * X,
@@ -130,12 +132,12 @@ namespace Splines {
 
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
 
-    integer ierr = 0;
+    //integer ierr = 0;
 
     // function definition is ok, go on.
     real_type h1    = X[1] - X[0];
     real_type del1  = (Y[1]-Y[0])/h1;
-    real_type dsave = del1;
+    //real_type dsave = del1;
 
     // special case n=2 -- use linear interpolation.
     if ( n == 1 ) { Yp[0] = Yp[1] = del1; return; }
@@ -171,13 +173,13 @@ namespace Splines {
       // count number of changes in direction of monotonicity.
       switch ( signTest(del1,del2) ) {
       case -1:
-        if ( Utils::isZero(del2) ) break;
-        if ( signTest(dsave,del2) < 0 ) ++ierr;
-        dsave = del2;
+        if ( Utils::is_zero(del2) ) break;
+        //if ( signTest(dsave,del2) < 0 ) ++ierr;
+        //dsave = del2;
         break;
       case 0:
-        ++ierr;
-        dsave = del2;
+        //++ierr;
+        //dsave = del2;
         break;
       case 1: // use brodlie modification of butland formula.
         w1   = (1+h1/hsum)/3;
@@ -204,6 +206,7 @@ namespace Splines {
     // cout << "ierr = " << ierr << '\n';
   }
 
+  #if 0
   static // non usata per ora
   void
   Pchip_build_new(
@@ -245,6 +248,7 @@ namespace Splines {
       Yp[i] = fp;
     }
   }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -256,8 +260,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -272,10 +276,10 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -287,20 +291,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("PchipSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("PchipSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

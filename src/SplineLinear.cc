@@ -97,7 +97,7 @@ namespace Splines {
       m_X              = m_baseValue( size_t(n) );
       m_Y              = m_baseValue( size_t(n) );
     }
-    initLastInterval();
+    init_last_interval();
     m_npts = 0;
   }
 
@@ -153,7 +153,7 @@ namespace Splines {
   integer
   LinearSpline::order( ) const { return 2; }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -165,20 +165,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("LinearSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("LinearSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
@@ -195,9 +192,7 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT0(
-      m_npts > 0, "LinearSpline::y_min_max() empty spline!"
-    );
+    UTILS_ASSERT( m_npts > 0, "LinearSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
@@ -233,9 +228,7 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT0(
-      m_npts > 0, "LinearSpline::y_min_max() empty spline!"
-    );
+    UTILS_ASSERT( m_npts > 0, "LinearSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     for ( integer i = 1; i < m_npts-1; ++i ) {
       real_type const & P0 = m_Y[i-1];

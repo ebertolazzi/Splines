@@ -42,9 +42,6 @@ namespace Splines {
 
   integer
   SplineSet::BinarySearch::search( std::string const & id ) const {\
-    //for ( auto e : data )
-    //  std::cout << e.first << " -> " << e.second << '\n';
-    // binary search
     size_t U = data.size();
     size_t L = 0;
     while ( U-L > 1 ) {
@@ -156,8 +153,8 @@ namespace Splines {
   SplineSet::yNodes( integer i ) const {
     UTILS_ASSERT(
       i >=0 && i < m_nspl,
-      "SplineSet::yNodes({}) argument out of range [0,{}]\n",
-      i, m_nspl-1
+      "SplineSet[{}]::yNodes({}) argument out of range [0,{}]\n",
+      m_name, i, m_nspl-1
     );
     return m_Y[i];
   }
@@ -168,8 +165,8 @@ namespace Splines {
   SplineSet::get_spline( integer i ) const {
     UTILS_ASSERT(
       i >= 0 && i < m_nspl,
-      "SplineSet::get_spline({}) argument out of range [0,{}]\n",
-      i, m_nspl-1
+      "SplineSet[{}]::get_spline({}) argument out of range [0,{}]\n",
+      m_name, i, m_nspl-1
     );
     return m_splines[i];
   }
@@ -178,7 +175,7 @@ namespace Splines {
 
   void
   SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
-    Utils::Malloc<real_type> mem("SplineSet::dump_table");
+    Malloc_real mem("SplineSet::dump_table");
     mem.allocate( size_t(m_nspl) );
     real_type * vals = mem( size_t(m_nspl) );
     stream << 's';
@@ -197,13 +194,13 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::getPosition( char const * hdr ) const {
+  SplineSet::get_position( char const * hdr ) const {
     integer pos = m_header_to_position.search(hdr);
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
-      "SplineSet::getPosition(\"{}\") not found!\n"
+      "SplineSet[{}]::get_position(\"{}\") not found!\n"
       "available keys: {}\n",
-      hdr, name_list()
+      m_name, hdr, name_list()
     );
     return pos;
   }
@@ -243,24 +240,24 @@ namespace Splines {
     integer mem = npts;
     for ( integer spl = 0; spl < nspl; ++spl ) {
       switch (stype[size_t(spl)]) {
-      case QUINTIC_TYPE:
+      case SplineType1D::QUINTIC:
         mem += npts; // Y, Yp, Ypp
-      case CUBIC_TYPE:
-      case AKIMA_TYPE:
-      case BESSEL_TYPE:
-      case PCHIP_TYPE:
-      case HERMITE_TYPE:
+      case SplineType1D::CUBIC:
+      case SplineType1D::AKIMA:
+      case SplineType1D::BESSEL:
+      case SplineType1D::PCHIP:
+      case SplineType1D::HERMITE:
         mem += npts; // Y, Yp
-      case CONSTANT_TYPE:
-      case LINEAR_TYPE:
+      case SplineType1D::CONSTANT:
+      case SplineType1D::LINEAR:
         mem += npts;
       break;
-      case SPLINE_SET_TYPE:
-      case SPLINE_VEC_TYPE:
+      case SplineType1D::SPLINE_SET:
+      case SplineType1D::SPLINE_VEC:
       //default:
         UTILS_ERROR(
           "{} At spline n.{} named {} cannot be done for type = {}\n",
-          msg, spl, headers[spl], stype[spl]
+          msg, spl, headers[spl], to_string(stype[spl])
         );
       }
     }
@@ -282,7 +279,7 @@ namespace Splines {
       real_type * & pYpp = m_Ypp[spl];
       pY = m_baseValue(size_t(m_npts));
       std::copy_n( data_Y[spl], npts, pY );
-      if ( stype[spl] == CONSTANT_TYPE ) {
+      if ( stype[spl] == SplineType1D::CONSTANT ) {
         m_Ymin[spl] = *std::min_element( pY, pY+npts-1 );
         m_Ymax[spl] = *std::max_element( pY, pY+npts-1 );
       } else {
@@ -291,15 +288,15 @@ namespace Splines {
       }
       pYpp = pYp = nullptr;
       switch ( stype[size_t(spl)] ) {
-      case QUINTIC_TYPE:
+      case SplineType1D::QUINTIC:
         pYpp = m_baseValue( size_t(m_npts) );
-      case CUBIC_TYPE:
-      case AKIMA_TYPE:
-      case BESSEL_TYPE:
-      case PCHIP_TYPE:
-      case HERMITE_TYPE:
+      case SplineType1D::CUBIC:
+      case SplineType1D::AKIMA:
+      case SplineType1D::BESSEL:
+      case SplineType1D::PCHIP:
+      case SplineType1D::HERMITE:
         pYp = m_baseValue( size_t(m_npts) );
-        if ( stype[spl] == HERMITE_TYPE ) {
+        if ( stype[spl] == SplineType1D::HERMITE ) {
           UTILS_ASSERT(
             data_Yp != nullptr && data_Yp[spl] != nullptr,
             "{} At spline n.{} named {}\n"
@@ -308,10 +305,10 @@ namespace Splines {
           );
           std::copy_n( data_Yp[spl], npts, pYp );
         }
-      case CONSTANT_TYPE:
-      case LINEAR_TYPE:
-      case SPLINE_SET_TYPE:
-      case SPLINE_VEC_TYPE:
+      case SplineType1D::CONSTANT:
+      case SplineType1D::LINEAR:
+      case SplineType1D::SPLINE_SET:
+      case SplineType1D::SPLINE_VEC:
       //default:
         break;
       }
@@ -320,14 +317,14 @@ namespace Splines {
 
       m_is_monotone[spl] = -1;
       switch (stype[size_t(spl)]) {
-      case CONSTANT_TYPE:
+      case SplineType1D::CONSTANT:
         s = new ConstantSpline(h);
         static_cast<ConstantSpline*>(s)->reserve_external( m_npts, m_X, pY );
         static_cast<ConstantSpline*>(s)->m_npts = m_npts;
         static_cast<ConstantSpline*>(s)->build();
         break;
 
-      case LINEAR_TYPE:
+      case SplineType1D::LINEAR:
         s = new LinearSpline(h);
         static_cast<LinearSpline*>(s)->reserve_external( m_npts, m_X, pY );
         static_cast<LinearSpline*>(s)->m_npts = m_npts;
@@ -336,13 +333,13 @@ namespace Splines {
         { integer flag = 1;
           for ( integer j = 1; j < m_npts; ++j ) {
             if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
-            if ( Utils::isZero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
+            if ( Utils::is_zero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
           }
           m_is_monotone[spl] = flag;
         }
         break;
 
-      case CUBIC_TYPE:
+      case SplineType1D::CUBIC:
         s = new CubicSpline(h);
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
@@ -350,7 +347,7 @@ namespace Splines {
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
-      case AKIMA_TYPE:
+      case SplineType1D::AKIMA:
         s = new AkimaSpline(h);
         static_cast<AkimaSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<AkimaSpline*>(s)->m_npts = m_npts;
@@ -358,7 +355,7 @@ namespace Splines {
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
-      case BESSEL_TYPE:
+      case SplineType1D::BESSEL:
         s = new BesselSpline(h);
         static_cast<BesselSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<BesselSpline*>(s)->m_npts = m_npts;
@@ -366,7 +363,7 @@ namespace Splines {
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
-      case PCHIP_TYPE:
+      case SplineType1D::PCHIP:
         s = new PchipSpline(h);
         static_cast<PchipSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<PchipSpline*>(s)->m_npts = m_npts;
@@ -374,7 +371,7 @@ namespace Splines {
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
-      case HERMITE_TYPE:
+      case SplineType1D::HERMITE:
         s = new HermiteSpline(h);
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
@@ -382,21 +379,21 @@ namespace Splines {
         m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
         break;
 
-      case QUINTIC_TYPE:
+      case SplineType1D::QUINTIC:
         s = new QuinticSpline(h);
         static_cast<QuinticSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp, pYpp );
         static_cast<QuinticSpline*>(s)->m_npts = m_npts;
         static_cast<QuinticSpline*>(s)->build();
         break;
 
-      case SPLINE_SET_TYPE:
-      case SPLINE_VEC_TYPE:
+      case SplineType1D::SPLINE_SET:
+      case SplineType1D::SPLINE_VEC:
       //default:
         UTILS_ERROR(
           "{} At spline n.{} named {}\n"
           "{} not allowed as spline type\n"
           "in SplineSet::build for {}-th spline\n",
-          msg, spl, headers[spl], stype[size_t(spl)], spl
+          msg, spl, headers[spl], to_string(stype[size_t(spl)]), spl
         );
       }
       m_header_to_position.insert( s->name(), integer(spl) );
@@ -524,7 +521,7 @@ namespace Splines {
 
     integer interval = integer(lower_bound( X, X+m_npts, zeta ) - X);
     if ( interval > 0 ) --interval;
-    if ( Utils::isZero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
+    if ( Utils::is_zero(X[size_t(interval)]-X[size_t(interval+1)]) ) ++interval; // degenerate interval for duplicated nodes
     if ( interval >= m_npts-1 ) interval = m_npts-2;
 
     // compute intersection
@@ -542,7 +539,7 @@ namespace Splines {
       a < b,
       "{} Bad x interval [{},{}]\n", msg,  a, b
     );
-    if ( S->type() == LINEAR_TYPE ) {
+    if ( S->type() == SplineType1D::LINEAR ) {
       x = a + (b-a)*(zeta-ya)/(yb-ya);
     } else {
       real_type const * dX = m_Yp[spl];
@@ -619,7 +616,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -672,7 +669,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_D(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -733,7 +730,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_DD(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 
@@ -797,7 +794,7 @@ namespace Splines {
     char const * name
   ) const {
     return this->eval2_DDD(
-      zeta, this->getPosition(indep), this->getPosition(name)
+      zeta, this->get_position(indep), this->get_position(name)
     );
   }
 }

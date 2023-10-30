@@ -56,7 +56,7 @@ namespace Splines {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-    Utils::Malloc<real_type> mem("Bessel_build");
+    Malloc_real mem("Bessel_build");
     real_type * m = mem.malloc( size_t(n+1) );
 
     // calcolo slopes
@@ -92,8 +92,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -103,10 +103,10 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -118,20 +118,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("BesselSpline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("BesselSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

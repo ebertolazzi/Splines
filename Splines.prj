@@ -177,7 +177,7 @@ setup.m</param.exclude.filters>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>12.3.1</osver>
+      <osver>13.2.1</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>

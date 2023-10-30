@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -38,20 +38,12 @@ namespace Splines {
       m_spline_2D = nullptr;
     }
     switch ( tp ) {
-    case BILINEAR_TYPE:
-      m_spline_2D = new BilinearSpline(m_name);
-      break;
-    case BICUBIC_TYPE:
-      m_spline_2D = new BiCubicSpline(m_name);
-      break;
-    case BIQUINTIC_TYPE:
-      m_spline_2D = new BiQuinticSpline(m_name);
-      break;
-    case AKIMA2D_TYPE:
-      m_spline_2D = new Akima2Dspline(m_name);
-      break;
-    default:
-      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
+    case SplineType2D::BILINEAR:  m_spline_2D = new BilinearSpline(m_name);  break;
+    case SplineType2D::BICUBIC:   m_spline_2D = new BiCubicSpline(m_name);   break;
+    case SplineType2D::BIQUINTIC: m_spline_2D = new BiQuinticSpline(m_name); break;
+    case SplineType2D::AKIMA2D:   m_spline_2D = new Akima2Dspline(m_name);   break;
+//    default:
+//      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
     }
   }
 

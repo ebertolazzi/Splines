@@ -52,9 +52,13 @@ namespace Splines {
     real_type ** m_Y;
     real_type ** m_Yp;
 
-    mutable Utils::BinarySearch<integer> m_bs;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval;
+    #else
+    mutable integer m_last_interval;
+    #endif
 
-    void initLastInterval();
+    void init_last_interval();
     void allocate( integer dim, integer npts );
     void computeChords();
 
@@ -523,7 +527,7 @@ namespace Splines {
     //!
     //! Return spline type (as number).
     //!
-    unsigned type() const { return SPLINE_VEC_TYPE; }
+    SplineType1D type() const { return SplineType1D::SPLINE_VEC; }
 
     string info() const;
 

@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -33,7 +33,7 @@ using Splines::integer;
 static real_type xx[] = { 0, 0.9, 2.1, 3, 4.5 };
 static real_type yy[] = { 0, 1, 1.1, 2.0, 2.1 };
 
-static integer n = 5;
+static integer npt = 5;
 
 int
 main() {
@@ -49,10 +49,10 @@ main() {
   fileR_D.open("out/SplineSetR_D.txt");
 
   real_type xmin = xx[0];
-  real_type xmax = xx[n-1];
+  real_type xmax = xx[npt-1];
 
   integer  nspl = 7;
-  integer  npts = n;
+  integer  npts = npt;
   real_type val[8], val_D[8];
 
   char const *headers[] = {
@@ -66,13 +66,13 @@ main() {
   };
 
   SplineType1D const stype[] = {
-    Splines::CONSTANT_TYPE,
-    Splines::LINEAR_TYPE,
-    Splines::CUBIC_TYPE,
-    Splines::AKIMA_TYPE,
-    Splines::BESSEL_TYPE,
-    Splines::PCHIP_TYPE,
-    Splines::QUINTIC_TYPE
+    SplineType1D::CONSTANT,
+    SplineType1D::LINEAR,
+    SplineType1D::CUBIC,
+    SplineType1D::AKIMA,
+    SplineType1D::BESSEL,
+    SplineType1D::PCHIP,
+    SplineType1D::QUINTIC
   };
 
   Utils::Malloc<real_type> mem("test5");
@@ -85,13 +85,13 @@ main() {
   ss.build( nspl, npts, headers, stype, xx, Y );
   ss.info(cout);
 
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CONSTANT") );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_LINEAR")   );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_CUBIC")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_AKIMA")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_BESSEL")   );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_PCHIP")    );
-  fmt::print( "position = {}\n", ss.getPosition("SPLINE_QUINTIC")  );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_CONSTANT") );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_LINEAR")   );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_CUBIC")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_AKIMA")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_BESSEL")   );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_PCHIP")    );
+  fmt::print( "position = {}\n", ss.get_position("SPLINE_QUINTIC")  );
 
 
   file   << "x";
@@ -119,7 +119,7 @@ main() {
 
 
   xmin = yy[0];
-  xmax = yy[n-1];
+  xmax = yy[npt-1];
 
   fileR   << "x";
   fileR_D << "x";

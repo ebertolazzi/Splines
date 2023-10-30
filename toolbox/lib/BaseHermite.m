@@ -1,4 +1,4 @@
-classdef BaseHermite < handle
+classdef BaseHermite < matlab.mixin.Copyable
 
   methods
     %>
@@ -11,7 +11,7 @@ classdef BaseHermite < handle
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base (cubic degree) at point(s) t for the interval 
+    %> Evaluate an Hermite base (cubic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
@@ -52,11 +52,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base derivative at point(s) t for the interval 
+    %> Evaluate an Hermite base derivative at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
@@ -84,11 +84,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base_D( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base_D',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base_D',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base second derivative at point(s) t for the interval 
+    %> Evaluate an Hermite base second derivative at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
     %>
@@ -116,11 +116,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base_DD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base_DD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base_DD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base third derivative at point(s) t for the interval 
+    %> Evaluate an Hermite base third derivative at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
     %> \rst
@@ -146,7 +146,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base_DDD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base_DDD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base_DDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -169,7 +169,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function P = eval( ~, varargin )
-      P = BaseHermiteWrapper('eval',varargin{:});
+      P = BaseHermiteMexWrapper('eval',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -186,7 +186,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function dP = eval_D( ~, varargin )
-      dP = BaseHermiteWrapper('eval_D',varargin{:});
+      dP = BaseHermiteMexWrapper('eval_D',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -203,11 +203,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function ddP = eval_DD( ~, varargin )
-      ddP = BaseHermiteWrapper('eval_DD',varargin{:});
+      ddP = BaseHermiteMexWrapper('eval_DD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate the third derivative \f$ \mathbf{p}'''(t) \f$ of the 
+    %> Evaluate the third derivative \f$ \mathbf{p}'''(t) \f$ of the
     %> cubic polynomial defined on Hermite data:
     %>
     %>
@@ -221,11 +221,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function dddP = eval_DDD( ~, varargin )
-      dddP = BaseHermiteWrapper('eval_DDD',varargin{:});
+      dddP = BaseHermiteMexWrapper('eval_DDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base (quintic degree) at point(s) t for the interval 
+    %> Evaluate an Hermite base (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
     %> \rst
@@ -269,11 +269,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base derivatives (quintic degree) at point(s) t for the interval 
+    %> Evaluate an Hermite base derivatives (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
     %> \rst
@@ -300,11 +300,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5_D( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5_D',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_D',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate an Hermite base second derivatives (quintic degree) at point(s) t for the interval 
+    %> Evaluate an Hermite base second derivatives (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
     %> \rst
@@ -331,7 +331,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5_DD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5_DD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -363,7 +363,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5_DDD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5_DDD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -395,7 +395,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5_DDDD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5_DDDD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -427,7 +427,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function varargout = base5_DDDDD( ~, varargin )
-      [varargout{1:nargout}] = BaseHermiteWrapper('base5_DDDDD',varargin{:});
+      [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDDDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -438,7 +438,7 @@ classdef BaseHermite < handle
     %>   .. math::
     %>
     %>     \begin{eqnarray}
-    %>       \mathbf{p}(t)   &=& h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+ 
+    %>       \mathbf{p}(t)   &=& h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+
     %>                           h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1+
     %>                           h_4(t)\mathbf{j}_0+ h_5(t)\mathbf{j}_1  \\
     %>       \mathbf{p}(t,H) &=& h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+
@@ -454,7 +454,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function P = eval5( ~, varargin )
-      P = BaseHermiteWrapper('eval5',varargin{:});
+      P = BaseHermiteMexWrapper('eval5',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -471,7 +471,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function dP = eval5_D( ~, varargin )
-      dP = BaseHermiteWrapper('eval5_D',varargin{:});
+      dP = BaseHermiteMexWrapper('eval5_D',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -488,11 +488,11 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function ddP = eval5_DD( ~, varargin )
-      ddP = BaseHermiteWrapper('eval5_DD',varargin{:});
+      ddP = BaseHermiteMexWrapper('eval5_DD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
-    %> Evaluate the third derivative \f$  \mathbf{p}'''(t) \f$ of 
+    %> Evaluate the third derivative \f$  \mathbf{p}'''(t) \f$ of
     %> the quintic polynomial defined on Hermite data:
     %>
     %> \rst
@@ -505,7 +505,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function dddP = eval5_DDD( ~, varargin )
-      dddP = BaseHermiteWrapper('eval5_DDD',varargin{:});
+      dddP = BaseHermiteMexWrapper('eval5_DDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -522,7 +522,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function ddddP = eval5_DDDD( ~, varargin )
-      ddddP = BaseHermiteWrapper('eval5_DDDD',varargin{:});
+      ddddP = BaseHermiteMexWrapper('eval5_DDDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -539,7 +539,7 @@ classdef BaseHermite < handle
     %> \endrst
     %>
     function dddddP = eval5_DDDDD( ~, varargin )
-      dddddP = BaseHermiteWrapper('eval5_DDDDD',varargin{:});
+      dddddP = BaseHermiteMexWrapper('eval5_DDDDD',varargin{:});
     end
     % --------------------------------------------------------------------
     %>
@@ -549,7 +549,7 @@ classdef BaseHermite < handle
     %>
     %>   .. math::
     %>
-    %>     \mathbf{p}(t) = 
+    %>     \mathbf{p}(t) =
     %>     h_0(t)\mathbf{p}_0 + h_1(t)\mathbf{p}_1 +
     %>     h_2(t)\mathbf{t}_0 + h_3(t)\mathbf{t}_1
     %>
@@ -558,7 +558,7 @@ classdef BaseHermite < handle
     %> return the Bezier polynomial of the same cubic
     %>
     function [P0,P1,P2,P3] = hermite_to_bezier( ~, p0, p1, t0, t1 )
-      [P0,P1,P2,P3] = BaseHermiteWrapper('hermite_to_bezier',p0, p1, t0, t1);
+      [P0,P1,P2,P3] = BaseHermiteMexWrapper('hermite_to_bezier',p0, p1, t0, t1);
     end
     % --------------------------------------------------------------------
     %>
@@ -566,23 +566,23 @@ classdef BaseHermite < handle
     %> return the Hermite data for the same polynomial
     %>
     function [P0,P1,T0,T1] = bezier_to_hermite( ~, p0, p1, p2, p3 )
-      [P0,P1,T0,T1] = BaseHermiteWrapper('bezier_to_hermite',p0, p1, p2, p3);
+      [P0,P1,T0,T1] = BaseHermiteMexWrapper('bezier_to_hermite',p0, p1, p2, p3);
     end
     %
     % --------------------------------------------------------------------
     %
     function [D1,sqrtD1] = L2_first_derivative( ~ )
-      sqrtD1 = BaseHermiteWrapper('L2_first_derivative');
+      sqrtD1 = BaseHermiteMexWrapper('L2_first_derivative');
       D1     = sqrtD1*sqrtD1.';
     end
     % --------------------------------------------------------------------
     function [D2,sqrtD2] = L2_second_derivative( ~ )
-      sqrtD2 = BaseHermiteWrapper('L2_second_derivative');
+      sqrtD2 = BaseHermiteMexWrapper('L2_second_derivative');
       D2     = sqrtD2*sqrtD2.';
     end
     % --------------------------------------------------------------------
     function [D3,sqrtD3] = L2_third_derivative( ~ )
-      sqrtD3 = BaseHermiteWrapper('L2_third_derivative');
+      sqrtD3 = BaseHermiteMexWrapper('L2_third_derivative');
       D3     = sqrtD3*sqrtD3.';
     end
     % --------------------------------------------------------------------
@@ -602,7 +602,7 @@ classdef BaseHermite < handle
     %> The length is approximated usin 100 linear segment.
     %>
     function L = approximate_length( ~, varargin )
-      L = BaseHermiteWrapper( 'approximate_length', varargin{:} );
+      L = BaseHermiteMexWrapper( 'approximate_length', varargin{:} );
     end
     % --------------------------------------------------------------------
     %>
@@ -621,7 +621,7 @@ classdef BaseHermite < handle
     %> The parametrization of the new Hermite data is on [0,1]
     %>
     function [P0,P1,T0,T1] = cut( ~, varargin )
-      [P0,P1,T0,T1] = BaseHermiteWrapper( 'cut', varargin{:} );
+      [P0,P1,T0,T1] = BaseHermiteMexWrapper( 'cut', varargin{:} );
     end
   end
 end

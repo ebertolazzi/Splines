@@ -23,8 +23,8 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../src ${CMAKE_CURRENT_SOURCE_D
 
 if ( UNIX OR LINUX )
   if ( NOT APPLE )
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-    set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined")
   endif()
 else()
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
@@ -34,7 +34,10 @@ endif()
 set( MEX_LIST BaseHermite Spline1D Spline2D SplineSet SplineVec )
 
 foreach( BASE ${MEX_LIST})
-  matlab_add_mex( NAME ${BASE}MexWrapper SRC ${CMAKE_CURRENT_SOURCE_DIR}/../src_mex/mex_${BASE}MexWrapper.cc ${SOURCES} )
+  matlab_add_mex(
+    NAME ${BASE}MexWrapper
+    SRC ${CMAKE_CURRENT_SOURCE_DIR}/../src_mex/mex_${BASE}MexWrapper.cc ${SOURCES}
+  )
 
   add_custom_command(
     TARGET ${BASE}MexWrapper

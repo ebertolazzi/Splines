@@ -70,9 +70,9 @@ main() {
     ofstream file_ak("out/akima2d.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc(xxx,yyy) << '\t';
         file_bq << bq(xxx,yyy) << '\t';
         file_bl << bl(xxx,yyy) << '\t';
@@ -97,9 +97,9 @@ main() {
     ofstream file_ak("out/akima2d_Dx.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc.Dx(xxx,yyy) << '\t';
         file_bq << bq.Dx(xxx,yyy) << '\t';
         file_bl << bl.Dx(xxx,yyy) << '\t';
@@ -124,9 +124,9 @@ main() {
     ofstream file_ak("out/akima2d_Dxx.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc.Dxx(xxx,yyy) << '\t';
         file_bq << bq.Dxx(xxx,yyy) << '\t';
         file_bl << bl.Dxx(xxx,yyy) << '\t';
@@ -151,9 +151,9 @@ main() {
     ofstream file_ak("out/akima2d_Dy.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc.Dy(xxx,yyy) << '\t';
         file_bq << bq.Dy(xxx,yyy) << '\t';
         file_bl << bl.Dy(xxx,yyy) << '\t';
@@ -178,9 +178,9 @@ main() {
     ofstream file_ak("out/akima2d_Dyy.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc.Dyy(xxx,yyy) << '\t';
         file_bq << bq.Dyy(xxx,yyy) << '\t';
         file_bl << bl.Dyy(xxx,yyy) << '\t';
@@ -205,9 +205,9 @@ main() {
     ofstream file_ak("out/akima2d_Dxy.txt");
 
     for ( int i = 0; i <= 100; ++i ) {
-      real_type xxx = bc.xMin() + (bc.xMax()-bc.xMin())*i/100.0;
+      real_type xxx = bc.x_min() + (bc.x_max()-bc.x_min())*i/100.0;
       for ( int j = 0; j <= 100; ++j ) {
-        real_type yyy = bc.yMin() + (bc.yMax()-bc.yMin())*j/100.0;
+        real_type yyy = bc.y_min() + (bc.y_max()-bc.y_min())*j/100.0;
         file_bc << bc.Dxy(xxx,yyy) << '\t';
         file_bq << bq.Dxy(xxx,yyy) << '\t';
         file_bl << bl.Dxy(xxx,yyy) << '\t';

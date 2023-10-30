@@ -70,24 +70,20 @@ extern "C" {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) delete it->second;
     int ok = 0;
-    if ( strcmp( type, Splines::spline_type_1D[Splines::AKIMA_TYPE]) == 0 ) {
-      head = spline_stored[id] = new AkimaSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::BESSEL_TYPE]) == 0 ) {
-      head = spline_stored[id] = new BesselSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::PCHIP_TYPE]) == 0 ) {
-      head = spline_stored[id] = new PchipSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CUBIC_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new CubicSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::LINEAR_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new LinearSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::CONSTANT_TYPE] ) == 0 ) {
-      head = spline_stored[id] = new ConstantSpline;
-    } else if ( strcmp( type, Splines::spline_type_1D[Splines::QUINTIC_TYPE]) == 0 ) {
-      head = spline_stored[id] = new QuinticSpline;
-    } else {
+    switch ( Splines::string_to_splineType1D(type) ) {
+    case SplineType1D::AKIMA:    head = new AkimaSpline;    break;
+    case SplineType1D::BESSEL:   head = new BesselSpline;   break;
+    case SplineType1D::PCHIP:    head = new PchipSpline;    break;
+    case SplineType1D::CUBIC:    head = new CubicSpline;    break;
+    case SplineType1D::LINEAR:   head = new LinearSpline;   break;
+    case SplineType1D::CONSTANT: head = new ConstantSpline; break;
+    case SplineType1D::QUINTIC:  head = new QuinticSpline;  break;
+    default:
       head = nullptr;
-      ok = -1;
+      ok   = -1;
+      break;
     }
+    spline_stored[id] = head;
     return ok;
   }
 
@@ -129,7 +125,7 @@ extern "C" {
   char const *
   SPLINE_get_type_name() {
     if ( head == nullptr ) return "NOTYPE - head = nullptr";
-    return head -> type_name();
+    return head->type_name();
   }
 
   void *
@@ -141,7 +137,7 @@ extern "C" {
   int
   SPLINE_init() {
     if ( head != nullptr ) {
-      head -> clear();
+      head->clear();
       return 0;
     } else {
       return -1;
@@ -151,7 +147,7 @@ extern "C" {
   int
   SPLINE_push( double x, double y ) {
     if ( head != nullptr ) {
-      head -> pushBack(x,y);
+      head->push_back(x,y);
       return 0;
     } else {
       return -1;
@@ -175,7 +171,7 @@ extern "C" {
     int            n
   ) {
     if ( head != nullptr ) {
-      head -> build( x, y, n );
+      head->build( x, y, n );
       return 0;
     } else {
       return -1;
@@ -185,7 +181,7 @@ extern "C" {
   double
   SPLINE_eval( double x ) {
     if ( head != nullptr ) {
-      return head -> operator()(x);
+      return head->operator()(x);
     } else {
       return 0;
     }
@@ -194,7 +190,7 @@ extern "C" {
   double
   SPLINE_eval_D( double x ) {
     if ( head != nullptr ) {
-      return head -> D(x);
+      return head->D(x);
     } else {
       return 0;
     }
@@ -203,7 +199,7 @@ extern "C" {
   double
   SPLINE_eval_DD( double x ) {
     if ( head != nullptr ) {
-      return head -> DD(x);
+      return head->DD(x);
     } else {
       return 0;
     }
@@ -212,7 +208,7 @@ extern "C" {
   double
   SPLINE_eval_DDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDD(x);
+      return head->DDD(x);
     } else {
       return 0;
     }
@@ -221,7 +217,7 @@ extern "C" {
   double
   SPLINE_eval_DDDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDDD(x);
+      return head->DDDD(x);
     } else {
       return 0;
     }
@@ -230,7 +226,7 @@ extern "C" {
   double
   SPLINE_eval_DDDDD( double x ) {
     if ( head != nullptr ) {
-      return head -> DDDDD(x);
+      return head->DDDDD(x);
     } else {
       return 0;
     }

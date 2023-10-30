@@ -33,14 +33,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  using GC_namespace::GC_INTEGER;
-  using GC_namespace::GC_VEC_BOOL;
-  using GC_namespace::GC_VEC_INTEGER;
-  using GC_namespace::GC_VEC_REAL;
-  using GC_namespace::GC_VEC_STRING;
-  using GC_namespace::GC_VECTOR;
-  using GC_namespace::GC_MAP;
-  using GC_namespace::GC_MAT_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::mat_real_type;
   using GC_namespace::vec_int_type;
   using GC_namespace::vec_real_type;
@@ -64,108 +57,92 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
-    string msg = fmt::format( "SplineSet[{}]::setup( gc ): ", m_name );
-
-    UTILS_ASSERT(
-      gc.exists("spline_type"), "{}, missing `spline_type` field!\n", msg
-    );
-    gc("spline_type").copyto_vec_string(
-      spline_type_vec, (msg+"in reading `spline_type'\n").c_str()
+    string where = fmt::format( "SplineSet[{}]::setup( gc ): ", m_name );
+    gc("spline_type",where.c_str()).copyto_vec_string(
+      spline_type_vec, (where+"in reading `spline_type'\n").c_str()
     );
     m_nspl = integer(spline_type_vec.size());
     stype.resize( size_t(m_nspl) );
     for ( size_t spl = 0; spl < size_t(m_nspl); ++spl )
       stype[spl] = string_to_splineType1D( spline_type_vec[spl] );
 
-    UTILS_ASSERT(
-      gc.exists("xdata"), "{}, missing `xdata` field!\n", msg
-    );
-    gc("xdata").copyto_vec_real( X, (msg+"reading `xdata'").c_str() );
+    gc("xdata",where.c_str()).copyto_vec_real( X, (where+"reading `xdata'").c_str() );
     m_npts = integer( X.size() );
 
-    UTILS_ASSERT(
-      gc.exists("ydata"), "{}, missing `ydata` field!\n", msg
-    );
-    GenericContainer const & gc_ydata = gc("ydata");
+    GenericContainer const & gc_ydata = gc("ydata",where.c_str());
 
     // allocate for _nspl splines
     Y  . resize( size_t(m_nspl) );
     Yp . resize( size_t(m_nspl) );
 
     // se tipo vettore o matrice deve esserci headers
-    if ( GC_MAT_REAL == gc_ydata.get_type() ||
-         GC_VECTOR   == gc_ydata.get_type() ) {
-      UTILS_ASSERT(
-        gc.exists("headers"),
-        "{}, missing `headers` field!\n", msg
-      );
-      GenericContainer const & gc_headers = gc("headers");
-      gc_headers.copyto_vec_string(
-        headers, (msg+", reading `headers'").c_str()
-      );
+    if ( GC_type::MAT_REAL == gc_ydata.get_type() ||
+         GC_type::VECTOR   == gc_ydata.get_type() ) {
+      GenericContainer const & gc_headers = gc("headers",where.c_str());
+      gc_headers.copyto_vec_string( headers, (where+", reading `headers'").c_str() );
       UTILS_ASSERT(
         headers.size() == size_t(m_nspl),
         "{}, field `headers` expected to be of size {} found of size {}\n",
-        msg, m_nspl, headers.size()
+        where, m_nspl, headers.size()
       );
     }
 
-    if ( GC_MAT_REAL == gc_ydata.get_type() ) {
+    if ( GC_type::MAT_REAL == gc_ydata.get_type() ) {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
       UTILS_ASSERT(
         size_t(m_nspl) == data.numCols(),
         "{}, number of splines [{}]\n"
         "differs from the number of `ydata` columns [{}] in data\n",
-        msg, m_nspl, data.numCols()
+        where, m_nspl, data.numCols()
       );
       UTILS_ASSERT(
         size_t(m_npts) == data.numRows(),
         "{}, number of points [{}]\n"
         "differs from the number of `ydata` rows [{}] in data\n",
-        msg, m_npts, data.numRows()
+        where, m_npts, data.numRows()
       );
       for ( size_t i = 0; i < size_t(m_nspl); ++i )
         data.getColumn(unsigned(i),Y[i]);
-    } else if ( GC_VECTOR == gc_ydata.get_type() ) {
+    } else if ( GC_type::VECTOR == gc_ydata.get_type() ) {
       vector_type const & data = gc_ydata.get_vector();
       UTILS_ASSERT(
         size_t(m_nspl) == data.size(),
         "{}, field `ydata` expected of size {} found of size {}\n",
-        msg, m_nspl, data.size()
+        where, m_nspl, data.size()
       );
-      string msg1 = msg+" reading `ydata` columns";
+      string msg1 = where+" reading `ydata` columns";
       for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
         GenericContainer const & datai = data[spl];
         integer nrow = m_npts;
-        if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
-          "{}, column {} of `ydata` expected of size {} found of size {}\n",
-          msg, spl, m_npts, Y[spl].size()
+          size_t(nrow) == Y[spl].size(),
+          "{}, column {} of `ydata` of type `{}` expected of size {} found of size {}\n",
+          where, spl, spline_type_vec[spl], nrow, Y[spl].size()
         );
       }
-    } else if ( GC_MAP == gc_ydata.get_type() ) {
+    } else if ( GC_type::MAP == gc_ydata.get_type() ) {
       map_type const & data = gc_ydata.get_map();
       UTILS_ASSERT(
         data.size() == size_t(m_nspl),
         "{}, field `ydata` expected of size {} found of size {}\n",
-        msg, m_nspl, data.size()
+        where, m_nspl, data.size()
       );
       headers.clear(); headers.reserve(data.size());
       map_type::const_iterator im = data.begin();
-      string msg1 = msg+" reading `ydata` columns";
+      string msg1 = where+" reading `ydata` columns";
       for ( size_t spl = 0; im != data.end(); ++im, ++spl ) {
         headers.push_back(im->first);
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
-        if ( stype[spl] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
-          "{}, column `{}` of `ydata` expected of size {} found of size {}\n",
-          msg, im->first, m_npts, Y[spl].size()
+          size_t(nrow) == Y[spl].size(),
+          "{}, column `{}` of `ydata` ot type `{}` expected of size {} found of size {}\n",
+          where, im->first, spline_type_vec[spl], nrow, Y[spl].size()
         );
       }
     } else {
@@ -173,16 +150,16 @@ namespace Splines {
         "{}, field `data` expected\n"
         "to be of type `mat_real_type`, `vector_type` or `map_type'\n"
         "found: `{}`\n",
-        msg, gc_ydata.get_type_name()
+        where, gc_ydata.get_type_name()
       );
     }
 
     if ( gc.exists("ypdata") ) { // yp puo' essere solo tipo map
       GenericContainer const & gc_ypdata = gc("ypdata");
       UTILS_ASSERT(
-        GC_MAP == gc_ypdata.get_type(),
+        GC_type::MAP == gc_ypdata.get_type(),
         "{}, field `ypdata` expected to be of type `map_type` found: `{}`\n",
-        msg, gc_ypdata.get_type_name()
+        where, gc_ypdata.get_type_name()
       );
 
       std::map<string,integer> h_to_pos;
@@ -190,7 +167,7 @@ namespace Splines {
       for ( integer idx = 0; is != headers.end(); ++is )
         h_to_pos[*is] = idx++;
 
-      string msg1 = msg+" reading `ypdata` columns";
+      string msg1 = where+" reading `ypdata` columns";
       map_type const & data = gc_ypdata.get_map();
       map_type::const_iterator im = data.begin();
       for (; im != data.end(); ++im ) {
@@ -199,23 +176,23 @@ namespace Splines {
         UTILS_ASSERT(
           is_pos != h_to_pos.end(),
           "{}, column `{}` of `ypdata` not found\n",
-          msg, im->first
+          where, im->first
         );
         integer spl = is_pos->second;
 
         GenericContainer const & datai = im->second;
         integer nrow = m_npts;
-        if ( stype[size_t(spl)] == CONSTANT_TYPE ) --nrow; // constant spline uses n-1 points
+        if ( stype[size_t(spl)] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
         datai.copyto_vec_real( Yp[size_t(spl)], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(m_npts) == Y[spl].size(),
-          "{}, column `{}` of `ypdata` expected of size {} found of size {}\n",
-          msg, im->first, m_npts, Y[spl].size()
+          size_t(nrow) == Y[spl].size(),
+          "{}, column `{}` of `ypdata` or type `{}` expected of size {} found of size {}\n",
+          where, im->first, spline_type_vec[spl], nrow, Y[spl].size()
         );
       }
     }
 
-    Utils::Malloc<void*> mem( msg );
+    Utils::Malloc<void*> mem( where );
     mem.allocate( size_t( 3*m_nspl ) );
 
     void ** __headers = mem( size_t( m_nspl ) );
@@ -249,7 +226,7 @@ namespace Splines {
         ne == m_nspl,
         "{}, field `boundary` expected a"
         " generic vector of size: {} but is of size: {}\n",
-        msg, ne, m_nspl
+        where, ne, m_nspl
       );
 
       for ( integer ispl = 0; ispl < ne; ++ispl ) {

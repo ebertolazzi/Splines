@@ -345,13 +345,9 @@ namespace Splines {
     //!
     void
     setup( GenericContainer const & gc ) {
-      string msg = fmt::format("Spline2D[{}]::setup( gc ):", m_name );
-      UTILS_ASSERT(
-        gc.exists("spline_type"), "{}, missing `spline_type` field!\n", msg
-      );
-      string type = gc("spline_type").get_string();
+      string where = fmt::format("Spline2D[{}]::setup( gc ):", m_name );
+      string type = gc.get_map_string("spline_type",where.c_str());
       new_spline( string_to_splineType2D( type ) );
-
       m_spline_2D->setup( gc );
     }
 

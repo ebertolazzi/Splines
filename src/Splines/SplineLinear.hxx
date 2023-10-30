@@ -30,8 +30,8 @@ namespace Splines {
 
   //! Linear spline class
   class LinearSpline : public Spline {
-    Utils::Malloc<real_type> m_baseValue;
-    bool                     m_external_alloc;
+    Malloc_real m_baseValue;
+    bool        m_external_alloc;
 
   public:
 
@@ -70,7 +70,7 @@ namespace Splines {
     real_type id_DDD( integer, real_type ) const override { return 0; }
 
     void write_to_stream( ostream_type & s ) const override;
-    unsigned type() const override { return LINEAR_TYPE; }
+    SplineType1D type() const override { return SplineType1D::LINEAR; }
 
     // --------------------------- VIRTUALS -----------------------------------
 

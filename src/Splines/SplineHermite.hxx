@@ -46,7 +46,7 @@ namespace Splines {
     ~HermiteSpline() override {}
 
     //! Return spline type (as number)
-    unsigned type() const override { return HERMITE_TYPE; }
+    SplineType1D type() const override { return SplineType1D::HERMITE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 

@@ -166,41 +166,22 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  char const * spline_type_1D[] = {
-    "constant",    // 0
-    "linear",      // 1
-    "cubic",       // 2
-    "akima",       // 3
-    "bessel",      // 4
-    "pchip",       // 5
-    "quintic",     // 6
-    "hermite",     // 7
-    "spline set",  // 8
-    "spline vec",  // 9
-    nullptr
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  static char const * spline_type_2D[] = {
-    "bilinear",  // 0
-    "bicubic",   // 1
-    "biquintic", // 2
-    "akima",     // 3
-    nullptr
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   SplineType1D
   string_to_splineType1D( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-    for ( size_t j = 0; spline_type_1D[j] != nullptr; ++j ) {
-      if ( spline_type_1D[j] == n ) return SplineType1D(j);
-    }
+    if      ( n == "constant" )   return SplineType1D::CONSTANT;
+    else if ( n == "linear" )     return SplineType1D::LINEAR;
+    else if ( n == "cubic" )      return SplineType1D::CUBIC;
+    else if ( n == "akima" )      return SplineType1D::AKIMA;
+    else if ( n == "bessel" )     return SplineType1D::BESSEL;
+    else if ( n == "pchip" )      return SplineType1D::PCHIP;
+    else if ( n == "quintic" )    return SplineType1D::QUINTIC;
+    else if ( n == "hermite" )    return SplineType1D::HERMITE;
+    else if ( n == "spline_set" ) return SplineType1D::SPLINE_SET;
+    else if ( n == "spline_vec" ) return SplineType1D::SPLINE_VEC;
     throw std::runtime_error(fmt::format( "string_to_splineType1D({}) unknown type\n", n ));
   }
 
@@ -208,11 +189,41 @@ namespace Splines {
   string_to_splineType2D( std::string const & nin ) {
     std::string n = nin;
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-    for ( size_t j = 0; spline_type_2D[j] != nullptr; ++j ) {
-      if ( spline_type_2D[j] == n ) return SplineType2D(j);
-    }
+    if      ( n == "bilinear"  ) return SplineType2D::BILINEAR;
+    else if ( n == "bicubic"   ) return SplineType2D::BICUBIC;
+    else if ( n == "biquintic" ) return SplineType2D::BIQUINTIC;
+    else if ( n == "akima"     ) return SplineType2D::AKIMA2D;
     throw std::runtime_error(fmt::format( "string_to_splineType2D({}) unknown type\n", n ));
   }
+
+  char const *
+  to_string( SplineType1D t ) {
+    switch( t ) {
+      case SplineType1D::CONSTANT:   return "SPLINE_CONSTANT";
+      case SplineType1D::LINEAR:     return "SPLINE_LINEAR";
+      case SplineType1D::CUBIC:      return "SPLINE_CUBIC";
+      case SplineType1D::AKIMA:      return "SPLINE_AKIMA";
+      case SplineType1D::BESSEL:     return "SPLINE_BESSEL";
+      case SplineType1D::PCHIP:      return "SPLINE_PCHIP";
+      case SplineType1D::QUINTIC:    return "SPLINE_QUINTIC";
+      case SplineType1D::HERMITE:    return "SPLINE_HERMITE";
+      case SplineType1D::SPLINE_SET: return "SPLINE_SPLINE_SET";
+      case SplineType1D::SPLINE_VEC: return "SPLINE_SPLINE_VEC";
+    }
+    return "NO_TYPE";
+  };
+
+  char const *
+  to_string( SplineType2D t ) {
+    switch( t ) {
+      case SplineType2D::BILINEAR:  return "SPLINE2D_BILINEAR";
+      case SplineType2D::BICUBIC:   return "SPLINE2D_BICUBIC";
+      case SplineType2D::BIQUINTIC: return "SPLINE2D_BIQUINTIC";
+      case SplineType2D::AKIMA2D:   return "SPLINE2D_AKIMA2D";
+    }
+    return "NO_TYPE";
+  };
+
   #endif
 
   /*\
@@ -228,72 +239,96 @@ namespace Splines {
 
   integer
   Spline::search( real_type & x ) const {
-    UTILS_ASSERT0( m_npts > 0, "in Spline::search(...), npts == 0!" );
-    bool ok;
-    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
     Utils::searchInterval(
       m_npts,
       m_X,
       x,
-      lastInterval,
+      last_interval,
       m_curve_is_closed,
       m_curve_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
-  Spline::initLastInterval() {
+  Spline::init_last_interval() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval;
+    #endif
+    last_interval = 0;
   }
 
   integer
   SplineSurf::search_x( real_type & x ) const {
-    bool ok;
-    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval_x;
+    #endif
     Utils::searchInterval(
       m_nx,
       m_X,
       x,
-      lastInterval,
+      last_interval,
       m_x_closed,
       m_x_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
-  SplineSurf::initLastInterval_x() {
+  SplineSurf::init_last_interval_x() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs_x.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval_x;
+    #endif
+    last_interval = 0;
   }
 
   integer
   SplineSurf::search_y( real_type & y ) const {
-    bool ok;
-    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
-    if ( !ok ) lastInterval = 0;
+    #ifdef SPLINES_USE_THREADS
+    bool ok{true};
+    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
+    if ( !ok ) last_interval = 0;
+    #else
+    integer & last_interval = m_last_interval_y;
+    #endif
     Utils::searchInterval(
       m_ny,
       m_Y,
       y,
-      lastInterval,
+      last_interval,
       m_y_closed,
       m_y_can_extend
     );
-    return lastInterval;
+    return last_interval;
   }
 
   void
-  SplineSurf::initLastInterval_y() {
+  SplineSurf::init_last_interval_y() {
+    #ifdef SPLINES_USE_THREADS
     bool ok;
-    integer & lastInterval = *m_bs_y.search( std::this_thread::get_id(), ok );
-    lastInterval = 0;
+    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
+    #else
+    integer & last_interval = m_last_interval_y;
+    #endif
+    last_interval = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -310,7 +345,7 @@ namespace Splines {
     integer flag = 1;
     for ( size_t i = 1; i < size_t(npts); ++i ) {
       if ( Y[i-1] > Y[i] ) return -2; // non monotone data
-      if ( Utils::isZero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
+      if ( Utils::is_zero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
     }
     // pag 146 Methods of Shape-Preserving Spline Approximation, K
     for ( size_t i = 1; i < size_t(npts); ++i ) {
@@ -321,9 +356,9 @@ namespace Splines {
       if ( m0 < 0 || m1 < 0 ) return -1; // non monotone
       if ( m0 <= 3 && m1 <= 3 ) {
         if ( flag > 0 && i > 1 &&
-             (Utils::isZero(m0) || Utils::isZero(m0-3) ) ) flag = 0;
+             (Utils::is_zero(m0) || Utils::is_zero(m0-3) ) ) flag = 0;
         if ( flag > 0 && i < size_t(npts-1) &&
-             (Utils::isZero(m1) || Utils::isZero(m1-3) ) ) flag = 0;
+             (Utils::is_zero(m1) || Utils::is_zero(m1-3) ) ) flag = 0;
       } else {
         real_type tmp1 = 2*m0+m1-3;
         real_type tmp2 = 2*(m0+m1-2);
@@ -333,7 +368,7 @@ namespace Splines {
         } else {
           if ( tmp3 > 0 ) return -1;
         }
-        if ( Utils::isZero(tmp3) ) flag = 0;
+        if ( Utils::is_zero(tmp3) ) flag = 0;
       }
     }
     return flag; // passed all check
@@ -373,11 +408,11 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::pushBack( real_type x, real_type y ) {
+  Spline::push_back( real_type x, real_type y ) {
     if ( m_npts > 0 ) {
       UTILS_ASSERT(
         x >= m_X[size_t(m_npts-1)], // ammetto punti doppi
-        "Spline[{}]::pushBack, non monotone insert at insert N.{}"
+        "Spline[{}]::push_back, non monotone insert at insert N.{}"
         "\nX[{}] = {}\nX[{}] = {}\n",
         m_name, m_npts, m_npts-1, m_X[size_t(m_npts-1)], m_npts, x
       );
@@ -387,7 +422,7 @@ namespace Splines {
     } else if ( m_npts >= m_npts_reserved ) {
       // riallocazione & copia
       integer saved_npts = m_npts; // salvo npts perche reserve lo azzera
-      Utils::Malloc<real_type> mem("Spline::pushBack");
+      Malloc_real mem("Spline::push_back");
       mem.allocate( size_t(2*m_npts) );
       real_type * Xsaved = mem( size_t(m_npts) );
       real_type * Ysaved = mem( size_t(m_npts) );
@@ -407,7 +442,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::setOrigin( real_type x0 ) {
+  Spline::set_origin( real_type x0 ) {
     real_type Tx = x0 - m_X[0];
     real_type *ix = m_X;
     while ( ix < m_X+m_npts ) *ix++ += Tx;
@@ -416,10 +451,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::setRange( real_type xmin, real_type xmax ) {
+  Spline::set_range( real_type xmin, real_type xmax ) {
     UTILS_ASSERT(
       xmax > xmin,
-      "Spline[{}]::setRange({},{}) bad range ", m_name, xmin, xmax
+      "Spline[{}]::set_range({},{}) bad range ", m_name, xmin, xmax
     );
     real_type S  = (xmax - xmin) / ( m_X[m_npts-1] - m_X[0] );
     real_type Tx = xmin - S * m_X[0];
@@ -529,7 +564,7 @@ namespace Splines {
   //                            |_|   |_|
   */
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -541,20 +576,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string msg = fmt::format("Spline[{}]::setup( gc ):", m_name );
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("Spline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     build( x, y );

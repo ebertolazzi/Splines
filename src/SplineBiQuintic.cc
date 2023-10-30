@@ -58,16 +58,16 @@ namespace Splines {
       sp.build( m_X, 1, &m_Z[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       for ( integer i = 0; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
-        m_DX[ij]  = sp.ypNode(i);
-        m_DXX[ij] = sp.yppNode(i);
+        m_DX[ij]  = sp.yp_node(i);
+        m_DXX[ij] = sp.ypp_node(i);
       }
     }
     for ( integer i = 0; i < m_nx; ++i ) {
       sp.build( m_Y, 1, &m_Z[size_t(this->ipos_C(i,0))], 1, m_ny );
       for ( integer j = 0; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
-        m_DY[ij]  = sp.ypNode(j);
-        m_DYY[ij] = sp.yppNode(j);
+        m_DY[ij]  = sp.yp_node(j);
+        m_DYY[ij] = sp.ypp_node(j);
       }
     }
     // interpolate derivative
@@ -76,10 +76,10 @@ namespace Splines {
       sp1.build( m_Y, 1, &m_DXX[size_t(this->ipos_C(i,0))], 1, m_ny );
       for ( integer j = 0; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
-        m_DXY[ij]   = sp.ypNode(j);
-        m_DXYY[ij]  = sp.yppNode(j);
-        m_DXXY[ij]  = sp1.ypNode(j);
-        m_DXXYY[ij] = sp1.yppNode(j);
+        m_DXY[ij]   = sp.yp_node(j);
+        m_DXYY[ij]  = sp.ypp_node(j);
+        m_DXXY[ij]  = sp1.yp_node(j);
+        m_DXXYY[ij] = sp1.ypp_node(j);
       }
     }
     // interpolate derivative again
@@ -88,10 +88,10 @@ namespace Splines {
       sp1.build( m_X, 1, &m_DYY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       for ( integer i = 0; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
-        m_DXY[ij]   += sp.ypNode(i);   m_DXY[ij]   /= 2;
-        m_DXXY[ij]  += sp.yppNode(i);  m_DXXY[ij]  /= 2;
-        m_DXYY[ij]  += sp1.ypNode(i);  m_DXYY[ij]  /= 2;
-        m_DXXYY[ij] += sp1.yppNode(i); m_DXXYY[ij] /= 2;
+        m_DXY[ij]   += sp.yp_node(i);   m_DXY[ij]   /= 2;
+        m_DXXY[ij]  += sp.ypp_node(i);  m_DXXY[ij]  /= 2;
+        m_DXYY[ij]  += sp1.yp_node(i);  m_DXYY[ij]  /= 2;
+        m_DXXYY[ij] += sp1.ypp_node(i); m_DXXYY[ij] /= 2;
       }
     }
 

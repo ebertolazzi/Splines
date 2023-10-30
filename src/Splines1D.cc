@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -32,16 +32,16 @@ namespace Splines {
   Spline *
   new_Spline1D( string const & _name, SplineType1D tp ) {
     switch ( tp ) {
-    case CONSTANT_TYPE:   return new ConstantSpline(_name);
-    case LINEAR_TYPE:     return new LinearSpline(_name);
-    case CUBIC_TYPE:      return new CubicSpline(_name);
-    case AKIMA_TYPE:      return new AkimaSpline(_name);
-    case BESSEL_TYPE:     return new BesselSpline(_name);
-    case PCHIP_TYPE:      return new PchipSpline(_name);
-    case QUINTIC_TYPE:    return new QuinticSpline(_name);
-    case HERMITE_TYPE:    break;
-    case SPLINE_SET_TYPE: break;
-    case SPLINE_VEC_TYPE: break;
+    case SplineType1D::CONSTANT:   return new ConstantSpline(_name);
+    case SplineType1D::LINEAR:     return new LinearSpline(_name);
+    case SplineType1D::CUBIC:      return new CubicSpline(_name);
+    case SplineType1D::AKIMA:      return new AkimaSpline(_name);
+    case SplineType1D::BESSEL:     return new BesselSpline(_name);
+    case SplineType1D::PCHIP:      return new PchipSpline(_name);
+    case SplineType1D::QUINTIC:    return new QuinticSpline(_name);
+    case SplineType1D::HERMITE:    break;
+    case SplineType1D::SPLINE_SET: break;
+    case SplineType1D::SPLINE_VEC: break;
     }
     return nullptr;
   }
@@ -55,7 +55,7 @@ namespace Splines {
   ) {
     if ( m_pSpline != nullptr ) delete m_pSpline;
     m_pSpline = new_Spline1D(m_name,tp);
-    UTILS_ASSERT0( m_pSpline != nullptr, "Spline1D::build, failed\n" );
+    UTILS_ASSERT( m_pSpline != nullptr, "Spline1D[{}]::build, failed\n", m_name );
     m_pSpline->build( x, incx, y, incy, n );
   }
 
@@ -68,14 +68,14 @@ namespace Splines {
   //                            |_|   |_|
   */
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  //! 
+  //!
   //! Setup a spline using a `GenericContainer`
-  //! 
+  //!
   //! - gc("spline_type")
   //!   - "constant"
   //!   - "linear"
@@ -84,7 +84,7 @@ namespace Splines {
   //!   - "bessel"
   //!   - "pchip"
   //!   - "quintic"
-  //! 
+  //!
   void
   Spline1D::setup( GenericContainer const & gc ) {
     /*
@@ -92,24 +92,24 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    std::string spl_type = gc("spline_type").get_string(
-      "Spline1D::setup, spline_type expected to be a string\n"
-    );
+    string where = fmt::format("Spline1D[{}]::setup( gc ):", m_name );
+    std::string const & spl_type = gc.get_map_string("spline_type",where.c_str());
+
     SplineType1D tp;
     if ( spl_type == "constant" ) {
-      tp = CONSTANT_TYPE;
+      tp = SplineType1D::CONSTANT;
     } else if ( spl_type == "linear" ) {
-      tp = LINEAR_TYPE;
+      tp = SplineType1D::LINEAR;
     } else if ( spl_type == "cubic" ) {
-      tp = CUBIC_TYPE;
+      tp = SplineType1D::CUBIC;
     } else if ( spl_type == "akima" ) {
-      tp = AKIMA_TYPE;
+      tp = SplineType1D::AKIMA;
     } else if ( spl_type == "bessel" ) {
-      tp = BESSEL_TYPE;
+      tp = SplineType1D::BESSEL;
     } else if ( spl_type == "pchip" ) {
-      tp = PCHIP_TYPE;
+      tp = SplineType1D::PCHIP;
     } else if ( spl_type == "quintic" ) {
-      tp = QUINTIC_TYPE;
+      tp = SplineType1D::QUINTIC;
     } else {
       UTILS_ERROR(
        "Spline1D::setup[{}] unknown type {}, not in "

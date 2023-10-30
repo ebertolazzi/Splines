@@ -129,6 +129,10 @@ namespace Splines {
 
     // return +1 = strict monotone, 0 weak monotone, -1 non monotone
     int
+    is_monotone( integer i ) const
+    { return m_is_monotone[i]; }
+
+    int
     isMonotone( integer i ) const
     { return m_is_monotone[i]; }
 
@@ -141,13 +145,15 @@ namespace Splines {
     //!
     //! Return the number splines in the spline set.
     //!
+    integer num_splines() const { return m_nspl; }
     integer numSplines() const { return m_nspl; }
 
     //!
     //! Return the column with header(i) == hdr,
     //! return -1 if not found.
     //!
-    integer getPosition( char const * hdr ) const;
+    integer get_position( char const * hdr ) const;
+    integer getPosition( char const * hdr ) const { return get_position(hdr); }
 
     //!
     //! Return the vector of values of x-nodes.
@@ -202,7 +208,7 @@ namespace Splines {
     //!
     real_type
     y_min( char const * spl ) const {
-      integer idx = this->getPosition(spl);
+      integer idx = this->get_position(spl);
       return m_Ymin[idx];
     }
 
@@ -215,7 +221,7 @@ namespace Splines {
     //!
     real_type
     y_max( char const * spl ) const {
-      integer idx = this->getPosition(spl);
+      integer idx = this->get_position(spl);
       return m_Ymax[idx];
     }
 
@@ -242,7 +248,7 @@ namespace Splines {
     //!
     Spline *
     get_spline( char const * hdr ) const {
-      integer idx = this->getPosition(hdr);
+      integer idx = this->get_position(hdr);
       return m_splines[idx];
     }
 
@@ -831,7 +837,7 @@ namespace Splines {
       char const       * indep,
       GenericContainer & vals
     ) const {
-      this->eval2( zeta, this->getPosition(indep), vals );
+      this->eval2( zeta, this->get_position(indep), vals );
     }
 
     //!
@@ -845,7 +851,7 @@ namespace Splines {
       char const          * indep,
       GenericContainer    & vals
     ) const {
-      this->eval2( zetas, this->getPosition(indep), vals );
+      this->eval2( zetas, this->get_position(indep), vals );
     }
 
     //!
@@ -860,7 +866,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2( zeta, this->getPosition(indep), columns, vals );
+      this->eval2( zeta, this->get_position(indep), columns, vals );
     }
 
     //!
@@ -875,7 +881,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2( zetas, this->getPosition(indep), columns, vals );
+      this->eval2( zetas, this->get_position(indep), columns, vals );
     }
     ///@}
 
@@ -995,7 +1001,7 @@ namespace Splines {
       char const       * indep,
       GenericContainer & vals
     ) const {
-      this->eval2_D( zeta, this->getPosition(indep), vals );
+      this->eval2_D( zeta, this->get_position(indep), vals );
     }
 
     //!
@@ -1009,7 +1015,7 @@ namespace Splines {
       char const          * indep,
       GenericContainer    & vals
     ) const {
-      this->eval2_D( zetas, this->getPosition(indep), vals );
+      this->eval2_D( zetas, this->get_position(indep), vals );
     }
 
     //!
@@ -1024,7 +1030,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_D( zeta, this->getPosition(indep), columns, vals );
+      this->eval2_D( zeta, this->get_position(indep), columns, vals );
     }
 
     //!
@@ -1039,7 +1045,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_D( zetas, this->getPosition(indep), columns, vals );
+      this->eval2_D( zetas, this->get_position(indep), columns, vals );
     }
 
     ///@}
@@ -1153,7 +1159,7 @@ namespace Splines {
       char const       * indep,
       GenericContainer & vals
     ) const {
-      this->eval2_DD( zeta, this->getPosition(indep), vals );
+      this->eval2_DD( zeta, this->get_position(indep), vals );
     }
 
     //!
@@ -1167,7 +1173,7 @@ namespace Splines {
       char const          * indep,
       GenericContainer    & vals
     ) const {
-      this->eval2_DD( zetas, this->getPosition(indep), vals );
+      this->eval2_DD( zetas, this->get_position(indep), vals );
     }
 
     //!
@@ -1182,7 +1188,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DD( zeta, this->getPosition(indep), columns, vals );
+      this->eval2_DD( zeta, this->get_position(indep), columns, vals );
     }
 
     //!
@@ -1197,7 +1203,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DD( zetas, this->getPosition(indep), columns, vals );
+      this->eval2_DD( zetas, this->get_position(indep), columns, vals );
     }
     ///@}
 
@@ -1313,7 +1319,7 @@ namespace Splines {
       char const       * indep,
       GenericContainer & vals
     ) const {
-      this->eval2_DDD( zeta, this->getPosition(indep), vals );
+      this->eval2_DDD( zeta, this->get_position(indep), vals );
     }
 
     //!
@@ -1327,7 +1333,7 @@ namespace Splines {
       char          const * indep,
       GenericContainer    & vals
     ) const {
-      this->eval2_DDD( zetas, this->getPosition(indep), vals );
+      this->eval2_DDD( zetas, this->get_position(indep), vals );
     }
 
     //!
@@ -1342,7 +1348,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DDD( zeta, this->getPosition(indep), columns, vals );
+      this->eval2_DDD( zeta, this->get_position(indep), columns, vals );
     }
 
     //!
@@ -1357,7 +1363,7 @@ namespace Splines {
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
-      this->eval2_DDD( zetas, this->getPosition(indep), columns, vals );
+      this->eval2_DDD( zetas, this->get_position(indep), columns, vals );
     }
 
     ///@}
@@ -1398,9 +1404,9 @@ namespace Splines {
     ///@}
 
     //! Return spline type (as number)
-    unsigned
+    SplineType1D
     type() const
-    { return SPLINE_SET_TYPE; }
+    { return SplineType1D::SPLINE_SET; }
 
     string
     info() const;

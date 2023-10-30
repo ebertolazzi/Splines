@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -53,11 +53,11 @@ static real_type yy4[] = { 0.644, 0.652, 0.644, 0.694, 0.907, 1.336, 2.169, 1.59
 static real_type xx5[] = { 0.11,   0.12,   0.15,   0.16   };
 static real_type yy5[] = { 0.0003, 0.0003, 0.0004, 0.0004 };
 
-static integer n[] = { 11, 11, 11, 9, 12, 4 };
+static integer nn[] = { 11, 11, 11, 9, 12, 4 };
 
 int
 main() {
-  cout << "\n\nTEST N.1\n\n";
+  fmt::print("\n\nTEST N.1\n\n");
 
   LinearSpline   li;
   ConstantSpline co;
@@ -75,7 +75,7 @@ main() {
   ofstream       file_qs;
 
   for ( integer k = 0; k < 6; ++ k ) {
-    cout << "\n\nk = " << k << '\n';
+    fmt::print( "\n\nk = {}\n", k );
     real_type * xx = nullptr, * yy = nullptr;
     switch ( k ) {
       case 0: xx = xx0; yy = yy0; break;
@@ -85,23 +85,24 @@ main() {
       case 4: xx = xx4; yy = yy4; break;
       case 5: xx = xx5; yy = yy5; break;
     }
-    char fname[100];
-    sprintf( fname, "out/Linear%d.txt",   k); file_li.open(fname);
-    sprintf( fname, "out/Constant%d.txt", k); file_co.open(fname);
-    sprintf( fname, "out/Akima%d.txt",    k); file_ak.open(fname);
-    sprintf( fname, "out/Cubic%d.txt",    k); file_cs.open(fname);
-    sprintf( fname, "out/Bessel%d.txt",   k); file_be.open(fname);
-    sprintf( fname, "out/Pchip%d.txt",    k); file_pc.open(fname);
-    sprintf( fname, "out/Quintic%d.txt",  k); file_qs.open(fname);
+    string fname;
+    fname = fmt::format( "out/Linear{}.txt",   k); file_li.open(fname.c_str());
+    fname = fmt::format( "out/Constant{}.txt", k); file_co.open(fname.c_str());
+    fname = fmt::format( "out/Akima{}.txt",    k); file_ak.open(fname.c_str());
+    fname = fmt::format( "out/Cubic{}.txt",    k); file_cs.open(fname.c_str());
+    fname = fmt::format( "out/Bessel{}.txt",   k); file_be.open(fname.c_str());
+    fname = fmt::format( "out/Pchip{}.txt",    k); file_pc.open(fname.c_str());
+    fname = fmt::format( "out/Quintic{}.txt",  k); file_qs.open(fname.c_str());
     real_type xmin = xx[0];
-    real_type xmax = xx[n[k]-1];
+    real_type xmax = xx[nn[k]-1];
 
     #define SAVE(NAME,S)                                                   \
-    cout << "\n\n\n" << NAME << "\n\n\n";                                  \
-    cout << #S": n[k] = " << n[k] << '\n';                                 \
+    fmt::print( "\n\n\n{}\n\n\n", NAME );                                  \
+    fmt::print( #S": n[k] = {}\n", nn[k] );                                 \
     S.clear();                                                             \
-    S.reserve(n[k]);                                                       \
-    for ( integer i = 0; i < integer(n[k]); ++i ) S.pushBack(xx[i],yy[i]); \
+    S.reserve(nn[k]);                                                       \
+    for ( integer i = 0; i < integer(nn[k]); ++i )                          \
+      S.push_back(xx[i],yy[i]);                                            \
     S.build(); /*( xx, yy, n[k] );*/                                       \
     {                                                                      \
       integer   i_min_pos;                                                 \
@@ -113,22 +114,22 @@ main() {
       S.y_min_max(                                                         \
         i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max           \
       );                                                                   \
-      cout << "i_min_pos = " << i_min_pos << "\n";                         \
-      cout << "x_min_pos = " << x_min_pos << "\n";                         \
-      cout << "y_min     = " << y_min << "\n";                             \
-      cout << "i_max_pos = " << i_max_pos << "\n";                         \
-      cout << "x_max_pos = " << x_max_pos << "\n";                         \
-      cout << "y_max     = " << y_max << "\n";                             \
+      fmt::print( "i_min_pos = {}\n", i_min_pos );                         \
+      fmt::print( "x_min_pos = {}\n", x_min_pos );                         \
+      fmt::print( "y_min     = {}\n", y_min );                             \
+      fmt::print( "i_max_pos = {}\n", i_max_pos );                         \
+      fmt::print( "x_max_pos = {}\n", x_max_pos );                         \
+      fmt::print( "y_max     = {}\n", y_max );                             \
     }                                                                      \
-    cout << #S": xMin    = " << S.xMin()   << '\n';                        \
-    cout << #S": xMax    = " << S.xMax()   << '\n';                        \
-    cout << #S": xx[0]   = " << xx[0]      << '\n';                        \
-    cout << #S": xx[end] = " << xx[n[k]-1] << '\n';                        \
+    fmt::print( #S": xMin    = {}\n", S.x_min() );                         \
+    fmt::print( #S": xMax    = {}\n", S.x_max() );                         \
+    fmt::print( #S": xx[0]   = {}\n", xx[0] );                             \
+    fmt::print( #S": xx[end] = {}\n", xx[nn[k]-1] );                        \
     file_##S << "x\ty\tDy\tDDy\n";                                         \
     for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )           \
-      file_##S << x << '\t' << S(x) << '\t' << S.D(x) << '\t' << S.DD(x) << '\n'; \
+      fmt::print( file_##S, "{}\t{}\t{}\t{}\n", x, S(x), S.D(x), S.DD(x) ); \
     file_##S.close()
-    
+
     SAVE("LinearSpline",   li);
     SAVE("ConstantSpline", co);
     SAVE("AkimaSpline",    ak);

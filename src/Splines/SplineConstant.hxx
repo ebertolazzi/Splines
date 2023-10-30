@@ -30,8 +30,8 @@ namespace Splines {
 
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
-    Utils::Malloc<real_type> m_baseValue;
-    bool                     m_external_alloc;
+    Malloc_real m_baseValue;
+    bool        m_external_alloc;
 
   public:
 
@@ -91,7 +91,7 @@ namespace Splines {
     ///@}
 
     void write_to_stream( ostream_type & ) const override;
-    unsigned type() const override { return CONSTANT_TYPE; }
+    SplineType1D type() const override { return SplineType1D::CONSTANT; }
 
     // --------------------------- VIRTUALS -----------------------------------
 

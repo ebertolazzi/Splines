@@ -44,44 +44,53 @@ namespace Splines {
   using std::exception;
   using std::runtime_error;
   using std::basic_ostream;
-  using std::ostringstream;
+  using std::basic_istream;
   using std::lower_bound;
   using std::pair;
+  using std::cout;
+  using std::cin;
   using std::cerr;
 
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
-  typedef basic_ostream<char> ostream_type;
+
+  using Malloc_real  = Utils::Malloc<real_type>;
+  using ostream_type = basic_ostream<char>;
+  using istream_type = basic_istream<char>;
 
   void backtrace( ostream_type & );
 
-  //! Associate a number for each type of splines implemented
-  typedef enum {
-    CONSTANT_TYPE   = 0,
-    LINEAR_TYPE     = 1,
-    CUBIC_TYPE      = 2,
-    AKIMA_TYPE      = 3,
-    BESSEL_TYPE     = 4,
-    PCHIP_TYPE      = 5,
-    QUINTIC_TYPE    = 6,
-    HERMITE_TYPE    = 7,
-    SPLINE_SET_TYPE = 8,
-    SPLINE_VEC_TYPE = 9
-  } SplineType1D;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! Associate a number for each type of splines implemented
-  typedef enum {
-    BILINEAR_TYPE  = 0,
-    BICUBIC_TYPE   = 1,
-    BIQUINTIC_TYPE = 2,
-    AKIMA2D_TYPE   = 3
-  } SplineType2D;
+  using SplineType1D = enum class SplineType1D : integer {
+    CONSTANT   = 0,
+    LINEAR     = 1,
+    CUBIC      = 2,
+    AKIMA      = 3,
+    BESSEL     = 4,
+    PCHIP      = 5,
+    QUINTIC    = 6,
+    HERMITE    = 7,
+    SPLINE_SET = 8,
+    SPLINE_VEC = 9
+  };
 
-  extern char const *spline_type_1D[];
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  //! Associate a number for each type of splines implemented
+  using SplineType2D = enum class SplineType2D : integer {
+    BILINEAR  = 0,
+    BICUBIC   = 1,
+    BIQUINTIC = 2,
+    AKIMA2D   = 3
+  };
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
   extern SplineType1D string_to_splineType1D( string const & n );
   extern SplineType2D string_to_splineType2D( string const & n );
+  extern char const * to_string( SplineType2D t );
+  extern char const * to_string( SplineType1D t );
   #endif
 
   using GC_namespace::GenericContainer;
@@ -360,18 +369,22 @@ namespace Splines {
   protected:
 
     string m_name;
-    bool   m_curve_is_closed;
-    bool   m_curve_can_extend;
-    bool   m_curve_extended_constant;
+    bool   m_curve_is_closed{false};
+    bool   m_curve_can_extend{true};
+    bool   m_curve_extended_constant{false};
 
-    integer   m_npts;
-    integer   m_npts_reserved;
-    real_type *m_X; // allocated in the derived class!
-    real_type *m_Y; // allocated in the derived class!
+    integer     m_npts{0};
+    integer     m_npts_reserved{0};
+    real_type * m_X{nullptr}; // allocated in the derived class!
+    real_type * m_Y{nullptr}; // allocated in the derived class!
 
-    mutable Utils::BinarySearch<integer> m_bs;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval;
+    #else
+    mutable integer m_last_interval;
+    #endif
 
-    void initLastInterval();
+    void init_last_interval();
 
     Spline( Spline const & ) = delete;
     Spline const & operator = ( Spline const & ) = delete;
@@ -386,15 +399,8 @@ namespace Splines {
     //!
     Spline( string const & name = "Spline" )
     : m_name(name)
-    , m_curve_is_closed(false)
-    , m_curve_can_extend(true)
-    , m_curve_extended_constant(false)
-    , m_npts(0)
-    , m_npts_reserved(0)
-    , m_X(nullptr)
-    , m_Y(nullptr)
     {
-      this->initLastInterval();
+      this->init_last_interval();
     }
 
     //!
@@ -442,55 +448,73 @@ namespace Splines {
     //! the number of support points of the spline.
     //!
     integer num_points() const { return m_npts; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     integer numPoints() const { return m_npts; }
+    #endif
 
     //!
     //! the i-th node of the spline (x component).
     //!
     real_type x_node( integer i ) const { return m_X[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xNode( integer i ) const { return m_X[size_t(i)]; }
+    #endif
 
     //!
     //! the i-th node of the spline (y component).
     //!
     real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    #endif
 
     //!
     //! first node of the spline (x component).
     //!
     real_type x_begin() const { return m_X[0]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xBegin() const { return m_X[0]; }
+    #endif
 
     //!
     //! first node of the spline (y component).
     //!
     real_type y_begin() const { return m_Y[0]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yBegin() const { return m_Y[0]; }
+    #endif
 
     //!
     //! last node of the spline (x component).
     //!
     real_type x_end() const { return m_X[size_t(m_npts-1)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
+    #endif
 
     //!
     //! last node of the spline (y component).
     //!
     real_type y_end() const { return m_Y[size_t(m_npts-1)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yEnd() const { return m_Y[size_t(m_npts-1)]; }
+    #endif
 
     //!
     //! x-minumum spline value
     //!
     real_type x_min() const { return m_X[0]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xMin() const { return m_X[0]; }
+    #endif
 
     //!
     //! x-maximum spline value
     //!
     real_type x_max() const { return m_X[m_npts-1]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xMax() const { return m_X[m_npts-1]; }
+    #endif
 
     //!
     //! y-minumum spline value
@@ -498,10 +522,12 @@ namespace Splines {
     real_type
     y_min() const {
       integer N = m_npts;
-      if ( type() == CONSTANT_TYPE ) --N;
+      if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::min_element(m_Y,m_Y+N);
     }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yMin() const { return y_min(); }
+    #endif
 
     //!
     //! return y-maximum spline value
@@ -509,10 +535,12 @@ namespace Splines {
     real_type
     y_max() const {
       integer N = m_npts;
-      if ( type() == CONSTANT_TYPE ) --N;
+      if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::max_element(m_Y,m_Y+N);
     }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yMax() const { return y_max(); }
+    #endif
 
     //!
     //! Search the max and min values of `y` along the spline
@@ -663,12 +691,17 @@ namespace Splines {
     //!
     //! Add a support point (x,y) to the spline.
     //!
-    void pushBack( real_type x, real_type y );
-
+    void push_back( real_type x, real_type y );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void pushBack( real_type x, real_type y ) { push_back(x,y); }
+    #endif
     //!
     //! Drop last inserted point of the spline.
     //!
-    void dropBack() { if ( m_npts > 0 ) --m_npts; }
+    void drop_back() { if ( m_npts > 0 ) --m_npts; }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void dropBack() { drop_back(); }
+    #endif
 
     //!
     //! Delete the support points, empty the spline.
@@ -683,12 +716,18 @@ namespace Splines {
     //!
     //! change X-origin of the spline
     //!
-    void setOrigin( real_type x0 );
+    void set_origin( real_type x0 );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setOrigin( real_type x0 ) { set_origin(x0); }
+    #endif
 
     //!
     //! change X-range of the spline
     //!
-    void setRange( real_type xmin, real_type xmax );
+    void set_range( real_type xmin, real_type xmax );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setRange( real_type xmin, real_type xmax ) { set_range( xmin, xmax ); }
+    #endif
 
     ///@}
 
@@ -723,7 +762,9 @@ namespace Splines {
     //! Print spline coefficients
     //!
     virtual void write_to_stream( ostream_type & s ) const = 0;
+    #ifndef SPLINES_NO_COMPATIBILITY
     void writeToStream( ostream_type & s ) const { write_to_stream(s); }
+    #endif
 
     ///@}
 
@@ -853,12 +894,12 @@ namespace Splines {
     //!
     char const *
     type_name() const
-    { return Splines::spline_type_1D[type()]; }
+    { return to_string(type()); }
 
     //!
     //! spline type returned as integer
     //!
-    virtual unsigned type() const = 0;
+    virtual SplineType1D type() const = 0;
 
     //!
     //! String information of the kind and order of the spline
@@ -902,10 +943,9 @@ namespace Splines {
   //!
   class CubicSplineBase : public Spline {
   protected:
-    Utils::Malloc<real_type> m_baseValue;
-
-    real_type * m_Yp;
-    bool        m_external_alloc;
+    Malloc_real m_baseValue;
+    real_type * m_Yp{nullptr};
+    bool        m_external_alloc{false};
 
   public:
 
@@ -922,28 +962,31 @@ namespace Splines {
     CubicSplineBase( string const & name = "CubicSplineBase" )
     : Spline(name)
     , m_baseValue(name+"_memory")
-    , m_Yp(nullptr)
-    , m_external_alloc(false)
     {}
 
     ~CubicSplineBase() override {}
     ///@}
 
-    void
-    copySpline( CubicSplineBase const & S );
+    void copy_spline( CubicSplineBase const & S );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void copySpline( CubicSplineBase const & S ) { this->copy_spline(S); }
+    #endif
 
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type
-    ypNode( integer i ) const
-    { return m_Yp[size_t(i)]; }
+    real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
+    real_type ypNode( integer i ) const { return this->yp_node(i); }
+    #endif
 
     //!
     //! Change X-range of the spline.
     //!
-    void
-    setRange( real_type xmin, real_type xmax );
+    void set_range( real_type xmin, real_type xmax );
+    #ifndef SPLINES_NO_COMPATIBILITY
+    void setRange( real_type xmin, real_type xmax ) { set_range( xmin, xmax ); }
+    #endif
 
     //!
     //! Use externally allocated memory for `npts` points.
@@ -1096,33 +1139,39 @@ namespace Splines {
     SplineSurf( SplineSurf const & ) = delete; // block copy constructor
     SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
 
-    Utils::Malloc<real_type> m_mem;
+    Malloc_real m_mem;
 
   protected:
 
     string const m_name;
-    bool         m_x_closed;
-    bool         m_y_closed;
-    bool         m_x_can_extend;
-    bool         m_y_can_extend;
+    bool         m_x_closed{false};
+    bool         m_y_closed{false};
+    bool         m_x_can_extend{true};
+    bool         m_y_can_extend{true};
 
-    integer      m_nx;
-    integer      m_ny;
+    integer      m_nx{0};
+    integer      m_ny{0};
 
-    real_type *  m_X;
-    real_type *  m_Y;
-    real_type *  m_Z;
+    real_type *  m_X{nullptr};
+    real_type *  m_Y{nullptr};
+    real_type *  m_Z{nullptr};
 
-    real_type m_Z_min, m_Z_max;
+    real_type    m_Z_min{0};
+    real_type    m_Z_max{0};
 
-    mutable Utils::BinarySearch<integer> m_bs_x;
-    mutable Utils::BinarySearch<integer> m_bs_y;
+    #ifdef SPLINES_USE_THREADS
+    mutable Utils::BinarySearch<integer> m_last_interval_x;
+    mutable Utils::BinarySearch<integer> m_last_interval_y;
+    #else
+    mutable integer m_last_interval_x;
+    mutable integer m_last_interval_y;
+    #endif
 
     integer search_x( real_type & x ) const;
     integer search_y( real_type & y ) const;
 
-    void initLastInterval_x();
-    void initLastInterval_y();
+    void init_last_interval_x();
+    void init_last_interval_y();
 
     integer
     ipos_C( integer i, integer j, integer ldZ ) const
@@ -1158,20 +1207,9 @@ namespace Splines {
     SplineSurf( string const & name = "Spline" )
     : m_mem("SplineSurf")
     , m_name(name)
-    , m_x_closed(false)
-    , m_y_closed(false)
-    , m_x_can_extend(true)
-    , m_y_can_extend(true)
-    , m_nx(0)
-    , m_ny(0)
-    , m_X(nullptr)
-    , m_Y(nullptr)
-    , m_Z(nullptr)
-    , m_Z_min(0)
-    , m_Z_max(0)
     {
-      this->initLastInterval_x();
-      this->initLastInterval_y();
+      this->init_last_interval_x();
+      this->init_last_interval_y();
     }
 
     //!
@@ -1267,25 +1305,33 @@ namespace Splines {
     //! Return the number of support points of the spline along x direction.
     //!
     integer num_point_x() const { return m_nx; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     integer numPointX() const { return m_nx; }
+    #endif
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
     integer num_point_y() const { return m_ny; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     integer numPointY() const { return m_ny; }
+    #endif
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
     real_type x_node( integer i ) const { return m_X[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xNode( integer i ) const { return m_X[size_t(i)]; }
+    #endif
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    #endif
 
     //!
     //! Return the i-th node of the spline (y component).
@@ -1294,45 +1340,59 @@ namespace Splines {
     z_node( integer i, integer j ) const
     { return m_Z[size_t(this->ipos_C(i,j))]; }
 
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type
     zNode( integer i, integer j ) const
     { return z_node(i,j); }
+    #endif
 
     //!
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_X[0]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xMin() const { return this->x_min(); }
+    #endif
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_X[m_nx-1]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type xMax() const { return this->x_max(); }
+    #endif
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type y_min() const { return m_Y[0]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yMin() const { return this->y_min(); }
+    #endif
 
     //!
     //! Return y-maximum spline value.
     //!
     real_type y_max() const { return m_Y[m_ny-1]; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type yMax() const { return this->y_max(); }
+    #endif
 
     //!
     //! Return z-minumum spline value.
     //!
     real_type z_min() const { return m_Z_min; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type zMin() const { return m_Z_min; }
+    #endif
 
     //!
     //! Return z-maximum spline value.
     //!
     real_type z_max() const { return m_Z_max; }
+    #ifndef SPLINES_NO_COMPATIBILITY
     real_type zMax() const { return m_Z_max; }
+    #endif
 
     ///@}
 
@@ -1548,7 +1608,9 @@ namespace Splines {
     //! Print spline coefficients.
     //!
     virtual void write_to_stream( ostream_type & s ) const = 0;
+    #ifndef SPLINES_NO_COMPATIBILITY
     void writeToStream( ostream_type & s ) const { write_to_stream(s); }
+    #endif
 
     //!
     //! Return spline type as a string pointer.

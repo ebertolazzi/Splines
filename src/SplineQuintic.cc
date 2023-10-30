@@ -65,7 +65,7 @@ namespace Splines {
 
     size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-    Utils::Malloc<real_type> mem("QuinticSpline_Yppp_continuous");
+    Malloc_real mem("QuinticSpline_Yppp_continuous");
     mem.allocate( size_t(3*(n+1)) );
     real_type * L = mem( size_t( n+1 ) );
     real_type * D = mem( size_t( n+1 ) );
@@ -206,7 +206,7 @@ namespace Splines {
   static
   void
   Quintic_build(
-    QUINTIC_SPLINE_TYPE q_sub_type,
+    QuinticSpline_sub_type q_sub_type,
     real_type const * X,
     real_type const * Y,
     real_type       * Yp,
@@ -214,29 +214,31 @@ namespace Splines {
     integer           npts
   ) {
     switch ( q_sub_type ) {
-    case CUBIC_QUINTIC:
+    case QuinticSpline_sub_type::CUBIC:
       {
         size_t n = size_t(npts > 0 ? npts-1 : 0);
 
-        Utils::Malloc<real_type> mem("QuinticSpline_Yppp_continuous");
+        Malloc_real mem("QuinticSpline_Yppp_continuous");
         mem.allocate( size_t(3*(n+1)) );
         real_type * L = mem( size_t( n+1 ) );
         real_type * D = mem( size_t( n+1 ) );
         real_type * U = mem( size_t( n+1 ) );
         CubicSpline_build(
-          X, Y, Yp, Ypp, L, D, U, npts, EXTRAPOLATE_BC, EXTRAPOLATE_BC
+          X, Y, Yp, Ypp, L, D, U, npts,
+          CubicSpline_BC::EXTRAPOLATE,
+          CubicSpline_BC::EXTRAPOLATE
         );
         mem.free();
         QuinticSpline_Yppp_continuous( X, Y, Yp, Ypp, npts, false );
       }
       return;
-    case PCHIP_QUINTIC:
+    case QuinticSpline_sub_type::PCHIP:
       Pchip_build( X, Y, Yp, npts );
       break;
-    case AKIMA_QUINTIC:
+    case QuinticSpline_sub_type::AKIMA:
       Akima_build( X, Y, Yp, npts );
       break;
-    case BESSEL_QUINTIC:
+    case QuinticSpline_sub_type::BESSEL:
       Bessel_build( X, Y, Yp, npts );
       break;
     }
@@ -255,8 +257,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::checkNaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -271,50 +273,47 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::checkNaN( m_Yp,  (msg+" Yp").c_str(),  m_npts, __LINE__, __FILE__ );
-    Utils::checkNaN( m_Ypp, (msg+" Ypp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp,  (msg+" Yp").c_str(),  m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Ypp, (msg+" Ypp").c_str(), m_npts, __LINE__, __FILE__ );
   }
 
-  using GC_namespace::GC_VEC_REAL;
+  using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   QuinticSpline::setup( GenericContainer const & gc ) {
-    string msg = fmt::format("QuinticSpline[{}]::setup( gc ):", m_name );
     /*
     // gc["xdata"]
     // gc["ydata"]
     //
     */
-    UTILS_ASSERT( gc.exists("xdata"), "{} missing `xdata` field!\n", msg );
-    UTILS_ASSERT( gc.exists("ydata"), "{} missing `ydata` field!\n", msg );
-
-    GenericContainer const & gc_x = gc("xdata");
-    GenericContainer const & gc_y = gc("ydata");
+    string where = fmt::format("QuinticSpline[{}]::setup( gc ):", m_name );
+    GenericContainer const & gc_x = gc("xdata",where.c_str());
+    GenericContainer const & gc_y = gc("ydata",where.c_str());
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", msg );
+      std::string ff = fmt::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", msg );
+      std::string ff = fmt::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     if ( gc.exists("spline_sub_type") ) {
-      std::string const & st = gc("spline_sub_type").get_string();
-      if      ( st == "cubic"  ) m_q_sub_type = CUBIC_QUINTIC;
-      else if ( st == "pchip"  ) m_q_sub_type = PCHIP_QUINTIC;
-      else if ( st == "akima"  ) m_q_sub_type = AKIMA_QUINTIC;
-      else if ( st == "bessel" ) m_q_sub_type = BESSEL_QUINTIC;
+      std::string const & st = gc.get_map_string("spline_sub_type",where.c_str());
+      if      ( st == "cubic"  ) m_q_sub_type = QuinticSpline_sub_type::CUBIC;
+      else if ( st == "pchip"  ) m_q_sub_type = QuinticSpline_sub_type::PCHIP;
+      else if ( st == "akima"  ) m_q_sub_type = QuinticSpline_sub_type::AKIMA;
+      else if ( st == "bessel" ) m_q_sub_type = QuinticSpline_sub_type::BESSEL;
       else {
-        UTILS_ERROR( "{} unknow sub type: {}\n", msg, st );
+        UTILS_ERROR( "{} unknow sub type: {}\n", where, st );
       }
     } else {
       UTILS_WARNING( false,
-        "{}, missing field `spline_sub_type` using `cubic` as default value\n", msg
+        "{}, missing field `spline_sub_type` using `cubic` as default value\n", where
       );
     }
     this->build( x, y );

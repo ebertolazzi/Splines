@@ -308,13 +308,13 @@ namespace Splines {
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
     for ( size_t i0 = 0; i0 < size_t(m_nx); ++i0 ) {
-      size_t imin = 4  > i0   ? 4-i0      : 0;
+      size_t imin = 4  > i0             ? 4-i0                : 0;
       size_t imax = size_t(m_nx) < 5+i0 ? 3+(size_t(m_nx)-i0) : 8;
 
       for ( size_t i = imin; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
       for ( size_t j0 = 0; j0 < size_t(m_ny); ++j0 ) {
-        size_t jmin = 4 > j0    ? 4-j0      : 0;
+        size_t jmin = 4 > j0              ? 4-j0                : 0;
         size_t jmax = size_t(m_ny) < 5+j0 ? 3+(size_t(m_ny)-j0) : 8;
 
         for ( size_t j = jmin; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];

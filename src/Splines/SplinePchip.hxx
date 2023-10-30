@@ -53,7 +53,7 @@ namespace Splines {
     ~PchipSpline() override {}
 
     //! Return spline type (as number)
-    unsigned type() const override { return PCHIP_TYPE; }
+    SplineType1D type() const override { return SplineType1D::PCHIP; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
