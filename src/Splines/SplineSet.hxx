@@ -66,15 +66,15 @@ namespace Splines {
     integer m_npts;
     integer m_nspl;
 
-    real_type *  m_X;
-    real_type ** m_Y;
-    real_type ** m_Yp;
-    real_type ** m_Ypp;
-    real_type *  m_Ymin;
-    real_type *  m_Ymax;
+    real_type *  m_X{nullptr};
+    real_type ** m_Y{nullptr};
+    real_type ** m_Yp{nullptr};
+    real_type ** m_Ypp{nullptr};
+    real_type *  m_Ymin{nullptr};
+    real_type *  m_Ymax{nullptr};
 
-    Spline ** m_splines;
-    int     * m_is_monotone;
+    Spline ** m_splines{nullptr};
+    int     * m_is_monotone{nullptr};
 
     BinarySearch m_header_to_position;
 
@@ -84,8 +84,7 @@ namespace Splines {
     //! find `x` value such that the monotone spline
     //! `(spline[spl])(x)` intersect the value `zeta`
     //!
-    Spline const *
-    intersect( integer spl, real_type zeta, real_type & x ) const;
+    Spline const * intersect( integer spl, real_type zeta, real_type & x ) const;
 
   public:
 
@@ -132,102 +131,79 @@ namespace Splines {
     is_monotone( integer i ) const
     { return m_is_monotone[i]; }
 
-    int
-    isMonotone( integer i ) const
-    { return m_is_monotone[i]; }
-
     //!
     //! Return the number of support points of the splines.
     //!
     integer num_points() const { return m_npts; }
-    integer numPoints() const { return m_npts; }
 
     //!
     //! Return the number splines in the spline set.
     //!
     integer num_splines() const { return m_nspl; }
-    integer numSplines() const { return m_nspl; }
 
     //!
     //! Return the column with header(i) == hdr,
     //! return -1 if not found.
     //!
     integer get_position( char const * hdr ) const;
-    integer getPosition( char const * hdr ) const { return get_position(hdr); }
 
     //!
     //! Return the vector of values of x-nodes.
     //!
     real_type const * x_nodes() const { return m_X; }
-    real_type const * xNodes() const { return m_X; }
 
     //!
     //! Return the vector of values of x-nodes.
     //!
     real_type const * y_nodes( integer i ) const;
-    real_type const * yNodes( integer i ) const;
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
     real_type x_node( integer npt ) const { return m_X[npt]; }
-    real_type xNode( integer npt ) const { return this->x_node(npt); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type y_node( integer npt, integer spl ) const { return m_Y[spl][npt]; }
-    real_type yNode( integer npt, integer spl ) const { return this->y_node(npt,spl); }
 
     //!
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_X[0]; }
-    real_type xMin() const { return this->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_X[m_npts-1]; }
-    real_type xMax() const { return this->x_max(); }
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type y_min( integer spl ) const { return m_Ymin[size_t(spl)]; }
-    real_type yMin( integer spl ) const { return this->y_min( spl ); }
 
     //!
     //! Return y-maximum spline value.
     //!
     real_type y_max( integer spl ) const { return m_Ymax[size_t(spl)]; }
-    real_type yMax( integer spl ) const { return this->y_max( spl ); }
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type
     y_min( char const * spl ) const {
-      integer idx = this->get_position(spl);
+      integer idx{ this->get_position(spl) };
       return m_Ymin[idx];
     }
-
-    real_type
-    yMin( char const * spl ) const
-    { return this->y_min(spl); }
 
     //!
     //! Return y-maximum spline value.
     //!
     real_type
     y_max( char const * spl ) const {
-      integer idx = this->get_position(spl);
+      integer idx{ this->get_position(spl) };
       return m_Ymax[idx];
     }
-
-    real_type
-    yMax( char const * spl ) const
-    { return this->y_max(spl); }
 
     ///@}
 
@@ -239,10 +215,6 @@ namespace Splines {
     //!
     Spline * get_spline( integer i ) const;
 
-    Spline *
-    getSpline( integer i ) const
-    { return this->get_spline(i); }
-
     //!
     //! Return pointer to the `i`-th spline.
     //!
@@ -251,10 +223,6 @@ namespace Splines {
       integer idx = this->get_position(hdr);
       return m_splines[idx];
     }
-
-    Spline *
-    getSpline( char const * hdr ) const
-    { return this->get_spline( hdr ); }
 
     ///@}
 
@@ -1417,6 +1385,25 @@ namespace Splines {
 
     void
     dump_table( ostream_type & s, integer num_points ) const;
+
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    int isMonotone( integer i ) const { return m_is_monotone[i]; }
+    integer numPoints() const { return m_npts; }
+    integer numSplines() const { return m_nspl; }
+    integer getPosition( char const * hdr ) const { return get_position(hdr); }
+    real_type const * xNodes() const { return m_X; }
+    real_type const * yNodes( integer i ) const;
+    real_type xNode( integer npt ) const { return this->x_node(npt); }
+    real_type yNode( integer npt, integer spl ) const { return this->y_node(npt,spl); }
+    real_type xMin() const { return this->x_min(); }
+    real_type xMax() const { return this->x_max(); }
+    real_type yMin( integer spl ) const { return this->y_min( spl ); }
+    real_type yMax( integer spl ) const { return this->y_max( spl ); }
+    real_type yMin( char const * spl ) const { return this->y_min(spl); }
+    real_type yMax( char const * spl ) const { return this->y_max(spl); }
+    Spline * getSpline( integer i ) const { return this->get_spline(i); }
+    Spline * getSpline( char const * hdr ) const { return this->get_spline( hdr ); }
+    #endif
 
   };
 

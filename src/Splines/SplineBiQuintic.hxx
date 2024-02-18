@@ -34,14 +34,14 @@ namespace Splines {
 
     Malloc_real mem;
 
-    real_type * m_DX;
-    real_type * m_DXX;
-    real_type * m_DY;
-    real_type * m_DYY;
-    real_type * m_DXY;
-    real_type * m_DXYY;
-    real_type * m_DXXY;
-    real_type * m_DXXYY;
+    real_type * m_DX{nullptr};
+    real_type * m_DXX{nullptr};
+    real_type * m_DY{nullptr};
+    real_type * m_DYY{nullptr};
+    real_type * m_DXY{nullptr};
+    real_type * m_DXYY{nullptr};
+    real_type * m_DXXY{nullptr};
+    real_type * m_DXXYY{nullptr};
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
   public:
@@ -50,36 +50,29 @@ namespace Splines {
     BiQuinticSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
     , mem("BiQuinticSplineBase")
-    , m_DX(nullptr)
-    , m_DXX(nullptr)
-    , m_DY(nullptr)
-    , m_DYY(nullptr)
-    , m_DXY(nullptr)
-    , m_DXYY(nullptr)
-    , m_DXXY(nullptr)
     {}
 
     ~BiQuinticSplineBase() override
     { mem.free(); }
 
     real_type
-    DxNode( integer i, integer j ) const
+    Dx_node( integer i, integer j ) const
     { return m_DX[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DyNode( integer i, integer j ) const
+    Dy_node( integer i, integer j ) const
     { return m_DY[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DxxNode( integer i, integer j ) const
+    Dxx_node( integer i, integer j ) const
     { return m_DXX[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DyyNode( integer i, integer j ) const
+    Dyy_node( integer i, integer j ) const
     { return m_DYY[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DxyNode( integer i, integer j ) const
+    Dxy_node( integer i, integer j ) const
     { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
     real_type operator () ( real_type x, real_type y ) const override;
@@ -104,7 +97,7 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
-    void makeSpline() override;
+    void make_spline() override;
   public:
 
     //! spline constructor

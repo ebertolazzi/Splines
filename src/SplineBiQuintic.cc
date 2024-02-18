@@ -38,7 +38,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiQuinticSpline::makeSpline() {
+  BiQuinticSpline::make_spline() {
 
     size_t dim = size_t( m_nx*m_ny );
     mem.reallocate( 8*dim );

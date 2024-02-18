@@ -36,9 +36,9 @@ namespace Splines {
 
     Malloc_real m_mem_bicubic;
 
-    real_type * m_DX;
-    real_type * m_DY;
-    real_type * m_DXY;
+    real_type * m_DX{nullptr};
+    real_type * m_DY{nullptr};
+    real_type * m_DXY{nullptr};
 
     using SplineSurf::m_nx;
     using SplineSurf::m_ny;
@@ -55,9 +55,6 @@ namespace Splines {
     BiCubicSplineBase( string const & name = "Spline" )
     : SplineSurf( name )
     , m_mem_bicubic("BiCubicSplineBase")
-    , m_DX(nullptr)
-    , m_DY(nullptr)
-    , m_DXY(nullptr)
     {}
 
     ~BiCubicSplineBase() override {}
@@ -68,15 +65,15 @@ namespace Splines {
     ///@{
 
     real_type
-    DxNode( integer i, integer j ) const
+    Dx_node( integer i, integer j ) const
     { return m_DX[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DyNode( integer i, integer j ) const
+    Dy_node( integer i, integer j ) const
     { return m_DY[size_t(this->ipos_C(i,j))]; }
 
     real_type
-    DxyNode( integer i, integer j ) const
+    Dxy_node( integer i, integer j ) const
     { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
     ///@}
@@ -110,7 +107,7 @@ namespace Splines {
   //! Cubic spline base class
   //!
   class BiCubicSpline : public BiCubicSplineBase {
-    void makeSpline() override;
+    void make_spline() override;
 
     using BiCubicSplineBase::m_mem_bicubic;
     using BiCubicSplineBase::m_DX;

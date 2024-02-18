@@ -29,10 +29,10 @@
 namespace Splines {
   void
   Pchip_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   );
 
   //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class

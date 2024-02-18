@@ -38,7 +38,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiCubicSpline::makeSpline() {
+  BiCubicSpline::make_spline() {
     size_t nn = size_t(m_nx*m_ny);
     m_mem_bicubic.reallocate( 3*nn );
     m_DX  = m_mem_bicubic( nn );

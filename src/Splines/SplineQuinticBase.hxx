@@ -35,9 +35,9 @@ namespace Splines {
   class QuinticSplineBase : public Spline {
   protected:
     Malloc_real m_baseValue;
-    real_type * m_Yp;
-    real_type * m_Ypp;
-    bool        m_external_alloc;
+    real_type * m_Yp{nullptr};
+    real_type * m_Ypp{nullptr};
+    bool        m_external_alloc{false};
 
   public:
 
@@ -56,9 +56,6 @@ namespace Splines {
     QuinticSplineBase( string const & name = "Spline" )
     : Spline(name)
     , m_baseValue(name+"_memeory")
-    , m_Yp(nullptr)
-    , m_Ypp(nullptr)
-    , m_external_alloc(false)
     {}
 
     ~QuinticSplineBase() override {}
@@ -66,9 +63,6 @@ namespace Splines {
     ///@}
 
     void copy_spline( QuinticSplineBase const & S );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void copySpline( QuinticSplineBase const & S ) { this->copy_spline(S); }
-    #endif
 
     //!
     //! \name Info
@@ -79,17 +73,11 @@ namespace Splines {
     //! Return the i-th node of the spline (y' component).
     //!
     real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type ypNode( integer i ) const { return this->yp_node(i); }
-    #endif
 
     //!
     //! Return the i-th node of the spline (y'' component).
     //!
     real_type ypp_node( integer i ) const { return m_Ypp[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yppNode( integer i ) const { return this->ypp_node(i); }
-    #endif
 
     void
     y_min_max(
@@ -121,9 +109,6 @@ namespace Splines {
     //! Change X-range of the spline
     //!
     void set_range( real_type xmin, real_type xmax );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void setRange( real_type xmin, real_type xmax ) { this->set_range( xmin, xmax ); }
-    #endif
 
     //!
     //! Use externally allocated memory for `npts` points
@@ -170,13 +155,19 @@ namespace Splines {
     //!
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const override;
 
     integer order() const override;
 
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    void copySpline( QuinticSplineBase const & S ) { this->copy_spline(S); }
+    real_type ypNode( integer i ) const { return this->yp_node(i); }
+    real_type yppNode( integer i ) const { return this->ypp_node(i); }
+    void setRange( real_type xmin, real_type xmax ) { this->set_range( xmin, xmax ); }
+    #endif
   };
 
 }

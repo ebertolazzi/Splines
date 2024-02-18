@@ -34,7 +34,7 @@ namespace Splines {
   class Spline2D {
   protected:
     std::string  m_name;
-    SplineSurf * m_spline_2D;
+    SplineSurf * m_spline_2D{nullptr};
 
     void new_spline( SplineType2D tp );
 
@@ -48,7 +48,6 @@ namespace Splines {
     //!
     Spline2D( string const & name = "Spline2D" )
     : m_name(name)
-    , m_spline_2D( nullptr )
     {}
 
     virtual
@@ -146,40 +145,26 @@ namespace Splines {
     //! Return the number of support points of the spline along x direction.
     //!
     integer num_point_x() const { return m_spline_2D->num_point_x(); }
-    integer numPointX() const { return m_spline_2D->num_point_x(); }
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
     integer num_point_y() const { return m_spline_2D->num_point_y(); }
-    integer numPointY() const { return m_spline_2D->num_point_y(); }
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type
-    x_node( integer i ) const { return m_spline_2D->x_node(i); }
-
-    real_type
-    xNode( integer i ) const { return this->x_node(i); }
+    real_type x_node( integer i ) const { return m_spline_2D->x_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type
-    y_node( integer i ) const { return m_spline_2D->y_node(i); }
-
-    real_type
-    yNode( integer i ) const { return this->y_node(i); }
+    real_type y_node( integer i ) const { return m_spline_2D->y_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type
-    z_node( integer i, integer j ) const { return m_spline_2D->z_node(i,j); }
-
-    real_type
-    zNode( integer i, integer j ) const { return this->z_node(i,j); }
+    real_type z_node( integer i, integer j ) const { return m_spline_2D->z_node(i,j); }
 
     ///@}
 
@@ -197,37 +182,31 @@ namespace Splines {
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_spline_2D->x_min(); }
-    real_type xMin() const { return this->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_spline_2D->x_max(); }
-    real_type xMax() const { return this->x_max(); }
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type y_min() const { return m_spline_2D->y_min(); }
-    real_type yMin() const { return this->y_min(); }
 
     //!
     //! Return y-maximum spline value
     //!
     real_type y_max() const { return m_spline_2D->y_max(); }
-    real_type yMax() const { return this->y_max(); }
 
     //!
     //! Return z-minumum spline value
     //!
     real_type z_min() const { return m_spline_2D->z_min(); }
-    real_type zMin() const { return this->z_min(); }
 
     //!
     //! Return z-maximum spline value
     //!
     real_type z_max() const { return m_spline_2D->z_max(); }
-    real_type zMax() const { return this->z_max(); }
 
     ///@}
 
@@ -458,6 +437,20 @@ namespace Splines {
     void
     dump_data( ostream_type & stream ) const
     { m_spline_2D->dump_data( stream ); }
+
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    integer numPointX() const { return m_spline_2D->num_point_x(); }
+    integer numPointY() const { return m_spline_2D->num_point_y(); }
+    real_type xNode( integer i ) const { return this->x_node(i); }
+    real_type yNode( integer i ) const { return this->y_node(i); }
+    real_type zNode( integer i, integer j ) const { return this->z_node(i,j); }
+    real_type xMin() const { return this->x_min(); }
+    real_type xMax() const { return this->x_max(); }
+    real_type yMin() const { return this->y_min(); }
+    real_type yMax() const { return this->y_max(); }
+    real_type zMin() const { return this->z_min(); }
+    real_type zMax() const { return this->z_max(); }
+    #endif
 
   };
 

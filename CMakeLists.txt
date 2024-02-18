@@ -20,6 +20,12 @@ project(
   HOMEPAGE_URL "https://ebertolazzi.github.io/Clothoids/"
 )
 
+if (APPLE)
+  set( CMAKE_OSX_DEPLOYMENT_TARGET "13.3" )
+  execute_process( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
+  set( CMAKE_OSX_ARCHITECTURES ${ARCHITECTURE} )
+endif()
+
 include(./cmake_utils/CMakeLists-cflags.txt)
 include(./cmake_utils/CMakeLists-utilities.txt)
 
@@ -88,59 +94,15 @@ include_directories( ./lib3rd/include )
 set(DEPEND_TARGETS)
 
 # DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
-set(UPDIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
-find_library(
-  UTILS Utils${ARTIFACTS_STATIC_SUFFIX}
-  HINTS ${UPDIR}/Utils/lib/lib
-  NO_DEFAULT_PATH
-)
-if( UTILS )
-  message(STATUS "Found Utils${ARTIFACTS_STATIC_SUFFIX}")
-  utils_copy_directory(
-    "${UPDIR}/Utils/lib"
-    "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd"
-  )
-else()
-  message(STATUS "NOT Found Utils${ARTIFACTS_STATIC_SUFFIX} use submodule")
-  add_subdirectory(./submodules/Utils)
-  include_directories(./submodules/Utils/src)
-  set( UTILS utils_Utils_Static )
-  set( DEPEND_TARGETS ${DEPEND_TARGETS} ${UTILS} )
-endif()
+utils_add_library_or_submodule( "quarticRootsFlocke" ROOTS )
+utils_add_library_or_submodule( "Utils" UTILS )
+utils_add_library_or_submodule( "GenericContainer" GC "GC" )
 
-# DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
-find_library(
-  ROOTS quarticRootsFlocke${ARTIFACTS_STATIC_SUFFIX}
-  HINTS ${UPDIR}/quarticRootsFlocke/lib/lib
-  NO_DEFAULT_PATH
-)
-if( ROOTS )
-  message(STATUS "Found quarticRootsFlocke${ARTIFACTS_STATIC_SUFFIX}")
-  include_directories(${UPDIR}/quarticRootsFlocke/lib/include)
-else()
-  message(STATUS "NOT Found quarticRootsFlocke${ARTIFACTS_STATIC_SUFFIX}")
-  add_subdirectory(./submodules/quarticRootsFlocke)
-  include_directories(./submodules/quarticRootsFlocke/src)
-  set( ROOTS utils_quarticRootsFlocke_Static )
-  set( DEPEND_TARGETS ${DEPEND_TARGETS} ${ROOTS} )
-endif()
-
-# DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
-find_library(
-  GC GenericContainer${ARTIFACTS_STATIC_SUFFIX}
-  HINTS ${UPDIR}/GC/lib/lib
-  NO_DEFAULT_PATH
-)
-if( GC )
-  message(STATUS "Found GenericContainer${ARTIFACTS_STATIC_SUFFIX}")
-  include_directories(${UPDIR}/GC/lib/include)
-else()
-  message(STATUS "NOT Found GenericContainer${ARTIFACTS_STATIC_SUFFIX}")
-  add_subdirectory(./submodules/GenericContainer)
-  include_directories(./submodules/GenericContainer/include)
-  set( GC utils_GenericContainer_Static )
-  set( DEPEND_TARGETS ${DEPEND_TARGETS} ${GC} )
-endif()
+message( STATUS "----------------------------------------------------------------" )
+message( STATUS "UTILS = ${UTILS}" )
+message( STATUS "ROOTS = ${ROOTS}" )
+message( STATUS "GC    = ${GC}" )
+message( STATUS "----------------------------------------------------------------" )
 
 add_definitions( -DSPLINES_NO_COMPATIBILITY )
 

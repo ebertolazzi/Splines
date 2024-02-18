@@ -31,7 +31,7 @@ namespace Splines {
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
     Malloc_real m_baseValue;
-    bool        m_external_alloc;
+    bool        m_external_alloc{false};
 
   public:
 
@@ -42,7 +42,6 @@ namespace Splines {
     ConstantSpline( string const & name = "ConstantSpline" )
     : Spline(name)
     , m_baseValue(name+"_memory")
-    , m_external_alloc(false)
     {}
 
     ~ConstantSpline() override {}
@@ -64,8 +63,8 @@ namespace Splines {
 
     void
     build(
-      real_type const * x, integer incx,
-      real_type const * y, integer incy,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
       integer n
     ) override;
     ///@}
@@ -101,12 +100,13 @@ namespace Splines {
 
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const override;
 
     integer order() const override;
+
     void setup( GenericContainer const & gc ) override;
 
     void

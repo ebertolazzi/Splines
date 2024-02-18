@@ -55,8 +55,8 @@ namespace Splines {
     // block method!
     void
     build(
-      real_type const *, integer,
-      real_type const *, integer,
+      real_type const [], integer,
+      real_type const [], integer,
       integer
     ) override;
 

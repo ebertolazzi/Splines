@@ -293,7 +293,7 @@ namespace Splines {
   //! the accuracy of a bicubic polynomial.
   //!
   void
-  Akima2Dspline::makeSpline() {
+  Akima2Dspline::make_spline() {
 
     size_t nn = size_t( m_nx*m_ny );
     m_mem_bicubic.reallocate( 3*nn );

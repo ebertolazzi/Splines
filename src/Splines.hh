@@ -448,73 +448,46 @@ namespace Splines {
     //! the number of support points of the spline.
     //!
     integer num_points() const { return m_npts; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    integer numPoints() const { return m_npts; }
-    #endif
 
     //!
     //! the i-th node of the spline (x component).
     //!
     real_type x_node( integer i ) const { return m_X[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
-    #endif
 
     //!
     //! the i-th node of the spline (y component).
     //!
     real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
-    #endif
 
     //!
     //! first node of the spline (x component).
     //!
     real_type x_begin() const { return m_X[0]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xBegin() const { return m_X[0]; }
-    #endif
 
     //!
     //! first node of the spline (y component).
     //!
     real_type y_begin() const { return m_Y[0]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yBegin() const { return m_Y[0]; }
-    #endif
 
     //!
     //! last node of the spline (x component).
     //!
     real_type x_end() const { return m_X[size_t(m_npts-1)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
-    #endif
 
     //!
     //! last node of the spline (y component).
     //!
     real_type y_end() const { return m_Y[size_t(m_npts-1)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yEnd() const { return m_Y[size_t(m_npts-1)]; }
-    #endif
 
     //!
     //! x-minumum spline value
     //!
     real_type x_min() const { return m_X[0]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xMin() const { return m_X[0]; }
-    #endif
 
     //!
     //! x-maximum spline value
     //!
     real_type x_max() const { return m_X[m_npts-1]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xMax() const { return m_X[m_npts-1]; }
-    #endif
 
     //!
     //! y-minumum spline value
@@ -525,9 +498,6 @@ namespace Splines {
       if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::min_element(m_Y,m_Y+N);
     }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yMin() const { return y_min(); }
-    #endif
 
     //!
     //! return y-maximum spline value
@@ -538,9 +508,6 @@ namespace Splines {
       if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::max_element(m_Y,m_Y+N);
     }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yMax() const { return y_max(); }
-    #endif
 
     //!
     //! Search the max and min values of `y` along the spline
@@ -692,16 +659,11 @@ namespace Splines {
     //! Add a support point (x,y) to the spline.
     //!
     void push_back( real_type x, real_type y );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void pushBack( real_type x, real_type y ) { push_back(x,y); }
-    #endif
+
     //!
     //! Drop last inserted point of the spline.
     //!
     void drop_back() { if ( m_npts > 0 ) --m_npts; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void dropBack() { drop_back(); }
-    #endif
 
     //!
     //! Delete the support points, empty the spline.
@@ -717,17 +679,11 @@ namespace Splines {
     //! change X-origin of the spline
     //!
     void set_origin( real_type x0 );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void setOrigin( real_type x0 ) { set_origin(x0); }
-    #endif
 
     //!
     //! change X-range of the spline
     //!
     void set_range( real_type xmin, real_type xmax );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void setRange( real_type xmin, real_type xmax ) { set_range( xmin, xmax ); }
-    #endif
 
     ///@}
 
@@ -762,9 +718,6 @@ namespace Splines {
     //! Print spline coefficients
     //!
     virtual void write_to_stream( ostream_type & s ) const = 0;
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
-    #endif
 
     ///@}
 
@@ -913,6 +866,14 @@ namespace Splines {
 
     ///@}
 
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    void pushBack( real_type x, real_type y ) { push_back(x,y); }
+    void dropBack() { drop_back(); }
+    void setOrigin( real_type x0 ) { set_origin(x0); }
+    void setRange( real_type xmin, real_type xmax ) { set_range( xmin, xmax ); }
+    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
+    #endif
+
   };
 
   //!
@@ -968,25 +929,16 @@ namespace Splines {
     ///@}
 
     void copy_spline( CubicSplineBase const & S );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void copySpline( CubicSplineBase const & S ) { this->copy_spline(S); }
-    #endif
 
     //!
     //! Return the i-th node of the spline (y' component).
     //!
     real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type ypNode( integer i ) const { return this->yp_node(i); }
-    #endif
 
     //!
     //! Change X-range of the spline.
     //!
     void set_range( real_type xmin, real_type xmax );
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void setRange( real_type xmin, real_type xmax ) { set_range( xmin, xmax ); }
-    #endif
 
     //!
     //! Use externally allocated memory for `npts` points.
@@ -1120,6 +1072,22 @@ namespace Splines {
 
     integer order() const override;
 
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    void copySpline( CubicSplineBase const & S ) { this->copy_spline(S); }
+    integer numPoints() const { return m_npts; }
+    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
+    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    real_type ypNode( integer i ) const { return this->yp_node(i); }
+    real_type xBegin() const { return m_X[0]; }
+    real_type yBegin() const { return m_Y[0]; }
+    real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
+    real_type yEnd() const { return m_Y[size_t(m_npts-1)]; }
+    real_type xMin() const { return m_X[0]; }
+    real_type xMax() const { return m_X[m_npts-1]; }
+    real_type yMin() const { return y_min(); }
+    real_type yMax() const { return y_max(); }
+    #endif
+
   };
 
   /*\
@@ -1189,7 +1157,7 @@ namespace Splines {
     ipos_F( integer i, integer j ) const
     { return this->ipos_F(i,j,m_nx); }
 
-    virtual void makeSpline() = 0;
+    virtual void make_spline() = 0;
 
     void
     load_Z(
@@ -1305,33 +1273,21 @@ namespace Splines {
     //! Return the number of support points of the spline along x direction.
     //!
     integer num_point_x() const { return m_nx; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    integer numPointX() const { return m_nx; }
-    #endif
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
     integer num_point_y() const { return m_ny; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    integer numPointY() const { return m_ny; }
-    #endif
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
     real_type x_node( integer i ) const { return m_X[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
-    #endif
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
-    #endif
 
     //!
     //! Return the i-th node of the spline (y component).
@@ -1340,59 +1296,35 @@ namespace Splines {
     z_node( integer i, integer j ) const
     { return m_Z[size_t(this->ipos_C(i,j))]; }
 
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type
-    zNode( integer i, integer j ) const
-    { return z_node(i,j); }
-    #endif
-
     //!
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_X[0]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xMin() const { return this->x_min(); }
-    #endif
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_X[m_nx-1]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type xMax() const { return this->x_max(); }
-    #endif
 
     //!
     //! Return y-minumum spline value.
     //!
     real_type y_min() const { return m_Y[0]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yMin() const { return this->y_min(); }
-    #endif
 
     //!
     //! Return y-maximum spline value.
     //!
     real_type y_max() const { return m_Y[m_ny-1]; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type yMax() const { return this->y_max(); }
-    #endif
 
     //!
     //! Return z-minumum spline value.
     //!
     real_type z_min() const { return m_Z_min; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type zMin() const { return m_Z_min; }
-    #endif
 
     //!
     //! Return z-maximum spline value.
     //!
     real_type z_max() const { return m_Z_max; }
-    #ifndef SPLINES_NO_COMPATIBILITY
-    real_type zMax() const { return m_Z_max; }
-    #endif
 
     ///@}
 
@@ -1608,9 +1540,6 @@ namespace Splines {
     //! Print spline coefficients.
     //!
     virtual void write_to_stream( ostream_type & s ) const = 0;
-    #ifndef SPLINES_NO_COMPATIBILITY
-    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
-    #endif
 
     //!
     //! Return spline type as a string pointer.
@@ -1633,6 +1562,21 @@ namespace Splines {
     //! Print stored data x, y, and matrix z.
     //!
     void dump_data( ostream_type & s ) const;
+
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    integer numPointX() const { return m_nx; }
+    integer numPointY() const { return m_ny; }
+    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
+    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    real_type zNode( integer i, integer j ) const { return z_node(i,j); }
+    real_type xMin() const { return this->x_min(); }
+    real_type xMax() const { return this->x_max(); }
+    real_type yMin() const { return this->y_min(); }
+    real_type yMax() const { return this->y_max(); }
+    real_type zMin() const { return m_Z_min; }
+    real_type zMax() const { return m_Z_max; }
+    void writeToStream( ostream_type & s ) const { write_to_stream(s); }
+    #endif
 
   };
 

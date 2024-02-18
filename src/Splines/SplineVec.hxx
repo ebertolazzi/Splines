@@ -33,9 +33,6 @@ namespace Splines {
   //!
   class SplineVec {
 
-    SplineVec( SplineVec const & ) = delete;
-    SplineVec const & operator = ( SplineVec const & ) = delete;
-
   protected:
 
     string const m_name;
@@ -48,9 +45,9 @@ namespace Splines {
     bool    m_curve_is_closed;
     bool    m_curve_can_extend;
 
-    real_type *  m_X;
-    real_type ** m_Y;
-    real_type ** m_Yp;
+    real_type *  m_X{nullptr};
+    real_type ** m_Y{nullptr};
+    real_type ** m_Yp{nullptr};
 
     #ifdef SPLINES_USE_THREADS
     mutable Utils::BinarySearch<integer> m_last_interval;
@@ -63,6 +60,9 @@ namespace Splines {
     void computeChords();
 
   public:
+
+    SplineVec( SplineVec const & ) = delete;
+    SplineVec const & operator = ( SplineVec const & ) = delete;
 
     //!
     //! \name Constructors
@@ -114,7 +114,6 @@ namespace Splines {
     //! Return the number of support points of the splines.
     //!
     integer num_points() const { return m_npts; }
-    integer numPoints() const { return m_npts; }
 
     //!
     //! Return the number splines in the spline set.
@@ -125,19 +124,16 @@ namespace Splines {
     //! Return the vector of values of x-nodes.
     //!
     real_type const * x_nodes() const { return m_X; }
-    real_type const * xNodes() const { return m_X; }
 
     //!
     //! Return the npt-th node of the spline (x component).
     //!
     real_type x_node( integer npt ) const { return m_X[size_t(npt)]; }
-    real_type xNode( integer npt ) const { return m_X[size_t(npt)]; }
 
     //!
     //! Return the vector of values of y-nodes, component `j`
     //!
     real_type const * y_nodes( integer j ) const { return m_Y[size_t(j)]; }
-    real_type const * yNodes( integer j ) const { return m_Y[size_t(j)]; }
 
     //!
     //! Return the npt-th node of the spline (`j` component of y).
@@ -146,21 +142,15 @@ namespace Splines {
     y_node( integer npt, integer j ) const
     { return m_Y[size_t(j)][size_t(npt)]; }
 
-    real_type
-    yNode( integer npt, integer j ) const
-    { return y_node(npt,j); }
-
     //!
     //! Return x-minumum spline value.
     //!
     real_type x_min() const { return m_X[0]; }
-    real_type xMin() const { return m_X[0]; }
 
     //!
     //! Return x-maximum spline value.
     //!
     real_type x_max() const { return m_X[size_t(m_npts-1)]; }
-    real_type xMax() const { return m_X[size_t(m_npts-1)]; }
 
     ///@}
 
@@ -537,6 +527,16 @@ namespace Splines {
 
     void
     dump_table( ostream_type & s, integer num_points ) const;
+
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    integer numPoints() const { return m_npts; }
+    real_type const * xNodes() const { return m_X; }
+    real_type xNode( integer npt ) const { return m_X[size_t(npt)]; }
+    real_type const * yNodes( integer j ) const { return m_Y[size_t(j)]; }
+    real_type yNode( integer npt, integer j ) const { return y_node(npt,j); }
+    real_type xMin() const { return m_X[0]; }
+    real_type xMax() const { return m_X[size_t(m_npts-1)]; }
+    #endif
 
   };
 

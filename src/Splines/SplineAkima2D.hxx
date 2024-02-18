@@ -38,7 +38,7 @@ namespace Splines {
   //!   ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.
   //!
   class Akima2Dspline : public BiCubicSplineBase {
-    void makeSpline() override;
+    void make_spline() override;
 
   public:
 

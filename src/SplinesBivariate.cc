@@ -113,7 +113,7 @@ namespace Splines {
     }
     m_Z_max = *std::max_element(m_Z,m_Z+m_nx*m_ny);
     m_Z_min = *std::min_element(m_Z,m_Z+m_nx*m_ny);
-    makeSpline();
+    make_spline();
   }
 
   #endif

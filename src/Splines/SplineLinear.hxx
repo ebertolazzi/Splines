@@ -31,7 +31,7 @@ namespace Splines {
   //! Linear spline class
   class LinearSpline : public Spline {
     Malloc_real m_baseValue;
-    bool        m_external_alloc;
+    bool        m_external_alloc{false};
 
   public:
 
@@ -41,8 +41,7 @@ namespace Splines {
 
     LinearSpline( string const & name = "LinearSpline" )
     : Spline(name)
-    , m_baseValue( name+"_memory")
-    , m_external_alloc(false)
+    , m_baseValue( name+"_memory" )
     {
       m_curve_extended_constant = true; // by default linear spline extend constant
     }
@@ -80,9 +79,9 @@ namespace Splines {
 
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const override;
 
     integer order() const override;

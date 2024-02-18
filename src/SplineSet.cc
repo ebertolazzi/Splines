@@ -150,10 +150,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type const *
-  SplineSet::yNodes( integer i ) const {
+  SplineSet::y_nodes( integer i ) const {
     UTILS_ASSERT(
       i >=0 && i < m_nspl,
-      "SplineSet[{}]::yNodes({}) argument out of range [0,{}]\n",
+      "SplineSet[{}]::y_nodes({}) argument out of range [0,{}]\n",
       m_name, i, m_nspl-1
     );
     return m_Y[i];
