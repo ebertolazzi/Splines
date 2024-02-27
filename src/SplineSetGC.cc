@@ -76,8 +76,7 @@ namespace Splines {
     Yp . resize( size_t(m_nspl) );
 
     // se tipo vettore o matrice deve esserci headers
-    if ( GC_type::MAT_REAL == gc_ydata.get_type() ||
-         GC_type::VECTOR   == gc_ydata.get_type() ) {
+    if ( GC_type::MAP != gc_ydata.get_type() ) {
       GenericContainer const & gc_headers = gc("headers",where.c_str());
       gc_headers.copyto_vec_string( headers, (where+", reading `headers'").c_str() );
       UTILS_ASSERT(
@@ -87,7 +86,24 @@ namespace Splines {
       );
     }
 
-    if ( GC_type::MAT_REAL == gc_ydata.get_type() ) {
+    if ( GC_type::VEC_REAL == gc_ydata.get_type() ) {
+      // leggo vecttore come matrice di una sola colonna
+      vec_real_type const & data = gc_ydata.get_vec_real();
+      UTILS_ASSERT(
+        m_nspl == 1,
+        "{}, number of splines [{}]\n"
+        "is incompatible with the type of `ydata` a vector (or a matrix with 1 column) in data\n",
+        where, m_nspl
+      );
+      UTILS_ASSERT(
+        size_t(m_npts) == data.size(),
+        "{}, number of points [{}]\n"
+        "differs from the number of `ydata` rows [{}] in data\n",
+        where, m_npts, data.size()
+      );
+      Y[0].reserve(data.size());
+      std::copy( data.begin(), data.end(), std::back_inserter(Y[0]) );
+    } else if ( GC_type::MAT_REAL == gc_ydata.get_type() ) {
       // leggo matrice
       mat_real_type const & data = gc_ydata.get_mat_real();
       UTILS_ASSERT(
