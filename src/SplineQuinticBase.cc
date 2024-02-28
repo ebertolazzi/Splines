@@ -105,8 +105,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::eval( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -130,8 +130,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::D( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_D( res.first, res.second );
   }
 
@@ -155,8 +155,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DD( res.first, res.second );
   }
 
@@ -180,8 +180,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DDD( res.first, res.second );
   }
 
@@ -205,8 +205,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DDDD( res.first, res.second );
   }
 
@@ -230,8 +230,8 @@ namespace Splines {
 
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DDDDD( res.first, res.second );
   }
 

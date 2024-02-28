@@ -85,7 +85,7 @@ namespace Splines {
     //!
     //! Search the segment containing `x`
     //!
-    void search( real_type x, std::pair<integer,real_type> & res ) const;
+    void search( std::pair<integer,real_type> & res ) const;
 
     //!
     //! Spline name usd in the constructor

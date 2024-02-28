@@ -46,8 +46,8 @@ namespace Splines {
 
   real_type
   LinearSpline::eval( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -64,8 +64,8 @@ namespace Splines {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_D( res.first, res.second );
   }
 

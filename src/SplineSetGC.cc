@@ -346,7 +346,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( integer pos{0}; pos < m_header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D{ m_header_to_position.get_elem( pos ) };
       vals[D.first] = m_splines[size_t(D.second)]->eval(x);
     }
   }
@@ -367,7 +367,7 @@ namespace Splines {
 
     // preallocation
     for ( integer pos{0}; pos < m_header_to_position.n_elem(); ++pos ) {
-      BinarySearch::DATA_TYPE const & D = m_header_to_position.get_elem( pos );
+      BinarySearch::DATA_TYPE const & D{ m_header_to_position.get_elem( pos ) };
       vals[D.first].set_vec_real(unsigned(npts));
     }
 

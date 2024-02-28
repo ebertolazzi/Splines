@@ -415,7 +415,7 @@ namespace Splines {
     //!
     //! Find interval containing `x` using binary search.
     //!
-    void search( real_type x, std::pair<integer,real_type> & res ) const;
+    void search( std::pair<integer,real_type> & res ) const;
 
     //!
     //! \name Open/Close

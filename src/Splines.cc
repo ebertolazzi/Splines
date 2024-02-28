@@ -238,7 +238,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Spline::search( real_type x, std::pair<integer,real_type> & res ) const {
+  Spline::search( std::pair<integer,real_type> & res ) const {
     UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
     bool ok{true};
@@ -250,13 +250,12 @@ namespace Splines {
     Utils::search_interval(
       m_npts,
       m_X,
-      x,
+      res.second,
       last_interval,
       m_curve_is_closed,
       m_curve_can_extend
     );
-    res.first  = last_interval;
-    res.second = x;
+    res.first = last_interval;
   }
 
   void

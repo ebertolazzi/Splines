@@ -45,12 +45,14 @@ namespace Splines {
     size_t U{ data.size() };
     size_t L{ 0 };
     while ( U-L > 1 ) {
-      size_t pos{ (L+U)>>1 };
-      std::string const & id_pos = data[pos].first;
+      size_t pos{ (L+U)>>1 }; // se L=U+1 --> (L+U)/2 ==> L
+      std::string const & id_pos{ data[pos].first };
       if ( id_pos < id ) L = pos; else U = pos;
     }
     if ( data[L].first == id ) return data[L].second;
-    if ( data[U].first == id ) return data[U].second;
+    if ( U < data.size() )
+      if ( data[U].first == id )
+        return data[U].second;
     return -1; // non trovato
   }
 
@@ -61,7 +63,7 @@ namespace Splines {
     size_t pos{ data.size() };
     data.push_back(DATA_TYPE(id,position));
     while ( pos > 0 ) {
-      size_t pos1 = pos-1;
+      size_t pos1{pos-1};
       data[pos].first  = data[pos1].first;
       data[pos].second = data[pos1].second;
       if ( data[pos1].first < id ) break;

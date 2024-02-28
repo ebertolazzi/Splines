@@ -136,8 +136,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::eval( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -160,8 +160,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::D( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_D( res.first, res.second );
   }
 
@@ -184,8 +184,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DD( res.first, res.second );
   }
 
@@ -208,8 +208,8 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DDD( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return this->id_DDD( res.first, res.second );
   }
 

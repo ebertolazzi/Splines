@@ -83,3 +83,5 @@ docs_build/xml-matlab
 docs_build/sphinx/_doxygen
 toolbox/lib/cmake-build-debug
 toolbox/cmake-build-debug
+
+/Xcode

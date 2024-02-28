@@ -72,8 +72,8 @@ namespace Splines {
   //! Evalute spline value at `x`
   real_type
   ConstantSpline::eval( real_type x ) const {
-    std::pair<integer,real_type> res;
-    this->search( x, res );
+    std::pair<integer,real_type> res(0,x);
+    this->search( res );
     return m_Y[res.first];
   }
 
