@@ -4,7 +4,7 @@
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
- |         | __/ _   ,_         | __/ _   ,_                                | 
+ |         | __/ _   ,_         | __/ _   ,_                                |
  |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |
  |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |
  |                           /|                   /|                        |
@@ -395,13 +395,13 @@ namespace Splines {
 
   void
   first_derivative_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   ) {
 
-    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
+    size_t n{ npts > 0 ? size_t( npts - 1 ) : 0 };
 
     // special case n=2 -- use linear interpolation.
     {
@@ -436,7 +436,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( size_t i = 2; i < n-1 ; ++i ) {
+    for ( size_t i{2}; i < n-1 ; ++i ) {
 
       real_type hLL = X[i-1] - X[i-2];
       real_type hL  = X[i+0] - X[i-1];
@@ -471,14 +471,14 @@ namespace Splines {
 
   void
   second_derivative_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    real_type       * Ypp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    real_type       Ypp[],
+    integer         npts
   ) {
 
-    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
+    size_t n{ npts > 0 ? size_t( npts - 1 ) : 0 };
 
     // special case n=2 -- use linear interpolation.
     switch ( npts ) {
@@ -488,7 +488,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( size_t i = 1; i < n ; ++i ) {
+    for ( size_t i{1}; i < n ; ++i ) {
 
       real_type hL = X[i+0] - X[i-1];
       real_type hR = X[i+1] - X[i+0];

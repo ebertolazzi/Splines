@@ -30,7 +30,7 @@ namespace Splines {
 
   //! Linear spline class
   class LinearSpline : public Spline {
-    Malloc_real m_baseValue;
+    Malloc_real m_mem_linear;
     bool        m_external_alloc{false};
 
   public:
@@ -41,7 +41,7 @@ namespace Splines {
 
     LinearSpline( string const & name = "LinearSpline" )
     : Spline(name)
-    , m_baseValue( name+"_memory" )
+    , m_mem_linear( fmt::format( "LinearSpline[{}]", name ) )
     {
       m_curve_extended_constant = true; // by default linear spline extend constant
     }

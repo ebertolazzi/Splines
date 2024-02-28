@@ -45,7 +45,7 @@ namespace Splines {
 
   void
   Hermite3( real_type x, real_type H, real_type base[4] ) {
-    real_type X = x/H;
+    real_type X{x/H};
     base[1] = X*X*(3-2*X);
     base[0] = 1-base[1];
     base[2] = x*(X*(X-2)+1);
@@ -56,7 +56,7 @@ namespace Splines {
 
   void
   Hermite3_D( real_type x, real_type H, real_type base_D[4] ) {
-    real_type X = x/H;
+    real_type X{x/H};
     base_D[0] = 6.0*X*(X-1.0)/H;
     base_D[1] = -base_D[0];
     base_D[2] = ((3*X-4)*X+1);
@@ -67,7 +67,7 @@ namespace Splines {
 
   void
   Hermite3_DD( real_type x, real_type H, real_type base_DD[4] ) {
-    real_type X = x/H;
+    real_type X{x/H};
     base_DD[0] = (12*X-6)/(H*H);
     base_DD[1] = -base_DD[0];
     base_DD[2] = (6*X-4)/H;
@@ -258,8 +258,8 @@ namespace Splines {
 
   void
   HermiteSpline::build(
-    real_type const *, integer,
-    real_type const *, integer,
+    real_type const [], integer,
+    real_type const [], integer,
     integer
   ) {
     UTILS_ERROR(
@@ -285,22 +285,22 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("HermiteSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x  = gc("xdata",where.c_str());
-    GenericContainer const & gc_y  = gc("ydata",where.c_str());
-    GenericContainer const & gc_yp = gc("ypdata",where.c_str());
+    string where{ fmt::format("HermiteSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
+    GenericContainer const & gc_yp{ gc("ypdata",where.c_str()) };
 
     vec_real_type x, y, yp;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real( y, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ypdata'", where );
+      std::string ff{ fmt::format( "{}, field `ypdata'", where ) };
       gc_yp.copyto_vec_real( yp, ff.c_str() );
     }
     this->build( x, y, yp );

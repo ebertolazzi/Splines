@@ -43,7 +43,7 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BilinearSpline( string const & name = "Spline" )
+    BilinearSpline( string const & name = "BilinearSpline" )
     : SplineSurf(name)
     {}
 

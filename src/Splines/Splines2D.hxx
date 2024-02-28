@@ -217,19 +217,17 @@ namespace Splines {
 
     void
     build(
-      SplineType2D      tp,
-      real_type const * x, integer incx,
-      real_type const * y, integer incy,
-      real_type const * z, integer ldZ,
-      integer           nx,
-      integer           ny,
-      bool              fortran_storage = false,
-      bool              transposed      = false
+      SplineType2D    tp,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
+      real_type const z[], integer ldZ,
+      integer         nx,
+      integer         ny,
+      bool            fortran_storage = false,
+      bool            transposed      = false
     ) {
       new_spline( tp );
-      m_spline_2D->build(
-        x, incx, y, incy, z, ldZ, nx, ny, fortran_storage, transposed
-      );
+      m_spline_2D->build( x, incx, y, incy, z, ldZ, nx, ny, fortran_storage, transposed );
     }
 
     //!
@@ -273,13 +271,13 @@ namespace Splines {
     //!
     void
     build(
-      SplineType2D      tp,
-      real_type const * z,
-      integer           ldZ,
-      integer           nx,
-      integer           ny,
-      bool              fortran_storage = false,
-      bool              transposed      = false
+      SplineType2D    tp,
+      real_type const z[],
+      integer         ldZ,
+      integer         nx,
+      integer         ny,
+      bool            fortran_storage = false,
+      bool            transposed      = false
     ) {
       new_spline( tp );
       m_spline_2D->build( z, ldZ, nx, ny, fortran_storage, transposed );
@@ -323,12 +321,7 @@ namespace Splines {
     //!        using Akima algorithm to avoid obscillation
     //!
     void
-    setup( GenericContainer const & gc ) {
-      string where = fmt::format("Spline2D[{}]::setup( gc ):", m_name );
-      string type = gc.get_map_string("spline_type",where.c_str());
-      new_spline( string_to_splineType2D( type ) );
-      m_spline_2D->setup( gc );
-    }
+    setup( GenericContainer const & gc );
 
     void
     build( GenericContainer const & gc )

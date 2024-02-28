@@ -61,10 +61,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   void
   SplineSurf::load_Z(
-    real_type const * z,
-    integer           ldZ,
-    bool              fortran_storage,
-    bool              transposed
+    real_type const z[],
+    integer         ldZ,
+    bool            fortran_storage,
+    bool            transposed
   ) {
     if ( transposed ) {
       if ( fortran_storage ) {
@@ -140,13 +140,13 @@ namespace Splines {
   //!
   void
   SplineSurf::build(
-    real_type const * x, integer incx,
-    real_type const * y, integer incy,
-    real_type const * z, integer ldZ,
-    integer           nx,
-    integer           ny,
-    bool              fortran_storage,
-    bool              transposed
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
+    real_type const z[], integer ldZ,
+    integer         nx,
+    integer         ny,
+    bool            fortran_storage,
+    bool            transposed
   ) {
     m_nx = nx;
     m_ny = ny;
@@ -184,12 +184,12 @@ namespace Splines {
   //!
   void
   SplineSurf::build(
-    real_type const * z,
-    integer           ldZ,
-    integer           nx,
-    integer           ny,
-    bool              fortran_storage,
-    bool              transposed
+    real_type const z[],
+    integer         ldZ,
+    integer         nx,
+    integer         ny,
+    bool            fortran_storage,
+    bool            transposed
   ) {
     m_nx = nx;
     m_ny = ny;

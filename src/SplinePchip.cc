@@ -72,7 +72,7 @@ namespace Splines {
   inline
   real_type
   max_abs( real_type a, real_type b ) {
-    real_type res = std::abs(a);
+    real_type res{ std::abs(a) };
     if ( res < std::abs(b) ) res = std::abs(b);
     return res;
   }
@@ -83,7 +83,7 @@ namespace Splines {
   inline
   real_type
   min_abs( real_type a, real_type b ) {
-    real_type res = std::abs(a);
+    real_type res{ std::abs(a) };
     if ( res > std::abs(b) ) res = std::abs(b);
     return res;
   }
@@ -101,8 +101,8 @@ namespace Splines {
   inline
   int
   signTest( real_type const a, real_type const b ) {
-    int sa = 0;
-    int sb = 0;
+    int sa{0};
+    int sb{0};
     if      ( a > 0 ) sa =  1;
     else if ( a < 0 ) sa = -1;
     if      ( b > 0 ) sb =  1;
@@ -124,26 +124,26 @@ namespace Splines {
   //!
   void
   Pchip_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   ) {
 
-    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
+    size_t n{ npts > 0 ? size_t( npts - 1 ) : 0 };
 
     //integer ierr = 0;
 
     // function definition is ok, go on.
-    real_type h1    = X[1] - X[0];
-    real_type del1  = (Y[1]-Y[0])/h1;
+    real_type h1{ X[1] - X[0] };
+    real_type del1{ (Y[1]-Y[0])/h1 };
     //real_type dsave = del1;
 
     // special case n=2 -- use linear interpolation.
     if ( n == 1 ) { Yp[0] = Yp[1] = del1; return; }
 
-    real_type h2   = X[2] - X[1];
-    real_type del2 = (Y[2]-Y[1])/h2;
+    real_type h2{ X[2] - X[1] };
+    real_type del2{ (Y[2]-Y[1])/h2 };
 
     // Set Yp[0] via non-centered three-point formula, adjusted to be shape-preserving.
     real_type hsum = h1 + h2;
@@ -160,7 +160,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( size_t i = 1; i < n; ++i ) {
+    for ( size_t i{1}; i < n; ++i ) {
       if ( i > 1 ) {
         h1   = h2;
         h2   = X[i+1] - X[i];
@@ -210,10 +210,10 @@ namespace Splines {
   static // non usata per ora
   void
   Pchip_build_new(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   ) {
 
     first_derivative_build( X, Y, Yp, npts );
@@ -221,7 +221,7 @@ namespace Splines {
     size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
 
     // loop through interior points.
-    for ( size_t i = 1; i < n ; ++i ) {
+    for ( size_t i{1}; i < n ; ++i ) {
 
       real_type hL = X[i+0] - X[i-1];
       real_type hR = X[i+1] - X[i+0];
@@ -254,7 +254,7 @@ namespace Splines {
 
   void
   PchipSpline::build() {
-    string msg = fmt::format("PchipSpline[{}]::build():", m_name );
+    string msg{ fmt::format("PchipSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",
@@ -291,17 +291,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("PchipSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("PchipSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

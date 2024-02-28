@@ -72,7 +72,7 @@ namespace Splines {
   ) {
     t[0]      = 0;
     t[npts-1] = 1;
-    for ( integer k = 1; k < npts-1; ++k )
+    for ( integer k{1}; k < npts-1; ++k )
       t[k] = static_cast<real_type>(k)/static_cast<real_type>(npts);
   }
 
@@ -80,24 +80,24 @@ namespace Splines {
 
   void
   chordal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   ) {
     t[0] = 0;
-    real_type const * p0 = pnts;
-    for ( integer k = 1; k < npts; ++k ) {
-      real_type const * p1 = p0 + ld_pnts;
+    real_type const * p0{pnts};
+    for ( integer k{1}; k < npts; ++k ) {
+      real_type const * p1{p0 + ld_pnts};
       real_type dst = 0;
-      for ( integer j = 0; j < dim; ++j ) {
-        real_type c = p1[j] - p0[j];
+      for ( integer j{0}; j < dim; ++j ) {
+        real_type c{p1[j] - p0[j]};
         dst += c*c;
       }
       t[k] = t[k-1] + sqrt(dst);
     }
-    for ( integer k = 1; k < npts-1; ++k ) t[k] /= t[npts-1];
+    for ( integer k{1}; k < npts-1; ++k ) t[k] /= t[npts-1];
     t[npts-1] = 1;
   }
 
@@ -105,25 +105,25 @@ namespace Splines {
 
   void
   centripetal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type         alpha,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       alpha,
+    real_type       t[]
   ) {
     t[0] = 0;
-    real_type const * p0 = pnts;
-    for ( integer k = 1; k < npts; ++k ) {
-      real_type const * p1 = p0 + ld_pnts;
-      real_type dst = 0;
-      for ( integer j = 0; j < dim; ++j ) {
-        real_type c = p1[j] - p0[j];
+    real_type const * p0{pnts};
+    for ( integer k{1}; k < npts; ++k ) {
+      real_type const * p1{p0 + ld_pnts};
+      real_type dst{0};
+      for ( integer j{0}; j < dim; ++j ) {
+        real_type c{p1[j] - p0[j]};
         dst += c*c;
       }
       t[k] = t[k-1] + pow(dst,alpha/2);
     }
-    for ( integer k = 1; k < npts-1; ++k ) t[k] /= t[npts-1];
+    for ( integer k{1}; k < npts-1; ++k ) t[k] /= t[npts-1];
     t[npts-1] = 1;
   }
 
@@ -133,33 +133,33 @@ namespace Splines {
 
   void
   universal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   ); // to be done
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   FoleyNielsen(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   ); // to be done
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   FangHung(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   ); // to be done
 
   #endif
@@ -170,7 +170,7 @@ namespace Splines {
 
   SplineType1D
   string_to_splineType1D( std::string const & nin ) {
-    std::string n = nin;
+    std::string n{nin};
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     if      ( n == "constant" )   return SplineType1D::CONSTANT;
     else if ( n == "linear" )     return SplineType1D::LINEAR;
@@ -187,7 +187,7 @@ namespace Splines {
 
   SplineType2D
   string_to_splineType2D( std::string const & nin ) {
-    std::string n = nin;
+    std::string n{nin};
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     if      ( n == "bilinear"  ) return SplineType2D::BILINEAR;
     else if ( n == "bicubic"   ) return SplineType2D::BICUBIC;
@@ -337,19 +337,19 @@ namespace Splines {
   //! Check if cubic spline with this data is monotone, return -1 no, 0 yes, 1 strictly monotone
   integer
   checkCubicSplineMonotonicity(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    integer         npts
   ) {
     // check monotonicity of data: (assuming X monotone)
-    integer flag = 1;
-    for ( size_t i = 1; i < size_t(npts); ++i ) {
+    integer flag{1};
+    for ( size_t i{1}; i < size_t(npts); ++i ) {
       if ( Y[i-1] > Y[i] ) return -2; // non monotone data
       if ( Utils::is_zero(Y[i-1]-Y[i]) && X[i-1] < X[i] ) flag = 0; // non strict monotone
     }
     // pag 146 Methods of Shape-Preserving Spline Approximation, K
-    for ( size_t i = 1; i < size_t(npts); ++i ) {
+    for ( size_t i{1}; i < size_t(npts); ++i ) {
       if ( X[i] <= X[i-1] ) continue; // skip duplicate points
       real_type dd = (Y[i]-Y[i-1])/(X[i]-X[i-1]);
       real_type m0 = Yp[i-1]/dd;
@@ -379,13 +379,13 @@ namespace Splines {
 
   void
   Spline::build(
-    real_type const * x, integer incx,
-    real_type const * y, integer incy,
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
     integer n
   ) {
     reserve( n );
-    for ( integer i = 0; i < n; ++i ) m_X[i] = x[i*incx];
-    for ( integer i = 0; i < n; ++i ) m_Y[i] = y[i*incy];
+    for ( integer i{0}; i < n; ++i ) m_X[i] = x[i*incx];
+    for ( integer i{0}; i < n; ++i ) m_Y[i] = y[i*incy];
     m_npts = n;
     build();
   }
@@ -444,8 +444,8 @@ namespace Splines {
 
   void
   Spline::set_origin( real_type x0 ) {
-    real_type Tx = x0 - m_X[0];
-    real_type *ix = m_X;
+    real_type Tx{x0 - m_X[0]};
+    real_type * ix{m_X};
     while ( ix < m_X+m_npts ) *ix++ += Tx;
   }
 
@@ -471,9 +471,9 @@ namespace Splines {
     char const *   header
   ) const {
     s << header << '\n';
-    real_type dx = (x_max()-x_min())/nintervals;
-    for ( integer i = 0; i <= nintervals; ++i ) {
-      real_type x = x_min() + i*dx;
+    real_type dx{ (x_max()-x_min())/nintervals };
+    for ( integer i{0}; i <= nintervals; ++i ) {
+      real_type x{ x_min() + i*dx };
       fmt::print( s, "{}\t{}\n", x, this->eval(x) );
     }
   }
@@ -577,17 +577,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("Spline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("Spline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     build( x, y );

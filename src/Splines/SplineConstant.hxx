@@ -30,7 +30,7 @@ namespace Splines {
 
   //! Picewise constants spline class
   class ConstantSpline : public Spline {
-    Malloc_real m_baseValue;
+    Malloc_real m_mem_constant;
     bool        m_external_alloc{false};
 
   public:
@@ -41,7 +41,7 @@ namespace Splines {
 
     ConstantSpline( string const & name = "ConstantSpline" )
     : Spline(name)
-    , m_baseValue(name+"_memory")
+    , m_mem_constant( fmt::format("ConstantSpline[{}]",name) )
     {}
 
     ~ConstantSpline() override {}

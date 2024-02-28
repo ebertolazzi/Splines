@@ -40,15 +40,8 @@ namespace Splines {
   //! spline constructor
   SplineVec::SplineVec( string const & name )
   : m_name(name)
-  , m_baseValue(name+"_values")
-  , m_basePointer(name+"_pointers")
-  , m_dim(0)
-  , m_npts(0)
-  , m_curve_is_closed(false)
-  , m_curve_can_extend(true)
-  , m_X(nullptr)
-  , m_Y(nullptr)
-  , m_Yp(nullptr)
+  , m_mem( fmt::format( "SplineVec[{}]::m_mem", name ) )
+  , m_mem_p( fmt::format( "SplineVec[{}]::m_mem_p", name ) )
   {
     init_last_interval();
   }
@@ -57,14 +50,14 @@ namespace Splines {
 
   //! spline destructor
   SplineVec::~SplineVec() {
-    m_baseValue.free();
-    m_basePointer.free();
+    m_mem.free();
+    m_mem_p.free();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::search( real_type x, std::pair<integer,real_type> & res) const {
+  SplineVec::search( real_type x, std::pair<integer,real_type> & res ) const {
     UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
     bool ok{true};
@@ -137,34 +130,21 @@ namespace Splines {
     m_dim  = dim;
     m_npts = npts;
 
-    m_baseValue.reallocate( size_t((2*dim+1)*npts) );
-    m_basePointer.reallocate( size_t(2*dim) );
+    m_mem.reallocate( size_t((2*dim+1)*npts) );
+    m_mem_p.reallocate( size_t(2*dim) );
 
-    m_Y  = m_basePointer(size_t(m_dim));
-    m_Yp = m_basePointer(size_t(m_dim));
-    m_X  = m_baseValue(size_t(m_npts));
+    m_Y  = m_mem_p(size_t(m_dim));
+    m_Yp = m_mem_p(size_t(m_dim));
+    m_X  = m_mem(size_t(m_npts));
 
-    for ( size_t spl = 0; spl < size_t(m_dim); ++spl ) {
-      m_Y[size_t(spl)]  = m_baseValue(size_t(m_npts));
-      m_Yp[size_t(spl)] = m_baseValue(size_t(m_npts));
+    for ( size_t spl{0}; spl < size_t(m_dim); ++spl ) {
+      m_Y[spl]  = m_mem(size_t(m_npts));
+      m_Yp[spl] = m_mem(size_t(m_npts));
     }
 
-    m_baseValue   . must_be_empty( "SplineVec::build, baseValue" );
-    m_basePointer . must_be_empty( "SplineVec::build, basePointer" );
+    m_mem.must_be_empty( "SplineVec::build, baseValue" );
+    m_mem_p.must_be_empty( "SplineVec::build, basePointer" );
 
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  SplineVec::setup(
-    integer            dim,
-    integer            npts,
-    real_type const ** Y
-  ) {
-    allocate( dim, npts );
-    for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
-      std::copy_n( Y[spl], m_npts, m_Y[spl] );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -173,12 +153,25 @@ namespace Splines {
   SplineVec::setup(
     integer           dim,
     integer           npts,
-    real_type const * Y,
-    integer           ldY
+    real_type const * Y[]
   ) {
     allocate( dim, npts );
-    for ( size_t spl = 0; spl < size_t(m_dim); ++spl )
-      for ( size_t j = 0; j < size_t(m_npts); ++j )
+    for ( size_t spl{0}; spl < size_t(m_dim); ++spl )
+      std::copy_n( Y[spl], m_npts, m_Y[spl] );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  SplineVec::setup(
+    integer         dim,
+    integer         npts,
+    real_type const Y[],
+    integer         ldY
+  ) {
+    allocate( dim, npts );
+    for ( size_t spl{0}; spl < size_t(m_dim); ++spl )
+      for ( size_t j{0}; j < size_t(m_npts); ++j )
         m_Y[spl][j] = Y[spl+j*size_t(ldY)];
   }
 
@@ -192,28 +185,28 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   void
   SplineVec::computeChords() {
-    size_t nn = size_t(m_npts-1);
+    size_t nn{ size_t(m_npts-1) };
     switch ( m_dim ) {
     case 2:
-      for ( size_t j = 0; j < nn; ++j ) {
-        real_type dx = m_Y[0][j+1] - m_Y[0][j];
-        real_type dy = m_Y[1][j+1] - m_Y[1][j];
+      for ( size_t j{0}; j < nn; ++j ) {
+        real_type dx{ m_Y[0][j+1] - m_Y[0][j] };
+        real_type dy{ m_Y[1][j+1] - m_Y[1][j] };
         m_X[j] = hypot( dx, dy );
       }
       break;
     case 3:
-      for ( size_t j = 0; j < nn; ++j ) {
-        real_type dx = m_Y[0][j+1] - m_Y[0][j];
-        real_type dy = m_Y[1][j+1] - m_Y[1][j];
-        real_type dz = m_Y[2][j+1] - m_Y[2][j];
+      for ( size_t j{0}; j < nn; ++j ) {
+        real_type dx{ m_Y[0][j+1] - m_Y[0][j] };
+        real_type dy{ m_Y[1][j+1] - m_Y[1][j] };
+        real_type dz{ m_Y[2][j+1] - m_Y[2][j] };
         m_X[j] = hypot( dx, hypot( dy, dz ) );
       }
       break;
     default:
-      for ( size_t j = 0; j < nn; ++j ) {
-        real_type l = 0;
-        for ( size_t k = 0; k < size_t(m_dim); ++k ) {
-          real_type d = m_Y[k][j+1] - m_Y[k][j];
+      for ( size_t j{0}; j < nn; ++j ) {
+        real_type l{0};
+        for ( size_t k{0}; k < size_t(m_dim); ++k ) {
+          real_type d{ m_Y[k][j+1] - m_Y[k][j] };
           l += d*d;
         }
         m_X[j] = sqrt(l);
@@ -226,14 +219,14 @@ namespace Splines {
   void
   SplineVec::setKnotsChordLength() {
     computeChords();
-    size_t    nn  = size_t(m_npts-1);
-    real_type acc = 0;
-    for ( size_t j = 0; j <= nn; ++j ) {
-      real_type l = m_X[j];
+    size_t nn{ size_t(m_npts-1) };
+    real_type acc{0};
+    for ( size_t j{0}; j <= nn; ++j ) {
+      real_type l{ m_X[j] };
       m_X[j] = acc;
       acc += l;
     }
-    for ( size_t j = 1; j < nn; ++j ) m_X[j] /= acc;
+    for ( size_t j{1}; j < nn; ++j ) m_X[j] /= acc;
     m_X[nn] = 1;
   }
 
@@ -242,10 +235,10 @@ namespace Splines {
   void
   SplineVec::setKnotsCentripetal() {
     computeChords();
-    size_t    nn  = size_t(m_npts-1);
-    real_type acc = 0;
-    for ( size_t j = 0; j <= nn; ++j ) {
-      real_type l = sqrt(m_X[j]);
+    size_t nn{ size_t(m_npts-1) };
+    real_type acc{0};
+    for ( size_t j{0}; j <= nn; ++j ) {
+      real_type l{ sqrt(m_X[j]) };
       m_X[j] = acc;
       acc += l;
     }
@@ -255,16 +248,16 @@ namespace Splines {
 
   void
   SplineVec::CatmullRom() {
-    size_t n = size_t(m_npts-1);
-    size_t d = size_t(m_dim);
+    size_t n{ size_t(m_npts-1) };
+    size_t d{ size_t(m_dim) };
     real_type l1, l2, ll, a, b;
-    for ( size_t j = 1; j < n; ++j ) {
+    for ( size_t j{1}; j < n; ++j ) {
       l1 = m_X[j]   - m_X[j-1];
       l2 = m_X[j+1] - m_X[j];
       ll = l1+l2;
       a  = (l2/l1)/ll;
       b  = (l1/l2)/ll;
-      for ( size_t k = 0; k < d; ++k )
+      for ( size_t k{0}; k < d; ++k )
         m_Yp[k][j] = a*( m_Y[k][j]   - m_Y[k][j-1] ) +
                      b*( m_Y[k][j+1] - m_Y[k][j] );
     }
@@ -274,7 +267,7 @@ namespace Splines {
     ll = l1+l2;
     a  = ll/(l1*l2);
     b  = (l1/l2)/ll;
-    for ( size_t k = 0; k < d; ++k )
+    for ( size_t k{0}; k < d; ++k )
       m_Yp[k][0] = a*( m_Y[k][1] - m_Y[k][0] ) -
                    b*( m_Y[k][2] - m_Y[k][0] );
 
@@ -283,7 +276,7 @@ namespace Splines {
     ll = l1+l2;
     a  = ll/(l1*l2);
     b  = (l1/l2)/ll;
-    for ( size_t k = 0; k < d; ++k )
+    for ( size_t k{0}; k < d; ++k )
       m_Yp[k][n] = b*( m_Y[k][n-2] - m_Y[k][n] ) -
                    a*( m_Y[k][n-1] - m_Y[k][n] );
 
@@ -355,7 +348,7 @@ namespace Splines {
   SplineVec::eval(
     real_type x,
     real_type vals[],
-    integer  inc
+    integer   inc
   ) const {
     std::pair<integer,real_type> res;
     this->search( x, res );

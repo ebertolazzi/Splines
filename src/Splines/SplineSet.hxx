@@ -58,10 +58,10 @@ namespace Splines {
 
     string const m_name;
 
-    Utils::Malloc<real_type>  m_baseValue;
-    Utils::Malloc<real_type*> m_basePointer;
-    Utils::Malloc<void*>      m_baseSplines;
-    Utils::Malloc<int>        m_baseInt;
+    Utils::Malloc<real_type>  m_mem;
+    Utils::Malloc<real_type*> m_mem_p;
+    Utils::Malloc<void*>      m_mem_splines;
+    Utils::Malloc<int>        m_mem_int;
 
     integer m_npts{0};
     integer m_nspl{0};
@@ -189,7 +189,7 @@ namespace Splines {
     //! Return y-minumum spline value.
     //!
     real_type
-    y_min( char const * spl ) const {
+    y_min( char const spl[] ) const {
       integer idx{ this->get_position(spl) };
       return m_Ymin[idx];
     }
@@ -198,7 +198,7 @@ namespace Splines {
     //! Return y-maximum spline value.
     //!
     real_type
-    y_max( char const * spl ) const {
+    y_max( char const spl[] ) const {
       integer idx{ this->get_position(spl) };
       return m_Ymax[idx];
     }
@@ -217,7 +217,7 @@ namespace Splines {
     //! Return pointer to the `i`-th spline.
     //!
     Spline *
-    get_spline( char const * hdr ) const {
+    get_spline( char const hdr[] ) const {
       integer idx{ this->get_position(hdr) };
       return m_splines[idx];
     }
@@ -339,7 +339,7 @@ namespace Splines {
     //! Evaluate spline `name` at `x`.
     //!
     real_type
-    eval( real_type x, char const * name ) const {
+    eval( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->eval(x);
     }
@@ -348,7 +348,7 @@ namespace Splines {
     //! Evaluate spline `name` first derivative at `x`.
     //!
     real_type
-    eval_D( real_type x, char const * name ) const {
+    eval_D( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->D(x);
     }
@@ -357,7 +357,7 @@ namespace Splines {
     //! Evaluate spline `name` second derivative at `x`.
     //!
     real_type
-    eval_DD( real_type x, char const * name ) const {
+    eval_DD( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DD(x);
     }
@@ -366,7 +366,7 @@ namespace Splines {
     //! Evaluate spline `name` third derivative at `x`.
     //!
     real_type
-    eval_DDD( real_type x, char const * name ) const {
+    eval_DDD( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDD(x);
     }
@@ -375,7 +375,7 @@ namespace Splines {
     //! Evaluate spline `name` 4th derivative at `x`.
     //!
     real_type
-    eval_DDDD( real_type x, char const * name ) const {
+    eval_DDDD( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDDD(x);
     }
@@ -384,7 +384,7 @@ namespace Splines {
     //! Evaluate spline `name` 5th derivative at `x`.
     //!
     real_type
-    eval_DDDDD( real_type x, char const * name ) const {
+    eval_DDDDD( real_type x, char const name[] ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDDDD(x);
     }
@@ -604,9 +604,9 @@ namespace Splines {
     //!
     real_type
     eval2(
-      real_type    zeta,
-      char const * indep,
-      char const * name
+      real_type  zeta,
+      char const indep[],
+      char const name[]
     ) const;
 
     //!
@@ -615,9 +615,9 @@ namespace Splines {
     //!
     real_type
     eval2_D(
-      real_type    zeta,
-      char const * indep,
-      char const * name
+      real_type  zeta,
+      char const indep[],
+      char const name[]
     ) const;
 
     //!
@@ -626,9 +626,9 @@ namespace Splines {
     //!
     real_type
     eval2_DD(
-      real_type    zeta,
-      char const * indep,
-      char const * name
+      real_type  zeta,
+      char const indep[],
+      char const name[]
     ) const;
 
     //!
@@ -637,9 +637,9 @@ namespace Splines {
     //!
     real_type
     eval2_DDD(
-      real_type    zeta,
-      char const * indep,
-      char const * name
+      real_type  zeta,
+      char const indep[],
+      char const name[]
     ) const;
 
     ///@}
@@ -800,7 +800,7 @@ namespace Splines {
     void
     eval2(
       real_type          zeta,
-      char const       * indep,
+      char const         indep[],
       GenericContainer & vals
     ) const {
       this->eval2( zeta, this->get_position(indep), vals );
@@ -814,7 +814,7 @@ namespace Splines {
     void
     eval2(
       vec_real_type const & zetas,
-      char const          * indep,
+      char const            indep[],
       GenericContainer    & vals
     ) const {
       this->eval2( zetas, this->get_position(indep), vals );
@@ -828,7 +828,7 @@ namespace Splines {
     void
     eval2(
       real_type               zeta,
-      char const            * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -843,7 +843,7 @@ namespace Splines {
     void
     eval2(
       vec_real_type const   & zetas,
-      char const            * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -964,7 +964,7 @@ namespace Splines {
     void
     eval2_D(
       real_type          zeta,
-      char const       * indep,
+      char const         indep[],
       GenericContainer & vals
     ) const {
       this->eval2_D( zeta, this->get_position(indep), vals );
@@ -978,7 +978,7 @@ namespace Splines {
     void
     eval2_D(
       vec_real_type const & zetas,
-      char const          * indep,
+      char const            indep[],
       GenericContainer    & vals
     ) const {
       this->eval2_D( zetas, this->get_position(indep), vals );
@@ -992,7 +992,7 @@ namespace Splines {
     void
     eval2_D(
       real_type               zeta,
-      char const            * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1007,7 +1007,7 @@ namespace Splines {
     void
     eval2_D(
       vec_real_type const   & zetas,
-      char const            * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1122,7 +1122,7 @@ namespace Splines {
     void
     eval2_DD(
       real_type          zeta,
-      char const       * indep,
+      char const         indep[],
       GenericContainer & vals
     ) const {
       this->eval2_DD( zeta, this->get_position(indep), vals );
@@ -1136,7 +1136,7 @@ namespace Splines {
     void
     eval2_DD(
       vec_real_type const & zetas,
-      char const          * indep,
+      char const            indep[],
       GenericContainer    & vals
     ) const {
       this->eval2_DD( zetas, this->get_position(indep), vals );
@@ -1150,7 +1150,7 @@ namespace Splines {
     void
     eval2_DD(
       real_type               zeta,
-      char const            * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1164,8 +1164,8 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      vec_real_type   const & zetas,
-      char            const * indep,
+      vec_real_type const   & zetas,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1296,7 +1296,7 @@ namespace Splines {
     void
     eval2_DDD(
       vec_real_type const & zetas,
-      char          const * indep,
+      char const            indep[],
       GenericContainer    & vals
     ) const {
       this->eval2_DDD( zetas, this->get_position(indep), vals );
@@ -1310,7 +1310,7 @@ namespace Splines {
     void
     eval2_DDD(
       real_type               zeta,
-      char            const * indep,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1324,8 +1324,8 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      vec_real_type   const & zetas,
-      char            const * indep,
+      vec_real_type const   & zetas,
+      char const              indep[],
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const {
@@ -1351,13 +1351,13 @@ namespace Splines {
     //!
     void
     build(
-      integer               nspl,
-      integer               npts,
-      char         const ** headers,
-      SplineType1D const *  stype,
-      real_type    const *  X,
-      real_type    const ** Y,
-      real_type    const ** Yp = nullptr
+      integer              nspl,
+      integer              npts,
+      char         const * headers[],
+      SplineType1D const   stype[],
+      real_type    const   X[],
+      real_type    const * Y[],
+      real_type    const * Yp[] = nullptr
     );
 
     void
@@ -1370,12 +1370,9 @@ namespace Splines {
     ///@}
 
     //! Return spline type (as number)
-    SplineType1D
-    type() const
-    { return SplineType1D::SPLINE_SET; }
+    SplineType1D type() const { return SplineType1D::SPLINE_SET; }
 
-    string
-    info() const;
+    string info() const;
 
     void
     info( ostream_type & stream ) const

@@ -48,19 +48,19 @@ namespace Splines {
 
   void
   Bessel_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   ) {
 
-    size_t n = size_t(npts > 0 ? npts-1 : 0);
+    size_t n{ size_t(npts > 0 ? npts-1 : 0) };
 
     Malloc_real mem("Bessel_build");
-    real_type * m = mem.malloc( size_t(n+1) );
+    real_type * m{ mem.malloc( size_t(n+1) ) };
 
     // calcolo slopes
-    for ( size_t i = 0; i < n; ++i )
+    for ( size_t i{0}; i < n; ++i )
       m[i] = (Y[i+1]-Y[i])/(X[i+1]-X[i]);
 
     if ( npts == 2 ) { // caso speciale 2 soli punti
@@ -69,7 +69,7 @@ namespace Splines {
 
     } else {
 
-      for ( size_t i = 1; i < n; ++i ) {
+      for ( size_t i{1}; i < n; ++i ) {
         real_type DL = X[i]   - X[i-1];
         real_type DR = X[i+1] - X[i];
         Yp[i] = (DR*m[i-1]+DL*m[i])/((DL+DR));
@@ -86,7 +86,7 @@ namespace Splines {
 
   void
   BesselSpline::build() {
-    string msg = fmt::format("BesselSpline[{}]::build():", m_name );
+    string msg{ fmt::format("BesselSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",
@@ -94,8 +94,8 @@ namespace Splines {
     );
     Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
-    integer ibegin = 0;
-    integer iend   = 0;
+    integer ibegin{0};
+    integer iend{0};
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
@@ -118,17 +118,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("BesselSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("BesselSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );

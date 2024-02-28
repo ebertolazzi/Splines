@@ -42,7 +42,7 @@ namespace Splines {
     real_type *& p_x,
     real_type *& p_y
   ) {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_mem_constant.free();
     m_npts           = 0;
     m_npts_reserved  = n;
     m_external_alloc = true;
@@ -57,11 +57,11 @@ namespace Splines {
     if ( m_external_alloc && n <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_baseValue.reallocate( size_t(2*n) );
+      m_mem_constant.reallocate( size_t(2*n) );
       m_npts_reserved  = n;
       m_external_alloc = false;
-      m_X              = m_baseValue( size_t(n) );
-      m_Y              = m_baseValue( size_t(n) );
+      m_X              = m_mem_constant( size_t(n) );
+      m_Y              = m_mem_constant( size_t(n) );
     }
     init_last_interval();
     m_npts = 0;
@@ -89,8 +89,8 @@ namespace Splines {
 
   void
   ConstantSpline::build(
-    real_type const * x, integer incx,
-    real_type const * y, integer incy,
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
     integer n
   ) {
     reserve( n );
@@ -104,7 +104,7 @@ namespace Splines {
 
   void
   ConstantSpline::clear() {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_mem_constant.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;
     m_X = m_Y = nullptr;
@@ -114,8 +114,8 @@ namespace Splines {
 
   void
   ConstantSpline::write_to_stream( ostream_type & s ) const {
-    size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
-    for ( size_t i = 0; i < nseg; ++i )
+    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
+    for ( size_t i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N. {:4} X:[{},{}] Y:{}\n",
         i,  m_X[i], m_X[i+1], m_Y[i]
@@ -130,7 +130,7 @@ namespace Splines {
     real_type nodes[],
     bool
   ) const {
-    size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
+    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
     std::copy_n( m_X, m_npts, nodes );
     std::copy_n( m_Y, nseg,   cfs   );
     return 1;
@@ -154,17 +154,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("ConstantSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("ConstantSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
@@ -188,7 +188,7 @@ namespace Splines {
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
-    for ( integer i = 1; i < m_npts-1; ++i ) {
+    for ( integer i{1}; i < m_npts-1; ++i ) {
       real_type const & P1 = m_Y[i];
       if ( P1 > y_max ) {
         y_max     = P1;
@@ -223,7 +223,7 @@ namespace Splines {
       m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name
     );
     // find max min along the nodes
-    for ( integer i = 1; i < m_npts-1; ++i ) {
+    for ( integer i{1}; i < m_npts-1; ++i ) {
       real_type const & P0 = m_Y[i-1];
       real_type const & P1 = m_Y[i];
       real_type const & P2 = m_Y[i+1];

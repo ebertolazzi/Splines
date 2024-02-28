@@ -47,4 +47,12 @@ namespace Splines {
     }
   }
 
+  void
+  Spline2D::setup( GenericContainer const & gc ) {
+    string where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
+    string type{ gc.get_map_string("spline_type",where.c_str()) };
+    new_spline( string_to_splineType2D( type ) );
+    m_spline_2D->setup( gc );
+  }
+
 }

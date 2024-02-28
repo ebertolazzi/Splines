@@ -55,15 +55,15 @@ namespace Splines {
   static
   void
   QuinticSpline_Yppp_continuous(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    real_type       * Ypp,
-    integer           npts,
-    bool              setbc
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    real_type       Ypp[],
+    integer         npts,
+    bool            setbc
   ) {
 
-    size_t n = size_t(npts > 0 ? npts-1 : 0);
+    size_t n{ size_t(npts > 0 ? npts-1 : 0) };
 
     Malloc_real mem("QuinticSpline_Yppp_continuous");
     mem.allocate( size_t(3*(n+1)) );
@@ -133,14 +133,14 @@ namespace Splines {
   static
   void
   QuinticSpline_Ypp_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    real_type       * Ypp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    real_type       Ypp[],
+    integer         npts
   ) {
 
-    size_t n = size_t(npts > 0 ? npts-1 : 0);
+    size_t n{ size_t(npts > 0 ? npts-1 : 0) };
 
     if ( n == 1 ) { Ypp[0] = Ypp[1] = 0; return; }
 
@@ -207,16 +207,16 @@ namespace Splines {
   void
   Quintic_build(
     QuinticSpline_sub_type q_sub_type,
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    real_type       * Ypp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    real_type       Ypp[],
+    integer         npts
   ) {
     switch ( q_sub_type ) {
     case QuinticSpline_sub_type::CUBIC:
       {
-        size_t n = size_t(npts > 0 ? npts-1 : 0);
+        size_t n{ size_t(npts > 0 ? npts-1 : 0) };
 
         Malloc_real mem("QuinticSpline_Yppp_continuous");
         mem.allocate( size_t(3*(n+1)) );
@@ -251,7 +251,7 @@ namespace Splines {
 
   void
   QuinticSpline::build() {
-    string msg = fmt::format("QuinticSpline[{}]::build():", m_name );
+    string msg{ fmt::format("QuinticSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",
@@ -259,8 +259,8 @@ namespace Splines {
     );
     Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
-    integer ibegin = 0;
-    integer iend   = 0;
+    integer ibegin{0};
+    integer iend{0};
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
@@ -289,21 +289,21 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("QuinticSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("QuinticSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     if ( gc.exists("spline_sub_type") ) {
-      std::string const & st = gc.get_map_string("spline_sub_type",where.c_str());
+      std::string const & st{ gc.get_map_string("spline_sub_type",where.c_str()) };
       if      ( st == "cubic"  ) m_q_sub_type = QuinticSpline_sub_type::CUBIC;
       else if ( st == "pchip"  ) m_q_sub_type = QuinticSpline_sub_type::PCHIP;
       else if ( st == "akima"  ) m_q_sub_type = QuinticSpline_sub_type::AKIMA;

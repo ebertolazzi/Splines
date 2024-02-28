@@ -37,13 +37,13 @@ namespace Splines {
 
     string const m_name;
 
-    Utils::Malloc<real_type>  m_baseValue;
-    Utils::Malloc<real_type*> m_basePointer;
+    Utils::Malloc<real_type>  m_mem;
+    Utils::Malloc<real_type*> m_mem_p;
 
-    integer m_dim;
-    integer m_npts;
-    bool    m_curve_is_closed;
-    bool    m_curve_can_extend;
+    integer m_dim{0};
+    integer m_npts{0};
+    bool    m_curve_is_closed{false};
+    bool    m_curve_can_extend{true};
 
     real_type *  m_X{nullptr};
     real_type ** m_Y{nullptr};

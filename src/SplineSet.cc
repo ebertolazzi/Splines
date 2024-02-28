@@ -77,10 +77,10 @@ namespace Splines {
   //! spline constructor
   SplineSet::SplineSet( string const & name )
   : m_name(name)
-  , m_baseValue(name+"_values")
-  , m_basePointer(name+"_pointers")
-  , m_baseSplines(name+"_Splines")
-  , m_baseInt(name+"_is_monotone")
+  , m_mem( fmt::format( "SplineSet[{}]::m_mem", name ) )
+  , m_mem_p( fmt::format( "SplineSet[{}]::m_mem_p", name ) )
+  , m_mem_splines( fmt::format( "SplineSet[{}]::m_mem_splines", name ) )
+  , m_mem_int( fmt::format( "SplineSet[{}]::m_mem_int", name ) )
   {
   }
 
@@ -88,8 +88,10 @@ namespace Splines {
 
   //! spline destructor
   SplineSet::~SplineSet() {
-    m_baseValue.free();
-    m_basePointer.free();
+    m_mem.free();
+    m_mem_p.free();
+    m_mem_splines.free();
+    m_mem_int.free();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -132,9 +134,9 @@ namespace Splines {
 
   string
   SplineSet::name_list() const {
-    string tmp = "[ ";
+    string tmp{"[ "};
     for ( integer i{0}; i < m_nspl; ++i )
-      tmp += "'" + m_splines[i]->name() + "' ";
+      tmp += fmt::format( "'{}' ", m_splines[i]->name() );
     tmp += "]";
     return tmp;
   }
@@ -169,7 +171,7 @@ namespace Splines {
   SplineSet::dump_table( ostream_type & stream, integer num_points ) const {
     Malloc_real mem("SplineSet::dump_table");
     mem.allocate( size_t(m_nspl) );
-    real_type * vals = mem( size_t(m_nspl) );
+    real_type * vals{mem( size_t(m_nspl) )};
     stream << 's';
     for ( integer i{0}; i < m_nspl; ++i ) stream << '\t' << header(i);
     stream << '\n';
@@ -186,7 +188,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::get_position( char const * hdr ) const {
+  SplineSet::get_position( char const hdr[] ) const {
     integer pos{ m_header_to_position.search(hdr) };
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
@@ -201,13 +203,13 @@ namespace Splines {
 
   void
   SplineSet::build(
-    integer               nspl,
-    integer               npts,
-    char         const ** headers,
-    SplineType1D const *  stype,
-    real_type    const *  data_X,
-    real_type    const ** data_Y,
-    real_type    const ** data_Yp
+    integer              nspl,
+    integer              npts,
+    char         const * headers[],
+    SplineType1D const   stype[],
+    real_type    const   data_X[],
+    real_type    const * data_Y[],
+    real_type    const * data_Yp[]
   ) {
     string msg{ fmt::format("SplineSet[{}]::build(...):", m_name ) };
     UTILS_ASSERT(
@@ -221,11 +223,8 @@ namespace Splines {
     m_nspl = nspl;
     m_npts = npts;
     // allocate memory
-    m_baseSplines.reallocate( size_t(m_nspl) );
-    m_splines = reinterpret_cast<Spline **>(m_baseSplines( size_t(m_nspl) ));
-
-    m_baseInt.reallocate( size_t(m_nspl) );
-    m_is_monotone = m_baseInt( size_t(m_nspl) );
+    m_splines     = reinterpret_cast<Spline **>(m_mem_splines.realloc( size_t(m_nspl) ));
+    m_is_monotone = m_mem_int.realloc( size_t(m_nspl) );
 
     m_header_to_position.clear();
 
@@ -254,22 +253,22 @@ namespace Splines {
       }
     }
 
-    m_baseValue.reallocate( size_t(mem + 2*nspl) );
-    m_basePointer.reallocate( size_t(3*nspl) );
+    m_mem.reallocate( size_t(mem + 2*nspl) );
+    m_mem_p.reallocate( size_t(3*nspl) );
 
-    m_Y    = m_basePointer ( size_t(m_nspl) );
-    m_Yp   = m_basePointer ( size_t(m_nspl) );
-    m_Ypp  = m_basePointer ( size_t(m_nspl) );
-    m_X    = m_baseValue   ( size_t(m_npts) );
-    m_Ymin = m_baseValue   ( size_t(m_nspl) );
-    m_Ymax = m_baseValue   ( size_t(m_nspl) );
+    m_Y    = m_mem_p ( size_t(m_nspl) );
+    m_Yp   = m_mem_p ( size_t(m_nspl) );
+    m_Ypp  = m_mem_p ( size_t(m_nspl) );
+    m_X    = m_mem   ( size_t(m_npts) );
+    m_Ymin = m_mem   ( size_t(m_nspl) );
+    m_Ymax = m_mem   ( size_t(m_nspl) );
 
     std::copy_n( data_X, npts, m_X );
     for ( size_t spl{0}; spl < size_t(nspl); ++spl ) {
-      real_type * & pY   = m_Y[spl];
-      real_type * & pYp  = m_Yp[spl];
-      real_type * & pYpp = m_Ypp[spl];
-      pY = m_baseValue(size_t(m_npts));
+      real_type * & pY{ m_Y[spl] };
+      real_type * & pYp{ m_Yp[spl] };
+      real_type * & pYpp{ m_Ypp[spl] };
+      pY = m_mem(size_t(m_npts));
       std::copy_n( data_Y[spl], npts, pY );
       if ( stype[spl] == SplineType1D::CONSTANT ) {
         m_Ymin[spl] = *std::min_element( pY, pY+npts-1 );
@@ -281,13 +280,13 @@ namespace Splines {
       pYpp = pYp = nullptr;
       switch ( stype[size_t(spl)] ) {
       case SplineType1D::QUINTIC:
-        pYpp = m_baseValue( size_t(m_npts) );
+        pYpp = m_mem( size_t(m_npts) );
       case SplineType1D::CUBIC:
       case SplineType1D::AKIMA:
       case SplineType1D::BESSEL:
       case SplineType1D::PCHIP:
       case SplineType1D::HERMITE:
-        pYp = m_baseValue( size_t(m_npts) );
+        pYp = m_mem( size_t(m_npts) );
         if ( stype[spl] == SplineType1D::HERMITE ) {
           UTILS_ASSERT(
             data_Yp != nullptr && data_Yp[spl] != nullptr,
@@ -305,7 +304,7 @@ namespace Splines {
         break;
       }
       string h{ headers[spl] };
-      Spline * & s = m_splines[spl];
+      Spline * & s{ m_splines[spl] };
 
       m_is_monotone[spl] = -1;
       switch (stype[size_t(spl)]) {
@@ -391,8 +390,8 @@ namespace Splines {
       m_header_to_position.insert( s->name(), integer(spl) );
     }
 
-    m_baseValue   . must_be_empty( "SplineSet::build, baseValue" );
-    m_basePointer . must_be_empty( "SplineSet::build, basePointer" );
+    m_mem.must_be_empty( "SplineSet::build, baseValue" );
+    m_mem_p.must_be_empty( "SplineSet::build, basePointer" );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -656,9 +655,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_D(
-    real_type    zeta,
-    char const * indep,
-    char const * name
+    real_type  zeta,
+    char const indep[],
+    char const name[]
   ) const {
     return this->eval2_D(
       zeta, this->get_position(indep), this->get_position(name)
@@ -717,9 +716,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DD(
-    real_type    zeta,
-    char const * indep,
-    char const * name
+    real_type  zeta,
+    char const indep[],
+    char const name[]
   ) const {
     return this->eval2_DD(
       zeta, this->get_position(indep), this->get_position(name)
@@ -781,9 +780,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DDD(
-    real_type    zeta,
-    char const * indep,
-    char const * name
+    real_type  zeta,
+    char const indep[],
+    char const name[]
   ) const {
     return this->eval2_DDD(
       zeta, this->get_position(indep), this->get_position(name)

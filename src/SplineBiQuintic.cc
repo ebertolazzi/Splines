@@ -40,7 +40,7 @@ namespace Splines {
   void
   BiQuinticSpline::make_spline() {
 
-    size_t dim = size_t( m_nx*m_ny );
+    size_t dim{ size_t( m_nx*m_ny ) };
     mem.reallocate( 8*dim );
     m_DX    = mem( dim );
     m_DY    = mem( dim );
@@ -54,24 +54,24 @@ namespace Splines {
     // calcolo derivate
     QuinticSpline sp, sp1;
     //
-    for ( integer j = 0; j < m_ny; ++j ) {
+    for ( integer j{0}; j < m_ny; ++j ) {
       sp.build( m_X, 1, &m_Z[size_t(this->ipos_C(0,j))], m_ny, m_nx );
-      for ( integer i = 0; i < m_nx; ++i ) {
+      for ( integer i{0}; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DX[ij]  = sp.yp_node(i);
         m_DXX[ij] = sp.ypp_node(i);
       }
     }
-    for ( integer i = 0; i < m_nx; ++i ) {
+    for ( integer i{0}; i < m_nx; ++i ) {
       sp.build( m_Y, 1, &m_Z[size_t(this->ipos_C(i,0))], 1, m_ny );
-      for ( integer j = 0; j < m_ny; ++j ) {
+      for ( integer j{0}; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DY[ij]  = sp.yp_node(j);
         m_DYY[ij] = sp.ypp_node(j);
       }
     }
     // interpolate derivative
-    for ( integer i = 0; i < m_nx; ++i ) {
+    for ( integer i{0}; i < m_nx; ++i ) {
       sp.build( m_Y, 1, &m_DX[size_t(this->ipos_C(i,0))], 1, m_ny );
       sp1.build( m_Y, 1, &m_DXX[size_t(this->ipos_C(i,0))], 1, m_ny );
       for ( integer j = 0; j < m_ny; ++j ) {
@@ -83,7 +83,7 @@ namespace Splines {
       }
     }
     // interpolate derivative again
-    for ( integer j = 0; j < m_ny; ++j ) {
+    for ( integer j{0}; j < m_ny; ++j ) {
       sp.build( m_X, 1, &m_DY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       sp1.build( m_X, 1, &m_DYY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       for ( integer i = 0; i < m_nx; ++i ) {
@@ -105,8 +105,8 @@ namespace Splines {
   void
   BiQuinticSpline::write_to_stream( ostream_type & s ) const {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
-    for ( integer i = 1; i < m_nx; ++i ) {
-      for ( integer j = 1; j < m_ny; ++j ) {
+    for ( integer i{1}; i < m_nx; ++i ) {
+      for ( integer j{1}; j < m_ny; ++j ) {
         size_t i00 = size_t(this->ipos_C(i-1,j-1));
         size_t i10 = size_t(this->ipos_C(i,j-1));
         size_t i01 = size_t(this->ipos_C(i-1,j));

@@ -33,13 +33,12 @@ namespace Splines {
   protected:
 
     std::string m_name;
-
     Spline * m_pSpline{nullptr};
+
+  public:
 
     Spline1D( Spline1D const & ) = delete;
     Spline1D const & operator = ( Spline1D const & ) = delete;
-
-  public:
 
     //! \name Constructors
     ///@{
@@ -141,8 +140,8 @@ namespace Splines {
     void
     build(
       SplineType1D tp,
-      real_type const * x, integer incx,
-      real_type const * y, integer incy,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
       integer n
     );
 
@@ -156,10 +155,10 @@ namespace Splines {
     //!
     void
     build(
-      SplineType1D      tp,
-      real_type const * x,
-      real_type const * y,
-      integer           n
+      SplineType1D    tp,
+      real_type const x[],
+      real_type const y[],
+      integer         n
     ) {
       this->build( tp, x, 1, y, 1, n );
     }
@@ -222,16 +221,16 @@ namespace Splines {
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const *   header = "x\ty"
+      char const     header[] = "x\ty"
     ) const {
       m_pSpline->dump( s, nintervals, header );
     }
 
     void
     dump(
-      char const * fname,
-      integer      nintervals,
-      char const * header = "x\ty"
+      char const fname[],
+      integer    nintervals,
+      char const header[] = "x\ty"
     ) const {
       m_pSpline->dump( fname, nintervals, header );
     }

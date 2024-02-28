@@ -277,8 +277,8 @@ namespace Splines {
     CubicSpline_BC    bcn
   ) {
 
-    size_t n = size_t(npts > 0 ? npts-1 : 0);
-    real_type * Z = Ypp;
+    size_t n{ size_t(npts > 0 ? npts-1 : 0) };
+    real_type * Z{ Ypp };
 
     size_t i;
     for ( i = 1; i < n; ++i ) {
@@ -291,7 +291,7 @@ namespace Splines {
       Z[i] = 6 * ( (Y[i+1]-Y[i])/HR - (Y[i]-Y[i-1])/HL ) / HH;
     }
 
-    real_type UU = 0, LL = 0;
+    real_type UU{0}, LL{0};
 
     switch ( bc0 ) {
     case CubicSpline_BC::EXTRAPOLATE:
@@ -434,12 +434,12 @@ namespace Splines {
 
   void
   CubicSpline_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts,
-    CubicSpline_BC    bc0,
-    CubicSpline_BC    bcn
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts,
+    CubicSpline_BC  bc0,
+    CubicSpline_BC  bcn
   ) {
     Malloc_real mem("CubicSpline_build");
     mem.allocate( size_t(4*npts) );
@@ -456,7 +456,7 @@ namespace Splines {
 
   void
   CubicSpline::build() {
-    string msg = fmt::format("CubicSpline[{}]::build():", m_name );
+    string msg{ fmt::format("CubicSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1,
       "{} npts = {} not enought points\n",
@@ -464,8 +464,8 @@ namespace Splines {
     );
     Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
-    integer ibegin = 0;
-    integer iend   = 0;
+    integer ibegin{0};
+    integer iend{0};
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
@@ -514,21 +514,21 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("CubicSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("CubicSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     if ( gc.exists("bc_begin") ) {
-      std::string const & bc = gc.get_map_string("bc_begin",where.c_str());
+      std::string const & bc{ gc.get_map_string("bc_begin",where.c_str()) };
       if      ( bc == "extrapolate" ) m_bc0 = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bc0 = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bc0 = CubicSpline_BC::PARABOLIC_RUNOUT;
@@ -543,7 +543,7 @@ namespace Splines {
     }
 
     if ( gc.exists("bc_end") ) {
-      std::string const & bc = gc.get_map_string("bc_end",where.c_str());
+      std::string const & bc{ gc.get_map_string("bc_end",where.c_str()) };
       if      ( bc == "extrapolate" ) m_bcn = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bcn = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bcn = CubicSpline_BC::PARABOLIC_RUNOUT;

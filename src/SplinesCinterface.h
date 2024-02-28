@@ -43,19 +43,19 @@ extern "C" {
    */
   int
   SPLINE_new(
-    char const * id,
-    char const * type
+    char const id[],
+    char const type[]
   );
 
   /*!
    * Select a `Spline` object `id`
    */
-  int SPLINE_select( char const * id );
+  int SPLINE_select( char const id[] );
 
   /*!
    * Delete the `Spline` object `id`
    */
-  int SPLINE_delete( char const * id );
+  int SPLINE_delete( char const id[] );
 
   /*!
    * Print the actual `Spline`
@@ -70,7 +70,7 @@ extern "C" {
   /*!
    * Get pointer to the internal `Spline` object 'id'
    */
-  void * SPLINE_mem_ptr( char const * id );
+  void * SPLINE_mem_ptr( char const id[] );
 
   /*!
    * Set actual pointed element of `Spline` to an empty spline.
@@ -92,9 +92,9 @@ extern "C" {
    */
   int
   SPLINE_build2(
-    double const * x,
-    double const * y,
-    int            n
+    double const x[],
+    double const y[],
+    int          n
   );
 
   /*!

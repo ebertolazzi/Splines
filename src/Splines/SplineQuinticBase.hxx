@@ -24,7 +24,6 @@
  |  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/
  |   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|
  |                                       |_|
- |
 \*/
 
 namespace Splines {
@@ -34,7 +33,7 @@ namespace Splines {
   //!
   class QuinticSplineBase : public Spline {
   protected:
-    Malloc_real m_baseValue;
+    Malloc_real m_base_quintic;
     real_type * m_Yp{nullptr};
     real_type * m_Ypp{nullptr};
     bool        m_external_alloc{false};
@@ -53,9 +52,9 @@ namespace Splines {
     //!
     //! Spline constructor
     //!
-    QuinticSplineBase( string const & name = "Spline" )
+    QuinticSplineBase( string const & name = "QuinticSplineBase" )
     : Spline(name)
-    , m_baseValue(name+"_memeory")
+    , m_base_quintic( fmt::format( "QuinticSplineBase[{}]", name ) )
     {}
 
     ~QuinticSplineBase() override {}

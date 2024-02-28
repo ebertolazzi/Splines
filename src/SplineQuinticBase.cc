@@ -45,7 +45,7 @@ namespace Splines {
     real_type * & p_Yp,
     real_type * & p_Ypp
   ) {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_base_quintic.free();
     m_npts           = 0;
     m_npts_reserved  = n;
     m_external_alloc = true;
@@ -62,13 +62,13 @@ namespace Splines {
     if ( m_external_alloc && n <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_baseValue.reallocate( size_t(4*n) );
+      m_base_quintic.reallocate( size_t(4*n) );
       m_npts_reserved  = n;
       m_external_alloc = false;
-      m_X              = m_baseValue( size_t(n) );
-      m_Y              = m_baseValue( size_t(n) );
-      m_Yp             = m_baseValue( size_t(n) );
-      m_Ypp            = m_baseValue( size_t(n) );
+      m_X              = m_base_quintic( size_t(n) );
+      m_Y              = m_base_quintic( size_t(n) );
+      m_Yp             = m_base_quintic( size_t(n) );
+      m_Ypp            = m_base_quintic( size_t(n) );
     }
     init_last_interval();
     m_npts = 0;
@@ -78,7 +78,7 @@ namespace Splines {
 
   void
   QuinticSplineBase::clear() {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_base_quintic.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;
     m_X = m_Y = m_Yp = m_Ypp = nullptr;
@@ -296,8 +296,8 @@ namespace Splines {
 
   void
   QuinticSplineBase::write_to_stream( ostream_type & s ) const {
-    size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);
-    for ( size_t i = 0; i < nseg; ++i )
+    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
+    for ( size_t i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] Ypp:[{},{}] slope: {}\n",
         i,
@@ -328,7 +328,7 @@ namespace Splines {
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
     PolynomialRoots::Quartic q;
-    for ( integer i = 1; i < m_npts; ++i ) {
+    for ( integer i{1}; i < m_npts; ++i ) {
       real_type const & X0   = m_X[i-1];
       real_type const & X1   = m_X[i];
       real_type const & P0   = m_Y[i-1];
@@ -365,7 +365,7 @@ namespace Splines {
     vector<real_type> & x_max_pos,
     vector<real_type> & y_max
   ) const {
-    real_type epsi = 1e-8;
+    real_type epsi{1e-8};
     i_min_pos.clear();
     i_max_pos.clear();
     x_min_pos.clear();
@@ -388,7 +388,7 @@ namespace Splines {
       i_max_pos.push_back(0);
     }
     PolynomialRoots::Quartic q;
-    for ( integer i = 1; i < m_npts; ++i ) {
+    for ( integer i{1}; i < m_npts; ++i ) {
       real_type const & X0   = m_X[i-1];
       real_type const & X1   = m_X[i];
       real_type const & P0   = m_Y[i-1];
@@ -403,7 +403,7 @@ namespace Splines {
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
       integer nr = q.getRootsInOpenRange( 0, H, r );
-      for ( integer j = 0; j < nr; ++j ) {
+      for ( integer j{0}; j < nr; ++j ) {
         real_type rr  = r[j];
         real_type yy  = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
         real_type ddy = (((20*A*rr)+12*B)*rr+6*C)*rr+2*D;

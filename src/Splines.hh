@@ -147,8 +147,8 @@ namespace Splines {
     real_type & C,
     real_type & D
   ) {
-    real_type H2  = H*H;
-    real_type P10 = P1-P0;
+    real_type H2{ H*H };
+    real_type P10{ P1-P0 };
     A = (DP0+DP1-2*P10/H)/H2;
     B = (3*P10/H-(2*DP0+DP1))/H;
     C = DP0;
@@ -187,9 +187,9 @@ namespace Splines {
     real_type & E,
     real_type & F
   ) {
-    real_type h2  = h*h;
-    real_type h3  = h*h2;
-    real_type P10 = P1-P0;
+    real_type h2{ h*h };
+    real_type h3{ h*h2 };
+    real_type P10{ P1-P0 };
     A = ( (DDP1-DDP0)/2+(6*P10/h-3*(DP0+DP1))/h)/h3;
     B = ( (1.5*DDP0-DDP1)+ ((8*DP0+7*DP1)-15*P10/h)/h )/h2;
     C = ( 0.5*DDP1-1.5*DDP0 + (10*P10/h -(6*DP0+4*DP1))/h )/h;
@@ -254,11 +254,11 @@ namespace Splines {
   //!
   void
   uniform(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   );
 
   //!
@@ -272,11 +272,11 @@ namespace Splines {
   //!
   void
   chordal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   );
 
   //!
@@ -291,12 +291,12 @@ namespace Splines {
   //!
   void
   centripetal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type         alpha,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       alpha,
+    real_type       t[]
   );
 
   //!
@@ -310,11 +310,11 @@ namespace Splines {
   //!
   void
   universal(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   );
 
   //!
@@ -328,11 +328,11 @@ namespace Splines {
   //!
   void
   FoleyNielsen(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   );
 
   //!
@@ -346,11 +346,11 @@ namespace Splines {
   //!
   void
   FangHung(
-    integer           dim,
-    integer           npts,
-    real_type const * pnts,
-    integer           ld_pnts,
-    real_type       * t
+    integer         dim,
+    integer         npts,
+    real_type const pnts[],
+    integer         ld_pnts,
+    real_type       t[]
   );
 
   /*\
@@ -494,7 +494,7 @@ namespace Splines {
     //!
     real_type
     y_min() const {
-      integer N = m_npts;
+      integer N{m_npts};
       if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::min_element(m_Y,m_Y+N);
     }
@@ -504,7 +504,7 @@ namespace Splines {
     //!
     real_type
     y_max() const {
-      integer N = m_npts;
+      integer N{m_npts};
       if ( type() == SplineType1D::CONSTANT ) --N;
       return *std::max_element(m_Y,m_Y+N);
     }
@@ -595,8 +595,8 @@ namespace Splines {
     virtual
     void
     build(
-      real_type const * x, integer incx,
-      real_type const * y, integer incy,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
       integer n
     );
 
@@ -610,9 +610,9 @@ namespace Splines {
     inline
     void
     build(
-      real_type const * x,
-      real_type const * y,
-      integer           n
+      real_type const x[],
+      real_type const y[],
+      integer         n
     )
     { this->build( x, 1, y, 1, n ); }
 
@@ -697,7 +697,7 @@ namespace Splines {
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const *   header = "x\ty"
+      char const     header[] = "x\ty"
     ) const;
 
     //!
@@ -705,9 +705,9 @@ namespace Splines {
     //!
     void
     dump(
-      char const * fname,
-      integer      nintervals,
-      char const * header = "x\ty"
+      char const fname[],
+      integer    nintervals,
+      char const header[] = "x\ty"
     ) const {
       std::ofstream file(fname);
       this->dump( file, nintervals, header );
@@ -904,7 +904,7 @@ namespace Splines {
   //!
   class CubicSplineBase : public Spline {
   protected:
-    Malloc_real m_baseValue;
+    Malloc_real m_mem_cubic;
     real_type * m_Yp{nullptr};
     bool        m_external_alloc{false};
 
@@ -922,7 +922,7 @@ namespace Splines {
     //!
     CubicSplineBase( string const & name = "CubicSplineBase" )
     : Spline(name)
-    , m_baseValue(name+"_memory")
+    , m_mem_cubic( fmt::format("CubicSplineBase[{}]::m_mem_cubic", name ) )
     {}
 
     ~CubicSplineBase() override {}
@@ -1018,9 +1018,9 @@ namespace Splines {
     //!
     void
     build(
-      real_type const * x,  integer incx,
-      real_type const * y,  integer incy,
-      real_type const * yp, integer incyp,
+      real_type const x[],  integer incx,
+      real_type const y[],  integer incy,
+      real_type const yp[], integer incyp,
       integer n
     );
 
@@ -1035,9 +1035,9 @@ namespace Splines {
     inline
     void
     build(
-      real_type const * x,
-      real_type const * y,
-      real_type const * yp,
+      real_type const x[],
+      real_type const y[],
+      real_type const yp[],
       integer n
     ) {
       this->build( x, 1, y, 1, yp, 1, n );
@@ -1161,10 +1161,10 @@ namespace Splines {
 
     void
     load_Z(
-      real_type const * z,
-      integer           ldZ,
-      bool              fortran_storage,
-      bool              transposed
+      real_type const z[],
+      integer         ldZ,
+      bool            fortran_storage,
+      bool            transposed
     );
 
   public:
@@ -1335,9 +1335,9 @@ namespace Splines {
 
     void
     build(
-      real_type const * x, integer incx,
-      real_type const * y, integer incy,
-      real_type const * z, integer ldZ,
+      real_type const x[], integer incx,
+      real_type const y[], integer incy,
+      real_type const z[], integer ldZ,
       integer nx, integer ny,
       bool fortran_storage = false,
       bool transposed      = false
@@ -1375,10 +1375,10 @@ namespace Splines {
 
     void
     build(
-      real_type const * z,
-      integer           ldZ,
-      integer           nx,
-      integer           ny,
+      real_type const z[],
+      integer         ldZ,
+      integer         nx,
+      integer         ny,
       bool fortran_storage = false,
       bool transposed      = false
     );

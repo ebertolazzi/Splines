@@ -78,7 +78,7 @@ namespace Splines {
     real_type *& p_x,
     real_type *& p_y
   ) {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_mem_linear.free();
     m_npts           = 0;
     m_npts_reserved  = n;
     m_external_alloc = true;
@@ -93,11 +93,11 @@ namespace Splines {
     if ( m_external_alloc && n <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_baseValue.reallocate( size_t(2*n) );
+      m_mem_linear.reallocate( size_t(2*n) );
       m_npts_reserved  = n;
       m_external_alloc = false;
-      m_X              = m_baseValue( size_t(n) );
-      m_Y              = m_baseValue( size_t(n) );
+      m_X              = m_mem_linear( size_t(n) );
+      m_Y              = m_mem_linear( size_t(n) );
     }
     init_last_interval();
     m_npts = 0;
@@ -107,7 +107,7 @@ namespace Splines {
 
   void
   LinearSpline::clear() {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_mem_linear.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;
     m_X = m_Y = nullptr;
@@ -117,7 +117,7 @@ namespace Splines {
 
   void
   LinearSpline::write_to_stream( ostream_type & s ) const {
-    integer nseg = m_npts > 0 ? m_npts - 1 : 0;
+    integer nseg{ m_npts > 0 ? m_npts - 1 : 0 };
     for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}\n",
@@ -167,17 +167,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("LinearSpline[{}]::setup( gc ):", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("LinearSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real ( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff.c_str() );
     }
     this->build( x, y );
@@ -232,7 +232,7 @@ namespace Splines {
     y_max.clear();
     UTILS_ASSERT( m_npts > 0, "LinearSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
-    for ( integer i = 1; i < m_npts-1; ++i ) {
+    for ( integer i{1}; i < m_npts-1; ++i ) {
       real_type const & P0 = m_Y[i-1];
       real_type const & P1 = m_Y[i];
       real_type const & P2 = m_Y[i+1];

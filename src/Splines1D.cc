@@ -49,8 +49,8 @@ namespace Splines {
   void
   Spline1D::build(
     SplineType1D tp,
-    real_type const * x, integer incx,
-    real_type const * y, integer incy,
+    real_type const x[], integer incx,
+    real_type const y[], integer incy,
     integer n
   ) {
     if ( m_pSpline != nullptr ) delete m_pSpline;
@@ -92,8 +92,8 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("Spline1D[{}]::setup( gc ):", m_name );
-    std::string const & spl_type = gc.get_map_string("spline_type",where.c_str());
+    string where{ fmt::format("Spline1D[{}]::setup( gc ):", m_name ) };
+    std::string const & spl_type{ gc.get_map_string("spline_type",where.c_str()) };
 
     SplineType1D tp;
     if ( spl_type == "constant" ) {

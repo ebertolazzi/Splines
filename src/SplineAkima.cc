@@ -74,20 +74,20 @@ namespace Splines {
 
   void
   Akima_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   ) {
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
       Malloc_real mem("Akima_build");
-      real_type * m = mem.malloc( size_t(npts+3) );
+      real_type * m{ mem.malloc( size_t(npts+3) ) };
 
       // calcolo slopes (npts-1) intervals + 4
-      for ( size_t i = 1; i < size_t(npts); ++i )
+      for ( size_t i{1}; i < size_t(npts); ++i )
         m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]);
 
       // extra slope at the boundary
@@ -97,8 +97,8 @@ namespace Splines {
       m[size_t(npts+2)] = 2*m[size_t(npts+1)]-m[size_t(npts)];
 
       // minimum delta slope
-      real_type epsi = 0;
-      for ( size_t i = 0; i < size_t(npts+2); ++i ) {
+      real_type epsi{0};
+      for ( size_t i{0}; i < size_t(npts+2); ++i ) {
         real_type dm = std::abs(m[i+1]-m[i]);
         if ( dm > epsi ) epsi = dm;
       }
@@ -106,7 +106,7 @@ namespace Splines {
 
       // 0  1  2  3  4---- n-1 n n+1 n+2
       //       +  +  +      +  +
-      for ( size_t i = 0; i < size_t(npts); ++i )
+      for ( size_t i{0}; i < size_t(npts); ++i )
         Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] );
     }
   }
@@ -117,14 +117,14 @@ namespace Splines {
 
   void
   AkimaSpline::build() {
-    string msg = fmt::format("AkimaSpline[{}]::build():", m_name );
+    string msg{ fmt::format("AkimaSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
     );
     Utils::check_NaN( m_X, (msg+" X ").c_str(), m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, (msg+" Y ").c_str(), m_npts, __LINE__, __FILE__ );
-    integer ibegin = 0;
-    integer iend   = 0;
+    integer ibegin{0};
+    integer iend{0};
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
@@ -149,17 +149,17 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where = fmt::format("AkimaSpline[{}]::setup():", m_name );
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
+    string where{ fmt::format("AkimaSpline[{}]::setup():", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
     vec_real_type x, y;
     {
-      std::string ff = fmt::format( "{}, field `xdata'", where );
+      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
       gc_x.copyto_vec_real( x, ff.c_str() );
     }
     {
-      std::string ff = fmt::format( "{}, field `ydata'", where );
+      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real( y, ff.c_str() );
     }
     this->build( x, y );

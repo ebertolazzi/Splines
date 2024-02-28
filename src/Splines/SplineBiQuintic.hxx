@@ -101,7 +101,7 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiQuinticSpline( string const & name = "Spline" )
+    BiQuinticSpline( string const & name = "BiQuinticSpline" )
     : BiQuinticSplineBase( name )
     {}
 

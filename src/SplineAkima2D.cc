@@ -113,10 +113,10 @@ namespace Splines {
     real_type volatility_factor = dz0*dz0 + dz1*dz1 + dz2*dz2 + dz3*dz3;
     // epsi value used to decide whether or not
     // the volatility factor is essentially zero.
-    real_type epsi = (z0*z0+z1*z1+z2*z2+z3*z3)*1.0E-12;
+    real_type epsi{ (z0*z0+z1*z1+z2*z2+z3*z3)*1.0E-12 };
     // Accumulates the weighted primary estimates and their weights.
     if ( volatility_factor > epsi ) { // finite weight.
-      real_type WT = 1.0/ (volatility_factor*SXX);
+      real_type WT{ 1.0/ (volatility_factor*SXX) };
       RF[1] += WT*primary_estimate;
       RF[0] += WT;
     } else { // infinite weight.
@@ -146,22 +146,22 @@ namespace Splines {
 
     real_type by0[4], by1[4], CY1A[4], CY2A[4], CY3A[4], SYA[4], SYYA[4];
 
-    real_type X0  = X[4];
-    real_type Y0  = Y[4];
-    real_type Z00 = Z[4][4];
+    real_type X0{ X[4] };
+    real_type Y0{ Y[4] };
+    real_type Z00{ Z[4][4] };
 
     // Initial setting
-    real_type DXF[2]  = {0,0};
-    real_type DXI[2]  = {0,0};
-    real_type DYF[2]  = {0,0};
-    real_type DYI[2]  = {0,0};
-    real_type DXYF[2] = {0,0};
-    real_type DXYI[2] = {0,0};
+    real_type DXF[2]{0,0};
+    real_type DXI[2]{0,0};
+    real_type DYF[2]{0,0};
+    real_type DYI[2]{0,0};
+    real_type DXYF[2]{0,0};
+    real_type DXYI[2]{0,0};
 
-    for ( integer k = 0; k < 4; ++k ) {
-      int j1 = 4 + stencil[0][k];
-      int j2 = 4 + stencil[1][k];
-      int j3 = 4 + stencil[2][k];
+    for ( integer k{0}; k < 4; ++k ) {
+      integer j1{ 4 + stencil[0][k] };
+      integer j2{ 4 + stencil[1][k] };
+      integer j3{ 4 + stencil[2][k] };
       if ( j1 >= int(jmin) && j3 <= int(jmax) )
         estimate(
           Z00, Z[4][j1], Z[4][j2], Z[4][j3],
@@ -171,19 +171,19 @@ namespace Splines {
         );
     }
 
-    for ( integer kx = 0; kx < 4; ++kx ) {
+    for ( integer kx{0}; kx < 4; ++kx ) {
       int i1 = 4 + stencil[0][kx];
       int i2 = 4 + stencil[1][kx];
       int i3 = 4 + stencil[2][kx];
 
       if ( i1 < int(imin) || i3 > int(imax) ) continue;
 
-      real_type X1  = X[i1] - X0;
-      real_type X2  = X[i2] - X0;
-      real_type X3  = X[i3] - X0;
-      real_type Z10 = Z[i1][4];
-      real_type Z20 = Z[i2][4];
-      real_type Z30 = Z[i3][4];
+      real_type X1{ X[i1] - X0 };
+      real_type X2{ X[i2] - X0 };
+      real_type X3{ X[i3] - X0 };
+      real_type Z10{ Z[i1][4] };
+      real_type Z20{ Z[i2][4] };
+      real_type Z30{ Z[i3][4] };
       real_type CX1, CX2, CX3, SX, SXX, B00X, B10;
       estimate(
         Z00, Z10, Z20, Z30,
@@ -193,22 +193,22 @@ namespace Splines {
         B00X, B10, DXF, DXI
       );
 
-      for ( int ky = 0; ky < 4; ++ky ) {
-        int j1 = 4 + stencil[0][ky];
-        int j2 = 4 + stencil[1][ky];
-        int j3 = 4 + stencil[2][ky];
+      for ( int ky{0}; ky < 4; ++ky ) {
+        integer j1{ 4 + stencil[0][ky] };
+        integer j2{ 4 + stencil[1][ky] };
+        integer j3{ 4 + stencil[2][ky] };
         if ( j1 < int(jmin) || j3 > int(jmax) ) continue;
 
-        real_type Y1   = Y[j1] - Y0;
-        real_type Y2   = Y[j2] - Y0;
-        real_type Y3   = Y[j3] - Y0;
-        real_type CY1  = CY1A[ky];
-        real_type CY2  = CY2A[ky];
-        real_type CY3  = CY3A[ky];
-        real_type SY   = SYA[ky];
-        real_type SYY  = SYYA[ky];
-        real_type B00Y = by0[ky];
-        real_type B01  = by1[ky];
+        real_type Y1  { Y[j1] - Y0 };
+        real_type Y2  { Y[j2] - Y0 };
+        real_type Y3  { Y[j3] - Y0 };
+        real_type CY1 { CY1A[ky] };
+        real_type CY2 { CY2A[ky] };
+        real_type CY3 { CY3A[ky] };
+        real_type SY  { SYA[ky] };
+        real_type SYY { SYYA[ky] };
+        real_type B00Y{ by0[ky] };
+        real_type B01 { by1[ky] };
 
         real_type Z01 = Z[4][j1],  Z02 = Z[4][j2],  Z03 = Z[4][j3];
         real_type Z11 = Z[i1][j1], Z12 = Z[i1][j2], Z13 = Z[i1][j3];
@@ -295,7 +295,7 @@ namespace Splines {
   void
   Akima2Dspline::make_spline() {
 
-    size_t nn = size_t( m_nx*m_ny );
+    size_t nn{ size_t( m_nx*m_ny ) };
     m_mem_bicubic.reallocate( 3*nn );
     m_DX  = m_mem_bicubic( nn );
     m_DY  = m_mem_bicubic( nn );
@@ -307,26 +307,26 @@ namespace Splines {
 
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
-    for ( size_t i0 = 0; i0 < size_t(m_nx); ++i0 ) {
+    for ( size_t i0{0}; i0 < size_t(m_nx); ++i0 ) {
       size_t imin = 4  > i0             ? 4-i0                : 0;
       size_t imax = size_t(m_nx) < 5+i0 ? 3+(size_t(m_nx)-i0) : 8;
 
-      for ( size_t i = imin; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
+      for ( size_t i{imin}; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
-      for ( size_t j0 = 0; j0 < size_t(m_ny); ++j0 ) {
+      for ( size_t j0{0}; j0 < size_t(m_ny); ++j0 ) {
         size_t jmin = 4 > j0              ? 4-j0                : 0;
         size_t jmax = size_t(m_ny) < 5+j0 ? 3+(size_t(m_ny)-j0) : 8;
 
-        for ( size_t j = jmin; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
+        for ( size_t j{jmin}; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
 
-        for ( size_t i = imin; i <= imax; ++i )
-          for ( size_t j = jmin; j <= jmax; ++j )
+        for ( size_t i{imin}; i <= imax; ++i )
+          for ( size_t j{jmin}; j <= jmax; ++j )
             z_loc[i][j] = m_Z[size_t(ipos_C(integer(i+i0-4),
                                             integer(j+j0-4),
                                             m_ny))];
 
         // if not enough points, extrapolate
-        size_t iadd = 0, jadd = 0;
+        size_t iadd{0}, jadd{0};
         if ( imax < 3+imin ) {
           x_loc[imin-1] = 2*x_loc[imin] - x_loc[imax];
           x_loc[imax+1] = 2*x_loc[imax] - x_loc[imin];
@@ -344,7 +344,7 @@ namespace Splines {
             real_type x0 = x_loc[imin];
             real_type x1 = x_loc[imin+1];
             real_type x2 = x_loc[imax];
-            for ( size_t j = jmin; j <= jmax; ++j ) {
+            for ( size_t j{jmin}; j <= jmax; ++j ) {
               real_type z0 = z_loc[imin][j];
               real_type z1 = z_loc[imin+1][j];
               real_type z2 = z_loc[imax][j];

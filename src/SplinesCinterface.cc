@@ -63,8 +63,8 @@ extern "C" {
 
   int
   SPLINE_new(
-    char const * id,
-    char const * type
+    char const id[],
+    char const type[]
   ) {
     fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
     MAP_SPLINE::iterator it = spline_stored.find(id);
@@ -88,7 +88,7 @@ extern "C" {
   }
 
   int
-  SPLINE_select( char const * id ) {
+  SPLINE_select( char const id[] ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) {
       head = it->second;
@@ -99,7 +99,7 @@ extern "C" {
   }
 
   int
-  SPLINE_delete( char const * id ) {
+  SPLINE_delete( char const id[] ) {
     MAP_SPLINE::iterator it = spline_stored.find(id);
     if ( it != spline_stored.end() ) {
       delete it->second;
@@ -166,9 +166,9 @@ extern "C" {
 
   int
   SPLINE_build2(
-    double const * x,
-    double const * y,
-    int            n
+    double const x[],
+    double const y[],
+    int          n
   ) {
     if ( head != nullptr ) {
       head->build( x, y, n );

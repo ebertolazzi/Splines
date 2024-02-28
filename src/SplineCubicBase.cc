@@ -38,13 +38,13 @@ namespace Splines {
 
   void
   CubicSplineBase::build(
-    real_type const * x,  integer incx,
-    real_type const * y,  integer incy,
-    real_type const * yp, integer incyp,
+    real_type const x[],  integer incx,
+    real_type const y[],  integer incy,
+    real_type const yp[], integer incyp,
     integer n
   ) {
     this->reserve( n );
-    for ( size_t i = 0; i < size_t(n); ++i ) {
+    for ( size_t i{0}; i < size_t(n); ++i ) {
       m_X[i]  = x[i*size_t(incx)];
       m_Y[i]  = y[i*size_t(incy)];
       m_Yp[i] = yp[i*size_t(incyp)];
@@ -60,7 +60,7 @@ namespace Splines {
     vector<real_type> const & y,
     vector<real_type> const & yp
   ) {
-    integer N = integer(x.size());
+    integer N{ integer(x.size()) };
     if ( N > integer(y.size())  ) N = integer(y.size());
     if ( N > integer(yp.size()) ) N = integer(yp.size());
     this->build (
@@ -75,7 +75,7 @@ namespace Splines {
 
   void
   CubicSplineBase::clear() {
-    if ( !m_external_alloc ) m_baseValue.free();
+    if ( !m_external_alloc ) m_mem_cubic.free();
     m_npts = m_npts_reserved = 0;
     m_external_alloc = false;
     m_X = m_Y = m_Yp = nullptr;
@@ -89,10 +89,10 @@ namespace Splines {
       // nothing to do!, already allocated
     } else {
       m_npts_reserved = n;
-      m_baseValue.reallocate( size_t(3*n) );
-      m_X  = m_baseValue( size_t(n) );
-      m_Y  = m_baseValue( size_t(n) );
-      m_Yp = m_baseValue( size_t(n) );
+      m_mem_cubic.reallocate( size_t(3*n) );
+      m_X  = m_mem_cubic( size_t(n) );
+      m_Y  = m_mem_cubic( size_t(n) );
+      m_Yp = m_mem_cubic( size_t(n) );
       m_external_alloc = false;
     }
     init_last_interval();
