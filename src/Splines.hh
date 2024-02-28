@@ -415,7 +415,7 @@ namespace Splines {
     //!
     //! Find interval containing `x` using binary search.
     //!
-    integer search( real_type & x ) const;
+    void search( real_type x, std::pair<integer,real_type> & res ) const;
 
     //!
     //! \name Open/Close
@@ -727,7 +727,7 @@ namespace Splines {
     //!
     //! Evaluate spline value
     //!
-    virtual real_type operator () ( real_type x ) const = 0;
+    virtual real_type eval( real_type x ) const = 0;
 
     //!
     //! First derivative
@@ -761,9 +761,9 @@ namespace Splines {
     //!
     ///@{
     //!
-    //! Alias for `operator () ( real_type x )`
+    //! Alias for `real_type eval( real_type x )`
     //!
-    real_type eval( real_type x ) const { return (*this)(x); }
+    real_type operator () ( real_type x ) const { return this->eval(x); }
     //!
     //! Alias for `real_type D( real_type x )`
     //!
@@ -832,9 +832,9 @@ namespace Splines {
     virtual
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const = 0;
 
     //!
@@ -977,7 +977,7 @@ namespace Splines {
     //! \name Evaluation
     //!
     ///@{
-    real_type operator () ( real_type x ) const override;
+    real_type eval( real_type x ) const override;
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;
@@ -1065,9 +1065,9 @@ namespace Splines {
 
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const override;
 
     integer order() const override;
@@ -1426,7 +1426,7 @@ namespace Splines {
     //!
     virtual
     real_type
-    operator () ( real_type x, real_type y ) const = 0;
+    eval( real_type x, real_type y ) const = 0;
 
     //!
     //! Value and first derivatives at point \f$ (x,y) \f$:
@@ -1496,8 +1496,8 @@ namespace Splines {
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
     real_type
-    eval( real_type x, real_type y ) const
-    { return (*this)(x,y); }
+    operator () ( real_type x, real_type y ) const
+    { return this->eval(x,y); }
 
     //!
     //! Alias for `Dx(x,y)`

@@ -38,7 +38,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BilinearSpline::operator () ( real_type x, real_type y ) const {
+  BilinearSpline::eval( real_type x, real_type y ) const {
     integer   i   = this->search_x( x );
     integer   j   = this->search_y( y );
     real_type DX  = m_X[size_t(i+1)] - m_X[size_t(i)];

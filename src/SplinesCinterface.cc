@@ -181,7 +181,7 @@ extern "C" {
   double
   SPLINE_eval( double x ) {
     if ( head != nullptr ) {
-      return head->operator()(x);
+      return head->eval(x);
     } else {
       return 0;
     }

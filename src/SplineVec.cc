@@ -63,8 +63,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  integer
-  SplineVec::search( real_type & x ) const {
+  void
+  SplineVec::search( real_type x, std::pair<integer,real_type> & res) const {
     UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
     bool ok{true};
@@ -73,7 +73,7 @@ namespace Splines {
     #else
     integer & last_interval = m_last_interval;
     #endif
-    Utils::searchInterval(
+    Utils::search_interval(
       m_npts,
       m_X,
       x,
@@ -81,7 +81,8 @@ namespace Splines {
       m_curve_is_closed,
       m_curve_can_extend
     );
-    return last_interval;
+    res.first  = last_interval;
+    res.second = x;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -291,10 +292,12 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  SplineVec::operator () ( real_type x, integer j ) const {
-    size_t i = size_t(this->search( x ));
+  SplineVec::eval( real_type x, integer j ) const {
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base[4];
-    Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
+    integer i{res.first};
+    Hermite3( res.second-m_X[i], m_X[i+1]-m_X[i], base );
     return base[0] * m_Y[size_t(j)][i]   +
            base[1] * m_Y[size_t(j)][i+1] +
            base[2] * m_Yp[size_t(j)][i]  +
@@ -305,9 +308,11 @@ namespace Splines {
 
   real_type
   SplineVec::D( real_type x, integer j ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_D[4];
-    Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
+    integer i{res.first};
+    Hermite3_D( res.second-m_X[i], m_X[i+1]-m_X[i], base_D );
     return base_D[0] * m_Y[size_t(j)][i]   +
            base_D[1] * m_Y[size_t(j)][i+1] +
            base_D[2] * m_Yp[size_t(j)][i]  +
@@ -318,9 +323,11 @@ namespace Splines {
 
   real_type
   SplineVec::DD( real_type x, integer j ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_DD[4];
-    Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
+    integer i{res.first};
+    Hermite3_DD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DD );
     return base_DD[0] * m_Y[size_t(j)][i]   +
            base_DD[1] * m_Y[size_t(j)][i+1] +
            base_DD[2] * m_Yp[size_t(j)][i]  +
@@ -331,9 +338,11 @@ namespace Splines {
 
   real_type
   SplineVec::DDD( real_type x, integer j ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_DDD[4];
-    Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
+    integer i{res.first};
+    Hermite3_DDD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DDD );
     return base_DDD[0] * m_Y[size_t(j)][i]   +
            base_DDD[1] * m_Y[size_t(j)][i+1] +
            base_DDD[2] * m_Yp[size_t(j)][i]  +
@@ -344,15 +353,17 @@ namespace Splines {
 
   void
   SplineVec::eval(
-    real_type         x,
-    real_type * const vals,
-    integer           inc
+    real_type x,
+    real_type vals[],
+    integer  inc
   ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base[4];
-    Hermite3( x-m_X[i], m_X[i+1]-m_X[i], base );
-    real_type * v = vals;
-    for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
+    integer i{res.first};
+    Hermite3( res.second-m_X[i], m_X[i+1]-m_X[i], base );
+    real_type * v{vals};
+    for ( size_t j{0}; j < size_t(m_dim); ++j, v += inc )
       *v = base[0] * m_Y[j][i]   +
            base[1] * m_Y[j][i+1] +
            base[2] * m_Yp[j][i]  +
@@ -363,14 +374,16 @@ namespace Splines {
 
   void
   SplineVec::eval_D(
-    real_type         x,
-    real_type * const vals,
-    integer           inc
+    real_type x,
+    real_type vals[],
+    integer   inc
   ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_D[4];
-    Hermite3_D( x-m_X[i], m_X[i+1]-m_X[i], base_D );
-    real_type * v = vals;
+    integer i{res.first};
+    Hermite3_D( res.second-m_X[i], m_X[i+1]-m_X[i], base_D );
+    real_type * v{vals};
     for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
       *v = base_D[0] * m_Y[j][i]   +
            base_D[1] * m_Y[j][i+1] +
@@ -382,14 +395,16 @@ namespace Splines {
 
   void
   SplineVec::eval_DD(
-    real_type         x,
-    real_type * const vals,
-    integer           inc
+    real_type x,
+    real_type vals[],
+    integer   inc
   ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_DD[4];
-    Hermite3_DD( x-m_X[i], m_X[i+1]-m_X[i], base_DD );
-    real_type * v = vals;
+    integer i{res.first};
+    Hermite3_DD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DD );
+    real_type * v{vals};
     for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
       *v = base_DD[0] * m_Y[j][i]   +
            base_DD[1] * m_Y[j][i+1] +
@@ -401,14 +416,16 @@ namespace Splines {
 
   void
   SplineVec::eval_DDD(
-    real_type         x,
-    real_type * const vals,
-    integer           inc
+    real_type x,
+    real_type vals[],
+    integer   inc
   ) const {
-    size_t i = size_t(this->search( x ));
+    std::pair<integer,real_type> res;
+    this->search( x, res );
     real_type base_DDD[4];
-    Hermite3_DDD( x-m_X[i], m_X[i+1]-m_X[i], base_DDD );
-    real_type * v = vals;
+    integer i{res.first};
+    Hermite3_DDD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DDD );
+    real_type * v{vals};
     for ( size_t j = 0; j < size_t(m_dim); ++j, v += inc )
       *v = base_DDD[0] * m_Y[j][i]   +
            base_DDD[1] * m_Y[j][i+1] +

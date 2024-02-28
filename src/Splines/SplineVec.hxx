@@ -85,7 +85,7 @@ namespace Splines {
     //!
     //! Search the segment containing `x`
     //!
-    integer search( real_type & x ) const;
+    void search( real_type x, std::pair<integer,real_type> & res ) const;
 
     //!
     //! Spline name usd in the constructor
@@ -163,14 +163,14 @@ namespace Splines {
     //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
-    operator () ( real_type x, integer i ) const;
+    eval( real_type x, integer i ) const;
 
     //!
     //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
-    eval( real_type x, integer i ) const
-    { return operator() (x,i); }
+    operator () ( real_type x, integer i ) const
+    { return this->eval( x, i ); }
 
     //!
     //! First derivative value at `x` component `i`-th.
@@ -235,9 +235,9 @@ namespace Splines {
     //!
     void
     eval(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
 
     //!
@@ -246,9 +246,9 @@ namespace Splines {
     //!
     void
     eval_D(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
 
     //!
@@ -257,9 +257,9 @@ namespace Splines {
     //!
     void
     eval_DD(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
 
     //!
@@ -268,9 +268,9 @@ namespace Splines {
     //!
     void
     eval_DDD(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
 
     //!
@@ -279,9 +279,9 @@ namespace Splines {
     //!
     void
     eval_DDDD(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
 
     //!
@@ -290,9 +290,9 @@ namespace Splines {
     //!
     void
     eval_DDDDD(
-      real_type         x,
-      real_type * const vals,
-      integer           inc
+      real_type x,
+      real_type vals[],
+      integer   inc
     ) const;
     ///@}
 

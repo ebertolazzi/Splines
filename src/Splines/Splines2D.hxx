@@ -346,14 +346,14 @@ namespace Splines {
     //!
     real_type
     operator () ( real_type x, real_type y ) const
-    { return (*m_spline_2D)( x, y ); }
+    { return m_spline_2D->eval( x, y ); }
 
     //!
     //! Evaluate spline value at `(x,y)`.
     //!
     real_type
     eval( real_type x, real_type y ) const
-    { return (*this)(x,y); }
+    { return m_spline_2D->eval( x, y ); }
 
     ///@}
 

@@ -237,8 +237,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  integer
-  Spline::search( real_type & x ) const {
+  void
+  Spline::search( real_type x, std::pair<integer,real_type> & res ) const {
     UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
     bool ok{true};
@@ -247,7 +247,7 @@ namespace Splines {
     #else
     integer & last_interval = m_last_interval;
     #endif
-    Utils::searchInterval(
+    Utils::search_interval(
       m_npts,
       m_X,
       x,
@@ -255,7 +255,8 @@ namespace Splines {
       m_curve_is_closed,
       m_curve_can_extend
     );
-    return last_interval;
+    res.first  = last_interval;
+    res.second = x;
   }
 
   void
@@ -278,7 +279,7 @@ namespace Splines {
     #else
     integer & last_interval = m_last_interval_x;
     #endif
-    Utils::searchInterval(
+    Utils::search_interval(
       m_nx,
       m_X,
       x,
@@ -309,7 +310,7 @@ namespace Splines {
     #else
     integer & last_interval = m_last_interval_y;
     #endif
-    Utils::searchInterval(
+    Utils::search_interval(
       m_ny,
       m_Y,
       y,
@@ -473,7 +474,7 @@ namespace Splines {
     real_type dx = (x_max()-x_min())/nintervals;
     for ( integer i = 0; i <= nintervals; ++i ) {
       real_type x = x_min() + i*dx;
-      fmt::print( s, "{}\t{}\n", x, (*this)(x) );
+      fmt::print( s, "{}\t{}\n", x, this->eval(x) );
     }
   }
 

@@ -71,8 +71,10 @@ namespace Splines {
 
   //! Evalute spline value at `x`
   real_type
-  ConstantSpline::operator () ( real_type x ) const {
-    return m_Y[this->search(x)];
+  ConstantSpline::eval( real_type x ) const {
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return m_Y[res.first];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -124,8 +126,8 @@ namespace Splines {
 
   integer // order
   ConstantSpline::coeffs(
-    real_type * const cfs,
-    real_type * const nodes,
+    real_type cfs[],
+    real_type nodes[],
     bool
   ) const {
     size_t nseg = size_t(m_npts > 0 ? m_npts - 1 : 0);

@@ -243,7 +243,7 @@ namespace Splines {
     //!
     //! Evaluate spline value at `x`.
     //!
-    real_type operator () ( real_type x ) const { return (*m_pSpline)(x); }
+    real_type eval( real_type x ) const { return m_pSpline->eval(x); }
 
     //!
     //! First derivative.
@@ -276,7 +276,7 @@ namespace Splines {
     //! \name Evaluation Aliases
     //!
     ///@{
-    real_type eval( real_type x ) const { return (*m_pSpline)(x); }
+    real_type operator () ( real_type x ) const { return m_pSpline->eval(x); }
     real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
     real_type eval_DD( real_type x ) const { return m_pSpline->DD(x); }
     real_type eval_DDD( real_type x ) const { return m_pSpline->DDD(x); }
@@ -331,9 +331,9 @@ namespace Splines {
     //!
     integer // order
     coeffs(
-      real_type * const cfs,
-      real_type * const nodes,
-      bool              transpose = false
+      real_type cfs[],
+      real_type nodes[],
+      bool      transpose = false
     ) const {
       return m_pSpline->coeffs( cfs, nodes, transpose );
     }

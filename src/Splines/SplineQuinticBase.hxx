@@ -128,7 +128,7 @@ namespace Splines {
     //! \name Evaluation Aliases
     //!
     ///@{
-    real_type operator () ( real_type x ) const override;
+    real_type eval( real_type x ) const override;
     real_type D( real_type x ) const override;
     real_type DD( real_type x ) const override;
     real_type DDD( real_type x ) const override;

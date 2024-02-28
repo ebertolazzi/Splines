@@ -135,9 +135,10 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::operator () ( real_type x ) const {
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_eval( idx, x );
+  CubicSplineBase::eval( real_type x ) const {
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_eval( res.first, res.second );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -159,8 +160,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::D( real_type x ) const {
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_D( idx, x );
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_D( res.first, res.second );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -182,8 +184,9 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DD( real_type x ) const {
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_DD( idx, x );
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_DD( res.first, res.second );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -205,21 +208,22 @@ namespace Splines {
 
   real_type
   CubicSplineBase::DDD( real_type x ) const {
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_DDD( idx, x );
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_DDD( res.first, res.second );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer // order
   CubicSplineBase::coeffs(
-    real_type * const cfs,
-    real_type * const nodes,
-    bool              transpose
+    real_type cfs[],
+    real_type nodes[],
+    bool      transpose
   ) const {
-    size_t n = size_t(m_npts > 0 ? m_npts-1 : 0);
+    size_t n{ size_t(m_npts > 0 ? m_npts-1 : 0) };
     for ( size_t i = 0; i < n; ++i ) {
-      real_type H  = m_X[i+1]-m_X[i];
+      real_type H{ m_X[i+1]-m_X[i] };
       real_type a, b, c, d;
 
       Hermite3_to_poly( H, m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1], a, b, c, d );

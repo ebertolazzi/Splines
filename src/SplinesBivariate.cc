@@ -234,7 +234,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::operator () ( real_type x, real_type y ) const {
+  BiCubicSplineBase::eval( real_type x, real_type y ) const {
     real_type bili3[4][4], u[4], v[4];
     integer i = search_x( x );
     integer j = search_y( y );
@@ -414,7 +414,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::operator () ( real_type x, real_type y ) const {
+  BiQuinticSplineBase::eval( real_type x, real_type y ) const {
     real_type bili5[6][6], u[6], v[6];
     size_t i = size_t(search_x( x ));
     size_t j = size_t(search_y( y ));

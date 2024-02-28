@@ -63,8 +63,8 @@ namespace Splines {
     Utils::Malloc<void*>      m_baseSplines;
     Utils::Malloc<int>        m_baseInt;
 
-    integer m_npts;
-    integer m_nspl;
+    integer m_npts{0};
+    integer m_nspl{0};
 
     real_type *  m_X{nullptr};
     real_type ** m_Y{nullptr};
@@ -111,9 +111,7 @@ namespace Splines {
     ///@{
     string const & name() const { return m_name; }
 
-    string const &
-    header( integer i ) const
-    { return m_splines[i]->name(); }
+    string const & header( integer i ) const { return m_splines[i]->name(); }
 
     // vectorial values
     //!
@@ -220,7 +218,7 @@ namespace Splines {
     //!
     Spline *
     get_spline( char const * hdr ) const {
-      integer idx = this->get_position(hdr);
+      integer idx{ this->get_position(hdr) };
       return m_splines[idx];
     }
 
@@ -234,8 +232,8 @@ namespace Splines {
     //!
     real_type
     operator () ( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
-      return (*S)(x);
+      Spline const * S{ this->get_spline(spl) };
+      return S->eval(x);
     }
 
     //!
@@ -243,8 +241,8 @@ namespace Splines {
     //!
     real_type
     eval( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
-      return (*S)(x);
+      Spline const * S{ this->get_spline(spl) };
+      return S->eval(x);
     }
 
     //!
@@ -252,7 +250,7 @@ namespace Splines {
     //!
     real_type
     D( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->D(x);
     }
 
@@ -261,7 +259,7 @@ namespace Splines {
     //!
     real_type
     eval_D( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->D(x);
     }
 
@@ -270,7 +268,7 @@ namespace Splines {
     //!
     real_type
     DD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DD(x);
     }
 
@@ -279,7 +277,7 @@ namespace Splines {
     //!
     real_type
     eval_DD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DD(x);
     }
 
@@ -288,7 +286,7 @@ namespace Splines {
     //!
     real_type
     DDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDD(x);
     }
 
@@ -297,7 +295,7 @@ namespace Splines {
     //!
     real_type
     eval_DDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDD(x);
     }
 
@@ -306,7 +304,7 @@ namespace Splines {
     //!
     real_type
     DDDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDDD(x);
     }
 
@@ -315,7 +313,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDDD(x);
     }
 
@@ -324,7 +322,7 @@ namespace Splines {
     //!
     real_type
     DDDDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDDDD(x);
     }
 
@@ -333,7 +331,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDDD( real_type x, integer spl ) const {
-      Spline const * S = this->get_spline(spl);
+      Spline const * S{ this->get_spline(spl) };
       return S->DDDDD(x);
     }
 
@@ -342,8 +340,8 @@ namespace Splines {
     //!
     real_type
     eval( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
-      return (*S)(x);
+      Spline const * S{ this->get_spline(name) };
+      return S->eval(x);
     }
 
     //!
@@ -351,7 +349,7 @@ namespace Splines {
     //!
     real_type
     eval_D( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
+      Spline const * S{ this->get_spline(name) };
       return S->D(x);
     }
 
@@ -360,7 +358,7 @@ namespace Splines {
     //!
     real_type
     eval_DD( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
+      Spline const * S{ this->get_spline(name) };
       return S->DD(x);
     }
 
@@ -369,7 +367,7 @@ namespace Splines {
     //!
     real_type
     eval_DDD( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
+      Spline const * S{ this->get_spline(name) };
       return S->DDD(x);
     }
 
@@ -378,7 +376,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDD( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
+      Spline const * S{ this->get_spline(name) };
       return S->DDDD(x);
     }
 
@@ -387,7 +385,7 @@ namespace Splines {
     //!
     real_type
     eval_DDDDD( real_type x, char const * name ) const {
-      Spline const * S = this->get_spline(name);
+      Spline const * S{ this->get_spline(name) };
       return S->DDDDD(x);
     }
 
@@ -440,9 +438,9 @@ namespace Splines {
     //!
     void
     eval(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -450,9 +448,9 @@ namespace Splines {
     //!
     void
     eval_D(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -460,9 +458,9 @@ namespace Splines {
     //!
     void
     eval_DD(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -470,9 +468,9 @@ namespace Splines {
     //!
     void
     eval_DDD(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -480,9 +478,9 @@ namespace Splines {
     //!
     void
     eval_DDDD(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -490,9 +488,9 @@ namespace Splines {
     //!
     void
     eval_DDDDD(
-      real_type         x,
-      real_type * const vals,
-      integer           incy = 1
+      real_type x,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     ///@}
@@ -553,10 +551,10 @@ namespace Splines {
     //!
     void
     eval2(
-      integer           spl,
-      real_type         zeta,
-      real_type * const vals,
-      integer           incy = 1
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -565,10 +563,10 @@ namespace Splines {
     //!
     void
     eval2_D(
-      integer           spl,
-      real_type         zeta,
-      real_type * const vals,
-      integer           incy = 1
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -577,10 +575,10 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      integer           spl,
-      real_type         zeta,
-      real_type * const vals,
-      integer           incy = 1
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     //!
@@ -589,10 +587,10 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      integer           spl,
-      real_type         zeta,
-      real_type * const vals,
-      integer           incy = 1
+      integer   spl,
+      real_type zeta,
+      real_type vals[],
+      integer   incy = 1
     ) const;
 
     ///@}

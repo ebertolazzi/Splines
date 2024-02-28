@@ -45,9 +45,10 @@ namespace Splines {
   }
 
   real_type
-  LinearSpline::operator () ( real_type x ) const {
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_eval( idx, x );
+  LinearSpline::eval( real_type x ) const {
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_eval( res.first, res.second );
   }
 
   real_type
@@ -63,8 +64,9 @@ namespace Splines {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
-    integer idx = this->search( x ); // eval idx can modify x
-    return this->id_D( idx, x );
+    std::pair<integer,real_type> res;
+    this->search( x, res );
+    return this->id_D( res.first, res.second );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -116,7 +118,7 @@ namespace Splines {
   void
   LinearSpline::write_to_stream( ostream_type & s ) const {
     integer nseg = m_npts > 0 ? m_npts - 1 : 0;
-    for ( integer i = 0; i < nseg; ++i )
+    for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}\n",
         i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1],
@@ -128,12 +130,12 @@ namespace Splines {
 
   integer // order
   LinearSpline::coeffs(
-    real_type * const cfs,
-    real_type * const nodes,
-    bool              transpose
+    real_type cfs[],
+    real_type nodes[],
+    bool      transpose
   ) const {
-    integer n = m_npts > 0 ? m_npts-1 : 0;
-    for ( integer i = 0; i < n; ++i ) {
+    integer n{ m_npts > 0 ? m_npts-1 : 0 };
+    for ( integer i{0}; i < n; ++i ) {
       real_type a = m_Y[i];
       real_type b = (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]);
       if ( transpose ) {

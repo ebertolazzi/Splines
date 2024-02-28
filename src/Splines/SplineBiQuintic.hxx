@@ -75,7 +75,7 @@ namespace Splines {
     Dxy_node( integer i, integer j ) const
     { return m_DXY[size_t(this->ipos_C(i,j))]; }
 
-    real_type operator () ( real_type x, real_type y ) const override;
+    real_type eval( real_type x, real_type y ) const override;
 
     void D( real_type x, real_type y, real_type d[3] ) const override;
     real_type Dx( real_type x, real_type y ) const override;

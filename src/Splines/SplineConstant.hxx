@@ -73,7 +73,7 @@ namespace Splines {
     //! \name Evaluate
     //!
     ///@{
-    real_type operator () ( real_type x ) const override;
+    real_type eval( real_type x ) const override;
     real_type D( real_type ) const override { return 0; }
     real_type DD( real_type ) const override { return 0; }
     real_type DDD( real_type ) const override { return 0; }
