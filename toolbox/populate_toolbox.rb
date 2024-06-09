@@ -9,7 +9,7 @@ FileUtils.cp_r  "../src/.", "./src";
 FileUtils.cp_r  "../cmake_utils/.",   "./cmake_utils";
 FileUtils.rm_rf "./cmake_utils/.git"; # remove git struture
 FileUtils.cp_r  "../submodules/quarticRootsFlocke/src/.",   "./src";
-FileUtils.cp_r  "../submodules/Utils/src/.",                "./src";
+FileUtils.cp_r  "../submodules/UtilsLite/src/.",            "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/src/.",     "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/include/.", "./src";
 # elimino dipendenze da Eigen

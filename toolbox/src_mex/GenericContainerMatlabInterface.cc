@@ -426,7 +426,7 @@ namespace GC_namespace {
 
   void
   to_mxArray( mat_int_type const & val, mxArray * & mx ) {
-    mwSize dims[2] = { mwSize(val.numRows()), mwSize(val.numCols()) };
+    mwSize dims[2] = { mwSize(val.num_rows()), mwSize(val.num_cols()) };
     mx = mxCreateNumericArray(2,dims,mxINT32_CLASS,mxREAL);
     int32_t * ptr = static_cast<int32_t*>(mxGetData(mx));
     mwSize k = 0;
@@ -437,7 +437,7 @@ namespace GC_namespace {
 
   void
   to_mxArray( mat_long_type const & val, mxArray * & mx ) {
-    mwSize dims[2] = { mwSize(val.numRows()), mwSize(val.numCols()) };
+    mwSize dims[2] = { mwSize(val.num_rows()), mwSize(val.num_cols()) };
     mx = mxCreateNumericArray(2,dims,mxINT64_CLASS,mxREAL);
     int64_t * ptr = static_cast<int64_t*>(mxGetData(mx));
     mwSize k = 0;
@@ -448,7 +448,7 @@ namespace GC_namespace {
 
   void
   to_mxArray( mat_real_type const & val, mxArray * & mx ) {
-    mwSize dims[2] = { mwSize(val.numRows()), mwSize(val.numCols()) };
+    mwSize dims[2] = { mwSize(val.num_rows()), mwSize(val.num_cols()) };
     mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxREAL);
     real_type * ptr = mxGetPr(mx);
     mwSize k = 0;
@@ -459,7 +459,7 @@ namespace GC_namespace {
 
   void
   to_mxArray( mat_complex_type const & val, mxArray * & mx ) {
-    mwSize dims[2] = { mwSize(val.numRows()), mwSize(val.numCols()) };
+    mwSize dims[2] = { mwSize(val.num_rows()), mwSize(val.num_cols()) };
     mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
     real_type * ptr = mxGetPr(mx);
     real_type * pti = mxGetPi(mx);
@@ -566,8 +566,8 @@ namespace GC_namespace {
       break;
     case GC_type::MAT_INTEGER:
       {
-        dims[0] = gc.get_numRows();
-        dims[1] = gc.get_numCols();
+        dims[0] = gc.num_rows();
+        dims[1] = gc.num_cols();
         mx = mxCreateNumericArray(2,dims,mxINT32_CLASS,mxREAL);
         int_type * ptr = static_cast<int_type *>(mxGetData(mx));
         mwSize k = 0;
@@ -578,8 +578,8 @@ namespace GC_namespace {
       break;
     case GC_type::MAT_LONG:
       {
-        dims[0] = gc.get_numRows();
-        dims[1] = gc.get_numCols();
+        dims[0] = gc.num_rows();
+        dims[1] = gc.num_cols();
         mx = mxCreateNumericArray(2,dims,mxINT64_CLASS,mxREAL);
         long_type * ptr = static_cast<long_type *>(mxGetData(mx));
         mwSize k = 0;
@@ -590,8 +590,8 @@ namespace GC_namespace {
       break;
     case GC_type::MAT_REAL:
       {
-        dims[0] = gc.get_numRows();
-        dims[1] = gc.get_numCols();
+        dims[0] = gc.num_rows();
+        dims[1] = gc.num_cols();
         mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxREAL);
         real_type * ptr = mxGetPr(mx);
         mwSize k = 0;
@@ -602,8 +602,8 @@ namespace GC_namespace {
       break;
     case GC_type::MAT_COMPLEX:
       {
-        dims[0] = gc.get_numRows();
-        dims[1] = gc.get_numCols();
+        dims[0] = gc.num_rows();
+        dims[1] = gc.num_cols();
         mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
         real_type * ptr = mxGetPr(mx);
         real_type * pti = mxGetPi(mx);

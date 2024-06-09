@@ -20,6 +20,7 @@
 #include "Splines.hh"
 #include "SplinesUtils.hh"
 #include "PolynomialRoots.hh"
+#include "Utils_fmt.hh"
 
 #include <limits>
 #include <cmath>

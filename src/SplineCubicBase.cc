@@ -19,6 +19,8 @@
 
 #include "Splines.hh"
 #include "PolynomialRoots.hh"
+#include "Utils_fmt.hh"
+
 #include <iomanip>
 
 #ifdef __clang__
@@ -33,6 +35,13 @@
 using namespace std; // load standard namspace
 
 namespace Splines {
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  CubicSplineBase::CubicSplineBase( string const & name )
+  : Spline(name)
+  , m_mem_cubic( fmt::format("CubicSplineBase[{}]::m_mem_cubic", name ) )
+  {}
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

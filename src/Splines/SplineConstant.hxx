@@ -39,10 +39,7 @@ namespace Splines {
     using Spline::build;
     #endif
 
-    ConstantSpline( string const & name = "ConstantSpline" )
-    : Spline(name)
-    , m_mem_constant( fmt::format("ConstantSpline[{}]",name) )
-    {}
+    ConstantSpline( string const & name = "ConstantSpline" );
 
     ~ConstantSpline() override {}
 

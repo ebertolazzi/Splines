@@ -52,10 +52,7 @@ namespace Splines {
     //!
     //! Spline constructor
     //!
-    QuinticSplineBase( string const & name = "QuinticSplineBase" )
-    : Spline(name)
-    , m_base_quintic( fmt::format( "QuinticSplineBase[{}]", name ) )
-    {}
+    QuinticSplineBase( string const & name = "QuinticSplineBase" );
 
     ~QuinticSplineBase() override {}
 

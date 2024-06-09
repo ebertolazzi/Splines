@@ -52,10 +52,7 @@ namespace Splines {
   public:
 
     //! spline constructor
-    BiCubicSplineBase( string const & name = "BiCubicSplineBase" )
-    : SplineSurf( name )
-    , m_mem_bicubic( fmt::format("BiCubicSplineBase[{}]",name) )
-    {}
+    BiCubicSplineBase( string const & name = "BiCubicSplineBase" );
 
     ~BiCubicSplineBase() override {}
 

@@ -30,6 +30,7 @@
 
 #include "Splines.hh"
 #include "SplinesCinterface.h"
+#include "Utils_fmt.hh"
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"

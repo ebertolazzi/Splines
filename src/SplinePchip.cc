@@ -19,6 +19,7 @@
 
 #include "Splines.hh"
 #include "SplinesUtils.hh"
+#include "Utils_fmt.hh"
 
 #include <cmath>
 

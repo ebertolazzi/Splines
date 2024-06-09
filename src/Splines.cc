@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "SplinesUtils.hh"
+#include "Utils_fmt.hh"
 
 #include <cmath>
 #include <limits> // std::numeric_limits
@@ -475,6 +476,48 @@ namespace Splines {
       real_type x{ x_min() + i*dx };
       fmt::print( s, "{}\t{}\n", x, this->eval(x) );
     }
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  Spline::y_min_max(
+    integer   & i_min_pos,
+    real_type & x_min_pos,
+    real_type & y_min,
+    integer   & i_max_pos,
+    real_type & x_max_pos,
+    real_type & y_max
+  ) const {
+    i_min_pos = i_max_pos = 0;
+    x_min_pos = y_min = x_max_pos = y_max = 0;
+    UTILS_ERROR(
+      "In spline: {} y_min_max not implemented\n",
+      info()
+    );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  Spline::y_min_max(
+    vector<integer>   & i_min_pos,
+    vector<real_type> & x_min_pos,
+    vector<real_type> & y_min,
+    vector<integer>   & i_max_pos,
+    vector<real_type> & x_max_pos,
+    vector<real_type> & y_max
+  ) const {
+    i_min_pos.clear();
+    i_max_pos.clear();
+    x_min_pos.clear();
+    x_max_pos.clear();
+    y_min.clear();
+    y_max.clear();
+    UTILS_ERROR(
+      "In spline: {} y_min_max not implemented\n",
+      info()
+    );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

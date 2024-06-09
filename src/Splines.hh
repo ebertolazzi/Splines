@@ -529,14 +529,7 @@ namespace Splines {
       integer   & i_max_pos,
       real_type & x_max_pos,
       real_type & y_max
-    ) const {
-      i_min_pos = i_max_pos = 0;
-      x_min_pos = y_min = x_max_pos = y_max = 0;
-      UTILS_ERROR(
-        "In spline: {} y_min_max not implemented\n",
-        info()
-      );
-    }
+    ) const;
 
     //!
     //! Search the max and min values of `y` along the spline
@@ -558,18 +551,7 @@ namespace Splines {
       vector<integer>   & i_max_pos,
       vector<real_type> & x_max_pos,
       vector<real_type> & y_max
-    ) const {
-      i_min_pos.clear();
-      i_max_pos.clear();
-      x_min_pos.clear();
-      x_max_pos.clear();
-      y_min.clear();
-      y_max.clear();
-      UTILS_ERROR(
-        "In spline: {} y_min_max not implemented\n",
-        info()
-      );
-    }
+    ) const;
 
     ///@}
 
@@ -920,10 +902,7 @@ namespace Splines {
     //!
     //! Spline constructor.
     //!
-    CubicSplineBase( string const & name = "CubicSplineBase" )
-    : Spline(name)
-    , m_mem_cubic( fmt::format("CubicSplineBase[{}]::m_mem_cubic", name ) )
-    {}
+    CubicSplineBase( string const & name = "CubicSplineBase" );
 
     ~CubicSplineBase() override {}
     ///@}
