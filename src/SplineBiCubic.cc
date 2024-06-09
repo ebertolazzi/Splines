@@ -18,6 +18,8 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "Utils_fmt.hh"
+
 #include <cmath>
 #include <iomanip>
 
@@ -34,6 +36,13 @@ using namespace std; // load standard namspace
 #endif
 
 namespace Splines {
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  BiCubicSplineBase::BiCubicSplineBase( string const & name )
+  : SplineSurf( name )
+  , m_mem_bicubic( fmt::format("BiCubicSplineBase[{}]",name) )
+  {}
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

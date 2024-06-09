@@ -18,6 +18,8 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "Utils_fmt.hh"
+
 #include <iomanip>
 
 #ifdef __clang__
@@ -34,6 +36,17 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  LinearSpline::LinearSpline( string const & name )
+  : Spline(name)
+  , m_mem_linear( fmt::format( "LinearSpline[{}]", name ) )
+  {
+    m_curve_extended_constant = true; // by default linear spline extend constant
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   LinearSpline::id_eval( integer i, real_type x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
@@ -44,12 +57,16 @@ namespace Splines {
     return (1-s)*m_Y[i] + s * m_Y[i+1];
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   real_type
   LinearSpline::eval( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
     this->search( res );
     return this->id_eval( res.first, res.second );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   LinearSpline::id_D( integer i, real_type x ) const {
@@ -58,6 +75,8 @@ namespace Splines {
     }
     return ( m_Y[i+1] - m_Y[i] ) / ( m_X[i+1] - m_X[i] );
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
   LinearSpline::D( real_type x ) const {

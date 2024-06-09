@@ -19,6 +19,8 @@
 
 #include "Splines.hh"
 #include "SplinesUtils.hh"
+#include "Utils_fmt.hh"
+
 #include <cmath>
 
 #ifdef __clang__
@@ -35,6 +37,13 @@ using namespace std; // load standard namspace
 namespace Splines {
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  QuinticSplineBase::QuinticSplineBase( string const & name )
+  : Spline(name)
+  , m_base_quintic( fmt::format( "QuinticSplineBase[{}]", name ) )
+  {}
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

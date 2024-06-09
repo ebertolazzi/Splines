@@ -9,10 +9,8 @@ task :copy_submodules, [:arg] do |t, args|
   FileUtils.mkdir_p "../lib3rd/dll/"
   FileUtils.mkdir_p "../lib3rd/bin/"
   tmp = '_' + args.arg
-  ["Utils"].each do |base|
-    FileUtils.cp_r "./#{base}/lib/include/#{base}/.", "../lib3rd/include"
-    FileUtils.cp_r "./#{base}/lib/.", "../lib3rd"
-  end
+  FileUtils.cp_r "./UtilsLite/lib/include/Utils/.", "../lib3rd/include"
+  FileUtils.cp_r "./UtilsLite/lib/.", "../lib3rd"
   ["quarticRootsFlocke","GenericContainer"].each do |base|
     FileUtils.cp_r "./#{base}/lib/.", "../lib3rd/"
   end
@@ -20,7 +18,7 @@ end
 
 task :build_common, [:arg] do |t, args|
   args.with_defaults(:arg => "osx")
-  FileUtils.cd "Utils"
+  FileUtils.cd "UtilsLite"
   sh "rake clean_#{args.arg}"
   sh "rake build_#{args.arg}"
   FileUtils.cd "../quarticRootsFlocke"
@@ -55,7 +53,7 @@ end
 
 task :clean_common, [:arg] do |t, args|
   args.with_defaults(:arg => "osx")
-  FileUtils.cd "Utils"
+  FileUtils.cd "UtilsLite"
   sh "rake clean_#{args.arg}"
   FileUtils.cd "../quarticRootsFlocke"
   sh "rake clean_#{args.arg}"

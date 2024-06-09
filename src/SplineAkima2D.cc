@@ -20,6 +20,8 @@
 #include "Splines.hh"
 #include <cmath>
 #include <iomanip>
+#include "Utils_fmt.hh"
+
 /**
  *
  */

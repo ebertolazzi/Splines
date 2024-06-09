@@ -19,6 +19,8 @@
 
 #include "Splines.hh"
 #include "PolynomialRoots.hh"
+#include "Utils_fmt.hh"
+
 #include <iomanip>
 
 #ifdef __clang__

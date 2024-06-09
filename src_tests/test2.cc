@@ -18,6 +18,8 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "Utils_fmt.hh"
+
 #include <fstream>
 
 #ifdef __clang__

@@ -18,6 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #include "SplinesUtils.hh"
+#include "Utils_fmt.hh"
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"

@@ -39,12 +39,7 @@ namespace Splines {
     using Spline::build;
     #endif
 
-    LinearSpline( string const & name = "LinearSpline" )
-    : Spline(name)
-    , m_mem_linear( fmt::format( "LinearSpline[{}]", name ) )
-    {
-      m_curve_extended_constant = true; // by default linear spline extend constant
-    }
+    LinearSpline( string const & name = "LinearSpline" );
 
     ~LinearSpline() override {}
 

@@ -18,6 +18,8 @@
 \*--------------------------------------------------------------------------*/
 
 #include "Splines.hh"
+#include "Utils_fmt.hh"
+
 #include <iomanip>
 
 #ifdef __clang__
@@ -33,6 +35,13 @@ using namespace std; // load standard namspace
 #endif
 
 namespace Splines {
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  ConstantSpline::ConstantSpline( string const & name )
+  : Spline(name)
+  , m_mem_constant( fmt::format("ConstantSpline[{}]",name) )
+  {}
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
