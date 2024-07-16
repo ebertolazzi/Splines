@@ -6,16 +6,34 @@ Splines
 ``Splines`` is a set of C++ classes (with MATLAB mex interface) which
 implements various spline interpolation.
 
-- Online documentation http://ebertolazzi.github.io/Splines/
+The library contains the following objects:
 
-To setup submodules
+- Univariate curve
+  - Linear Spline
+  - Akima spline
+  - Bessel spline
+  - Cubic spline
+  - Hermite spline
+  - Pchic non oscillatory spline
+  - Quintic spline
+- Bivariate spline (surface)
+  - Bilinear spline
+  - Cubic
+  - Quintic
+
+Library is written in `C++11` with a `MATLAB` mex interface.
+Thus can be used in fast compiled application or in `MATLAB` scripts.
+
+To compile the `C++11` library the easy way require `cmake` and `rake`
 
 ```
 ruby setup.rb
 ```
 
-to compile
+then
 
 ```
 rake
 ```
+
+for more details see: **online documentation** at http://ebertolazzi.github.io/Splines/

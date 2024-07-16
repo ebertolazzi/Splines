@@ -4,6 +4,11 @@
 # pip install exhale
 # pip install sphinxcontrib-pyexec
 
+# workaround
+# pip uninstall Jinja2 -y
+# pip uninstall MarkupSafe -y
+# pip install Jinja2==3.0
+
 import exhale
 import os
 import re
