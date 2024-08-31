@@ -35,6 +35,8 @@ namespace Splines {
 
   protected:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     string const m_name;
 
     Utils::Malloc<real_type>  m_mem;
@@ -57,7 +59,9 @@ namespace Splines {
 
     void init_last_interval();
     void allocate( integer dim, integer npts );
-    void computeChords();
+    void compute_chords();
+
+    #endif
 
   public:
 
@@ -70,7 +74,9 @@ namespace Splines {
     ///@{
 
     //!
-    //! Spline constructor.
+    //! Build an empty spline of `SplineVec` type
+    //!
+    //! \param name the name of the spline
     //!
     SplineVec( string const & name = "SplineVec" );
 
@@ -96,12 +102,41 @@ namespace Splines {
     //! \name Open/Close
     //!
     ///@{
-    bool is_closed() const { return m_curve_is_closed; }
-    void make_closed()     { m_curve_is_closed = true; }
-    void make_open()       { m_curve_is_closed = false; }
 
+    //! \return `true` if spline is a closed spline
+    bool is_closed() const { return m_curve_is_closed; }
+
+    //!
+    //! Set spline as a closed spline.
+    //! When evaluated if parameter is outside the domain
+    //! is wrapped cyclically before evalation.
+    //!
+    void make_closed() { m_curve_is_closed = true; }
+
+    //!
+    //! Set spline as an opened spline.
+    //! When evaluated if parameter is outside the domain
+    //! an error is produced.
+    //!
+    void make_open() { m_curve_is_closed = false; }
+
+    //!
+    //! \return `true` if spline can extend outside interval of definition
+    //!
     bool can_extend() const { return m_curve_can_extend; }
+
+    //!
+    //! Set spline as unbounded.
+    //! When evaluated if parameter is outside the domain
+    //! an extrapolated value is used.
+    //!
     void make_unbounded()   { m_curve_can_extend = true; }
+
+    //!
+    //! Set spline as bounded.
+    //! When evaluated if parameter is outside the domain
+    //! an error is issued.
+    //!
     void make_buonded()     { m_curve_can_extend = false; }
     ///@}
 
@@ -178,6 +213,9 @@ namespace Splines {
     real_type
     D( real_type x, integer i ) const;
 
+    //!
+    //! First derivative value at `x` component `i`-th.
+    //!
     real_type
     eval_D( real_type x, integer i ) const
     { return this->D(x,i); }
@@ -188,6 +226,9 @@ namespace Splines {
     real_type
     DD( real_type x, integer i ) const;
 
+    //!
+    //! Second derivative value at `x` component `i`-th.
+    //!
     real_type
     eval_DD( real_type x, integer i ) const
     { return this->DD(x,i); }
@@ -198,6 +239,9 @@ namespace Splines {
     real_type
     DDD( real_type x, integer i ) const;
 
+    //!
+    //! Third derivative value at `x` component `i`-th.
+    //!
     real_type
     eval_DDD( real_type x, integer i ) const
     { return this->DDD(x,i); }
@@ -208,6 +252,9 @@ namespace Splines {
     real_type
     DDDD( real_type x, integer i ) const;
 
+    //!
+    //! 4th derivative value at `x` component `i`-th.
+    //!
     real_type
     eval_DDDD( real_type x, integer i ) const
     { return this->DDDD(x,i); }
@@ -218,6 +265,9 @@ namespace Splines {
     real_type
     DDDDD( real_type x, integer i ) const;
 
+    //!
+    //! 5th derivative value at `x` component `i`-th.
+    //!
     real_type
     eval_DDDDD( real_type x, integer i ) const
     { return this->DDDDD(x,i); }
@@ -449,9 +499,9 @@ namespace Splines {
     //!
     void
     setup(
-      integer            dim,
-      integer            npts,
-      real_type const ** Y
+      integer           dim,
+      integer           npts,
+      real_type const * Y[]
     );
 
     //!
@@ -464,41 +514,49 @@ namespace Splines {
     //!
     void
     setup(
-      integer           dim,
-      integer           npts,
-      real_type const * Y,
-      integer           ldY
+      integer         dim,
+      integer         npts,
+      real_type const Y[],
+      integer         ldY
     );
 
     //!
     //! Set the knots of the spline.
     //!
-    void setKnots( real_type const * X );
+    void set_knots( real_type const X[] );
 
     //!
     //! Computes the knots of the spline using chordal length.
     //!
-    void setKnotsChordLength();
+    void set_knots_chord_length();
 
     //!
     //! Computes the knots of the spline using centripetal approach.
     //!
-    void setKnotsCentripetal();
+    void set_knots_centripetal();
 
     //!
     //! Computes the knots of the spline using Foley algorithm.
     //!
-    void setKnotsFoley();
+    void set_knots_foley();
 
     //!
     //! Computes the spline using Catmull Rom algorithm.
     //! Points and nodes must be previously stored.
     //!
-    void CatmullRom();
+    void catmull_rom();
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void
     build( GenericContainer const & gc )
     { setup(gc); }
+
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
+    void setup( GenericContainer const & gc );
 
     ///@}
 
@@ -512,19 +570,26 @@ namespace Splines {
     //!
     real_type curvature_D( real_type x ) const;
 
-    void setup( GenericContainer const & gc );
-
     //!
     //! Return spline type (as number).
     //!
     SplineType1D type() const { return SplineType1D::SPLINE_VEC; }
 
+    //!
+    //! String information of the kind and order of the spline
+    //!
     string info() const;
 
+    //!
+    //! Print information of the kind and order of the spline
+    //!
     void
     info( ostream_type & stream ) const
     { stream << this->info() << '\n'; }
 
+    //!
+    //! Dump values of the spline on a stream for plotting
+    //!
     void
     dump_table( ostream_type & s, integer num_points ) const;
 
@@ -536,6 +601,11 @@ namespace Splines {
     real_type yNode( integer npt, integer j ) const { return y_node(npt,j); }
     real_type xMin() const { return m_X[0]; }
     real_type xMax() const { return m_X[size_t(m_npts-1)]; }
+    void setKnots( real_type const X[] ) { this->set_knots( X ); }
+    void setKnotsChordLength() { this->set_knots_chord_length(); }
+    void setKnotsCentripetal() { this->set_knots_centripetal() }
+    void setKnotsFoley() { this->set_knots_foley(); }
+    void CatmullRom() { this->catmull_rom(); }
     #endif
 
   };

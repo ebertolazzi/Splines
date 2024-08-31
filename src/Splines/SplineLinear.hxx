@@ -39,8 +39,16 @@ namespace Splines {
     using Spline::build;
     #endif
 
+    //!
+    //! Build an empty spline of `LinearSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     LinearSpline( string const & name = "LinearSpline" );
 
+    //!
+    //! Spline destructor.
+    //!
     ~LinearSpline() override {}
 
     //! Use externally allocated memory for `npts` points

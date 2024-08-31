@@ -52,7 +52,9 @@ namespace Splines {
     #endif
 
     //!
-    //! spline constructor
+    //! Build an empty spline of `BesselSpline` type
+    //!
+    //! \param name the name of the spline
     //!
     BesselSpline( string const & name = "BesselSpline" )
     : CubicSplineBase( name )

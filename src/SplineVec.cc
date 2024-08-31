@@ -81,6 +81,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   SplineVec::init_last_interval() {
     #ifdef SPLINES_USE_THREADS
@@ -91,6 +93,8 @@ namespace Splines {
     #endif
     last_interval = 0;
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -118,6 +122,8 @@ namespace Splines {
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   void
   SplineVec::allocate( integer dim, integer npts ) {
@@ -147,6 +153,8 @@ namespace Splines {
     m_mem_p.must_be_empty( "SplineVec::build, basePointer" );
 
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -179,13 +187,16 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setKnots( real_type const * X ) {
+  SplineVec::set_knots( real_type const X[] ) {
     std::copy_n( X, m_npts, m_X );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
-  SplineVec::computeChords() {
+  SplineVec::compute_chords() {
     size_t nn{ size_t(m_npts-1) };
     switch ( m_dim ) {
     case 2:
@@ -216,10 +227,12 @@ namespace Splines {
     }
   }
 
+  #endif
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   void
-  SplineVec::setKnotsChordLength() {
-    computeChords();
+  SplineVec::set_knots_chord_length() {
+    compute_chords();
     size_t nn{ size_t(m_npts-1) };
     real_type acc{0};
     for ( size_t j{0}; j <= nn; ++j ) {
@@ -234,8 +247,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setKnotsCentripetal() {
-    computeChords();
+  SplineVec::set_knots_centripetal() {
+    compute_chords();
     size_t nn{ size_t(m_npts-1) };
     real_type acc{0};
     for ( size_t j{0}; j <= nn; ++j ) {
@@ -248,7 +261,7 @@ namespace Splines {
   }
 
   void
-  SplineVec::CatmullRom() {
+  SplineVec::catmull_rom() {
     size_t n{ size_t(m_npts-1) };
     size_t d{ size_t(m_dim) };
     real_type l1, l2, ll, a, b;

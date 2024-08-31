@@ -65,11 +65,11 @@ namespace Splines {
 
   void
   uniform(
-    integer           /* dim */,
-    integer           npts,
-    real_type const * /* pnts    */,
-    integer           /* ld_pnts */,
-    real_type       * t
+    integer               /* dim */,
+    integer         npts,
+    real_type const [] /* pnts    */,
+    integer            /* ld_pnts */,
+    real_type       t[]
   ) {
     t[0]      = 0;
     t[npts-1] = 1;
@@ -259,6 +259,8 @@ namespace Splines {
     res.first = last_interval;
   }
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   Spline::init_last_interval() {
     #ifdef SPLINES_USE_THREADS
@@ -332,11 +334,13 @@ namespace Splines {
     last_interval = 0;
   }
 
+  #endif
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! Check if cubic spline with this data is monotone, return -1 no, 0 yes, 1 strictly monotone
   integer
-  checkCubicSplineMonotonicity(
+  check_cubic_spline_monotonicity(
     real_type const X[],
     real_type const Y[],
     real_type const Yp[],
@@ -468,7 +472,7 @@ namespace Splines {
   Spline::dump(
     ostream_type & s,
     integer        nintervals,
-    char const *   header
+    char const     header[]
   ) const {
     s << header << '\n';
     real_type dx{ (x_max()-x_min())/nintervals };

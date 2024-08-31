@@ -1,0 +1,14 @@
+.. meta::15ee0eaca5524afc4b688e70a9b378e5d38a698d3a3e8c74e776429e4f55ee5a0e3fcd01358a94cbf513fb5d3b04345dc150802cfb46b1bf5fa5bdb8c3e66e2c
+
+:orphan:
+
+.. title:: Splines: Splines::ConstantSpline Class Reference
+
+ConstantSpline Class Reference
+==============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_constant_spline.html

@@ -224,19 +224,19 @@ namespace Splines {
 
   void
   first_derivative_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type       * Yp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type       Yp[],
+    integer         npts
   );
 
   void
   second_derivative_build(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    real_type       * Ypp,
-    integer           npts
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    real_type       Ypp[],
+    integer         npts
   );
 
   #endif

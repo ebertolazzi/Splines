@@ -1,0 +1,14 @@
+.. meta::6175ebf3697cd5939963d92bcd6df90e6c77dab9cbe2e8ba8837902e8ff8ca4a1a2d358c0cd86a5bc19a58f41eae12745a502322f8f528936af98dcadd694b89
+
+:orphan:
+
+.. title:: Splines: Splines::HermiteSpline Class Reference
+
+HermiteSpline Class Reference
+=============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_hermite_spline.html

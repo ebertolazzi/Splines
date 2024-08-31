@@ -28,14 +28,14 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   using CubicSpline_BC = enum class CubicSpline_BC : integer {
     EXTRAPOLATE      = 0,
     NATURAL          = 1,
     PARABOLIC_RUNOUT = 2,
     NOT_A_KNOT       = 3
   };
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   void
   CubicSpline_build(
@@ -82,14 +82,16 @@ namespace Splines {
     #endif
 
     //!
-    //! spline constructor
+    //! Build an empty spline of `CubicSpline` type
+    //!
+    //! \param name the name of the spline
     //!
     CubicSpline( string const & name = "CubicSpline" )
     : CubicSplineBase( name )
     {}
 
     //!
-    //! spline destructor
+    //! Spline destructor.
     //!
     ~CubicSpline() override {}
 
@@ -108,20 +110,12 @@ namespace Splines {
     set_initial_BC( CubicSpline_BC bc0 )
     { m_bc0 = bc0; }
 
-    void
-    setInitialBC( CubicSpline_BC bc0 )
-    { m_bc0 = bc0; }
-
     //!
     //! Set the boudary consition for final point
     //! \param[in] bcn final boundary condition.
     //!
     void
     set_final_BC( CubicSpline_BC bcn )
-    { m_bcn = bcn; }
-
-    void
-    setFinalBC( CubicSpline_BC bcn )
     { m_bcn = bcn; }
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -135,6 +129,12 @@ namespace Splines {
     //! Return spline type (as number)
     //!
     SplineType1D type() const override { return SplineType1D::CUBIC; }
+
+    #ifdef SPLINES_BACK_COMPATIBILITY
+    void setInitialBC( CubicSpline_BC bc0 ) { m_bc0 = bc0; }
+    void setFinalBC( CubicSpline_BC bcn ) { m_bcn = bcn; }
+    #endif
+
   };
 
 }

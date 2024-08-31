@@ -43,12 +43,17 @@ namespace Splines {
   public:
 
     //!
-    //! spline constructor
+    //! Build an empty spline of `Akima2Dspline` type
+    //!
+    //! \param name the name of the spline
     //!
     Akima2Dspline( string const & name = "Spline" )
     : BiCubicSplineBase( name )
     {}
 
+    //!
+    //! Spline destructor.
+    //!
     ~Akima2Dspline() override {}
 
     void write_to_stream( ostream_type & s ) const override;

@@ -33,10 +33,15 @@ namespace Splines {
   //!
   class Spline2D {
   protected:
+
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     std::string  m_name;
     SplineSurf * m_spline_2D{nullptr};
 
     void new_spline( SplineType2D tp );
+
+    #endif
 
   public:
 
@@ -44,12 +49,17 @@ namespace Splines {
     ///@{
 
     //!
-    //! spline constructor
+    //! Build an empty spline of `Spline2D` type
+    //!
+    //! \param name the name of the spline
     //!
     Spline2D( string const & name = "Spline2D" )
     : m_name(name)
     {}
 
+    //!
+    //! Spline destructor.
+    //!
     virtual
     ~Spline2D() {
       if ( m_spline_2D != nullptr ) {
@@ -137,7 +147,7 @@ namespace Splines {
     ///@{
 
     //!
-    //! Return the name of the spline surface assigned if was constructed.
+    //! \return string with the name of the spline
     //!
     string const & name() const { return m_spline_2D->name(); }
 
@@ -215,6 +225,23 @@ namespace Splines {
     //!
     ///@{
 
+    //!
+    //! Build surface spline
+    //!
+    //! \param tp              spline type
+    //! \param x               vector of x-coordinates
+    //! \param incx            access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+    //! \param y               vector of y-coordinates
+    //! \param incy            access elements as `y[0]`, `y[incx]`, `y[2*incx]`,...
+    //! \param z               matrix of z-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! \param ldZ             leading dimension of `z`
+    //! \param nx              number of points in `x` direction
+    //! \param ny              number of points in `y` direction
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //!
     void
     build(
       SplineType2D    tp,
@@ -311,7 +338,7 @@ namespace Splines {
     }
 
     //!
-    //! Build spline surface using a `GenericContainer`
+    //! Build spline surface using `gc`
     //!
     //! - gc("spline_type")
     //!     - "bilinear" build a bilinear spline surface
@@ -323,6 +350,9 @@ namespace Splines {
     void
     setup( GenericContainer const & gc );
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void
     build( GenericContainer const & gc )
     { setup(gc); }
@@ -352,22 +382,45 @@ namespace Splines {
 
     //! \name First derivatives:
     ///@{
+    //!
+    //! Value and first derivatives at point \f$ (x,y) \f$:
+    //!
+    //! - d[0] value of the spline \f$ S(x,y) \f$
+    //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+    //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+    //!
     void
     D( real_type x, real_type y, real_type d[3] ) const
     { return m_spline_2D->D( x, y, d ); }
 
+    //!
+    //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$.
+    //!
     real_type
     Dx( real_type x, real_type y ) const
     { return m_spline_2D->Dx( x, y ); }
 
+    //!
+    //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$.
+    //!
     real_type
     Dy( real_type x, real_type y ) const
     { return m_spline_2D->Dy( x, y ); }
 
+    //!
+    //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$.
+    //!
     real_type
     eval_D_1( real_type x, real_type y ) const
     { return this->Dx(x,y); }
 
+    //!
+    //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_x(x,y) \f$.
+    //!
     real_type
     eval_D_2( real_type x, real_type y ) const
     { return this->Dy(x,y); }
@@ -378,30 +431,62 @@ namespace Splines {
     //! \name Second derivatives:
     //!
     ///@{
+    //!
+    //! Value, first and second derivatives at point \f$ (x,y) \f$:
+    //!
+    //! - dd[0] value of the spline \f$ S(x,y) \f$
+    //! - dd[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
+    //! - dd[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
+    //! - dd[3] second derivative respect to \f$ x \f$ of the spline: \f$ S_{xx}(x,y) \f$
+    //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
+    //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
+    //!
     void
     DD( real_type x, real_type y, real_type dd[6] ) const
     { return m_spline_2D->DD( x, y, dd ); }
 
+    //!
+    //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$.
+    //!
     real_type
     Dxx( real_type x, real_type y ) const
     { return m_spline_2D->Dxx( x, y ); }
 
+    //!
+    //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
+    //!
     real_type
     Dxy( real_type x, real_type y ) const
     { return m_spline_2D->Dxy( x, y ); }
 
+    //!
+    //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$.
+    //!
     real_type
     Dyy( real_type x, real_type y ) const
     { return m_spline_2D->Dyy( x, y ); }
 
+    //!
+    //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$.
+    //!
     real_type
     eval_D_1_1( real_type x, real_type y ) const
     { return this->Dxx(x,y); }
 
+    //!
+    //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
+    //!
     real_type
     eval_D_1_2( real_type x, real_type y ) const
     { return this->Dxy(x,y); }
 
+    //!
+    //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
+    //! of the spline: \f$ S_{xx}(x,y) \f$.
+    //!
     real_type
     eval_D_2_2( real_type x, real_type y ) const
     { return this->Dyy(x,y); }
@@ -419,14 +504,23 @@ namespace Splines {
     //!
     char const * type_name() const { return m_spline_2D->type_name(); }
 
+    //!
+    //! String information of the kind and order of the spline
+    //!
     string
     info() const
     { return m_spline_2D->info(); }
 
+    //!
+    //! Print information of the kind and order of the spline
+    //!
     void
     info( ostream_type & stream ) const
     { m_spline_2D->info( stream ); }
 
+    //!
+    //! Dump spline values on the streams
+    //!
     void
     dump_data( ostream_type & stream ) const
     { m_spline_2D->dump_data( stream ); }

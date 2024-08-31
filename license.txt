@@ -1,3 +1,5 @@
+# LICENSE
+
 Copyright (c) 2020, Enrico Bertolazzi
 All rights reserved.
 

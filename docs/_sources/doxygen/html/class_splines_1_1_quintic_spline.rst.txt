@@ -1,0 +1,14 @@
+.. meta::8bfc3aa31b75b017029362cadc0262e7ed9ba6b2d366f380a5fc19ab8b02d9a96bf06a22b9ca9e3aec972ad75c19618e0f5ebf36781fdfae442a2a4723e1834d
+
+:orphan:
+
+.. title:: Splines: Splines::QuinticSpline Class Reference
+
+QuinticSpline Class Reference
+=============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_quintic_spline.html

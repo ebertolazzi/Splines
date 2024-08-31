@@ -1,0 +1,14 @@
+.. meta::be7e6dd7866e75bbb2406daec5f9508df71cf6a24d7e4296f45216e6234b5d5d6341119c45fe22e1501ae13eeb630784c58afc90fd0d12d9d861e2fbd42e7c1c
+
+:orphan:
+
+.. title:: Splines: Splines::BiQuinticSplineBase Class Reference
+
+BiQuinticSplineBase Class Reference
+===================================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_bi_quintic_spline_base.html

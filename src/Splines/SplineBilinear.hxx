@@ -42,11 +42,18 @@ namespace Splines {
 
   public:
 
-    //! spline constructor
+    //!
+    //! Build an empty spline of `BilinearSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     BilinearSpline( string const & name = "BilinearSpline" )
     : SplineSurf(name)
     {}
 
+    //!
+    //! Spline destructor.
+    //!
     ~BilinearSpline() override {}
 
     real_type eval( real_type x, real_type y ) const override;

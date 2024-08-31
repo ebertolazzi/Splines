@@ -29,12 +29,16 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   using QuinticSpline_sub_type = enum class QuinticSpline_sub_type : integer {
     CUBIC  = 0,
     PCHIP  = 1,
     AKIMA  = 2,
     BESSEL = 3
   };
+
+  #endif
 
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
@@ -51,16 +55,30 @@ namespace Splines {
     using QuinticSplineBase::reserve;
     #endif
 
-    //! spline constructor
+    //!
+    //! Build an empty spline of `QuinticSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     QuinticSpline( string const & name = "Spline" )
     : QuinticSplineBase( name )
     {}
 
-    //! spline destructor
+    //!
+    //! Spline destructor.
+    //!
     ~QuinticSpline() override {}
 
     ///@}
 
+    //!
+    //! Set spline type
+    //!
+    //! - CUBIC
+    //! - PCHIP
+    //! - AKIMA
+    //! - BESSEL
+    //!
     void
     setQuinticType( QuinticSpline_sub_type qt )
     { m_q_sub_type = qt; }
@@ -68,6 +86,7 @@ namespace Splines {
     // --------------------------- VIRTUALS -----------------------------------
     //! Build a Monotone quintic spline from previously inserted points
     void build() override;
+    //! Build a Monotone quintic spline from data from `gc`
     void setup( GenericContainer const & gc ) override;
   };
 

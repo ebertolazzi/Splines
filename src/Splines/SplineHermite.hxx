@@ -37,12 +37,18 @@ namespace Splines {
     using CubicSplineBase::reserve;
     #endif
 
-    //! spline constructor
+    //!
+    //! Build an empty spline of `HermiteSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     HermiteSpline( string const & name = "HermiteSpline" )
     : CubicSplineBase( name )
     {}
 
-    //! spline destructor
+    //!
+    //! Spline destructor.
+    //!
     ~HermiteSpline() override {}
 
     //! Return spline type (as number)

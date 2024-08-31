@@ -1,0 +1,14 @@
+.. meta::941bd32c48fd4de7805b8677d3953f38a55317624e4d0fa4c5e23e6b217e76d13f3101cd8df751f1493c7730a8d7b38c6f9c7d7f950797843a92e45a972be2f0
+
+:orphan:
+
+.. title:: Splines: Class Members
+
+Class Members
+=============
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: functions_c.html

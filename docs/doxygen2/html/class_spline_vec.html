@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: SplineVec Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="splinevec-class-reference">
+<h1>SplineVec Class Reference<a class="headerlink" href="#splinevec-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: SplineVec Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="class_spline_vec-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SplineVec Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Inheritance diagram for SplineVec:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_spline_vec.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ac3772d639c1a4cc2078f0e118857e76f" id="r_ac3772d639c1a4cc2078f0e118857e76f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3772d639c1a4cc2078f0e118857e76f">SplineVec</a> ()</td></tr>
+<tr class="separator:ac3772d639c1a4cc2078f0e118857e76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab10e22c4247dd055694c2b37085951c" id="r_aab10e22c4247dd055694c2b37085951c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab10e22c4247dd055694c2b37085951c">setup</a> (in self, in P)</td></tr>
+<tr class="separator:aab10e22c4247dd055694c2b37085951c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a517d7f506a0ab2dfa096b94c4adb8ab3" id="r_a517d7f506a0ab2dfa096b94c4adb8ab3"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a517d7f506a0ab2dfa096b94c4adb8ab3">knots</a> (in self, in t)</td></tr>
+<tr class="separator:a517d7f506a0ab2dfa096b94c4adb8ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d95a689ca03b3592d89e470031a27b0" id="r_a1d95a689ca03b3592d89e470031a27b0"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d95a689ca03b3592d89e470031a27b0">get_knots</a> (in self)</td></tr>
+<tr class="separator:a1d95a689ca03b3592d89e470031a27b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade888279a13c8acafbe2a5de9a130962" id="r_ade888279a13c8acafbe2a5de9a130962"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade888279a13c8acafbe2a5de9a130962">chordal</a> (in self)</td></tr>
+<tr class="separator:ade888279a13c8acafbe2a5de9a130962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f0f1141fe38eda9cd986aadd44a867" id="r_a21f0f1141fe38eda9cd986aadd44a867"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21f0f1141fe38eda9cd986aadd44a867">centripetal</a> (in self)</td></tr>
+<tr class="separator:a21f0f1141fe38eda9cd986aadd44a867"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76e8152df0954f78a6fcefe31cc8c82" id="r_aa76e8152df0954f78a6fcefe31cc8c82"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa76e8152df0954f78a6fcefe31cc8c82">CatmullRom</a> (in self)</td></tr>
+<tr class="separator:aa76e8152df0954f78a6fcefe31cc8c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2f8b6a1a7ad12d76936d35277c7419" id="r_a1d2f8b6a1a7ad12d76936d35277c7419"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d2f8b6a1a7ad12d76936d35277c7419">eval</a> (in self, in x)</td></tr>
+<tr class="separator:a1d2f8b6a1a7ad12d76936d35277c7419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ac301d500dd62796e66a416ba8f074f" id="r_a6ac301d500dd62796e66a416ba8f074f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ac301d500dd62796e66a416ba8f074f">eval_D</a> (in self, in x)</td></tr>
+<tr class="separator:a6ac301d500dd62796e66a416ba8f074f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f95503f7aa47cc61f58afcfc17a5a9e" id="r_a0f95503f7aa47cc61f58afcfc17a5a9e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f95503f7aa47cc61f58afcfc17a5a9e">eval_DD</a> (in self, in x)</td></tr>
+<tr class="separator:a0f95503f7aa47cc61f58afcfc17a5a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26637f4867a508c51496c0c7db8551c0" id="r_a26637f4867a508c51496c0c7db8551c0"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26637f4867a508c51496c0c7db8551c0">eval_DDD</a> (in self, in x)</td></tr>
+<tr class="separator:a26637f4867a508c51496c0c7db8551c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a714b8eeff99f13a4fe5a83829efa8f50" id="r_a714b8eeff99f13a4fe5a83829efa8f50"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a714b8eeff99f13a4fe5a83829efa8f50">curvature</a> (in self, in x)</td></tr>
+<tr class="separator:a714b8eeff99f13a4fe5a83829efa8f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad92bb07abc573bbfcc37d6ea11467cf6" id="r_ad92bb07abc573bbfcc37d6ea11467cf6"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad92bb07abc573bbfcc37d6ea11467cf6">curvature_D</a> (in self, in x)</td></tr>
+<tr class="separator:ad92bb07abc573bbfcc37d6ea11467cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d47dc7174da22d833e47c3f8bbf11f" id="r_af8d47dc7174da22d833e47c3f8bbf11f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8d47dc7174da22d833e47c3f8bbf11f">tmin</a> (in self, in x)</td></tr>
+<tr class="separator:af8d47dc7174da22d833e47c3f8bbf11f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad507fba6b83aa791fdbf9cfc41a5a953" id="r_ad507fba6b83aa791fdbf9cfc41a5a953"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad507fba6b83aa791fdbf9cfc41a5a953">tmax</a> (in self, in x)</td></tr>
+<tr class="separator:ad507fba6b83aa791fdbf9cfc41a5a953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:acf71add147c58c486d7554e0ce36cb39" id="r_acf71add147c58c486d7554e0ce36cb39"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf71add147c58c486d7554e0ce36cb39">copyElement</a> (in self)</td></tr>
+<tr class="separator:acf71add147c58c486d7554e0ce36cb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MATLAB class wrapper for the underlying C++ class</p>
+<p>The construction of the spline is done as follows</p>
+<ul>
+<li>instantiate the spline object</li>
+</ul>
+<div class="fragment"><div class="line">spl = SplineVec();</div>
+</div><!-- fragment --><ul>
+<li>load the points as a matrix <code>dim x npts</code> where <code>dim</code> is the space dimension and <code>npts</code> is the number of poinst</li>
+</ul>
+<div class="fragment"><div class="line">spl.setup( P ); % P is a dim x npts matrix</div>
+</div><!-- fragment --><ul>
+<li>build or load the knots</li>
+</ul>
+<div class="fragment"><div class="line">spl.knots( T );   % vector of knots</div>
+<div class="line">spl.chordal();    % build knots using chordal distance</div>
+<div class="line">spl.centripetal(; % build knots centripetal</div>
+</div><!-- fragment --><ul>
+<li>build the spline, for the moment only <code>Catmull Rom</code></li>
+</ul>
+<div class="fragment"><div class="line">spl.CatmullRom();</div>
+</div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ac3772d639c1a4cc2078f0e118857e76f" name="ac3772d639c1a4cc2078f0e118857e76f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3772d639c1a4cc2078f0e118857e76f">&#9670;&#160;</a></span>SplineVec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::SplineVec </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build an empty parametric spline:</p>
+<div class="fragment"><div class="line">spl = SplineVec();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa76e8152df0954f78a6fcefe31cc8c82" name="aa76e8152df0954f78a6fcefe31cc8c82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76e8152df0954f78a6fcefe31cc8c82">&#9670;&#160;</a></span>CatmullRom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::CatmullRom </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build the spline using Catmull Rom algorithm</p>
+<div class="fragment"><div class="line">P = [ 0, 0; 1.34, 5; 5, 8.66; 10, 10; 10.6, 10.4; 10.7, 12; ...</div>
+<div class="line">      10.7, 28.6; 10.8, 30.2; 11.4, 30.6; 19.6, 30.6; ...</div>
+<div class="line">      20.2, 30.2; 20.3, 28.6; 20.3, 12; 20.4, 10.4; ...</div>
+<div class="line">      21, 10; 26, 8.66; 29.66, 5; 31, 0 ];</div>
+<div class="line"> </div>
+<div class="line">S = SplineVec();  % initialize spline</div>
+<div class="line">S.setup(P.&#39;);     % load points</div>
+<div class="line">S.centripetal();  % setup knots</div>
+<div class="line"> </div>
+<div class="line">% plot interpolation points</div>
+<div class="line">hold off;</div>
+<div class="line">plot( P(:,1), P(:,2), &#39;o&#39;,&#39;Color&#39;,&#39;red&#39;, ...</div>
+<div class="line">      &#39;MarkerSize&#39;,10,&#39;MarkerFaceColor&#39;,&#39;blue&#39;,&#39;MarkerEdgeColor&#39;,&#39;green&#39;);</div>
+<div class="line">hold on;</div>
+<div class="line">% sample spline for plotting</div>
+<div class="line">t  = linspace(S.tmin(),S.tmax(),1000);</div>
+<div class="line">PP = S.eval(t);</div>
+<div class="line"> </div>
+<div class="line">% plot curve</div>
+<div class="line">plot( PP(1,:), PP(2,:), &#39;-&#39;, &#39;Color&#39;, &#39;blue&#39;, &#39;Linewidth&#39;, 3);</div>
+</div><!-- fragment --><p>\html_imega{exampleVec.png,width=80%} </p>
+
+</div>
+</div>
+<a id="a21f0f1141fe38eda9cd986aadd44a867" name="a21f0f1141fe38eda9cd986aadd44a867"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f0f1141fe38eda9cd986aadd44a867">&#9670;&#160;</a></span>centripetal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::centripetal </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build the knots using centripetal parametrization</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+    t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||^{1/2}
+\end{eqnarray*}
+</p>
+ 
+</div>
+</div>
+<a id="ade888279a13c8acafbe2a5de9a130962" name="ade888279a13c8acafbe2a5de9a130962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade888279a13c8acafbe2a5de9a130962">&#9670;&#160;</a></span>chordal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::chordal </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build the knots using chordal distance</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+    t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||
+\end{eqnarray*}
+</p>
+ 
+</div>
+</div>
+<a id="acf71add147c58c486d7554e0ce36cb39" name="acf71add147c58c486d7554e0ce36cb39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf71add147c58c486d7554e0ce36cb39">&#9670;&#160;</a></span>copyElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::copyElement </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make a deep copy of a curve object</p>
+<p><b>Usage</b></p>
+<div class="fragment"><div class="line">B = A.copy();</div>
+</div><!-- fragment --><p>where <code>A</code> is the curve object to be copied. </p>
+
+</div>
+</div>
+<a id="a714b8eeff99f13a4fe5a83829efa8f50" name="a714b8eeff99f13a4fe5a83829efa8f50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a714b8eeff99f13a4fe5a83829efa8f50">&#9670;&#160;</a></span>curvature()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::curvature </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline curvature at <code>x</code></p>
+<div class="fragment"><div class="line">kappa = obj.curvature( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ad92bb07abc573bbfcc37d6ea11467cf6" name="ad92bb07abc573bbfcc37d6ea11467cf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad92bb07abc573bbfcc37d6ea11467cf6">&#9670;&#160;</a></span>curvature_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::curvature_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline curvature derivative at <code>x</code></p>
+<div class="fragment"><div class="line">kappa = obj.curvature_D( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a1d2f8b6a1a7ad12d76936d35277c7419" name="a1d2f8b6a1a7ad12d76936d35277c7419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d2f8b6a1a7ad12d76936d35277c7419">&#9670;&#160;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::eval </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline at <code>x</code></p>
+<div class="fragment"><div class="line">p = obj.eval( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a6ac301d500dd62796e66a416ba8f074f" name="a6ac301d500dd62796e66a416ba8f074f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ac301d500dd62796e66a416ba8f074f">&#9670;&#160;</a></span>eval_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::eval_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_D = obj.eval_D( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a0f95503f7aa47cc61f58afcfc17a5a9e" name="a0f95503f7aa47cc61f58afcfc17a5a9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f95503f7aa47cc61f58afcfc17a5a9e">&#9670;&#160;</a></span>eval_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::eval_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline second derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_DD = obj.eval_DD( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a26637f4867a508c51496c0c7db8551c0" name="a26637f4867a508c51496c0c7db8551c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26637f4867a508c51496c0c7db8551c0">&#9670;&#160;</a></span>eval_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::eval_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline third derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_DDD = obj.eval_DDD( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a1d95a689ca03b3592d89e470031a27b0" name="a1d95a689ca03b3592d89e470031a27b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d95a689ca03b3592d89e470031a27b0">&#9670;&#160;</a></span>get_knots()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::get_knots </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the knots of the spline</p>
+<div class="fragment"><div class="line">t = spl.get_knots();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a517d7f506a0ab2dfa096b94c4adb8ab3" name="a517d7f506a0ab2dfa096b94c4adb8ab3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a517d7f506a0ab2dfa096b94c4adb8ab3">&#9670;&#160;</a></span>knots()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::knots </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>t</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Setup the knots of the spline</p>
+<div class="fragment"><div class="line">spl.knots( t );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="aab10e22c4247dd055694c2b37085951c" name="aab10e22c4247dd055694c2b37085951c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab10e22c4247dd055694c2b37085951c">&#9670;&#160;</a></span>setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::setup </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>P</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Setup the point of the spline</p>
+<div class="fragment"><div class="line">spl.setup( P );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ad507fba6b83aa791fdbf9cfc41a5a953" name="ad507fba6b83aa791fdbf9cfc41a5a953"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad507fba6b83aa791fdbf9cfc41a5a953">&#9670;&#160;</a></span>tmax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::tmax </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return initial t-coordinate of the spline</p>
+<div class="fragment"><div class="line">t = obj.tmax();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="af8d47dc7174da22d833e47c3f8bbf11f" name="af8d47dc7174da22d833e47c3f8bbf11f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d47dc7174da22d833e47c3f8bbf11f">&#9670;&#160;</a></span>tmin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineVec::tmin </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return initial t-coordinate of the spline</p>
+<div class="fragment"><div class="line">t = obj.tmin();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/toolbox/lib/<b>SplineVec.m</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen2/html/class_spline_vec.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

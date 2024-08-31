@@ -56,6 +56,8 @@ namespace Splines {
 
   protected:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     string const m_name;
 
     Utils::Malloc<real_type>  m_mem;
@@ -78,6 +80,8 @@ namespace Splines {
 
     BinarySearch m_header_to_position;
 
+    #endif
+
   private:
 
     //!
@@ -94,12 +98,14 @@ namespace Splines {
     ///@{
 
     //!
-    //! Spline constructor
+    //! Build an empty spline of `SplineSet` type
+    //!
+    //! \param name the name of the spline
     //!
     SplineSet( string const & name = "SplineSet" );
 
     //!
-    //! Spline destructor
+    //! Spline destructor.
     //!
     virtual
     ~SplineSet();
@@ -109,8 +115,14 @@ namespace Splines {
     //! \name Info
     //!
     ///@{
+    //!
+    //! \return string with the name of the spline set
+    //!
     string const & name() const { return m_name; }
 
+    //!
+    //! \return string with the name of the i-th spline of the set
+    //!
     string const & header( integer i ) const { return m_splines[i]->name(); }
 
     // vectorial values
@@ -124,7 +136,12 @@ namespace Splines {
     //!
     string name_list() const;
 
-    // return +1 = strict monotone, 0 weak monotone, -1 non monotone
+    //!
+    //! Return monotonicity info.
+    //!
+    //! \param i `i`th spline
+    //! \return +1 = strict monotone, 0 weak monotone, -1 non monotone
+    //!
     int
     is_monotone( integer i ) const
     { return m_is_monotone[i]; }
@@ -143,7 +160,7 @@ namespace Splines {
     //! Return the column with header(i) == hdr,
     //! return -1 if not found.
     //!
-    integer get_position( char const * hdr ) const;
+    integer get_position( char const hdr[] ) const;
 
     //!
     //! Return the vector of values of x-nodes.
@@ -1360,9 +1377,15 @@ namespace Splines {
       real_type    const * Yp[] = nullptr
     );
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void
     setup( GenericContainer const & gc );
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void
     build( GenericContainer const & gc )
     { this->setup(gc); }
@@ -1372,12 +1395,21 @@ namespace Splines {
     //! Return spline type (as number)
     SplineType1D type() const { return SplineType1D::SPLINE_SET; }
 
+    //!
+    //! String information of the kind and order of the spline
+    //!
     string info() const;
 
+    //!
+    //! Print information of the kind and order of the spline
+    //!
     void
     info( ostream_type & stream ) const
     { stream << this->info() << '\n'; }
 
+    //!
+    //! Dump values of the spline on a stream for plotting
+    //!
     void
     dump_table( ostream_type & s, integer num_points ) const;
 
@@ -1385,7 +1417,7 @@ namespace Splines {
     int isMonotone( integer i ) const { return m_is_monotone[i]; }
     integer numPoints() const { return m_npts; }
     integer numSplines() const { return m_nspl; }
-    integer getPosition( char const * hdr ) const { return get_position(hdr); }
+    integer getPosition( char const hdr[] ) const { return get_position(hdr); }
     real_type const * xNodes() const { return m_X; }
     real_type const * yNodes( integer i ) const;
     real_type xNode( integer npt ) const { return this->x_node(npt); }
@@ -1394,10 +1426,10 @@ namespace Splines {
     real_type xMax() const { return this->x_max(); }
     real_type yMin( integer spl ) const { return this->y_min( spl ); }
     real_type yMax( integer spl ) const { return this->y_max( spl ); }
-    real_type yMin( char const * spl ) const { return this->y_min(spl); }
-    real_type yMax( char const * spl ) const { return this->y_max(spl); }
+    real_type yMin( char const spl[] ) const { return this->y_min(spl); }
+    real_type yMax( char const spl[] ) const { return this->y_max(spl); }
     Spline * getSpline( integer i ) const { return this->get_spline(i); }
-    Spline * getSpline( char const * hdr ) const { return this->get_spline( hdr ); }
+    Spline * getSpline( char const hdr[] ) const { return this->get_spline( hdr ); }
     #endif
 
   };

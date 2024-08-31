@@ -338,7 +338,7 @@ namespace Splines {
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
         static_cast<CubicSpline*>(s)->build();
-        m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
+        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::AKIMA:
@@ -346,7 +346,7 @@ namespace Splines {
         static_cast<AkimaSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<AkimaSpline*>(s)->m_npts = m_npts;
         static_cast<AkimaSpline*>(s)->build();
-        m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
+        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::BESSEL:
@@ -354,7 +354,7 @@ namespace Splines {
         static_cast<BesselSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<BesselSpline*>(s)->m_npts = m_npts;
         static_cast<BesselSpline*>(s)->build();
-        m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
+        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::PCHIP:
@@ -362,7 +362,7 @@ namespace Splines {
         static_cast<PchipSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<PchipSpline*>(s)->m_npts = m_npts;
         static_cast<PchipSpline*>(s)->build();
-        m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
+        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::HERMITE:
@@ -370,7 +370,7 @@ namespace Splines {
         static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
         static_cast<CubicSpline*>(s)->m_npts = m_npts;
         static_cast<CubicSpline*>(s)->build();
-        m_is_monotone[spl] = checkCubicSplineMonotonicity( m_X, pY, pYp, m_npts );
+        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::QUINTIC:
@@ -605,9 +605,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2(
-    real_type    zeta,
-    char const * indep,
-    char const * name
+    real_type  zeta,
+    char const indep[],
+    char const name[]
   ) const {
     return this->eval2(
       zeta, this->get_position(indep), this->get_position(name)

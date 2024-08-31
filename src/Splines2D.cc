@@ -32,6 +32,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   Spline2D::new_spline( SplineType2D tp ) {
     if ( m_spline_2D == nullptr ) {
@@ -47,6 +49,8 @@ namespace Splines {
 //      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
     }
   }
+
+  #endif
 
   void
   Spline2D::setup( GenericContainer const & gc ) {

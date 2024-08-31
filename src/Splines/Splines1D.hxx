@@ -32,8 +32,12 @@ namespace Splines {
   class Spline1D {
   protected:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     std::string m_name;
     Spline * m_pSpline{nullptr};
+
+    #endif
 
   public:
 
@@ -44,29 +48,87 @@ namespace Splines {
     ///@{
 
     //!
-    //! Spline constructor
+    //! Build an empty spline of `Spline1D` type
+    //!
+    //! \param n the name of the spline
     //!
     Spline1D( std::string const & n )
     : m_name(n)
     {}
 
     //!
-    //! Spline destructor
+    //! Spline destructor.
     //!
     ~Spline1D()
     {}
 
     ///@}
 
+
+    //!
+    //! \name Open/Close
+    //!
+    ///@{
+
+    //!
+    //! \return string with the name of the spline
+    //!
     string const & name() const { return m_pSpline->name(); }
 
+    //! \return `true` if spline is a closed spline
     bool is_closed() const { return m_pSpline->is_closed(); }
-    void make_closed()     { m_pSpline->make_closed(); }
-    void make_opened()     { m_pSpline->make_opened(); }
 
+    //!
+    //! Set spline as a closed spline.
+    //! When evaluated if parameter is outside the domain
+    //! is wrapped cyclically before evalation.
+    //!
+    void make_closed() { m_pSpline->make_closed(); }
+
+    //!
+    //! Set spline as an opened spline.
+    //! When evaluated if parameter is outside the domain
+    //! an error is produced.
+    //!
+    void make_opened() { m_pSpline->make_opened(); }
+
+    //!
+    //! \return `true` if spline cannot extend outside interval of definition
+    //!
     bool is_bounded() const { return m_pSpline->is_bounded(); }
-    void make_unbounded()   { m_pSpline->make_unbounded(); }
-    void make_bounded()     { m_pSpline->make_bounded(); }
+
+    //!
+    //! Set spline as unbounded.
+    //! When evaluated if parameter is outside the domain
+    //! an extrapolated value is used.
+    //!
+    void make_unbounded() { m_pSpline->make_unbounded();  }
+    //!
+    //! Set spline as bounded.
+    //! When evaluated if parameter is outside the domain
+    //! an error is issued.
+    //!
+    void make_bounded() { m_pSpline->make_bounded(); }
+
+    //!
+    //! \return `true` if the spline extend with a constant value
+    //!
+    bool is_extended_constant() const { return m_pSpline->is_extended_constant(); }
+    //!
+    //! Set spline to extend constant.
+    //! When evaluated if parameter is outside the domain
+    //! the value returned is the value of the closed border.
+    //!
+    void make_extended_constant() { m_pSpline->make_extended_constant(); }
+    //!
+    //! Set spline to extend NOT constant.
+    //! When evaluated if parameter is outside the domain
+    //! teh value returned is extrapolated using the last spline polynomial.
+    //!
+    void make_extended_not_constant() { m_pSpline->make_extended_not_constant(); }
+
+    ///@}
+
 
     //!
     //! Return the number of support points of the spline.
@@ -123,17 +185,23 @@ namespace Splines {
     // must be defined in derived classes
     void build() { m_pSpline->build(); }
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void setup( GenericContainer const & gc );
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void build( GenericContainer const & gc ) { setup(gc); }
 
     //!
     //! Build a spline.
     //!
     //! \param tp   spline type
-    //! \param x    vector of x-coordinates
-    //! \param incx access elements as x[0], x[incx], x[2*incx],...
-    //! \param y    vector of y-coordinates
-    //! \param incy access elements as y[0], y[incy], x[2*incy],...
+    //! \param x    vector of `x`-coordinates
+    //! \param incx access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+    //! \param y    vector of `y`-coordinates
+    //! \param incy access elements as `y[0]`, `y[incy]`, `x[2*incy]`,...
     //! \param n    total number of points
     //!
     // must be defined in derived classes
@@ -176,7 +244,7 @@ namespace Splines {
       vector<real_type> const & x,
       vector<real_type> const & y
     ) {
-      integer n = integer(x.size());
+      integer n{integer(x.size())};
       this->build( tp, &x.front(), &y.front(), n );
     }
 
@@ -217,6 +285,9 @@ namespace Splines {
     void set_range( real_type xmin, real_type xmax ) { return m_pSpline->set_range( xmin, xmax ); }
 
     ///////////////////////////////////////////////////////////////////////////
+    //!
+    //! dump a sample of the spline
+    //!
     void
     dump(
       ostream_type & s,
@@ -226,6 +297,9 @@ namespace Splines {
       m_pSpline->dump( s, nintervals, header );
     }
 
+    //!
+    //! dump a sample of the spline
+    //!
     void
     dump(
       char const fname[],
@@ -245,27 +319,27 @@ namespace Splines {
     real_type eval( real_type x ) const { return m_pSpline->eval(x); }
 
     //!
-    //! First derivative.
+    //! First derivative at `x`.
     //!
     real_type D( real_type x ) const { return m_pSpline->D(x); }
 
     //!
-    //! Second derivative.
+    //! Second derivative at `x`.
     //!
     real_type DD( real_type x ) const { return m_pSpline->DD(x); }
 
     //!
-    //! Third derivative.
+    //! Third derivative at `x`.
     //!
     real_type DDD( real_type x ) const { return m_pSpline->DDD(x); }
 
     //!
-    //! 4th derivative.
+    //! 4th derivative at `x`.
     //!
     real_type DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
 
     //!
-    //! 5th derivative.
+    //! 5th derivative at `x`.
     //!
     real_type DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
 
@@ -275,11 +349,22 @@ namespace Splines {
     //! \name Evaluation Aliases
     //!
     ///@{
+    //! the value of the spline at `x`
     real_type operator () ( real_type x ) const { return m_pSpline->eval(x); }
+
+    //! the value of the first derivative of the spline at `x`
     real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
+
+    //! the value of the second derivative of the spline at `x`
     real_type eval_DD( real_type x ) const { return m_pSpline->DD(x); }
+
+    //! the value of the third derivative of the spline at `x`
     real_type eval_DDD( real_type x ) const { return m_pSpline->DDD(x); }
+
+    //! the value of the 4-th derivative of the spline at `x`
     real_type eval_DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+
+    //! the value of the 5-th derivative of the spline at `x`
     real_type eval_DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
     ///@}
 
@@ -289,36 +374,48 @@ namespace Splines {
     ///@{
     //!
     //! Evaluate spline at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_eval( integer ni, real_type x ) const { return m_pSpline->id_eval(ni,x); }
 
     //!
-    //! First derivative.
+    //! First derivative at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_D( integer ni, real_type x ) const { return m_pSpline->id_D(ni,x); }
 
     //!
-    //! Second derivative.
+    //! Second derivative at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_DD( integer ni, real_type x ) const { return m_pSpline->id_DD(ni,x); }
 
     //!
-    //! Third derivative.
+    //! Third derivative at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_DDD( integer ni, real_type x ) const { return m_pSpline->id_DDD(ni,x); }
 
     //!
-    //! 4th derivative.
+    //! 4th derivative at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_DDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDD(ni,x); }
 
     //!
-    //! 5th derivative.
+    //! 5th derivative at `x`.
+    //! \param x  value at which spline is evaluated
+    //! \param ni select the component
     //!
     real_type
     id_DDDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDDD(ni,x); }
@@ -337,6 +434,9 @@ namespace Splines {
       return m_pSpline->coeffs( cfs, nodes, transpose );
     }
 
+    //!
+    //! \return the order of the spline (`degree+1`)
+    //!
     integer order() const { return m_pSpline->order(); }
 
     //!
@@ -360,10 +460,16 @@ namespace Splines {
     type() const
     { return m_pSpline->type(); }
 
+    //!
+    //! String information of the kind and order of the spline
+    //!
     string
     info() const
     { return m_pSpline->info(); }
 
+    //!
+    //! Print information of the kind and order of the spline
+    //!
     void
     info( ostream_type & stream ) const
     { m_pSpline->info( stream ); }

@@ -1,0 +1,14 @@
+.. meta::e21404854393cf6cc014e21b63953e3f1fb436188cdb39d70797a7b74def8108f92c882a55874664a8dd55e8d078e8bab982f146e3b08bd98cca8c0b4bf12096
+
+:orphan:
+
+.. title:: Splines: Class Hierarchy
+
+Class Hierarchy
+===============
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: hierarchy.html

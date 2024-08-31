@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: BaseHermite Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="basehermite-class-reference">
+<h1>BaseHermite Class Reference<a class="headerlink" href="#basehermite-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: BaseHermite Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_base_hermite-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">BaseHermite Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Inheritance diagram for BaseHermite:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_base_hermite.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae699eafdcbfc5575546dffe990ce84a7" id="r_ae699eafdcbfc5575546dffe990ce84a7"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae699eafdcbfc5575546dffe990ce84a7">BaseHermite</a> ()</td></tr>
+<tr class="separator:ae699eafdcbfc5575546dffe990ce84a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2b927475131a83a651ee8ab11b606e0" id="r_ad2b927475131a83a651ee8ab11b606e0"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2b927475131a83a651ee8ab11b606e0">base</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:ad2b927475131a83a651ee8ab11b606e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad478cd26063dbb5d55e0741240a0f8c8" id="r_ad478cd26063dbb5d55e0741240a0f8c8"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad478cd26063dbb5d55e0741240a0f8c8">base_D</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:ad478cd26063dbb5d55e0741240a0f8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48ef351c9ec4c6aeca75bb68effff601" id="r_a48ef351c9ec4c6aeca75bb68effff601"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48ef351c9ec4c6aeca75bb68effff601">base_DD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a48ef351c9ec4c6aeca75bb68effff601"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c6142365a65285265753e5eac7ad8c" id="r_ae0c6142365a65285265753e5eac7ad8c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0c6142365a65285265753e5eac7ad8c">base_DDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:ae0c6142365a65285265753e5eac7ad8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affcf7486d68d332f4299605566b4f40f" id="r_affcf7486d68d332f4299605566b4f40f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affcf7486d68d332f4299605566b4f40f">eval</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:affcf7486d68d332f4299605566b4f40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a890f1373154d1e687503bd793cab99d4" id="r_a890f1373154d1e687503bd793cab99d4"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a890f1373154d1e687503bd793cab99d4">eval_D</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a890f1373154d1e687503bd793cab99d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9c3e204f2415026ad0513ca3f581d2b" id="r_aa9c3e204f2415026ad0513ca3f581d2b"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9c3e204f2415026ad0513ca3f581d2b">eval_DD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:aa9c3e204f2415026ad0513ca3f581d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1e4a4538a061b1c9964510cc0bc76af" id="r_ab1e4a4538a061b1c9964510cc0bc76af"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1e4a4538a061b1c9964510cc0bc76af">eval_DDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:ab1e4a4538a061b1c9964510cc0bc76af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a772a6dfde3bfc4de8bb84daa017600e7" id="r_a772a6dfde3bfc4de8bb84daa017600e7"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a772a6dfde3bfc4de8bb84daa017600e7">base5</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a772a6dfde3bfc4de8bb84daa017600e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e4deddf2801aadd5609400d870b5a24" id="r_a6e4deddf2801aadd5609400d870b5a24"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e4deddf2801aadd5609400d870b5a24">base5_D</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a6e4deddf2801aadd5609400d870b5a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7300422a7c05b8cb975260b02ea1040f" id="r_a7300422a7c05b8cb975260b02ea1040f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7300422a7c05b8cb975260b02ea1040f">base5_DD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a7300422a7c05b8cb975260b02ea1040f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba24433a2c38e7419d4ffa8ad9b589dd" id="r_aba24433a2c38e7419d4ffa8ad9b589dd"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba24433a2c38e7419d4ffa8ad9b589dd">base5_DDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:aba24433a2c38e7419d4ffa8ad9b589dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2030e2759579e1d13529c396f5bae8a" id="r_ad2030e2759579e1d13529c396f5bae8a"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2030e2759579e1d13529c396f5bae8a">base5_DDDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:ad2030e2759579e1d13529c396f5bae8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a833e19350e7a4ade6de30dc488ef6e7b" id="r_a833e19350e7a4ade6de30dc488ef6e7b"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a833e19350e7a4ade6de30dc488ef6e7b">base5_DDDDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a833e19350e7a4ade6de30dc488ef6e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b3256ba606bbf0b556091a055dbe8d3" id="r_a2b3256ba606bbf0b556091a055dbe8d3"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b3256ba606bbf0b556091a055dbe8d3">eval5</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a2b3256ba606bbf0b556091a055dbe8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a597989af93b472aea0168a20bb1e6e1c" id="r_a597989af93b472aea0168a20bb1e6e1c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a597989af93b472aea0168a20bb1e6e1c">eval5_D</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a597989af93b472aea0168a20bb1e6e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af47dc4febad321481a627a973f61641f" id="r_af47dc4febad321481a627a973f61641f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af47dc4febad321481a627a973f61641f">eval5_DD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:af47dc4febad321481a627a973f61641f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14548b8c3201c47034ccbc57e6a220e2" id="r_a14548b8c3201c47034ccbc57e6a220e2"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14548b8c3201c47034ccbc57e6a220e2">eval5_DDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a14548b8c3201c47034ccbc57e6a220e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ab0a01f93e1899e2b3bef36fb1564e" id="r_a55ab0a01f93e1899e2b3bef36fb1564e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55ab0a01f93e1899e2b3bef36fb1564e">eval5_DDDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a55ab0a01f93e1899e2b3bef36fb1564e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56d53be9d488fcfaf92c124bf3cd31bd" id="r_a56d53be9d488fcfaf92c124bf3cd31bd"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56d53be9d488fcfaf92c124bf3cd31bd">eval5_DDDDD</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a56d53be9d488fcfaf92c124bf3cd31bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aa25416babf322cb0ee9546dc462178" id="r_a5aa25416babf322cb0ee9546dc462178"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5aa25416babf322cb0ee9546dc462178">hermite_to_bezier</a> (in ignoredArg, in p0, in p1, in t0, in t1)</td></tr>
+<tr class="separator:a5aa25416babf322cb0ee9546dc462178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2bef69380a625daf55c251accae2fff" id="r_aa2bef69380a625daf55c251accae2fff"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2bef69380a625daf55c251accae2fff">bezier_to_hermite</a> (in ignoredArg, in p0, in p1, in p2, in p3)</td></tr>
+<tr class="separator:aa2bef69380a625daf55c251accae2fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a579045541b98ce185d0ccbdc73120739" id="r_a579045541b98ce185d0ccbdc73120739"><td class="memItemLeft" align="right" valign="top"><a id="a579045541b98ce185d0ccbdc73120739" name="a579045541b98ce185d0ccbdc73120739"></a>
+function&#160;</td><td class="memItemRight" valign="bottom"><b>L2_first_derivative</b> (in ignoredArg)</td></tr>
+<tr class="separator:a579045541b98ce185d0ccbdc73120739"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0263b1f3e4fe89273ba5216c75ce88f0" id="r_a0263b1f3e4fe89273ba5216c75ce88f0"><td class="memItemLeft" align="right" valign="top"><a id="a0263b1f3e4fe89273ba5216c75ce88f0" name="a0263b1f3e4fe89273ba5216c75ce88f0"></a>
+function&#160;</td><td class="memItemRight" valign="bottom"><b>L2_second_derivative</b> (in ignoredArg)</td></tr>
+<tr class="separator:a0263b1f3e4fe89273ba5216c75ce88f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a424767af8eb5dd3c0599b5ddc845efdf" id="r_a424767af8eb5dd3c0599b5ddc845efdf"><td class="memItemLeft" align="right" valign="top"><a id="a424767af8eb5dd3c0599b5ddc845efdf" name="a424767af8eb5dd3c0599b5ddc845efdf"></a>
+function&#160;</td><td class="memItemRight" valign="bottom"><b>L2_third_derivative</b> (in ignoredArg)</td></tr>
+<tr class="separator:a424767af8eb5dd3c0599b5ddc845efdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9e96141ba888728a5a2f96a7ad8b1ab" id="r_af9e96141ba888728a5a2f96a7ad8b1ab"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9e96141ba888728a5a2f96a7ad8b1ab">approximate_length</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:af9e96141ba888728a5a2f96a7ad8b1ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3595d97bde82bc79434863dd670c1ea5" id="r_a3595d97bde82bc79434863dd670c1ea5"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3595d97bde82bc79434863dd670c1ea5">cut</a> (in ignoredArg, in varargin)</td></tr>
+<tr class="separator:a3595d97bde82bc79434863dd670c1ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae699eafdcbfc5575546dffe990ce84a7" name="ae699eafdcbfc5575546dffe990ce84a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae699eafdcbfc5575546dffe990ce84a7">&#9670;&#160;</a></span>BaseHermite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::BaseHermite </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build a matlab object storing Hermite base evaluator </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af9e96141ba888728a5a2f96a7ad8b1ab" name="af9e96141ba888728a5a2f96a7ad8b1ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9e96141ba888728a5a2f96a7ad8b1ab">&#9670;&#160;</a></span>approximate_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::approximate_length </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Approximate the length of the cubic polynomial \( \mathbf{p}(t) \) defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.approximate_length( t, P0, P1, T0, T1 )</div>
+<div class="line">values = object.approximate_length( t, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --><p>The length is approximated usin 100 linear segment. </p>
+
+</div>
+</div>
+<a id="ad2b927475131a83a651ee8ab11b606e0" name="ad2b927475131a83a651ee8ab11b606e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2b927475131a83a651ee8ab11b606e0">&#9670;&#160;</a></span>base()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base (cubic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 4 whose columns are the values of the Hermite base.</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+            h_1(t) &amp;=&amp; x^2(3-2x)  \\
+            h_0(t) &amp;=&amp; 1-h_1(t)    \\
+            h_2(t) &amp;=&amp; x(x(x-2)+1) \\
+            h_3(t) &amp;=&amp; x^2(x-1)
+        \end{eqnarray*}
+</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3] = object.base( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3] = object.base( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a772a6dfde3bfc4de8bb84daa017600e7" name="a772a6dfde3bfc4de8bb84daa017600e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a772a6dfde3bfc4de8bb84daa017600e7">&#9670;&#160;</a></span>base5()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5 </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base that are 6 polynomials of degree 5 with the properties</p>
+<p class="formulaDsp">
+\[
+              \begin{array}{cccccc}
+                h_1(0) = 1 &amp; h_1(1) = 0 &amp; h&#39;_1(0) = 1 &amp; h&#39;_1(1) = 0 &amp; h&#39;&#39;_1(1) = 1 &amp; h&#39;&#39;_1(1) = 0 \\
+                h_0(0) = 0 &amp; h_0(1) = 1 &amp; h&#39;_0(0) = 0 &amp; h&#39;_0(1) = 0 &amp; h&#39;&#39;_0(1) = 0 &amp; h&#39;&#39;_0(1) = 0 \\
+                h_2(0) = 0 &amp; h_2(1) = 0 &amp; h&#39;_2(0) = 1 &amp; h&#39;_2(1) = 0 &amp; h&#39;&#39;_2(1) = 0 &amp; h&#39;&#39;_2(1) = 0 \\
+                h_3(0) = 0 &amp; h_3(1) = 0 &amp; h&#39;_3(0) = 0 &amp; h&#39;_3(1) = 1 &amp; h&#39;&#39;_3(1) = 0 &amp; h&#39;&#39;_3(1) = 0 \\
+                h_4(0) = 0 &amp; h_4(1) = 0 &amp; h&#39;_4(0) = 0 &amp; h&#39;_4(1) = 0 &amp; h&#39;&#39;_4(1) = 1 &amp; h&#39;&#39;_4(1) = 0 \\
+                h_5(0) = 0 &amp; h_5(1) = 0 &amp; h&#39;_5(0) = 0 &amp; h&#39;_5(1) = 0 &amp; h&#39;&#39;_5(1) = 0 &amp; h&#39;&#39;_5(1) = 1 \\
+              \end{array}
+        \]
+</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a6e4deddf2801aadd5609400d870b5a24" name="a6e4deddf2801aadd5609400d870b5a24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e4deddf2801aadd5609400d870b5a24">&#9670;&#160;</a></span>base5_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base derivatives (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5_D( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5_D( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_D( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_D( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a7300422a7c05b8cb975260b02ea1040f" name="a7300422a7c05b8cb975260b02ea1040f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7300422a7c05b8cb975260b02ea1040f">&#9670;&#160;</a></span>base5_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base second derivatives (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5_DD( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5_DD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DD( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="aba24433a2c38e7419d4ffa8ad9b589dd" name="aba24433a2c38e7419d4ffa8ad9b589dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba24433a2c38e7419d4ffa8ad9b589dd">&#9670;&#160;</a></span>base5_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base third derivatives (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5_DDD( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5_DDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDD( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ad2030e2759579e1d13529c396f5bae8a" name="ad2030e2759579e1d13529c396f5bae8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2030e2759579e1d13529c396f5bae8a">&#9670;&#160;</a></span>base5_DDDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5_DDDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base 4th derivatives (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5_DDDD( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5_DDDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a833e19350e7a4ade6de30dc488ef6e7b" name="a833e19350e7a4ade6de30dc488ef6e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a833e19350e7a4ade6de30dc488ef6e7b">&#9670;&#160;</a></span>base5_DDDDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base5_DDDDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base 5th derivatives (quintic degree) at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base5_DDDDD( t )      % base for the interval [0,1]</div>
+<div class="line">BASE = object.base5_DDDDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 6 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t )      % base for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t, H )   % base for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ad478cd26063dbb5d55e0741240a0f8c8" name="ad478cd26063dbb5d55e0741240a0f8c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad478cd26063dbb5d55e0741240a0f8c8">&#9670;&#160;</a></span>base_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base derivative at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base_D( t )      % base derivative for the interval [0,1]</div>
+<div class="line">BASE = object.base_D( t, H )   % base derivative for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 4 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3] = object.base_D( t )      % base derivative for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3] = object.base_D( t, H )   % base derivative for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a48ef351c9ec4c6aeca75bb68effff601" name="a48ef351c9ec4c6aeca75bb68effff601"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48ef351c9ec4c6aeca75bb68effff601">&#9670;&#160;</a></span>base_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base second derivative at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base_DD( t )      % base second derivative for the interval [0,1]</div>
+<div class="line">BASE = object.base_DD( t, H )   % base second derivative for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 4 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3] = object.base_DD( t )      % base second derivative for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3] = object.base_DD( t, H )   % base second derivative for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ae0c6142365a65285265753e5eac7ad8c" name="ae0c6142365a65285265753e5eac7ad8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c6142365a65285265753e5eac7ad8c">&#9670;&#160;</a></span>base_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::base_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate an Hermite base third derivative at point(s) t for the interval \( [0,1] \) (or \( [0,H] \) if second argument is present).</p>
+<div class="fragment"><div class="line">BASE = object.base_DDD( t )      % base third derivative for the interval [0,1]</div>
+<div class="line">BASE = object.base_DDD( t, H )   % base third derivative for the interval [0,H]</div>
+</div><!-- fragment --><p>BASE is a matrix length(t) x 4 whose columns are the values of the Hermite base.</p>
+<p>basis can be returned in separated vectors</p>
+<div class="fragment"><div class="line">[h0,h1,h2,h3] = object.base_DDD( t )      % base third derivative for the interval [0,1]</div>
+<div class="line">[h0,h1,h2,h3] = object.base_DDD( t, H )   % base third derivative for the interval [0,H]</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="aa2bef69380a625daf55c251accae2fff" name="aa2bef69380a625daf55c251accae2fff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2bef69380a625daf55c251accae2fff">&#9670;&#160;</a></span>bezier_to_hermite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::bezier_to_hermite </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p2</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p3</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Given the cubic polynomial defined with Bezier polygon return the Hermite data for the same polynomial </p>
+
+</div>
+</div>
+<a id="a3595d97bde82bc79434863dd670c1ea5" name="a3595d97bde82bc79434863dd670c1ea5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3595d97bde82bc79434863dd670c1ea5">&#9670;&#160;</a></span>cut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::cut </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Cut the cubic polynomial \( \mathbf{p}(t) \) defined on Hermite data on the interval [a,b] and return the new Hermite data</p>
+<div class="fragment"><div class="line">[new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1 )</div>
+<div class="line">[new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --><p>The parametrization of the new Hermite data is on [0,1] </p>
+
+</div>
+</div>
+<a id="affcf7486d68d332f4299605566b4f40f" name="affcf7486d68d332f4299605566b4f40f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affcf7486d68d332f4299605566b4f40f">&#9670;&#160;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the cubic polynomial defined on Hermite data:</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+          \mathbf{p}(t)   &amp;=&amp; h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+ h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1 \\
+          \mathbf{p}(t,H) &amp;=&amp; h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+ H (h_2(t/H)\mathbf{t}_0+ h_3(t/H)\mathbf{t}_1)
+        \end{eqnarray*}
+</p>
+<div class="fragment"><div class="line">values = object.eval( t, P0, P1, T0, T1 )</div>
+<div class="line">values = object.eval( t, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a2b3256ba606bbf0b556091a055dbe8d3" name="a2b3256ba606bbf0b556091a055dbe8d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b3256ba606bbf0b556091a055dbe8d3">&#9670;&#160;</a></span>eval5()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5 </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the quintic polynomial defined on Hermite data:</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+              \mathbf{p}(t)   &amp;=&amp; h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+
+                                  h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1+
+                                  h_4(t)\mathbf{j}_0+ h_5(t)\mathbf{j}_1  \\
+              \mathbf{p}(t,H) &amp;=&amp; h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+
+                                  H (h_2(t/H)\mathbf{t}_0+ h_3(t/H)\mathbf{t}_1)+
+                                  H^2 (h_4(t/H)\mathbf{t}_0+ h_5(t/H)\mathbf{j}_1)
+        \end{eqnarray*}
+</p>
+<div class="fragment"><div class="line">values = object.eval5( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a597989af93b472aea0168a20bb1e6e1c" name="a597989af93b472aea0168a20bb1e6e1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a597989af93b472aea0168a20bb1e6e1c">&#9670;&#160;</a></span>eval5_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the derivative \( \mathbf{p}&#39;(t) \) of the quintic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval5_D( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5_D( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="af47dc4febad321481a627a973f61641f" name="af47dc4febad321481a627a973f61641f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af47dc4febad321481a627a973f61641f">&#9670;&#160;</a></span>eval5_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the second derivative \( \mathbf{p}&#39;&#39;(t) \) of the quintic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a14548b8c3201c47034ccbc57e6a220e2" name="a14548b8c3201c47034ccbc57e6a220e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14548b8c3201c47034ccbc57e6a220e2">&#9670;&#160;</a></span>eval5_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the third derivative \(  \mathbf{p}&#39;&#39;&#39;(t) \) of the quintic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a55ab0a01f93e1899e2b3bef36fb1564e" name="a55ab0a01f93e1899e2b3bef36fb1564e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55ab0a01f93e1899e2b3bef36fb1564e">&#9670;&#160;</a></span>eval5_DDDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5_DDDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the 4th derivative \( \mathbf{p}&#39;&#39;&#39;&#39;(t) \) of the quintic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a56d53be9d488fcfaf92c124bf3cd31bd" name="a56d53be9d488fcfaf92c124bf3cd31bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56d53be9d488fcfaf92c124bf3cd31bd">&#9670;&#160;</a></span>eval5_DDDDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval5_DDDDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the 5th derivative \( \mathbf{p}&#39;&#39;&#39;&#39;&#39;(t) \) of the quintic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1 )</div>
+<div class="line">values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a890f1373154d1e687503bd793cab99d4" name="a890f1373154d1e687503bd793cab99d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a890f1373154d1e687503bd793cab99d4">&#9670;&#160;</a></span>eval_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the derivative \( \mathbf{p}&#39;(t) \) of the cubic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval_D( t, P0, P1, T0, T1 )</div>
+<div class="line">values = object.eval_D( t, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="aa9c3e204f2415026ad0513ca3f581d2b" name="aa9c3e204f2415026ad0513ca3f581d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9c3e204f2415026ad0513ca3f581d2b">&#9670;&#160;</a></span>eval_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the second derivative \( \mathbf{p}&#39;&#39;(t) \) of the cubic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval_DD( t, P0, P1, T0, T1 )</div>
+<div class="line">values = object.eval_DD( t, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ab1e4a4538a061b1c9964510cc0bc76af" name="ab1e4a4538a061b1c9964510cc0bc76af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1e4a4538a061b1c9964510cc0bc76af">&#9670;&#160;</a></span>eval_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::eval_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate the third derivative \( \mathbf{p}&#39;&#39;&#39;(t) \) of the cubic polynomial defined on Hermite data:</p>
+<div class="fragment"><div class="line">values = object.eval_DDD( t, P0, P1, T0, T1 )</div>
+<div class="line">values = object.eval_DDD( t, P0, P1, T0, T1, H )</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5aa25416babf322cb0ee9546dc462178" name="a5aa25416babf322cb0ee9546dc462178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aa25416babf322cb0ee9546dc462178">&#9670;&#160;</a></span>hermite_to_bezier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function BaseHermite::hermite_to_bezier </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>ignoredArg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>p1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>t0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>t1</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Given the cubic polynomial defined on Hermite data:</p>
+<p class="formulaDsp">
+\begin{eqnarray*}
+    \mathbf{p}(t) =
+    h_0(t)\mathbf{p}_0 + h_1(t)\mathbf{p}_1 +
+    h_2(t)\mathbf{t}_0 + h_3(t)\mathbf{t}_1
+\end{eqnarray*}
+</p>
+<p>return the Bezier polynomial of the same cubic </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/toolbox/lib/<b>BaseHermite.m</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen2/html/class_base_hermite.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

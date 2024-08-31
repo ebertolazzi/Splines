@@ -1,0 +1,14 @@
+.. meta::894bed2aff9620cec244878a2d873f0dd7b0da8bf70dd1f64196c65c8d6ffc417d8d0cd6f7afa5d80816ae4031754cf0eae742183bd4dd8c8e17a1e2e3688338
+
+:orphan:
+
+.. title:: Splines: Splines::AkimaSpline Class Reference
+
+AkimaSpline Class Reference
+===========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_akima_spline.html

@@ -1,0 +1,14 @@
+.. meta::776cf6a6e97f86f6b6906b42b9e593290f42d8e8de8b8d0d904ff332fd90383bdf2d3ee91bf720de568bfe0480dd53ba823eb1f9d4e093e84408db6ac3c47476
+
+:orphan:
+
+.. title:: Splines: Splines::PchipSpline Class Reference
+
+PchipSpline Class Reference
+===========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_pchip_spline.html

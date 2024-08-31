@@ -1,0 +1,14 @@
+.. meta::44a709f644721070ca5c4b2191fe18ab28e68ba8d07c3d5c586fc9c63cce36d92caa3aacbf5d2240dc7fb00c2374c507af41cb7232c904b6d47694a0ba754150
+
+:orphan:
+
+.. title:: Splines: Class Members - Functions
+
+Class Members - Functions
+=========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: functions_func_h.html

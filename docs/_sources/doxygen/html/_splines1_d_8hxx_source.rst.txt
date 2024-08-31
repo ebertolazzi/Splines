@@ -1,0 +1,14 @@
+.. meta::4cc00f61936e63ec05cebf1512ebef9ce75ec9e4658140fd93533b7f3eefb4084150c0b423c77edd98b87e1feab822622f864cb90eb3ac2011f12732ac95f85a
+
+:orphan:
+
+.. title:: Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/Splines1D.hxx Source File
+
+/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/Splines1D.hxx Source File
+=======================================================================================================================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: _splines1_d_8hxx_source.html

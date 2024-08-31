@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineQuintic.hxx Source File &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splinequintic-hxx-source-file">
+<h1>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineQuintic.hxx Source File<a class="headerlink" href="#users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splinequintic-hxx-source-file" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineQuintic.hxx Source File</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8d7a7c0060e2b3024ee0627dfec2e3ba.html">Splines</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle"><div class="title">SplineQuintic.hxx</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*--------------------------------------------------------------------------*\</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> |  Copyright (C) 2016                                                      |</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> |         , __                 , __                                        |</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> |        /|/  \               /|/  \                                       |</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> |         | __/ _   ,_         | __/ _   ,_                                |</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> |                           /|                   /|                        |</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> |                           \|                   \|                        |</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> |      Enrico Bertolazzi                                                   |</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> |      Dipartimento di Ingegneria Industriale                              |</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> |      Universita` degli Studi di Trento                                   |</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> |      email: enrico.bertolazzi@unitn.it                                   |</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">\*--------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">/*\</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> |    ___        _       _   _      ____        _ _</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> |   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> |  | | | | | | | | &#39;_ \| __| |/ __\___ \| &#39;_ \| | | &#39;_ \ / _ \</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> |  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> |   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> |                                       |_|</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> |</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">\*/</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_splines.html">Splines</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">  #ifndef DOXYGEN_SHOULD_SKIP_THIS</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">using </span>QuinticSpline_sub_type = <span class="keyword">enum class</span> QuinticSpline_sub_type : <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    CUBIC  = 0,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    PCHIP  = 1,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    AKIMA  = 2,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    BESSEL = 3</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  };</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">  #endif</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_splines_1_1_quintic_spline.html">   44</a></span>  <span class="keyword">class </span><a class="code hl_class" href="class_splines_1_1_quintic_spline.html">QuinticSpline</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_splines_1_1_quintic_spline_base.html">QuinticSplineBase</a> {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    QuinticSpline_sub_type m_q_sub_type{QuinticSpline_sub_type::CUBIC};</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">    #ifndef DOXYGEN_SHOULD_SKIP_THIS</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">using </span><a class="code hl_function" href="class_splines_1_1_spline.html#a211dc8867bf3cbf6ae7eab0f1f93e58b">QuinticSplineBase::build</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">using </span><a class="code hl_function" href="class_splines_1_1_quintic_spline_base.html#a589da691b3cdbcc0117884ad4bb21d2e">QuinticSplineBase::reserve</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="class_splines_1_1_quintic_spline.html#abb7ba8139f0d3c6d60dad7311aa85494">   63</a></span>    <a class="code hl_function" href="class_splines_1_1_quintic_spline.html#abb7ba8139f0d3c6d60dad7311aa85494">QuinticSpline</a>( <span class="keywordtype">string</span> <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_splines_1_1_spline.html#a98da3b1c417735358065c970cfd1e9f5">name</a> = <span class="stringliteral">&quot;Spline&quot;</span> )</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    : <a class="code hl_class" href="class_splines_1_1_quintic_spline_base.html">QuinticSplineBase</a>( <a class="code hl_function" href="class_splines_1_1_spline.html#a98da3b1c417735358065c970cfd1e9f5">name</a> )</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    {}</div>
+</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="class_splines_1_1_quintic_spline.html#a3a97286580cdd9f7f1baebe3504e1cc1">   70</a></span>    <a class="code hl_function" href="class_splines_1_1_quintic_spline.html#a3a97286580cdd9f7f1baebe3504e1cc1">~QuinticSpline</a>()<span class="keyword"> override </span>{}</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="class_splines_1_1_quintic_spline.html#a80cfc06262b6b3faf0d8b965cf0a5e65">   83</a></span>    <a class="code hl_function" href="class_splines_1_1_quintic_spline.html#a80cfc06262b6b3faf0d8b965cf0a5e65">setQuinticType</a>( QuinticSpline_sub_type qt )</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    { m_q_sub_type = qt; }</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// --------------------------- VIRTUALS -----------------------------------</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_quintic_spline.html#af56ac3af94f92fd150bd3a0598d6f052">build</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_quintic_spline.html#ad923ea625c6668a5167438c17d01dbc9">setup</a>( GenericContainer <span class="keyword">const</span> &amp; gc ) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  };</div>
+</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">// EOF: SplineQuintic.hxx</span></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_base_html"><div class="ttname"><a href="class_splines_1_1_quintic_spline_base.html">Splines::QuinticSplineBase</a></div><div class="ttdef"><b>Definition</b> SplineQuinticBase.hxx:34</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_base_html_a589da691b3cdbcc0117884ad4bb21d2e"><div class="ttname"><a href="class_splines_1_1_quintic_spline_base.html#a589da691b3cdbcc0117884ad4bb21d2e">Splines::QuinticSplineBase::reserve</a></div><div class="ttdeci">void reserve(integer npts) override</div><div class="ttdef"><b>Definition</b> SplineQuinticBase.cc:63</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html">Splines::QuinticSpline</a></div><div class="ttdoc">Quintic spline class.</div><div class="ttdef"><b>Definition</b> SplineQuintic.hxx:44</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html_a3a97286580cdd9f7f1baebe3504e1cc1"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html#a3a97286580cdd9f7f1baebe3504e1cc1">Splines::QuinticSpline::~QuinticSpline</a></div><div class="ttdeci">~QuinticSpline() override</div><div class="ttdef"><b>Definition</b> SplineQuintic.hxx:70</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html_a80cfc06262b6b3faf0d8b965cf0a5e65"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html#a80cfc06262b6b3faf0d8b965cf0a5e65">Splines::QuinticSpline::setQuinticType</a></div><div class="ttdeci">void setQuinticType(QuinticSpline_sub_type qt)</div><div class="ttdef"><b>Definition</b> SplineQuintic.hxx:83</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html_abb7ba8139f0d3c6d60dad7311aa85494"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html#abb7ba8139f0d3c6d60dad7311aa85494">Splines::QuinticSpline::QuinticSpline</a></div><div class="ttdeci">QuinticSpline(string const &amp;name=&quot;Spline&quot;)</div><div class="ttdef"><b>Definition</b> SplineQuintic.hxx:63</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html_ad923ea625c6668a5167438c17d01dbc9"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html#ad923ea625c6668a5167438c17d01dbc9">Splines::QuinticSpline::setup</a></div><div class="ttdeci">void setup(GenericContainer const &amp;gc) override</div><div class="ttdoc">Build a Monotone quintic spline from data from gc</div><div class="ttdef"><b>Definition</b> SplineQuintic.cc:295</div></div>
+<div class="ttc" id="aclass_splines_1_1_quintic_spline_html_af56ac3af94f92fd150bd3a0598d6f052"><div class="ttname"><a href="class_splines_1_1_quintic_spline.html#af56ac3af94f92fd150bd3a0598d6f052">Splines::QuinticSpline::build</a></div><div class="ttdeci">void build() override</div><div class="ttdoc">Build a Monotone quintic spline from previously inserted points.</div><div class="ttdef"><b>Definition</b> SplineQuintic.cc:262</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline_html_a211dc8867bf3cbf6ae7eab0f1f93e58b"><div class="ttname"><a href="class_splines_1_1_spline.html#a211dc8867bf3cbf6ae7eab0f1f93e58b">Splines::Spline::build</a></div><div class="ttdeci">virtual void build()=0</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline_html_a98da3b1c417735358065c970cfd1e9f5"><div class="ttname"><a href="class_splines_1_1_spline.html#a98da3b1c417735358065c970cfd1e9f5">Splines::Spline::name</a></div><div class="ttdeci">string const &amp; name() const</div><div class="ttdef"><b>Definition</b> Splines.hh:437</div></div>
+<div class="ttc" id="anamespace_splines_html"><div class="ttname"><a href="namespace_splines.html">Splines</a></div><div class="ttdef"><b>Definition</b> SplineAkima.cc:50</div></div>
+<div class="ttc" id="anamespace_splines_html_a0b83d8865bf650fca7ad1d657245a8a1"><div class="ttname"><a href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">Splines::integer</a></div><div class="ttdeci">int integer</div><div class="ttdoc">Signed integer type for splines.</div><div class="ttdef"><b>Definition</b> Splines.hh:58</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen/html/_spline_quintic_8hxx_source.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

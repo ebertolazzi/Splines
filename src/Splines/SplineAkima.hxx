@@ -56,7 +56,9 @@ namespace Splines {
     #endif
 
     //!
-    //! Construct an empty spline of type `AkimaSpline`
+    //! Build an empty spline of `AkimaSpline` type
+    //!
+    //! \param name the name of the spline
     //!
     AkimaSpline( string const & name = "AkimaSpline" )
     : CubicSplineBase( name )

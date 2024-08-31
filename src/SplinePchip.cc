@@ -39,6 +39,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #if 0
   typedef enum {
     region_A = 0,
     region_B,
@@ -48,7 +49,6 @@ namespace Splines {
     region_M
   } REGION_ABCDEM;
 
-  #if 0
   static
   REGION_ABCDEM
   get_region( real_type alpha, real_type beta ) {

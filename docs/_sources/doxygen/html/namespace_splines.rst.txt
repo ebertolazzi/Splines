@@ -1,0 +1,14 @@
+.. meta::9ee9bffe51f3cff6f0e4453df13bafb23abbacd9423da39bc55dbd487dececbd67cd8540b770ccfa0c9985f381481723517cb59841676321723baaa3655d1535
+
+:orphan:
+
+.. title:: Splines: Splines Namespace Reference
+
+Splines Namespace Reference
+===========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: namespace_splines.html

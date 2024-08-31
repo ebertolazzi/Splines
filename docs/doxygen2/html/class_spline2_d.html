@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: Spline2D Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="spline2d-class-reference">
+<h1>Spline2D Class Reference<a class="headerlink" href="#spline2d-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: Spline2D Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="class_spline2_d-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Spline2D Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Inheritance diagram for Spline2D:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_spline2_d.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a8132db51a5ffe4e6ed59d2f2824dfa2a" id="r_a8132db51a5ffe4e6ed59d2f2824dfa2a"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8132db51a5ffe4e6ed59d2f2824dfa2a">Spline2D</a> (in name, in varargin)</td></tr>
+<tr class="separator:a8132db51a5ffe4e6ed59d2f2824dfa2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f3ee72fcf91ff0449c32f2e5732de5d" id="r_a5f3ee72fcf91ff0449c32f2e5732de5d"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f3ee72fcf91ff0449c32f2e5732de5d">build</a> (in self, in x, in y, in z)</td></tr>
+<tr class="separator:a5f3ee72fcf91ff0449c32f2e5732de5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48bc88e40af5e35e8f0bb97c752bd71" id="r_ae48bc88e40af5e35e8f0bb97c752bd71"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae48bc88e40af5e35e8f0bb97c752bd71">eval</a> (in self, in x, in y)</td></tr>
+<tr class="separator:ae48bc88e40af5e35e8f0bb97c752bd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22210d67664341808b2ea91d6b4be23c" id="r_a22210d67664341808b2ea91d6b4be23c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22210d67664341808b2ea91d6b4be23c">eval_Dx</a> (in self, in x, in y)</td></tr>
+<tr class="separator:a22210d67664341808b2ea91d6b4be23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac67031864576a724abefd3feddef16f9" id="r_ac67031864576a724abefd3feddef16f9"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac67031864576a724abefd3feddef16f9">eval_Dy</a> (in self, in x, in y)</td></tr>
+<tr class="separator:ac67031864576a724abefd3feddef16f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985eabf9a06c5295f929c2556df74861" id="r_a985eabf9a06c5295f929c2556df74861"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a985eabf9a06c5295f929c2556df74861">eval_Dxx</a> (in self, in x, in y)</td></tr>
+<tr class="separator:a985eabf9a06c5295f929c2556df74861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba9cabd885ca1967201549c7da65921" id="r_a9ba9cabd885ca1967201549c7da65921"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ba9cabd885ca1967201549c7da65921">eval_Dxy</a> (in self, in x, in y)</td></tr>
+<tr class="separator:a9ba9cabd885ca1967201549c7da65921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fa2f49589756f4c1c00f65ebeb91952" id="r_a2fa2f49589756f4c1c00f65ebeb91952"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fa2f49589756f4c1c00f65ebeb91952">eval_Dyy</a> (in self, in x, in y)</td></tr>
+<tr class="separator:a2fa2f49589756f4c1c00f65ebeb91952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850597d7f8e663c22d565dc7cde46d40" id="r_a850597d7f8e663c22d565dc7cde46d40"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a850597d7f8e663c22d565dc7cde46d40">make_x_opened</a> (in self)</td></tr>
+<tr class="separator:a850597d7f8e663c22d565dc7cde46d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e27881ffe50792182bf2eb6c2dc659c" id="r_a5e27881ffe50792182bf2eb6c2dc659c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e27881ffe50792182bf2eb6c2dc659c">is_x_closed</a> (in self)</td></tr>
+<tr class="separator:a5e27881ffe50792182bf2eb6c2dc659c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c860491dbd175cdf570280dec296fa4" id="r_a5c860491dbd175cdf570280dec296fa4"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c860491dbd175cdf570280dec296fa4">make_x_bounded</a> (in self)</td></tr>
+<tr class="separator:a5c860491dbd175cdf570280dec296fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f0525e4025a18ad580035f03d50b0e2" id="r_a8f0525e4025a18ad580035f03d50b0e2"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0525e4025a18ad580035f03d50b0e2">make_x_unbounded</a> (in self)</td></tr>
+<tr class="separator:a8f0525e4025a18ad580035f03d50b0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7265a0f0c4d4e7bfa361216be9206e" id="r_a3b7265a0f0c4d4e7bfa361216be9206e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b7265a0f0c4d4e7bfa361216be9206e">is_x_bounded</a> (in self)</td></tr>
+<tr class="separator:a3b7265a0f0c4d4e7bfa361216be9206e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fb8856a3ffb2ee44b16cad2ac4dff10" id="r_a9fb8856a3ffb2ee44b16cad2ac4dff10"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fb8856a3ffb2ee44b16cad2ac4dff10">make_y_opened</a> (in self)</td></tr>
+<tr class="separator:a9fb8856a3ffb2ee44b16cad2ac4dff10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fece6375b83fa1ed2f1c4705d21ec64" id="r_a5fece6375b83fa1ed2f1c4705d21ec64"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fece6375b83fa1ed2f1c4705d21ec64">is_y_closed</a> (in self)</td></tr>
+<tr class="separator:a5fece6375b83fa1ed2f1c4705d21ec64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb86704966a3bbf15e9ced9c845beaca" id="r_abb86704966a3bbf15e9ced9c845beaca"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb86704966a3bbf15e9ced9c845beaca">make_y_bounded</a> (in self)</td></tr>
+<tr class="separator:abb86704966a3bbf15e9ced9c845beaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6536a0d2059c4a2e33fba76aa923b06b" id="r_a6536a0d2059c4a2e33fba76aa923b06b"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6536a0d2059c4a2e33fba76aa923b06b">make_y_unbounded</a> (in self)</td></tr>
+<tr class="separator:a6536a0d2059c4a2e33fba76aa923b06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9929f37b69cff0e994c941172ee78c59" id="r_a9929f37b69cff0e994c941172ee78c59"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9929f37b69cff0e994c941172ee78c59">is_y_bounded</a> (in self)</td></tr>
+<tr class="separator:a9929f37b69cff0e994c941172ee78c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a65ff0e0f5450de522c7edc8f2810c672" id="r_a65ff0e0f5450de522c7edc8f2810c672"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65ff0e0f5450de522c7edc8f2810c672">copyElement</a> (in self)</td></tr>
+<tr class="separator:a65ff0e0f5450de522c7edc8f2810c672"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MATLAB class wrapper for the underlying C++ class.</p>
+<p>The construction of the 2D spline is done as follows</p>
+<ul>
+<li>instantiate the spline object</li>
+</ul>
+<div class="fragment"><div class="line">spl = Spline2D( kind, X, Y, ZZ );</div>
+<div class="line">% or</div>
+<div class="line">spl = Spline2D( kind );</div>
+<div class="line">spl.build( X, Y, ZZ );</div>
+</div><!-- fragment --><p><code>kind</code> is a string and can be any of</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">kind   </th><th class="markdownTableHeadLeft">meaning    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'bilinear'   </td><td class="markdownTableBodyLeft">piecewise linear in X e Y direction    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">'cubic'   </td><td class="markdownTableBodyLeft">piecewise cubic in X e Y direction    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'akima'   </td><td class="markdownTableBodyLeft">piecewise cubic with Akima non oscillatory construction    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">'biquintic'   </td><td class="markdownTableBodyLeft">piecewise quintic in X e Y direction   </td></tr>
+</table>
+<p>Evaluation is simple</p>
+<div class="fragment"><div class="line">Z = spl.eval( X, Y );</div>
+</div><!-- fragment --><p>where <code>X</code> and <code>Y</code> are scalar or vector or matrix of the same size. the result <code>Z</code> is scalar or vector or matrix of the same size of the inputs.</p>
+<p><b>example of usage</b></p>
+<div class="fragment"><div class="line">X = -2:0.01:2;</div>
+<div class="line">Y = -2:0.01:2;</div>
+<div class="line">[XX,YY] = ndgrid(X,Y);</div>
+<div class="line">ZZ  = peaks(XX,YY);</div>
+<div class="line">spl = Spline2D(&#39;bicubic&#39;,X,Y,ZZ);</div>
+<div class="line"> </div>
+<div class="line">surf(XX,YY,ZZ), view(145,-2), set(gca,&#39;Fontsize&#39;,16);</div>
+<div class="line"> </div>
+<div class="line">X = -2:0.1:2;</div>
+<div class="line">Y = -2:0.1:2;</div>
+<div class="line">[XX,YY] = ndgrid(X,Y);</div>
+<div class="line"> </div>
+<div class="line">ZZ = spl.eval(XX,YY);</div>
+</div><!-- fragment --><div class="image">
+<img src="exampleSurf.png" alt="" width="80%"/>
+<div class="caption">
+' </div></div>
+ </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8132db51a5ffe4e6ed59d2f2824dfa2a" name="a8132db51a5ffe4e6ed59d2f2824dfa2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8132db51a5ffe4e6ed59d2f2824dfa2a">&#9670;&#160;</a></span>Spline2D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::Spline2D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build a spline given a table of point and type:</p>
+<div class="fragment"><div class="line">spl = Spline2D( kind );          % initialize</div>
+<div class="line">spl = Spline2D( kind, X, Y, Z ); % initialize and build</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5f3ee72fcf91ff0449c32f2e5732de5d" name="a5f3ee72fcf91ff0449c32f2e5732de5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f3ee72fcf91ff0449c32f2e5732de5d">&#9670;&#160;</a></span>build()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>z</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build a spline given a table of point and type:</p>
+<div class="fragment"><div class="line">spl.build( X, Y, Z );</div>
+</div><!-- fragment --><p><code>X</code> and <code>Y</code> are vector <code>Z</code> is a matrix <code>nx x ny</code> </p>
+
+</div>
+</div>
+<a id="a65ff0e0f5450de522c7edc8f2810c672" name="a65ff0e0f5450de522c7edc8f2810c672"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65ff0e0f5450de522c7edc8f2810c672">&#9670;&#160;</a></span>copyElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::copyElement </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make a deep copy of a curve object</p>
+<p><b>Usage</b></p>
+<div class="fragment"><div class="line">B = A.copy();</div>
+</div><!-- fragment --><p>where <code>A</code> is the curve object to be copied. </p>
+
+</div>
+</div>
+<a id="ae48bc88e40af5e35e8f0bb97c752bd71" name="ae48bc88e40af5e35e8f0bb97c752bd71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae48bc88e40af5e35e8f0bb97c752bd71">&#9670;&#160;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline (and its derivatives) at (x,y)</p>
+<div class="fragment"><div class="line">P = spl.eval( x, y );</div>
+<div class="line">[P,Px,Py] = spl.eval( x, y );</div>
+<div class="line">[P,Px,Py,Pxx,Pxy,Pyy] = spl.eval( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="a22210d67664341808b2ea91d6b4be23c" name="a22210d67664341808b2ea91d6b4be23c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22210d67664341808b2ea91d6b4be23c">&#9670;&#160;</a></span>eval_Dx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval_Dx </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline <code>x</code> derivative at (x,y)</p>
+<div class="fragment"><div class="line">Dx = spl.eval_Dx( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="a985eabf9a06c5295f929c2556df74861" name="a985eabf9a06c5295f929c2556df74861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a985eabf9a06c5295f929c2556df74861">&#9670;&#160;</a></span>eval_Dxx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval_Dxx </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline <code>x</code> second derivative at (x,y)</p>
+<div class="fragment"><div class="line">Dxx = spl.eval_Dxx( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="a9ba9cabd885ca1967201549c7da65921" name="a9ba9cabd885ca1967201549c7da65921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ba9cabd885ca1967201549c7da65921">&#9670;&#160;</a></span>eval_Dxy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval_Dxy </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline <code>xy</code> second derivative at (x,y)</p>
+<div class="fragment"><div class="line">Dxy = spl.eval_Dxy( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="ac67031864576a724abefd3feddef16f9" name="ac67031864576a724abefd3feddef16f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac67031864576a724abefd3feddef16f9">&#9670;&#160;</a></span>eval_Dy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval_Dy </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline <code>y</code> derivative at (x,y)</p>
+<div class="fragment"><div class="line">Dy = spl.eval_Dy( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="a2fa2f49589756f4c1c00f65ebeb91952" name="a2fa2f49589756f4c1c00f65ebeb91952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fa2f49589756f4c1c00f65ebeb91952">&#9670;&#160;</a></span>eval_Dyy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::eval_Dyy </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline <code>y</code> second derivative at (x,y)</p>
+<div class="fragment"><div class="line">Dyy = spl.eval_Dyy( x, y );</div>
+</div><!-- fragment --><p><code>x</code> and <code>y</code> are salar or vector or matrix of the same size </p>
+
+</div>
+</div>
+<a id="a3b7265a0f0c4d4e7bfa361216be9206e" name="a3b7265a0f0c4d4e7bfa361216be9206e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b7265a0f0c4d4e7bfa361216be9206e">&#9670;&#160;</a></span>is_x_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::is_x_bounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if spline is computable only in the <code>x</code>-range where is defined. Return true if can be computed only in the range.</p>
+<div class="fragment"><div class="line">ok = spl.is_x_bounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5e27881ffe50792182bf2eb6c2dc659c" name="a5e27881ffe50792182bf2eb6c2dc659c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e27881ffe50792182bf2eb6c2dc659c">&#9670;&#160;</a></span>is_x_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::is_x_closed </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return true if spline surface is of closed type in <code>x</code>-direction</p>
+<div class="fragment"><div class="line">ok = spl.is_x_closed();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a9929f37b69cff0e994c941172ee78c59" name="a9929f37b69cff0e994c941172ee78c59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9929f37b69cff0e994c941172ee78c59">&#9670;&#160;</a></span>is_y_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::is_y_bounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if spline is computable only in the <code>y</code>-range where is defined. Return true if can be computed only in the range.</p>
+<div class="fragment"><div class="line">ok = spl.is_y_bounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5fece6375b83fa1ed2f1c4705d21ec64" name="a5fece6375b83fa1ed2f1c4705d21ec64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fece6375b83fa1ed2f1c4705d21ec64">&#9670;&#160;</a></span>is_y_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::is_y_closed </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return true if spline surface is of closed type in <code>y</code>-direction</p>
+<div class="fragment"><div class="line">ok = spl.is_y_closed();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5c860491dbd175cdf570280dec296fa4" name="a5c860491dbd175cdf570280dec296fa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c860491dbd175cdf570280dec296fa4">&#9670;&#160;</a></span>make_x_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_x_bounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Make spline surface computable only in the <code>x</code>-range where is defined. If <code>x</code> is outside range an error is produced.</p>
+<div class="fragment"><div class="line">spl.make_x_bounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a850597d7f8e663c22d565dc7cde46d40" name="a850597d7f8e663c22d565dc7cde46d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850597d7f8e663c22d565dc7cde46d40">&#9670;&#160;</a></span>make_x_opened()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_x_opened </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">    Set spline surface as closed in `x direction
+</pre><p> / / <code>{matlab} / spl.make_x_closed(); /</code> / public: function make_x_closed(in  self );</p>
+<p>/ / Set spline surface as opened in <code>x direction @iverbatim </code><code>{matlab} spl.make_x_opened(); </code>`  </p>
+
+</div>
+</div>
+<a id="a8f0525e4025a18ad580035f03d50b0e2" name="a8f0525e4025a18ad580035f03d50b0e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f0525e4025a18ad580035f03d50b0e2">&#9670;&#160;</a></span>make_x_unbounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_x_unbounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Make spline surface computable outside the <code>x</code>-range is defined. If <code>x</code> is outside range value is extrapolated.</p>
+<div class="fragment"><div class="line">spl.make_x_unbounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="abb86704966a3bbf15e9ced9c845beaca" name="abb86704966a3bbf15e9ced9c845beaca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb86704966a3bbf15e9ced9c845beaca">&#9670;&#160;</a></span>make_y_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_y_bounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Make spline surface computable only in the <code>y</code>-range where is defined. If <code>y</code> is outside range an error is produced.</p>
+<div class="fragment"><div class="line">spl.make_y_bounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a9fb8856a3ffb2ee44b16cad2ac4dff10" name="a9fb8856a3ffb2ee44b16cad2ac4dff10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fb8856a3ffb2ee44b16cad2ac4dff10">&#9670;&#160;</a></span>make_y_opened()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_y_opened </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">    Set spline surface as closed in `y direction
+</pre><p> / / <code>{matlab} / spl.make_y_closed(); /</code> / public: function make_y_closed(in  self );</p>
+<p>/ / Set spline surface as opened in <code>y direction @iverbatim </code><code>{matlab} spl.make_y_opened(); </code>`  </p>
+
+</div>
+</div>
+<a id="a6536a0d2059c4a2e33fba76aa923b06b" name="a6536a0d2059c4a2e33fba76aa923b06b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6536a0d2059c4a2e33fba76aa923b06b">&#9670;&#160;</a></span>make_y_unbounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function Spline2D::make_y_unbounded </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Make spline surface computable outside the <code>y</code>-range is defined. If <code>y</code> is outside range value is extrapolated.</p>
+<div class="fragment"><div class="line">spl.make_y_unbounded();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/toolbox/lib/<b>Spline2D.m</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen2/html/class_spline2_d.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

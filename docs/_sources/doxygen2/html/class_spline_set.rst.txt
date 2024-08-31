@@ -1,0 +1,14 @@
+.. meta::1c5d918cd7efbf7e275bd58481a342d89b223f65c79ddee20d70d79097bad5039da0e17fbac0c49f62a7389c7a5270a0b52ca381f18b9eb37a6c570a814a3fb7
+
+:orphan:
+
+.. title:: Splines: SplineSet Class Reference
+
+SplineSet Class Reference
+=========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_spline_set.html

@@ -1,0 +1,14 @@
+.. meta::85dea8bfa99b1541fc8b7e57de50ee1478d2c5c2380b982db7c1839b4c9377b05693fd2d2aec39a9a047e43ae9518b799a5817ef84db85c4fdc3e70d7e4be8d7
+
+:orphan:
+
+.. title:: Splines: BaseHermite Class Reference
+
+BaseHermite Class Reference
+===========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_base_hermite.html

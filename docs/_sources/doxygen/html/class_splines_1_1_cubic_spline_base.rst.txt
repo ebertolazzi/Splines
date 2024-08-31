@@ -1,0 +1,14 @@
+.. meta::90e2ccb4eb7dc6ddd9500d724be1a303714b53c6782c66e9810b29b27a39d05da315542c6effa743330d7ecb83643553c07ee76fa686ee4e34e425db8517bdf7
+
+:orphan:
+
+.. title:: Splines: Splines::CubicSplineBase Class Reference
+
+CubicSplineBase Class Reference
+===============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_cubic_spline_base.html

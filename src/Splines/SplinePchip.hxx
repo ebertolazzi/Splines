@@ -44,12 +44,18 @@ namespace Splines {
     using CubicSplineBase::reserve;
     #endif
 
-    //! spline constructor
+    //!
+    //! Build an empty spline of `PchipSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     PchipSpline( string const & name = "PchipSpline" )
     : CubicSplineBase( name )
     {}
 
-    //! spline destructor
+    //!
+    //! Spline destructor.
+    //!
     ~PchipSpline() override {}
 
     //! Return spline type (as number)

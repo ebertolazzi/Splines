@@ -37,6 +37,9 @@
 #include "SplinesConfig.hh"
 #include <fstream>
 
+//!
+//! Namespace of Splines library
+//!
 namespace Splines {
 
   using std::vector;
@@ -54,11 +57,13 @@ namespace Splines {
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using Malloc_real  = Utils::Malloc<real_type>;
   using ostream_type = basic_ostream<char>;
   using istream_type = basic_istream<char>;
 
   void backtrace( ostream_type & );
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -225,11 +230,11 @@ namespace Splines {
   );
 
   integer
-  checkCubicSplineMonotonicity(
-    real_type const * X,
-    real_type const * Y,
-    real_type const * Yp,
-    integer           npts
+  check_cubic_spline_monotonicity(
+    real_type const X[],
+    real_type const Y[],
+    real_type const Yp[],
+    integer         npts
   );
 
   #endif
@@ -368,6 +373,8 @@ namespace Splines {
     friend class SplineSet;
   protected:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     string m_name;
     bool   m_curve_is_closed{false};
     bool   m_curve_can_extend{true};
@@ -388,6 +395,8 @@ namespace Splines {
 
     Spline( Spline const & ) = delete;
     Spline const & operator = ( Spline const & ) = delete;
+
+    #endif
 
   public:
 
@@ -423,20 +432,57 @@ namespace Splines {
     ///@{
 
     //!
-    //! Return the name of the spline used in the constructor
+    //! \return string with the name of the spline
     //!
     string const & name() const { return m_name; }
 
+    //! \return `true` if spline is a closed spline
     bool is_closed() const { return m_curve_is_closed;  }
-    void make_closed()     { m_curve_is_closed = true;  }
-    void make_opened()     { m_curve_is_closed = false; }
+    //!
+    //! Set spline as a closed spline.
+    //! When evaluated if parameter is outside the domain
+    //! is wrapped cyclically before evalation.
+    //!
+    void make_closed() { m_curve_is_closed = true;  }
+    //!
+    //! Set spline as an opened spline.
+    //! When evaluated if parameter is outside the domain
+    //! an error is produced.
+    //!
+    void make_opened() { m_curve_is_closed = false; }
 
+    //!
+    //! \return `true` if spline cannot extend outside interval of definition
+    //!
     bool is_bounded() const { return !m_curve_can_extend; }
-    void make_unbounded()   { m_curve_can_extend = true;  }
-    void make_bounded()     { m_curve_can_extend = false; }
+    //!
+    //! Set spline as unbounded.
+    //! When evaluated if parameter is outside the domain
+    //! an extrapolated value is used.
+    //!
+    void make_unbounded() { m_curve_can_extend = true;  }
+    //!
+    //! Set spline as bounded.
+    //! When evaluated if parameter is outside the domain
+    //! an error is issued.
+    //!
+    void make_bounded() { m_curve_can_extend = false; }
 
+    //!
+    //! \return `true` if the spline extend with a constant value
+    //!
     bool is_extended_constant() const { return m_curve_extended_constant;  }
+    //!
+    //! Set spline to extend constant.
+    //! When evaluated if parameter is outside the domain
+    //! the value returned is the value of the closed border.
+    //!
     void make_extended_constant()     { m_curve_extended_constant = true;  }
+    //!
+    //! Set spline to extend NOT constant.
+    //! When evaluated if parameter is outside the domain
+    //! teh value returned is extrapolated using the last spline polynomial.
+    //!
     void make_extended_not_constant() { m_curve_extended_constant = false; }
 
     ///@}
@@ -559,7 +605,7 @@ namespace Splines {
     ///@{
 
     //!
-    //! Build a spline using a generic container.
+    //! Build a spline using data in `GenericContainer`
     //!
     void
     build( GenericContainer const & gc )
@@ -569,9 +615,9 @@ namespace Splines {
     //! Build a spline.
     //!
     //! \param x    vector of x-coordinates
-    //! \param incx access elements as x[0], x[incx], x[2*incx],...
+    //! \param incx access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
     //! \param y    vector of y-coordinates
-    //! \param incy access elements as y[0], y[incy], y[2*incy],...
+    //! \param incy access elements as `y[0]`, `y[incx]`, `y[2*incx]`,...
     //! \param n    total number of points
     //!
     virtual
@@ -844,7 +890,9 @@ namespace Splines {
     //!
     //! Print information of the kind and order of the spline
     //!
-    void info( ostream_type & stream ) const { stream << this->info() << '\n'; }
+    void
+    info( ostream_type & stream ) const
+    { stream << this->info() << '\n'; }
 
     ///@}
 
@@ -886,9 +934,12 @@ namespace Splines {
   //!
   class CubicSplineBase : public Spline {
   protected:
+
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     Malloc_real m_mem_cubic;
     real_type * m_Yp{nullptr};
     bool        m_external_alloc{false};
+    #endif
 
   public:
 
@@ -907,6 +958,9 @@ namespace Splines {
     ~CubicSplineBase() override {}
     ///@}
 
+    //!
+    //! Build a copy of spline `S`
+    //!
     void copy_spline( CubicSplineBase const & S );
 
     //!
@@ -1090,6 +1144,8 @@ namespace Splines {
 
   protected:
 
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     string const m_name;
     bool         m_x_closed{false};
     bool         m_y_closed{false};
@@ -1145,6 +1201,8 @@ namespace Splines {
       bool            fortran_storage,
       bool            transposed
     );
+
+    #endif
 
   public:
 
@@ -1246,6 +1304,9 @@ namespace Splines {
     //!
     ///@{
 
+    //!
+    //! \return string with the name of the spline
+    //!
     string const & name() const { return m_name; }
 
     //!
@@ -1312,6 +1373,22 @@ namespace Splines {
     //!
     ///@{
 
+    //!
+    //! Build surface spline
+    //!
+    //! \param x               vector of `x`-coordinates
+    //! \param incx            access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+    //! \param y               vector of `y`-coordinates
+    //! \param incy            access elements as `y[0]`, `y[incy]`, `y[2*incy]`,...
+    //! \param z               matrix of `z`-values. Elements are stored
+    //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
+    //! \param ldZ             leading dimension of `z`
+    //! \param nx              number of points in `x` direction
+    //! \param ny              number of points in `y` direction
+    //! \param fortran_storage if true elements are stored by column
+    //!                        i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix
+    //! \param transposed      if true matrix Z is stored transposed
+    //!
     void
     build(
       real_type const x[], integer incx,
@@ -1386,9 +1463,15 @@ namespace Splines {
       this->build( &z.front(), nx, ny, fortran_storage ? nx : ny, fortran_storage, transposed );
     }
 
+    //!
+    //! Build spline using data in `gc`
+    //!
     void
     setup( GenericContainer const & gc );
 
+    //!
+    //! Build a spline using data in `GenericContainer`
+    //!
     void
     build( GenericContainer const & gc )
     { setup(gc); }
@@ -1526,12 +1609,12 @@ namespace Splines {
     virtual char const * type_name() const = 0;
 
     //!
-    //! Return a string with information about the spline.
+    //! String information of the kind and order of the spline
     //!
     virtual string info() const;
 
     //!
-    //! write a string with information about the spline.
+    //! Print information of the kind and order of the spline
     //!
     void
     info( ostream_type & stream ) const

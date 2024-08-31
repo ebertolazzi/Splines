@@ -39,8 +39,16 @@ namespace Splines {
     using Spline::build;
     #endif
 
+    //!
+    //! Build an empty spline of `ConstantSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
     ConstantSpline( string const & name = "ConstantSpline" );
 
+    //!
+    //! Spline destructor.
+    //!
     ~ConstantSpline() override {}
 
     //! Use externally allocated memory for `npts` points
@@ -56,8 +64,21 @@ namespace Splines {
     //! \name Build
     //!
     ///@{
+
+    //!
+    //! Build the spline with the data stored
+    //!
     void build() override {} // nothing to do
 
+    //!
+    //! Build the spline with the data passed as arguments
+    //!
+    //! \param x    \f$ x \f$ coordinates of the points
+    //! \param incx access elements as `x[0]`, `x[incx]`, `x[2*incx]`,...
+    //! \param y    \f$ y \f$ coordinates of the points
+    //! \param incy access elements as `y[0]`, `y[incx]`, `y[2*incx]`,...
+    //! \param n    the number of the points
+    //!
     void
     build(
       real_type const x[], integer incx,

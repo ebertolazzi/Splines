@@ -1,0 +1,14 @@
+.. meta::d02e99835c629cfc134bccd50ff3586687cf429696178ee65faf95cdd27f75a43267674f6b3b3c511683fd84f09c992323374f93a5c140c11e1cee3c5320e359
+
+:orphan:
+
+.. title:: Splines: Spline1D Class Reference
+
+Spline1D Class Reference
+========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_spline1_d.html

@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: Splines::Spline2D Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="spline2d-class-reference">
+<h1>Spline2D Class Reference<a class="headerlink" href="#spline2d-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: Splines::Spline2D Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespace_splines.html">Splines</a></li><li class="navelem"><a class="el" href="class_splines_1_1_spline2_d.html">Spline2D</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_splines_1_1_spline2_d-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Splines::Spline2D Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_splines2_d_8hxx_source.html">Splines2D.hxx</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:abc9e4215b9fc86c64433dbb16873ddd0" id="r_abc9e4215b9fc86c64433dbb16873ddd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc9e4215b9fc86c64433dbb16873ddd0">clear</a> ()</td></tr>
+<tr class="separator:abc9e4215b9fc86c64433dbb16873ddd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66b68b7045cf1a981400759fd8796542" id="r_a66b68b7045cf1a981400759fd8796542"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66b68b7045cf1a981400759fd8796542">write_to_stream</a> (ostream_type &amp;s) const</td></tr>
+<tr class="separator:a66b68b7045cf1a981400759fd8796542"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31ce39fe5060d2f34a8bafbbd851bead" id="r_a31ce39fe5060d2f34a8bafbbd851bead"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31ce39fe5060d2f34a8bafbbd851bead">type_name</a> () const</td></tr>
+<tr class="separator:a31ce39fe5060d2f34a8bafbbd851bead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3431e98de1b460ee5411f867356d059" id="r_ad3431e98de1b460ee5411f867356d059"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3431e98de1b460ee5411f867356d059">info</a> () const</td></tr>
+<tr class="separator:ad3431e98de1b460ee5411f867356d059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4f711069e4c9c348e2400aa045178af" id="r_af4f711069e4c9c348e2400aa045178af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4f711069e4c9c348e2400aa045178af">info</a> (ostream_type &amp;stream) const</td></tr>
+<tr class="separator:af4f711069e4c9c348e2400aa045178af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3266e905f8f6a1576b3dbbadd581518" id="r_ab3266e905f8f6a1576b3dbbadd581518"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3266e905f8f6a1576b3dbbadd581518">dump_data</a> (ostream_type &amp;stream) const</td></tr>
+<tr class="separator:ab3266e905f8f6a1576b3dbbadd581518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Constructors</div></td></tr>
+<tr class="memitem:a4bb0d5ad76b1a74515c3009c585e3977" id="r_a4bb0d5ad76b1a74515c3009c585e3977"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bb0d5ad76b1a74515c3009c585e3977">Spline2D</a> (string const &amp;<a class="el" href="#a14c8e9ad21fd5d994cb5f883d664ef01">name</a>=&quot;Spline2D&quot;)</td></tr>
+<tr class="separator:a4bb0d5ad76b1a74515c3009c585e3977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e18c21106895196cd461c733f7f3748" id="r_a7e18c21106895196cd461c733f7f3748"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e18c21106895196cd461c733f7f3748">~Spline2D</a> ()</td></tr>
+<tr class="separator:a7e18c21106895196cd461c733f7f3748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2c9981623179c0a114b9ae8286b6e33" id="r_ad2c9981623179c0a114b9ae8286b6e33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2c9981623179c0a114b9ae8286b6e33">build</a> (<a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a> tp, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const x[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incx, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const y[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incy, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const z[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ldZ, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:ad2c9981623179c0a114b9ae8286b6e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b7b23a82102849ea10f9f801e8ba46" id="r_a43b7b23a82102849ea10f9f801e8ba46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43b7b23a82102849ea10f9f801e8ba46">build</a> (<a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a> tp, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;x, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;y, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;z, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:a43b7b23a82102849ea10f9f801e8ba46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56da8a97dd1fa376d233fe6d6e248390" id="r_a56da8a97dd1fa376d233fe6d6e248390"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56da8a97dd1fa376d233fe6d6e248390">build</a> (<a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a> tp, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const z[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ldZ, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:a56da8a97dd1fa376d233fe6d6e248390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad599399139e46b51c4398e736cf88f95" id="r_ad599399139e46b51c4398e736cf88f95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad599399139e46b51c4398e736cf88f95">build</a> (<a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a> tp, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;z, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:ad599399139e46b51c4398e736cf88f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05776ff454c82d1b1ce2cbaa5c38f261" id="r_a05776ff454c82d1b1ce2cbaa5c38f261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05776ff454c82d1b1ce2cbaa5c38f261">setup</a> (GenericContainer const &amp;gc)</td></tr>
+<tr class="separator:a05776ff454c82d1b1ce2cbaa5c38f261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca9137b36417366b423b21fcc62c7b6" id="r_a6ca9137b36417366b423b21fcc62c7b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca9137b36417366b423b21fcc62c7b6">build</a> (GenericContainer const &amp;gc)</td></tr>
+<tr class="separator:a6ca9137b36417366b423b21fcc62c7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Open/Close/Bound</div></td></tr>
+<tr class="memitem:a2ac53cea39786a8e535f18f27d752945" id="r_a2ac53cea39786a8e535f18f27d752945"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ac53cea39786a8e535f18f27d752945">is_x_closed</a> () const</td></tr>
+<tr class="separator:a2ac53cea39786a8e535f18f27d752945"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80680bd3f3335a6985479c3d1910b2e7" id="r_a80680bd3f3335a6985479c3d1910b2e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80680bd3f3335a6985479c3d1910b2e7">make_x_closed</a> ()</td></tr>
+<tr class="separator:a80680bd3f3335a6985479c3d1910b2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5d7d326cdbcb425cb753761e3f073ff" id="r_ad5d7d326cdbcb425cb753761e3f073ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5d7d326cdbcb425cb753761e3f073ff">make_x_opened</a> ()</td></tr>
+<tr class="separator:ad5d7d326cdbcb425cb753761e3f073ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa727a21a450628f93c7f31c12719e10a" id="r_aa727a21a450628f93c7f31c12719e10a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa727a21a450628f93c7f31c12719e10a">is_y_closed</a> () const</td></tr>
+<tr class="separator:aa727a21a450628f93c7f31c12719e10a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a39d51cfd79ed23efa3ebe685f6241" id="r_a11a39d51cfd79ed23efa3ebe685f6241"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11a39d51cfd79ed23efa3ebe685f6241">make_y_closed</a> ()</td></tr>
+<tr class="separator:a11a39d51cfd79ed23efa3ebe685f6241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76b9b2aca48aa7ae66643bde27184bf8" id="r_a76b9b2aca48aa7ae66643bde27184bf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76b9b2aca48aa7ae66643bde27184bf8">make_y_opened</a> ()</td></tr>
+<tr class="separator:a76b9b2aca48aa7ae66643bde27184bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca11e9614a3ab4ef5040e1270b58f625" id="r_aca11e9614a3ab4ef5040e1270b58f625"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca11e9614a3ab4ef5040e1270b58f625">is_x_bounded</a> () const</td></tr>
+<tr class="separator:aca11e9614a3ab4ef5040e1270b58f625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24e4a92cf42daed052f5dc320abe1fb3" id="r_a24e4a92cf42daed052f5dc320abe1fb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24e4a92cf42daed052f5dc320abe1fb3">make_x_unbounded</a> ()</td></tr>
+<tr class="separator:a24e4a92cf42daed052f5dc320abe1fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb6bc35c9878e12a2a235bc6f1ac056" id="r_a0bb6bc35c9878e12a2a235bc6f1ac056"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bb6bc35c9878e12a2a235bc6f1ac056">make_x_bounded</a> ()</td></tr>
+<tr class="separator:a0bb6bc35c9878e12a2a235bc6f1ac056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77d7e6ce1e765f3d398eef8df4cd2f50" id="r_a77d7e6ce1e765f3d398eef8df4cd2f50"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77d7e6ce1e765f3d398eef8df4cd2f50">is_y_bounded</a> () const</td></tr>
+<tr class="separator:a77d7e6ce1e765f3d398eef8df4cd2f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf709164ec0774b1a37afbe2dce3e505" id="r_adf709164ec0774b1a37afbe2dce3e505"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf709164ec0774b1a37afbe2dce3e505">make_y_unbounded</a> ()</td></tr>
+<tr class="separator:adf709164ec0774b1a37afbe2dce3e505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab535f112e5b1b9bbc143443f4ba33e00" id="r_ab535f112e5b1b9bbc143443f4ba33e00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab535f112e5b1b9bbc143443f4ba33e00">make_y_bounded</a> ()</td></tr>
+<tr class="separator:ab535f112e5b1b9bbc143443f4ba33e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Info</div></td></tr>
+<tr class="memitem:a14c8e9ad21fd5d994cb5f883d664ef01" id="r_a14c8e9ad21fd5d994cb5f883d664ef01"><td class="memItemLeft" align="right" valign="top">string const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14c8e9ad21fd5d994cb5f883d664ef01">name</a> () const</td></tr>
+<tr class="separator:a14c8e9ad21fd5d994cb5f883d664ef01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc3d21aa0dbbb9883bed753bb9d722d" id="r_abbc3d21aa0dbbb9883bed753bb9d722d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbc3d21aa0dbbb9883bed753bb9d722d">num_point_x</a> () const</td></tr>
+<tr class="separator:abbc3d21aa0dbbb9883bed753bb9d722d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4632622a4323e973e4f499531d6499f9" id="r_a4632622a4323e973e4f499531d6499f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4632622a4323e973e4f499531d6499f9">num_point_y</a> () const</td></tr>
+<tr class="separator:a4632622a4323e973e4f499531d6499f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac949e33cf6823b775609f0b95849ff74" id="r_ac949e33cf6823b775609f0b95849ff74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac949e33cf6823b775609f0b95849ff74">x_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i) const</td></tr>
+<tr class="separator:ac949e33cf6823b775609f0b95849ff74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e646b7830edbc52297de5f675646b3a" id="r_a4e646b7830edbc52297de5f675646b3a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e646b7830edbc52297de5f675646b3a">y_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i) const</td></tr>
+<tr class="separator:a4e646b7830edbc52297de5f675646b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb1016556beb99be0d6220054d5d7267" id="r_abb1016556beb99be0d6220054d5d7267"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb1016556beb99be0d6220054d5d7267">z_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j) const</td></tr>
+<tr class="separator:abb1016556beb99be0d6220054d5d7267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Get bounds</div></td></tr>
+<tr class="memitem:a81a9a1855da7d9a2a9ff92ab83369aa8" id="r_a81a9a1855da7d9a2a9ff92ab83369aa8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81a9a1855da7d9a2a9ff92ab83369aa8">x_min</a> () const</td></tr>
+<tr class="separator:a81a9a1855da7d9a2a9ff92ab83369aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8371329bf216bb92a4182f2a693fd6b8" id="r_a8371329bf216bb92a4182f2a693fd6b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8371329bf216bb92a4182f2a693fd6b8">x_max</a> () const</td></tr>
+<tr class="separator:a8371329bf216bb92a4182f2a693fd6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94698bfaacd9fc147ad0e5d2c143d796" id="r_a94698bfaacd9fc147ad0e5d2c143d796"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94698bfaacd9fc147ad0e5d2c143d796">y_min</a> () const</td></tr>
+<tr class="separator:a94698bfaacd9fc147ad0e5d2c143d796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a66f1ffc65b99404d1ac6a69dd1b270" id="r_a0a66f1ffc65b99404d1ac6a69dd1b270"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a66f1ffc65b99404d1ac6a69dd1b270">y_max</a> () const</td></tr>
+<tr class="separator:a0a66f1ffc65b99404d1ac6a69dd1b270"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d3ada6dd71e00900826dc960144c71" id="r_a46d3ada6dd71e00900826dc960144c71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46d3ada6dd71e00900826dc960144c71">z_min</a> () const</td></tr>
+<tr class="separator:a46d3ada6dd71e00900826dc960144c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf9caeb05f2048b7609f19c128756bda" id="r_acf9caeb05f2048b7609f19c128756bda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf9caeb05f2048b7609f19c128756bda">z_max</a> () const</td></tr>
+<tr class="separator:acf9caeb05f2048b7609f19c128756bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Evaluate</div></td></tr>
+<tr class="memitem:a2266c0ff697c268fc210bc8780c56cdc" id="r_a2266c0ff697c268fc210bc8780c56cdc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2266c0ff697c268fc210bc8780c56cdc">operator()</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a2266c0ff697c268fc210bc8780c56cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a732835be50e0f244304c0513829e8cf3" id="r_a732835be50e0f244304c0513829e8cf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a732835be50e0f244304c0513829e8cf3">eval</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a732835be50e0f244304c0513829e8cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">First derivatives:</div></td></tr>
+<tr class="memitem:afc1b939cda6d693fa3036a1c99a9b8ff" id="r_afc1b939cda6d693fa3036a1c99a9b8ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc1b939cda6d693fa3036a1c99a9b8ff">D</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> d[3]) const</td></tr>
+<tr class="separator:afc1b939cda6d693fa3036a1c99a9b8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450076a23a819660eefc50e80a1b3858" id="r_a450076a23a819660eefc50e80a1b3858"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a450076a23a819660eefc50e80a1b3858">Dx</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a450076a23a819660eefc50e80a1b3858"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b895a0af8c0ab4c3e07682cea0d856a" id="r_a6b895a0af8c0ab4c3e07682cea0d856a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b895a0af8c0ab4c3e07682cea0d856a">Dy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a6b895a0af8c0ab4c3e07682cea0d856a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a829b850e4e4afe1e8fb166c5a2a44f" id="r_a5a829b850e4e4afe1e8fb166c5a2a44f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a829b850e4e4afe1e8fb166c5a2a44f">eval_D_1</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a5a829b850e4e4afe1e8fb166c5a2a44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a340de4d1d9d5d4cb2becbdc610f0444f" id="r_a340de4d1d9d5d4cb2becbdc610f0444f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a340de4d1d9d5d4cb2becbdc610f0444f">eval_D_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a340de4d1d9d5d4cb2becbdc610f0444f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Second derivatives:</div></td></tr>
+<tr class="memitem:afa991a844100404a7a0b3a126ee7fd3a" id="r_afa991a844100404a7a0b3a126ee7fd3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa991a844100404a7a0b3a126ee7fd3a">DD</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> dd[6]) const</td></tr>
+<tr class="separator:afa991a844100404a7a0b3a126ee7fd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9dabc8345af8775da915b90e13591f4" id="r_af9dabc8345af8775da915b90e13591f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9dabc8345af8775da915b90e13591f4">Dxx</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:af9dabc8345af8775da915b90e13591f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b2eb017b75756c88cb5f689408dcee" id="r_a37b2eb017b75756c88cb5f689408dcee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37b2eb017b75756c88cb5f689408dcee">Dxy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a37b2eb017b75756c88cb5f689408dcee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8c908a8631a0e71485fc9ade3270c0" id="r_aff8c908a8631a0e71485fc9ade3270c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff8c908a8631a0e71485fc9ade3270c0">Dyy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:aff8c908a8631a0e71485fc9ade3270c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a194856210b3ed4e7589437a2a63b1cba" id="r_a194856210b3ed4e7589437a2a63b1cba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a194856210b3ed4e7589437a2a63b1cba">eval_D_1_1</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a194856210b3ed4e7589437a2a63b1cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d14e7538dc951d6076cfa77b3825779" id="r_a3d14e7538dc951d6076cfa77b3825779"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d14e7538dc951d6076cfa77b3825779">eval_D_1_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a3d14e7538dc951d6076cfa77b3825779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfcb02e712be4d5cb06d5c2496713451" id="r_acfcb02e712be4d5cb06d5c2496713451"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfcb02e712be4d5cb06d5c2496713451">eval_D_2_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:acfcb02e712be4d5cb06d5c2496713451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Bi-quintic spline base class </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4bb0d5ad76b1a74515c3009c585e3977" name="a4bb0d5ad76b1a74515c3009c585e3977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bb0d5ad76b1a74515c3009c585e3977">&#9670;&#160;</a></span>Spline2D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Splines::Spline2D::Spline2D </td>
+          <td>(</td>
+          <td class="paramtype">string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Spline2D&quot;</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build an empty spline of <code><a class="el" href="class_splines_1_1_spline2_d.html">Spline2D</a></code> type</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>the name of the spline </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7e18c21106895196cd461c733f7f3748" name="a7e18c21106895196cd461c733f7f3748"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e18c21106895196cd461c733f7f3748">&#9670;&#160;</a></span>~Spline2D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Splines::Spline2D::~Spline2D </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p><a class="el" href="class_splines_1_1_spline.html">Spline</a> destructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6ca9137b36417366b423b21fcc62c7b6" name="a6ca9137b36417366b423b21fcc62c7b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca9137b36417366b423b21fcc62c7b6">&#9670;&#160;</a></span>build() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype">GenericContainer const &amp;</td>          <td class="paramname"><span class="paramname"><em>gc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build a spline using data in <code>GenericContainer</code> </p>
+
+</div>
+</div>
+<a id="ad2c9981623179c0a114b9ae8286b6e33" name="ad2c9981623179c0a114b9ae8286b6e33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2c9981623179c0a114b9ae8286b6e33">&#9670;&#160;</a></span>build() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a></td>          <td class="paramname"><span class="paramname"><em>tp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const</td>          <td class="paramname"><span class="paramname"><em>x</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const</td>          <td class="paramname"><span class="paramname"><em>y</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>incy</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const</td>          <td class="paramname"><span class="paramname"><em>z</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>ldZ</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>nx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>ny</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fortran_storage</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>transposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build surface spline</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>spline type </td></tr>
+    <tr><td class="paramname">x</td><td>vector of x-coordinates </td></tr>
+    <tr><td class="paramname">incx</td><td>access elements as <code>x[0]</code>, <code>x[incx]</code>, <code>x[2*incx]</code>,... </td></tr>
+    <tr><td class="paramname">y</td><td>vector of y-coordinates </td></tr>
+    <tr><td class="paramname">incy</td><td>access elements as <code>y[0]</code>, <code>y[incx]</code>, <code>y[2*incx]</code>,... </td></tr>
+    <tr><td class="paramname">z</td><td>matrix of z-values. Elements are stored by row Z(i,j) = z[i*ny+j] as C-matrix </td></tr>
+    <tr><td class="paramname">ldZ</td><td>leading dimension of <code>z</code> </td></tr>
+    <tr><td class="paramname">nx</td><td>number of points in <code>x</code> direction </td></tr>
+    <tr><td class="paramname">ny</td><td>number of points in <code>y</code> direction </td></tr>
+    <tr><td class="paramname">fortran_storage</td><td>if true elements are stored by column i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix </td></tr>
+    <tr><td class="paramname">transposed</td><td>if true matrix Z is stored transposed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a56da8a97dd1fa376d233fe6d6e248390" name="a56da8a97dd1fa376d233fe6d6e248390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56da8a97dd1fa376d233fe6d6e248390">&#9670;&#160;</a></span>build() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a></td>          <td class="paramname"><span class="paramname"><em>tp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const</td>          <td class="paramname"><span class="paramname"><em>z</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>ldZ</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>nx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>ny</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fortran_storage</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>transposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build surface spline</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>spline type </td></tr>
+    <tr><td class="paramname">z</td><td>matrix of z-values. Elements are stored by row Z(i,j) = z[i*ny+j] as C-matrix </td></tr>
+    <tr><td class="paramname">ldZ</td><td>leading dimension of the matrix. Elements are stored by row Z(i,j) = z[i*ldZ+j] as C-matrix </td></tr>
+    <tr><td class="paramname">nx</td><td>x-dimension </td></tr>
+    <tr><td class="paramname">ny</td><td>y-dimension </td></tr>
+    <tr><td class="paramname">fortran_storage</td><td>if true elements are stored by column i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix </td></tr>
+    <tr><td class="paramname">transposed</td><td>if true matrix Z is stored transposed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a43b7b23a82102849ea10f9f801e8ba46" name="a43b7b23a82102849ea10f9f801e8ba46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b7b23a82102849ea10f9f801e8ba46">&#9670;&#160;</a></span>build() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a></td>          <td class="paramname"><span class="paramname"><em>tp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fortran_storage</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>transposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build surface spline</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>spline type </td></tr>
+    <tr><td class="paramname">x</td><td>vector of x-coordinates, nx = x.size() </td></tr>
+    <tr><td class="paramname">y</td><td>vector of y-coordinates, ny = y.size() </td></tr>
+    <tr><td class="paramname">z</td><td>matrix of z-values. Elements are stored by row Z(i,j) = z[i*ny+j] as C-matrix </td></tr>
+    <tr><td class="paramname">fortran_storage</td><td>if true elements are stored by column i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix </td></tr>
+    <tr><td class="paramname">transposed</td><td>if true matrix Z is stored transposed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad599399139e46b51c4398e736cf88f95" name="ad599399139e46b51c4398e736cf88f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad599399139e46b51c4398e736cf88f95">&#9670;&#160;</a></span>build() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::build </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a></td>          <td class="paramname"><span class="paramname"><em>tp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>nx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>ny</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fortran_storage</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>transposed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build surface spline</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>spline type </td></tr>
+    <tr><td class="paramname">z</td><td>matrix of z-values. Elements are stored by row Z(i,j) = z[i*ny+j] as C-matrix. ldZ leading dimension of the matrix is ny for C-storage and nx for Fortran storage. </td></tr>
+    <tr><td class="paramname">nx</td><td>x-dimension </td></tr>
+    <tr><td class="paramname">ny</td><td>y-dimension </td></tr>
+    <tr><td class="paramname">fortran_storage</td><td>if true elements are stored by column i.e. Z(i,j) = z[i+j*nx] as Fortran-matrix </td></tr>
+    <tr><td class="paramname">transposed</td><td>if true matrix Z is stored transposed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abc9e4215b9fc86c64433dbb16873ddd0" name="abc9e4215b9fc86c64433dbb16873ddd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc9e4215b9fc86c64433dbb16873ddd0">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::clear </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Cancel the support points, empty the spline. </p>
+
+</div>
+</div>
+<a id="afc1b939cda6d693fa3036a1c99a9b8ff" name="afc1b939cda6d693fa3036a1c99a9b8ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1b939cda6d693fa3036a1c99a9b8ff">&#9670;&#160;</a></span>D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::D </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>d</em></span>[3]&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Value and first derivatives at point \( (x,y) \):</p>
+<ul>
+<li>d[0] value of the spline \( S(x,y) \)</li>
+<li>d[1] derivative respect to \( x \) of the spline: \( S_x(x,y) \)</li>
+<li>d[2] derivative respect to \( y \) of the spline: \( S_y(x,y) \) </li>
+</ul>
+
+</div>
+</div>
+<a id="afa991a844100404a7a0b3a126ee7fd3a" name="afa991a844100404a7a0b3a126ee7fd3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa991a844100404a7a0b3a126ee7fd3a">&#9670;&#160;</a></span>DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::DD </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>dd</em></span>[6]&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Value, first and second derivatives at point \( (x,y) \):</p>
+<ul>
+<li>dd[0] value of the spline \( S(x,y) \)</li>
+<li>dd[1] derivative respect to \( x \) of the spline: \( S_x(x,y) \)</li>
+<li>dd[2] derivative respect to \( y \) of the spline: \( S_y(x,y) \)</li>
+<li>dd[3] second derivative respect to \( x \) of the spline: \( S_{xx}(x,y) \)</li>
+<li>dd[4] mixed second derivative: \( S_{xy}(x,y) \)</li>
+<li>dd[5] second derivative respect to \( y \) of the spline: \( S_{yy}(x,y) \) </li>
+</ul>
+
+</div>
+</div>
+<a id="ab3266e905f8f6a1576b3dbbadd581518" name="ab3266e905f8f6a1576b3dbbadd581518"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3266e905f8f6a1576b3dbbadd581518">&#9670;&#160;</a></span>dump_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::dump_data </td>
+          <td>(</td>
+          <td class="paramtype">ostream_type &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Dump spline values on the streams </p>
+
+</div>
+</div>
+<a id="a450076a23a819660eefc50e80a1b3858" name="a450076a23a819660eefc50e80a1b3858"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a450076a23a819660eefc50e80a1b3858">&#9670;&#160;</a></span>Dx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::Dx </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>First derivatives respect to \( x \) at point \( (x,y) \) of the spline: \( S_x(x,y) \). </p>
+
+</div>
+</div>
+<a id="af9dabc8345af8775da915b90e13591f4" name="af9dabc8345af8775da915b90e13591f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9dabc8345af8775da915b90e13591f4">&#9670;&#160;</a></span>Dxx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::Dxx </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Second derivatives respect to \( x \) at point \( (x,y) \) of the spline: \( S_{xx}(x,y) \). </p>
+
+</div>
+</div>
+<a id="a37b2eb017b75756c88cb5f689408dcee" name="a37b2eb017b75756c88cb5f689408dcee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37b2eb017b75756c88cb5f689408dcee">&#9670;&#160;</a></span>Dxy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::Dxy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Mixed second derivatives: \( S_{xy}(x,y) \). </p>
+
+</div>
+</div>
+<a id="a6b895a0af8c0ab4c3e07682cea0d856a" name="a6b895a0af8c0ab4c3e07682cea0d856a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b895a0af8c0ab4c3e07682cea0d856a">&#9670;&#160;</a></span>Dy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::Dy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>First derivatives respect to \( y \) at point \( (x,y) \) of the spline: \( S_x(x,y) \). </p>
+
+</div>
+</div>
+<a id="aff8c908a8631a0e71485fc9ade3270c0" name="aff8c908a8631a0e71485fc9ade3270c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8c908a8631a0e71485fc9ade3270c0">&#9670;&#160;</a></span>Dyy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::Dyy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Second derivatives respect to \( y \) at point \( (x,y) \) of the spline: \( S_{xx}(x,y) \). </p>
+
+</div>
+</div>
+<a id="a732835be50e0f244304c0513829e8cf3" name="a732835be50e0f244304c0513829e8cf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a732835be50e0f244304c0513829e8cf3">&#9670;&#160;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Evaluate spline value at <code>(x,y)</code>. </p>
+
+</div>
+</div>
+<a id="a5a829b850e4e4afe1e8fb166c5a2a44f" name="a5a829b850e4e4afe1e8fb166c5a2a44f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a829b850e4e4afe1e8fb166c5a2a44f">&#9670;&#160;</a></span>eval_D_1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval_D_1 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>First derivatives respect to \( x \) at point \( (x,y) \) of the spline: \( S_x(x,y) \). </p>
+
+</div>
+</div>
+<a id="a194856210b3ed4e7589437a2a63b1cba" name="a194856210b3ed4e7589437a2a63b1cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a194856210b3ed4e7589437a2a63b1cba">&#9670;&#160;</a></span>eval_D_1_1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval_D_1_1 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Second derivatives respect to \( x \) at point \( (x,y) \) of the spline: \( S_{xx}(x,y) \). </p>
+
+</div>
+</div>
+<a id="a3d14e7538dc951d6076cfa77b3825779" name="a3d14e7538dc951d6076cfa77b3825779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d14e7538dc951d6076cfa77b3825779">&#9670;&#160;</a></span>eval_D_1_2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval_D_1_2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Mixed second derivatives: \( S_{xy}(x,y) \). </p>
+
+</div>
+</div>
+<a id="a340de4d1d9d5d4cb2becbdc610f0444f" name="a340de4d1d9d5d4cb2becbdc610f0444f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a340de4d1d9d5d4cb2becbdc610f0444f">&#9670;&#160;</a></span>eval_D_2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval_D_2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>First derivatives respect to \( y \) at point \( (x,y) \) of the spline: \( S_x(x,y) \). </p>
+
+</div>
+</div>
+<a id="acfcb02e712be4d5cb06d5c2496713451" name="acfcb02e712be4d5cb06d5c2496713451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfcb02e712be4d5cb06d5c2496713451">&#9670;&#160;</a></span>eval_D_2_2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::eval_D_2_2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Second derivatives respect to \( y \) at point \( (x,y) \) of the spline: \( S_{xx}(x,y) \). </p>
+
+</div>
+</div>
+<a id="ad3431e98de1b460ee5411f867356d059" name="ad3431e98de1b460ee5411f867356d059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3431e98de1b460ee5411f867356d059">&#9670;&#160;</a></span>info() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Splines::Spline2D::info </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>String information of the kind and order of the spline </p>
+
+</div>
+</div>
+<a id="af4f711069e4c9c348e2400aa045178af" name="af4f711069e4c9c348e2400aa045178af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4f711069e4c9c348e2400aa045178af">&#9670;&#160;</a></span>info() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::info </td>
+          <td>(</td>
+          <td class="paramtype">ostream_type &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Print information of the kind and order of the spline </p>
+
+</div>
+</div>
+<a id="aca11e9614a3ab4ef5040e1270b58f625" name="aca11e9614a3ab4ef5040e1270b58f625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca11e9614a3ab4ef5040e1270b58f625">&#9670;&#160;</a></span>is_x_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Splines::Spline2D::is_x_bounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return <code>true</code> if the parameter <code>x</code> assumed bounded. If false the spline is estrapolated for <code>x</code> values outside the range. </p>
+
+</div>
+</div>
+<a id="a2ac53cea39786a8e535f18f27d752945" name="a2ac53cea39786a8e535f18f27d752945"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ac53cea39786a8e535f18f27d752945">&#9670;&#160;</a></span>is_x_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Splines::Spline2D::is_x_closed </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return <code>true</code> if the surface is assumed closed in the <code>x</code> direction </p>
+
+</div>
+</div>
+<a id="a77d7e6ce1e765f3d398eef8df4cd2f50" name="a77d7e6ce1e765f3d398eef8df4cd2f50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77d7e6ce1e765f3d398eef8df4cd2f50">&#9670;&#160;</a></span>is_y_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Splines::Spline2D::is_y_bounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return <code>true</code> if the parameter <code>y</code> assumed bounded. If false the spline is estrapolated for <code>y</code> values outside the range. </p>
+
+</div>
+</div>
+<a id="aa727a21a450628f93c7f31c12719e10a" name="aa727a21a450628f93c7f31c12719e10a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa727a21a450628f93c7f31c12719e10a">&#9670;&#160;</a></span>is_y_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Splines::Spline2D::is_y_closed </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return <code>true</code> if the surface is assumed closed in the <code>y</code> direction. </p>
+
+</div>
+</div>
+<a id="a0bb6bc35c9878e12a2a235bc6f1ac056" name="a0bb6bc35c9878e12a2a235bc6f1ac056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bb6bc35c9878e12a2a235bc6f1ac056">&#9670;&#160;</a></span>make_x_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_x_bounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make the spline surface bounded in the <code>x</code> direction. </p>
+
+</div>
+</div>
+<a id="a80680bd3f3335a6985479c3d1910b2e7" name="a80680bd3f3335a6985479c3d1910b2e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80680bd3f3335a6985479c3d1910b2e7">&#9670;&#160;</a></span>make_x_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_x_closed </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Setup the surface as closed in the <code>x</code> direction. </p>
+
+</div>
+</div>
+<a id="ad5d7d326cdbcb425cb753761e3f073ff" name="ad5d7d326cdbcb425cb753761e3f073ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5d7d326cdbcb425cb753761e3f073ff">&#9670;&#160;</a></span>make_x_opened()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_x_opened </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Setup the surface as open in the <code>x</code> direction. </p>
+
+</div>
+</div>
+<a id="a24e4a92cf42daed052f5dc320abe1fb3" name="a24e4a92cf42daed052f5dc320abe1fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24e4a92cf42daed052f5dc320abe1fb3">&#9670;&#160;</a></span>make_x_unbounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_x_unbounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make the spline surface unbounded in the <code>x</code> direction. </p>
+
+</div>
+</div>
+<a id="ab535f112e5b1b9bbc143443f4ba33e00" name="ab535f112e5b1b9bbc143443f4ba33e00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab535f112e5b1b9bbc143443f4ba33e00">&#9670;&#160;</a></span>make_y_bounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_y_bounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make the spline surface bounded in the <code>y</code> direction </p>
+
+</div>
+</div>
+<a id="a11a39d51cfd79ed23efa3ebe685f6241" name="a11a39d51cfd79ed23efa3ebe685f6241"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a39d51cfd79ed23efa3ebe685f6241">&#9670;&#160;</a></span>make_y_closed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_y_closed </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Setup the surface as closed in the <code>y</code> direction. </p>
+
+</div>
+</div>
+<a id="a76b9b2aca48aa7ae66643bde27184bf8" name="a76b9b2aca48aa7ae66643bde27184bf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76b9b2aca48aa7ae66643bde27184bf8">&#9670;&#160;</a></span>make_y_opened()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_y_opened </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Setup the surface as open in the <code>y</code> direction. </p>
+
+</div>
+</div>
+<a id="adf709164ec0774b1a37afbe2dce3e505" name="adf709164ec0774b1a37afbe2dce3e505"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf709164ec0774b1a37afbe2dce3e505">&#9670;&#160;</a></span>make_y_unbounded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::make_y_unbounded </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make the spline surface unbounded in the <code>y</code> direction </p>
+
+</div>
+</div>
+<a id="a14c8e9ad21fd5d994cb5f883d664ef01" name="a14c8e9ad21fd5d994cb5f883d664ef01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14c8e9ad21fd5d994cb5f883d664ef01">&#9670;&#160;</a></span>name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string const  &amp; Splines::Spline2D::name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>string with the name of the spline </dd></dl>
+
+</div>
+</div>
+<a id="abbc3d21aa0dbbb9883bed753bb9d722d" name="abbc3d21aa0dbbb9883bed753bb9d722d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbc3d21aa0dbbb9883bed753bb9d722d">&#9670;&#160;</a></span>num_point_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> Splines::Spline2D::num_point_x </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the number of support points of the spline along x direction. </p>
+
+</div>
+</div>
+<a id="a4632622a4323e973e4f499531d6499f9" name="a4632622a4323e973e4f499531d6499f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4632622a4323e973e4f499531d6499f9">&#9670;&#160;</a></span>num_point_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> Splines::Spline2D::num_point_y </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the number of support points of the spline along y direction. </p>
+
+</div>
+</div>
+<a id="a2266c0ff697c268fc210bc8780c56cdc" name="a2266c0ff697c268fc210bc8780c56cdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2266c0ff697c268fc210bc8780c56cdc">&#9670;&#160;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::operator() </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Evaluate spline value at <code>(x,y)</code>. </p>
+
+</div>
+</div>
+<a id="a05776ff454c82d1b1ce2cbaa5c38f261" name="a05776ff454c82d1b1ce2cbaa5c38f261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05776ff454c82d1b1ce2cbaa5c38f261">&#9670;&#160;</a></span>setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::setup </td>
+          <td>(</td>
+          <td class="paramtype">GenericContainer const &amp;</td>          <td class="paramname"><span class="paramname"><em>gc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build spline surface using <code>gc</code></p>
+<ul>
+<li>gc("spline_type")<ul>
+<li>"bilinear" build a bilinear spline surface</li>
+<li>"bicubic" build a spline surface with cubic spline</li>
+<li>"biquintic" build a spline surface with quintic spline</li>
+<li>"Akima" or "akima "build a spline surface with cubic spline using Akima algorithm to avoid obscillation </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a31ce39fe5060d2f34a8bafbbd851bead" name="a31ce39fe5060d2f34a8bafbbd851bead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31ce39fe5060d2f34a8bafbbd851bead">&#9670;&#160;</a></span>type_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * Splines::Spline2D::type_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return spline typename </p>
+
+</div>
+</div>
+<a id="a66b68b7045cf1a981400759fd8796542" name="a66b68b7045cf1a981400759fd8796542"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66b68b7045cf1a981400759fd8796542">&#9670;&#160;</a></span>write_to_stream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Spline2D::write_to_stream </td>
+          <td>(</td>
+          <td class="paramtype">ostream_type &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Print spline coefficients. </p>
+
+</div>
+</div>
+<a id="a8371329bf216bb92a4182f2a693fd6b8" name="a8371329bf216bb92a4182f2a693fd6b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8371329bf216bb92a4182f2a693fd6b8">&#9670;&#160;</a></span>x_max()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::x_max </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return x-maximum spline value. </p>
+
+</div>
+</div>
+<a id="a81a9a1855da7d9a2a9ff92ab83369aa8" name="a81a9a1855da7d9a2a9ff92ab83369aa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81a9a1855da7d9a2a9ff92ab83369aa8">&#9670;&#160;</a></span>x_min()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::x_min </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return x-minumum spline value. </p>
+
+</div>
+</div>
+<a id="ac949e33cf6823b775609f0b95849ff74" name="ac949e33cf6823b775609f0b95849ff74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac949e33cf6823b775609f0b95849ff74">&#9670;&#160;</a></span>x_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::x_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the i-th node of the spline (x component). </p>
+
+</div>
+</div>
+<a id="a0a66f1ffc65b99404d1ac6a69dd1b270" name="a0a66f1ffc65b99404d1ac6a69dd1b270"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a66f1ffc65b99404d1ac6a69dd1b270">&#9670;&#160;</a></span>y_max()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::y_max </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return y-maximum spline value </p>
+
+</div>
+</div>
+<a id="a94698bfaacd9fc147ad0e5d2c143d796" name="a94698bfaacd9fc147ad0e5d2c143d796"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94698bfaacd9fc147ad0e5d2c143d796">&#9670;&#160;</a></span>y_min()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::y_min </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return y-minumum spline value. </p>
+
+</div>
+</div>
+<a id="a4e646b7830edbc52297de5f675646b3a" name="a4e646b7830edbc52297de5f675646b3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e646b7830edbc52297de5f675646b3a">&#9670;&#160;</a></span>y_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::y_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the i-th node of the spline (y component). </p>
+
+</div>
+</div>
+<a id="acf9caeb05f2048b7609f19c128756bda" name="acf9caeb05f2048b7609f19c128756bda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf9caeb05f2048b7609f19c128756bda">&#9670;&#160;</a></span>z_max()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::z_max </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return z-maximum spline value </p>
+
+</div>
+</div>
+<a id="a46d3ada6dd71e00900826dc960144c71" name="a46d3ada6dd71e00900826dc960144c71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d3ada6dd71e00900826dc960144c71">&#9670;&#160;</a></span>z_min()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::z_min </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return z-minumum spline value </p>
+
+</div>
+</div>
+<a id="abb1016556beb99be0d6220054d5d7267" name="abb1016556beb99be0d6220054d5d7267"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb1016556beb99be0d6220054d5d7267">&#9670;&#160;</a></span>z_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> Splines::Spline2D::z_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a></td>          <td class="paramname"><span class="paramname"><em>j</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the i-th node of the spline (y component). </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/<a class="el" href="_splines2_d_8hxx_source.html">Splines2D.hxx</a></li>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/<b>Splines2D.cc</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen/html/class_splines_1_1_spline2_d.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

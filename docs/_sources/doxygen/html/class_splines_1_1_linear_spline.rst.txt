@@ -1,0 +1,14 @@
+.. meta::331ef992726ef71498f5541e7dc056b0eac2cb9a1b41780828b6e04694c9dccb006d66eae36ce90d40c3dd9297cb545476a949cc867af521256714a371c81682
+
+:orphan:
+
+.. title:: Splines: Splines::LinearSpline Class Reference
+
+LinearSpline Class Reference
+============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_linear_spline.html

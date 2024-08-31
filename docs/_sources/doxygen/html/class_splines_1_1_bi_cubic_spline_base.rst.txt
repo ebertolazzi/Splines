@@ -1,0 +1,14 @@
+.. meta::705e3981063f0ce441bc5a4f1c79f212d3fb4578e155dc0d53f86d549751be5b633b46e20ab4adb73cd2c10aedbe2ba43754f6a1600511214c595b582864e71f
+
+:orphan:
+
+.. title:: Splines: Splines::BiCubicSplineBase Class Reference
+
+BiCubicSplineBase Class Reference
+=================================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_bi_cubic_spline_base.html

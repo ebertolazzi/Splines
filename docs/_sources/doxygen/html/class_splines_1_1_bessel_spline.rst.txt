@@ -1,0 +1,14 @@
+.. meta::884bdaaf21a6777620fbb7241602022e96cd196ed46aa739b1179f16c622bfb11e2f64ecf4c6b9fdd8ad24c506e366afb17d9a46e3a099d64576c9269e714ef5
+
+:orphan:
+
+.. title:: Splines: Splines::BesselSpline Class Reference
+
+BesselSpline Class Reference
+============================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_splines_1_1_bessel_spline.html

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: Splines::Akima2Dspline Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="akima2dspline-class-reference">
+<h1>Akima2Dspline Class Reference<a class="headerlink" href="#akima2dspline-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: Splines::Akima2Dspline Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespace_splines.html">Splines</a></li><li class="navelem"><a class="el" href="class_splines_1_1_akima2_dspline.html">Akima2Dspline</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="class_splines_1_1_akima2_dspline-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Splines::Akima2Dspline Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_spline_akima2_d_8hxx_source.html">SplineAkima2D.hxx</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Splines::Akima2Dspline:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_splines_1_1_akima2_dspline.png" usemap="#Splines::Akima2Dspline_map" alt=""/>
+  <map id="Splines::Akima2Dspline_map" name="Splines::Akima2Dspline_map">
+<area href="class_splines_1_1_bi_cubic_spline_base.html" alt="Splines::BiCubicSplineBase" shape="rect" coords="0,56,166,80"/>
+<area href="class_splines_1_1_spline_surf.html" alt="Splines::SplineSurf" shape="rect" coords="0,0,166,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ac9fb09d2bb442f0116d87532c5b6c77e" id="r_ac9fb09d2bb442f0116d87532c5b6c77e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9fb09d2bb442f0116d87532c5b6c77e">Akima2Dspline</a> (string const &amp;<a class="el" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a>=&quot;Spline&quot;)</td></tr>
+<tr class="separator:ac9fb09d2bb442f0116d87532c5b6c77e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa11b9ef57c47ae6491e8286b12d1884f" id="r_aa11b9ef57c47ae6491e8286b12d1884f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa11b9ef57c47ae6491e8286b12d1884f">~Akima2Dspline</a> () override</td></tr>
+<tr class="separator:aa11b9ef57c47ae6491e8286b12d1884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ab3ad8eee565843153b084fcaaaf57" id="r_ae4ab3ad8eee565843153b084fcaaaf57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4ab3ad8eee565843153b084fcaaaf57">write_to_stream</a> (ostream_type &amp;s) const override</td></tr>
+<tr class="separator:ae4ab3ad8eee565843153b084fcaaaf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e05ba2f2c666bd47baf2c39e287cd78" id="r_a3e05ba2f2c666bd47baf2c39e287cd78"><td class="memItemLeft" align="right" valign="top">char const *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e05ba2f2c666bd47baf2c39e287cd78">type_name</a> () const override</td></tr>
+<tr class="separator:a3e05ba2f2c666bd47baf2c39e287cd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_splines_1_1_bi_cubic_spline_base"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_splines_1_1_bi_cubic_spline_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_splines_1_1_bi_cubic_spline_base.html">Splines::BiCubicSplineBase</a></td></tr>
+<tr class="memitem:a731e07469d9406004c358ead07c10b0d inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a731e07469d9406004c358ead07c10b0d"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>BiCubicSplineBase</b> (string const &amp;<a class="el" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a>=&quot;BiCubicSplineBase&quot;)</td></tr>
+<tr class="memdesc:a731e07469d9406004c358ead07c10b0d inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">spline constructor <br /></td></tr>
+<tr class="separator:a731e07469d9406004c358ead07c10b0d inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb46ab6cf64b1475550e7159d8cbc16 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_aecb46ab6cf64b1475550e7159d8cbc16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#aecb46ab6cf64b1475550e7159d8cbc16">Dx_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j) const</td></tr>
+<tr class="separator:aecb46ab6cf64b1475550e7159d8cbc16 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac85ddc8f6f9890b0114bfd9e3d49ef44 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_ac85ddc8f6f9890b0114bfd9e3d49ef44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#ac85ddc8f6f9890b0114bfd9e3d49ef44">Dy_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j) const</td></tr>
+<tr class="separator:ac85ddc8f6f9890b0114bfd9e3d49ef44 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a650b10d7ea281fc1b9e271e8bc29bb19 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a650b10d7ea281fc1b9e271e8bc29bb19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a650b10d7ea281fc1b9e271e8bc29bb19">Dxy_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j) const</td></tr>
+<tr class="separator:a650b10d7ea281fc1b9e271e8bc29bb19 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaec902b065bacd3a24cc174d896c692 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_abaec902b065bacd3a24cc174d896c692"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#abaec902b065bacd3a24cc174d896c692">eval</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:abaec902b065bacd3a24cc174d896c692 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f628e746495875f6ce87da294a82d0e inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a3f628e746495875f6ce87da294a82d0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a3f628e746495875f6ce87da294a82d0e">D</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> d[3]) const override</td></tr>
+<tr class="separator:a3f628e746495875f6ce87da294a82d0e inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a666596d391d195206c8325ae6d46b803 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a666596d391d195206c8325ae6d46b803"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a666596d391d195206c8325ae6d46b803">Dx</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:a666596d391d195206c8325ae6d46b803 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa19778cda90ab86a83e55e7d37ca8f4c inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_aa19778cda90ab86a83e55e7d37ca8f4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#aa19778cda90ab86a83e55e7d37ca8f4c">Dy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:aa19778cda90ab86a83e55e7d37ca8f4c inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681e231dc76125341f53d57580d341f7 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a681e231dc76125341f53d57580d341f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a681e231dc76125341f53d57580d341f7">DD</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> dd[6]) const override</td></tr>
+<tr class="separator:a681e231dc76125341f53d57580d341f7 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a397f8baf3815ea18f9eedf097ce23436 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a397f8baf3815ea18f9eedf097ce23436"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a397f8baf3815ea18f9eedf097ce23436">Dxx</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:a397f8baf3815ea18f9eedf097ce23436 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5f359cc0d6a60fc85ca705d5a05b52 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a1c5f359cc0d6a60fc85ca705d5a05b52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a1c5f359cc0d6a60fc85ca705d5a05b52">Dxy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:a1c5f359cc0d6a60fc85ca705d5a05b52 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a527e5ff39af97b6b0345d4d378f59591 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base" id="r_a527e5ff39af97b6b0345d4d378f59591"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_bi_cubic_spline_base.html#a527e5ff39af97b6b0345d4d378f59591">Dyy</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const override</td></tr>
+<tr class="separator:a527e5ff39af97b6b0345d4d378f59591 inherit pub_methods_class_splines_1_1_bi_cubic_spline_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_splines_1_1_spline_surf"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_splines_1_1_spline_surf')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_splines_1_1_spline_surf.html">Splines::SplineSurf</a></td></tr>
+<tr class="memitem:a0ce41641732a5ecc623ca8bd342e637f inherit pub_methods_class_splines_1_1_spline_surf" id="r_a0ce41641732a5ecc623ca8bd342e637f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a0ce41641732a5ecc623ca8bd342e637f">SplineSurf</a> (string const &amp;<a class="el" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a>=&quot;Spline&quot;)</td></tr>
+<tr class="separator:a0ce41641732a5ecc623ca8bd342e637f inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36521e5b452c510b23cdb55c66707aef inherit pub_methods_class_splines_1_1_spline_surf" id="r_a36521e5b452c510b23cdb55c66707aef"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a36521e5b452c510b23cdb55c66707aef">~SplineSurf</a> ()</td></tr>
+<tr class="separator:a36521e5b452c510b23cdb55c66707aef inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94618b6ce21fedc6b756bfbd5cfc0fb4 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a94618b6ce21fedc6b756bfbd5cfc0fb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a94618b6ce21fedc6b756bfbd5cfc0fb4">clear</a> ()</td></tr>
+<tr class="separator:a94618b6ce21fedc6b756bfbd5cfc0fb4 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1af6971a35da8d0fcafed32614f385f4 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a1af6971a35da8d0fcafed32614f385f4"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a1af6971a35da8d0fcafed32614f385f4">info</a> () const</td></tr>
+<tr class="separator:a1af6971a35da8d0fcafed32614f385f4 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab19f23d40ac2a4c352b9f9e78b39a200 inherit pub_methods_class_splines_1_1_spline_surf" id="r_ab19f23d40ac2a4c352b9f9e78b39a200"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ab19f23d40ac2a4c352b9f9e78b39a200">info</a> (ostream_type &amp;stream) const</td></tr>
+<tr class="separator:ab19f23d40ac2a4c352b9f9e78b39a200 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1fa1ad1b83aea7f3d12c6a894a8a90f inherit pub_methods_class_splines_1_1_spline_surf" id="r_aa1fa1ad1b83aea7f3d12c6a894a8a90f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aa1fa1ad1b83aea7f3d12c6a894a8a90f">dump_data</a> (ostream_type &amp;s) const</td></tr>
+<tr class="separator:aa1fa1ad1b83aea7f3d12c6a894a8a90f inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae81c57bd20e9a56f6ec34ab179e0a77e inherit pub_methods_class_splines_1_1_spline_surf" id="r_ae81c57bd20e9a56f6ec34ab179e0a77e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ae81c57bd20e9a56f6ec34ab179e0a77e">is_x_closed</a> () const</td></tr>
+<tr class="separator:ae81c57bd20e9a56f6ec34ab179e0a77e inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadb608b2bee5ac6d90972381db7fc474 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aadb608b2bee5ac6d90972381db7fc474"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aadb608b2bee5ac6d90972381db7fc474">make_x_closed</a> ()</td></tr>
+<tr class="separator:aadb608b2bee5ac6d90972381db7fc474 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb54ecfeafaac4593d1b0c3788761b7f inherit pub_methods_class_splines_1_1_spline_surf" id="r_abb54ecfeafaac4593d1b0c3788761b7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#abb54ecfeafaac4593d1b0c3788761b7f">make_x_opened</a> ()</td></tr>
+<tr class="separator:abb54ecfeafaac4593d1b0c3788761b7f inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b41e49135b384f4a7d61691bf697121 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a4b41e49135b384f4a7d61691bf697121"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a4b41e49135b384f4a7d61691bf697121">is_y_closed</a> () const</td></tr>
+<tr class="separator:a4b41e49135b384f4a7d61691bf697121 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab6a52592ebe995f675fc2a7f53c52f0 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aab6a52592ebe995f675fc2a7f53c52f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aab6a52592ebe995f675fc2a7f53c52f0">make_y_closed</a> ()</td></tr>
+<tr class="separator:aab6a52592ebe995f675fc2a7f53c52f0 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af537a09f1f219b07544f016c925206f2 inherit pub_methods_class_splines_1_1_spline_surf" id="r_af537a09f1f219b07544f016c925206f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#af537a09f1f219b07544f016c925206f2">make_y_opened</a> ()</td></tr>
+<tr class="separator:af537a09f1f219b07544f016c925206f2 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af973208e1cb61064310b805c94373fdf inherit pub_methods_class_splines_1_1_spline_surf" id="r_af973208e1cb61064310b805c94373fdf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#af973208e1cb61064310b805c94373fdf">is_x_bounded</a> () const</td></tr>
+<tr class="separator:af973208e1cb61064310b805c94373fdf inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11cddae997421bc327d87ce71b62311d inherit pub_methods_class_splines_1_1_spline_surf" id="r_a11cddae997421bc327d87ce71b62311d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a11cddae997421bc327d87ce71b62311d">make_x_unbounded</a> ()</td></tr>
+<tr class="separator:a11cddae997421bc327d87ce71b62311d inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49881b27fb55ce9715034695fddb6f11 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a49881b27fb55ce9715034695fddb6f11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a49881b27fb55ce9715034695fddb6f11">make_x_bounded</a> ()</td></tr>
+<tr class="separator:a49881b27fb55ce9715034695fddb6f11 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac734162f244915244f89f72dfced89 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a9ac734162f244915244f89f72dfced89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a9ac734162f244915244f89f72dfced89">is_y_bounded</a> () const</td></tr>
+<tr class="separator:a9ac734162f244915244f89f72dfced89 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fec3ba164a8cc6e193f5c28af87a53 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a98fec3ba164a8cc6e193f5c28af87a53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a98fec3ba164a8cc6e193f5c28af87a53">make_y_unbounded</a> ()</td></tr>
+<tr class="separator:a98fec3ba164a8cc6e193f5c28af87a53 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9539bc72a47a813ee4c10110b6bbd120 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a9539bc72a47a813ee4c10110b6bbd120"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a9539bc72a47a813ee4c10110b6bbd120">make_y_bounded</a> ()</td></tr>
+<tr class="separator:a9539bc72a47a813ee4c10110b6bbd120 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5edf62f52a6fd3786b110531b181194 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aa5edf62f52a6fd3786b110531b181194"><td class="memItemLeft" align="right" valign="top">string const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a> () const</td></tr>
+<tr class="separator:aa5edf62f52a6fd3786b110531b181194 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee83c645a614dcee884d5e2823aeff93 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aee83c645a614dcee884d5e2823aeff93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aee83c645a614dcee884d5e2823aeff93">num_point_x</a> () const</td></tr>
+<tr class="separator:aee83c645a614dcee884d5e2823aeff93 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef681c5c7396d7021abc8804a0947f26 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aef681c5c7396d7021abc8804a0947f26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aef681c5c7396d7021abc8804a0947f26">num_point_y</a> () const</td></tr>
+<tr class="separator:aef681c5c7396d7021abc8804a0947f26 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa817fa18fa96c0122e462819b9d15092 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aa817fa18fa96c0122e462819b9d15092"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aa817fa18fa96c0122e462819b9d15092">x_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i) const</td></tr>
+<tr class="separator:aa817fa18fa96c0122e462819b9d15092 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf4af037263c491d090c4adf4964a25d inherit pub_methods_class_splines_1_1_spline_surf" id="r_acf4af037263c491d090c4adf4964a25d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#acf4af037263c491d090c4adf4964a25d">y_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i) const</td></tr>
+<tr class="separator:acf4af037263c491d090c4adf4964a25d inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47cc3dc719853b6f3afba515d71caa42 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a47cc3dc719853b6f3afba515d71caa42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a47cc3dc719853b6f3afba515d71caa42">z_node</a> (<a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j) const</td></tr>
+<tr class="separator:a47cc3dc719853b6f3afba515d71caa42 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c6d7ed962ba0b07ad1348aa2714a2ba inherit pub_methods_class_splines_1_1_spline_surf" id="r_a7c6d7ed962ba0b07ad1348aa2714a2ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a7c6d7ed962ba0b07ad1348aa2714a2ba">x_min</a> () const</td></tr>
+<tr class="separator:a7c6d7ed962ba0b07ad1348aa2714a2ba inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabbcabf34059bba170f09718c01c65b7 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aabbcabf34059bba170f09718c01c65b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aabbcabf34059bba170f09718c01c65b7">x_max</a> () const</td></tr>
+<tr class="separator:aabbcabf34059bba170f09718c01c65b7 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1da8c91cd48f70a92eba9db11aff98 inherit pub_methods_class_splines_1_1_spline_surf" id="r_adb1da8c91cd48f70a92eba9db11aff98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#adb1da8c91cd48f70a92eba9db11aff98">y_min</a> () const</td></tr>
+<tr class="separator:adb1da8c91cd48f70a92eba9db11aff98 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6efc6fe8594561545cfe6c66f9589f5 inherit pub_methods_class_splines_1_1_spline_surf" id="r_aa6efc6fe8594561545cfe6c66f9589f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#aa6efc6fe8594561545cfe6c66f9589f5">y_max</a> () const</td></tr>
+<tr class="separator:aa6efc6fe8594561545cfe6c66f9589f5 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6960c2b76d3063045c00dae36384924 inherit pub_methods_class_splines_1_1_spline_surf" id="r_af6960c2b76d3063045c00dae36384924"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#af6960c2b76d3063045c00dae36384924">z_min</a> () const</td></tr>
+<tr class="separator:af6960c2b76d3063045c00dae36384924 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc0ff328a8ca8bb893257ec239288b6d inherit pub_methods_class_splines_1_1_spline_surf" id="r_acc0ff328a8ca8bb893257ec239288b6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#acc0ff328a8ca8bb893257ec239288b6d">z_max</a> () const</td></tr>
+<tr class="separator:acc0ff328a8ca8bb893257ec239288b6d inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb12d00fd56ab68fcd7d59728caabfd2 inherit pub_methods_class_splines_1_1_spline_surf" id="r_acb12d00fd56ab68fcd7d59728caabfd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#acb12d00fd56ab68fcd7d59728caabfd2">build</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const x[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incx, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const y[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incy, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const z[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ldZ, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:acb12d00fd56ab68fcd7d59728caabfd2 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae974861690c40828c831304cee663f34 inherit pub_methods_class_splines_1_1_spline_surf" id="r_ae974861690c40828c831304cee663f34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ae974861690c40828c831304cee663f34">build</a> (vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;x, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;y, vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;z, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:ae974861690c40828c831304cee663f34 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d9b8e89ac77f9ffc83a18c9cdc5b55d inherit pub_methods_class_splines_1_1_spline_surf" id="r_a8d9b8e89ac77f9ffc83a18c9cdc5b55d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a8d9b8e89ac77f9ffc83a18c9cdc5b55d">build</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> const z[], <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ldZ, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:a8d9b8e89ac77f9ffc83a18c9cdc5b55d inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc87c149c4634de7bc5f1419b4db312f inherit pub_methods_class_splines_1_1_spline_surf" id="r_abc87c149c4634de7bc5f1419b4db312f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#abc87c149c4634de7bc5f1419b4db312f">build</a> (vector&lt; <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> &gt; const &amp;z, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> nx, <a class="el" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ny, bool fortran_storage=false, bool transposed=false)</td></tr>
+<tr class="separator:abc87c149c4634de7bc5f1419b4db312f inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a996d1cb82341dbd2c3241891cf206cee inherit pub_methods_class_splines_1_1_spline_surf" id="r_a996d1cb82341dbd2c3241891cf206cee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a996d1cb82341dbd2c3241891cf206cee">setup</a> (GenericContainer const &amp;gc)</td></tr>
+<tr class="separator:a996d1cb82341dbd2c3241891cf206cee inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1314979c6c3e6edeb95f8456a15ac751 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a1314979c6c3e6edeb95f8456a15ac751"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a1314979c6c3e6edeb95f8456a15ac751">build</a> (GenericContainer const &amp;gc)</td></tr>
+<tr class="separator:a1314979c6c3e6edeb95f8456a15ac751 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7711141f65632734f9eac9b01c1cdf0 inherit pub_methods_class_splines_1_1_spline_surf" id="r_ae7711141f65632734f9eac9b01c1cdf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ae7711141f65632734f9eac9b01c1cdf0">operator()</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:ae7711141f65632734f9eac9b01c1cdf0 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a800ffafcc3e4346f4b8546a22e5d6679 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a800ffafcc3e4346f4b8546a22e5d6679"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a800ffafcc3e4346f4b8546a22e5d6679">eval_D_1</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a800ffafcc3e4346f4b8546a22e5d6679 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a7c2af036adf74fc1b70ba0acbd55c3 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a9a7c2af036adf74fc1b70ba0acbd55c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a9a7c2af036adf74fc1b70ba0acbd55c3">eval_D_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a9a7c2af036adf74fc1b70ba0acbd55c3 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad43d5a3cdccb4ff5b255a73be6db6854 inherit pub_methods_class_splines_1_1_spline_surf" id="r_ad43d5a3cdccb4ff5b255a73be6db6854"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ad43d5a3cdccb4ff5b255a73be6db6854">eval_D_1_1</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:ad43d5a3cdccb4ff5b255a73be6db6854 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1099ec3d4bab518df5057011edee20f inherit pub_methods_class_splines_1_1_spline_surf" id="r_ac1099ec3d4bab518df5057011edee20f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#ac1099ec3d4bab518df5057011edee20f">eval_D_1_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:ac1099ec3d4bab518df5057011edee20f inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a556461454a1dbd3c803421e245dc24 inherit pub_methods_class_splines_1_1_spline_surf" id="r_a6a556461454a1dbd3c803421e245dc24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_splines_1_1_spline_surf.html#a6a556461454a1dbd3c803421e245dc24">eval_D_2_2</a> (<a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="el" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y) const</td></tr>
+<tr class="separator:a6a556461454a1dbd3c803421e245dc24 inherit pub_methods_class_splines_1_1_spline_surf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Smooth Curve Fitting Based on Local Procedures</p>
+<p><em>Reference</em></p>
+<ul>
+<li><em>Hiroshi Akima</em>, A Method of Bivariate Interpolation and Smooth Surface Fitting for Irregularly Distributed Data Points. ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978. </li>
+</ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ac9fb09d2bb442f0116d87532c5b6c77e" name="ac9fb09d2bb442f0116d87532c5b6c77e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9fb09d2bb442f0116d87532c5b6c77e">&#9670;&#160;</a></span>Akima2Dspline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Splines::Akima2Dspline::Akima2Dspline </td>
+          <td>(</td>
+          <td class="paramtype">string const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Spline&quot;</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build an empty spline of <code><a class="el" href="class_splines_1_1_akima2_dspline.html">Akima2Dspline</a></code> type</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>the name of the spline </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa11b9ef57c47ae6491e8286b12d1884f" name="aa11b9ef57c47ae6491e8286b12d1884f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa11b9ef57c47ae6491e8286b12d1884f">&#9670;&#160;</a></span>~Akima2Dspline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Splines::Akima2Dspline::~Akima2Dspline </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p><a class="el" href="class_splines_1_1_spline.html">Spline</a> destructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3e05ba2f2c666bd47baf2c39e287cd78" name="a3e05ba2f2c666bd47baf2c39e287cd78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e05ba2f2c666bd47baf2c39e287cd78">&#9670;&#160;</a></span>type_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const  * Splines::Akima2Dspline::type_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return spline type as a string pointer. </p>
+
+<p>Implements <a class="el" href="class_splines_1_1_spline_surf.html#a00174f4e8a08541a0c712c0cf014b10d">Splines::SplineSurf</a>.</p>
+
+</div>
+</div>
+<a id="ae4ab3ad8eee565843153b084fcaaaf57" name="ae4ab3ad8eee565843153b084fcaaaf57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ab3ad8eee565843153b084fcaaaf57">&#9670;&#160;</a></span>write_to_stream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Splines::Akima2Dspline::write_to_stream </td>
+          <td>(</td>
+          <td class="paramtype">ostream_type &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Print spline coefficients. </p>
+
+<p>Implements <a class="el" href="class_splines_1_1_spline_surf.html#a8ea1426d0be14af99feb4d5212d6e132">Splines::SplineSurf</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/<a class="el" href="_spline_akima2_d_8hxx_source.html">SplineAkima2D.hxx</a></li>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/<b>SplineAkima2D.cc</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen/html/class_splines_1_1_akima2_dspline.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

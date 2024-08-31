@@ -206,6 +206,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   BiCubicSplineBase::load(
     integer i, integer j, real_type bili3[4][4]
@@ -232,6 +234,8 @@ namespace Splines {
     bili3[3][0] = m_DX[i2];  bili3[3][1] = m_DX[i3];
     bili3[3][2] = m_DXY[i2]; bili3[3][3] = m_DXY[i3];
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -352,6 +356,8 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   void
   BiQuinticSplineBase::load(
     integer i, integer j, real_type bili5[6][6]
@@ -412,6 +418,8 @@ namespace Splines {
     bili5[4][4] = m_DXXYY[i00]; bili5[4][5] = m_DXXYY[i01];
     bili5[5][4] = m_DXXYY[i10]; bili5[5][5] = m_DXXYY[i11];
   }
+
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

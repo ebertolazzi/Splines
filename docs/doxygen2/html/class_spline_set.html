@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: SplineSet Class Reference &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="splineset-class-reference">
+<h1>SplineSet Class Reference<a class="headerlink" href="#splineset-class-reference" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: SplineSet Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="class_spline_set-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SplineSet Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Inheritance diagram for SplineSet:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_spline_set.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:afb7adee92f5c67868a185326a389e4d8" id="r_afb7adee92f5c67868a185326a389e4d8"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb7adee92f5c67868a185326a389e4d8">SplineSet</a> (in varargin)</td></tr>
+<tr class="separator:afb7adee92f5c67868a185326a389e4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa21def5286a17e8675cc41622067a78c" id="r_aa21def5286a17e8675cc41622067a78c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa21def5286a17e8675cc41622067a78c">build</a> (in self, in kinds, in x, in y)</td></tr>
+<tr class="separator:aa21def5286a17e8675cc41622067a78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f85042b6442bb38bfed10df0b760b00" id="r_a1f85042b6442bb38bfed10df0b760b00"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f85042b6442bb38bfed10df0b760b00">eval</a> (in self, in x)</td></tr>
+<tr class="separator:a1f85042b6442bb38bfed10df0b760b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada77a3e5d1e5d5e42eb0b2aa32b2b051" id="r_ada77a3e5d1e5d5e42eb0b2aa32b2b051"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada77a3e5d1e5d5e42eb0b2aa32b2b051">eval_D</a> (in self, in x)</td></tr>
+<tr class="separator:ada77a3e5d1e5d5e42eb0b2aa32b2b051"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85d6dec7f8ee1969b685550484051b61" id="r_a85d6dec7f8ee1969b685550484051b61"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85d6dec7f8ee1969b685550484051b61">eval_DD</a> (in self, in x)</td></tr>
+<tr class="separator:a85d6dec7f8ee1969b685550484051b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7120498145483abc2c04d769b1a434e8" id="r_a7120498145483abc2c04d769b1a434e8"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7120498145483abc2c04d769b1a434e8">eval_DDD</a> (in self, in x)</td></tr>
+<tr class="separator:a7120498145483abc2c04d769b1a434e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c823cd506e25116e61c2b8c39c884e5" id="r_a5c823cd506e25116e61c2b8c39c884e5"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c823cd506e25116e61c2b8c39c884e5">tmin</a> (in self, in x)</td></tr>
+<tr class="separator:a5c823cd506e25116e61c2b8c39c884e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a373b76497fca723626282929f037860e" id="r_a373b76497fca723626282929f037860e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a373b76497fca723626282929f037860e">tmax</a> (in self, in x)</td></tr>
+<tr class="separator:a373b76497fca723626282929f037860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7a5d25a63eb9a91f3e900244fc67071c" id="r_a7a5d25a63eb9a91f3e900244fc67071c"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a5d25a63eb9a91f3e900244fc67071c">copyElement</a> (in self)</td></tr>
+<tr class="separator:a7a5d25a63eb9a91f3e900244fc67071c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MATLAB class wrapper for the underlying C++ class </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="afb7adee92f5c67868a185326a389e4d8" name="afb7adee92f5c67868a185326a389e4d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb7adee92f5c67868a185326a389e4d8">&#9670;&#160;</a></span>SplineSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::SplineSet </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>varargin</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build a spline Set</p>
+<div class="fragment"><div class="line">X = [ .... ];                  % vector or nodes</div>
+<div class="line">Y = [ .... ];                  % matrix of values or</div>
+<div class="line">Y = { [....],  ...., [....] }; % cell array of vectors</div>
+<div class="line">kind = { .... }                % cell array of strings</div>
+<div class="line">                               % with the kind of each spline</div>
+<div class="line"> </div>
+<div class="line">obj = SplineSet( kind, X, Y );</div>
+</div><!-- fragment --><p>Kind is a string and can be any of</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">kind   </th><th class="markdownTableHeadLeft">meaning    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'linear'   </td><td class="markdownTableBodyLeft">linear spline (only continuous)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">'cubic'   </td><td class="markdownTableBodyLeft">cubic spline ( \( C^2 \) function)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'akima'   </td><td class="markdownTableBodyLeft">Akima non oscillatory spline ( \( C^1 \) function)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">'bessel'   </td><td class="markdownTableBodyLeft">bessel non oscillatory spline ( \( C^1 \) function)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'pchip'   </td><td class="markdownTableBodyLeft">Monotone \( C^1 \) function    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">'hermite'   </td><td class="markdownTableBodyLeft">Hermite spline (set \( p_k \) and \( p&#39;_k \))    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">'quintic'   </td><td class="markdownTableBodyLeft">Quintic spline ( \( C^3 \) function)   </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa21def5286a17e8675cc41622067a78c" name="aa21def5286a17e8675cc41622067a78c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa21def5286a17e8675cc41622067a78c">&#9670;&#160;</a></span>build()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::build </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>kinds</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Build a spline Set</p>
+<div class="fragment"><div class="line">obj = SplineSet( kind, X, Y );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a7a5d25a63eb9a91f3e900244fc67071c" name="a7a5d25a63eb9a91f3e900244fc67071c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a5d25a63eb9a91f3e900244fc67071c">&#9670;&#160;</a></span>copyElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::copyElement </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Make a deep copy of a curve object</p>
+<p><b>Usage</b></p>
+<div class="fragment"><div class="line">B = A.copy();</div>
+</div><!-- fragment --><p>where <code>A</code> is the curve object to be copied. </p>
+
+</div>
+</div>
+<a id="a1f85042b6442bb38bfed10df0b760b00" name="a1f85042b6442bb38bfed10df0b760b00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f85042b6442bb38bfed10df0b760b00">&#9670;&#160;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::eval </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline at <code>x</code></p>
+<div class="fragment"><div class="line">p = obj.eval( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="ada77a3e5d1e5d5e42eb0b2aa32b2b051" name="ada77a3e5d1e5d5e42eb0b2aa32b2b051"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada77a3e5d1e5d5e42eb0b2aa32b2b051">&#9670;&#160;</a></span>eval_D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::eval_D </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_D = obj.eval_D( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a85d6dec7f8ee1969b685550484051b61" name="a85d6dec7f8ee1969b685550484051b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85d6dec7f8ee1969b685550484051b61">&#9670;&#160;</a></span>eval_DD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::eval_DD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline second derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_DD = obj.eval_DD( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a7120498145483abc2c04d769b1a434e8" name="a7120498145483abc2c04d769b1a434e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7120498145483abc2c04d769b1a434e8">&#9670;&#160;</a></span>eval_DDD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::eval_DDD </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Evaluate spline third derivative at <code>x</code></p>
+<div class="fragment"><div class="line">p_DDD = obj.eval_DDD( x );</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a373b76497fca723626282929f037860e" name="a373b76497fca723626282929f037860e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a373b76497fca723626282929f037860e">&#9670;&#160;</a></span>tmax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::tmax </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return initial t-coordinate of the spline</p>
+<div class="fragment"><div class="line">t = obj.tmax();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5c823cd506e25116e61c2b8c39c884e5" name="a5c823cd506e25116e61c2b8c39c884e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c823cd506e25116e61c2b8c39c884e5">&#9670;&#160;</a></span>tmin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function SplineSet::tmin </td>
+          <td>(</td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in</td>          <td class="paramname"><span class="paramname"><em>x</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return initial t-coordinate of the spline</p>
+<div class="fragment"><div class="line">t = obj.tmin();</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/toolbox/lib/<b>SplineSet.m</b></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen2/html/class_spline_set.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

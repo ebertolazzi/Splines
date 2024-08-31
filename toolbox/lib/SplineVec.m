@@ -5,47 +5,31 @@
 %>
 %> - instantiate the spline object
 %>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     spl = SplineVec();
-%>
-%> \endrst
+%> ```{matlab}
+%>   spl = SplineVec();
+%> ```
 %>
 %> - load the points as a matrix `dim x npts` where
 %>   `dim` is the space dimension and `npts` is the
 %>    number of poinst
 %>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     spl.setup( P ); % P is a dim x npts matrix
-%>
-%> \endrst
+%> ```{matlab}
+%>   spl.setup( P ); % P is a dim x npts matrix
+%> ```
 %>
 %> - build or load the knots
 %>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     spl.knots( T );   % vector of knots
-%>     spl.chordal();    % build knots using chordal distance
-%>     spl.centripetal(; % build knots centripetal
-%>
-%> \endrst
+%> ```{matlab}
+%>   spl.knots( T );   % vector of knots
+%>   spl.chordal();    % build knots using chordal distance
+%>   spl.centripetal(; % build knots centripetal
+%> ```
 %>
 %> - build the spline, for the moment only `Catmull Rom`
 %>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     spl.CatmullRom();
-%>
-%> \endrst
+%> ```{matlab}
+%>   spl.CatmullRom();
+%> ```
 %>
 classdef SplineVec < matlab.mixin.Copyable
   properties (SetAccess = private, Hidden = true)
@@ -60,12 +44,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> **Usage**
     %>
-    %> \rst
-    %> .. code-block:: matlab
-    %>
+    %> ```{matlab}
     %>   B = A.copy();
-    %>
-    %> \endrst
+    %> ```
     %>
     %> where `A` is the curve object to be copied.
     %>
@@ -81,13 +62,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Build an empty parametric spline:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
+    %> ```{matlab}
     %>     spl = SplineVec();
-    %>
-    %> \endrst
+    %> ```
     %>
     function self = SplineVec()
       self.objectHandle = SplineVecMexWrapper( 'new' );
@@ -104,13 +81,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Setup the point of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.setup( P );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.setup( P );
+    %> ```
     %>
     function setup( self, P )
       SplineVecMexWrapper( 'setup', self.objectHandle, P );
@@ -119,13 +92,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Setup the knots of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.knots( t );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.knots( t );
+    %> ```
     %>
     function knots( self, t )
       SplineVecMexWrapper( 'knots', self.objectHandle, t );
@@ -134,13 +103,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Get the knots of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     t = spl.get_knots();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   t = spl.get_knots();
+    %> ```
     %>
     function k = get_knots( self )
       k = SplineVecMexWrapper( 'get_knots', self.objectHandle );
@@ -149,13 +114,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Build the knots using chordal distance
     %>
-    %> \rst
-    %>
-    %>   .. math::
-    %>
+    %> \f{eqnarray*}{
     %>     t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||
-    %>
-    %> \endrst
+    %> \f}
     %>
     function chordal( self )
       SplineVecMexWrapper( 'chordal', self.objectHandle );
@@ -164,13 +125,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Build the knots using centripetal parametrization
     %>
-    %> \rst
-    %>
-    %>   .. math::
-    %>
+    %> \f{eqnarray*}{
     %>     t_0 = 0, \qquad t_k = t_{k-1} + || \mathbf{p}_k - \mathbf{p}_{k-1} ||^{1/2}
-    %>
-    %> \endrst
+    %> \f}
     %>
     function centripetal( self )
       SplineVecMexWrapper( 'centripetal', self.objectHandle );
@@ -179,10 +136,7 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Build the spline using Catmull Rom algorithm
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
+    %> ```{matlab}
     %>     P = [ 0, 0; 1.34, 5; 5, 8.66; 10, 10; 10.6, 10.4; 10.7, 12; ...
     %>           10.7, 28.6; 10.8, 30.2; 11.4, 30.6; 19.6, 30.6; ...
     %>           20.2, 30.2; 20.3, 28.6; 20.3, 12; 20.4, 10.4; ...
@@ -203,12 +157,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %>     % plot curve
     %>     plot( PP(1,:), PP(2,:), '-', 'Color', 'blue', 'Linewidth', 3);
+    %> ```
     %>
-    %>   .. image:: ../../images/exampleVec.png
-    %>      :width: 80%
-    %>      :align: center
-    %>
-    %> \endrst
+    %> \html_imega{exampleVec.png,width=80%}
     %>
     function CatmullRom( self )
       SplineVecMexWrapper( 'CatmullRom', self.objectHandle );
@@ -217,13 +168,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p = obj.eval( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p = obj.eval( x );
+    %> ```
     %>
     function p = eval( self, x )
       p = SplineVecMexWrapper( 'eval', self.objectHandle, x );
@@ -232,13 +179,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_D = obj.eval_D( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_D = obj.eval_D( x );
+    %> ```
     %>
     function dp = eval_D( self, x )
       dp = SplineVecMexWrapper( 'eval_D', self.objectHandle, x );
@@ -247,13 +190,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline second derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_DD = obj.eval_DD( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_DD = obj.eval_DD( x );
+    %> ```
     %>
     function ddp = eval_DD( self, x )
       ddp = SplineVecMexWrapper( 'eval_DD', self.objectHandle, x );
@@ -262,13 +201,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline third derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_DDD = obj.eval_DDD( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_DDD = obj.eval_DDD( x );
+    %> ```
     %>
     function dddp = eval_DDD( self, x )
       dddp = SplineVecMexWrapper( 'eval_DDD', self.objectHandle, x );
@@ -277,13 +212,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline curvature at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     kappa = obj.curvature( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   kappa = obj.curvature( x );
+    %> ```
     %>
     function cur = curvature( self, x )
       cur = SplineVecMexWrapper( 'eval_curvature', self.objectHandle, x );
@@ -292,13 +223,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Evaluate spline curvature derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     kappa = obj.curvature_D( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   kappa = obj.curvature_D( x );
+    %> ```
     %>
     function cur_D = curvature_D( self, x )
       cur_D = SplineVecMexWrapper( 'eval_curvature_D', self.objectHandle, x );
@@ -307,13 +234,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Return initial t-coordinate of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     t = obj.tmin();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   t = obj.tmin();
+    %> ```
     %>
     function t = tmin( self, x )
       t = SplineVecMexWrapper( 'tmin', self.objectHandle );
@@ -322,13 +245,9 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     %> Return initial t-coordinate of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     t = obj.tmax();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   t = obj.tmax();
+    %> ```
     %>
     function t = tmax( self, x )
       t = SplineVecMexWrapper( 'tmax', self.objectHandle );

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/Splines2D.hxx Source File &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splines2d-hxx-source-file">
+<h1>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/Splines2D.hxx Source File<a class="headerlink" href="#users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splines2d-hxx-source-file" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/Splines2D.hxx Source File</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8d7a7c0060e2b3024ee0627dfec2e3ba.html">Splines</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle"><div class="title">Splines2D.hxx</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*--------------------------------------------------------------------------*\</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> |  Copyright (C) 2016                                                      |</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> |         , __                 , __                                        |</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> |        /|/  \               /|/  \                                       |</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> |         | __/ _   ,_         | __/ _   ,_                                |</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> |                           /|                   /|                        |</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> |                           \|                   \|                        |</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> |      Enrico Bertolazzi                                                   |</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> |      Dipartimento di Ingegneria Industriale                              |</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> |      Universita` degli Studi di Trento                                   |</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> |      email: enrico.bertolazzi@unitn.it                                   |</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">\*--------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">/*\</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> |   ____        _ _            ____  ____</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> |  / ___| _ __ | (_)_ __   ___|___ \|  _ \</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> |  \___ \| &#39;_ \| | | &#39;_ \ / _ \ __) | | | |</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> |   ___) | |_) | | | | | |  __// __/| |_| |</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> |  |____/| .__/|_|_|_| |_|\___|_____|____/</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> |        |_|</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">\*/</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_splines.html">Splines</a> {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html">   34</a></span>  <span class="keyword">class </span><a class="code hl_class" href="class_splines_1_1_spline2_d.html">Spline2D</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">    #ifndef DOXYGEN_SHOULD_SKIP_THIS</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    std::string  m_name;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_class" href="class_splines_1_1_spline_surf.html">SplineSurf</a> * m_spline_2D{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> new_spline( <a class="code hl_typedef" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a> tp );</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a4bb0d5ad76b1a74515c3009c585e3977">   56</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a4bb0d5ad76b1a74515c3009c585e3977">Spline2D</a>( <span class="keywordtype">string</span> <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a14c8e9ad21fd5d994cb5f883d664ef01">name</a> = <span class="stringliteral">&quot;Spline2D&quot;</span> )</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    : m_name(<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a14c8e9ad21fd5d994cb5f883d664ef01">name</a>)</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    {}</div>
+</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">virtual</span></div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a7e18c21106895196cd461c733f7f3748">   64</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a7e18c21106895196cd461c733f7f3748">~Spline2D</a>() {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      <span class="keywordflow">if</span> ( m_spline_2D != <span class="keyword">nullptr</span> ) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keyword">delete</span> m_spline_2D;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        m_spline_2D = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>      }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a2ac53cea39786a8e535f18f27d752945">   81</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a2ac53cea39786a8e535f18f27d752945">is_x_closed</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;is_x_closed(); }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a80680bd3f3335a6985479c3d1910b2e7">   86</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a80680bd3f3335a6985479c3d1910b2e7">make_x_closed</a>() { m_spline_2D-&gt;make_x_closed(); }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ad5d7d326cdbcb425cb753761e3f073ff">   91</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ad5d7d326cdbcb425cb753761e3f073ff">make_x_opened</a>() { m_spline_2D-&gt;make_x_opened(); }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#aa727a21a450628f93c7f31c12719e10a">   96</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#aa727a21a450628f93c7f31c12719e10a">is_y_closed</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;is_y_closed(); }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a11a39d51cfd79ed23efa3ebe685f6241">  101</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a11a39d51cfd79ed23efa3ebe685f6241">make_y_closed</a>() { m_spline_2D-&gt;make_y_closed(); }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a76b9b2aca48aa7ae66643bde27184bf8">  106</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a76b9b2aca48aa7ae66643bde27184bf8">make_y_opened</a>() { m_spline_2D-&gt;make_y_opened(); }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#aca11e9614a3ab4ef5040e1270b58f625">  113</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#aca11e9614a3ab4ef5040e1270b58f625">is_x_bounded</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;is_x_bounded(); }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a24e4a92cf42daed052f5dc320abe1fb3">  118</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a24e4a92cf42daed052f5dc320abe1fb3">make_x_unbounded</a>() { m_spline_2D-&gt;make_x_unbounded(); }</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a0bb6bc35c9878e12a2a235bc6f1ac056">  123</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a0bb6bc35c9878e12a2a235bc6f1ac056">make_x_bounded</a>() { m_spline_2D-&gt;make_x_bounded(); }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a77d7e6ce1e765f3d398eef8df4cd2f50">  130</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a77d7e6ce1e765f3d398eef8df4cd2f50">is_y_bounded</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;is_y_bounded(); }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#adf709164ec0774b1a37afbe2dce3e505">  135</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#adf709164ec0774b1a37afbe2dce3e505">make_y_unbounded</a>() { m_spline_2D-&gt;make_y_unbounded(); }</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ab535f112e5b1b9bbc143443f4ba33e00">  140</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ab535f112e5b1b9bbc143443f4ba33e00">make_y_bounded</a>() { m_spline_2D-&gt;make_y_bounded(); }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a14c8e9ad21fd5d994cb5f883d664ef01">  152</a></span>    <span class="keywordtype">string</span> <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a14c8e9ad21fd5d994cb5f883d664ef01">name</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;name(); }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#abbc3d21aa0dbbb9883bed753bb9d722d">  157</a></span>    <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#abbc3d21aa0dbbb9883bed753bb9d722d">num_point_x</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;num_point_x(); }</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a4632622a4323e973e4f499531d6499f9">  162</a></span>    <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a4632622a4323e973e4f499531d6499f9">num_point_y</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;num_point_y(); }</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ac949e33cf6823b775609f0b95849ff74">  167</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ac949e33cf6823b775609f0b95849ff74">x_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;x_node(i); }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a4e646b7830edbc52297de5f675646b3a">  172</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a4e646b7830edbc52297de5f675646b3a">y_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;y_node(i); }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#abb1016556beb99be0d6220054d5d7267">  177</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#abb1016556beb99be0d6220054d5d7267">z_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;z_node(i,j); }</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#abc9e4215b9fc86c64433dbb16873ddd0">  184</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#abc9e4215b9fc86c64433dbb16873ddd0">clear</a>() { m_spline_2D-&gt;clear(); }</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a81a9a1855da7d9a2a9ff92ab83369aa8">  194</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a81a9a1855da7d9a2a9ff92ab83369aa8">x_min</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;x_min(); }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a8371329bf216bb92a4182f2a693fd6b8">  199</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a8371329bf216bb92a4182f2a693fd6b8">x_max</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;x_max(); }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a94698bfaacd9fc147ad0e5d2c143d796">  204</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a94698bfaacd9fc147ad0e5d2c143d796">y_min</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;y_min(); }</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a0a66f1ffc65b99404d1ac6a69dd1b270">  209</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a0a66f1ffc65b99404d1ac6a69dd1b270">y_max</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;y_max(); }</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a46d3ada6dd71e00900826dc960144c71">  214</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a46d3ada6dd71e00900826dc960144c71">z_min</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;z_min(); }</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#acf9caeb05f2048b7609f19c128756bda">  219</a></span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_spline2_d.html#acf9caeb05f2048b7609f19c128756bda">z_max</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;z_max(); }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00246" data-start="{" data-end="}">
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ad2c9981623179c0a114b9ae8286b6e33">  246</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ad2c9981623179c0a114b9ae8286b6e33">build</a>(</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>      <a class="code hl_typedef" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a>    tp,</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>      <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <span class="keyword">const</span> x[], <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incx,</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>      <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <span class="keyword">const</span> y[], <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> incy,</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>      <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <span class="keyword">const</span> z[], <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> ldZ,</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>         nx,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>         ny,</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      <span class="keywordtype">bool</span>            fortran_storage = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      <span class="keywordtype">bool</span>            transposed      = <span class="keyword">false</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    ) {</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>      new_spline( tp );</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>      m_spline_2D-&gt;build( x, incx, y, incy, z, ldZ, nx, ny, fortran_storage, transposed );</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    }</div>
+</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00273" data-start="{" data-end="}">
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a43b7b23a82102849ea10f9f801e8ba46">  273</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a43b7b23a82102849ea10f9f801e8ba46">build</a>(</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>      <a class="code hl_typedef" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a>              tp,</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>      vector&lt;real_type&gt; <span class="keyword">const</span> &amp; x,</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>      vector&lt;real_type&gt; <span class="keyword">const</span> &amp; y,</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>      vector&lt;real_type&gt; <span class="keyword">const</span> &amp; z,</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      <span class="keywordtype">bool</span> fortran_storage = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      <span class="keywordtype">bool</span> transposed      = <span class="keyword">false</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    ) {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      new_spline( tp );</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      m_spline_2D-&gt;build( x, y, z, fortran_storage, transposed );</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    }</div>
+</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00300" data-start="{" data-end="}">
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a56da8a97dd1fa376d233fe6d6e248390">  300</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a56da8a97dd1fa376d233fe6d6e248390">build</a>(</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      <a class="code hl_typedef" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a>    tp,</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>      <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <span class="keyword">const</span> z[],</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>         ldZ,</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>         nx,</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>         ny,</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>      <span class="keywordtype">bool</span>            fortran_storage = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>      <span class="keywordtype">bool</span>            transposed      = <span class="keyword">false</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    ) {</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>      new_spline( tp );</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>      m_spline_2D-&gt;build( z, ldZ, nx, ny, fortran_storage, transposed );</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    }</div>
+</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00328" data-start="{" data-end="}">
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ad599399139e46b51c4398e736cf88f95">  328</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ad599399139e46b51c4398e736cf88f95">build</a>(</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>      <a class="code hl_typedef" href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">SplineType2D</a>              tp,</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      vector&lt;real_type&gt; <span class="keyword">const</span> &amp; z,</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>                   nx,</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>      <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a>                   ny,</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>      <span class="keywordtype">bool</span> fortran_storage = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>      <span class="keywordtype">bool</span> transposed      = <span class="keyword">false</span></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    ) {</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>      new_spline( tp );</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>      m_spline_2D-&gt;build( z, nx, ny, fortran_storage, transposed );</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    }</div>
+</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a05776ff454c82d1b1ce2cbaa5c38f261">setup</a>( GenericContainer <span class="keyword">const</span> &amp; gc );</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00357" data-start="{" data-end="}">
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a6ca9137b36417366b423b21fcc62c7b6">  357</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a6ca9137b36417366b423b21fcc62c7b6">build</a>( GenericContainer <span class="keyword">const</span> &amp; gc )</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    { <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a05776ff454c82d1b1ce2cbaa5c38f261">setup</a>(gc); }</div>
+</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00371" data-start="{" data-end="}">
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a2266c0ff697c268fc210bc8780c56cdc">  371</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a2266c0ff697c268fc210bc8780c56cdc">operator () </a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;eval( x, y ); }</div>
+</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00378" data-start="{" data-end="}">
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a732835be50e0f244304c0513829e8cf3">  378</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a732835be50e0f244304c0513829e8cf3">eval</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;eval( x, y ); }</div>
+</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span> </div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00393" data-start="{" data-end="}">
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#afc1b939cda6d693fa3036a1c99a9b8ff">  393</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#afc1b939cda6d693fa3036a1c99a9b8ff">D</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> d[3] )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;D( x, y, d ); }</div>
+</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00401" data-start="{" data-end="}">
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a450076a23a819660eefc50e80a1b3858">  401</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a450076a23a819660eefc50e80a1b3858">Dx</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;Dx( x, y ); }</div>
+</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00409" data-start="{" data-end="}">
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a6b895a0af8c0ab4c3e07682cea0d856a">  409</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a6b895a0af8c0ab4c3e07682cea0d856a">Dy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;Dy( x, y ); }</div>
+</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span> </div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00417" data-start="{" data-end="}">
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a5a829b850e4e4afe1e8fb166c5a2a44f">  417</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a5a829b850e4e4afe1e8fb166c5a2a44f">eval_D_1</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a450076a23a819660eefc50e80a1b3858">Dx</a>(x,y); }</div>
+</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00425" data-start="{" data-end="}">
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a340de4d1d9d5d4cb2becbdc610f0444f">  425</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a340de4d1d9d5d4cb2becbdc610f0444f">eval_D_2</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a6b895a0af8c0ab4c3e07682cea0d856a">Dy</a>(x,y); }</div>
+</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span> </div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span> </div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00445" data-start="{" data-end="}">
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#afa991a844100404a7a0b3a126ee7fd3a">  445</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#afa991a844100404a7a0b3a126ee7fd3a">DD</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> dd[6] )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;DD( x, y, dd ); }</div>
+</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span> </div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00453" data-start="{" data-end="}">
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#af9dabc8345af8775da915b90e13591f4">  453</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#af9dabc8345af8775da915b90e13591f4">Dxx</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;Dxx( x, y ); }</div>
+</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span> </div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00460" data-start="{" data-end="}">
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a37b2eb017b75756c88cb5f689408dcee">  460</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a37b2eb017b75756c88cb5f689408dcee">Dxy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;Dxy( x, y ); }</div>
+</div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span> </div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00468" data-start="{" data-end="}">
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#aff8c908a8631a0e71485fc9ade3270c0">  468</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#aff8c908a8631a0e71485fc9ade3270c0">Dyy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;Dyy( x, y ); }</div>
+</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00476" data-start="{" data-end="}">
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a194856210b3ed4e7589437a2a63b1cba">  476</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a194856210b3ed4e7589437a2a63b1cba">eval_D_1_1</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#af9dabc8345af8775da915b90e13591f4">Dxx</a>(x,y); }</div>
+</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span> </div>
+<div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00483" data-start="{" data-end="}">
+<div class="line"><a id="l00483" name="l00483"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a3d14e7538dc951d6076cfa77b3825779">  483</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a3d14e7538dc951d6076cfa77b3825779">eval_D_1_2</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a37b2eb017b75756c88cb5f689408dcee">Dxy</a>(x,y); }</div>
+</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span> </div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00491" data-start="{" data-end="}">
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#acfcb02e712be4d5cb06d5c2496713451">  491</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#acfcb02e712be4d5cb06d5c2496713451">eval_D_2_2</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#aff8c908a8631a0e71485fc9ade3270c0">Dyy</a>(x,y); }</div>
+</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span> </div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00499" data-start="{" data-end="}">
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a66b68b7045cf1a981400759fd8796542">  499</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a66b68b7045cf1a981400759fd8796542">write_to_stream</a>( ostream_type &amp; s )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;write_to_stream( s ); }</div>
+</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span> </div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#a31ce39fe5060d2f34a8bafbbd851bead">  505</a></span>    <span class="keywordtype">char</span> <span class="keyword">const</span> * <a class="code hl_function" href="class_splines_1_1_spline2_d.html#a31ce39fe5060d2f34a8bafbbd851bead">type_name</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;type_name(); }</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span> </div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>    <span class="keywordtype">string</span></div>
+<div class="foldopen" id="foldopen00511" data-start="{" data-end="}">
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ad3431e98de1b460ee5411f867356d059">  511</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ad3431e98de1b460ee5411f867356d059">info</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;info(); }</div>
+</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span> </div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00518" data-start="{" data-end="}">
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#af4f711069e4c9c348e2400aa045178af">  518</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#af4f711069e4c9c348e2400aa045178af">info</a>( ostream_type &amp; stream )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span><span class="keyword">    </span>{ m_spline_2D-&gt;info( stream ); }</div>
+</div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>    <span class="keywordtype">void</span></div>
+<div class="foldopen" id="foldopen00525" data-start="{" data-end="}">
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno"><a class="line" href="class_splines_1_1_spline2_d.html#ab3266e905f8f6a1576b3dbbadd581518">  525</a></span>    <a class="code hl_function" href="class_splines_1_1_spline2_d.html#ab3266e905f8f6a1576b3dbbadd581518">dump_data</a>( ostream_type &amp; stream )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span><span class="keyword">    </span>{ m_spline_2D-&gt;dump_data( stream ); }</div>
+</div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span> </div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span><span class="preprocessor">    #ifdef SPLINES_BACK_COMPATIBILITY</span></div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> numPointX()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;num_point_x(); }</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>    <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> numPointY()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_spline_2D-&gt;num_point_y(); }</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> xNode( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#ac949e33cf6823b775609f0b95849ff74">x_node</a>(i); }</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> yNode( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a4e646b7830edbc52297de5f675646b3a">y_node</a>(i); }</div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> zNode( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#abb1016556beb99be0d6220054d5d7267">z_node</a>(i,j); }</div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> xMin()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a81a9a1855da7d9a2a9ff92ab83369aa8">x_min</a>(); }</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> xMax()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a8371329bf216bb92a4182f2a693fd6b8">x_max</a>(); }</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> yMin()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a94698bfaacd9fc147ad0e5d2c143d796">y_min</a>(); }</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> yMax()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a0a66f1ffc65b99404d1ac6a69dd1b270">y_max</a>(); }</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> zMin()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#a46d3ada6dd71e00900826dc960144c71">z_min</a>(); }</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> zMax()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_splines_1_1_spline2_d.html#acf9caeb05f2048b7609f19c128756bda">z_max</a>(); }</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span> </div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>  };</div>
+</div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span> </div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>}</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span> </div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span><span class="comment">// EOF Splines2D.hxx</span></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html"><div class="ttname"><a href="class_splines_1_1_spline2_d.html">Splines::Spline2D</a></div><div class="ttdef"><b>Definition</b> Splines2D.hxx:34</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a05776ff454c82d1b1ce2cbaa5c38f261"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a05776ff454c82d1b1ce2cbaa5c38f261">Splines::Spline2D::setup</a></div><div class="ttdeci">void setup(GenericContainer const &amp;gc)</div><div class="ttdef"><b>Definition</b> Splines2D.cc:56</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a0a66f1ffc65b99404d1ac6a69dd1b270"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a0a66f1ffc65b99404d1ac6a69dd1b270">Splines::Spline2D::y_max</a></div><div class="ttdeci">real_type y_max() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:209</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a0bb6bc35c9878e12a2a235bc6f1ac056"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a0bb6bc35c9878e12a2a235bc6f1ac056">Splines::Spline2D::make_x_bounded</a></div><div class="ttdeci">void make_x_bounded()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:123</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a11a39d51cfd79ed23efa3ebe685f6241"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a11a39d51cfd79ed23efa3ebe685f6241">Splines::Spline2D::make_y_closed</a></div><div class="ttdeci">void make_y_closed()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:101</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a14c8e9ad21fd5d994cb5f883d664ef01"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a14c8e9ad21fd5d994cb5f883d664ef01">Splines::Spline2D::name</a></div><div class="ttdeci">string const &amp; name() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:152</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a194856210b3ed4e7589437a2a63b1cba"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a194856210b3ed4e7589437a2a63b1cba">Splines::Spline2D::eval_D_1_1</a></div><div class="ttdeci">real_type eval_D_1_1(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:476</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a2266c0ff697c268fc210bc8780c56cdc"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a2266c0ff697c268fc210bc8780c56cdc">Splines::Spline2D::operator()</a></div><div class="ttdeci">real_type operator()(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:371</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a24e4a92cf42daed052f5dc320abe1fb3"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a24e4a92cf42daed052f5dc320abe1fb3">Splines::Spline2D::make_x_unbounded</a></div><div class="ttdeci">void make_x_unbounded()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:118</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a2ac53cea39786a8e535f18f27d752945"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a2ac53cea39786a8e535f18f27d752945">Splines::Spline2D::is_x_closed</a></div><div class="ttdeci">bool is_x_closed() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:81</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a31ce39fe5060d2f34a8bafbbd851bead"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a31ce39fe5060d2f34a8bafbbd851bead">Splines::Spline2D::type_name</a></div><div class="ttdeci">char const * type_name() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:505</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a340de4d1d9d5d4cb2becbdc610f0444f"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a340de4d1d9d5d4cb2becbdc610f0444f">Splines::Spline2D::eval_D_2</a></div><div class="ttdeci">real_type eval_D_2(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:425</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a37b2eb017b75756c88cb5f689408dcee"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a37b2eb017b75756c88cb5f689408dcee">Splines::Spline2D::Dxy</a></div><div class="ttdeci">real_type Dxy(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:460</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a3d14e7538dc951d6076cfa77b3825779"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a3d14e7538dc951d6076cfa77b3825779">Splines::Spline2D::eval_D_1_2</a></div><div class="ttdeci">real_type eval_D_1_2(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:483</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a43b7b23a82102849ea10f9f801e8ba46"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a43b7b23a82102849ea10f9f801e8ba46">Splines::Spline2D::build</a></div><div class="ttdeci">void build(SplineType2D tp, vector&lt; real_type &gt; const &amp;x, vector&lt; real_type &gt; const &amp;y, vector&lt; real_type &gt; const &amp;z, bool fortran_storage=false, bool transposed=false)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:273</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a450076a23a819660eefc50e80a1b3858"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a450076a23a819660eefc50e80a1b3858">Splines::Spline2D::Dx</a></div><div class="ttdeci">real_type Dx(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:401</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a4632622a4323e973e4f499531d6499f9"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a4632622a4323e973e4f499531d6499f9">Splines::Spline2D::num_point_y</a></div><div class="ttdeci">integer num_point_y() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:162</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a46d3ada6dd71e00900826dc960144c71"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a46d3ada6dd71e00900826dc960144c71">Splines::Spline2D::z_min</a></div><div class="ttdeci">real_type z_min() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:214</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a4bb0d5ad76b1a74515c3009c585e3977"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a4bb0d5ad76b1a74515c3009c585e3977">Splines::Spline2D::Spline2D</a></div><div class="ttdeci">Spline2D(string const &amp;name=&quot;Spline2D&quot;)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:56</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a4e646b7830edbc52297de5f675646b3a"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a4e646b7830edbc52297de5f675646b3a">Splines::Spline2D::y_node</a></div><div class="ttdeci">real_type y_node(integer i) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:172</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a56da8a97dd1fa376d233fe6d6e248390"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a56da8a97dd1fa376d233fe6d6e248390">Splines::Spline2D::build</a></div><div class="ttdeci">void build(SplineType2D tp, real_type const z[], integer ldZ, integer nx, integer ny, bool fortran_storage=false, bool transposed=false)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:300</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a5a829b850e4e4afe1e8fb166c5a2a44f"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a5a829b850e4e4afe1e8fb166c5a2a44f">Splines::Spline2D::eval_D_1</a></div><div class="ttdeci">real_type eval_D_1(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:417</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a66b68b7045cf1a981400759fd8796542"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a66b68b7045cf1a981400759fd8796542">Splines::Spline2D::write_to_stream</a></div><div class="ttdeci">void write_to_stream(ostream_type &amp;s) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:499</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a6b895a0af8c0ab4c3e07682cea0d856a"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a6b895a0af8c0ab4c3e07682cea0d856a">Splines::Spline2D::Dy</a></div><div class="ttdeci">real_type Dy(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:409</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a6ca9137b36417366b423b21fcc62c7b6"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a6ca9137b36417366b423b21fcc62c7b6">Splines::Spline2D::build</a></div><div class="ttdeci">void build(GenericContainer const &amp;gc)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:357</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a732835be50e0f244304c0513829e8cf3"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a732835be50e0f244304c0513829e8cf3">Splines::Spline2D::eval</a></div><div class="ttdeci">real_type eval(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:378</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a76b9b2aca48aa7ae66643bde27184bf8"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a76b9b2aca48aa7ae66643bde27184bf8">Splines::Spline2D::make_y_opened</a></div><div class="ttdeci">void make_y_opened()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:106</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a77d7e6ce1e765f3d398eef8df4cd2f50"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a77d7e6ce1e765f3d398eef8df4cd2f50">Splines::Spline2D::is_y_bounded</a></div><div class="ttdeci">bool is_y_bounded() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:130</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a7e18c21106895196cd461c733f7f3748"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a7e18c21106895196cd461c733f7f3748">Splines::Spline2D::~Spline2D</a></div><div class="ttdeci">virtual ~Spline2D()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:64</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a80680bd3f3335a6985479c3d1910b2e7"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a80680bd3f3335a6985479c3d1910b2e7">Splines::Spline2D::make_x_closed</a></div><div class="ttdeci">void make_x_closed()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:86</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a81a9a1855da7d9a2a9ff92ab83369aa8"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a81a9a1855da7d9a2a9ff92ab83369aa8">Splines::Spline2D::x_min</a></div><div class="ttdeci">real_type x_min() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:194</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a8371329bf216bb92a4182f2a693fd6b8"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a8371329bf216bb92a4182f2a693fd6b8">Splines::Spline2D::x_max</a></div><div class="ttdeci">real_type x_max() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:199</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_a94698bfaacd9fc147ad0e5d2c143d796"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#a94698bfaacd9fc147ad0e5d2c143d796">Splines::Spline2D::y_min</a></div><div class="ttdeci">real_type y_min() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:204</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_aa727a21a450628f93c7f31c12719e10a"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#aa727a21a450628f93c7f31c12719e10a">Splines::Spline2D::is_y_closed</a></div><div class="ttdeci">bool is_y_closed() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:96</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ab3266e905f8f6a1576b3dbbadd581518"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ab3266e905f8f6a1576b3dbbadd581518">Splines::Spline2D::dump_data</a></div><div class="ttdeci">void dump_data(ostream_type &amp;stream) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:525</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ab535f112e5b1b9bbc143443f4ba33e00"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ab535f112e5b1b9bbc143443f4ba33e00">Splines::Spline2D::make_y_bounded</a></div><div class="ttdeci">void make_y_bounded()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:140</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_abb1016556beb99be0d6220054d5d7267"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#abb1016556beb99be0d6220054d5d7267">Splines::Spline2D::z_node</a></div><div class="ttdeci">real_type z_node(integer i, integer j) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:177</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_abbc3d21aa0dbbb9883bed753bb9d722d"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#abbc3d21aa0dbbb9883bed753bb9d722d">Splines::Spline2D::num_point_x</a></div><div class="ttdeci">integer num_point_x() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:157</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_abc9e4215b9fc86c64433dbb16873ddd0"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#abc9e4215b9fc86c64433dbb16873ddd0">Splines::Spline2D::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:184</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ac949e33cf6823b775609f0b95849ff74"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ac949e33cf6823b775609f0b95849ff74">Splines::Spline2D::x_node</a></div><div class="ttdeci">real_type x_node(integer i) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:167</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_aca11e9614a3ab4ef5040e1270b58f625"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#aca11e9614a3ab4ef5040e1270b58f625">Splines::Spline2D::is_x_bounded</a></div><div class="ttdeci">bool is_x_bounded() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:113</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_acf9caeb05f2048b7609f19c128756bda"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#acf9caeb05f2048b7609f19c128756bda">Splines::Spline2D::z_max</a></div><div class="ttdeci">real_type z_max() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:219</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_acfcb02e712be4d5cb06d5c2496713451"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#acfcb02e712be4d5cb06d5c2496713451">Splines::Spline2D::eval_D_2_2</a></div><div class="ttdeci">real_type eval_D_2_2(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:491</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ad2c9981623179c0a114b9ae8286b6e33"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ad2c9981623179c0a114b9ae8286b6e33">Splines::Spline2D::build</a></div><div class="ttdeci">void build(SplineType2D tp, real_type const x[], integer incx, real_type const y[], integer incy, real_type const z[], integer ldZ, integer nx, integer ny, bool fortran_storage=false, bool transposed=false)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:246</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ad3431e98de1b460ee5411f867356d059"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ad3431e98de1b460ee5411f867356d059">Splines::Spline2D::info</a></div><div class="ttdeci">string info() const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:511</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ad599399139e46b51c4398e736cf88f95"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ad599399139e46b51c4398e736cf88f95">Splines::Spline2D::build</a></div><div class="ttdeci">void build(SplineType2D tp, vector&lt; real_type &gt; const &amp;z, integer nx, integer ny, bool fortran_storage=false, bool transposed=false)</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:328</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_ad5d7d326cdbcb425cb753761e3f073ff"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#ad5d7d326cdbcb425cb753761e3f073ff">Splines::Spline2D::make_x_opened</a></div><div class="ttdeci">void make_x_opened()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:91</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_adf709164ec0774b1a37afbe2dce3e505"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#adf709164ec0774b1a37afbe2dce3e505">Splines::Spline2D::make_y_unbounded</a></div><div class="ttdeci">void make_y_unbounded()</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:135</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_af4f711069e4c9c348e2400aa045178af"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#af4f711069e4c9c348e2400aa045178af">Splines::Spline2D::info</a></div><div class="ttdeci">void info(ostream_type &amp;stream) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:518</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_af9dabc8345af8775da915b90e13591f4"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#af9dabc8345af8775da915b90e13591f4">Splines::Spline2D::Dxx</a></div><div class="ttdeci">real_type Dxx(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:453</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_afa991a844100404a7a0b3a126ee7fd3a"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#afa991a844100404a7a0b3a126ee7fd3a">Splines::Spline2D::DD</a></div><div class="ttdeci">void DD(real_type x, real_type y, real_type dd[6]) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:445</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_afc1b939cda6d693fa3036a1c99a9b8ff"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#afc1b939cda6d693fa3036a1c99a9b8ff">Splines::Spline2D::D</a></div><div class="ttdeci">void D(real_type x, real_type y, real_type d[3]) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:393</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline2_d_html_aff8c908a8631a0e71485fc9ade3270c0"><div class="ttname"><a href="class_splines_1_1_spline2_d.html#aff8c908a8631a0e71485fc9ade3270c0">Splines::Spline2D::Dyy</a></div><div class="ttdeci">real_type Dyy(real_type x, real_type y) const</div><div class="ttdef"><b>Definition</b> Splines2D.hxx:468</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline_surf_html"><div class="ttname"><a href="class_splines_1_1_spline_surf.html">Splines::SplineSurf</a></div><div class="ttdef"><b>Definition</b> Splines.hh:1138</div></div>
+<div class="ttc" id="anamespace_splines_html"><div class="ttname"><a href="namespace_splines.html">Splines</a></div><div class="ttdef"><b>Definition</b> SplineAkima.cc:50</div></div>
+<div class="ttc" id="anamespace_splines_html_a0b83d8865bf650fca7ad1d657245a8a1"><div class="ttname"><a href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">Splines::integer</a></div><div class="ttdeci">int integer</div><div class="ttdoc">Signed integer type for splines.</div><div class="ttdef"><b>Definition</b> Splines.hh:58</div></div>
+<div class="ttc" id="anamespace_splines_html_abe72b69a3e6688d022772f0f3b50284d"><div class="ttname"><a href="namespace_splines.html#abe72b69a3e6688d022772f0f3b50284d">Splines::SplineType2D</a></div><div class="ttdeci">enum class SplineType2D :integer { BILINEAR=0, BICUBIC=1, BIQUINTIC=2, AKIMA2D=3 } SplineType2D</div><div class="ttdoc">Associate a number for each type of splines implemented.</div><div class="ttdef"><b>Definition</b> Splines.hh:87</div></div>
+<div class="ttc" id="anamespace_splines_html_afabb8610fb01952c2fcf1f17337bd44a"><div class="ttname"><a href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">Splines::real_type</a></div><div class="ttdeci">double real_type</div><div class="ttdoc">Floating point type for splines.</div><div class="ttdef"><b>Definition</b> Splines.hh:57</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen/html/_splines2_d_8hxx_source.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

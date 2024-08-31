@@ -15,41 +15,28 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>       BASE = object.base( t )      % base for the interval [0,1]
-    %>       BASE = object.base( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base( t )      % base for the interval [0,1]
+    %>   BASE = object.base( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 4 whose columns are the values of
     %> the Hermite base.
     %>
-    %> \rst
     %>
-    %>   .. math::
-    %>
-    %>     \begin{eqnarray}
+    %> \f{eqnarray*}{
     %>     h_1(t) &=& x^2(3-2x)  \\
     %>     h_0(t) &=& 1-h_1(t)    \\
     %>     h_2(t) &=& x(x(x-2)+1) \\
     %>     h_3(t) &=& x^2(x-1)
-    %>     \end{eqnarray}
-    %>
-    %> \endrst
+    %> \f}
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3] = object.base( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3] = object.base( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3] = object.base( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3] = object.base( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base',varargin{:});
@@ -60,28 +47,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base_D( t )      % base derivative for the interval [0,1]
-    %>     BASE = object.base_D( t, H )   % base derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base_D( t )      % base derivative for the interval [0,1]
+    %>   BASE = object.base_D( t, H )   % base derivative for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 4 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3] = object.base_D( t )      % base derivative for the interval [0,1]
-    %>     [h0,h1,h2,h3] = object.base_D( t, H )   % base derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3] = object.base_D( t )      % base derivative for the interval [0,1]
+    %>   [h0,h1,h2,h3] = object.base_D( t, H )   % base derivative for the interval [0,H]
+    %> ```
     %>
     function varargout = base_D( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base_D',varargin{:});
@@ -91,29 +70,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate an Hermite base second derivative at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
-    %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base_DD( t )      % base second derivative for the interval [0,1]
-    %>     BASE = object.base_DD( t, H )   % base second derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base_DD( t )      % base second derivative for the interval [0,1]
+    %>   BASE = object.base_DD( t, H )   % base second derivative for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 4 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3] = object.base_DD( t )      % base second derivative for the interval [0,1]
-    %>     [h0,h1,h2,h3] = object.base_DD( t, H )   % base second derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3] = object.base_DD( t )      % base second derivative for the interval [0,1]
+    %>   [h0,h1,h2,h3] = object.base_DD( t, H )   % base second derivative for the interval [0,H]
+    %> ```
     %>
     function varargout = base_DD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base_DD',varargin{:});
@@ -123,27 +93,19 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate an Hermite base third derivative at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base_DDD( t )      % base third derivative for the interval [0,1]
-    %>     BASE = object.base_DDD( t, H )   % base third derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base_DDD( t )      % base third derivative for the interval [0,1]
+    %>   BASE = object.base_DDD( t, H )   % base third derivative for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 4 whose columns are the values of the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3] = object.base_DDD( t )      % base third derivative for the interval [0,1]
-    %>     [h0,h1,h2,h3] = object.base_DDD( t, H )   % base third derivative for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3] = object.base_DDD( t )      % base third derivative for the interval [0,1]
+    %>   [h0,h1,h2,h3] = object.base_DDD( t, H )   % base third derivative for the interval [0,H]
+    %> ```
     %>
     function varargout = base_DDD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base_DDD',varargin{:});
@@ -152,21 +114,16 @@ classdef BaseHermite < matlab.mixin.Copyable
     %>
     %> Evaluate the cubic polynomial defined on Hermite data:
     %>
-    %> \rst
     %>
-    %>   .. math::
+    %> \f{eqnarray*}{
+    %>   \mathbf{p}(t)   &=& h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+ h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1 \\
+    %>   \mathbf{p}(t,H) &=& h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+ H (h_2(t/H)\mathbf{t}_0+ h_3(t/H)\mathbf{t}_1)
+    %> \f}
     %>
-    %>     \begin{eqnarray}
-    %>       \mathbf{p}(t)   &=& h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+ h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1 \\
-    %>       \mathbf{p}(t,H) &=& h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+ H (h_2(t/H)\mathbf{t}_0+ h_3(t/H)\mathbf{t}_1)
-    %>     \end{eqnarray}
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval( t, P0, P1, T0, T1 )
-    %>     values = object.eval( t, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval( t, P0, P1, T0, T1 )
+    %>   values = object.eval( t, P0, P1, T0, T1, H )
+    %> ```
     %>
     function P = eval( ~, varargin )
       P = BaseHermiteMexWrapper('eval',varargin{:});
@@ -176,14 +133,11 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the derivative \f$ \mathbf{p}'(t) \f$ of the cubic
     %> polynomial defined on Hermite data:
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval_D( t, P0, P1, T0, T1 )
-    %>     values = object.eval_D( t, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval_D( t, P0, P1, T0, T1 )
+    %>   values = object.eval_D( t, P0, P1, T0, T1, H )
+    %> ```
     %>
     function dP = eval_D( ~, varargin )
       dP = BaseHermiteMexWrapper('eval_D',varargin{:});
@@ -193,14 +147,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the second derivative \f$ \mathbf{p}''(t) \f$ of
     %> the cubic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval_DD( t, P0, P1, T0, T1 )
-    %>     values = object.eval_DD( t, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval_DD( t, P0, P1, T0, T1 )
+    %>   values = object.eval_DD( t, P0, P1, T0, T1, H )
+    %> ```
     %>
     function ddP = eval_DD( ~, varargin )
       ddP = BaseHermiteMexWrapper('eval_DD',varargin{:});
@@ -210,15 +160,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the third derivative \f$ \mathbf{p}'''(t) \f$ of the
     %> cubic polynomial defined on Hermite data:
     %>
-    %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval_DDD( t, P0, P1, T0, T1 )
-    %>     values = object.eval_DDD( t, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval_DDD( t, P0, P1, T0, T1 )
+    %>   values = object.eval_DDD( t, P0, P1, T0, T1, H )
+    %> ```
     %>
     function dddP = eval_DDD( ~, varargin )
       dddP = BaseHermiteMexWrapper('eval_DDD',varargin{:});
@@ -228,23 +173,16 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate an Hermite base (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base5( t )      % base for the interval [0,1]
-    %>     BASE = object.base5( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5( t )      % base for the interval [0,1]
+    %>   BASE = object.base5( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base that are 6 polynomials of degree 5 with the properties
     %>
-    %> \rst
     %>
-    %>   .. math::
-    %>
-    %>     \begin{equation}
+    %> \f[
     %>       \begin{array}{cccccc}
     %>         h_1(0) = 1 & h_1(1) = 0 & h'_1(0) = 1 & h'_1(1) = 0 & h''_1(1) = 1 & h''_1(1) = 0 \\
     %>         h_0(0) = 0 & h_0(1) = 1 & h'_0(0) = 0 & h'_0(1) = 0 & h''_0(1) = 0 & h''_0(1) = 0 \\
@@ -253,20 +191,14 @@ classdef BaseHermite < matlab.mixin.Copyable
     %>         h_4(0) = 0 & h_4(1) = 0 & h'_4(0) = 0 & h'_4(1) = 0 & h''_4(1) = 1 & h''_4(1) = 0 \\
     %>         h_5(0) = 0 & h_5(1) = 0 & h'_5(0) = 0 & h'_5(1) = 0 & h''_5(1) = 0 & h''_5(1) = 1 \\
     %>       \end{array}
-    %>     \end{equation}
-    %>
-    %> \endrst
+    %> \f]
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5',varargin{:});
@@ -276,28 +208,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate an Hermite base derivatives (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base5_D( t )      % base for the interval [0,1]
-    %>     BASE = object.base5_D( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5_D( t )      % base for the interval [0,1]
+    %>   BASE = object.base5_D( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_D( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_D( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_D( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_D( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5_D( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_D',varargin{:});
@@ -307,28 +231,21 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate an Hermite base second derivatives (quintic degree) at point(s) t for the interval
     %> \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument is present).
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base5_DD( t )      % base for the interval [0,1]
-    %>     BASE = object.base5_DD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5_DD( t )      % base for the interval [0,1]
+    %>   BASE = object.base5_DD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DD( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DD( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5_DD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DD',varargin{:});
@@ -339,28 +256,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> t for the interval \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
-    %> \rst
-    %>
-    %>    .. code-block:: matlab
-    %>
-    %>      BASE = object.base5_DDD( t )      % base for the interval [0,1]
-    %>      BASE = object.base5_DDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5_DDD( t )      % base for the interval [0,1]
+    %>   BASE = object.base5_DDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDD( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>  [h0,h1,h2,h3,h4,h5] = object.base5_DDD( t )      % base for the interval [0,1]
+    %>  [h0,h1,h2,h3,h4,h5] = object.base5_DDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5_DDD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDD',varargin{:});
@@ -371,28 +280,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> t for the interval \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     BASE = object.base5_DDDD( t )      % base for the interval [0,1]
-    %>     BASE = object.base5_DDDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5_DDDD( t )      % base for the interval [0,1]
+    %>   BASE = object.base5_DDDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DDDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5_DDDD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDDD',varargin{:});
@@ -403,28 +304,20 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> t for the interval \f$ [0,1] \f$ (or \f$ [0,H] \f$ if second argument
     %> is present).
     %>
-    %> \rst
-    %>
-    %>  .. code-block:: matlab
-    %>
-    %>      BASE = object.base5_DDDDD( t )      % base for the interval [0,1]
-    %>      BASE = object.base5_DDDDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   BASE = object.base5_DDDDD( t )      % base for the interval [0,1]
+    %>   BASE = object.base5_DDDDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     %> BASE is a matrix length(t) x 6 whose columns are the values of
     %> the Hermite base.
     %>
     %> basis can be returned in separated vectors
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t )      % base for the interval [0,1]
-    %>     [h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t, H )   % base for the interval [0,H]
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t )      % base for the interval [0,1]
+    %>   [h0,h1,h2,h3,h4,h5] = object.base5_DDDDD( t, H )   % base for the interval [0,H]
+    %> ```
     %>
     function varargout = base5_DDDDD( ~, varargin )
       [varargout{1:nargout}] = BaseHermiteMexWrapper('base5_DDDDD',varargin{:});
@@ -433,25 +326,19 @@ classdef BaseHermite < matlab.mixin.Copyable
     %>
     %> Evaluate the quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. math::
-    %>
-    %>     \begin{eqnarray}
+    %> \f{eqnarray*}{
     %>       \mathbf{p}(t)   &=& h_0(t)\mathbf{p}_0+ h_1(t)\mathbf{p}_1+
     %>                           h_2(t)\mathbf{t}_0+ h_3(t)\mathbf{t}_1+
     %>                           h_4(t)\mathbf{j}_0+ h_5(t)\mathbf{j}_1  \\
     %>       \mathbf{p}(t,H) &=& h_0(t/H)\mathbf{p}_0+ h_1(t/H)\mathbf{p}_1+
     %>                           H (h_2(t/H)\mathbf{t}_0+ h_3(t/H)\mathbf{t}_1)+
     %>                           H^2 (h_4(t/H)\mathbf{t}_0+ h_5(t/H)\mathbf{j}_1)
-    %>     \end{eqnarray}
+    %> \f}
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>      values = object.eval5( t, P0, P1, T0, T1, J0, J1 )
-    %>      values = object.eval5( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function P = eval5( ~, varargin )
       P = BaseHermiteMexWrapper('eval5',varargin{:});
@@ -461,14 +348,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the derivative \f$ \mathbf{p}'(t) \f$ of the
     %> quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval5_D( t, P0, P1, T0, T1, J0, J1 )
-    %>     values = object.eval5_D( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5_D( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5_D( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function dP = eval5_D( ~, varargin )
       dP = BaseHermiteMexWrapper('eval5_D',varargin{:});
@@ -478,14 +361,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the second derivative \f$ \mathbf{p}''(t) \f$ of
     %> the quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1 )
-    %>     values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5_DD( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function ddP = eval5_DD( ~, varargin )
       ddP = BaseHermiteMexWrapper('eval5_DD',varargin{:});
@@ -495,14 +374,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the third derivative \f$  \mathbf{p}'''(t) \f$ of
     %> the quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1 )
-    %>     values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5_DDD( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function dddP = eval5_DDD( ~, varargin )
       dddP = BaseHermiteMexWrapper('eval5_DDD',varargin{:});
@@ -512,14 +387,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the 4th derivative \f$ \mathbf{p}''''(t) \f$ of the
     %> quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1 )
-    %>     values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5_DDDD( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function ddddP = eval5_DDDD( ~, varargin )
       ddddP = BaseHermiteMexWrapper('eval5_DDDD',varargin{:});
@@ -529,14 +400,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Evaluate the 5th derivative \f$ \mathbf{p}'''''(t) \f$ of the
     %> quintic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1 )
-    %>     values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1 )
+    %>   values = object.eval5_DDDDD( t, P0, P1, T0, T1, J0, J1, H )
+    %> ```
     %>
     function dddddP = eval5_DDDDD( ~, varargin )
       dddddP = BaseHermiteMexWrapper('eval5_DDDDD',varargin{:});
@@ -545,15 +412,11 @@ classdef BaseHermite < matlab.mixin.Copyable
     %>
     %> Given the cubic polynomial defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. math::
-    %>
+    %> \f{eqnarray*}{
     %>     \mathbf{p}(t) =
     %>     h_0(t)\mathbf{p}_0 + h_1(t)\mathbf{p}_1 +
     %>     h_2(t)\mathbf{t}_0 + h_3(t)\mathbf{t}_1
-    %>
-    %> \endrst
+    %> \f}
     %>
     %> return the Bezier polynomial of the same cubic
     %>
@@ -590,14 +453,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Approximate the length of the cubic polynomial \f$ \mathbf{p}(t) \f$
     %> defined on Hermite data:
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     values = object.approximate_length( t, P0, P1, T0, T1 )
-    %>     values = object.approximate_length( t, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   values = object.approximate_length( t, P0, P1, T0, T1 )
+    %>   values = object.approximate_length( t, P0, P1, T0, T1, H )
+    %> ```
     %>
     %> The length is approximated usin 100 linear segment.
     %>
@@ -609,14 +468,10 @@ classdef BaseHermite < matlab.mixin.Copyable
     %> Cut the cubic polynomial \f$ \mathbf{p}(t) \f$ defined on Hermite data
     %> on the interval [a,b] and return the new Hermite data
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     [new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1 )
-    %>     [new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1, H )
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   [new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1 )
+    %>   [new_P0,new_P1,new_T0,new_T1] = object.cut( a, b, P0, P1, T0, T1, H )
+    %> ```
     %>
     %> The parametrization of the new Hermite data is on [0,1]
     %>

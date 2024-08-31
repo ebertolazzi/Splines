@@ -5,16 +5,12 @@
 %>
 %> - instantiate the spline object
 %>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     spl = Spline2D( kind, X, Y, ZZ );
-%>     % or
-%>     spl = Spline2D( kind );
-%>     spl.build( X, Y, ZZ );
-%>
-%> \endrst
+%> ```{matlab}
+%>   spl = Spline2D( kind, X, Y, ZZ );
+%>   % or
+%>   spl = Spline2D( kind );
+%>   spl.build( X, Y, ZZ );
+%> ```
 %>
 %> `kind` is a string and can be any of 
 %>
@@ -27,43 +23,32 @@
 %>
 %> Evaluation is simple
 %>
-%>
-%> \rst
-%>
-%>   .. code-block:: matlab
-%>
-%>     Z = spl.eval( X, Y );
-%>
-%> \endrst
+%> ```{matlab}
+%>   Z = spl.eval( X, Y );
+%> ```
 %>
 %> where `X` and `Y` are scalar or vector or matrix of the same size.
 %> the result `Z` is scalar or vector or matrix of the same size of the inputs.
 %>
 %> **example of usage**
 %>
-%> \rst
+%> ```{matlab}
+%>   X = -2:0.01:2;
+%>   Y = -2:0.01:2;
+%>   [XX,YY] = ndgrid(X,Y);
+%>   ZZ  = peaks(XX,YY);
+%>   spl = Spline2D('bicubic',X,Y,ZZ);
 %>
-%>   .. code-block:: matlab
+%>   surf(XX,YY,ZZ), view(145,-2), set(gca,'Fontsize',16);
 %>
-%>     X = -2:0.01:2;
-%>     Y = -2:0.01:2;
-%>     [XX,YY] = ndgrid(X,Y);
-%>     ZZ  = peaks(XX,YY);
-%>     spl = Spline2D('bicubic',X,Y,ZZ);
-%>     
-%>     surf(XX,YY,ZZ), view(145,-2), set(gca,'Fontsize',16);
-%>     
-%>     X = -2:0.1:2;
-%>     Y = -2:0.1:2;
-%>     [XX,YY] = ndgrid(X,Y);
-%>     
-%>     ZZ = spl.eval(XX,YY);
+%>   X = -2:0.1:2;
+%>   Y = -2:0.1:2;
+%>   [XX,YY] = ndgrid(X,Y);
 %>
-%>   .. image:: ../../images/exampleSurf.png
-%>      :width: 80%
-%>      :align: center
+%>   ZZ = spl.eval(XX,YY);
+%> ```
 %>
-%> \endrst
+%> @html_image{exampleSurf.png,width=80%}
 %>
 classdef Spline2D < matlab.mixin.Copyable
   properties (SetAccess = private, Hidden = true)
@@ -77,12 +62,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> **Usage**
     %>
-    %> \rst
-    %> .. code-block:: matlab
-    %>
+    %> ```{matlab}
     %>   B = A.copy();
-    %>
-    %> \endrst
+    %> ```
     %>
     %> where `A` is the curve object to be copied.
     %>
@@ -98,14 +80,11 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Build a spline given a table of point and type:
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl = Spline2D( kind );          % initialize
-    %>     spl = Spline2D( kind, X, Y, Z ); % initialize and build
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl = Spline2D( kind );          % initialize
+    %>   spl = Spline2D( kind, X, Y, Z ); % initialize and build
+    %> ```
     %>
     function self = Spline2D( name, varargin )
       self.objectHandle = Spline2DMexWrapper( 'new', name );
@@ -125,13 +104,10 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Build a spline given a table of point and type:
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.build( X, Y, Z );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.build( X, Y, Z );
+    %> ```
     %>
     %> `X` and `Y` are vector `Z` is a matrix `nx x ny`
     %>
@@ -143,15 +119,12 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline (and its derivatives) at (x,y)
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     P = spl.eval( x, y );
-    %>     [P,Px,Py] = spl.eval( x, y );
-    %>     [P,Px,Py,Pxx,Pxy,Pyy] = spl.eval( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   P = spl.eval( x, y );
+    %>   [P,Px,Py] = spl.eval( x, y );
+    %>   [P,Px,Py,Pxx,Pxy,Pyy] = spl.eval( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -174,13 +147,10 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline `x` derivative at (x,y)
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     Dx = spl.eval_Dx( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   Dx = spl.eval_Dx( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -191,13 +161,10 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline `y` derivative at (x,y)
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     Dy = spl.eval_Dy( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   Dy = spl.eval_Dy( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -208,13 +175,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline `x` second derivative at (x,y)
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     Dxx = spl.eval_Dxx( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   Dxx = spl.eval_Dxx( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -225,13 +188,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline `xy` second derivative at (x,y)
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     Dxy = spl.eval_Dxy( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   Dxy = spl.eval_Dxy( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -242,13 +201,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Evaluate spline `y` second derivative at (x,y)
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     Dyy = spl.eval_Dyy( x, y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   Dyy = spl.eval_Dyy( x, y );
+    %> ```
     %>
     %> `x` and `y` are salar or vector or matrix of the same size
     %>
@@ -259,13 +214,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Set spline surface as closed in `x direction
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_x_closed();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_x_closed();
+    %> ```
     %>
     function make_x_closed( self )
       Spline2DMexWrapper( 'make_x_closed', self.objectHandle );
@@ -274,13 +225,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Set spline surface as opened in `x direction
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_x_opened();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_x_opened();
+    %> ```
     %>
     function make_x_opened( self )
       Spline2DMexWrapper( 'make_x_opened', self.objectHandle );
@@ -289,13 +236,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Return true if spline surface is of closed type in `x`-direction
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     ok = spl.is_x_closed();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   ok = spl.is_x_closed();
+    %> ```
     %>
     function ok = is_x_closed( self )
       ok = Spline2DMexWrapper( 'is_x_closed', self.objectHandle );
@@ -305,13 +248,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Make spline surface computable only in the `x`-range where is defined.
     %> If `x` is outside range an error is produced.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_x_bounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_x_bounded();
+    %> ```
     %>
     function make_x_bounded( self )
       Spline2DMexWrapper( 'make_x_bounded', self.objectHandle );
@@ -321,13 +260,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Make spline surface computable outside the `x`-range is defined.
     %> If `x` is outside range value is extrapolated.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_x_unbounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_x_unbounded();
+    %> ```
     %>
     function make_x_unbounded( self )
       Spline2DMexWrapper( 'make_x_unbounded', self.objectHandle );
@@ -337,13 +272,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Check if spline is computable only in the `x`-range where is defined.
     %> Return true if can be computed only in the range.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     ok = spl.is_x_bounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   ok = spl.is_x_bounded();
+    %> ```
     %>
     function ok = is_x_bounded( self )
       ok = Spline2DMexWrapper( 'is_x_bounded', self.objectHandle );
@@ -352,13 +283,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Set spline surface as closed in `y direction
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_y_closed();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_y_closed();
+    %> ```
     %>
     function make_y_closed( self )
       Spline2DMexWrapper( 'make_y_closed', self.objectHandle );
@@ -367,13 +294,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Set spline surface as opened in `y direction
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_y_opened();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_y_opened();
+    %> ```
     %>
     function make_y_opened( self )
       Spline2DMexWrapper( 'make_y_opened', self.objectHandle );
@@ -382,13 +305,10 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> Return true if spline surface is of closed type in `y`-direction
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     ok = spl.is_y_closed();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   ok = spl.is_y_closed();
+    %> ```
     %>
     function ok = is_y_closed( self )
       ok = Spline2DMexWrapper( 'is_y_closed', self.objectHandle );
@@ -398,13 +318,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Make spline surface computable only in the `y`-range where is defined.
     %> If `y` is outside range an error is produced.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_y_bounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_y_bounded();
+    %> ```
     %>
     function make_y_bounded( self )
       Spline2DMexWrapper( 'make_y_bounded', self.objectHandle );
@@ -414,13 +330,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Make spline surface computable outside the `y`-range is defined.
     %> If `y` is outside range value is extrapolated.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     spl.make_y_unbounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   spl.make_y_unbounded();
+    %> ```
     %>
     function make_y_unbounded( self )
       Spline2DMexWrapper( 'make_y_unbounded', self.objectHandle );
@@ -430,13 +342,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %> Check if spline is computable only in the `y`-range where is defined.
     %> Return true if can be computed only in the range.
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     ok = spl.is_y_bounded();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   ok = spl.is_y_bounded();
+    %> ```
     %>
     function ok = is_y_bounded( self )
       ok = Spline2DMexWrapper( 'is_y_bounded', self.objectHandle );

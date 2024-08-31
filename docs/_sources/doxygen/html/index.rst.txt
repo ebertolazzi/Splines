@@ -1,0 +1,23 @@
+.. meta::a0ab23c14e385bbcbe77214c6fb8cf8c359c77e78e2b39cc2692e68998d3e18d8f4b2ab153ff3c781e572e41028542f849fa2cfd503fdc2c9c9fabe2efa2eaf4
+
+:orphan:
+
+.. title:: Splines: Main Page
+
+Splines
+=======
+
+.. toctree::
+   :caption: Main Page
+   :maxdepth: 2
+   :hidden:
+
+   Namespaces <namespaces_namespaces>
+   Classes <annotated_classes>
+   Files <files>
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: index.html

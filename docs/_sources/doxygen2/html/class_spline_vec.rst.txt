@@ -1,0 +1,14 @@
+.. meta::724e668bf52e4d17e8f2f7abfe9a9ee771b7d6be5bca1e016a6845b2eb583d8d886c86f6abe416a351946a843806caf0412cbd6c0ea6d676890248acb738c9b1
+
+:orphan:
+
+.. title:: Splines: SplineVec Class Reference
+
+SplineVec Class Reference
+=========================
+
+.. container:: doxygen-content
+
+   
+   .. raw:: html
+     :file: class_spline_vec.html

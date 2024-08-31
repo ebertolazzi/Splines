@@ -29,6 +29,8 @@
 
 namespace Splines {
 
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
   static
   Spline *
   new_Spline1D( string const & _name, SplineType1D tp ) {
@@ -59,6 +61,8 @@ namespace Splines {
     UTILS_ASSERT( m_pSpline != nullptr, "Spline1D[{}]::build, failed\n", m_name );
     m_pSpline->build( x, incx, y, incy, n );
   }
+
+  #endif
 
   /*
   //    ____  ____   ____                               _

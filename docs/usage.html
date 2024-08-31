@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=a2fddac3" />
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Clothoids C++ interface" href="index_CPP.html" />
+    <link rel="prev" title="Contents" href="index.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="index.html" title="Contents"
+             accesskey="P">previous</a> |
+          <a href="index_CPP.html" title="Clothoids C++ interface"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="splines">
+<h1>Splines<a class="headerlink" href="#splines" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Splines</span></code> is a set of <code class="docutils literal notranslate"><span class="pre">C++</span></code> classes (with <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code> mex interface) which
+implements various spline interpolation.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/ebertolazzi/Splines">Github repository</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ebertolazzi/Splines/releases">Matlab Toolbox</a></p></li>
+</ul>
+</section>
+<section id="matlab-toolbox">
+<h2>Matlab Toolbox<a class="headerlink" href="#matlab-toolbox" title="Link to this heading">¶</a></h2>
+<p>To use in <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code> install the toolbox <code class="docutils literal notranslate"><span class="pre">Splines.mltbx</span></code> then compile the
+necessary <code class="docutils literal notranslate"><span class="pre">mex</span></code> files running <code class="docutils literal notranslate"><span class="pre">CompileSplinesLib</span></code>.</p>
+</section>
+<section id="c-usage">
+<h2>C++ Usage<a class="headerlink" href="#c-usage" title="Link to this heading">¶</a></h2>
+<p>The usage is simple:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Splines.hh&quot;</span>
+<span class="w">   </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">SplinesLoad</span><span class="p">;</span>
+
+<span class="w">   </span><span class="c1">// ....</span>
+
+<span class="w">   </span><span class="n">CubicSpline</span><span class="w"> </span><span class="n">spline</span><span class="p">;</span>
+<span class="w">   </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+<span class="w">   </span><span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="w">   </span><span class="n">spline</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"> </span><span class="c1">// build a cubic spline with 4 points</span>
+
+<span class="w">   </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">     </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline at x = 1.1</span>
+<span class="w">   </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">D</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">   </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline first derivative at x = 1.1</span>
+<span class="w">   </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline second derivative at x = 1.1</span>
+<span class="w">   </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DDD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline third derivative at x = 1.1</span>
+</pre></div>
+</div>
+<p>splines can be built incrementally</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Splines.hh&quot;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">SplinesLoad</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// ....</span>
+
+<span class="w">  </span><span class="n">CubicSpline</span><span class="w"> </span><span class="n">spline</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">pushBack</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">pushBack</span><span class="p">(</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">pushBack</span><span class="p">(</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">pushBack</span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">     </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">D</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">   </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline first derivative at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline second derivative at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DDD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline third derivative at x = 1.1</span>
+</pre></div>
+</div>
+<p>or by using standard vector</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Splines.hh&quot;</span>
+<span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">SplinesLoad</span><span class="p">;</span>
+<span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// ....</span>
+
+<span class="w">  </span><span class="n">CubicSpline</span><span class="w"> </span><span class="n">spline</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">  </span><span class="n">x</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="w">  </span><span class="n">x</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">x</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">x</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="w">  </span><span class="n">spline</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">     </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">D</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">   </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline first derivative at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w">  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline second derivative at x = 1.1</span>
+<span class="w">  </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">spline</span><span class="p">.</span><span class="n">DDD</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// spline third derivative at x = 1.1</span>
+</pre></div>
+</div>
+</section>
+<section id="compile-and-tests">
+<h2>Compile and tests<a class="headerlink" href="#compile-and-tests" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">  </span>rake<span class="w"> </span>build_win<span class="w">    </span><span class="c1"># on windows</span>
+<span class="w">  </span>rake<span class="w"> </span>build_linux<span class="w">  </span><span class="c1"># on linux</span>
+<span class="w">  </span>rake<span class="w"> </span>build_osx<span class="w">    </span><span class="c1"># on mac</span>
+</pre></div>
+</div>
+<p>To run the test</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">  </span>rake<span class="w"> </span>run<span class="w">     </span><span class="c1"># on linux and osx</span>
+<span class="w">  </span>rake<span class="w"> </span>run_win<span class="w"> </span><span class="c1"># on windows</span>
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>F.N. Fritsch and R.E. Carlson</strong>,<br />
+<em>Monotone Piecewise Cubic Interpolation</em>,<br />
+SIAM Journal of Numerical Analysis, Vol.17, No. 2, pp.238-246, 1980.</p></li>
+<li><p><strong>Hiroshi Akima</strong>,<br />
+<em>Journal of the ACM</em>,<br />
+Vol.17, No. 4, 589-602, 1970.</p></li>
+<li><p><strong>Hiroshi Akima</strong>,<br />
+<em>A Method of Bivariate Interpolation and Smooth Surface Fitting for Irregularly Distributed Data Points</em>,<br />
+ACM Transactions on Mathematical Software, Vol.4, 148-164, 1978.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Splines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#matlab-toolbox">Matlab Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c-usage">C++ Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile-and-tests">Compile and tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="index.html" title="Contents"
+              >previous</a> |
+            <a href="index_CPP.html" title="Clothoids C++ interface"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/usage.md.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

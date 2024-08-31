@@ -14,12 +14,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> **Usage**
     %>
-    %> \rst
-    %> .. code-block:: matlab
-    %>
+    %> ```{matlab}
     %>   B = A.copy();
-    %>
-    %> \endrst
+    %> ```
     %>
     %> where `A` is the curve object to be copied.
     %>
@@ -35,23 +32,17 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Build a spline Set
     %>
-    %> \rst
+    %> ```{matlab}
+    %>   X = [ .... ];                  % vector or nodes
+    %>   Y = [ .... ];                  % matrix of values or
+    %>   Y = { [....],  ...., [....] }; % cell array of vectors
+    %>   kind = { .... }                % cell array of strings
+    %>                                  % with the kind of each spline
     %>
-    %> .. code-block:: matlab
+    %>   obj = SplineSet( kind, X, Y );
+    %> ```
     %>
-    %>
-    %>    X = [ .... ];                  % vector or nodes
-    %>    Y = [ .... ];                  % matrix of values or
-    %>    Y = { [....],  ...., [....] }; % cell array of vectors
-    %>    kind = { .... }                % cell array of strings
-    %>                                   % with the kind of each spline
-    %>
-    %>    obj = SplineSet( kind, X, Y );
-    %>
-    %> \endrst
-    %>
-    %>
-    %> Kind is a string and can be any of 
+    %> Kind is a string and can be any of
     %>
     %> |    kind      |   meaning                                                |
     %> | :----------- | :------------------------------------------------------- |
@@ -81,13 +72,10 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Build a spline Set
     %>
-    %> \rst
     %>
-    %>   .. code-block:: matlab
-    %>
-    %>     obj = SplineSet( kind, X, Y );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   obj = SplineSet( kind, X, Y );
+    %> ```
     %>
     function build( self, kinds, x, y )
       SplineSetMexWrapper( 'build', self.objectHandle, kinds, x, y );
@@ -96,13 +84,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Evaluate spline at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p = obj.eval( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p = obj.eval( x );
+    %> ```
     %>
     function p = eval( self, x )
       p = SplineSetMexWrapper( 'eval', self.objectHandle, x );
@@ -111,13 +95,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Evaluate spline derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_D = obj.eval_D( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_D = obj.eval_D( x );
+    %> ```
     %>
     function dp = eval_D( self, x )
       dp = SplineSetMexWrapper( 'eval_D', self.objectHandle, x );
@@ -126,13 +106,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Evaluate spline second derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_DD = obj.eval_DD( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_DD = obj.eval_DD( x );
+    %> ```
     %>
     function ddp = eval_DD( self, x )
       ddp = SplineSetMexWrapper( 'eval_DD', self.objectHandle, x );
@@ -141,13 +117,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Evaluate spline third derivative at `x`
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     p_DDD = obj.eval_DDD( x );
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   p_DDD = obj.eval_DDD( x );
+    %> ```
     %>
     function dddp = eval_DDD( self, x )
       dddp = SplineSetMexWrapper( 'eval_DDD', self.objectHandle, x );
@@ -156,13 +128,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Return initial t-coordinate of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     t = obj.tmin();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   t = obj.tmin();
+    %> ```
     %>
     function t = tmin( self, x )
       t = SplineSetMexWrapper( 'tmin', self.objectHandle );
@@ -171,13 +139,9 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %> Return initial t-coordinate of the spline
     %>
-    %> \rst
-    %>
-    %>   .. code-block:: matlab
-    %>
-    %>     t = obj.tmax();
-    %>
-    %> \endrst
+    %> ```{matlab}
+    %>   t = obj.tmax();
+    %> ```
     %>
     function t = tmax( self, x )
       t = SplineSetMexWrapper( 'tmax', self.objectHandle );

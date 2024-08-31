@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineBiCubic.hxx Source File &#8212; Splines</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/agogo.css?v=9f70d9a6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_style.css?v=678fb11e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-needs/modern.css?v=803738c0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2fddac3" />
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+    <script src="../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+    <script src="../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="../../index.html">
+            <img class="logo" src="../../_static/logo.png" alt="Logo of Splines"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="../../index.html">Splines</a></div>
+<!--
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+-->
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splinebicubic-hxx-source-file">
+<h1>/Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineBiCubic.hxx Source File<a class="headerlink" href="#users-enrico-ricerca-develop-pins-pins-mechatronix-libsources-submodules-splines-src-splines-splinebicubic-hxx-source-file" title="Link to this heading">¶</a></h1>
+<div class="doxygen-content docutils container">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Splines: /Users/enrico/Ricerca/develop/PINS/pins-mechatronix/LibSources/submodules/Splines/src/Splines/SplineBiCubic.hxx Source File</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Splines
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.12.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',false,false,'search.php','Search',false);
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8d7a7c0060e2b3024ee0627dfec2e3ba.html">Splines</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle"><div class="title">SplineBiCubic.hxx</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*--------------------------------------------------------------------------*\</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> |  Copyright (C) 2016                                                      |</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> |         , __                 , __                                        |</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> |        /|/  \               /|/  \                                       |</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> |         | __/ _   ,_         | __/ _   ,_                                |</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> |         |   \|/  /  |  |   | |   \|/  /  |  |   |                        |</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> |         |(__/|__/   |_/ \_/|/|(__/|__/   |_/ \_/|/                       |</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> |                           /|                   /|                        |</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> |                           \|                   \|                        |</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> |      Enrico Bertolazzi                                                   |</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> |      Dipartimento di Ingegneria Industriale                              |</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> |      Universita` degli Studi di Trento                                   |</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> |      email: enrico.bertolazzi@unitn.it                                   |</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> |                                                                          |</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">\*--------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_splines.html">Splines</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="comment">/*\</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">   |   ____  _  ____      _     _      ____        _ _            ____</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">   |  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___| __ )  __ _ ___  ___</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">   |  |  _ \| | |  | | | | &#39;_ \| |/ __\___ \| &#39;_ \| | | &#39;_ \ / _ \  _ \ / _` / __|/ _ \</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">   |  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/ |_) | (_| \__ \  __/</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">   |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|____/ \__,_|___/\___|</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">   |                                        |_|</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">  \*/</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline_base.html">   34</a></span>  <span class="keyword">class </span><a class="code hl_class" href="class_splines_1_1_bi_cubic_spline_base.html">BiCubicSplineBase</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_splines_1_1_spline_surf.html">SplineSurf</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">    #ifndef DOXYGEN_SHOULD_SKIP_THIS</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    Malloc_real m_mem_bicubic;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> * m_DX{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> * m_DY{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> * m_DXY{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">using </span>SplineSurf::m_nx;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">using </span>SplineSurf::m_ny;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">using </span>SplineSurf::m_X;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">using </span>SplineSurf::m_Y;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">using </span>SplineSurf::m_Z;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">void</span> load( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> bili3[4][4] ) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a731e07469d9406004c358ead07c10b0d">BiCubicSplineBase</a>( <span class="keywordtype">string</span> <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a> = <span class="stringliteral">&quot;BiCubicSplineBase&quot;</span> );</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_class" href="class_splines_1_1_bi_cubic_spline_base.html">~BiCubicSplineBase</a>()<span class="keyword"> override </span>{}</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline_base.html#aecb46ab6cf64b1475550e7159d8cbc16">   72</a></span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#aecb46ab6cf64b1475550e7159d8cbc16">Dx_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_DX[size_t(this-&gt;ipos_C(i,j))]; }</div>
+</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline_base.html#ac85ddc8f6f9890b0114bfd9e3d49ef44">   79</a></span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#ac85ddc8f6f9890b0114bfd9e3d49ef44">Dy_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_DY[size_t(this-&gt;ipos_C(i,j))]; }</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a></div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline_base.html#a650b10d7ea281fc1b9e271e8bc29bb19">   86</a></span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a650b10d7ea281fc1b9e271e8bc29bb19">Dxy_node</a>( <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> i, <a class="code hl_typedef" href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">integer</a> j )<span class="keyword"> const</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">    </span>{ <span class="keywordflow">return</span> m_DXY[size_t(this-&gt;ipos_C(i,j))]; }</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#abaec902b065bacd3a24cc174d896c692">eval</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a3f628e746495875f6ce87da294a82d0e">D</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> d[3] ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a666596d391d195206c8325ae6d46b803">Dx</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#aa19778cda90ab86a83e55e7d37ca8f4c">Dy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a681e231dc76125341f53d57580d341f7">DD</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> dd[6] ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a397f8baf3815ea18f9eedf097ce23436">Dxx</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a1c5f359cc0d6a60fc85ca705d5a05b52">Dxy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline_base.html#a527e5ff39af97b6b0345d4d378f59591">Dyy</a>( <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> x, <a class="code hl_typedef" href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">real_type</a> y ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  };</div>
+</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  <span class="comment">/*\</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">   |   ____  _  ____      _     _      ____        _ _</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment">   |  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">   |  |  _ \| | |  | | | | &#39;_ \| |/ __\___ \| &#39;_ \| | | &#39;_ \ / _ \</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">   |  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">   |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">   |                                        |_|</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">  \*/</span></div>
+<div class="foldopen" id="foldopen00154" data-start="{" data-end="};">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline.html">  154</a></span>  <span class="keyword">class </span><a class="code hl_class" href="class_splines_1_1_bi_cubic_spline.html">BiCubicSpline</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_splines_1_1_bi_cubic_spline_base.html">BiCubicSplineBase</a> {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordtype">void</span> make_spline() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keyword">using </span>BiCubicSplineBase::m_mem_bicubic;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keyword">using </span>BiCubicSplineBase::m_DX;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keyword">using </span>BiCubicSplineBase::m_DY;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keyword">using </span>BiCubicSplineBase::m_DXY;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="}">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline.html#a4e3d55da211e67fead8569db9e9c0daa">  169</a></span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline.html#a4e3d55da211e67fead8569db9e9c0daa">BiCubicSpline</a>( <span class="keywordtype">string</span> <span class="keyword">const</span> &amp; <a class="code hl_function" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a> = <span class="stringliteral">&quot;BiCubicSpline&quot;</span> )</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    : <a class="code hl_class" href="class_splines_1_1_bi_cubic_spline_base.html">BiCubicSplineBase</a>( <a class="code hl_function" href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">name</a> )</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    {}</div>
+</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="class_splines_1_1_bi_cubic_spline.html#a8d3a2f8b425486f2da02a854e3c3758e">  176</a></span>    <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline.html#a8d3a2f8b425486f2da02a854e3c3758e">~BiCubicSpline</a>()<span class="keyword"> override </span>{}</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline.html#a35a5dd771e7763b8db1ef99a4e2ae339">write_to_stream</a>( ostream_type &amp; s ) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordtype">char</span> <span class="keyword">const</span> * <a class="code hl_function" href="class_splines_1_1_bi_cubic_spline.html#a9fcfef22671c0aa8cb0d6df733090618">type_name</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>  };</div>
+</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="comment">// EOF: SplineBiCubic.hxx</span></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html">Splines::BiCubicSplineBase</a></div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:34</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a1c5f359cc0d6a60fc85ca705d5a05b52"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a1c5f359cc0d6a60fc85ca705d5a05b52">Splines::BiCubicSplineBase::Dxy</a></div><div class="ttdeci">real_type Dxy(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:282</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a397f8baf3815ea18f9eedf097ce23436"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a397f8baf3815ea18f9eedf097ce23436">Splines::BiCubicSplineBase::Dxx</a></div><div class="ttdeci">real_type Dxx(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:295</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a3f628e746495875f6ce87da294a82d0e"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a3f628e746495875f6ce87da294a82d0e">Splines::BiCubicSplineBase::D</a></div><div class="ttdeci">void D(real_type x, real_type y, real_type d[3]) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:321</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a527e5ff39af97b6b0345d4d378f59591"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a527e5ff39af97b6b0345d4d378f59591">Splines::BiCubicSplineBase::Dyy</a></div><div class="ttdeci">real_type Dyy(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:308</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a650b10d7ea281fc1b9e271e8bc29bb19"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a650b10d7ea281fc1b9e271e8bc29bb19">Splines::BiCubicSplineBase::Dxy_node</a></div><div class="ttdeci">real_type Dxy_node(integer i, integer j) const</div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:86</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a666596d391d195206c8325ae6d46b803"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a666596d391d195206c8325ae6d46b803">Splines::BiCubicSplineBase::Dx</a></div><div class="ttdeci">real_type Dx(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:256</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a681e231dc76125341f53d57580d341f7"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a681e231dc76125341f53d57580d341f7">Splines::BiCubicSplineBase::DD</a></div><div class="ttdeci">void DD(real_type x, real_type y, real_type dd[6]) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:338</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_a731e07469d9406004c358ead07c10b0d"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#a731e07469d9406004c358ead07c10b0d">Splines::BiCubicSplineBase::BiCubicSplineBase</a></div><div class="ttdeci">BiCubicSplineBase(string const &amp;name=&quot;BiCubicSplineBase&quot;)</div><div class="ttdoc">spline constructor</div><div class="ttdef"><b>Definition</b> SplineBiCubic.cc:42</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_aa19778cda90ab86a83e55e7d37ca8f4c"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#aa19778cda90ab86a83e55e7d37ca8f4c">Splines::BiCubicSplineBase::Dy</a></div><div class="ttdeci">real_type Dy(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:269</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_abaec902b065bacd3a24cc174d896c692"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#abaec902b065bacd3a24cc174d896c692">Splines::BiCubicSplineBase::eval</a></div><div class="ttdeci">real_type eval(real_type x, real_type y) const override</div><div class="ttdef"><b>Definition</b> SplinesBivariate.cc:243</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_ac85ddc8f6f9890b0114bfd9e3d49ef44"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#ac85ddc8f6f9890b0114bfd9e3d49ef44">Splines::BiCubicSplineBase::Dy_node</a></div><div class="ttdeci">real_type Dy_node(integer i, integer j) const</div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:79</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_base_html_aecb46ab6cf64b1475550e7159d8cbc16"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline_base.html#aecb46ab6cf64b1475550e7159d8cbc16">Splines::BiCubicSplineBase::Dx_node</a></div><div class="ttdeci">real_type Dx_node(integer i, integer j) const</div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:72</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_html"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline.html">Splines::BiCubicSpline</a></div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:154</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_html_a35a5dd771e7763b8db1ef99a4e2ae339"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline.html#a35a5dd771e7763b8db1ef99a4e2ae339">Splines::BiCubicSpline::write_to_stream</a></div><div class="ttdeci">void write_to_stream(ostream_type &amp;s) const override</div><div class="ttdef"><b>Definition</b> SplineBiCubic.cc:75</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_html_a4e3d55da211e67fead8569db9e9c0daa"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline.html#a4e3d55da211e67fead8569db9e9c0daa">Splines::BiCubicSpline::BiCubicSpline</a></div><div class="ttdeci">BiCubicSpline(string const &amp;name=&quot;BiCubicSpline&quot;)</div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:169</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_html_a8d3a2f8b425486f2da02a854e3c3758e"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline.html#a8d3a2f8b425486f2da02a854e3c3758e">Splines::BiCubicSpline::~BiCubicSpline</a></div><div class="ttdeci">~BiCubicSpline() override</div><div class="ttdef"><b>Definition</b> SplineBiCubic.hxx:176</div></div>
+<div class="ttc" id="aclass_splines_1_1_bi_cubic_spline_html_a9fcfef22671c0aa8cb0d6df733090618"><div class="ttname"><a href="class_splines_1_1_bi_cubic_spline.html#a9fcfef22671c0aa8cb0d6df733090618">Splines::BiCubicSpline::type_name</a></div><div class="ttdeci">char const * type_name() const override</div><div class="ttdef"><b>Definition</b> SplineBiCubic.cc:103</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline_surf_html"><div class="ttname"><a href="class_splines_1_1_spline_surf.html">Splines::SplineSurf</a></div><div class="ttdef"><b>Definition</b> Splines.hh:1138</div></div>
+<div class="ttc" id="aclass_splines_1_1_spline_surf_html_aa5edf62f52a6fd3786b110531b181194"><div class="ttname"><a href="class_splines_1_1_spline_surf.html#aa5edf62f52a6fd3786b110531b181194">Splines::SplineSurf::name</a></div><div class="ttdeci">string const &amp; name() const</div><div class="ttdef"><b>Definition</b> Splines.hh:1310</div></div>
+<div class="ttc" id="anamespace_splines_html"><div class="ttname"><a href="namespace_splines.html">Splines</a></div><div class="ttdef"><b>Definition</b> SplineAkima.cc:50</div></div>
+<div class="ttc" id="anamespace_splines_html_a0b83d8865bf650fca7ad1d657245a8a1"><div class="ttname"><a href="namespace_splines.html#a0b83d8865bf650fca7ad1d657245a8a1">Splines::integer</a></div><div class="ttdeci">int integer</div><div class="ttdoc">Signed integer type for splines.</div><div class="ttdef"><b>Definition</b> Splines.hh:58</div></div>
+<div class="ttc" id="anamespace_splines_html_afabb8610fb01952c2fcf1f17337bd44a"><div class="ttname"><a href="namespace_splines.html#afabb8610fb01952c2fcf1f17337bd44a">Splines::real_type</a></div><div class="ttdeci">double real_type</div><div class="ttdoc">Floating point type for splines.</div><div class="ttdef"><b>Definition</b> Splines.hh:57</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Splines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_CPP.html">Clothoids C++ interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_MATLAB.html">Clothoids MATLAB interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LICENSE.html">LICENSE</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+<!--
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/doxygen/html/_spline_bi_cubic_8hxx_source.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+-->
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

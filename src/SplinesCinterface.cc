@@ -130,7 +130,7 @@ extern "C" {
   }
 
   void *
-  SPLINE_mem_ptr( char const * id ) {
+  SPLINE_mem_ptr( char const id[] ) {
     // check if exists ?
     return static_cast<void*>(&spline_stored[id]);
   }

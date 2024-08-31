@@ -33,10 +33,15 @@ namespace Splines {
   //!
   class QuinticSplineBase : public Spline {
   protected:
+
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS
+
     Malloc_real m_base_quintic;
     real_type * m_Yp{nullptr};
     real_type * m_Ypp{nullptr};
     bool        m_external_alloc{false};
+
+    #endif
 
   public:
 
@@ -50,14 +55,22 @@ namespace Splines {
     #endif
 
     //!
-    //! Spline constructor
+    //! Build an empty spline of `QuinticSplineBase` type
+    //!
+    //! \param name the name of the spline
     //!
     QuinticSplineBase( string const & name = "QuinticSplineBase" );
 
+    //!
+    //! Spline destructor.
+    //!
     ~QuinticSplineBase() override {}
 
     ///@}
 
+    //!
+    //! Build a copy of spline `S`
+    //!
     void copy_spline( QuinticSplineBase const & S );
 
     //!
