@@ -9,3 +9,18 @@ html {
   color:#204a87;
   font-size: 16px !important;
 }
+
+div.bodywrapper a, div.footer a {
+  color:#3465a4 !important;
+  text-decoration: none;
+}
+
+div.bodywrapper a:hover, div.footer a:hover {
+  text-decoration: underline;
+  color:orangered !important;
+}
+
+div.sidebar a:hover, aside.sidebar a:hover, div.header a:hover {
+  text-decoration: underline;
+  color:orangered !important;
+}
