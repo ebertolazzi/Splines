@@ -78,7 +78,7 @@ namespace Splines {
     Spline ** m_splines{nullptr};
     int     * m_is_monotone{nullptr};
 
-    BinarySearch m_header_to_position;
+    std::map<string,integer> m_header_to_position;
 
     #endif
 

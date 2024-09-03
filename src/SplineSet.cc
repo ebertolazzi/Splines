@@ -192,7 +192,7 @@ namespace Splines {
 
   integer
   SplineSet::get_position( char const hdr[] ) const {
-    integer pos{ m_header_to_position.search(hdr) };
+    integer pos{ m_header_to_position.at(hdr) };
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
       "SplineSet[{}]::get_position(\"{}\") not found!\n"
@@ -390,7 +390,7 @@ namespace Splines {
           msg, spl, headers[spl], to_string(stype[size_t(spl)]), spl
         );
       }
-      m_header_to_position.insert( s->name(), integer(spl) );
+      m_header_to_position.insert( {s->name(), integer(spl)} );
     }
 
     m_mem.must_be_empty( "SplineSet::build, baseValue" );

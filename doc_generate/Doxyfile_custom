@@ -26,7 +26,6 @@ GENERATE_TAGFILE       = doxygen/html/tagfile.xml  # generate a tag file
 PREDEFINED = DOXYGEN_SHOULD_SKIP_THIS
 
 DOT_IMAGE_FORMAT       = svg  # generates nicer svg images
-DOT_TRANSPARENT        = YES  # generate transparent images
 INTERACTIVE_SVG        = YES  # to be able to scroll and zoom into big images
 
 # if you want to use aliases instead of markdown fences for commenting (see syntax guide) you have to add

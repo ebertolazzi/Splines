@@ -242,9 +242,15 @@ namespace Splines {
   Spline::search( std::pair<integer,real_type> & res ) const {
     UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
-    bool ok{true};
-    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
-    if ( !ok ) last_interval = 0;
+    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval.find(id);
+    if ( it == m_last_interval.end() ) {
+      it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
+      *it->second.get() = 0;
+    }
+    integer & last_interval{ *it->second.get() };
+    lock.unlock();
     #else
     integer & last_interval = m_last_interval;
     #endif
@@ -264,10 +270,13 @@ namespace Splines {
   void
   Spline::init_last_interval() {
     #ifdef SPLINES_USE_THREADS
-    bool ok;
-    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval.find(id);
+    if ( it == m_last_interval.end() ) it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
+    integer & last_interval{ *it->second.get() };
     #else
-    integer & last_interval = m_last_interval;
+    integer & last_interval{ m_last_interval };
     #endif
     last_interval = 0;
   }
@@ -275,11 +284,17 @@ namespace Splines {
   integer
   SplineSurf::search_x( real_type & x ) const {
     #ifdef SPLINES_USE_THREADS
-    bool ok{true};
-    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
-    if ( !ok ) last_interval = 0;
+    std::unique_lock<std::mutex> lock(m_last_interval_x_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval_x.find(id);
+    if ( it == m_last_interval_x.end() ) {
+      it = m_last_interval_x.insert( {id,std::make_shared<integer>()} ).first;
+      *it->second.get() = 0;
+    }
+    integer & last_interval{ *it->second.get() };
+    lock.unlock();
     #else
-    integer & last_interval = m_last_interval_x;
+    integer & last_interval{ m_last_interval_x };
     #endif
     Utils::search_interval(
       m_nx,
@@ -295,10 +310,13 @@ namespace Splines {
   void
   SplineSurf::init_last_interval_x() {
     #ifdef SPLINES_USE_THREADS
-    bool ok;
-    integer & last_interval = *m_last_interval_x.search( std::this_thread::get_id(), ok );
+    std::unique_lock<std::mutex> lock(m_last_interval_x_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval_x.find(id);
+    if ( it == m_last_interval_x.end() ) it = m_last_interval_x.insert( {id,std::make_shared<integer>()} ).first;
+    integer & last_interval{ *it->second.get() };
     #else
-    integer & last_interval = m_last_interval_x;
+    integer & last_interval{ m_last_interval_x };
     #endif
     last_interval = 0;
   }
@@ -306,11 +324,17 @@ namespace Splines {
   integer
   SplineSurf::search_y( real_type & y ) const {
     #ifdef SPLINES_USE_THREADS
-    bool ok{true};
-    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
-    if ( !ok ) last_interval = 0;
+    std::unique_lock<std::mutex> lock(m_last_interval_y_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval_y.find(id);
+    if ( it == m_last_interval_y.end() ) {
+      it = m_last_interval_y.insert( {id,std::make_shared<integer>()} ).first;
+      *it->second.get() = 0;
+    }
+    integer & last_interval{ *it->second.get() };
+    lock.unlock();
     #else
-    integer & last_interval = m_last_interval_y;
+    integer & last_interval{ m_last_interval_y };
     #endif
     Utils::search_interval(
       m_ny,
@@ -326,10 +350,13 @@ namespace Splines {
   void
   SplineSurf::init_last_interval_y() {
     #ifdef SPLINES_USE_THREADS
-    bool ok;
-    integer & last_interval = *m_last_interval_y.search( std::this_thread::get_id(), ok );
+    std::unique_lock<std::mutex> lock(m_last_interval_y_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval_y.find(id);
+    if ( it == m_last_interval_y.end() ) it = m_last_interval_y.insert( {id,std::make_shared<integer>()} ).first;
+    integer & last_interval{ *it->second.get() };
     #else
-    integer & last_interval = m_last_interval_y;
+    integer & last_interval{ m_last_interval_y };
     #endif
     last_interval = 0;
   }

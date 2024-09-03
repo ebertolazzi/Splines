@@ -62,11 +62,17 @@ namespace Splines {
   SplineVec::search( std::pair<integer,real_type> & res ) const {
     UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
     #ifdef SPLINES_USE_THREADS
-    bool ok{true};
-    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
-    if ( !ok ) last_interval = 0;
+    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval.find(id);
+    if ( it == m_last_interval.end() ) {
+      it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
+      *it->second.get() = 0;
+    }
+    integer & last_interval{ *it->second.get() };
+    lock.unlock();
     #else
-    integer & last_interval = m_last_interval;
+    integer & last_interval{ m_last_interval };
     #endif
     Utils::search_interval(
       m_npts,
@@ -86,10 +92,13 @@ namespace Splines {
   void
   SplineVec::init_last_interval() {
     #ifdef SPLINES_USE_THREADS
-    bool ok;
-    integer & last_interval = *m_last_interval.search( std::this_thread::get_id(), ok );
+    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
+    auto id = std::this_thread::get_id();
+    auto it = m_last_interval.find(id);
+    if ( it == m_last_interval.end() ) it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
+    integer & last_interval{ *it->second.get() };
     #else
-    integer & last_interval = m_last_interval;
+    integer & last_interval{ m_last_interval };
     #endif
     last_interval = 0;
   }

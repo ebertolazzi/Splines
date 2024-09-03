@@ -52,7 +52,8 @@ namespace Splines {
     real_type ** m_Yp{nullptr};
 
     #ifdef SPLINES_USE_THREADS
-    mutable Utils::BinarySearch<integer> m_last_interval;
+    mutable std::mutex                                         m_last_interval_mutex;
+    mutable std::map<std::thread::id,std::shared_ptr<integer>> m_last_interval;
     #else
     mutable integer m_last_interval;
     #endif
