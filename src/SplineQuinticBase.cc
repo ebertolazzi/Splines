@@ -55,6 +55,7 @@ namespace Splines {
     m_Y              = p_Y;
     m_Yp             = p_Yp;
     m_Ypp            = p_Ypp;
+    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -292,6 +293,7 @@ namespace Splines {
     std::copy_n( S.m_Y,   m_npts, m_Y   );
     std::copy_n( S.m_Yp,  m_npts, m_Yp  );
     std::copy_n( S.m_Ypp, m_npts, m_Ypp );
+    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -152,6 +152,9 @@ namespace Splines {
     m_mem.must_be_empty( "SplineVec::build, baseValue" );
     m_mem_p.must_be_empty( "SplineVec::build, basePointer" );
 
+    // reset last interval search
+    init_last_interval();
+
   }
 
   #endif

@@ -103,6 +103,7 @@ namespace Splines {
     m_external_alloc = true;
     m_X              = p_x;
     m_Y              = p_y;
+    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
