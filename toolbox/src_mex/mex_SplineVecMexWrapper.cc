@@ -128,7 +128,7 @@ namespace Splines {
       CMD "size(X) = {} must be = {}",
       npts, ptr->dimension()
     );
-    ptr->setKnots( X );
+    ptr->set_knots( X );
     #undef CMD
   }
 
@@ -147,7 +147,7 @@ namespace Splines {
 
     SplineVec * ptr = Utils::mex_convert_mx_to_ptr<SplineVec>( arg_in_1 );
 
-    ptr->setKnotsChordLength();
+    ptr->set_knots_chord_length();
     #undef CMD
   }
 
@@ -166,7 +166,7 @@ namespace Splines {
 
     SplineVec * ptr = Utils::mex_convert_mx_to_ptr<SplineVec>( arg_in_1 );
 
-    ptr->setKnotsCentripetal();
+    ptr->set_knots_centripetal();
     #undef CMD
   }
 
@@ -185,7 +185,7 @@ namespace Splines {
 
     SplineVec * ptr = Utils::mex_convert_mx_to_ptr<SplineVec>( arg_in_1 );
 
-    ptr->CatmullRom();
+    ptr->catmull_rom();
     #undef CMD
   }
 
@@ -207,7 +207,7 @@ namespace Splines {
     //! return the number of support points of the splines
     integer N = ptr->num_points();
     real_type * X = Utils::mex_create_matrix_value( arg_out_0, 1, N );
-    for ( integer i = 0; i < N; ++i ) X[i] = ptr->xNode( i );
+    for ( integer i = 0; i < N; ++i ) X[i] = ptr->x_node( i );
     #undef CMD
   }
 
