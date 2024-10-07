@@ -466,8 +466,9 @@ namespace GC_namespace {
     mwSize k = 0;
     for ( mwSize j = 0; j < dims[1]; ++j ) {
       for ( mwSize i = 0; i < dims[0]; ++i ) {
-        ptr[k] = val(i,j).real();
-        pti[k] = val(i,j).imag();
+        complex_type const & vij{ val(i,j) };
+        ptr[k] = vij.real();
+        pti[k] = vij.imag();
         ++k;
       }
     }
@@ -478,7 +479,7 @@ namespace GC_namespace {
   void
   GenericContainer_to_mxArray( GenericContainer const & gc, mxArray * & mx ) {
     static char const where[] = "in GenericContainer_to_mxArray: ";
-    mwSize dims[2] = {1,1};
+    mwSize dims[2]{1,1};
     switch ( gc.get_type() ) {
     case GC_type::NOTYPE:
     case GC_type::POINTER:
@@ -571,8 +572,8 @@ namespace GC_namespace {
         mx = mxCreateNumericArray(2,dims,mxINT32_CLASS,mxREAL);
         int_type * ptr = static_cast<int_type *>(mxGetData(mx));
         mwSize k = 0;
-        for ( mwSize j = 0; j < dims[1]; ++j )
-          for ( mwSize i = 0; i < dims[0]; ++i )
+        for ( mwSize j{0}; j < dims[1]; ++j )
+          for ( mwSize i{0}; i < dims[0]; ++i )
             ptr[k++] = gc.get_int_at(i,j,where);
       }
       break;
@@ -583,8 +584,8 @@ namespace GC_namespace {
         mx = mxCreateNumericArray(2,dims,mxINT64_CLASS,mxREAL);
         long_type * ptr = static_cast<long_type *>(mxGetData(mx));
         mwSize k = 0;
-        for ( mwSize j = 0; j < dims[1]; ++j )
-          for ( mwSize i = 0; i < dims[0]; ++i )
+        for ( mwSize j{0}; j < dims[1]; ++j )
+          for ( mwSize i{0}; i < dims[0]; ++i )
             ptr[k++] = gc.get_long_at(i,j,where);
         }
       break;
@@ -595,8 +596,8 @@ namespace GC_namespace {
         mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxREAL);
         real_type * ptr = mxGetPr(mx);
         mwSize k = 0;
-        for ( mwSize j = 0; j < dims[1]; ++j )
-          for ( mwSize i = 0; i < dims[0]; ++i )
+        for ( mwSize j{0}; j < dims[1]; ++j )
+          for ( mwSize i{0}; i < dims[0]; ++i )
             ptr[k++] = gc.get_real_at(i,j,where);
       }
       break;
@@ -608,8 +609,8 @@ namespace GC_namespace {
         real_type * ptr = mxGetPr(mx);
         real_type * pti = mxGetPi(mx);
         mwSize k = 0;
-        for ( mwSize j = 0; j < dims[1]; ++j ) {
-          for ( mwSize i = 0; i < dims[0]; ++i ) {
+        for ( mwSize j{0}; j < dims[1]; ++j ) {
+          for ( mwSize i{0}; i < dims[0]; ++i ) {
             complex_type val = gc.get_complex_at(i,j,where);
             ptr[k] = val.real();
             pti[k] = val.imag();
