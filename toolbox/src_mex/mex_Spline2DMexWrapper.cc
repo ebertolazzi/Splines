@@ -168,7 +168,7 @@ namespace Splines {
 
     SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
 
-    Utils::mex_set_scalar_int32( arg_out_0, ptr->numPointX() );
+    Utils::mex_set_scalar_int32( arg_out_0, ptr->num_point_x() );
 
     #undef CMD
   }
@@ -188,7 +188,7 @@ namespace Splines {
 
     SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
 
-    Utils::mex_set_scalar_int32( arg_out_0, ptr->numPointY() );
+    Utils::mex_set_scalar_int32( arg_out_0, ptr->num_point_y() );
 
     #undef CMD
 
@@ -293,7 +293,7 @@ namespace Splines {
 
     SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
 
-    Utils::mex_set_scalar_value( arg_out_0, ptr->zMin() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->z_min() );
 
     #undef CMD
 
@@ -314,7 +314,7 @@ namespace Splines {
 
     SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
 
-    Utils::mex_set_scalar_value( arg_out_0, ptr->zMax() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->z_max() );
 
     #undef CMD
 

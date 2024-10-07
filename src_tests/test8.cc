@@ -17,6 +17,15 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#endif
+
 #include "Splines.hh"
 #include "Utils_fmt.hh"
 
