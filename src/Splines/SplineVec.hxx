@@ -494,7 +494,7 @@ namespace Splines {
     //! Initialize the interpolation point of the splines.
     //!
     //! \param[in] dim  the dimension of the points
-    //! \param[in] npts the numeber of interpolation points
+    //! \param[in] npts the number of interpolation points
     //! \param[in] Y    the matrix of points values, `Y[i]` is the
     //!                 pointer to the i-th components
     //!
@@ -509,7 +509,7 @@ namespace Splines {
     //! Initialize the interpolation point of the splines.
     //!
     //! \param[in] dim  the dimension of the points
-    //! \param[in] npts the numeber of interpolation points
+    //! \param[in] npts the number of interpolation points
     //! \param[in] Y    the matrix of points values
     //! \param[in] ldY  leading dimension of the matrix
     //!

@@ -592,10 +592,32 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineVec::setup( GenericContainer const & ) {
-    //allocate( integer dim, integer npts );
-    // DA COMPLETARE
-    UTILS_ERROR("SplineVec::setup not yet implemented");
-  }
+  SplineVec::setup( GenericContainer const & gc ) {
 
+    string where{ fmt::format("SplineVec[{}]::setup( gc ):", m_name ) };
+
+    GenericContainer const & data = gc("data",where.c_str());
+
+    mat_real_type Y;
+    data.copyto_mat_real(Y,where.c_str());
+
+    bool transposed{false};
+    gc.get_if_exists("transposed",transposed);
+
+    if ( transposed ) {
+      integer dim { integer(Y.num_rows()) };
+      integer npts{ integer(Y.num_cols()) };
+      allocate( dim, npts );
+      for ( size_t spl{0}; spl < size_t(m_dim); ++spl )
+        for ( size_t j{0}; j < size_t(m_npts); ++j )
+          m_Y[spl][j] = Y(spl,j);
+    } else {
+      integer dim { integer(Y.num_cols()) };
+      integer npts{ integer(Y.num_rows()) };
+      allocate( dim, npts );
+      for ( size_t spl{0}; spl < size_t(m_dim); ++spl )
+        for ( size_t j{0}; j < size_t(m_npts); ++j )
+          m_Y[spl][j] = Y(j,spl);
+    }
+  }
 }

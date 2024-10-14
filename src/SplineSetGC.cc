@@ -48,6 +48,9 @@ namespace Splines {
 
   void
   SplineSet::setup( GenericContainer const & gc ) {
+
+    string where{ fmt::format( "SplineSet[{}]::setup( gc ): ", m_name ) };
+
     /*
     // gc["spline_type"]
     // gc["xdata"]
@@ -60,9 +63,14 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
-    string where{ fmt::format( "SplineSet[{}]::setup( gc ): ", m_name ) };
+    GenericContainer const & gc_stype{ gc("spline_type",where.c_str()) };
+    GenericContainer const & gc_xdata{ gc("xdata",where.c_str()) };
+    GenericContainer const & gc_ydata{ gc("ydata",where.c_str()) };
 
-    gc("spline_type",where.c_str()).copyto_vec_string(
+    //
+    // gc["spline_type"]
+    //
+    gc_stype.copyto_vec_string(
       spline_type_vec, (where+"in reading `spline_type'\n").c_str()
     );
     m_nspl = integer(spline_type_vec.size());
@@ -70,16 +78,10 @@ namespace Splines {
     for ( size_t spl{0}; spl < size_t(m_nspl); ++spl )
       stype[spl] = string_to_splineType1D( spline_type_vec[spl] );
 
-    gc("xdata",where.c_str()).copyto_vec_real( X, (where+"reading `xdata'").c_str() );
-    m_npts = integer( X.size() );
-
-    GenericContainer const & gc_ydata{ gc("ydata",where.c_str()) };
-
-    // allocate for _nspl splines
-    Y  . resize( size_t(m_nspl) );
-    Yp . resize( size_t(m_nspl) );
-
-    // se tipo vettore o matrice deve esserci headers
+    // se non tipo MAP deve esserci headers
+    //
+    // gc["headers"] (opzionale)
+    //
     if ( GC_type::MAP != gc_ydata.get_type() ) {
       GenericContainer const & gc_headers{ gc("headers",where.c_str()) };
       gc_headers.copyto_vec_string( headers, (where+", reading `headers'").c_str() );
@@ -90,88 +92,119 @@ namespace Splines {
       );
     }
 
-    if ( GC_type::VEC_REAL == gc_ydata.get_type() ) {
-      // leggo vecttore come matrice di una sola colonna
-      vec_real_type const & data{ gc_ydata.get_vec_real() };
-      UTILS_ASSERT(
-        m_nspl == 1,
-        "{}, number of splines [{}]\n"
-        "is incompatible with the type of `ydata` a vector (or a matrix with 1 column) in data\n",
-        where, m_nspl
-      );
-      UTILS_ASSERT(
-        size_t(m_npts) == data.size(),
-        "{}, number of points [{}]\n"
-        "differs from the number of `ydata` rows [{}] in data\n",
-        where, m_npts, data.size()
-      );
-      Y[0].reserve(data.size());
-      std::copy( data.begin(), data.end(), std::back_inserter(Y[0]) );
-    } else if ( GC_type::MAT_REAL == gc_ydata.get_type() ) {
-      // leggo matrice
-      mat_real_type const & data{ gc_ydata.get_mat_real() };
-      UTILS_ASSERT(
-        size_t(m_nspl) == data.numCols(),
-        "{}, number of splines [{}]\n"
-        "differs from the number of `ydata` columns [{}] in data\n",
-        where, m_nspl, data.numCols()
-      );
-      UTILS_ASSERT(
-        size_t(m_npts) == data.numRows(),
-        "{}, number of points [{}]\n"
-        "differs from the number of `ydata` rows [{}] in data\n",
-        where, m_npts, data.numRows()
-      );
-      for ( size_t i{0}; i < size_t(m_nspl); ++i )
-        data.getColumn(unsigned(i),Y[i]);
-    } else if ( GC_type::VECTOR == gc_ydata.get_type() ) {
-      vector_type const & data{ gc_ydata.get_vector() };
-      UTILS_ASSERT(
-        size_t(m_nspl) == data.size(),
-        "{}, field `ydata` expected of size {} found of size {}\n",
-        where, m_nspl, data.size()
-      );
-      string msg1{ where+" reading `ydata` columns" };
-      for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
-        GenericContainer const & datai{ data[spl] };
-        integer nrow{ m_npts };
-        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Y[spl], msg1.c_str() );
+    //
+    // gc["xdata"]
+    //
+    gc_xdata.copyto_vec_real( X, (where+"reading `xdata'").c_str() );
+    m_npts = integer( X.size() );
+
+    // allocate for _nspl splines
+    Y  . resize( size_t(m_nspl) );
+    Yp . resize( size_t(m_nspl) );
+
+    switch ( gc_ydata.get_type() ) {
+    case GC_type::VEC_BOOL:
+    case GC_type::VEC_INTEGER:
+    case GC_type::VEC_LONG:
+    case GC_type::VEC_REAL:
+    case GC_type::VEC_COMPLEX:
+      {
+        // leggo vecttore come matrice di una sola colonna
+        vec_real_type data;
+        gc_ydata.copyto_vec_real( data, (where+"reading `ydata'").c_str() );
         UTILS_ASSERT(
-          size_t(nrow) == Y[spl].size(),
-          "{}, column {} of `ydata` of type `{}` expected of size {} found of size {}\n",
-          where, spl, spline_type_vec[spl], nrow, Y[spl].size()
+          m_nspl == 1,
+          "{}, number of splines [{}]\n"
+          "is incompatible with the type of `ydata` a vector (or a matrix with 1 column) in data\n",
+          where, m_nspl
         );
-      }
-    } else if ( GC_type::MAP == gc_ydata.get_type() ) {
-      map_type const & data{ gc_ydata.get_map() };
-      UTILS_ASSERT(
-        data.size() == size_t(m_nspl),
-        "{}, field `ydata` expected of size {} found of size {}\n",
-        where, m_nspl, data.size()
-      );
-      headers.clear(); headers.reserve(data.size());
-      map_type::const_iterator im{ data.begin() };
-      string msg1{ where+" reading `ydata` columns" };
-      for ( size_t spl{0}; im != data.end(); ++im, ++spl ) {
-        headers.push_back(im->first);
-        GenericContainer const & datai{ im->second };
-        integer nrow{ m_npts };
-        if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Y[spl], msg1.c_str() );
         UTILS_ASSERT(
-          size_t(nrow) == Y[spl].size(),
-          "{}, column `{}` of `ydata` ot type `{}` expected of size {} found of size {}\n",
-          where, im->first, spline_type_vec[spl], nrow, Y[spl].size()
+          size_t(m_npts) == data.size(),
+          "{}, number of points [{}]\n"
+          "differs from the number of `ydata` rows [{}] in data\n",
+          where, m_npts, data.size()
         );
+        Y[0].reserve(data.size());
+        std::copy( data.begin(), data.end(), std::back_inserter(Y[0]) );
       }
-    } else {
+      break;
+    case GC_type::MAT_INTEGER:
+    case GC_type::MAT_LONG:
+    case GC_type::MAT_REAL:
+      {
+        mat_real_type data;
+        gc_ydata.copyto_mat_real( data, (where+"reading `ydata'").c_str() );
+        UTILS_ASSERT(
+          size_t(m_nspl) == data.num_cols(),
+          "{}, number of splines [{}]\n"
+          "differs from the number of `ydata` columns [{}] in data\n",
+          where, m_nspl, data.num_cols()
+        );
+        UTILS_ASSERT(
+          size_t(m_npts) == data.num_rows(),
+          "{}, number of points [{}]\n"
+          "differs from the number of `ydata` rows [{}] in data\n",
+          where, m_npts, data.num_rows()
+        );
+        for ( size_t i{0}; i < size_t(m_nspl); ++i )
+          data.get_column(unsigned(i),Y[i]);
+      }
+      break;
+    case GC_type::VECTOR:
+      {
+        vector_type const & data{ gc_ydata.get_vector() };
+        UTILS_ASSERT(
+          size_t(m_nspl) == data.size(),
+          "{}, field `ydata` expected of size {} found of size {}\n",
+          where, m_nspl, data.size()
+        );
+        string msg1{ where+" reading `ydata` columns" };
+        for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
+          GenericContainer const & datai{ data[spl] };
+          integer nrow{ m_npts };
+          if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
+          datai.copyto_vec_real( Y[spl], msg1.c_str() );
+          UTILS_ASSERT(
+            size_t(nrow) == Y[spl].size(),
+            "{}, column {} of `ydata` of type `{}` expected of size {} found of size {}\n",
+            where, spl, spline_type_vec[spl], nrow, Y[spl].size()
+          );
+        }
+      }
+      break;
+    case GC_type::MAP:
+      {
+        map_type const & data{ gc_ydata.get_map() };
+        UTILS_ASSERT(
+          data.size() == size_t(m_nspl),
+          "{}, field `ydata` expected of size {} found of size {}\n",
+          where, m_nspl, data.size()
+        );
+        headers.clear(); headers.reserve(data.size());
+        map_type::const_iterator im{ data.begin() };
+        string msg1{ where+" reading `ydata` columns" };
+        for ( size_t spl{0}; im != data.end(); ++im, ++spl ) {
+          headers.push_back(im->first);
+          GenericContainer const & datai{ im->second };
+          integer nrow{ m_npts };
+          if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
+          datai.copyto_vec_real( Y[spl], msg1.c_str() );
+          UTILS_ASSERT(
+            size_t(nrow) == Y[spl].size(),
+            "{}, column `{}` of `ydata` ot type `{}` expected of size {} found of size {}\n",
+            where, im->first, spline_type_vec[spl], nrow, Y[spl].size()
+          );
+        }
+      }
+      break;
+    default:
       UTILS_ERROR(
         "{}, field `data` expected\n"
-        "to be of type `mat_real_type`, `vector_type` or `map_type'\n"
+        "to be of type `vec_[int/long/real]_type`, `mat_[int/long/real]_type`, `vector_type` or `map_type'\n"
         "found: `{}`\n",
         where, gc_ydata.get_type_name()
       );
+      break;
     }
 
     if ( gc.exists("ypdata") ) { // yp puo' essere solo tipo map
