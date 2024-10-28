@@ -26,7 +26,7 @@ FileUtils.rm_rf "./src/Utils_NelderMead.cc";
 
 FileUtils.cp "../license.txt", "license.txt"
 
-FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerMatlabInterface.cc",
-             "./src_mex/GenericContainerMatlabInterface.cc"
+FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerInterface_matlab.cc",
+             "./src_mex/GenericContainerInterface_matlab.cc"
 
 FileUtils.cp "../license.txt", "license.txt"
