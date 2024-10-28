@@ -610,30 +610,21 @@ namespace Splines {
     GenericContainer const & gc_y = gc("ydata",where.c_str());
     GenericContainer const & gc_z = gc("zdata",where.c_str());
 
-    vec_real_type x, y;
-    {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real( x, ff.c_str() );
-    }
-    {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real ( y, ff.c_str() );
-    }
-    mat_real_type z;
-    {
-      std::string ff{ fmt::format( "{}, field `zdata'", where ) };
-      gc_z.copyto_mat_real ( z, ff.c_str() );
-    }
-
-    m_nx = integer(x.size());
-    m_ny = integer(y.size());
-    m_mem.reallocate( size_t(m_nx*m_ny+m_nx+m_ny) );
+    m_nx = gc_x.get_num_elements();
+    m_ny = gc_y.get_num_elements();
+    m_mem.reallocate( size_t((m_nx+1)*(m_ny+1)) );
     m_X = m_mem( size_t(m_nx) );
     m_Y = m_mem( size_t(m_ny) );
     m_Z = m_mem( size_t(m_nx*m_ny) );
 
-    bool transposed = true;
+    for ( integer i = 0; i < m_nx; ++i ) m_X[size_t(i)] = gc_x.get_number_at(i);
+    for ( integer i = 0; i < m_ny; ++i ) m_Y[size_t(i)] = gc_y.get_number_at(i);
+
+    bool fortran_storage = false;
+    bool transposed      = false;
+    gc.get_if_exists("fortran_storage",fortran_storage);
     gc.get_if_exists("transposed",transposed);
+
 
     /*
     //     +------+
@@ -646,18 +637,63 @@ namespace Splines {
     integer N, M;
     if ( transposed ) { N = m_ny; M = m_nx; }
     else              { N = m_nx; M = m_ny; }
+    integer LD = fortran_storage ? N : M;
 
-    UTILS_ASSERT(
-      unsigned(N) == z.num_rows() && unsigned(M) == z.num_cols(),
-      "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
-      where, N, M, z.num_rows(), z.num_cols()
-    );
+    if ( GC_type::MAT_REAL == gc_z.get_type() ) {
+      mat_real_type const & z = gc_z.get_mat_real();
+      UTILS_ASSERT(
+        unsigned(N) == z.numRows() && unsigned(M) == z.numCols(),
+        "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
+        where, N, M, z.numRows(), z.numCols()
+      );
+      load_Z( m_Z, LD, fortran_storage, transposed );
+    } else if ( GC_type::VEC_INTEGER == gc_z.get_type() ||
+                GC_type::VEC_LONG    == gc_z.get_type() ||
+                GC_type::VEC_REAL    == gc_z.get_type() ) {
 
-    std::copy( x.begin(), x.end(), m_X );
-    std::copy( y.begin(), y.end(), m_Y );
-    std::copy( z.begin(), z.end(), m_Z );
+      integer nz  = gc_z.get_num_elements();
+      integer nxy = m_nx * m_ny;
+      UTILS_ASSERT(
+        nz == nxy,
+        "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
+        where, nxy, m_nx, m_ny, nz
+      );
+      for ( integer i = 0; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
+      load_Z( m_Z, LD, fortran_storage, transposed );
+    } else if ( GC_type::VECTOR == gc_z.get_type() ) {
+      vector_type const & data = gc_z.get_vector();
+      vec_real_type tmp;
+      UTILS_ASSERT(
+        size_t(M) == data.size(),
+        "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
+        where, M, data.size()
+      );
+      for ( integer j = 0; j < M; ++j ) {
+        GenericContainer const & row = data[size_t(j)];
+        string msg1 = fmt::format( "{}, reading row {}\n", where, j );
+        row.copyto_vec_real( tmp, msg1.c_str() );
+        UTILS_ASSERT(
+          size_t(N) == tmp.size(),
+          "{}, row {}-th of size {}, expected {}\n",
+          where, j, tmp.size(), N
+        );
+        if ( transposed ) {
+          for ( integer i = 0; i < N; ++i )
+            m_Z[size_t(ipos_C(j,i))] = tmp[size_t(i)];
+        } else {
+          for ( integer i = 0; i < N; ++i )
+            m_Z[size_t(ipos_C(i,j))] = tmp[size_t(i)];
+        }
+      }
+      load_Z( m_Z, m_ny, true, false );
+    } else {
+      UTILS_ERROR(
+        "{}, field `z` expected to be of type"
+        " `mat_real_type` or  `vec_real_type` or `vector_type` found: `{}`\n",
+        where, gc_z.get_type_name()
+      );
+    }
 
-    load_Z( m_Z, N, true, transposed ); // mat usa fortran storage
   }
 
 }
