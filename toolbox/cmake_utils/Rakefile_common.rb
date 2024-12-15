@@ -1,20 +1,13 @@
 #
 #
 #
-%w(colorize fileutils pathname rubygems/package net/http zlib uri openssl).each do |gem|
+%w(colorize fileutils pathname rubygems/package net/http zip zlib uri openssl).each do |gem|
   begin
     require gem
   rescue LoadError
     warn "Install the #{gem} gem:\n $ (sudo) gem install #{gem}".magenta
     exit 1
   end
-end
-
-begin
-  require 'zip'
-rescue LoadError
-  warn "Install the rubyzip gem:\n $ (sudo) gem install rubyzip".magenta
-  exit 1
 end
 
 require 'rake/clean'
