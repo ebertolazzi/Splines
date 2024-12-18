@@ -284,17 +284,20 @@ namespace Splines {
       for ( integer ispl{0}; ispl < ne; ++ispl ) {
         Spline * S{ m_splines[size_t(ispl)] };
         GenericContainer const & item{ gc_boundary(ispl,"SplineSet boundary data") };
-
-        if ( item.exists("closed") && item("closed").get_bool() ) {
+        bool is_closed{false};
+        item.get_if_exists("closed",is_closed);
+        if ( is_closed ) {
           S->make_closed();
         } else {
           S->make_opened();
-          if ( item.exists("extend") && item("extend").get_bool() ) {
+          bool can_extend{false};
+          if ( !item.get_if_exists("extend",can_extend) ) item.get_if_exists("can_extend",can_extend) ;
+          if ( can_extend ) {
             S->make_unbounded();
-            if ( item("extend_constant").get_bool() )
-              S->make_extended_constant();
-            else
-              S->make_extended_not_constant();
+            bool extend_constant{false};
+            item.get_if_exists("extend_constant",extend_constant);
+            if ( extend_constant ) S->make_extended_constant();
+            else                   S->make_extended_not_constant();
           } else {
             S->make_bounded();
           }
