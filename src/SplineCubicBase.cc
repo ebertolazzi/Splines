@@ -232,7 +232,7 @@ namespace Splines {
     bool      transpose
   ) const {
     size_t n{ size_t(m_npts > 0 ? m_npts-1 : 0) };
-    for ( size_t i = 0; i < n; ++i ) {
+    for ( size_t i{0}; i < n; ++i ) {
       real_type H{ m_X[i+1]-m_X[i] };
       real_type a, b, c, d;
 
@@ -288,7 +288,7 @@ namespace Splines {
   void
   CubicSplineBase::write_to_stream( ostream_type & s ) const {
     size_t nseg = size_t( m_npts > 0 ? m_npts - 1 : 0 );
-    for ( size_t i = 0; i < nseg; ++i )
+    for ( size_t i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] slope: {}\n",
         i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1],
@@ -328,7 +328,7 @@ namespace Splines {
       q.setup( 3*A, 2*B, C );
       real_type r[2];
       integer nr = q.getRootsInOpenRange( 0, H, r );
-      for ( integer j = 0; j < nr; ++j ) {
+      for ( integer j{0}; j < nr; ++j ) {
         real_type rr = r[j];
         real_type yy = (((A*rr)+B)*rr+C)*rr+D;
         if      ( yy > y_max ) { y_max = yy; x_max_pos = X0+rr; i_max_pos = i; }
@@ -385,7 +385,7 @@ namespace Splines {
       q.setup( 3*A, 2*B, C );
       real_type r[2];
       integer nr = q.getRootsInOpenRange( 0, H, r );
-      for ( integer j = 0; j < nr; ++j ) {
+      for ( integer j{0}; j < nr; ++j ) {
         real_type rr  = r[j];
         real_type yy  = (((A*rr)+B)*rr+C)*rr+D;
         real_type ddy = 3*A*rr+B;

@@ -64,6 +64,7 @@ toolbox/license.txt
 
 *.mltbx
 *.mexmaci64
+*.mexmaca64
 !src_python_interface/include
 docs_build/xml
 docs_build/sphinx/api

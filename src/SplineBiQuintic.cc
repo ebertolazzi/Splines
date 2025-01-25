@@ -76,7 +76,7 @@ namespace Splines {
     for ( integer i{0}; i < m_nx; ++i ) {
       sp.build( m_Y, 1, &m_DX[size_t(this->ipos_C(i,0))], 1, m_ny );
       sp1.build( m_Y, 1, &m_DXX[size_t(this->ipos_C(i,0))], 1, m_ny );
-      for ( integer j = 0; j < m_ny; ++j ) {
+      for ( integer j{0}; j < m_ny; ++j ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DXY[ij]   = sp.yp_node(j);
         m_DXYY[ij]  = sp.ypp_node(j);
@@ -88,7 +88,7 @@ namespace Splines {
     for ( integer j{0}; j < m_ny; ++j ) {
       sp.build( m_X, 1, &m_DY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
       sp1.build( m_X, 1, &m_DYY[size_t(this->ipos_C(0,j))], m_ny, m_nx );
-      for ( integer i = 0; i < m_nx; ++i ) {
+      for ( integer i{0}; i < m_nx; ++i ) {
         size_t ij = size_t(this->ipos_C(i,j));
         m_DXY[ij]   += sp.yp_node(i);   m_DXY[ij]   /= 2;
         m_DXXY[ij]  += sp.ypp_node(i);  m_DXXY[ij]  /= 2;

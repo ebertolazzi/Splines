@@ -107,7 +107,7 @@ main() {
 
   file   << "x";
   file_D << "x";
-  for ( integer i = 0; i < nspl; ++i ) {
+  for ( integer i{0}; i < nspl; ++i ) {
     file   << '\t' << ss.header(i);
     file_D << '\t' << ss.header(i);
   }
@@ -118,7 +118,7 @@ main() {
     file_D << x;
     ss.eval( x, val );
     ss.eval_D( x, val_D );
-    for ( integer i = 0; i < nspl; ++i ) {
+    for ( integer i{0}; i < nspl; ++i ) {
       file   << '\t' << val[i];
       file_D << '\t' << val_D[i];
     }
@@ -134,7 +134,7 @@ main() {
 
   fileR   << "x";
   fileR_D << "x";
-  for ( integer i = 0; i < nspl; ++i ) {
+  for ( integer i{0}; i < nspl; ++i ) {
     fileR   << '\t' << ss.header(i);
     fileR_D << '\t' << ss.header(i);
   }
@@ -146,7 +146,7 @@ main() {
     fileR_D << x;
     ss.eval2( 5, x, val );
     ss.eval2_D( 5, x, val_D );
-    for ( integer i = 0; i < nspl; ++i ) {
+    for ( integer i{0}; i < nspl; ++i ) {
       fileR   << '\t' << val[i];
       fileR_D << '\t' << val_D[i];
     }

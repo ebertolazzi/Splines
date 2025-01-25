@@ -347,7 +347,7 @@ namespace Splines {
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
       integer nr = q.getRootsInOpenRange( 0, H, r );
-      for ( integer j = 0; j < nr; ++j ) {
+      for ( integer j{0}; j < nr; ++j ) {
         real_type rr = r[j];
         real_type yy = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
         if      ( yy > y_max ) { y_max = yy; x_max_pos = X0+rr; i_max_pos = i; }

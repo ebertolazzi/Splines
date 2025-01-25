@@ -120,13 +120,13 @@ namespace Splines {
   SplineVec::dump_table( ostream_type & stream, integer num_points ) const {
     vector<real_type> vals;
     stream << 's';
-    for ( integer i = 0; i < m_dim; ++i ) stream << '\t' << i;
+    for ( integer i{0}; i < m_dim; ++i ) stream << '\t' << i;
     stream << '\n';
-    for ( integer j = 0; j < num_points; ++j ) {
+    for ( integer j{0}; j < num_points; ++j ) {
       real_type s = x_min() + ((x_max()-x_min())*j)/(num_points-1);
       this->eval( s, vals );
       stream << s;
-      for ( integer i = 0; i < m_dim; ++i )
+      for ( integer i{0}; i < m_dim; ++i )
         stream << '\t' << vals[size_t(i)];
       stream << '\n';
     }
@@ -596,7 +596,7 @@ namespace Splines {
 
     string where{ fmt::format("SplineVec[{}]::setup( gc ):", m_name ) };
 
-    GenericContainer const & data = gc("data",where.c_str());
+    GenericContainer const & data{ gc("data",where.c_str()) };
 
     mat_real_type Y;
     data.copyto_mat_real(Y,where.c_str());

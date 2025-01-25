@@ -85,7 +85,7 @@ main() {
   ofstream       file_pc;
   ofstream       file_qs;
 
-  for ( integer k = 0; k < 6; ++ k ) {
+  for ( integer k{0}; k < 6; ++ k ) {
     fmt::print( "\n\nk = {}\n", k );
     real_type * xx = nullptr, * yy = nullptr;
     switch ( k ) {
@@ -109,10 +109,10 @@ main() {
 
     #define SAVE(NAME,S)                                                   \
     fmt::print( "\n\n\n{}\n\n\n", NAME );                                  \
-    fmt::print( #S": n[k] = {}\n", nn[k] );                                 \
+    fmt::print( #S": n[k] = {}\n", nn[k] );                                \
     S.clear();                                                             \
-    S.reserve(nn[k]);                                                       \
-    for ( integer i = 0; i < integer(nn[k]); ++i )                          \
+    S.reserve(nn[k]);                                                      \
+    for ( integer i{0}; i < integer(nn[k]); ++i )                          \
       S.push_back(xx[i],yy[i]);                                            \
     S.build(); /*( xx, yy, n[k] );*/                                       \
     {                                                                      \

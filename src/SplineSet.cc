@@ -184,7 +184,7 @@ namespace Splines {
       real_type s{ x_min() + ((x_max()-x_min())*j)/(num_points-1) };
       this->eval( s, vals, 1 );
       stream << s;
-      for ( integer i = 0; i < m_nspl; ++i ) stream << '\t' << vals[size_t(i)];
+      for ( integer i{0}; i < m_nspl; ++i ) stream << '\t' << vals[size_t(i)];
       stream << '\n';
     }
   }
@@ -550,7 +550,7 @@ namespace Splines {
       integer npr{ cubic.getRealRoots( r ) };
       // cerca radice buona
       bool ok{ false };
-      for ( integer i = 0; i < npr && !ok; ++i ) {
+      for ( integer i{0}; i < npr && !ok; ++i ) {
         ok = r[i] >= 0 && r[i] <= DX;
         if ( ok ) x = a + r[i];
       }

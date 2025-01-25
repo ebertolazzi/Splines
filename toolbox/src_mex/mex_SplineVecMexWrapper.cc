@@ -207,7 +207,7 @@ namespace Splines {
     //! return the number of support points of the splines
     integer N = ptr->num_points();
     real_type * X = Utils::mex_create_matrix_value( arg_out_0, 1, N );
-    for ( integer i = 0; i < N; ++i ) X[i] = ptr->x_node( i );
+    for ( integer i{0}; i < N; ++i ) X[i] = ptr->x_node( i );
     #undef CMD
   }
 
@@ -232,7 +232,7 @@ namespace Splines {
     mwSize dim = ptr->dimension();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
-    for ( mwSize i = 0; i < nx; ++i, Y += dim )
+    for ( mwSize i{0}; i < nx; ++i, Y += dim )
       ptr->eval( x[i], Y, 1 );
     #undef CMD
   }
@@ -258,7 +258,7 @@ namespace Splines {
     mwSize dim = ptr->dimension();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
-    for ( mwSize i = 0; i < nx; ++i, Y += dim )
+    for ( mwSize i{0}; i < nx; ++i, Y += dim )
       ptr->eval_D( x[i], Y, 1 );
     #undef CMD
   }
@@ -284,7 +284,7 @@ namespace Splines {
     mwSize dim = ptr->dimension();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
-    for ( mwSize i = 0; i < nx; ++i, Y += dim )
+    for ( mwSize i{0}; i < nx; ++i, Y += dim )
       ptr->eval_DD( x[i], Y, 1 );
     #undef CMD
   }
@@ -310,7 +310,7 @@ namespace Splines {
     mwSize dim = ptr->dimension();
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
-    for ( mwSize i = 0; i < nx; ++i, Y += dim )
+    for ( mwSize i{0}; i < nx; ++i, Y += dim )
       ptr->eval_DDD( x[i], Y, 1 );
     #undef CMD
   }
@@ -335,7 +335,7 @@ namespace Splines {
 
     real_type * curvature = Utils::mex_create_matrix_value( arg_out_0, 1, nx );
 
-    for ( mwSize i = 0; i < nx; ++i )
+    for ( mwSize i{0}; i < nx; ++i )
       curvature[i] = ptr->curvature( x[i] );
     #undef CMD
   }
@@ -360,7 +360,7 @@ namespace Splines {
 
     real_type * curvature_D = Utils::mex_create_matrix_value( arg_out_0, 1, nx );
 
-    for ( mwSize i = 0; i < nx; ++i )
+    for ( mwSize i{0}; i < nx; ++i )
       curvature_D[i] = ptr->curvature_D( x[i] );
     #undef CMD
   }

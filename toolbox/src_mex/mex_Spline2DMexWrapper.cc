@@ -348,7 +348,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = (*ptr)( *x++, *y++ );
 
     #undef CMD
@@ -382,7 +382,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = ptr->Dx( *x++, *y++ );
     #undef CMD
   }
@@ -415,7 +415,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = ptr->Dy( *x++, *y++ );
     #undef CMD
   }
@@ -448,7 +448,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = ptr->Dxx( *x++, *y++ );
     #undef CMD
   }
@@ -481,7 +481,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = ptr->Dxy( *x++, *y++ );
     #undef CMD
   }
@@ -514,7 +514,7 @@ namespace Splines {
       nx, ny, mx, my
     );
     real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j = 0; j < mx*nx; ++j )
+    for ( mwSize j{0}; j < mx*nx; ++j )
       *z++ = ptr->Dyy( *x++, *y++ );
     #undef CMD
   }

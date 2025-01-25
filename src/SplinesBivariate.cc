@@ -78,8 +78,8 @@ namespace Splines {
           "ldZ = {} must be >= of nx = {}\n",
           m_name, ldZ, m_nx
         );
-        for ( integer i = 0; i < m_nx; ++i )
-          for ( integer j = 0; j < m_ny; ++j )
+        for ( integer i{0}; i < m_nx; ++i )
+          for ( integer j{0}; j < m_ny; ++j )
             m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_C(j,i,ldZ))];
       } else {
         UTILS_ASSERT(
@@ -88,8 +88,8 @@ namespace Splines {
           "ldZ = {} must be >= of ny = {}\n",
           m_name, ldZ, m_ny
         );
-        for ( integer i = 0; i < m_nx; ++i )
-          for ( integer j = 0; j < m_ny; ++j )
+        for ( integer i{0}; i < m_nx; ++i )
+          for ( integer j{0}; j < m_ny; ++j )
             m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_F(j,i,ldZ))];
       }
     } else {
@@ -100,8 +100,8 @@ namespace Splines {
           "ldZ = {} must be >= of ny = {}\n",
           m_name, ldZ, m_ny
         );
-        for ( integer i = 0; i < m_nx; ++i )
-          for ( integer j = 0; j < m_ny; ++j )
+        for ( integer i{0}; i < m_nx; ++i )
+          for ( integer j{0}; j < m_ny; ++j )
             m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_C(i,j,ldZ))];
       } else {
         UTILS_ASSERT(
@@ -110,8 +110,8 @@ namespace Splines {
           "ldZ = {} must be >= of nx = {}\n",
           m_name, ldZ, m_nx
         );
-        for ( integer i = 0; i < m_nx; ++i )
-          for ( integer j = 0; j < m_ny; ++j )
+        for ( integer i{0}; i < m_nx; ++i )
+          for ( integer j{0}; j < m_ny; ++j )
             m_Z[size_t(ipos_C(i,j))] = z[size_t(ipos_F(i,j,ldZ))];
       }
     }
@@ -551,7 +551,7 @@ namespace Splines {
     s << " ]\nY = [ " << m_Y[0];
     for ( integer i = 1; i < m_ny; ++i ) s << ", " << m_Y[size_t(i)];
     s << " ]\nZ = [\n";
-    for ( integer j = 0; j < m_ny; ++j ) {
+    for ( integer j{0}; j < m_ny; ++j ) {
       s << "  [ " << m_Z[size_t(ipos_C(0,j))];
       for ( integer i = 1; i < m_nx; ++i )
         s << ", " << m_Z[size_t(ipos_C(i,j))];
@@ -605,7 +605,7 @@ namespace Splines {
     // gc["zdata"]
     //
     */
-    string where = fmt::format("SplineSurf[{}]::setup( gc ):", m_name );
+    string where{ fmt::format("SplineSurf[{}]::setup( gc ):", m_name ) };
     GenericContainer const & gc_x = gc("xdata",where.c_str());
     GenericContainer const & gc_y = gc("ydata",where.c_str());
     GenericContainer const & gc_z = gc("zdata",where.c_str());
@@ -617,11 +617,11 @@ namespace Splines {
     m_Y = m_mem( size_t(m_ny) );
     m_Z = m_mem( size_t(m_nx*m_ny) );
 
-    for ( integer i = 0; i < m_nx; ++i ) m_X[size_t(i)] = gc_x.get_number_at(i);
-    for ( integer i = 0; i < m_ny; ++i ) m_Y[size_t(i)] = gc_y.get_number_at(i);
+    for ( integer i{0}; i < m_nx; ++i ) m_X[size_t(i)] = gc_x.get_number_at(i);
+    for ( integer i{0}; i < m_ny; ++i ) m_Y[size_t(i)] = gc_y.get_number_at(i);
 
-    bool fortran_storage = false;
-    bool transposed      = false;
+    bool fortran_storage { false };
+    bool transposed      { false };
     gc.get_if_exists("fortran_storage",fortran_storage);
     gc.get_if_exists("transposed",transposed);
 
@@ -658,7 +658,7 @@ namespace Splines {
         "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
         where, nxy, m_nx, m_ny, nz
       );
-      for ( integer i = 0; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
+      for ( integer i{0}; i < nz ; ++i ) m_Z[size_t(i)] = gc_z.get_number_at(i);
       load_Z( m_Z, LD, fortran_storage, transposed );
     } else if ( GC_type::VECTOR == gc_z.get_type() ) {
       vector_type const & data = gc_z.get_vector();
@@ -668,8 +668,8 @@ namespace Splines {
         "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
         where, M, data.size()
       );
-      for ( integer j = 0; j < M; ++j ) {
-        GenericContainer const & row = data[size_t(j)];
+      for ( integer j{0}; j < M; ++j ) {
+        GenericContainer const & row{ data[size_t(j)] };
         string msg1 = fmt::format( "{}, reading row {}\n", where, j );
         row.copyto_vec_real( tmp, msg1.c_str() );
         UTILS_ASSERT(
@@ -678,10 +678,10 @@ namespace Splines {
           where, j, tmp.size(), N
         );
         if ( transposed ) {
-          for ( integer i = 0; i < N; ++i )
+          for ( integer i{0}; i < N; ++i )
             m_Z[size_t(ipos_C(j,i))] = tmp[size_t(i)];
         } else {
-          for ( integer i = 0; i < N; ++i )
+          for ( integer i{0}; i < N; ++i )
             m_Z[size_t(ipos_C(i,j))] = tmp[size_t(i)];
         }
       }

@@ -74,7 +74,7 @@ main() {
   SplineSet ss;
   ofstream  file;
 
-  for ( integer k = 0; k < 6; ++ k ) {
+  for ( integer k{0}; k < 6; ++ k ) {
     real_type * xx = nullptr, * yy = nullptr;
     switch ( k ) {
       case 0: xx = xx0; yy = yy0; break;
@@ -118,11 +118,11 @@ main() {
     ss.build( nspl, npts, headers, stype, xx, Y );
 
     file << "x";
-    for ( integer i = 0; i < nspl; ++i ) file << '\t' << ss.header(i);
+    for ( integer i{0}; i < nspl; ++i ) file << '\t' << ss.header(i);
     file << '\n';
     for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 ) {
       file << x;
-      for ( integer i = 0; i < nspl; ++i ) file << '\t' << ss(x,i);
+      for ( integer i{0}; i < nspl; ++i ) file << '\t' << ss(x,i);
       file << '\n';
     }
     file.close();

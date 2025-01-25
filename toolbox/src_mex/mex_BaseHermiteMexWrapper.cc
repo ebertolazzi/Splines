@@ -61,7 +61,7 @@ namespace Splines {
       out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -102,7 +102,7 @@ namespace Splines {
       out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_D( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -143,7 +143,7 @@ namespace Splines {
       out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_DD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -184,7 +184,7 @@ namespace Splines {
       out4 = Utils::mex_create_matrix_value( arg_out_3, nr, 1);
     }
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_DDD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -220,9 +220,9 @@ namespace Splines {
     if ( nrhs == 7 ) H = Utils::mex_get_scalar_value( arg_in_6, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] + tmp[2] * T0[j] + tmp[3] * T1[j] ;
     }
     #undef CMD
@@ -254,9 +254,9 @@ namespace Splines {
     if ( nrhs == 7 ) H = Utils::mex_get_scalar_value( arg_in_6, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_D( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] + tmp[2] * T0[j] + tmp[3] * T1[j] ;
     }
     #undef CMD
@@ -288,9 +288,9 @@ namespace Splines {
     if ( nrhs == 7 ) H = Utils::mex_get_scalar_value( arg_in_6, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_DD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] + tmp[2] * T0[j] + tmp[3] * T1[j] ;
     }
     #undef CMD
@@ -322,9 +322,9 @@ namespace Splines {
     if ( nrhs == 7 ) H = Utils::mex_get_scalar_value( arg_in_6, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[4];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite3_DDD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] + tmp[2] * T0[j] + tmp[3] * T1[j] ;
     }
     #undef CMD
@@ -356,7 +356,7 @@ namespace Splines {
     double * oP1 = Utils::mex_create_matrix_value( arg_out_1, n1, 1);
     double * oP2 = Utils::mex_create_matrix_value( arg_out_2, n1, 1);
     double * oP3 = Utils::mex_create_matrix_value( arg_out_3, n1, 1);
-    for ( mwSize i = 0; i < n1; ++i ) {
+    for ( mwSize i{0}; i < n1; ++i ) {
       oP0[i] = P0[i];
       oP1[i] = P0[i] + T0[i]/3 ;
       oP2[i] = P1[i] - T1[i]/3 ;
@@ -391,7 +391,7 @@ namespace Splines {
     double * oP1 = Utils::mex_create_matrix_value( arg_out_1, n1, 1);
     double * oT0 = Utils::mex_create_matrix_value( arg_out_2, n1, 1);
     double * oT1 = Utils::mex_create_matrix_value( arg_out_3, n1, 1);
-    for ( mwSize i = 0; i < n1; ++i ) {
+    for ( mwSize i{0}; i < n1; ++i ) {
       oP0[i] = P0[i];
       oP1[i] = P3[i];
       oT0[i] = 3*(P1[i] - P0[i]);
@@ -524,7 +524,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -573,7 +573,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_D( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -622,7 +622,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -671,7 +671,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -720,7 +720,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDDD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -769,7 +769,7 @@ namespace Splines {
       out6 = Utils::mex_create_matrix_value( arg_out_5, nr, 1);
     }
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDDDD( t[i], H, tmp );
       *out1++ = tmp[0];
       *out2++ = tmp[1];
@@ -810,9 +810,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -848,9 +848,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_D( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -886,9 +886,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -924,9 +924,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -962,9 +962,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDDD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -1000,9 +1000,9 @@ namespace Splines {
     if ( nrhs == 9 ) H = Utils::mex_get_scalar_value( arg_in_8, CMD ": argument H" );
     double * out = Utils::mex_create_matrix_value( arg_out_0, nr2, nr );
     double tmp[6];
-    for ( mwSize i = 0; i < nr; ++i ) {
+    for ( mwSize i{0}; i < nr; ++i ) {
       Hermite5_DDDDD( t[i], H, tmp );
-      for ( mwSize j = 0; j < nr2; ++j )
+      for ( mwSize j{0}; j < nr2; ++j )
         *out++ = tmp[0] * P0[j] + tmp[1] * P1[j] +
                  tmp[2] * T0[j] + tmp[3] * T1[j] +
                  tmp[4] * J0[j] + tmp[5] * J1[j] ;
@@ -1042,13 +1042,13 @@ namespace Splines {
     double A[4], DA[4], B[4], DB[4];
     Hermite3( a, H, A ); Hermite3_D( a, H, DA );
     Hermite3( b, H, B ); Hermite3_D( b, H, DB );
-    for ( mwSize j = 0; j < nr3; ++j ) {
+    for ( mwSize j{0}; j < nr3; ++j ) {
       oP0[j] = A[0]  * P0[j] + A[1]  * P1[j] + A[2]  * T0[j] + A[3]  * T1[j];
       oT0[j] = DA[0] * P0[j] + DA[1] * P1[j] + DA[2] * T0[j] + DA[3] * T1[j];
       oP1[j] = B[0]  * P0[j] + B[1]  * P1[j] + B[2]  * T0[j] + B[3]  * T1[j];
       oT1[j] = DB[0] * P0[j] + DB[1] * P1[j] + DB[2] * T0[j] + DB[3] * T1[j];
     }
-    for ( mwSize j = 0; j < nr3; ++j ) {
+    for ( mwSize j{0}; j < nr3; ++j ) {
       oT0[j] *= b-a;
       oT1[j] *= b-a;
     }
@@ -1083,15 +1083,15 @@ namespace Splines {
 
     double A[4];
     Hermite3( 0, H, A );
-    for ( mwSize j = 0; j < nr1; ++j )
+    for ( mwSize j{0}; j < nr1; ++j )
       P[j] = A[0]  * P0[j] + A[1]  * P1[j] + A[2]  * T0[j] + A[3]  * T1[j];
 
     double len = 0;
-    for ( mwSize j = 1; j <= 100; ++j ) {
-      double t = (j*H)/100;
+    for ( mwSize i{1}; i <= 100; ++i ) {
+      double t = (i*H)/100;
       Hermite3( t, H, A );
       double dst2 = 0;
-      for ( mwSize j = 0; j < nr1; ++j ) {
+      for ( mwSize j{0}; j < nr1; ++j ) {
         double Pj    = A[0]  * P0[j] + A[1]  * P1[j] + A[2]  * T0[j] + A[3]  * T1[j];
         double delta = P[j]-Pj;
         dst2 += delta*delta;

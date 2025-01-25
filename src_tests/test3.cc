@@ -78,7 +78,7 @@ main() {
   SplineSet ss;
   ofstream  file, file_D;
 
-  for ( integer k = 0; k < 7; ++ k ) {
+  for ( integer k{0}; k < 7; ++ k ) {
     real_type * xx = nullptr, * yy = nullptr;
     switch ( k ) {
       case 0: xx = xx0; yy = yy0; break;
@@ -130,7 +130,7 @@ main() {
 
     file   << "x";
     file_D << "x";
-    for ( integer i = 0; i < nspl; ++i ) {
+    for ( integer i{0}; i < nspl; ++i ) {
       file   << '\t' << ss.header(i);
       file_D << '\t' << ss.header(i);
     }
@@ -139,7 +139,7 @@ main() {
     for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 ) {
       file   << x;
       file_D << x;
-      for ( integer i = 0; i < nspl; ++i ) {
+      for ( integer i{0}; i < nspl; ++i ) {
         file   << '\t' << ss(x,i);
         file_D << '\t' << ss.D(x,i);
       }

@@ -127,7 +127,7 @@ namespace Splines {
           "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
         );
       }
-      for ( mwSize i = 0; i < nspl; ++i ) types.push_back(st);
+      for ( mwSize i{0}; i < nspl; ++i ) types.push_back(st);
 
     } else if ( mxIsCell(arg_in_2) ) {
 
@@ -138,7 +138,7 @@ namespace Splines {
         nspl, dims[0], dims[1]
       );
 
-      for ( mwSize i = 0; i < nspl; ++i ) {
+      for ( mwSize i{0}; i < nspl; ++i ) {
         mxArray const * cell = mxGetCell(arg_in_2,i);
         UTILS_MEX_ASSERT0(
           mxIsChar(cell),
@@ -174,7 +174,7 @@ namespace Splines {
     std::vector<real_type const *> pY;
     headers.reserve(nspl);
     pY.reserve(nspl);
-    for ( mwSize i = 0; i < nspl; ++i ) {
+    for ( mwSize i{0}; i < nspl; ++i ) {
       headers.push_back("noname");
       pY.push_back(y+i*nn);
     }
@@ -211,7 +211,7 @@ namespace Splines {
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
       Spline const * S = ptr->get_spline( nsp );
       real_type * y = Y+nsp;
-      for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
+      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
     }
 
     #undef CMD
@@ -241,7 +241,7 @@ namespace Splines {
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
       Spline const * S = ptr->get_spline( nsp );
       real_type * y = Y+nsp;
-      for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
+      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
     }
 
     #undef CMD
@@ -271,7 +271,7 @@ namespace Splines {
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
       Spline const * S = ptr->get_spline( nsp );
       real_type * y = Y+nsp;
-      for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
+      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
     }
 
     #undef CMD
@@ -301,7 +301,7 @@ namespace Splines {
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
       Spline const * S = ptr->get_spline( nsp );
       real_type * y = Y+nsp;
-      for ( mwSize i = 0; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
+      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
     }
 
     #undef CMD

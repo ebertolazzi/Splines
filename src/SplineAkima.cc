@@ -153,6 +153,7 @@ namespace Splines {
     //
     */
     string where{ fmt::format("AkimaSpline[{}]::setup():", m_name ) };
+
     GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
     GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
 
