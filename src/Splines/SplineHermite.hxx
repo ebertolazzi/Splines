@@ -42,7 +42,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    HermiteSpline( string const & name = "HermiteSpline" )
+    HermiteSpline( string_view name = "HermiteSpline" )
     : CubicSplineBase( name )
     {}
 

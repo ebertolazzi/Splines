@@ -53,7 +53,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    Spline2D( string const & name = "Spline2D" )
+    Spline2D( string_view name = "Spline2D" )
     : m_name(name)
     {}
 
@@ -149,7 +149,7 @@ namespace Splines {
     //!
     //! \return string with the name of the spline
     //!
-    string const & name() const { return m_spline_2D->name(); }
+    string_view name() const { return m_spline_2D->name(); }
 
     //!
     //! Return the number of support points of the spline along x direction.

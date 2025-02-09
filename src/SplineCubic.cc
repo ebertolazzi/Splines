@@ -516,21 +516,21 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("CubicSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
+    string const where{ fmt::format("CubicSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where) };
+    GenericContainer const & gc_y{ gc("ydata",where) };
 
     vec_real_type x, y;
     {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real ( x, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `xdata'", where ) };
+      gc_x.copyto_vec_real ( x, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real ( y, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ydata'", where ) };
+      gc_y.copyto_vec_real ( y, ff );
     }
     if ( gc.exists("bc_begin") ) {
-      std::string const & bc{ gc.get_map_string("bc_begin",where.c_str()) };
+      string_view bc{ gc.get_map_string("bc_begin",where) };
       if      ( bc == "extrapolate" ) m_bc0 = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bc0 = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bc0 = CubicSpline_BC::PARABOLIC_RUNOUT;
@@ -545,7 +545,7 @@ namespace Splines {
     }
 
     if ( gc.exists("bc_end") ) {
-      std::string const & bc{ gc.get_map_string("bc_end",where.c_str()) };
+      string_view bc{ gc.get_map_string("bc_end",where) };
       if      ( bc == "extrapolate" ) m_bcn = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bcn = CubicSpline_BC::NATURAL;
       else if ( bc == "parabolic"   ) m_bcn = CubicSpline_BC::PARABOLIC_RUNOUT;
@@ -554,9 +554,7 @@ namespace Splines {
         UTILS_ERROR( "{} unknow final bc: {}\n", where, bc );
       }
     } else {
-      UTILS_WARNING( false,
-        "{}, missing field `bc_begin` using `extrapolate` as default value\n", where
-      );
+      UTILS_WARNING( false, "{}, missing field `bc_begin` using `extrapolate` as default value\n", where );
     }
     this->build( x, y );
   }

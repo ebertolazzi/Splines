@@ -79,7 +79,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    SplineVec( string const & name = "SplineVec" );
+    SplineVec( string_view name = "SplineVec" );
 
     //!
     //! Spline destructor.
@@ -97,7 +97,7 @@ namespace Splines {
     //!
     //! Spline name usd in the constructor
     //!
-    string const & name() const { return m_name; }
+    string_view name() const { return m_name; }
 
     //!
     //! \name Open/Close
@@ -604,7 +604,7 @@ namespace Splines {
     real_type xMax() const { return m_X[size_t(m_npts-1)]; }
     void setKnots( real_type const X[] ) { this->set_knots( X ); }
     void setKnotsChordLength() { this->set_knots_chord_length(); }
-    void setKnotsCentripetal() { this->set_knots_centripetal() }
+    void setKnotsCentripetal() { this->set_knots_centripetal(); }
     void setKnotsFoley() { this->set_knots_foley(); }
     void CatmullRom() { this->catmull_rom(); }
     #endif

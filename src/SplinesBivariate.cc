@@ -244,8 +244,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::eval( real_type x, real_type y ) const {
     real_type bili3[4][4], u[4], v[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u );
     Hermite3( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v );
     load( i, j, bili3 );
@@ -257,8 +257,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::Dx( real_type x, real_type y ) const {
     real_type bili3[4][4], u_D[4], v[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3_D( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D );
     Hermite3  ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v   );
     load( i, j, bili3 );
@@ -270,8 +270,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::Dy( real_type x, real_type y ) const {
     real_type bili3[4][4], u[4], v_D[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3  ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u   );
     Hermite3_D( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D );
     load( i, j, bili3 );
@@ -283,8 +283,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::Dxy( real_type x, real_type y ) const {
     real_type bili3[4][4], u_D[4], v_D[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3_D( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D );
     Hermite3_D( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D );
     load( i, j, bili3 );
@@ -296,8 +296,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::Dxx( real_type x, real_type y ) const {
     real_type bili3[4][4], u_DD[4], v[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3_DD( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_DD );
     Hermite3   ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v    );
     load( i, j, bili3 );
@@ -309,8 +309,8 @@ namespace Splines {
   real_type
   BiCubicSplineBase::Dyy( real_type x, real_type y ) const {
     real_type bili3[4][4], u[4], v_DD[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite3_DD( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_DD );
     load( i, j, bili3 );
@@ -322,8 +322,8 @@ namespace Splines {
   void
   BiCubicSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
     real_type bili3[4][4], u[4], u_D[4], v[3], v_D[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite3_D ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D  );
     Hermite3   ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v    );
@@ -339,8 +339,8 @@ namespace Splines {
   void
   BiCubicSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
     real_type bili3[4][4], u[4], u_D[4], u_DD[4], v[3], v_D[4], v_DD[4];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite3   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite3_D ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D  );
     Hermite3_DD( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_DD );
@@ -441,8 +441,8 @@ namespace Splines {
   real_type
   BiQuinticSplineBase::Dx( real_type x, real_type y ) const {
     real_type bili5[6][6], u_D[6], v[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5_D( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D );
     Hermite5  ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v   );
     load( integer(i), integer(j), bili5 );
@@ -454,8 +454,8 @@ namespace Splines {
   real_type
   BiQuinticSplineBase::Dy( real_type x, real_type y ) const {
     real_type bili5[6][6], u[6], v_D[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5  ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u   );
     Hermite5_D( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D );
     load( integer(i), integer(j), bili5 );
@@ -467,8 +467,8 @@ namespace Splines {
   real_type
   BiQuinticSplineBase::Dxy( real_type x, real_type y ) const {
     real_type bili5[6][6], u_D[6], v_D[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5_D( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D );
     Hermite5_D( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D );
     load( integer(i), integer(j), bili5 );
@@ -480,8 +480,8 @@ namespace Splines {
   real_type
   BiQuinticSplineBase::Dxx( real_type x, real_type y ) const {
     real_type bili5[6][6], u_DD[6], v[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5_DD( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_DD );
     Hermite5   ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v    );
     load( integer(i), integer(j), bili5 );
@@ -493,8 +493,8 @@ namespace Splines {
   real_type
   BiQuinticSplineBase::Dyy( real_type x, real_type y ) const {
     real_type bili5[6][6], u[6], v_DD[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite5_DD( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_DD );
     load( integer(i), integer(j), bili5 );
@@ -506,8 +506,8 @@ namespace Splines {
   void
   BiQuinticSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
     real_type bili5[6][6], u[6], u_D[6], v[6], v_D[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite5_D ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D  );
     Hermite5   ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v    );
@@ -523,8 +523,8 @@ namespace Splines {
   void
   BiQuinticSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
     real_type bili5[6][6], u[6], u_D[6], u_DD[6], v[6], v_D[6], v_DD[6];
-    integer i = search_x( x );
-    integer j = search_y( y );
+    integer i{search_x( x )};
+    integer j{search_y( y )};
     Hermite5   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
     Hermite5_D ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_D  );
     Hermite5_DD( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u_DD );
@@ -547,13 +547,13 @@ namespace Splines {
   void
   SplineSurf::dump_data( ostream_type & s ) const {
     s << "X = [ " << m_X[0];
-    for ( integer i = 1; i < m_nx; ++i ) s << ", " << m_X[size_t(i)];
+    for ( integer i{1}; i < m_nx; ++i ) s << ", " << m_X[size_t(i)];
     s << " ]\nY = [ " << m_Y[0];
-    for ( integer i = 1; i < m_ny; ++i ) s << ", " << m_Y[size_t(i)];
+    for ( integer i{1}; i < m_ny; ++i ) s << ", " << m_Y[size_t(i)];
     s << " ]\nZ = [\n";
     for ( integer j{0}; j < m_ny; ++j ) {
       s << "  [ " << m_Z[size_t(ipos_C(0,j))];
-      for ( integer i = 1; i < m_nx; ++i )
+      for ( integer i{1}; i < m_nx; ++i )
         s << ", " << m_Z[size_t(ipos_C(i,j))];
       s << " ]\n";
     }
@@ -605,10 +605,10 @@ namespace Splines {
     // gc["zdata"]
     //
     */
-    string where{ fmt::format("SplineSurf[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x = gc("xdata",where.c_str());
-    GenericContainer const & gc_y = gc("ydata",where.c_str());
-    GenericContainer const & gc_z = gc("zdata",where.c_str());
+    string const where{ fmt::format("SplineSurf[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x { gc("xdata",where) };
+    GenericContainer const & gc_y { gc("ydata",where) };
+    GenericContainer const & gc_z { gc("zdata",where) };
 
     m_nx = gc_x.get_num_elements();
     m_ny = gc_y.get_num_elements();
@@ -671,7 +671,7 @@ namespace Splines {
       for ( integer j{0}; j < M; ++j ) {
         GenericContainer const & row{ data[size_t(j)] };
         string msg1 = fmt::format( "{}, reading row {}\n", where, j );
-        row.copyto_vec_real( tmp, msg1.c_str() );
+        row.copyto_vec_real( tmp, msg1 );
         UTILS_ASSERT(
           size_t(N) == tmp.size(),
           "{}, row {}-th of size {}, expected {}\n",

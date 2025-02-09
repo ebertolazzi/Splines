@@ -97,13 +97,13 @@ main() {
       case 5: xx = xx5; yy = yy5; break;
     }
     string fname;
-    fname = fmt::format( "out/Linear{}.txt",   k); file_li.open(fname.c_str());
-    fname = fmt::format( "out/Constant{}.txt", k); file_co.open(fname.c_str());
-    fname = fmt::format( "out/Akima{}.txt",    k); file_ak.open(fname.c_str());
-    fname = fmt::format( "out/Cubic{}.txt",    k); file_cs.open(fname.c_str());
-    fname = fmt::format( "out/Bessel{}.txt",   k); file_be.open(fname.c_str());
-    fname = fmt::format( "out/Pchip{}.txt",    k); file_pc.open(fname.c_str());
-    fname = fmt::format( "out/Quintic{}.txt",  k); file_qs.open(fname.c_str());
+    fname = fmt::format( "out/Linear{}.txt",   k); file_li.open(fname.data());
+    fname = fmt::format( "out/Constant{}.txt", k); file_co.open(fname.data());
+    fname = fmt::format( "out/Akima{}.txt",    k); file_ak.open(fname.data());
+    fname = fmt::format( "out/Cubic{}.txt",    k); file_cs.open(fname.data());
+    fname = fmt::format( "out/Bessel{}.txt",   k); file_be.open(fname.data());
+    fname = fmt::format( "out/Pchip{}.txt",    k); file_pc.open(fname.data());
+    fname = fmt::format( "out/Quintic{}.txt",  k); file_qs.open(fname.data());
     real_type xmin = xx[0];
     real_type xmax = xx[nn[k]-1];
 

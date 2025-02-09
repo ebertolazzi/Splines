@@ -41,7 +41,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  QuinticSplineBase::QuinticSplineBase( string const & name )
+  QuinticSplineBase::QuinticSplineBase( string_view name )
   : Spline(name)
   , m_base_quintic( fmt::format( "QuinticSplineBase[{}]", name ) )
   {}
@@ -299,21 +299,21 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("QuinticSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
+    string const where{ fmt::format("QuinticSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where) };
+    GenericContainer const & gc_y{ gc("ydata",where) };
 
     vec_real_type x, y;
     {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real ( x, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `xdata'", where ) };
+      gc_x.copyto_vec_real ( x, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real ( y, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ydata'", where ) };
+      gc_y.copyto_vec_real ( y, ff );
     }
     if ( gc.exists("spline_sub_type") ) {
-      std::string const & st{ gc.get_map_string("spline_sub_type",where.c_str()) };
+      string_view st{ gc.get_map_string("spline_sub_type",where) };
       if      ( st == "cubic"  ) m_q_sub_type = QuinticSpline_sub_type::CUBIC;
       else if ( st == "pchip"  ) m_q_sub_type = QuinticSpline_sub_type::PCHIP;
       else if ( st == "akima"  ) m_q_sub_type = QuinticSpline_sub_type::AKIMA;
@@ -322,9 +322,7 @@ namespace Splines {
         UTILS_ERROR( "{} unknow sub type: {}\n", where, st );
       }
     } else {
-      UTILS_WARNING( false,
-        "{}, missing field `spline_sub_type` using `cubic` as default value\n", where
-      );
+      UTILS_WARNING( false, "{}, missing field `spline_sub_type` using `cubic` as default value\n", where );
     }
     this->build( x, y );
   }

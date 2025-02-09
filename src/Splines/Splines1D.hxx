@@ -52,7 +52,7 @@ namespace Splines {
     //!
     //! \param n the name of the spline
     //!
-    Spline1D( std::string const & n )
+    Spline1D( string_view n )
     : m_name(n)
     {}
 
@@ -73,7 +73,7 @@ namespace Splines {
     //!
     //! \return string with the name of the spline
     //!
-    string const & name() const { return m_pSpline->name(); }
+    string_view name() const { return m_pSpline->name(); }
 
     //! \return `true` if spline is a closed spline
     bool is_closed() const { return m_pSpline->is_closed(); }
@@ -292,7 +292,7 @@ namespace Splines {
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const     header[] = "x\ty"
+      string_view    header = "x\ty"
     ) const {
       m_pSpline->dump( s, nintervals, header );
     }
@@ -302,9 +302,9 @@ namespace Splines {
     //!
     void
     dump(
-      char const fname[],
-      integer    nintervals,
-      char const header[] = "x\ty"
+      string_view fname,
+      integer     nintervals,
+      string_view header = "x\ty"
     ) const {
       m_pSpline->dump( fname, nintervals, header );
     }

@@ -47,7 +47,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    Akima2Dspline( string const & name = "Spline" )
+    Akima2Dspline( string_view name = "Spline" )
     : BiCubicSplineBase( name )
     {}
 

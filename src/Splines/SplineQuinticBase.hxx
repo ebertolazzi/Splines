@@ -59,7 +59,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    QuinticSplineBase( string const & name = "QuinticSplineBase" );
+    QuinticSplineBase( string_view name = "QuinticSplineBase" );
 
     //!
     //! Spline destructor.

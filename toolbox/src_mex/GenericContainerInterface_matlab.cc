@@ -19,7 +19,7 @@ namespace GC_namespace {
   mexPrint( GenericContainer const & gc ) {
     std::ostringstream ss;
     gc.print(ss);
-    mexPrintf("%s\n", ss.str().c_str());
+    mexPrintf("%s\n", ss.str().data());
   }
 
   // ===========================================================================
@@ -367,8 +367,8 @@ namespace GC_namespace {
   }
 
   void
-  to_mxArray( string_type const & val, mxArray * & mx ) {
-    mx = mxCreateString( val.c_str() );
+  to_mxArray( string_view val, mxArray * & mx ) {
+    mx = mxCreateString( val.data() );
   }
 
   void
@@ -421,7 +421,7 @@ namespace GC_namespace {
     mwSize dims[2] = { mwSize(val.size()), 1 };
     mx = mxCreateCellMatrix(dims[0], dims[1]);
     for( mwSize i = 0; i < dims[0]; ++i )
-      mxSetCell(mx,i,mxCreateString( val[i].c_str()) );
+      mxSetCell(mx,i,mxCreateString( val[i].data()) );
   }
 
   void
@@ -478,7 +478,7 @@ namespace GC_namespace {
 
   void
   GenericContainer_to_mxArray( GenericContainer const & gc, mxArray * & mx ) {
-    static char const where[] = "in GenericContainer_to_mxArray: ";
+    static string_view where{"in GenericContainer_to_mxArray: "};
     mwSize dims[2]{1,1};
     switch ( gc.get_type() ) {
     case GC_type::NOTYPE:
@@ -513,7 +513,7 @@ namespace GC_namespace {
       }
       break;
     case GC_type::STRING:
-      mx = mxCreateString( gc.get_string().c_str() );
+      mx = mxCreateString( gc.get_string().data() );
       break;
     case GC_type::VEC_BOOL:
       {
@@ -562,7 +562,7 @@ namespace GC_namespace {
         dims[1] = gc.get_num_elements();
         mx = mxCreateCellMatrix(dims[0], dims[1]);
         for( mwSize i = 0; i < dims[1]; ++i )
-          mxSetCell(mx,i,mxCreateString( gc.get_string_at(i,where).c_str()));
+          mxSetCell(mx,i,mxCreateString( gc.get_string_at(i,where).data()));
       }
       break;
     case GC_type::MAT_INTEGER:
@@ -637,7 +637,7 @@ namespace GC_namespace {
         int nfield = mappa.size();
         fieldnames.reserve(nfield);
         for ( map_type::const_iterator im = mappa.begin(); im != mappa.end(); ++im )
-          fieldnames.push_back(im->first.c_str());
+          fieldnames.push_back(im->first.data());
 
         mx = mxCreateStructMatrix(1,1,nfield,&fieldnames.front());
 

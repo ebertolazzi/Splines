@@ -23,7 +23,7 @@ namespace pySpline {
   class PythonicQuinticSplineBase : public QuinticSplineBase {
     public:
 
-    PythonicQuinticSplineBase(std::string const & name = "QuinticSplineBase") : QuinticSplineBase(name) {}
+    PythonicQuinticSplineBase string_view name = "QuinticSplineBase" ) : QuinticSplineBase(name) {}
 
     real_type operator()(real_type x) const override {
       PYBIND11_OVERLOAD_PURE(real_type, QuinticSplineBase, operator(), x);

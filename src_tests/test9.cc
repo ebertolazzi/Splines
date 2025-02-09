@@ -62,39 +62,39 @@ main() {
   mat_real_type   & Y           = gc["ydata"].set_mat_real(npts,nspl);
   map_type        & Yp          = gc["ypdata"].set_map();
 
-  headers.push_back("sp1");
-  headers.push_back("sp2");
-  headers.push_back("sp3");
-  headers.push_back("sp4");
+  headers.emplace_back("sp1");
+  headers.emplace_back("sp2");
+  headers.emplace_back("sp3");
+  headers.emplace_back("sp4");
 
-  spline_type.push_back("cubic");
-  spline_type.push_back("akima");
-  spline_type.push_back("bessel");
-  spline_type.push_back("hermite");
+  spline_type.emplace_back("cubic");
+  spline_type.emplace_back("akima");
+  spline_type.emplace_back("bessel");
+  spline_type.emplace_back("hermite");
 
-  X.push_back(0);
-  X.push_back(1);
-  X.push_back(2);
-  X.push_back(3);
-  X.push_back(4);
-  X.push_back(4.1);
-  X.push_back(4.2);
-  X.push_back(5);
-  X.push_back(6);
-  X.push_back(7);
+  X.emplace_back(0);
+  X.emplace_back(1);
+  X.emplace_back(2);
+  X.emplace_back(3);
+  X.emplace_back(4);
+  X.emplace_back(4.1);
+  X.emplace_back(4.2);
+  X.emplace_back(5);
+  X.emplace_back(6);
+  X.emplace_back(7);
 
   vec_real_type & yp = Yp["sp4"].set_vec_real();
 
-  yp.push_back(0);
-  yp.push_back(1);
-  yp.push_back(2);
-  yp.push_back(3);
-  yp.push_back(4);
-  yp.push_back(4.1);
-  yp.push_back(4.2);
-  yp.push_back(5);
-  yp.push_back(6);
-  yp.push_back(7);
+  yp.emplace_back(0);
+  yp.emplace_back(1);
+  yp.emplace_back(2);
+  yp.emplace_back(3);
+  yp.emplace_back(4);
+  yp.emplace_back(4.1);
+  yp.emplace_back(4.2);
+  yp.emplace_back(5);
+  yp.emplace_back(6);
+  yp.emplace_back(7);
 
   SplineSet ss;
 

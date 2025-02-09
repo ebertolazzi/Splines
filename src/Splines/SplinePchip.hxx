@@ -49,7 +49,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    PchipSpline( string const & name = "PchipSpline" )
+    PchipSpline( string_view name = "PchipSpline" )
     : CubicSplineBase( name )
     {}
 

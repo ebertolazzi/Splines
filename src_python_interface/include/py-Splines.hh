@@ -29,7 +29,7 @@ namespace pySpline {
   class PythonicSpline : public Spline {
     public:
 
-    PythonicSpline(std::string const & name = "Spline") : Spline(name) {}
+    PythonicSpline( string_view name = "Spline" ) : Spline(name) {}
 
     void reserve(integer npts) override {
       PYBIND11_OVERLOAD_PURE(void, Spline, reserve, npts);

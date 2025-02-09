@@ -287,23 +287,23 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("HermiteSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
-    GenericContainer const & gc_yp{ gc("ypdata",where.c_str()) };
+    string const where{ fmt::format("HermiteSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x  { gc("xdata",where) };
+    GenericContainer const & gc_y  { gc("ydata",where) };
+    GenericContainer const & gc_yp { gc("ypdata",where) };
 
     vec_real_type x, y, yp;
     {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real( x, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `xdata'", where ) };
+      gc_x.copyto_vec_real( x, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real( y, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ydata'", where ) };
+      gc_y.copyto_vec_real( y, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ypdata'", where ) };
-      gc_yp.copyto_vec_real( yp, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ypdata'", where ) };
+      gc_yp.copyto_vec_real( yp, ff );
     }
     this->build( x, y, yp );
   }

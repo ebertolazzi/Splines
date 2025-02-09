@@ -85,7 +85,7 @@ main() {
       case 5: xx = xx5; yy = yy5; break;
     }
     string fname = fmt::format( "out/SplineSet{}.txt", k );
-    file.open(fname.c_str());
+    file.open(fname.data());
     real_type xmin = xx[0];
     real_type xmax = xx[nn[k]-1];
 

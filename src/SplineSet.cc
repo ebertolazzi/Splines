@@ -43,12 +43,12 @@ namespace Splines {
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   integer
-  SplineSet::BinarySearch::search( std::string const & id ) const {\
+  SplineSet::BinarySearch::search( string_view id ) const {\
     size_t U{ data.size() };
     size_t L{ 0 };
     while ( U-L > 1 ) {
       size_t pos{ (L+U)>>1 }; // se L=U+1 --> (L+U)/2 ==> L
-      std::string const & id_pos{ data[pos].first };
+      string_view id_pos{ data[pos].first };
       if ( id_pos < id ) L = pos; else U = pos;
     }
     if ( data[L].first == id ) return data[L].second;
@@ -61,7 +61,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  SplineSet::BinarySearch::insert( std::string const & id, integer position ) {
+  SplineSet::BinarySearch::insert( string_view id, integer position ) {
     size_t pos{ data.size() };
     data.push_back(DATA_TYPE(id,position));
     while ( pos > 0 ) {
@@ -79,7 +79,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! spline constructor
-  SplineSet::SplineSet( string const & name )
+  SplineSet::SplineSet( string_view name )
   : m_name(name)
   , m_mem( fmt::format( "SplineSet[{}]::m_mem", name ) )
   , m_mem_p( fmt::format( "SplineSet[{}]::m_mem_p", name ) )
@@ -131,7 +131,7 @@ namespace Splines {
     names.clear();
     names.reserve( size_t(m_nspl) );
     for ( integer i{0}; i < m_nspl; ++i )
-      names.push_back( m_splines[i]->name() );
+      names.emplace_back( m_splines[i]->name() );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -192,8 +192,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   integer
-  SplineSet::get_position( char const hdr[] ) const {
-    integer pos{ m_header_to_position.at(hdr) };
+  SplineSet::get_position( string_view hdr ) const {
+    integer pos{ m_header_to_position.at(hdr.data()) };
     UTILS_ASSERT(
       pos >= 0 && pos < m_nspl,
       "SplineSet[{}]::get_position(\"{}\") not found!\n"
@@ -326,7 +326,7 @@ namespace Splines {
         static_cast<LinearSpline*>(s)->build();
         // check monotonicity of data
         { integer flag = 1;
-          for ( integer j = 1; j < m_npts; ++j ) {
+          for ( integer j{1}; j < m_npts; ++j ) {
             if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
             if ( Utils::is_zero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
           }
@@ -391,7 +391,7 @@ namespace Splines {
           msg, spl, headers[spl], to_string(stype[size_t(spl)]), spl
         );
       }
-      m_header_to_position.insert( {s->name(), integer(spl)} );
+      m_header_to_position.insert( {s->name().data(), integer(spl)} );
     }
 
     m_mem.must_be_empty( "SplineSet::build, baseValue" );
@@ -606,9 +606,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type   zeta,
+    string_view indep,
+    string_view name
   ) const {
     return this->eval2(
       zeta, this->get_position(indep), this->get_position(name)
@@ -659,9 +659,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_D(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type   zeta,
+    string_view indep,
+    string_view name
   ) const {
     return this->eval2_D(
       zeta, this->get_position(indep), this->get_position(name)
@@ -720,9 +720,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DD(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type   zeta,
+    string_view indep,
+    string_view name
   ) const {
     return this->eval2_DD(
       zeta, this->get_position(indep), this->get_position(name)
@@ -784,9 +784,9 @@ namespace Splines {
 
   real_type
   SplineSet::eval2_DDD(
-    real_type  zeta,
-    char const indep[],
-    char const name[]
+    real_type   zeta,
+    string_view indep,
+    string_view name
   ) const {
     return this->eval2_DDD(
       zeta, this->get_position(indep), this->get_position(name)

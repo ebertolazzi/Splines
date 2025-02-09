@@ -44,7 +44,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    LinearSpline( string const & name = "LinearSpline" );
+    LinearSpline( string_view name = "LinearSpline" );
 
     //!
     //! Spline destructor.

@@ -39,7 +39,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  CubicSplineBase::CubicSplineBase( string const & name )
+  CubicSplineBase::CubicSplineBase( string_view name )
   : Spline(name)
   , m_mem_cubic( fmt::format("CubicSplineBase[{}]::m_mem_cubic", name ) )
   {}
@@ -315,7 +315,7 @@ namespace Splines {
     x_min_pos = x_max_pos = m_X[0];
     y_min     = y_max     = m_Y[0];
     PolynomialRoots::Quadratic q;
-    for ( integer i = 1; i < m_npts; ++i ) {
+    for ( integer i{1}; i < m_npts; ++i ) {
       real_type const & X0  = m_X[i-1];
       real_type const & X1  = m_X[i];
       real_type const & P0  = m_Y[i-1];
@@ -362,17 +362,17 @@ namespace Splines {
     );
     // find max min along the nodes
     if ( m_Yp[0] >= 0 ) {
-      y_min.push_back(m_Y[0]);
-      x_min_pos.push_back(m_X[0]);
-      i_min_pos.push_back(0);
+      y_min.emplace_back(m_Y[0]);
+      x_min_pos.emplace_back(m_X[0]);
+      i_min_pos.emplace_back(0);
     }
     if ( m_Yp[0] <= 0 ) {
-      y_max.push_back(m_Y[0]);
-      x_max_pos.push_back(m_X[0]);
-      i_max_pos.push_back(0);
+      y_max.emplace_back(m_Y[0]);
+      x_max_pos.emplace_back(m_X[0]);
+      i_max_pos.emplace_back(0);
     }
     PolynomialRoots::Quadratic q;
-    for ( integer i = 1; i < m_npts; ++i ) {
+    for ( integer i{1}; i < m_npts; ++i ) {
       real_type const & X0  = m_X[i-1];
       real_type const & X1  = m_X[i];
       real_type const & P0  = m_Y[i-1];
@@ -390,13 +390,13 @@ namespace Splines {
         real_type yy  = (((A*rr)+B)*rr+C)*rr+D;
         real_type ddy = 3*A*rr+B;
         if ( ddy > 0 ) {
-          y_min.push_back(yy);
-          x_min_pos.push_back(X0+rr);
-          i_min_pos.push_back(i);
+          y_min.emplace_back(yy);
+          x_min_pos.emplace_back(X0+rr);
+          i_min_pos.emplace_back(i);
         } else if ( ddy < 0 ) {
-          y_max.push_back(yy);
-          x_max_pos.push_back(X0+rr);
-          i_max_pos.push_back(i);
+          y_max.emplace_back(yy);
+          x_max_pos.emplace_back(X0+rr);
+          i_max_pos.emplace_back(i);
         }
       }
       if ( i+1 >= m_npts ) continue;
@@ -408,24 +408,24 @@ namespace Splines {
       Hermite3_to_poly( X2-X1, P1, P2, DP1, DP2, A1, B1, C1, D1 );
       real_type DD = 2*A*H+B;
       if ( DD >= 0 && B1 >= 0 ) {
-        y_min.push_back(P1);
-        x_min_pos.push_back(X1);
-        i_min_pos.push_back(i);
+        y_min.emplace_back(P1);
+        x_min_pos.emplace_back(X1);
+        i_min_pos.emplace_back(i);
       } else if ( DD <= 0 && B1 <= 0 ) {
-        y_max.push_back(P1);
-        x_max_pos.push_back(X1);
-        i_max_pos.push_back(i);
+        y_max.emplace_back(P1);
+        x_max_pos.emplace_back(X1);
+        i_max_pos.emplace_back(i);
       }
     }
     if ( m_Yp[m_npts-1] <= 0 ) {
-      y_min.push_back(m_Y[m_npts-1]);
-      x_min_pos.push_back(m_X[m_npts-1]);
-      i_min_pos.push_back(0);
+      y_min.emplace_back(m_Y[m_npts-1]);
+      x_min_pos.emplace_back(m_X[m_npts-1]);
+      i_min_pos.emplace_back(0);
     }
     if ( m_Yp[m_npts-1] >= 0 ) {
-      y_max.push_back(m_Y[m_npts-1]);
-      x_max_pos.push_back(m_X[m_npts-1]);
-      i_max_pos.push_back(m_npts-1);
+      y_max.emplace_back(m_Y[m_npts-1]);
+      x_max_pos.emplace_back(m_X[m_npts-1]);
+      i_max_pos.emplace_back(m_npts-1);
     }
   }
 }

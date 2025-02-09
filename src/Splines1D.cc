@@ -35,7 +35,7 @@ namespace Splines {
 
   static
   Spline *
-  new_Spline1D( string const & _name, SplineType1D tp ) {
+  new_Spline1D( string_view _name, SplineType1D tp ) {
     switch ( tp ) {
     case SplineType1D::CONSTANT:   return new ConstantSpline(_name);
     case SplineType1D::LINEAR:     return new LinearSpline(_name);
@@ -99,25 +99,18 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("Spline1D[{}]::setup( gc ):", m_name ) };
-    std::string const & spl_type{ gc.get_map_string("spline_type",where.c_str()) };
+    string const where{ fmt::format("Spline1D[{}]::setup( gc ):", m_name ) };
+    string_view spl_type{ gc.get_map_string("spline_type",where) };
 
     SplineType1D tp;
-    if ( spl_type == "constant" ) {
-      tp = SplineType1D::CONSTANT;
-    } else if ( spl_type == "linear" ) {
-      tp = SplineType1D::LINEAR;
-    } else if ( spl_type == "cubic" ) {
-      tp = SplineType1D::CUBIC;
-    } else if ( spl_type == "akima" ) {
-      tp = SplineType1D::AKIMA;
-    } else if ( spl_type == "bessel" ) {
-      tp = SplineType1D::BESSEL;
-    } else if ( spl_type == "pchip" ) {
-      tp = SplineType1D::PCHIP;
-    } else if ( spl_type == "quintic" ) {
-      tp = SplineType1D::QUINTIC;
-    } else {
+    if      ( spl_type == "constant" ) tp = SplineType1D::CONSTANT;
+    else if ( spl_type == "linear"   ) tp = SplineType1D::LINEAR;
+    else if ( spl_type == "cubic"    ) tp = SplineType1D::CUBIC;
+    else if ( spl_type == "akima"    ) tp = SplineType1D::AKIMA;
+    else if ( spl_type == "bessel"   ) tp = SplineType1D::BESSEL;
+    else if ( spl_type == "pchip"    ) tp = SplineType1D::PCHIP;
+    else if ( spl_type == "quintic"  ) tp = SplineType1D::QUINTIC;
+    else {
       UTILS_ERROR(
        "Spline1D::setup[{}] unknown type {}, not in "
        "[constant,linear,cubic,akima,bessel,pchip,quintic]\n",

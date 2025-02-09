@@ -38,7 +38,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  LinearSpline::LinearSpline( string const & name )
+  LinearSpline::LinearSpline( string_view name )
   : Spline(name)
   , m_mem_linear( fmt::format( "LinearSpline[{}]", name ) )
   {
@@ -187,18 +187,18 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("LinearSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
+    string const where{ fmt::format("LinearSpline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where) };
+    GenericContainer const & gc_y{ gc("ydata",where) };
 
     vec_real_type x, y;
     {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real ( x, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `xdata'", where ) };
+      gc_x.copyto_vec_real ( x, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real ( y, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ydata'", where ) };
+      gc_y.copyto_vec_real ( y, ff );
     }
     this->build( x, y );
   }
@@ -219,7 +219,7 @@ namespace Splines {
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
-    for ( integer i = 1; i < m_npts; ++i ) {
+    for ( integer i{1}; i < m_npts; ++i ) {
       real_type const & P1 = m_Y[i];
       if ( P1 > y_max ) {
         y_max     = P1;
@@ -257,13 +257,13 @@ namespace Splines {
       real_type const & P1 = m_Y[i];
       real_type const & P2 = m_Y[i+1];
       if ( P1 > P0 && P1 > P2 ) {
-        y_max.push_back(P1);
-        x_max_pos.push_back(m_X[i]);
-        i_max_pos.push_back(i);
+        y_max.emplace_back(P1);
+        x_max_pos.emplace_back(m_X[i]);
+        i_max_pos.emplace_back(i);
       } else if ( P1 < P0 && P1 < P2 ) {
-        y_min.push_back(P1);
-        x_min_pos.push_back(m_X[i]);
-        i_min_pos.push_back(i);
+        y_min.emplace_back(P1);
+        x_min_pos.emplace_back(m_X[i]);
+        i_min_pos.emplace_back(i);
       }
     }
   }

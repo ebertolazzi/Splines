@@ -42,7 +42,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! spline constructor
-  SplineVec::SplineVec( string const & name )
+  SplineVec::SplineVec( string_view name )
   : m_name(name)
   , m_mem( fmt::format( "SplineVec[{}]::m_mem", name ) )
   , m_mem_p( fmt::format( "SplineVec[{}]::m_mem_p", name ) )
@@ -542,7 +542,7 @@ namespace Splines {
     mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
-    integer j = integer(x.size());
+    integer j{integer(x.size())};
     while ( j-- > 0 ) { eval( *px++, v, 1 ); v += m_dim; }
   }
 
@@ -556,7 +556,7 @@ namespace Splines {
     mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
-    integer j = integer(x.size());
+    integer j{integer(x.size())};
     while ( j-- > 0 ) { eval_D( *px++, v, 1 ); v += m_dim; }
   }
 
@@ -570,7 +570,7 @@ namespace Splines {
     mat_real_type   & m  = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
-    integer j = integer(x.size());
+    integer j{integer(x.size())};
     while ( j-- > 0 ) { eval_DD( *px++, v, 1 ); v += m_dim; }
 
   }
@@ -585,7 +585,7 @@ namespace Splines {
     mat_real_type & m = vals.set_mat_real( unsigned(m_dim), unsigned(x.size()) );
     real_type       * v  = &m.front();
     real_type const * px = &x.front();
-    integer j = integer(x.size());
+    integer j{integer(x.size())};
     while ( j-- > 0 ) { this->eval_DDD( *px++, v, 1 ); v += m_dim; }
   }
 
@@ -594,12 +594,12 @@ namespace Splines {
   void
   SplineVec::setup( GenericContainer const & gc ) {
 
-    string where{ fmt::format("SplineVec[{}]::setup( gc ):", m_name ) };
+    string const where{ fmt::format("SplineVec[{}]::setup( gc ):", m_name ) };
 
-    GenericContainer const & data{ gc("data",where.c_str()) };
+    GenericContainer const & data{ gc("data",where) };
 
     mat_real_type Y;
-    data.copyto_mat_real(Y,where.c_str());
+    data.copyto_mat_real(Y,where);
 
     bool transposed{false};
     gc.get_if_exists("transposed",transposed);

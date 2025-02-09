@@ -44,6 +44,7 @@ namespace Splines {
 
   using std::vector;
   using std::string;
+  using std::string_view;
   using std::exception;
   using std::runtime_error;
   using std::basic_ostream;
@@ -92,8 +93,8 @@ namespace Splines {
   };
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
-  extern SplineType1D string_to_splineType1D( string const & n );
-  extern SplineType2D string_to_splineType2D( string const & n );
+  extern SplineType1D string_to_splineType1D( string_view n );
+  extern SplineType2D string_to_splineType2D( string_view n );
   extern char const * to_string( SplineType2D t );
   extern char const * to_string( SplineType1D t );
   #endif
@@ -407,7 +408,7 @@ namespace Splines {
     //!
     //! spline constructor
     //!
-    Spline( string const & name = "Spline" )
+    Spline( string_view name = "Spline" )
     : m_name(name)
     {
       this->init_last_interval();
@@ -435,7 +436,7 @@ namespace Splines {
     //!
     //! \return string with the name of the spline
     //!
-    string const & name() const { return m_name; }
+    string_view name() const { return m_name; }
 
     //! \return `true` if spline is a closed spline
     bool is_closed() const { return m_curve_is_closed;  }
@@ -726,7 +727,7 @@ namespace Splines {
     dump(
       ostream_type & s,
       integer        nintervals,
-      char const     header[] = "x\ty"
+      string_view    header = "x\ty"
     ) const;
 
     //!
@@ -734,9 +735,9 @@ namespace Splines {
     //!
     void
     dump(
-      char const fname[],
-      integer    nintervals,
-      char const header[] = "x\ty"
+      string_view fname,
+      integer     nintervals,
+      string_view header = "x\ty"
     ) const {
       std::ofstream file(fname);
       this->dump( file, nintervals, header );
@@ -954,7 +955,7 @@ namespace Splines {
     //!
     //! Spline constructor.
     //!
-    CubicSplineBase( string const & name = "CubicSplineBase" );
+    CubicSplineBase( string_view name = "CubicSplineBase" );
 
     ~CubicSplineBase() override {}
     ///@}
@@ -1212,7 +1213,7 @@ namespace Splines {
     //!
     //! Spline constructor
     //!
-    SplineSurf( string const & name = "Spline" )
+    SplineSurf( string_view name = "Spline" )
     : m_mem("SplineSurf")
     , m_name(name)
     {
@@ -1310,7 +1311,7 @@ namespace Splines {
     //!
     //! \return string with the name of the spline
     //!
-    string const & name() const { return m_name; }
+    string_view name() const { return m_name; }
 
     //!
     //! Return the number of support points of the spline along x direction.

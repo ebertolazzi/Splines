@@ -56,7 +56,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    BesselSpline( string const & name = "BesselSpline" )
+    BesselSpline( string_view name = "BesselSpline" )
     : CubicSplineBase( name )
     {}
 

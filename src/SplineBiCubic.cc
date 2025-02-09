@@ -40,7 +40,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  BiCubicSplineBase::BiCubicSplineBase( string const & name )
+  BiCubicSplineBase::BiCubicSplineBase( string_view name )
   : SplineSurf( name )
   , m_mem_bicubic( fmt::format("BiCubicSplineBase[{}]",name) )
   {}

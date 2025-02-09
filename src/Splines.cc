@@ -170,8 +170,8 @@ namespace Splines {
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   SplineType1D
-  string_to_splineType1D( std::string const & nin ) {
-    std::string n{nin};
+  string_to_splineType1D( string_view nin ) {
+    string n{nin};
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     if      ( n == "constant" )   return SplineType1D::CONSTANT;
     else if ( n == "linear" )     return SplineType1D::LINEAR;
@@ -187,8 +187,8 @@ namespace Splines {
   }
 
   SplineType2D
-  string_to_splineType2D( std::string const & nin ) {
-    std::string n{nin};
+  string_to_splineType2D( string_view nin ) {
+    string n{nin};
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     if      ( n == "bilinear"  ) return SplineType2D::BILINEAR;
     else if ( n == "bicubic"   ) return SplineType2D::BICUBIC;
@@ -499,7 +499,7 @@ namespace Splines {
   Spline::dump(
     ostream_type & s,
     integer        nintervals,
-    char const     header[]
+    string_view    header
   ) const {
     s << header << '\n';
     real_type dx{ (x_max()-x_min())/nintervals };
@@ -650,18 +650,18 @@ namespace Splines {
     // gc["ydata"]
     //
     */
-    string where{ fmt::format("Spline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_y{ gc("ydata",where.c_str()) };
+    string const where{ fmt::format("Spline[{}]::setup( gc ):", m_name ) };
+    GenericContainer const & gc_x{ gc("xdata",where) };
+    GenericContainer const & gc_y{ gc("ydata",where) };
 
     vec_real_type x, y;
     {
-      std::string ff{ fmt::format( "{}, field `xdata'", where ) };
-      gc_x.copyto_vec_real( x, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `xdata'", where ) };
+      gc_x.copyto_vec_real( x, ff );
     }
     {
-      std::string ff{ fmt::format( "{}, field `ydata'", where ) };
-      gc_y.copyto_vec_real ( y, ff.c_str() );
+      string const ff{ fmt::format( "{}, field `ydata'", where ) };
+      gc_y.copyto_vec_real ( y, ff );
     }
     build( x, y );
   }

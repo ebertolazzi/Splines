@@ -91,10 +91,10 @@ main() {
     }
     string fname;
     fname = fmt::format( "out/SplineSet{}.txt", k );
-    file.open(fname.c_str());
+    file.open(fname.data());
 
     fname = fmt::format( "out/SplineSet{}_D.txt", k );
-    file_D.open(fname.c_str());
+    file_D.open(fname.data());
 
     real_type xmin = xx[0];
     real_type xmax = xx[nn[k]-1];

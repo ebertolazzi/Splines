@@ -23,7 +23,7 @@ namespace pySpline {
   class PythonicCubicSplineBase : public CubicSplineBase {
     public:
 
-    PythonicCubicSplineBase(std::string const & name = "CubicSplineBase") : CubicSplineBase(name) {}
+    PythonicCubicSplineBase( string_view name = "CubicSplineBase" ) : CubicSplineBase(name) {}
 
     real_type operator()(real_type x) const override {
       PYBIND11_OVERLOAD_PURE(real_type, CubicSplineBase, operator(), x);

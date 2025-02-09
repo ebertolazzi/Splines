@@ -60,7 +60,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
-    QuinticSpline( string const & name = "Spline" )
+    QuinticSpline( string_view name = "Spline" )
     : QuinticSplineBase( name )
     {}
 
@@ -79,6 +79,10 @@ namespace Splines {
     //! - AKIMA
     //! - BESSEL
     //!
+    void
+    set_quintic_type( QuinticSpline_sub_type qt )
+    { m_q_sub_type = qt; }
+
     void
     setQuinticType( QuinticSpline_sub_type qt )
     { m_q_sub_type = qt; }

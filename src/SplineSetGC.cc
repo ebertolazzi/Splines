@@ -49,7 +49,7 @@ namespace Splines {
   void
   SplineSet::setup( GenericContainer const & gc ) {
 
-    string where{ fmt::format( "SplineSet[{}]::setup( gc ): ", m_name ) };
+    string const where{ fmt::format( "SplineSet[{}]::setup( gc ): ", m_name ) };
 
     /*
     // gc["spline_type"]
@@ -63,16 +63,14 @@ namespace Splines {
     vec_string_type       headers;
     vector<vec_real_type> Y, Yp;
 
-    GenericContainer const & gc_stype{ gc("spline_type",where.c_str()) };
-    GenericContainer const & gc_xdata{ gc("xdata",where.c_str()) };
-    GenericContainer const & gc_ydata{ gc("ydata",where.c_str()) };
+    GenericContainer const & gc_stype{ gc("spline_type",where) };
+    GenericContainer const & gc_xdata{ gc("xdata",where)       };
+    GenericContainer const & gc_ydata{ gc("ydata",where)       };
 
     //
     // gc["spline_type"]
     //
-    gc_stype.copyto_vec_string(
-      spline_type_vec, (where+"in reading `spline_type'\n").c_str()
-    );
+    gc_stype.copyto_vec_string( spline_type_vec, (where+"in reading `spline_type'\n") );
     m_nspl = integer(spline_type_vec.size());
     stype.resize( size_t(m_nspl) );
     for ( size_t spl{0}; spl < size_t(m_nspl); ++spl )
@@ -83,8 +81,8 @@ namespace Splines {
     // gc["headers"] (opzionale)
     //
     if ( GC_type::MAP != gc_ydata.get_type() ) {
-      GenericContainer const & gc_headers{ gc("headers",where.c_str()) };
-      gc_headers.copyto_vec_string( headers, (where+", reading `headers'").c_str() );
+      GenericContainer const & gc_headers{ gc("headers",where) };
+      gc_headers.copyto_vec_string( headers, (where+", reading `headers'") );
       UTILS_ASSERT(
         headers.size() == size_t(m_nspl),
         "{}, field `headers` expected to be of size {} found of size {}\n",
@@ -95,7 +93,7 @@ namespace Splines {
     //
     // gc["xdata"]
     //
-    gc_xdata.copyto_vec_real( X, (where+"reading `xdata'").c_str() );
+    gc_xdata.copyto_vec_real( X, (where+"reading `xdata'") );
     m_npts = integer( X.size() );
 
     // allocate for _nspl splines
@@ -111,7 +109,7 @@ namespace Splines {
       {
         // leggo vecttore come matrice di una sola colonna
         vec_real_type data;
-        gc_ydata.copyto_vec_real( data, (where+"reading `ydata'").c_str() );
+        gc_ydata.copyto_vec_real( data, (where+"reading `ydata'") );
         UTILS_ASSERT(
           m_nspl == 1,
           "{}, number of splines [{}]\n"
@@ -133,7 +131,7 @@ namespace Splines {
     case GC_type::MAT_REAL:
       {
         mat_real_type data;
-        gc_ydata.copyto_mat_real( data, (where+"reading `ydata'").c_str() );
+        gc_ydata.copyto_mat_real( data, (where+"reading `ydata'") );
         UTILS_ASSERT(
           size_t(m_nspl) == data.num_cols(),
           "{}, number of splines [{}]\n"
@@ -163,7 +161,7 @@ namespace Splines {
           GenericContainer const & datai{ data[spl] };
           integer nrow{ m_npts };
           if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-          datai.copyto_vec_real( Y[spl], msg1.c_str() );
+          datai.copyto_vec_real( Y[spl], msg1 );
           UTILS_ASSERT(
             size_t(nrow) == Y[spl].size(),
             "{}, column {} of `ydata` of type `{}` expected of size {} found of size {}\n",
@@ -184,11 +182,11 @@ namespace Splines {
         map_type::const_iterator im{ data.begin() };
         string msg1{ where+" reading `ydata` columns" };
         for ( size_t spl{0}; im != data.end(); ++im, ++spl ) {
-          headers.push_back(im->first);
+          headers.emplace_back(im->first);
           GenericContainer const & datai{ im->second };
           integer nrow{ m_npts };
           if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-          datai.copyto_vec_real( Y[spl], msg1.c_str() );
+          datai.copyto_vec_real( Y[spl], msg1 );
           UTILS_ASSERT(
             size_t(nrow) == Y[spl].size(),
             "{}, column `{}` of `ydata` ot type `{}` expected of size {} found of size {}\n",
@@ -208,7 +206,7 @@ namespace Splines {
     }
 
     if ( gc.exists("ypdata") ) { // yp puo' essere solo tipo map
-      GenericContainer const & gc_ypdata{ gc("ypdata",where.c_str()) };
+      GenericContainer const & gc_ypdata{ gc("ypdata",where) };
       UTILS_ASSERT(
         GC_type::MAP == gc_ypdata.get_type(),
         "{}, field `ypdata` expected to be of type `map_type` found: `{}`\n",
@@ -235,7 +233,7 @@ namespace Splines {
         GenericContainer const & datai{m.second};
         integer nrow{ m_npts };
         if ( stype[size_t(spl)] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Yp[size_t(spl)], msg1.c_str() );
+        datai.copyto_vec_real( Yp[size_t(spl)], msg1 );
         UTILS_ASSERT(
           size_t(nrow) == Y[spl].size(),
           "{}, column `{}` of `ypdata` or type `{}` expected of size {} found of size {}\n",
@@ -344,7 +342,7 @@ namespace Splines {
   ) const {
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline(S.c_str()) };
+      Spline const * p_spl{ get_spline(S) };
       vals[S] = p_spl->eval(x);
     }
   }
@@ -362,7 +360,7 @@ namespace Splines {
     integer npts{ integer(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
       for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
     }
@@ -429,7 +427,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval(x);
     }
   }
@@ -457,7 +455,7 @@ namespace Splines {
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
         vec_real_type & v{ vals[S].get_vec_real() };
-        Spline const * p_spl{ get_spline( S.c_str() ) };
+        Spline const * p_spl{ get_spline( S ) };
         v[i] = p_spl->eval(x);
       }
     }
@@ -504,7 +502,7 @@ namespace Splines {
   ) const {
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_D(x);
     }
   }
@@ -522,7 +520,7 @@ namespace Splines {
     integer npts{ integer(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
       for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
@@ -589,7 +587,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_D(x);
     }
   }
@@ -617,7 +615,7 @@ namespace Splines {
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
         vec_real_type & v{ vals[S].get_vec_real() };
-        Spline const * p_spl{ get_spline( S.c_str() ) };
+        Spline const * p_spl{ get_spline( S ) };
         v[i] = p_spl->eval_D(x);
       }
     }
@@ -663,7 +661,7 @@ namespace Splines {
   ) const {
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_DD(x);
     }
   }
@@ -681,7 +679,7 @@ namespace Splines {
     integer npts{ integer(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
       for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
@@ -748,7 +746,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_DD(x);
     }
   }
@@ -776,7 +774,7 @@ namespace Splines {
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
         vec_real_type & v{ vals[S].get_vec_real() };
-        Spline const * p_spl{ get_spline( S.c_str() ) };
+        Spline const * p_spl{ get_spline( S ) };
         v[i] = p_spl->eval_DD(x);
       }
     }
@@ -826,7 +824,7 @@ namespace Splines {
   ) const {
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_DDD(x);
     }
   }
@@ -844,7 +842,7 @@ namespace Splines {
     integer npts{ integer(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
       for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
@@ -911,7 +909,7 @@ namespace Splines {
     real_type x;
     intersect( indep, zeta, x );
     for ( auto const & S : columns ) {
-      Spline const * p_spl{ get_spline( S.c_str() ) };
+      Spline const * p_spl{ get_spline( S ) };
       vals[S] = p_spl->eval_DDD(x);
     }
   }
@@ -940,7 +938,7 @@ namespace Splines {
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
         vec_real_type & v{ vals[S].get_vec_real() };
-        Spline const * p_spl{ get_spline( S.c_str() ) };
+        Spline const * p_spl{ get_spline( S ) };
         v[i] = p_spl->eval_DDD(x);
       }
     }
