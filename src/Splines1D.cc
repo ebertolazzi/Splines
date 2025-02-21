@@ -35,7 +35,7 @@ namespace Splines {
 
   static
   Spline *
-  new_Spline1D( string_view _name, SplineType1D tp ) {
+  new_Spline1D( string_view const _name, SplineType1D const tp ) {
     switch ( tp ) {
     case SplineType1D::CONSTANT:   return new ConstantSpline(_name);
     case SplineType1D::LINEAR:     return new LinearSpline(_name);
@@ -53,10 +53,10 @@ namespace Splines {
 
   void
   Spline1D::build(
-    SplineType1D tp,
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
-    integer n
+    SplineType1D const tp,
+    real_type const x[], integer const incx,
+    real_type const y[], integer const incy,
+    integer const n
   ) {
     if ( m_pSpline != nullptr ) delete m_pSpline;
     m_pSpline = new_Spline1D(m_name,tp);

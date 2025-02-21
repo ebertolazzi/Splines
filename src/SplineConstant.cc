@@ -37,6 +37,8 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  using std::copy_n;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   ConstantSpline::ConstantSpline( string_view name )
@@ -48,9 +50,9 @@ namespace Splines {
 
   void
   ConstantSpline::reserve_external(
-    integer      n,
-    real_type *& p_x,
-    real_type *& p_y
+    integer const n,
+    real_type *&  p_x,
+    real_type *&  p_y
   ) {
     if ( !m_external_alloc ) m_mem_constant.free();
     m_npts           = 0;
@@ -64,15 +66,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  ConstantSpline::reserve( integer n ) {
-    if ( m_external_alloc && n <= m_npts_reserved ) {
+  ConstantSpline::reserve( integer npts ) {
+    if ( m_external_alloc && npts <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_mem_constant.reallocate( size_t(2*n) );
-      m_npts_reserved  = n;
+      m_mem_constant.reallocate( 2*npts );
+      m_npts_reserved  = npts;
       m_external_alloc = false;
-      m_X              = m_mem_constant( size_t(n) );
-      m_Y              = m_mem_constant( size_t(n) );
+      m_X              = m_mem_constant( npts );
+      m_Y              = m_mem_constant( npts );
     }
     init_last_interval();
     m_npts = 0;
@@ -92,7 +94,7 @@ namespace Splines {
 
   //! Evalute spline value at `x`
   real_type
-  ConstantSpline::id_eval( integer ni, real_type ) const {
+  ConstantSpline::id_eval( integer const ni, real_type ) const {
     return m_Y[ni];
   }
 
@@ -100,13 +102,13 @@ namespace Splines {
 
   void
   ConstantSpline::build(
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
-    integer n
+    real_type const x[], integer const incx,
+    real_type const y[], integer const incy,
+    integer const n
   ) {
     reserve( n );
-    for ( size_t i{0}; i   < size_t(n); ++i ) m_X[i] = x[i*size_t(incx)];
-    for ( size_t i{0}; i+1 < size_t(n); ++i ) m_Y[i] = y[i*size_t(incy)];
+    for ( integer i{0}; i   < n; ++i ) m_X[i] = x[i*incx];
+    for ( integer i{0}; i+1 < n; ++i ) m_Y[i] = y[i*incy];
     m_npts = n;
     build();
   }
@@ -125,8 +127,8 @@ namespace Splines {
 
   void
   ConstantSpline::write_to_stream( ostream_type & s ) const {
-    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
-    for ( size_t i{0}; i < nseg; ++i )
+    integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
+    for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N. {:4} X:[{},{}] Y:{}\n",
         i,  m_X[i], m_X[i+1], m_Y[i]
@@ -141,9 +143,9 @@ namespace Splines {
     real_type nodes[],
     bool
   ) const {
-    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
-    std::copy_n( m_X, m_npts, nodes );
-    std::copy_n( m_Y, nseg,   cfs   );
+    integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
+    copy_n( m_X, m_npts, nodes );
+    copy_n( m_Y, nseg,   cfs   );
     return 1;
   }
 

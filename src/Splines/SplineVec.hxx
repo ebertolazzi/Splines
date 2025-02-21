@@ -58,7 +58,7 @@ namespace Splines {
     mutable integer m_last_interval;
     #endif
 
-    void init_last_interval();
+    void init_last_interval() const;
     void allocate( integer dim, integer npts );
     void compute_chords();
 
@@ -165,19 +165,19 @@ namespace Splines {
     //!
     //! Return the npt-th node of the spline (x component).
     //!
-    real_type x_node( integer npt ) const { return m_X[size_t(npt)]; }
+    real_type x_node( integer npt ) const { return m_X[npt]; }
 
     //!
     //! Return the vector of values of y-nodes, component `j`
     //!
-    real_type const * y_nodes( integer j ) const { return m_Y[size_t(j)]; }
+    real_type const * y_nodes( integer j ) const { return m_Y[j]; }
 
     //!
     //! Return the npt-th node of the spline (`j` component of y).
     //!
     real_type
     y_node( integer npt, integer j ) const
-    { return m_Y[size_t(j)][size_t(npt)]; }
+    { return m_Y[j][npt]; }
 
     //!
     //! Return x-minumum spline value.
@@ -187,7 +187,7 @@ namespace Splines {
     //!
     //! Return x-maximum spline value.
     //!
-    real_type x_max() const { return m_X[size_t(m_npts-1)]; }
+    real_type x_max() const { return m_X[m_npts-1]; }
 
     ///@}
 
@@ -598,11 +598,11 @@ namespace Splines {
     #ifdef SPLINES_BACK_COMPATIBILITY
     integer numPoints() const { return m_npts; }
     real_type const * xNodes() const { return m_X; }
-    real_type xNode( integer npt ) const { return m_X[size_t(npt)]; }
-    real_type const * yNodes( integer j ) const { return m_Y[size_t(j)]; }
+    real_type xNode( integer npt ) const { return m_X[npt]; }
+    real_type const * yNodes( integer j ) const { return m_Y[j]; }
     real_type yNode( integer npt, integer j ) const { return y_node(npt,j); }
     real_type xMin() const { return m_X[0]; }
-    real_type xMax() const { return m_X[size_t(m_npts-1)]; }
+    real_type xMax() const { return m_X[m_npts-1]; }
     void setKnots( real_type const X[] ) { this->set_knots( X ); }
     void setKnotsChordLength() { this->set_knots_chord_length(); }
     void setKnotsCentripetal() { this->set_knots_centripetal(); }

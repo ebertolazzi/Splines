@@ -70,8 +70,8 @@ testSpline( STYPE & sp ) {
   sp.info(cout);
 
   GenericContainer gc;
-  vec_real_type & x = gc["xdata"].set_vec_real( unsigned(npts) );
-  vec_real_type & y = gc["ydata"].set_vec_real( unsigned(npts) );
+  vec_real_type & x = gc["xdata"].set_vec_real( npts );
+  vec_real_type & y = gc["ydata"].set_vec_real( npts );
   std::copy_n( xx, npts, x.begin() );
   std::copy_n( yy, npts, y.begin() );
   sp.build(gc);

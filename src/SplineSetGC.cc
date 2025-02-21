@@ -71,9 +71,9 @@ namespace Splines {
     // gc["spline_type"]
     //
     gc_stype.copyto_vec_string( spline_type_vec, (where+"in reading `spline_type'\n") );
-    m_nspl = integer(spline_type_vec.size());
-    stype.resize( size_t(m_nspl) );
-    for ( size_t spl{0}; spl < size_t(m_nspl); ++spl )
+    m_nspl = static_cast<integer>(spline_type_vec.size());
+    stype.resize( m_nspl );
+    for ( integer spl{0}; spl < m_nspl; ++spl )
       stype[spl] = string_to_splineType1D( spline_type_vec[spl] );
 
     // se non tipo MAP deve esserci headers
@@ -84,7 +84,7 @@ namespace Splines {
       GenericContainer const & gc_headers{ gc("headers",where) };
       gc_headers.copyto_vec_string( headers, (where+", reading `headers'") );
       UTILS_ASSERT(
-        headers.size() == size_t(m_nspl),
+        headers.size() == static_cast<size_t>(m_nspl),
         "{}, field `headers` expected to be of size {} found of size {}\n",
         where, m_nspl, headers.size()
       );
@@ -94,11 +94,11 @@ namespace Splines {
     // gc["xdata"]
     //
     gc_xdata.copyto_vec_real( X, (where+"reading `xdata'") );
-    m_npts = integer( X.size() );
+    m_npts = static_cast<integer>(X.size());
 
     // allocate for _nspl splines
-    Y  . resize( size_t(m_nspl) );
-    Yp . resize( size_t(m_nspl) );
+    Y  . resize( m_nspl );
+    Yp . resize( m_nspl );
 
     switch ( gc_ydata.get_type() ) {
     case GC_type::VEC_BOOL:
@@ -117,7 +117,7 @@ namespace Splines {
           where, m_nspl
         );
         UTILS_ASSERT(
-          size_t(m_npts) == data.size(),
+          static_cast<size_t>(m_npts) == data.size(),
           "{}, number of points [{}]\n"
           "differs from the number of `ydata` rows [{}] in data\n",
           where, m_npts, data.size()
@@ -133,37 +133,37 @@ namespace Splines {
         mat_real_type data;
         gc_ydata.copyto_mat_real( data, (where+"reading `ydata'") );
         UTILS_ASSERT(
-          size_t(m_nspl) == data.num_cols(),
+          static_cast<size_t>(m_nspl) == data.num_cols(),
           "{}, number of splines [{}]\n"
           "differs from the number of `ydata` columns [{}] in data\n",
           where, m_nspl, data.num_cols()
         );
         UTILS_ASSERT(
-          size_t(m_npts) == data.num_rows(),
+          static_cast<size_t>(m_npts) == data.num_rows(),
           "{}, number of points [{}]\n"
           "differs from the number of `ydata` rows [{}] in data\n",
           where, m_npts, data.num_rows()
         );
-        for ( size_t i{0}; i < size_t(m_nspl); ++i )
-          data.get_column(unsigned(i),Y[i]);
+        for ( integer i{0}; i < m_nspl; ++i )
+          data.get_column(static_cast<unsigned>(i),Y[i]);
       }
       break;
     case GC_type::VECTOR:
       {
         vector_type const & data{ gc_ydata.get_vector() };
         UTILS_ASSERT(
-          size_t(m_nspl) == data.size(),
+          static_cast<size_t>(m_nspl) == data.size(),
           "{}, field `ydata` expected of size {} found of size {}\n",
           where, m_nspl, data.size()
         );
         string msg1{ where+" reading `ydata` columns" };
-        for ( size_t spl = 0; spl < size_t(m_nspl); ++spl ) {
+        for ( integer spl = 0; spl < m_nspl; ++spl ) {
           GenericContainer const & datai{ data[spl] };
           integer nrow{ m_npts };
           if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
           datai.copyto_vec_real( Y[spl], msg1 );
           UTILS_ASSERT(
-            size_t(nrow) == Y[spl].size(),
+            static_cast<size_t>(nrow) == Y[spl].size(),
             "{}, column {} of `ydata` of type `{}` expected of size {} found of size {}\n",
             where, spl, spline_type_vec[spl], nrow, Y[spl].size()
           );
@@ -174,21 +174,21 @@ namespace Splines {
       {
         map_type const & data{ gc_ydata.get_map() };
         UTILS_ASSERT(
-          data.size() == size_t(m_nspl),
+          data.size() == static_cast<size_t>(m_nspl),
           "{}, field `ydata` expected of size {} found of size {}\n",
           where, m_nspl, data.size()
         );
         headers.clear(); headers.reserve(data.size());
-        map_type::const_iterator im{ data.begin() };
+        auto im{ data.begin() };
         string msg1{ where+" reading `ydata` columns" };
-        for ( size_t spl{0}; im != data.end(); ++im, ++spl ) {
+        for ( integer spl{0}; im != data.end(); ++im, ++spl ) {
           headers.emplace_back(im->first);
           GenericContainer const & datai{ im->second };
           integer nrow{ m_npts };
           if ( stype[spl] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
           datai.copyto_vec_real( Y[spl], msg1 );
           UTILS_ASSERT(
-            size_t(nrow) == Y[spl].size(),
+            static_cast<size_t>(nrow) == Y[spl].size(),
             "{}, column `{}` of `ydata` ot type `{}` expected of size {} found of size {}\n",
             where, im->first, spline_type_vec[spl], nrow, Y[spl].size()
           );
@@ -220,36 +220,36 @@ namespace Splines {
 
       string msg1{ where+" reading `ypdata` columns" };
       map_type const & data{gc_ypdata.get_map()};
-      for ( auto const & m : data ) {
+      for ( const auto &[fst, snd] : data ) {
         // cerca posizione
-        std::map<string,integer>::iterator is_pos{ h_to_pos.find(m.first) };
+        auto is_pos{ h_to_pos.find(fst) };
         UTILS_ASSERT(
           is_pos != h_to_pos.end(),
           "{}, column `{}` of `ypdata` not found\n",
-          where, m.first
+          where, fst
         );
         integer spl{ is_pos->second };
 
-        GenericContainer const & datai{m.second};
+        GenericContainer const & datai{snd};
         integer nrow{ m_npts };
-        if ( stype[size_t(spl)] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
-        datai.copyto_vec_real( Yp[size_t(spl)], msg1 );
+        if ( stype[ spl ] == SplineType1D::CONSTANT ) --nrow; // constant spline uses n-1 points
+        datai.copyto_vec_real( Yp[ spl ], msg1 );
         UTILS_ASSERT(
-          size_t(nrow) == Y[spl].size(),
+          static_cast<size_t>(nrow) == Y[spl].size(),
           "{}, column `{}` of `ypdata` or type `{}` expected of size {} found of size {}\n",
-          where, m.first, spline_type_vec[spl], nrow, Y[spl].size()
+          where, fst, spline_type_vec[spl], nrow, Y[spl].size()
         );
       }
     }
 
     Utils::Malloc<void*> mem( where );
-    mem.allocate( size_t( 3*m_nspl ) );
+    mem.allocate( 3*m_nspl );
 
-    void ** __headers = mem( size_t( m_nspl ) );
-    void ** __Y       = mem( size_t( m_nspl ) );
-    void ** __Yp      = mem( size_t( m_nspl ) );
+    void ** __headers = mem( m_nspl );
+    void ** __Y       = mem( m_nspl );
+    void ** __Yp      = mem( m_nspl );
 
-    for ( size_t spl{0}; spl < size_t(m_nspl); ++spl ) {
+    for ( integer spl{0}; spl < m_nspl; ++spl ) {
       __headers[spl] = const_cast<void *>( reinterpret_cast<void const *>(
         headers[spl].c_str()
       ) );
@@ -271,7 +271,7 @@ namespace Splines {
 
     if ( gc.exists("boundary") ) {
       GenericContainer const & gc_boundary{ gc("boundary") };
-      integer ne{ integer(gc_boundary.get_num_elements()) };
+      integer ne{ static_cast<integer>(gc_boundary.get_num_elements()) };
       UTILS_ASSERT(
         ne == m_nspl,
         "{}, field `boundary` expected a"
@@ -280,7 +280,7 @@ namespace Splines {
       );
 
       for ( integer ispl{0}; ispl < ne; ++ispl ) {
-        Spline * S{ m_splines[size_t(ispl)] };
+        Spline * S{ m_splines[ispl] };
         GenericContainer const & item{ gc_boundary(ispl,"SplineSet boundary data") };
         bool is_closed{false};
         item.get_if_exists("closed",is_closed);
@@ -309,10 +309,10 @@ namespace Splines {
   //! a map of values in a GenericContainer
   //!
   void
-  SplineSet::eval( real_type x, GenericContainer & gc ) const {
+  SplineSet::eval( real_type const x, GenericContainer & gc ) const {
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[it.second]->eval(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval(x);
   }
 
   //!
@@ -321,12 +321,12 @@ namespace Splines {
   //!
   void
   SplineSet::eval( vec_real_type const & vec, GenericContainer & gc ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position ) {
-      vec_real_type & v{ vals[it.first].set_vec_real(unsigned(it.second)) };
-      Spline const * p_spl{ m_splines[size_t(it.second)] };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
+    for ( const auto&[fst, snd] : m_header_to_position ) {
+      vec_real_type & v{ vals[fst].set_vec_real(snd) };
+      Spline const * p_spl{ m_splines[snd] };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
 
@@ -336,7 +336,7 @@ namespace Splines {
   //!
   void
   SplineSet::eval(
-    real_type               x,
+    real_type       const   x,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -357,12 +357,12 @@ namespace Splines {
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
       Spline const * p_spl{ get_spline( S ) };
-      vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval(vec[i]);
+      vec_real_type & v{ vals[S].set_vec_real(npts) };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
 
@@ -372,15 +372,15 @@ namespace Splines {
   //!
   void
   SplineSet::eval2(
-    real_type          zeta,
-    integer            indep,
+    real_type const    zeta,
+    integer   const    indep,
     GenericContainer & gc
   ) const {
     map_type & vals{ gc.set_map() };
     real_type x;
     intersect( indep, zeta, x );
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval(x);
   }
 
   //!
@@ -391,22 +391,22 @@ namespace Splines {
   void
   SplineSet::eval2(
     vec_real_type const & zetas,
-    integer               indep,
+    integer       const   indep,
     GenericContainer    & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto it : m_header_to_position )
-      vals[it.first].set_vec_real(unsigned(npts));
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-     for ( auto it : m_header_to_position ) {
-        vec_real_type & v{ vals[it.first].get_vec_real() };
-        v[i] = m_splines[size_t(it.second)]->eval(x);
+     for ( const auto&[fst, snd] : m_header_to_position ) {
+        vec_real_type & v{ vals[fst].get_vec_real() };
+        v[i] = m_splines[snd]->eval(x);
       }
     }
   }
@@ -418,8 +418,8 @@ namespace Splines {
   //!
   void
   SplineSet::eval2(
-    real_type               zeta,
-    integer                 indep,
+    real_type       const   zeta,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -440,17 +440,17 @@ namespace Splines {
   void
   SplineSet::eval2(
     vec_real_type   const & zetas,
-    integer                 indep,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto const & S : columns ) vals[S].set_vec_real(unsigned(npts));
+    for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
@@ -469,10 +469,10 @@ namespace Splines {
   //  |_| |_|_|  |___/\__|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|
   */
   void
-  SplineSet::eval_D( real_type x, GenericContainer & gc ) const {
+  SplineSet::eval_D( real_type const x, GenericContainer & gc ) const {
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_D(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_D(x);
   }
 
   //!
@@ -481,12 +481,12 @@ namespace Splines {
   //!
   void
   SplineSet::eval_D( vec_real_type const & vec, GenericContainer & gc ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position ) {
-      vec_real_type & v{ vals[it.first].set_vec_real(unsigned(npts)) };
-      Spline const * p_spl{ m_splines[size_t(it.second)] };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
+    for ( const auto&[fst, snd] : m_header_to_position ) {
+      vec_real_type & v{ vals[fst].set_vec_real(npts) };
+      Spline const * p_spl{ m_splines[snd] };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
 
@@ -496,7 +496,7 @@ namespace Splines {
   //!
   void
   SplineSet::eval_D(
-    real_type               x,
+    real_type       const   x,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -517,12 +517,12 @@ namespace Splines {
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
       Spline const * p_spl{ get_spline( S ) };
-      vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_D(vec[i]);
+      vec_real_type & v{ vals[S].set_vec_real(npts) };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
 
@@ -532,15 +532,15 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_D(
-    real_type          zeta,
-    integer            indep,
+    real_type const    zeta,
+    integer   const    indep,
     GenericContainer & gc
   ) const {
     map_type & vals{ gc.set_map() };
     real_type x;
     intersect( indep, zeta, x );
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_D(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_D(x);
   }
 
   //!
@@ -551,22 +551,22 @@ namespace Splines {
   void
   SplineSet::eval2_D(
     vec_real_type const & zetas,
-    integer               indep,
+    integer       const   indep,
     GenericContainer    & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto it : m_header_to_position )
-      vals[it.first].set_vec_real(unsigned(npts));
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( auto it : m_header_to_position ) {
-        vec_real_type & v{ vals[it.first].get_vec_real() };
-        v[i] = m_splines[size_t(it.second)]->eval_D(x);
+      for ( const auto&[fst, snd] : m_header_to_position ) {
+        vec_real_type & v{ vals[fst].get_vec_real() };
+        v[i] = m_splines[snd]->eval_D(x);
       }
     }
   }
@@ -578,8 +578,8 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_D(
-    real_type               zeta,
-    integer                 indep,
+    real_type       const   zeta,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -600,17 +600,17 @@ namespace Splines {
   void
   SplineSet::eval2_D(
     vec_real_type   const & zetas,
-    integer                 indep,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto const & S : columns ) vals[S].set_vec_real(unsigned(npts));
+    for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
@@ -628,10 +628,10 @@ namespace Splines {
   //  |___/\___|\___\___/|_| |_|\__,_|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|
   */
   void
-  SplineSet::eval_DD( real_type x, GenericContainer & gc ) const {
+  SplineSet::eval_DD( real_type const x, GenericContainer & gc ) const {
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_DD(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_DD(x);
   }
 
   //!
@@ -640,12 +640,12 @@ namespace Splines {
   //!
   void
   SplineSet::eval_DD( vec_real_type const & vec, GenericContainer & gc ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position ) {
-      vec_real_type & v = vals[it.first].set_vec_real(unsigned(npts));
-      Spline const * p_spl = m_splines[size_t(it.second)];
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
+    for ( const auto&[fst, snd] : m_header_to_position ) {
+      vec_real_type & v = vals[fst].set_vec_real(npts);
+      Spline const * p_spl = m_splines[snd];
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
 
@@ -655,7 +655,7 @@ namespace Splines {
   //!
   void
   SplineSet::eval_DD(
-    real_type               x,
+    real_type       const   x,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -676,12 +676,12 @@ namespace Splines {
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
       Spline const * p_spl{ get_spline( S ) };
-      vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DD(vec[i]);
+      vec_real_type & v{ vals[S].set_vec_real(npts) };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
 
@@ -691,15 +691,15 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_DD(
-    real_type          zeta,
-    integer            indep,
+    real_type const    zeta,
+    integer   const    indep,
     GenericContainer & gc
   ) const {
     map_type & vals = gc.set_map();
     real_type x;
     intersect( indep, zeta, x );
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_DD(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_DD(x);
   }
 
   //!
@@ -710,22 +710,22 @@ namespace Splines {
   void
   SplineSet::eval2_DD(
     vec_real_type const & zetas,
-    integer               indep,
+    integer       const   indep,
     GenericContainer    & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto it : m_header_to_position )
-      vals[it.first].set_vec_real(unsigned(npts));
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( auto it : m_header_to_position ) {
-        vec_real_type & v = vals[it.first].get_vec_real();
-        v[i] = m_splines[size_t(it.second)]->eval_DD(x);
+      for ( const auto&[fst, snd] : m_header_to_position ) {
+        vec_real_type & v = vals[fst].get_vec_real();
+        v[i] = m_splines[snd]->eval_DD(x);
       }
     }
   }
@@ -737,8 +737,8 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_DD(
-    real_type               zeta,
-    integer                 indep,
+    real_type       const   zeta,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -759,17 +759,17 @@ namespace Splines {
   void
   SplineSet::eval2_DD(
     vec_real_type   const & zetas,
-    integer                 indep,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto const & S : columns ) vals[S].set_vec_real(unsigned(npts));
+    for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {
@@ -788,10 +788,10 @@ namespace Splines {
   //   \__|_| |_|_|_|  \__,_|  \__,_|\___|_|  |_| \_/ \__,_|\__|_| \_/ \___|
   */
   void
-  SplineSet::eval_DDD( real_type x, GenericContainer & gc ) const {
+  SplineSet::eval_DDD( real_type const x, GenericContainer & gc ) const {
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_DDD(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_DDD(x);
   }
 
   //!
@@ -803,12 +803,12 @@ namespace Splines {
     vec_real_type const & vec,
     GenericContainer    & gc
   ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
-    for ( auto it : m_header_to_position ) {
-      vec_real_type & v{ vals[it.first].set_vec_real(unsigned(npts)) };
-      Spline const * p_spl{ m_splines[size_t(it.second)] };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
+    for ( const auto&[fst, snd] : m_header_to_position ) {
+      vec_real_type & v{ vals[fst].set_vec_real(npts) };
+      Spline const * p_spl{ m_splines[snd] };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
 
@@ -818,7 +818,7 @@ namespace Splines {
   //!
   void
   SplineSet::eval_DDD(
-    real_type               x,
+    real_type       const   x,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -839,12 +839,12 @@ namespace Splines {
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(vec.size()) };
+    integer const npts{ static_cast<integer>(vec.size()) };
     map_type & vals{ gc.set_map() };
     for ( auto const & S : columns ) {
       Spline const * p_spl{ get_spline( S ) };
-      vec_real_type & v{ vals[S].set_vec_real(unsigned(npts)) };
-      for ( size_t i{0}; i < size_t(npts); ++i ) v[i] = p_spl->eval_DDD(vec[i]);
+      vec_real_type & v{ vals[S].set_vec_real(npts) };
+      for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
 
@@ -854,15 +854,15 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_DDD(
-    real_type          zeta,
-    integer            indep,
+    real_type const    zeta,
+    integer   const    indep,
     GenericContainer & gc
   ) const {
     map_type & vals{ gc.set_map() };
     real_type x;
     intersect( indep, zeta, x );
-    for ( auto it : m_header_to_position )
-      vals[it.first] = m_splines[size_t(it.second)]->eval_DDD(x);
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst] = m_splines[snd]->eval_DDD(x);
   }
 
   //!
@@ -873,22 +873,22 @@ namespace Splines {
   void
   SplineSet::eval2_DDD(
     vec_real_type const & zetas,
-    integer               indep,
+    integer       const   indep,
     GenericContainer    & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
-    for ( auto it : m_header_to_position )
-      vals[it.first].set_vec_real(unsigned(npts));
+    for ( const auto&[fst, snd] : m_header_to_position )
+      vals[fst].set_vec_real(npts);
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
-      for ( auto it : m_header_to_position ){
-        vec_real_type & v{ vals[it.first].get_vec_real() };
-        v[i] = m_splines[size_t(it.second)]->eval_DDD(x);
+      for ( const auto&[fst, snd] : m_header_to_position ){
+        vec_real_type & v{ vals[fst].get_vec_real() };
+        v[i] = m_splines[snd]->eval_DDD(x);
       }
     }
   }
@@ -900,8 +900,8 @@ namespace Splines {
   //!
   void
   SplineSet::eval2_DDD(
-    real_type               zeta,
-    integer                 indep,
+    real_type const         zeta,
+    integer   const         indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
@@ -922,18 +922,18 @@ namespace Splines {
   void
   SplineSet::eval2_DDD(
     vec_real_type   const & zetas,
-    integer                 indep,
+    integer         const   indep,
     vec_string_type const & columns,
     GenericContainer      & gc
   ) const {
-    integer npts{ integer(zetas.size()) };
+    integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
     // preallocation
     for ( auto const & S : columns )
-      vals[S].set_vec_real( unsigned(npts) );
+      vals[S].set_vec_real( npts );
 
-    for ( size_t i{0}; i < size_t(npts); ++i ) {
+    for ( integer i{0}; i < npts; ++i ) {
       real_type x;
       intersect( indep, zetas[i], x );
       for ( auto const & S : columns ) {

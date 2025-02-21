@@ -27,8 +27,6 @@
 #endif
 
 #include "Splines.hh"
-#include <cmath>
-#include <iomanip>
 #include "Utils_fmt.hh"
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -43,10 +41,10 @@ namespace Splines {
   inline
   real_type
   Extrapolate2(
-    real_type X1,
-    real_type X2,
-    real_type Z0,
-    real_type Z1
+    real_type const X1,
+    real_type const X2,
+    real_type const Z0,
+    real_type const Z1
   ) {
     return (Z1-Z0)*X2/X1 + Z0;
   }
@@ -56,12 +54,12 @@ namespace Splines {
   inline
   real_type
   Extrapolate3(
-    real_type X1,
-    real_type X2,
-    real_type X3,
-    real_type Z0,
-    real_type Z1,
-    real_type Z2
+    real_type const X1,
+    real_type const X2,
+    real_type const X3,
+    real_type const Z0,
+    real_type const Z1,
+    real_type const Z2
   ) {
     return ( (Z2-Z0) * (X3-X1)/X2 - (Z1-Z0) * (X3-X2)/X1 ) * (X3/(X2-X1)) + Z0;
   }
@@ -71,15 +69,15 @@ namespace Splines {
   static
   void
   estimate(
-    real_type   z0,
-    real_type   z1,
-    real_type   z2,
-    real_type   z3,
-    real_type   x1,
-    real_type   x2,
-    real_type   x3,
-    real_type & c1,
-    real_type & c2,
+    real_type const z0,
+    real_type const z1,
+    real_type const z2,
+    real_type const z3,
+    real_type const x1,
+    real_type const x2,
+    real_type const x3,
+    real_type &     c1,
+    real_type &     c2,
     real_type & c3,
     real_type & SX,
     real_type & SXX,
@@ -112,7 +110,7 @@ namespace Splines {
     real_type volatility_factor = dz0*dz0 + dz1*dz1 + dz2*dz2 + dz3*dz3;
     // epsi value used to decide whether or not
     // the volatility factor is essentially zero.
-    real_type epsi{ (z0*z0+z1*z1+z2*z2+z3*z3)*1.0E-12 };
+    real_type const epsi{ (z0*z0+z1*z1+z2*z2+z3*z3)*1.0E-12 };
     // Accumulates the weighted primary estimates and their weights.
     if ( volatility_factor > epsi ) { // finite weight.
       real_type WT{ 1.0/ (volatility_factor*SXX) };
@@ -158,10 +156,10 @@ namespace Splines {
     real_type DXYI[2]{0,0};
 
     for ( integer k{0}; k < 4; ++k ) {
-      integer j1{ 4 + stencil[0][k] };
-      integer j2{ 4 + stencil[1][k] };
-      integer j3{ 4 + stencil[2][k] };
-      if ( j1 >= int(jmin) && j3 <= int(jmax) )
+      integer const j1{ 4 + stencil[0][k] };
+      integer const j2{ 4 + stencil[1][k] };
+      integer const j3{ 4 + stencil[2][k] };
+      if ( j1 >= jmin && j3 <= jmax )
         estimate(
           Z00, Z[4][j1], Z[4][j2], Z[4][j3],
           Y[j1] - Y0, Y[j2] - Y0, Y[j3] - Y0,
@@ -171,11 +169,11 @@ namespace Splines {
     }
 
     for ( integer kx{0}; kx < 4; ++kx ) {
-      int i1 = 4 + stencil[0][kx];
-      int i2 = 4 + stencil[1][kx];
-      int i3 = 4 + stencil[2][kx];
+      int i1{ 4 + stencil[0][kx] };
+      int i2{ 4 + stencil[1][kx] };
+      int i3{ 4 + stencil[2][kx] };
 
-      if ( i1 < int(imin) || i3 > int(imax) ) continue;
+      if ( i1 < imin || i3 > imax ) continue;
 
       real_type X1{ X[i1] - X0 };
       real_type X2{ X[i2] - X0 };
@@ -192,11 +190,11 @@ namespace Splines {
         B00X, B10, DXF, DXI
       );
 
-      for ( int ky{0}; ky < 4; ++ky ) {
+      for ( integer ky{0}; ky < 4; ++ky ) {
         integer j1{ 4 + stencil[0][ky] };
         integer j2{ 4 + stencil[1][ky] };
         integer j3{ 4 + stencil[2][ky] };
-        if ( j1 < int(jmin) || j3 > int(jmax) ) continue;
+        if ( j1 < jmin || j3 > jmax ) continue;
 
         real_type Y1  { Y[j1] - Y0 };
         real_type Y2  { Y[j2] - Y0 };
@@ -209,10 +207,10 @@ namespace Splines {
         real_type B00Y{ by0[ky] };
         real_type B01 { by1[ky] };
 
-        real_type Z01 = Z[4][j1],  Z02 = Z[4][j2],  Z03 = Z[4][j3];
-        real_type Z11 = Z[i1][j1], Z12 = Z[i1][j2], Z13 = Z[i1][j3];
-        real_type Z21 = Z[i2][j1], Z22 = Z[i2][j2], Z23 = Z[i2][j3];
-        real_type Z31 = Z[i3][j1], Z32 = Z[i3][j2], Z33 = Z[i3][j3];
+        real_type Z01 { Z[4][j1]  }, Z02 { Z[4][j2]  }, Z03 { Z[4][j3]  };
+        real_type Z11 { Z[i1][j1] }, Z12 { Z[i1][j2] }, Z13 { Z[i1][j3] };
+        real_type Z21 { Z[i2][j1] }, Z22 { Z[i2][j2] }, Z23 { Z[i2][j3] };
+        real_type Z31 { Z[i3][j1] }, Z32 { Z[i3][j2] }, Z33 { Z[i3][j3] };
 
         // Primary estimate of partial derivative zxy
         // as the coefficient of the bicubic polynomial.
@@ -294,59 +292,57 @@ namespace Splines {
   void
   Akima2Dspline::make_spline() {
 
-    size_t nn{ size_t( m_nx*m_ny ) };
+    integer const nn{ m_nx*m_ny };
     m_mem_bicubic.reallocate( 3*nn );
     m_DX  = m_mem_bicubic( nn );
     m_DY  = m_mem_bicubic( nn );
     m_DXY = m_mem_bicubic( nn );
 
-    std::fill_n(m_DX,nn,0);
-    std::fill_n(m_DY,nn,0);
-    std::fill_n(m_DXY,nn,0);
+    fill_n(m_DX,nn,0);
+    fill_n(m_DY,nn,0);
+    fill_n(m_DXY,nn,0);
 
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
-    for ( size_t i0{0}; i0 < size_t(m_nx); ++i0 ) {
-      size_t imin = 4  > i0             ? 4-i0                : 0;
-      size_t imax = size_t(m_nx) < 5+i0 ? 3+(size_t(m_nx)-i0) : 8;
+    for ( integer i0{0}; i0 < m_nx; ++i0 ) {
+      integer const imin = 4  > i0     ? 4-i0        : 0;
+      integer const imax = m_nx < 5+i0 ? 3+(m_nx-i0) : 8;
 
-      for ( size_t i{imin}; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
+      for ( integer i{imin}; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
-      for ( size_t j0{0}; j0 < size_t(m_ny); ++j0 ) {
-        size_t jmin = 4 > j0              ? 4-j0                : 0;
-        size_t jmax = size_t(m_ny) < 5+j0 ? 3+(size_t(m_ny)-j0) : 8;
+      for ( integer j0{0}; j0 < m_ny; ++j0 ) {
+        integer const jmin = 4 > j0      ? 4-j0        : 0;
+        integer const jmax = m_ny < 5+j0 ? 3+(m_ny-j0) : 8;
 
-        for ( size_t j{jmin}; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
+        for ( integer j{jmin}; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
 
-        for ( size_t i{imin}; i <= imax; ++i )
-          for ( size_t j{jmin}; j <= jmax; ++j )
-            z_loc[i][j] = m_Z[size_t(ipos_C(integer(i+i0-4),
-                                            integer(j+j0-4),
-                                            m_ny))];
+        for ( integer i{imin}; i <= imax; ++i )
+          for ( integer j{jmin}; j <= jmax; ++j )
+            z_loc[i][j] = m_Z[ipos_C(i+i0-4,j+j0-4,m_ny)];
 
         // if not enough points, extrapolate
-        size_t iadd{0}, jadd{0};
+        integer iadd{0}, jadd{0};
         if ( imax < 3+imin ) {
           x_loc[imin-1] = 2*x_loc[imin] - x_loc[imax];
           x_loc[imax+1] = 2*x_loc[imax] - x_loc[imin];
           iadd = 1;
           if ( imax == 1+imin ) {
-            real_type x0 = x_loc[imin];
-            real_type x1 = x_loc[imax];
-            for ( size_t j = jmin; j <= jmax; ++j ) {
-              real_type z0 = z_loc[imin][j];
-              real_type z1 = z_loc[imax][j];
+            real_type const x0{ x_loc[imin] };
+            real_type const x1{ x_loc[imax] };
+            for ( integer j{jmin}; j <= jmax; ++j ) {
+              real_type const z0{ z_loc[imin][j] };
+              real_type const z1{ z_loc[imax][j] };
               z_loc[imin-1][j] = Extrapolate2( x0-x1, x_loc[imin-1]-x1, z1, z0 );
               z_loc[imax+1][j] = Extrapolate2( x1-x0, x_loc[imax+1]-x0, z0, z1 );
             }
           } else {
-            real_type x0 = x_loc[imin];
-            real_type x1 = x_loc[imin+1];
-            real_type x2 = x_loc[imax];
-            for ( size_t j{jmin}; j <= jmax; ++j ) {
-              real_type z0 = z_loc[imin][j];
-              real_type z1 = z_loc[imin+1][j];
-              real_type z2 = z_loc[imax][j];
+            real_type const x0{ x_loc[imin]   };
+            real_type const x1{ x_loc[imin+1] };
+            real_type const x2{ x_loc[imax]   };
+            for ( integer j{jmin}; j <= jmax; ++j ) {
+              real_type const z0{ z_loc[imin][j]   };
+              real_type const z1{ z_loc[imin+1][j] };
+              real_type const z2{ z_loc[imax][j]   };
               z_loc[imin-1][j] = Extrapolate3( x1-x2, x0-x2, x_loc[imin-1]-x1, z2, z1, z0 );
               z_loc[imax+1][j] = Extrapolate3( x1-x0, x2-x0, x_loc[imax+1]-x0, z0, z1, z2 );
             }
@@ -357,33 +353,33 @@ namespace Splines {
           y_loc[jmax+1] = 2*y_loc[jmax] - y_loc[jmin];
           jadd = 1;
           if ( jmax-jmin == 1 ) {
-            real_type y0 = y_loc[jmin];
-            real_type y1 = y_loc[jmax];
-            for ( size_t i = imin-iadd; i <= imax+iadd; ++i ) {
-              real_type z0 = z_loc[i][jmin];
-              real_type z1 = z_loc[i][jmax];
+            real_type const y0{ y_loc[jmin] };
+            real_type const y1{ y_loc[jmax] };
+            for ( integer i{imin-iadd}; i <= imax+iadd; ++i ) {
+              real_type const z0{ z_loc[i][jmin] };
+              real_type const z1{ z_loc[i][jmax] };
               z_loc[i][jmin-1] = Extrapolate2( y0-y1, y_loc[jmin-1]-y1, z1, z0 );
               z_loc[i][jmax+1] = Extrapolate2( y1-y0, y_loc[jmax+1]-y0, z0, z1 );
             }
           } else {
-            real_type y0 = y_loc[jmin];
-            real_type y1 = y_loc[jmin+1];
-            real_type y2 = y_loc[jmax];
-            for ( size_t i = imin-iadd; i <= imax+iadd; ++i ) {
-              real_type z0 = z_loc[i][jmin];
-              real_type z1 = z_loc[i][jmin+1];
-              real_type z2 = z_loc[i][jmax];
+            real_type const y0{ y_loc[jmin]   };
+            real_type const y1{ y_loc[jmin+1] };
+            real_type const y2{ y_loc[jmax]   };
+            for ( integer i{imin-iadd}; i <= imax+iadd; ++i ) {
+              real_type const z0{ z_loc[i][jmin]   };
+              real_type const z1{ z_loc[i][jmin+1] };
+              real_type const z2{ z_loc[i][jmax]   };
               z_loc[i][imin-1] = Extrapolate3( y1-y2, y0-y2, y_loc[jmin-1]-y1, z2, z1, z0 );
               z_loc[i][imax+1] = Extrapolate3( y1-y0, y2-y0, y_loc[jmax+1]-y0, z0, z1, z2 );
             }
           }
         }
 
-        size_t i0j0 = size_t(ipos_C(integer(i0),integer(j0)));
+        integer const i0j0{ ipos_C(i0, j0) };
 
         AkimaSmooth(
-          x_loc, integer(imin-iadd), integer(imax+iadd),
-          y_loc, integer(jmin-jadd), integer(jmax+jadd),
+          x_loc, imin-iadd, imax+iadd,
+          y_loc, jmin-jadd, jmax+jadd,
           z_loc, m_DX[i0j0], m_DY[i0j0], m_DXY[i0j0]
         );
       }
@@ -395,10 +391,10 @@ namespace Splines {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i{1}; i < m_nx; ++i ) {
       for ( integer j{1}; j < m_ny; ++j ) {
-        size_t i00 = size_t( ipos_C(i-1,j-1) );
-        size_t i10 = size_t( ipos_C(i,j-1) );
-        size_t i01 = size_t( ipos_C(i-1,j) );
-        size_t i11 = size_t( ipos_C(i,j) );
+        integer const i00 { ipos_C(i-1,j-1) };
+        integer const i10 { ipos_C(i,j-1) };
+        integer const i01 { ipos_C(i-1,j) };
+        integer const i11 { ipos_C(i,j) };
         fmt::print( s,
           "patch ({},{)\n"
           "  DX   = {:<12.4}  DY   = {:<12.4}\n"
@@ -406,8 +402,8 @@ namespace Splines {
           "  Dx00 = {:<12.4}  Dx01 = {:<12.4}  Dx10 = {:<12.4}  Dx11 = {:<12.4}\n"
           "  Dy00 = {:<12.4}  Dy01 = {:<12.4}  Dy10 = {:<12.4}  Dy11 = {:<12.4}\n",
           i, j,
-          m_X[size_t(i)]-m_X[size_t(i-1)],
-          m_Y[size_t(j)]-m_Y[size_t(j-1)],
+          m_X[i]-m_X[i-1],
+          m_Y[j]-m_Y[j-1],
           m_Z[i00],  m_Z[i01],  m_Z[i10],  m_Z[i11],
           m_DX[i00], m_DX[i01], m_DX[i10], m_DX[i11],
           m_DY[i00], m_DY[i01], m_DY[i10], m_DY[i11]

@@ -53,16 +53,16 @@ namespace Splines {
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    integer   const npts
   ) {
 
-    size_t n{ size_t(npts > 0 ? npts-1 : 0) };
+    integer const n{ npts > 0 ? npts-1 : 0 };
 
     Malloc_real mem("Bessel_build");
-    real_type * m{ mem.malloc( size_t(n+1) ) };
+    real_type * m{ mem.malloc( n+1 ) };
 
     // calcolo slopes
-    for ( size_t i{0}; i < n; ++i )
+    for ( integer i{0}; i < n; ++i )
       m[i] = (Y[i+1]-Y[i])/(X[i+1]-X[i]);
 
     if ( npts == 2 ) { // caso speciale 2 soli punti
@@ -71,10 +71,10 @@ namespace Splines {
 
     } else {
 
-      for ( size_t i{1}; i < n; ++i ) {
-        real_type DL = X[i]   - X[i-1];
-        real_type DR = X[i+1] - X[i];
-        Yp[i] = (DR*m[i-1]+DL*m[i])/((DL+DR));
+      for ( integer i{1}; i < n; ++i ) {
+        real_type const DL = X[i]   - X[i-1];
+        real_type const DR = X[i+1] - X[i];
+        Yp[i] = (DR*m[i-1]+DL*m[i])/(DL+DR);
       }
 
       Yp[0] = 1.5*m[0]-0.5*m[1];
@@ -94,8 +94,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, msg+" X", m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, msg+" Y", m_npts, __LINE__, __FILE__ );
     integer ibegin{0};
     integer iend{0};
     do {
@@ -105,7 +105,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, msg+" Yp", m_npts, __LINE__, __FILE__ );
   }
 
   using GC_namespace::GC_type;

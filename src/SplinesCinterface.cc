@@ -43,12 +43,8 @@
 
 using namespace SplinesLoad;
 
-#include <vector>
 #include <map>
 #include <string>
-#include <deque>
-
-#include <string.h>
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
@@ -70,9 +66,8 @@ extern "C" {
     char const type[]
   ) {
     fmt::print( "SPLINE_new, id = {} type = {}\n", id, type );
-    MAP_SPLINE::iterator it = spline_stored.find(id);
-    if ( it != spline_stored.end() ) delete it->second;
-    int ok = 0;
+    if ( auto const it = spline_stored.find(id); it != spline_stored.end() ) delete it->second;
+    int ok{0};
     switch ( Splines::string_to_splineType1D(type) ) {
     case SplineType1D::AKIMA:    head = new AkimaSpline;    break;
     case SplineType1D::BESSEL:   head = new BesselSpline;   break;
@@ -92,8 +87,7 @@ extern "C" {
 
   int
   SPLINE_select( char const id[] ) {
-    MAP_SPLINE::iterator it = spline_stored.find(id);
-    if ( it != spline_stored.end() ) {
+    if (auto const it = spline_stored.find(id); it != spline_stored.end() ) {
       head = it->second;
     } else {
       return -1; // spline non trovata
@@ -103,8 +97,7 @@ extern "C" {
 
   int
   SPLINE_delete( char const id[] ) {
-    MAP_SPLINE::iterator it = spline_stored.find(id);
-    if ( it != spline_stored.end() ) {
+    if (auto const it = spline_stored.find(id); it != spline_stored.end() ) {
       delete it->second;
       spline_stored.erase(it);
       head = nullptr;
@@ -148,7 +141,7 @@ extern "C" {
   }
 
   int
-  SPLINE_push( double x, double y ) {
+  SPLINE_push( double const x, double const y ) {
     if ( head != nullptr ) {
       head->push_back(x,y);
       return 0;
@@ -171,7 +164,7 @@ extern "C" {
   SPLINE_build2(
     double const x[],
     double const y[],
-    int          n
+    int    const n
   ) {
     if ( head != nullptr ) {
       head->build( x, y, n );
@@ -182,7 +175,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval( double x ) {
+  SPLINE_eval( double const x ) {
     if ( head != nullptr ) {
       return head->eval(x);
     } else {
@@ -191,7 +184,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_D( double x ) {
+  SPLINE_eval_D( double const x ) {
     if ( head != nullptr ) {
       return head->D(x);
     } else {
@@ -200,7 +193,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DD( double x ) {
+  SPLINE_eval_DD( double const x ) {
     if ( head != nullptr ) {
       return head->DD(x);
     } else {
@@ -209,7 +202,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDD( double x ) {
+  SPLINE_eval_DDD( double const x ) {
     if ( head != nullptr ) {
       return head->DDD(x);
     } else {
@@ -218,7 +211,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDDD( double x ) {
+  SPLINE_eval_DDDD( double const x ) {
     if ( head != nullptr ) {
       return head->DDDD(x);
     } else {
@@ -227,7 +220,7 @@ extern "C" {
   }
 
   double
-  SPLINE_eval_DDDDD( double x ) {
+  SPLINE_eval_DDDDD( double const x ) {
     if ( head != nullptr ) {
       return head->DDDDD(x);
     } else {

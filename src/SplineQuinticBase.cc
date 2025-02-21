@@ -37,13 +37,15 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  using std::copy_n;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   QuinticSplineBase::reserve_external(
-    integer       n,
-    real_type * & p_X,
-    real_type * & p_Y,
+    integer const n,
+    real_type * & p_x,
+    real_type * & p_y,
     real_type * & p_Yp,
     real_type * & p_Ypp
   ) {
@@ -51,8 +53,8 @@ namespace Splines {
     m_npts           = 0;
     m_npts_reserved  = n;
     m_external_alloc = true;
-    m_X              = p_X;
-    m_Y              = p_Y;
+    m_X              = p_x;
+    m_Y              = p_y;
     m_Yp             = p_Yp;
     m_Ypp            = p_Ypp;
     init_last_interval();
@@ -61,17 +63,17 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSplineBase::reserve( integer n ) {
-    if ( m_external_alloc && n <= m_npts_reserved ) {
+  QuinticSplineBase::reserve( integer npts ) {
+    if ( m_external_alloc && npts <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_base_quintic.reallocate( size_t(4*n) );
-      m_npts_reserved  = n;
+      m_base_quintic.reallocate( 4*npts );
+      m_npts_reserved  = npts;
       m_external_alloc = false;
-      m_X              = m_base_quintic( size_t(n) );
-      m_Y              = m_base_quintic( size_t(n) );
-      m_Yp             = m_base_quintic( size_t(n) );
-      m_Ypp            = m_base_quintic( size_t(n) );
+      m_X              = m_base_quintic( npts );
+      m_Y              = m_base_quintic( npts );
+      m_Yp             = m_base_quintic( npts );
+      m_Ypp            = m_base_quintic( npts );
     }
     init_last_interval();
     m_npts = 0;
@@ -90,18 +92,18 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_eval( integer i, real_type x ) const {
+  QuinticSplineBase::id_eval( integer const ni, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0]        ) return m_Y[0];
       if ( x >= m_X[m_npts-1] ) return m_Y[m_npts-1];
     }
     real_type base[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[ni];
+    real_type const H  = m_X[ni+1] - x0;
     Hermite5( x-x0, H, base );
-    return base[0] * m_Y[i]   + base[1] * m_Y[i+1]  +
-           base[2] * m_Yp[i]  + base[3] * m_Yp[i+1] +
-           base[4] * m_Ypp[i] + base[5] * m_Ypp[i+1];
+    return base[0] * m_Y[ni]   + base[1] * m_Y[ni+1]  +
+           base[2] * m_Yp[ni]  + base[3] * m_Yp[ni+1] +
+           base[4] * m_Ypp[ni] + base[5] * m_Ypp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -116,17 +118,17 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_D( integer i, real_type x ) const {
+  QuinticSplineBase::id_D( integer const ni, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     real_type base_D[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[ni];
+    real_type const H  = m_X[ni+1] - x0;
     Hermite5_D( x-x0, H, base_D );
-    return base_D[0] * m_Y[i]   + base_D[1] * m_Y[i+1]  +
-           base_D[2] * m_Yp[i]  + base_D[3] * m_Yp[i+1] +
-           base_D[4] * m_Ypp[i] + base_D[5] * m_Ypp[i+1];
+    return base_D[0] * m_Y[ni]   + base_D[1] * m_Y[ni+1]  +
+           base_D[2] * m_Yp[ni]  + base_D[3] * m_Yp[ni+1] +
+           base_D[4] * m_Ypp[ni] + base_D[5] * m_Ypp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,17 +143,17 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_DD( integer i, real_type x ) const {
+  QuinticSplineBase::id_DD( integer const ni, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     real_type base_DD[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[ni];
+    real_type const H  = m_X[ni+1] - x0;
     Hermite5_DD( x-x0, H, base_DD );
-    return base_DD[0] * m_Y[i]   + base_DD[1] * m_Y[i+1]  +
-           base_DD[2] * m_Yp[i]  + base_DD[3] * m_Yp[i+1] +
-           base_DD[4] * m_Ypp[i] + base_DD[5] * m_Ypp[i+1];
+    return base_DD[0] * m_Y[ni]   + base_DD[1] * m_Y[ni+1]  +
+           base_DD[2] * m_Yp[ni]  + base_DD[3] * m_Yp[ni+1] +
+           base_DD[4] * m_Ypp[ni] + base_DD[5] * m_Ypp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,13 +168,13 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_DDD( integer i, real_type x ) const {
+  QuinticSplineBase::id_DDD( integer const i, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     real_type base_DDD[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[i];
+    real_type const H  = m_X[i+1] - x0;
     Hermite5_DDD( x-x0, H, base_DDD );
     return base_DDD[0] * m_Y[i]   + base_DDD[1] * m_Y[i+1]  +
            base_DDD[2] * m_Yp[i]  + base_DDD[3] * m_Yp[i+1] +
@@ -191,17 +193,17 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_DDDD( integer i,  real_type x ) const {
+  QuinticSplineBase::id_DDDD( integer const ni,  real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     real_type base_DDDD[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[ni];
+    real_type const H  = m_X[ni+1] - x0;
     Hermite5_DDDD( x-x0, H, base_DDDD );
-    return base_DDDD[0] * m_Y[i]   + base_DDDD[1] * m_Y[i+1]  +
-           base_DDDD[2] * m_Yp[i]  + base_DDDD[3] * m_Yp[i+1] +
-           base_DDDD[4] * m_Ypp[i] + base_DDDD[5] * m_Ypp[i+1];
+    return base_DDDD[0] * m_Y[ni]   + base_DDDD[1] * m_Y[ni+1]  +
+           base_DDDD[2] * m_Yp[ni]  + base_DDDD[3] * m_Yp[ni+1] +
+           base_DDDD[4] * m_Ypp[ni] + base_DDDD[5] * m_Ypp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -216,17 +218,17 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  QuinticSplineBase::id_DDDDD( integer i, real_type x ) const {
+  QuinticSplineBase::id_DDDDD( integer const ni, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     real_type base_DDDDD[6];
-    real_type x0 = m_X[i];
-    real_type H  = m_X[i+1] - x0;
+    real_type const x0 = m_X[ni];
+    real_type const H  = m_X[ni+1] - x0;
     Hermite5_DDDDD( x-x0, H, base_DDDDD );
-    return base_DDDDD[0] * m_Y[i]   + base_DDDDD[1] * m_Y[i+1]  +
-           base_DDDDD[2] * m_Yp[i]  + base_DDDDD[3] * m_Yp[i+1] +
-           base_DDDDD[4] * m_Ypp[i] + base_DDDDD[5] * m_Ypp[i+1];
+    return base_DDDDD[0] * m_Y[ni]   + base_DDDDD[1] * m_Y[ni+1]  +
+           base_DDDDD[2] * m_Yp[ni]  + base_DDDDD[3] * m_Yp[ni+1] +
+           base_DDDDD[4] * m_Ypp[ni] + base_DDDDD[5] * m_Ypp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -242,13 +244,13 @@ namespace Splines {
 
   integer // order
   QuinticSplineBase::coeffs(
-    real_type cfs[],
-    real_type nodes[],
-    bool      transpose
+    real_type  cfs[],
+    real_type  nodes[],
+    bool const transpose
   ) const {
-    size_t n{ size_t(m_npts > 0 ? m_npts-1 : 0) };
-    for ( size_t i{0}; i < n; ++i ) {
-      real_type H{ m_X[i+1]-m_X[i] };
+    integer const n{ m_npts > 0 ? m_npts-1 : 0 };
+    for ( integer i{0}; i < n; ++i ) {
+      real_type const H{ m_X[i+1]-m_X[i] };
       real_type a, b, c, d, e, f;
       Hermite5_to_poly(
         H,
@@ -273,7 +275,7 @@ namespace Splines {
         cfs[i+0*n] = f;
       }
     }
-    std::copy_n( m_X, m_npts, nodes );
+    copy_n( m_X, m_npts, nodes );
     return 6;
   }
 
@@ -289,10 +291,10 @@ namespace Splines {
   QuinticSplineBase::copy_spline( QuinticSplineBase const & S ) {
     QuinticSplineBase::reserve(S.m_npts);
     m_npts = S.m_npts;
-    std::copy_n( S.m_X,   m_npts, m_X   );
-    std::copy_n( S.m_Y,   m_npts, m_Y   );
-    std::copy_n( S.m_Yp,  m_npts, m_Yp  );
-    std::copy_n( S.m_Ypp, m_npts, m_Ypp );
+    copy_n( S.m_X,   m_npts, m_X   );
+    copy_n( S.m_Y,   m_npts, m_Y   );
+    copy_n( S.m_Yp,  m_npts, m_Yp  );
+    copy_n( S.m_Ypp, m_npts, m_Ypp );
     init_last_interval();
   }
 
@@ -300,8 +302,8 @@ namespace Splines {
 
   void
   QuinticSplineBase::write_to_stream( ostream_type & s ) const {
-    size_t nseg{ size_t(m_npts > 0 ? m_npts - 1 : 0) };
-    for ( size_t i{0}; i < nseg; ++i )
+    integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
+    for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] Ypp:[{},{}] slope: {}\n",
         i,
@@ -341,14 +343,14 @@ namespace Splines {
       real_type const & DP1  = m_Yp[i];
       real_type const & DDP0 = m_Ypp[i-1];
       real_type const & DDP1 = m_Ypp[i];
-      real_type H = X1 - X0;
+      real_type const H = X1 - X0;
       real_type A, B, C, D, E, F;
       Hermite5_to_poly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
-      integer nr = q.getRootsInOpenRange( 0, H, r );
+      integer const nr = q.getRootsInOpenRange( 0, H, r );
       for ( integer j{0}; j < nr; ++j ) {
-        real_type rr = r[j];
+        real_type const rr = r[j];
         real_type yy = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
         if      ( yy > y_max ) { y_max = yy; x_max_pos = X0+rr; i_max_pos = i; }
         else if ( yy < y_min ) { y_min = yy; x_min_pos = X0+rr; i_min_pos = i; }
@@ -369,7 +371,7 @@ namespace Splines {
     vector<real_type> & x_max_pos,
     vector<real_type> & y_max
   ) const {
-    real_type epsi{1e-8};
+    constexpr real_type epsi{1e-8};
     i_min_pos.clear();
     i_max_pos.clear();
     x_min_pos.clear();
@@ -401,16 +403,16 @@ namespace Splines {
       real_type const & DP1  = m_Yp[i];
       real_type const & DDP0 = m_Ypp[i-1];
       real_type const & DDP1 = m_Ypp[i];
-      real_type H = X1 - X0;
+      real_type const H = X1 - X0;
       real_type A, B, C, D, E, F;
       Hermite5_to_poly( H, P0, P1, DP0, DP1, DDP0, DDP1, A, B, C, D, E, F );
       q.setup( 5*A, 4*B, 3*C, 2*D, E );
       real_type r[4];
-      integer nr = q.get_roots_in_open_range( 0, H, r );
+      integer const nr = q.get_roots_in_open_range( 0, H, r );
       for ( integer j{0}; j < nr; ++j ) {
-        real_type rr  = r[j];
-        real_type yy  = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
-        real_type ddy = (((20*A*rr)+12*B)*rr+6*C)*rr+2*D;
+        real_type const rr  = r[j];
+        real_type       yy  = (((((A*rr)+B)*rr+C)*rr+D)*rr+E)*rr+F;
+        real_type       ddy = (((20*A*rr)+12*B)*rr+6*C)*rr+2*D;
         if ( ddy > 0 ) {
           y_min.emplace_back(yy);
           x_min_pos.emplace_back(X0+rr);

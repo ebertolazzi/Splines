@@ -48,7 +48,7 @@ namespace Splines {
       integer n_elem() const { return integer(data.size()); }
 
       DATA_TYPE const &
-      get_elem( integer i ) const { return data[size_t(i)]; }
+      get_elem( integer i ) const { return data[i]; }
 
       integer search( string_view id ) const;
       void    insert( string_view id, integer position );
@@ -196,12 +196,12 @@ namespace Splines {
     //!
     //! Return y-minumum spline value.
     //!
-    real_type y_min( integer spl ) const { return m_Ymin[size_t(spl)]; }
+    real_type y_min( integer spl ) const { return m_Ymin[spl]; }
 
     //!
     //! Return y-maximum spline value.
     //!
-    real_type y_max( integer spl ) const { return m_Ymax[size_t(spl)]; }
+    real_type y_max( integer spl ) const { return m_Ymax[spl]; }
 
     //!
     //! Return y-minumum spline value.

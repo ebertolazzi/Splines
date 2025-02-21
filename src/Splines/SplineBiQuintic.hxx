@@ -69,35 +69,35 @@ namespace Splines {
     //!
     real_type
     Dx_node( integer i, integer j ) const
-    { return m_DX[size_t(this->ipos_C(i,j))]; }
+    { return m_DX[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated `y` derivatives at node `(i,j)`
     //!
     real_type
     Dy_node( integer i, integer j ) const
-    { return m_DY[size_t(this->ipos_C(i,j))]; }
+    { return m_DY[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated `x` second derivatives at node `(i,j)`
     //!
     real_type
     Dxx_node( integer i, integer j ) const
-    { return m_DXX[size_t(this->ipos_C(i,j))]; }
+    { return m_DXX[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated `y` derivatives at node `(i,j)`
     //!
     real_type
     Dyy_node( integer i, integer j ) const
-    { return m_DYY[size_t(this->ipos_C(i,j))]; }
+    { return m_DYY[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated mixed `xy` derivatives at node `(i,j)`
     //!
     real_type
     Dxy_node( integer i, integer j ) const
-    { return m_DXY[size_t(this->ipos_C(i,j))]; }
+    { return m_DXY[ this->ipos_C(i,j) ]; }
     ///@}
 
     //!

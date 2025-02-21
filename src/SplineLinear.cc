@@ -36,6 +36,8 @@ using namespace std; // load standard namspace
 
 namespace Splines {
 
+  using std::copy_n;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   LinearSpline::LinearSpline( string_view name )
@@ -48,13 +50,13 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  LinearSpline::id_eval( integer i, real_type x ) const {
+  LinearSpline::id_eval( integer const ni, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0]        ) return m_Y[0];
       if ( x >= m_X[m_npts-1] ) return m_Y[m_npts-1];
     }
-    real_type s = (x-m_X[i])/(m_X[i+1] - m_X[i]);
-    return (1-s)*m_Y[i] + s * m_Y[i+1];
+    real_type const s = (x-m_X[ni])/(m_X[ni+1] - m_X[ni]);
+    return (1-s)*m_Y[ni] + s * m_Y[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,7 +71,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  LinearSpline::id_D( integer i, real_type x ) const {
+  LinearSpline::id_D( integer const i, real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
@@ -93,9 +95,9 @@ namespace Splines {
   //! Use externally allocated memory for `npts` points
   void
   LinearSpline::reserve_external(
-    integer      n,
-    real_type *& p_x,
-    real_type *& p_y
+    integer const n,
+    real_type *&  p_x,
+    real_type *&  p_y
   ) {
     if ( !m_external_alloc ) m_mem_linear.free();
     m_npts           = 0;
@@ -109,15 +111,15 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  LinearSpline::reserve( integer n ) {
-    if ( m_external_alloc && n <= m_npts_reserved ) {
+  LinearSpline::reserve( integer const npts ) {
+    if ( m_external_alloc && npts <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
-      m_mem_linear.reallocate( size_t(2*n) );
-      m_npts_reserved  = n;
+      m_mem_linear.reallocate( 2*npts );
+      m_npts_reserved  = npts;
       m_external_alloc = false;
-      m_X              = m_mem_linear( size_t(n) );
-      m_Y              = m_mem_linear( size_t(n) );
+      m_X              = m_mem_linear( npts );
+      m_Y              = m_mem_linear( npts );
     }
     init_last_interval();
     m_npts = 0;
@@ -137,7 +139,7 @@ namespace Splines {
 
   void
   LinearSpline::write_to_stream( ostream_type & s ) const {
-    integer nseg{ m_npts > 0 ? m_npts - 1 : 0 };
+    integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
     for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
         "segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}\n",
@@ -150,14 +152,14 @@ namespace Splines {
 
   integer // order
   LinearSpline::coeffs(
-    real_type cfs[],
-    real_type nodes[],
-    bool      transpose
+    real_type  cfs[],
+    real_type  nodes[],
+    bool const transpose
   ) const {
-    integer n{ m_npts > 0 ? m_npts-1 : 0 };
+    integer const n{ m_npts > 0 ? m_npts-1 : 0 };
     for ( integer i{0}; i < n; ++i ) {
-      real_type a = m_Y[i];
-      real_type b = (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]);
+      real_type const a = m_Y[i];
+      real_type const b = (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]);
       if ( transpose ) {
         cfs[2*i+1] = a;
         cfs[2*i+0] = b;
@@ -166,7 +168,7 @@ namespace Splines {
         cfs[i]   = b;
       }
     }
-    std::copy_n( m_X, m_npts, nodes );
+    copy_n( m_X, m_npts, nodes );
     return 2;
   }
 
@@ -220,7 +222,7 @@ namespace Splines {
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
     for ( integer i{1}; i < m_npts; ++i ) {
-      real_type const & P1 = m_Y[i];
+      real_type const & P1{ m_Y[i] };
       if ( P1 > y_max ) {
         y_max     = P1;
         x_max_pos = m_X[i];
@@ -253,9 +255,9 @@ namespace Splines {
     UTILS_ASSERT( m_npts > 0, "LinearSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     for ( integer i{1}; i < m_npts-1; ++i ) {
-      real_type const & P0 = m_Y[i-1];
-      real_type const & P1 = m_Y[i];
-      real_type const & P2 = m_Y[i+1];
+      real_type const & P0 { m_Y[i-1] };
+      real_type const & P1 { m_Y[i]   };
+      real_type const & P2 { m_Y[i+1] };
       if ( P1 > P0 && P1 > P2 ) {
         y_max.emplace_back(P1);
         x_max_pos.emplace_back(m_X[i]);

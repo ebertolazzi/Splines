@@ -26,7 +26,6 @@
 #endif
 
 #include "Splines.hh"
-#include "SplinesUtils.hh"
 #include "Utils_fmt.hh"
 
 #include <cmath>
@@ -70,9 +69,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
-  inline
   real_type
-  max_abs( real_type a, real_type b ) {
+  max_abs( real_type const a, real_type const b ) {
     real_type res{ std::abs(a) };
     if ( res < std::abs(b) ) res = std::abs(b);
     return res;
@@ -81,9 +79,8 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   static
-  inline
   real_type
-  min_abs( real_type a, real_type b ) {
+  min_abs( real_type const a, real_type const b ) {
     real_type res{ std::abs(a) };
     if ( res > std::abs(b) ) res = std::abs(b);
     return res;
@@ -99,7 +96,6 @@ namespace Splines {
   */
 
   static
-  inline
   int
   signTest( real_type const a, real_type const b ) {
     int sa{0};
@@ -128,10 +124,10 @@ namespace Splines {
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    integer   const npts
   ) {
 
-    size_t n{ npts > 0 ? size_t( npts - 1 ) : 0 };
+    integer const n{ npts > 0 ? npts - 1 : 0 };
 
     //integer ierr = 0;
 
@@ -161,7 +157,7 @@ namespace Splines {
     }
 
     // loop through interior points.
-    for ( size_t i{1}; i < n; ++i ) {
+    for ( integer i{1}; i < n; ++i ) {
       if ( i > 1 ) {
         h1   = h2;
         h2   = X[i+1] - X[i];
@@ -187,8 +183,8 @@ namespace Splines {
         w2   = (1+h2/hsum)/3;
         dmax = max_abs( del1, del2 );
         dmin = min_abs( del1, del2 );
-        real_type drat1 = del1/dmax;
-        real_type drat2 = del2/dmax;
+        real_type const drat1 = del1/dmax;
+        real_type const drat2 = del2/dmax;
         Yp[i] = dmin/(w1*drat1 + w2*drat2);
         break;
       }
@@ -219,10 +215,10 @@ namespace Splines {
 
     first_derivative_build( X, Y, Yp, npts );
 
-    size_t n = npts > 0 ? size_t( npts - 1 ) : 0;
+    integer n = npts > 0 ? npts - 1 : 0;
 
     // loop through interior points.
-    for ( size_t i{1}; i < n ; ++i ) {
+    for ( integer i{1}; i < n ; ++i ) {
 
       real_type hL = X[i+0] - X[i-1];
       real_type hR = X[i+1] - X[i+0];
@@ -261,8 +257,8 @@ namespace Splines {
       "{} npts = {} not enought points\n",
       msg, m_npts
     );
-    Utils::check_NaN( m_X, (msg+" X").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::check_NaN( m_Y, (msg+" Y").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, msg+" X", m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, msg+" Y", m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
     do {
@@ -277,7 +273,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, msg+" Yp", m_npts, __LINE__, __FILE__ );
   }
 
   using GC_namespace::GC_type;

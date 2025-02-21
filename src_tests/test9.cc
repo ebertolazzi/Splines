@@ -51,8 +51,8 @@ main() {
 
   cout << "\n\nTEST N.9\n\n";
 
-  unsigned npts = 10;
-  unsigned nspl = 4;
+  constexpr unsigned npts = 10;
+  constexpr unsigned nspl = 4;
 
   GenericContainer gc;
 

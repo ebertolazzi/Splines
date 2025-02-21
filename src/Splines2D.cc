@@ -36,7 +36,7 @@ namespace Splines {
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   void
-  Spline2D::new_spline( SplineType2D tp ) {
+  Spline2D::new_spline( SplineType2D const tp ) {
     if ( m_spline_2D == nullptr ) {
       delete m_spline_2D;
       m_spline_2D = nullptr;
@@ -56,7 +56,7 @@ namespace Splines {
   void
   Spline2D::setup( GenericContainer const & gc ) {
     string const where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
-    string type{ gc.get_map_string("spline_type",where) };
+    string const type{ gc.get_map_string("spline_type",where) };
     new_spline( string_to_splineType2D( type ) );
     m_spline_2D->setup( gc );
   }

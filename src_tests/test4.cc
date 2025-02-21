@@ -86,11 +86,11 @@ main() {
     }
     string fname = fmt::format( "out/SplineSet{}.txt", k );
     file.open(fname.data());
-    real_type xmin = xx[0];
-    real_type xmax = xx[nn[k]-1];
+    real_type const xmin = xx[0];
+    real_type const xmax = xx[nn[k]-1];
 
-    integer nspl = 7;
-    integer npts = nn[k];
+    constexpr integer nspl = 7;
+    integer const npts = nn[k];
     char const *headers[] = {
       "SPLINE_CONSTANT",
       "SPLINE_LINEAR",
@@ -101,7 +101,7 @@ main() {
       "SPLINE_QUINTIC"
     };
 
-    SplineType1D const stype[] = {
+    constexpr SplineType1D stype[]{
       SplineType1D::CONSTANT,
       SplineType1D::LINEAR,
       SplineType1D::AKIMA,

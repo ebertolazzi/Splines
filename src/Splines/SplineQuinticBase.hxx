@@ -82,12 +82,12 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
+    real_type yp_node( integer i ) const { return m_Yp[i]; }
 
     //!
     //! Return the i-th node of the spline (y'' component).
     //!
-    real_type ypp_node( integer i ) const { return m_Ypp[size_t(i)]; }
+    real_type ypp_node( integer i ) const { return m_Ypp[i]; }
 
     void
     y_min_max(

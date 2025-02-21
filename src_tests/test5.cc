@@ -76,7 +76,7 @@ main() {
     "SPLINE_QUINTIC"
   };
 
-  SplineType1D const stype[] = {
+  constexpr SplineType1D stype[]{
     SplineType1D::CONSTANT,
     SplineType1D::LINEAR,
     SplineType1D::CUBIC,
@@ -87,8 +87,8 @@ main() {
   };
 
   Utils::Malloc<real_type> mem("test5");
-  mem.allocate( size_t(npts) );
-  real_type * YpZero = mem( size_t(npts) );
+  mem.allocate(npts);
+  real_type * YpZero = mem(npts);
   std::fill_n(YpZero, npts, 0 );
 
   real_type const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy };

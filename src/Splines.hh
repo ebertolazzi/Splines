@@ -393,7 +393,7 @@ namespace Splines {
     mutable integer m_last_interval;
     #endif
 
-    void init_last_interval();
+    void init_last_interval() const;
 
     Spline( Spline const & ) = delete;
     Spline const & operator = ( Spline const & ) = delete;
@@ -501,12 +501,12 @@ namespace Splines {
     //!
     //! the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_X[size_t(i)]; }
+    real_type x_node( integer i ) const { return m_X[i]; }
 
     //!
     //! the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
+    real_type y_node( integer i ) const { return m_Y[i]; }
 
     //!
     //! first node of the spline (x component).
@@ -521,12 +521,12 @@ namespace Splines {
     //!
     //! last node of the spline (x component).
     //!
-    real_type x_end() const { return m_X[size_t(m_npts-1)]; }
+    real_type x_end() const { return m_X[m_npts-1]; }
 
     //!
     //! last node of the spline (y component).
     //!
-    real_type y_end() const { return m_Y[size_t(m_npts-1)]; }
+    real_type y_end() const { return m_Y[m_npts-1]; }
 
     //!
     //! x-minumum spline value
@@ -709,7 +709,7 @@ namespace Splines {
     //!
     //! change X-origin of the spline
     //!
-    void set_origin( real_type x0 );
+    void set_origin( real_type x0 ) const;
 
     //!
     //! change X-range of the spline
@@ -970,7 +970,7 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type yp_node( integer i ) const { return m_Yp[size_t(i)]; }
+    real_type yp_node( integer i ) const { return m_Yp[i]; }
 
     //!
     //! Change X-range of the spline.
@@ -1112,13 +1112,13 @@ namespace Splines {
     #ifdef SPLINES_BACK_COMPATIBILITY
     void copySpline( CubicSplineBase const & S ) { this->copy_spline(S); }
     integer numPoints() const { return m_npts; }
-    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
-    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    real_type xNode( integer i ) const { return m_X[i]; }
+    real_type yNode( integer i ) const { return m_Y[i]; }
     real_type ypNode( integer i ) const { return this->yp_node(i); }
     real_type xBegin() const { return m_X[0]; }
     real_type yBegin() const { return m_Y[0]; }
-    real_type xEnd() const { return m_X[size_t(m_npts-1)]; }
-    real_type yEnd() const { return m_Y[size_t(m_npts-1)]; }
+    real_type xEnd() const { return m_X[m_npts-1]; }
+    real_type yEnd() const { return m_Y[m_npts-1]; }
     real_type xMin() const { return m_X[0]; }
     real_type xMax() const { return m_X[m_npts-1]; }
     real_type yMin() const { return y_min(); }
@@ -1179,8 +1179,8 @@ namespace Splines {
     integer search_x( real_type & x ) const;
     integer search_y( real_type & y ) const;
 
-    void init_last_interval_x();
-    void init_last_interval_y();
+    void init_last_interval_x() const;
+    void init_last_interval_y() const;
 
     static
     integer
@@ -1331,19 +1331,19 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_X[size_t(i)]; }
+    real_type x_node( integer i ) const { return m_X[i]; }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_Y[size_t(i)]; }
+    real_type y_node( integer i ) const { return m_Y[i]; }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
     real_type
     z_node( integer i, integer j ) const
-    { return m_Z[size_t(this->ipos_C(i,j))]; }
+    { return m_Z[this->ipos_C(i,j)]; }
 
     //!
     //! Return x-minumum spline value.
@@ -1637,8 +1637,8 @@ namespace Splines {
     #ifdef SPLINES_BACK_COMPATIBILITY
     integer numPointX() const { return m_nx; }
     integer numPointY() const { return m_ny; }
-    real_type xNode( integer i ) const { return m_X[size_t(i)]; }
-    real_type yNode( integer i ) const { return m_Y[size_t(i)]; }
+    real_type xNode( integer i ) const { return m_X[i]; }
+    real_type yNode( integer i ) const { return m_Y[i]; }
     real_type zNode( integer i, integer j ) const { return z_node(i,j); }
     real_type xMin() const { return this->x_min(); }
     real_type xMax() const { return this->x_max(); }

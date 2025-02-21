@@ -59,17 +59,17 @@ namespace Splines {
   static
   real_type
   akima_one(
-    real_type epsi,
-    real_type di_m2,
-    real_type di_m1,
-    real_type di,
-    real_type di_p1
+    real_type const epsi,
+    real_type const di_m2,
+    real_type const di_m1,
+    real_type const di,
+    real_type const di_p1
   ) {
     real_type wl  = abs(di_p1 - di);
     real_type wr  = abs(di_m1 - di_m2);
     real_type den = wl + wr;
     if ( den <= epsi ) { wl = wr = 0.5; den = 1; } // if epsi == 0
-    real_type num = wl * di_m1 + wr * di;
+    real_type const num = wl * di_m1 + wr * di;
     return num / den;
   }
 
@@ -80,36 +80,36 @@ namespace Splines {
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    integer   const npts
   ) {
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
     } else {
       Malloc_real mem("Akima_build");
-      real_type * m{ mem.malloc( size_t(npts+3) ) };
+      real_type * m{ mem.malloc( npts+3 ) };
 
       // calcolo slopes (npts-1) intervals + 4
-      for ( size_t i{1}; i < size_t(npts); ++i )
+      for ( integer i{1}; i < npts; ++i )
         m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]);
 
       // extra slope at the boundary
       m[1] = 2*m[2]-m[3];
       m[0] = 2*m[1]-m[2];
-      m[size_t(npts+1)] = 2*m[size_t(npts)]-m[size_t(npts-1)];
-      m[size_t(npts+2)] = 2*m[size_t(npts+1)]-m[size_t(npts)];
+      m[npts+1] = 2*m[npts]-m[npts-1];
+      m[npts+2] = 2*m[npts+1]-m[npts];
 
       // minimum delta slope
       real_type epsi{0};
-      for ( size_t i{0}; i < size_t(npts+2); ++i ) {
-        real_type dm = std::abs(m[i+1]-m[i]);
+      for ( integer i{0}; i < npts+2; ++i ) {
+        real_type const dm = std::abs(m[i+1]-m[i]);
         if ( dm > epsi ) epsi = dm;
       }
       epsi *= 1E-8;
 
       // 0  1  2  3  4---- n-1 n n+1 n+2
       //       +  +  +      +  +
-      for ( size_t i{0}; i < size_t(npts); ++i )
+      for ( integer i{0}; i < npts; ++i )
         Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] );
     }
   }
@@ -124,8 +124,8 @@ namespace Splines {
     UTILS_ASSERT(
       m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
     );
-    Utils::check_NaN( m_X, (msg+" X ").c_str(), m_npts, __LINE__, __FILE__ );
-    Utils::check_NaN( m_Y, (msg+" Y ").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_X, msg+" X ", m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Y, msg+" Y ", m_npts, __LINE__, __FILE__ );
     integer ibegin{0};
     integer iend{0};
     do {
@@ -135,7 +135,7 @@ namespace Splines {
       ibegin = iend;
     } while ( iend < m_npts );
 
-    Utils::check_NaN( m_Yp, (msg+" Yp").c_str(), m_npts, __LINE__, __FILE__ );
+    Utils::check_NaN( m_Yp, msg+" Yp", m_npts, __LINE__, __FILE__ );
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS

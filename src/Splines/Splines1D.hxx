@@ -277,7 +277,7 @@ namespace Splines {
     //!
     //! Change X-origin of the spline.
     //!
-    void set_origin( real_type x0 ) { return m_pSpline->set_origin( x0 ); }
+    void set_origin( real_type x0 ) const { return m_pSpline->set_origin( x0 ); }
 
     //!
     //! Change X-range of the spline.

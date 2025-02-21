@@ -112,7 +112,7 @@ main() {
       "SPLINE_QUINTIC"
     };
 
-    SplineType1D const stype[] = {
+    constexpr SplineType1D stype[] = {
        SplineType1D::CONSTANT,
        SplineType1D::LINEAR,
        SplineType1D::CUBIC,

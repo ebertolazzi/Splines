@@ -83,28 +83,28 @@ main() {
 
   GC::vec_string_type & t = gc["spline_type"].set_vec_string();
   GC::vec_string_type & h = gc["headers"].set_vec_string();
-  t.resize( size_t(nspl) );
-  h.resize( size_t(nspl) );
+  t.resize( static_cast<size_t>(nspl) );
+  h.resize( static_cast<size_t>(nspl) );
   std::copy_n( headers, nspl, h.begin() );
   std::copy_n( headers, nspl, t.begin() );
 
   GC::vector_type & data = gc["ydata"].set_vector();
-  data.resize( size_t(nspl) );
+  data.resize( static_cast<size_t>(nspl) );
   for ( integer i{0}; i < nspl; ++i ) {
-    GC::GenericContainer & di = data[size_t(i)];
+    GC::GenericContainer & di = data[i];
     GC::vec_real_type    & v  = di.set_vec_real();
     if ( i == 0 ) {
       // spline constante ha 1 punto in meno
-      v.resize( size_t(npts-1) );
+      v.resize( static_cast<size_t>(npts - 1) );
       std::copy_n( Y[i], npts-1, v.begin() );
     } else {
-      v.resize( size_t(npts) );
+      v.resize( static_cast<size_t>(npts) );
       std::copy_n( Y[i], npts, v.begin() );
     }
   }
 
   GC::vec_real_type & xdata = gc["xdata"].set_vec_real();
-  xdata.resize( size_t(npts) );
+  xdata.resize( static_cast<size_t>(npts) );
   std::copy_n( xx, npts, xdata.begin() );
 
   gc.print(cout);
