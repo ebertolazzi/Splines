@@ -49,6 +49,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     PchipSpline( string_view name = "PchipSpline" )
     : CubicSplineBase( name )
     {}

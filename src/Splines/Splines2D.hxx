@@ -53,6 +53,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     Spline2D( string_view name = "Spline2D" )
     : m_name(name)
     {}

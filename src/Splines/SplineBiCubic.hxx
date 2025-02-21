@@ -56,6 +56,7 @@ namespace Splines {
   public:
 
     //! spline constructor
+    explicit
     BiCubicSplineBase( string_view name = "BiCubicSplineBase" );
 
     ~BiCubicSplineBase() override {}
@@ -166,6 +167,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     BiCubicSpline( string_view name = "BiCubicSpline" )
     : BiCubicSplineBase( name )
     {}

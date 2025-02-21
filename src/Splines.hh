@@ -408,6 +408,7 @@ namespace Splines {
     //!
     //! spline constructor
     //!
+    explicit
     Spline( string_view name = "Spline" )
     : m_name(name)
     {
@@ -955,6 +956,7 @@ namespace Splines {
     //!
     //! Spline constructor.
     //!
+    explicit
     CubicSplineBase( string_view name = "CubicSplineBase" );
 
     ~CubicSplineBase() override {}
@@ -1180,12 +1182,14 @@ namespace Splines {
     void init_last_interval_x();
     void init_last_interval_y();
 
+    static
     integer
-    ipos_C( integer i, integer j, integer ldZ ) const
+    ipos_C( integer i, integer j, integer ldZ )
     { return i*ldZ + j; }
 
+    static
     integer
-    ipos_F( integer i, integer j, integer ldZ ) const
+    ipos_F( integer i, integer j, integer ldZ )
     { return i + ldZ*j; }
 
     integer
@@ -1213,6 +1217,7 @@ namespace Splines {
     //!
     //! Spline constructor
     //!
+    explicit
     SplineSurf( string_view name = "Spline" )
     : m_mem("SplineSurf")
     , m_name(name)

@@ -56,6 +56,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     BesselSpline( string_view name = "BesselSpline" )
     : CubicSplineBase( name )
     {}

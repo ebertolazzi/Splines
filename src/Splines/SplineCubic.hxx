@@ -86,6 +86,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     CubicSpline( string_view name = "CubicSpline" )
     : CubicSplineBase( name )
     {}

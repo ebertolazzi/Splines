@@ -44,6 +44,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     LinearSpline( string_view name = "LinearSpline" );
 
     //!

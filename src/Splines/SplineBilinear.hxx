@@ -47,6 +47,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     BilinearSpline( string_view name = "BilinearSpline" )
     : SplineSurf(name)
     {}

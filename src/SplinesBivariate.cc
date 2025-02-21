@@ -321,7 +321,7 @@ namespace Splines {
 
   void
   BiCubicSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
-    real_type bili3[4][4], u[4], u_D[4], v[3], v_D[4];
+    real_type bili3[4][4], u[4], u_D[4], v[4], v_D[4];
     integer i{search_x( x )};
     integer j{search_y( y )};
     Hermite3   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
@@ -329,16 +329,16 @@ namespace Splines {
     Hermite3   ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v    );
     Hermite3_D ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D  );
     load( i, j, bili3 );
-    d[0] = bilinear3( u, bili3, v );
-    d[1] = bilinear3( u_D, bili3, v );
-    d[2] = bilinear3( u, bili3, v_D );
+    d[0] = bilinear3( u,   bili3, v   );
+    d[1] = bilinear3( u_D, bili3, v   );
+    d[2] = bilinear3( u,   bili3, v_D );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   BiCubicSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
-    real_type bili3[4][4], u[4], u_D[4], u_DD[4], v[3], v_D[4], v_DD[4];
+    real_type bili3[4][4], u[4], u_D[4], u_DD[4], v[4], v_D[4], v_DD[4];
     integer i{search_x( x )};
     integer j{search_y( y )};
     Hermite3   ( x - m_X[size_t(i)], m_X[size_t(i+1)] - m_X[size_t(i)], u    );
@@ -348,12 +348,12 @@ namespace Splines {
     Hermite3_D ( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_D  );
     Hermite3_DD( y - m_Y[size_t(j)], m_Y[size_t(j+1)] - m_Y[size_t(j)], v_DD );
     load( i, j, bili3 );
-    d[0] = bilinear3( u, bili3, v );
-    d[1] = bilinear3( u_D, bili3, v );
-    d[2] = bilinear3( u, bili3, v_D );
-    d[3] = bilinear3( u_DD, bili3, v );
-    d[4] = bilinear3( u_D, bili3, v_D );
-    d[5] = bilinear3( u, bili3, v_DD );
+    d[0] = bilinear3( u,    bili3, v   );
+    d[1] = bilinear3( u_D,  bili3, v    );
+    d[2] = bilinear3( u,    bili3, v_D  );
+    d[3] = bilinear3( u_DD, bili3, v    );
+    d[4] = bilinear3( u_D,  bili3, v_D  );
+    d[5] = bilinear3( u,    bili3, v_DD );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

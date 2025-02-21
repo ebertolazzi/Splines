@@ -60,6 +60,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     AkimaSpline( string_view name = "AkimaSpline" )
     : CubicSplineBase( name )
     {}

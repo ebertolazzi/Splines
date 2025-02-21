@@ -102,6 +102,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     SplineSet( string_view name = "SplineSet" );
 
     //!

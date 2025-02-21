@@ -50,6 +50,7 @@ namespace Splines {
   public:
 
     //! spline constructor
+    explicit
     BiQuinticSplineBase( string_view name = "Spline" )
     : SplineSurf( name )
     , mem("BiQuinticSplineBase")
@@ -170,6 +171,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     BiQuinticSpline( string_view name = "BiQuinticSpline" )
     : BiQuinticSplineBase( name )
     {}

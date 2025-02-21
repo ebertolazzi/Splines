@@ -60,6 +60,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     QuinticSpline( string_view name = "Spline" )
     : QuinticSplineBase( name )
     {}

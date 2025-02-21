@@ -79,6 +79,7 @@ namespace Splines {
     //!
     //! \param name the name of the spline
     //!
+    explicit
     SplineVec( string_view name = "SplineVec" );
 
     //!
@@ -574,7 +575,7 @@ namespace Splines {
     //!
     //! Return spline type (as number).
     //!
-    SplineType1D type() const { return SplineType1D::SPLINE_VEC; }
+    static SplineType1D type() { return SplineType1D::SPLINE_VEC; }
 
     //!
     //! String information of the kind and order of the spline
