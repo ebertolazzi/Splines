@@ -108,7 +108,7 @@ set(DEPEND_TARGETS)
 # DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
 utils_add_library_or_submodule( "quarticRootsFlocke" ROOTS )
 utils_add_library_or_submodule( "UtilsLite" UTILS )
-utils_add_library_or_submodule( "GenericContainer" GC "GC" )
+utils_add_library_or_submodule( "GenericContainer" GC )
 
 message( STATUS "----------------------------------------------------------------" )
 message( STATUS "UTILS = ${UTILS}" )
