@@ -28,6 +28,8 @@
 
 namespace Splines {
 
+  using std::copy_n;
+
   //! Linear spline class
   class LinearSpline : public Spline {
     Malloc_real m_mem_linear;
@@ -110,6 +112,15 @@ namespace Splines {
       vector<real_type> & x_max_pos,
       vector<real_type> & y_max
     ) const override;
+
+    void
+    copy_spline( LinearSpline const & S ) {
+      LinearSpline::reserve(S.m_npts);
+      m_npts = S.m_npts;
+      copy_n( S.m_X,  m_npts, m_X );
+      copy_n( S.m_Y,  m_npts, m_Y );
+      copy_flags( S );
+    }
 
   };
 

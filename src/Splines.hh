@@ -399,6 +399,15 @@ namespace Splines {
     Spline const & operator = ( Spline const & ) = delete;
 
     #endif
+  
+  protected:
+
+    void
+    copy_flags( Spline const & S ) {
+      m_curve_is_closed         = S.m_curve_is_closed;
+      m_curve_can_extend        = S.m_curve_can_extend;
+      m_curve_extended_constant = S.m_curve_extended_constant;
+    }
 
   public:
 
@@ -494,9 +503,24 @@ namespace Splines {
     ///@{
 
     //!
+    //! return true if spline is empty (no points)
+    //!
+    bool empty() const { return m_npts == 0; }
+
+    //!
     //! the number of support points of the spline.
     //!
     integer num_points() const { return m_npts; }
+
+    //!
+    //! Return the pointer of values of x-nodes.
+    //!
+    real_type const * x_nodes() const { return m_X; }
+
+    //!
+    //! Return the pointer of values of y-nodes.
+    //!
+    real_type const * y_nodes() const { return m_Y; }
 
     //!
     //! the i-th node of the spline (x component).
@@ -966,6 +990,11 @@ namespace Splines {
     //! Build a copy of spline `S`
     //!
     void copy_spline( CubicSplineBase const & S );
+
+    //!
+    //! Return the pointer of values of yp-nodes.
+    //!
+    real_type const * yp_nodes() const { return m_Yp; }
 
     //!
     //! Return the i-th node of the spline (y' component).

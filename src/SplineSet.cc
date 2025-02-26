@@ -206,14 +206,33 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
+  SplineSet::deep_copy_to( SplineSet & S ) const {
+
+    std::vector<char const *> headers(m_nspl);
+    std::vector<SplineType1D> stype(m_nspl);
+
+    for ( integer i{0}; i < m_nspl; ++i ) {
+      headers[i] = m_splines[i]->name().data();
+      stype[i]   = m_splines[i]->type();
+    }
+
+    S.build( m_nspl, m_npts, headers.data(), stype.data(), m_X, m_Y, m_Yp );
+
+    // propagate flags
+    for ( integer i{0}; i < m_nspl; ++i ) S.m_splines[i]->copy_flags(*m_splines[i]);
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
   SplineSet::build(
-    integer      const   nspl,
-    integer      const   npts,
-    char         const * headers[],
-    SplineType1D const   stype[],
-    real_type    const   data_X[],
-    real_type    const * data_Y[],
-    real_type    const * data_Yp[]
+    integer      const         nspl,
+    integer      const         npts,
+    char         const * const headers[],
+    SplineType1D const         stype[],
+    real_type    const         data_X[],
+    real_type    const * const data_Y[],
+    real_type    const * const data_Yp[]
   ) {
     string msg{ fmt::format("SplineSet[{}]::build(...):", m_name ) };
     UTILS_ASSERT(
@@ -397,7 +416,7 @@ namespace Splines {
     m_mem.must_be_empty( "SplineSet::build, baseValue" );
     m_mem_p.must_be_empty( "SplineSet::build, basePointer" );
   }
-
+  
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void

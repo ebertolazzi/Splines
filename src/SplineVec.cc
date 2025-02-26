@@ -43,7 +43,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! spline constructor
-  SplineVec::SplineVec( string_view name )
+  SplineVec::SplineVec( string_view const name )
   : m_name(name)
   , m_mem( fmt::format( "SplineVec[{}]::m_mem", name ) )
   , m_mem_p( fmt::format( "SplineVec[{}]::m_mem_p", name ) )
@@ -175,9 +175,9 @@ namespace Splines {
 
   void
   SplineVec::setup(
-    integer   const   dim,
-    integer   const   npts,
-    real_type const * Y[]
+    integer   const         dim,
+    integer   const         npts,
+    real_type const * const Y[]
   ) {
     allocate( dim, npts );
     for ( integer spl{0}; spl < m_dim; ++spl )
@@ -197,6 +197,13 @@ namespace Splines {
     for ( integer spl{0}; spl < m_dim; ++spl )
       for ( integer j{0}; j < m_npts; ++j )
         m_Y[spl][j] = Y[spl+j*ldY];
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  SplineVec::deep_copy_to( SplineVec & S ) const {
+    S.setup( m_dim, m_npts, m_Y );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -295,6 +295,7 @@ namespace Splines {
     copy_n( S.m_Y,   m_npts, m_Y   );
     copy_n( S.m_Yp,  m_npts, m_Yp  );
     copy_n( S.m_Ypp, m_npts, m_Ypp );
+    copy_flags( S );
     init_last_interval();
   }
 

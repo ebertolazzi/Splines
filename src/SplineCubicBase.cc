@@ -272,6 +272,7 @@ namespace Splines {
     copy_n( S.m_X,  m_npts, m_X  );
     copy_n( S.m_Y,  m_npts, m_Y  );
     copy_n( S.m_Yp, m_npts, m_Yp );
+    copy_flags( S );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

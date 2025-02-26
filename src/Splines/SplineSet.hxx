@@ -1369,15 +1369,21 @@ namespace Splines {
     //!
     void
     build(
-      integer              nspl,
-      integer              npts,
-      char         const * headers[],
-      SplineType1D const   stype[],
-      real_type    const   X[],
-      real_type    const * Y[],
-      real_type    const * Yp[] = nullptr
+      integer                    nspl,
+      integer                    npts,
+      char         const * const headers[],
+      SplineType1D const         stype[],
+      real_type    const         X[],
+      real_type    const * const Y[],
+      real_type    const * const Yp[] = nullptr
     );
 
+    //!
+    //! Copy to SplineSet `S`
+    //!
+    void
+    deep_copy_to( SplineSet & S ) const;
+  
     //!
     //! Build a spline using data in `GenericContainer`
     //!

@@ -501,9 +501,9 @@ namespace Splines {
     //!
     void
     setup(
-      integer           dim,
-      integer           npts,
-      real_type const * Y[]
+      integer                 dim,
+      integer                 npts,
+      real_type const * const Y[]
     );
 
     //!
@@ -522,6 +522,11 @@ namespace Splines {
       integer         ldY
     );
 
+    //!
+    //! Copy to SplineVec `S`
+    //!
+    void deep_copy_to( SplineVec & S ) const;
+  
     //!
     //! Set the knots of the spline.
     //!
@@ -559,7 +564,7 @@ namespace Splines {
     //! Build a spline using data in `GenericContainer`
     //!
     void setup( GenericContainer const & gc );
-
+  
     ///@}
 
     //!

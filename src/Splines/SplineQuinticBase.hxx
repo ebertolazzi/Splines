@@ -80,6 +80,16 @@ namespace Splines {
     ///@{
 
     //!
+    //! Return the pointer of values of yp-nodes.
+    //!
+    real_type const * yp_nodes() const { return m_Yp; }
+
+    //!
+    //! Return the pointer of values of ypp-nodes.
+    //!
+    real_type const * ypp_nodes() const { return m_Ypp; }
+
+    //!
     //! Return the i-th node of the spline (y' component).
     //!
     real_type yp_node( integer i ) const { return m_Yp[i]; }
