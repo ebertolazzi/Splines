@@ -112,7 +112,7 @@ namespace Splines {
 
   string
   SplineVec::info() const {
-    return fmt::format( "SplineVec[{}] n.points = {}  dim = {}", name(), m_npts, m_dim );
+    return fmt::format( "SplineVec[{}] n.points={}  dim={}", name(), m_npts, m_dim );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -284,8 +284,12 @@ namespace Splines {
 
   void
   SplineVec::catmull_rom() {
+
+    UTILS_ASSERT( m_npts >= 2, "catmull_rom, npts={} must be >= 2\n", m_npts );
+
     integer const n{ m_npts-1 };
     integer const d{ m_dim    };
+
     real_type l1, l2, ll, a, b;
     for ( integer j{1}; j < n; ++j ) {
       l1 = m_X[j]   - m_X[j-1];

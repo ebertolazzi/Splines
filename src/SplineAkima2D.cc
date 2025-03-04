@@ -130,12 +130,12 @@ namespace Splines {
     real_type const X[9], integer imin, integer imax,
     real_type const Y[9], integer jmin, integer jmax,
     real_type const Z[9][9],
-    real_type & DX,
-    real_type & DY,
-    real_type & DXY
+    real_type     & DX,
+    real_type     & DY,
+    real_type     & DXY
   ) {
 
-    integer stencil[3][4] = {
+    constexpr integer stencil[3][4]{
       { -3, -2, -1, 1 },
       { -2, -1,  1, 2 },
       { -1,  1,  2, 3 }
@@ -291,6 +291,11 @@ namespace Splines {
   //!
   void
   Akima2Dspline::make_spline() {
+  
+    UTILS_ASSERT(
+      m_nx >= 2 && m_ny >= 2,
+      "Akima2Dspline::make_spline, nx={}, ny={} mus be nx >= 2 and ny >= 2", m_nx, m_ny
+    );
 
     integer const nn{ m_nx*m_ny };
     m_mem_bicubic.reallocate( 3*nn );
@@ -305,13 +310,13 @@ namespace Splines {
     real_type x_loc[9], y_loc[9], z_loc[9][9];
 
     for ( integer i0{0}; i0 < m_nx; ++i0 ) {
-      integer const imin = 4  > i0     ? 4-i0        : 0;
+      integer const imin = 4    > i0   ? 4-i0        : 0;
       integer const imax = m_nx < 5+i0 ? 3+(m_nx-i0) : 8;
 
       for ( integer i{imin}; i <= imax; ++i ) x_loc[i] = m_X[i+i0-4]-m_X[i0];
 
       for ( integer j0{0}; j0 < m_ny; ++j0 ) {
-        integer const jmin = 4 > j0      ? 4-j0        : 0;
+        integer const jmin = 4    > j0   ? 4-j0        : 0;
         integer const jmax = m_ny < 5+j0 ? 3+(m_ny-j0) : 8;
 
         for ( integer j{jmin}; j <= jmax; ++j ) y_loc[j] = m_Y[j+j0-4]-m_Y[j0];
@@ -388,7 +393,7 @@ namespace Splines {
 
   void
   Akima2Dspline::write_to_stream( ostream_type & s ) const {
-    fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
+    fmt::print( s, "Nx={} Ny={}\n", m_nx, m_ny );
     for ( integer i{1}; i < m_nx; ++i ) {
       for ( integer j{1}; j < m_ny; ++j ) {
         integer const i00 { ipos_C(i-1,j-1) };

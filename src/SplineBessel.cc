@@ -55,25 +55,32 @@ namespace Splines {
     real_type       Yp[],
     integer   const npts
   ) {
+  
+    UTILS_ASSERT( npts >= 2, "Bessel_build, npts={} must be >= 2\n", npts );
 
-    integer const n{ npts > 0 ? npts-1 : 0 };
+    integer const n{ npts-1 };
 
     Malloc_real mem("Bessel_build");
-    real_type * m{ mem.malloc( n+1 ) };
+    real_type * m{ mem.malloc( npts ) };
 
     // calcolo slopes
     for ( integer i{0}; i < n; ++i )
       m[i] = (Y[i+1]-Y[i])/(X[i+1]-X[i]);
 
-    if ( npts == 2 ) { // caso speciale 2 soli punti
+    if ( npts == 2 ) { // caso speciale 2 o 3 punti
 
       Yp[0] = Yp[1] = m[0];
+
+    } else if ( npts == 3 ) { // caso speciale 2 o 3 punti
+
+      Yp[0] = m[0];
+      Yp[n] = m[1];
 
     } else {
 
       for ( integer i{1}; i < n; ++i ) {
-        real_type const DL = X[i]   - X[i-1];
-        real_type const DR = X[i+1] - X[i];
+        real_type const DL { X[i]   - X[i-1] };
+        real_type const DR { X[i+1] - X[i]   };
         Yp[i] = (DR*m[i-1]+DL*m[i])/(DL+DR);
       }
 
@@ -91,7 +98,7 @@ namespace Splines {
     string msg{ fmt::format("BesselSpline[{}]::build():", m_name ) };
     UTILS_ASSERT(
       m_npts > 1,
-      "{} npts = {} not enought points\n",
+      "{} npts={} not enought points\n",
       msg, m_npts
     );
     Utils::check_NaN( m_X, msg+" X", m_npts, __LINE__, __FILE__ );

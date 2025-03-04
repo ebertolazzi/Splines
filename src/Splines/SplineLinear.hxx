@@ -117,8 +117,8 @@ namespace Splines {
     copy_spline( LinearSpline const & S ) {
       LinearSpline::reserve(S.m_npts);
       m_npts = S.m_npts;
-      copy_n( S.m_X,  m_npts, m_X );
-      copy_n( S.m_Y,  m_npts, m_Y );
+      copy_n( S.m_X, m_npts, m_X );
+      copy_n( S.m_Y, m_npts, m_Y );
       copy_flags( S );
     }
 

@@ -96,11 +96,10 @@ main() {
     fname = fmt::format( "out/SplineSet{}_D.txt", k );
     file_D.open(fname.data());
 
-    real_type xmin = xx[0];
-    real_type xmax = xx[nn[k]-1];
-
-    integer nspl = 7;
-    integer npts = nn[k];
+    real_type xmin { xx[0]       };
+    real_type xmax { xx[nn[k]-1] };
+    integer   nspl { 7           };
+    integer   npts { nn[k]       };
 
     char const *headers[] = {
       "SPLINE_CONSTANT",
@@ -123,7 +122,7 @@ main() {
     };
 
     //bool const rp_policy[] = { true, true, true, true, true, true, true };
-    real_type const *Y[]  = { yy, yy, yy, yy, yy, yy, yy, yy };
+    real_type const *Y[]{ yy, yy, yy, yy, yy, yy, yy, yy };
 
     ss.build( nspl, npts, headers, stype, xx, Y );
     ss.info(cout);

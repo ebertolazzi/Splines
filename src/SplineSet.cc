@@ -102,10 +102,7 @@ namespace Splines {
 
   string
   SplineSet::info() const {
-    string res{ fmt::format(
-      "SplineSet[{}] n.points = {} n.splines = {}",
-      name(), m_npts, m_nspl
-    ) };
+    string res{ fmt::format( "SplineSet[{}] n.points={} n.splines={}", name(), m_npts, m_nspl ) };
 
     for ( integer i{0}; i < m_nspl; ++i ) {
       res += fmt::format("\nSpline n.{} ", i);

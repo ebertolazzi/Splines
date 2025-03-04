@@ -233,7 +233,10 @@ namespace Splines {
     real_type  nodes[],
     bool const transpose
   ) const {
-    integer const n{ m_npts > 0 ? m_npts-1 : 0 };
+
+    UTILS_ASSERT( m_npts >= 2, "CubicSplineBase::coeffs, npts={} must be >= 2\n", m_npts );
+
+    integer const n{ m_npts-1 };
     for ( integer i{0}; i < n; ++i ) {
       real_type const H{ m_X[i+1]-m_X[i] };
       real_type a, b, c, d;
@@ -293,7 +296,7 @@ namespace Splines {
     integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
     for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
-        "segment N.{:4} X:[{},{}] Y:[{},{}] Yp:[{},{}] slope: {}\n",
+        "segment N.{:4} X:[{:.5},{:.5}] Y:[{:.5},{:.5}] Yp:[{:.5},{:.5}] slope: {}\n",
         i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1], m_Yp[i], m_Yp[i+1],
         (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
       );
@@ -310,27 +313,25 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT(
-      m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name
-    );
+    UTILS_ASSERT( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
     y_min     = y_max     = m_Y[0];
     PolynomialRoots::Quadratic q;
     for ( integer i{1}; i < m_npts; ++i ) {
-      real_type const & X0  = m_X[i-1];
-      real_type const & X1  = m_X[i];
-      real_type const & P0  = m_Y[i-1];
-      real_type const & P1  = m_Y[i];
-      real_type const & DP0 = m_Yp[i-1];
-      real_type const & DP1 = m_Yp[i];
-      real_type const   H   = X1 - X0;
+      real_type const & X0  { m_X[i-1]  };
+      real_type const & X1  { m_X[i]    };
+      real_type const & P0  { m_Y[i-1]  };
+      real_type const & P1  { m_Y[i]    };
+      real_type const & DP0 { m_Yp[i-1] };
+      real_type const & DP1 { m_Yp[i]   };
+      real_type const   H   { X1 - X0   };
       real_type A, B, C, D;
       Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3*A, 2*B, C );
       real_type r[2];
-      integer const nr = q.getRootsInOpenRange( 0, H, r );
+      integer const nr{ q.getRootsInOpenRange( 0, H, r ) };
       for ( integer j{0}; j < nr; ++j ) {
         real_type const rr = r[j];
         real_type const yy = (((A*rr)+B)*rr+C)*rr+D;
@@ -360,9 +361,7 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT(
-      m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name
-    );
+    UTILS_ASSERT( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     if ( m_Yp[0] >= 0 ) {
       y_min.emplace_back(m_Y[0]);
@@ -376,22 +375,22 @@ namespace Splines {
     }
     PolynomialRoots::Quadratic q;
     for ( integer i{1}; i < m_npts; ++i ) {
-      real_type const & X0  = m_X[i-1];
-      real_type const & X1  = m_X[i];
-      real_type const & P0  = m_Y[i-1];
-      real_type const & P1  = m_Y[i];
-      real_type const & DP0 = m_Yp[i-1];
-      real_type const & DP1 = m_Yp[i];
-      real_type const H = X1 - X0;
+      real_type const & X0  { m_X[i-1]  };
+      real_type const & X1  { m_X[i]    };
+      real_type const & P0  { m_Y[i-1]  };
+      real_type const & P1  { m_Y[i]    };
+      real_type const & DP0 { m_Yp[i-1] };
+      real_type const & DP1 { m_Yp[i]   };
+      real_type const   H   { X1 - X0   };
       real_type A, B, C, D;
       Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3*A, 2*B, C );
       real_type r[2];
-      integer const nr = q.getRootsInOpenRange( 0, H, r );
+      integer const nr{ q.getRootsInOpenRange( 0, H, r ) };
       for ( integer j{0}; j < nr; ++j ) {
-        real_type const rr  = r[j];
-        real_type const yy  = (((A*rr)+B)*rr+C)*rr+D;
-        real_type const ddy = 3*A*rr+B;
+        real_type const rr  { r[j] };
+        real_type const yy  { (((A*rr)+B)*rr+C)*rr+D };
+        real_type const ddy { 3*A*rr+B };
         if ( ddy > 0 ) {
           y_min.emplace_back(yy);
           x_min_pos.emplace_back(X0+rr);
@@ -404,9 +403,9 @@ namespace Splines {
       }
       if ( i+1 >= m_npts ) continue;
       if ( abs(DP1) > (m_X[i+1]-m_X[i-1])*epsi ) continue;
-      real_type const & X2  = m_X[i+1];
-      real_type const & P2  = m_Y[i+1];
-      real_type const & DP2 = m_Yp[i+1];
+      real_type const & X2  { m_X[i+1]  };
+      real_type const & P2  { m_Y[i+1]  };
+      real_type const & DP2 { m_Yp[i+1] };
       real_type A1, B1, C1, D1;
       Hermite3_to_poly( X2-X1, P1, P2, DP1, DP2, A1, B1, C1, D1 );
       real_type const DD = 2*A*H+B;

@@ -127,7 +127,9 @@ namespace Splines {
     integer   const npts
   ) {
 
-    integer const n{ npts > 0 ? npts - 1 : 0 };
+    UTILS_ASSERT( npts >= 2, "Pchip_build, npts={} must be >= 2\n", npts );
+
+    integer const n{ npts - 1 };
 
     //integer ierr = 0;
 
@@ -259,8 +261,8 @@ namespace Splines {
     );
     Utils::check_NaN( m_X, msg+" X", m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, msg+" Y", m_npts, __LINE__, __FILE__ );
-    integer ibegin = 0;
-    integer iend   = 0;
+    integer ibegin { 0 };
+    integer iend   { 0 };
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}

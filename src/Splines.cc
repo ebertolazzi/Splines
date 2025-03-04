@@ -427,13 +427,10 @@ namespace Splines {
 
   string
   Spline::info() const {
-    string res = fmt::format(
-      "Spline `{}` of type: {} of order: {}",
-      m_name, type_name(), order()
-    );
+    string res { fmt::format( "Spline `{}` of type: {} of order: {}", m_name, type_name(), order() ) };
     if ( m_npts > 0 )
       res += fmt::format(
-        "\nx_min = {} x_max = {} y_min = {} y_max = {}",
+        "\nx_min={:.5} x_max={:.5} y_min={:.5} y_max={:.5}",
         x_min(), x_max(), y_min(), y_max()
       );
     return res;
@@ -447,7 +444,7 @@ namespace Splines {
       UTILS_ASSERT(
         x >= m_X[m_npts-1], // ammetto punti doppi
         "Spline[{}]::push_back, non monotone insert at insert N.{}"
-        "\nX[{}] = {}\nX[{}] = {}\n",
+        "\nX[{}] = {:.5}\nX[{}] = {:>5}\n",
         m_name, m_npts, m_npts-1, m_X[m_npts-1], m_npts, x
       );
     }
@@ -557,14 +554,14 @@ namespace Splines {
 
   real_type
   curvature( real_type const s, Spline const & X, Spline const & Y ) {
-    real_type const x_1 = X.D(s);
-    real_type const x_2 = X.DD(s);
-    real_type const y_1 = Y.D(s);
-    real_type const y_2 = Y.DD(s);
-    real_type const t4  = x_1 * x_1;
-    real_type const t5  = y_1 * y_1;
-    real_type const t6  = t4 + t5;
-    real_type const t7  = sqrt(t6);
+    real_type const x_1 { X.D(s)    };
+    real_type const x_2 { X.DD(s)   };
+    real_type const y_1 { Y.D(s)    };
+    real_type const y_2 { Y.DD(s)   };
+    real_type const t4  { x_1 * x_1 };
+    real_type const t5  { y_1 * y_1 };
+    real_type const t6  { t4 + t5   };
+    real_type const t7  { sqrt(t6)  };
     return (x_1 * y_2 - y_1 * x_2) / ( t6 * t7 );
   }
 
@@ -572,21 +569,21 @@ namespace Splines {
 
   real_type
   curvature_D( real_type const s, Spline const & X, Spline const & Y ) {
-    real_type const x_1 = X.D(s);
-    real_type const x_2 = X.DD(s);
-    real_type const x_3 = X.DDD(s);
-    real_type const y_1 = Y.D(s);
-    real_type const y_2 = Y.DD(s);
-    real_type const y_3 = Y.DDD(s);
-    real_type const t1  = x_1 * x_1;
-    real_type const t9  = x_2 * x_2;
-    real_type const t13 = y_1 * y_1;
-    real_type const t17 = y_2 * y_2;
-    real_type const t26 = t1 + t13;
-    real_type const t27 = t26 * t26;
-    real_type const t28 = sqrt(t26);
-    real_type const aa  = y_3 * x_1 - y_1 * x_3;
-    real_type const bb  = 3 * y_2 * x_2;
+    real_type const x_1 { X.D(s)    };
+    real_type const x_2 { X.DD(s)   };
+    real_type const x_3 { X.DDD(s)  };
+    real_type const y_1 { Y.D(s)    };
+    real_type const y_2 { Y.DD(s)   };
+    real_type const y_3 { Y.DDD(s)  };
+    real_type const t1  { x_1 * x_1 };
+    real_type const t9  { x_2 * x_2 };
+    real_type const t13 { y_1 * y_1 };
+    real_type const t17 { y_2 * y_2 };
+    real_type const t26 { t1 + t13  };
+    real_type const t27 { t26 * t26 };
+    real_type const t28 { sqrt(t26) };
+    real_type const aa  { y_3 * x_1 - y_1 * x_3 };
+    real_type const bb  { 3 * y_2 * x_2 };
     return ( t1 * ( aa - bb ) + t13 * ( aa + bb )
              + 3 * x_1 * y_1 * ( t9 - t17 ) ) / ( t28 * t27 );
   }
@@ -595,30 +592,30 @@ namespace Splines {
 
   real_type
   curvature_DD( real_type const s, Spline const & X, Spline const & Y ) {
-    real_type const x_1 = X.D(s);
-    real_type const x_2 = X.DD(s);
-    real_type const x_3 = X.DDD(s);
-    real_type const x_4 = X.DDDD(s);
-    real_type const y_1 = Y.D(s);
-    real_type const y_2 = Y.DD(s);
-    real_type const y_3 = Y.DDD(s);
-    real_type const y_4 = Y.DDDD(s);
+    real_type const x_1 { X.D(s)    };
+    real_type const x_2 { X.DD(s)   };
+    real_type const x_3 { X.DDD(s)  };
+    real_type const x_4 { X.DDDD(s) };
+    real_type const y_1 { Y.D(s)    };
+    real_type const y_2 { Y.DD(s)   };
+    real_type const y_3 { Y.DDD(s)  };
+    real_type const y_4 { Y.DDDD(s) };
 
-    real_type const t1  = y_1 * y_1;
-    real_type const t2  = t1 * t1;
-    real_type const t12 = x_2 * x_2;
-    real_type const t13 = t12 * x_2;
-    real_type const t15 = x_1 * x_3;
-    real_type const t16 = 9 * t15;
-    real_type const t17 = y_2 * y_2;
-    real_type const t21 = x_1 * x_1;
-    real_type const t22 = x_4 * t21;
-    real_type const t26 = 9 * x_1 * y_2 * y_3;
-    real_type const t30 = t21 * x_1;
-    real_type const t40 = t17 * y_2;
-    real_type const t64 = t21 + t1;
-    real_type const t65 = t64 * t64;
-    real_type const t67 = sqrt(t64);
+    real_type const t1  { y_1 * y_1 };
+    real_type const t2  { t1 * t1   };
+    real_type const t12 { x_2 * x_2 };
+    real_type const t13 { t12 * x_2 };
+    real_type const t15 { x_1 * x_3 };
+    real_type const t16 { 9 * t15   };
+    real_type const t17 { y_2 * y_2 };
+    real_type const t21 { x_1 * x_1 };
+    real_type const t22 { x_4 * t21 };
+    real_type const t26 { 9 * x_1 * y_2 * y_3 };
+    real_type const t30 { t21 * x_1 };
+    real_type const t40 { t17 * y_2 };
+    real_type const t64 { t21 + t1  };
+    real_type const t65 { t64 * t64 };
+    real_type const t67 { sqrt(t64) };
     return (
       t2 * (x_1 * y_4 + 4 * x_2 * y_3 + 5 * x_3 * y_2 - y_1 * x_4)
       + t1 * y_1 * (3 * t13 + x_2 * (t16 - 12 * t17) - 2 * t22 - t26)

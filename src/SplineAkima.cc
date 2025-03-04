@@ -65,11 +65,11 @@ namespace Splines {
     real_type const di,
     real_type const di_p1
   ) {
-    real_type wl  = abs(di_p1 - di);
-    real_type wr  = abs(di_m1 - di_m2);
-    real_type den = wl + wr;
+    real_type wl  { abs(di_p1 - di) };
+    real_type wr  { abs(di_m1 - di_m2) };
+    real_type den { wl + wr };
     if ( den <= epsi ) { wl = wr = 0.5; den = 1; } // if epsi == 0
-    real_type const num = wl * di_m1 + wr * di;
+    real_type const num{ wl * di_m1 + wr * di };
     return num / den;
   }
 
@@ -82,6 +82,8 @@ namespace Splines {
     real_type       Yp[],
     integer   const npts
   ) {
+  
+    UTILS_ASSERT( npts >= 2, "Akima_build require at least 2 points" );
 
     if ( npts == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
@@ -94,15 +96,15 @@ namespace Splines {
         m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]);
 
       // extra slope at the boundary
-      m[1] = 2*m[2]-m[3];
-      m[0] = 2*m[1]-m[2];
+      m[1]      = 2*m[2]-m[3];
+      m[0]      = 2*m[1]-m[2];
       m[npts+1] = 2*m[npts]-m[npts-1];
       m[npts+2] = 2*m[npts+1]-m[npts];
 
       // minimum delta slope
       real_type epsi{0};
       for ( integer i{0}; i < npts+2; ++i ) {
-        real_type const dm = std::abs(m[i+1]-m[i]);
+        real_type const dm{ std::abs(m[i+1]-m[i]) };
         if ( dm > epsi ) epsi = dm;
       }
       epsi *= 1E-8;
@@ -120,10 +122,8 @@ namespace Splines {
 
   void
   AkimaSpline::build() {
-    string msg{ fmt::format("AkimaSpline[{}]::build():", m_name ) };
-    UTILS_ASSERT(
-      m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts
-    );
+    string const msg{ fmt::format("AkimaSpline[{}]::build():", m_name ) };
+    UTILS_ASSERT( m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts );
     Utils::check_NaN( m_X, msg+" X ", m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, msg+" Y ", m_npts, __LINE__, __FILE__ );
     integer ibegin{0};

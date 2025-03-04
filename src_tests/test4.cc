@@ -84,7 +84,7 @@ main() {
       case 4: xx = xx4; yy = yy4; break;
       case 5: xx = xx5; yy = yy5; break;
     }
-    string fname = fmt::format( "out/SplineSet{}.txt", k );
+    string const fname{ fmt::format( "out/SplineSet{}.txt", k ) };
     file.open(fname.data());
     real_type const xmin = xx[0];
     real_type const xmax = xx[nn[k]-1];

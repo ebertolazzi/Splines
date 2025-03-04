@@ -142,7 +142,7 @@ namespace Splines {
     integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
     for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
-        "segment N.{:4} X:[{},{}] Y:[{},{}] slope: {}\n",
+        "segment N.{:4} X:[{:.5},{:.5}] Y:[{:.5},{:.5}] slope: {:.5}\n",
         i, m_X[i], m_X[i+1], m_Y[i], m_Y[i+1],
         (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i])
       );
@@ -156,10 +156,13 @@ namespace Splines {
     real_type  nodes[],
     bool const transpose
   ) const {
-    integer const n{ m_npts > 0 ? m_npts-1 : 0 };
+
+    UTILS_ASSERT( m_npts >= 2, "LinearSpline::coeffs, npts={} must be >= 2\n", m_npts );
+
+    integer const n{ m_npts-1 };
     for ( integer i{0}; i < n; ++i ) {
-      real_type const a = m_Y[i];
-      real_type const b = (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]);
+      real_type const a { m_Y[i] };
+      real_type const b { (m_Y[i+1]-m_Y[i])/(m_X[i+1]-m_X[i]) };
       if ( transpose ) {
         cfs[2*i+1] = a;
         cfs[2*i+0] = b;

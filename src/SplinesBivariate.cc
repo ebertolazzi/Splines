@@ -45,9 +45,7 @@ namespace Splines {
 
   string
   SplineSurf::info() const {
-    return fmt::format(
-      "Bivariate spline [{}] of type = {}", name(), type_name()
-    );
+    return fmt::format( "Bivariate spline [{}] of type = {}", name(), type_name() );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -674,7 +672,7 @@ namespace Splines {
       );
       for ( integer j{0}; j < M; ++j ) {
         GenericContainer const & row{ data[j] };
-        string msg1 = fmt::format( "{}, reading row {}\n", where, j );
+        string const msg1{ fmt::format( "{}, reading row {}\n", where, j ) };
         row.copyto_vec_real( tmp, msg1 );
         UTILS_ASSERT(
           static_cast<size_t>(N) == tmp.size(),

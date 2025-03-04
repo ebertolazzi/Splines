@@ -107,37 +107,37 @@ main() {
     real_type xmin = xx[0];
     real_type xmax = xx[nn[k]-1];
 
-    #define SAVE(NAME,S)                                                   \
-    fmt::print( "\n\n\n{}\n\n\n", NAME );                                  \
-    fmt::print( #S": n[k] = {}\n", nn[k] );                                \
-    S.clear();                                                             \
-    S.reserve(nn[k]);                                                      \
-    for ( integer i{0}; i < integer(nn[k]); ++i )                          \
-      S.push_back(xx[i],yy[i]);                                            \
-    S.build(); /*( xx, yy, n[k] );*/                                       \
-    {                                                                      \
-      integer   i_min_pos;                                                 \
-      real_type x_min_pos;                                                 \
-      real_type y_min;                                                     \
-      integer   i_max_pos;                                                 \
-      real_type x_max_pos;                                                 \
-      real_type y_max;                                                     \
-      S.y_min_max(                                                         \
-        i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max           \
-      );                                                                   \
-      fmt::print( "i_min_pos = {}\n", i_min_pos );                         \
-      fmt::print( "x_min_pos = {}\n", x_min_pos );                         \
-      fmt::print( "y_min     = {}\n", y_min );                             \
-      fmt::print( "i_max_pos = {}\n", i_max_pos );                         \
-      fmt::print( "x_max_pos = {}\n", x_max_pos );                         \
-      fmt::print( "y_max     = {}\n", y_max );                             \
-    }                                                                      \
-    fmt::print( #S": xMin    = {}\n", S.x_min() );                         \
-    fmt::print( #S": xMax    = {}\n", S.x_max() );                         \
-    fmt::print( #S": xx[0]   = {}\n", xx[0] );                             \
+    #define SAVE(NAME,S)                                                    \
+    fmt::print( "\n\n\n{}\n\n\n", NAME );                                   \
+    fmt::print( #S": n[k] = {}\n", nn[k] );                                 \
+    S.clear();                                                              \
+    S.reserve(nn[k]);                                                       \
+    for ( integer i{0}; i < integer(nn[k]); ++i )                           \
+      S.push_back(xx[i],yy[i]);                                             \
+    S.build(); /*( xx, yy, n[k] );*/                                        \
+    {                                                                       \
+      integer   i_min_pos;                                                  \
+      real_type x_min_pos;                                                  \
+      real_type y_min;                                                      \
+      integer   i_max_pos;                                                  \
+      real_type x_max_pos;                                                  \
+      real_type y_max;                                                      \
+      S.y_min_max(                                                          \
+        i_min_pos, x_min_pos, y_min, i_max_pos, x_max_pos, y_max            \
+      );                                                                    \
+      fmt::print( "i_min_pos = {}\n", i_min_pos );                          \
+      fmt::print( "x_min_pos = {}\n", x_min_pos );                          \
+      fmt::print( "y_min     = {}\n", y_min );                              \
+      fmt::print( "i_max_pos = {}\n", i_max_pos );                          \
+      fmt::print( "x_max_pos = {}\n", x_max_pos );                          \
+      fmt::print( "y_max     = {}\n", y_max );                              \
+    }                                                                       \
+    fmt::print( #S": xMin    = {}\n", S.x_min() );                          \
+    fmt::print( #S": xMax    = {}\n", S.x_max() );                          \
+    fmt::print( #S": xx[0]   = {}\n", xx[0] );                              \
     fmt::print( #S": xx[end] = {}\n", xx[nn[k]-1] );                        \
-    file_##S << "x\ty\tDy\tDDy\n";                                         \
-    for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )           \
+    file_##S << "x\ty\tDy\tDDy\n";                                          \
+    for ( real_type x = xmin; x <= xmax; x += (xmax-xmin)/1000 )            \
       fmt::print( file_##S, "{}\t{}\t{}\t{}\n", x, S(x), S.D(x), S.DD(x) ); \
     file_##S.close()
 

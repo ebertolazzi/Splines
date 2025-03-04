@@ -90,17 +90,17 @@ namespace Splines {
 
   void
   Hermite5( real_type const x, real_type const H, real_type base[6] ) {
-    real_type const t1  = H*H;
-    real_type const t4  = x*x;
-    real_type const t7  = H-x;
-    real_type const t8  = t7*t7;
-    real_type const t9  = t8*t7;
-    real_type const t11 = t1*t1;
-    real_type const t2  = 1/t11;
-    real_type const t3  = 1/H;
-    real_type const t13 = t3*t2;
-    real_type const t14 = t4*x;
-    real_type const t17 = t4*t4;
+    real_type const t1  { H*H   };
+    real_type const t4  { x*x   };
+    real_type const t7  { H-x   };
+    real_type const t8  { t7*t7 };
+    real_type const t9  { t8*t7 };
+    real_type const t11 { t1*t1 };
+    real_type const t2  { 1/t11 };
+    real_type const t3  { 1/H   };
+    real_type const t13 { t3*t2 };
+    real_type const t14 { t4*x  };
+    real_type const t17 { t4*t4 };
     base[0] = t13*t9*(3.0*x*H+t1+6.0*t4);
     base[1] = t13*(-15.0*H*t17+6.0*t17*x+10.0*t1*t14);
     base[2] = t2*t9*x*(H+3*x);
@@ -114,17 +114,17 @@ namespace Splines {
 
   void
   Hermite5_D( real_type const x, real_type const H, real_type base_D[6] ) {
-    real_type const t1 = H-x;
-    real_type const t2 = t1*t1;
-    real_type const t3 = x*x;
-    real_type const t5 = H*H;
-    real_type const t6 = t5*t5;
-    real_type const t4 = 1/t6;
-    real_type const t7 = 1/H;
-    real_type const t10 = 30.0*t3*t2*t7*t4;
-    real_type const t11 = 5.0*x;
-    real_type const t23 = t3*t3;
-    real_type const t30 = t7/t5/2;
+    real_type const t1  { H-x   };
+    real_type const t2  { t1*t1 };
+    real_type const t3  { x*x   };
+    real_type const t5  { H*H   };
+    real_type const t6  { t5*t5 };
+    real_type const t4  { 1/t6  };
+    real_type const t7  { 1/H   };
+    real_type const t10 { 30.0*t3*t2*t7*t4 };
+    real_type const t11 { 5.0*x   };
+    real_type const t23 { t3*t3   };
+    real_type const t30 { t7/t5/2 };
     base_D[0] = -t10;
     base_D[1] = t10;
     base_D[2] = t4*(H-3.0*x)*(H+t11)*t2;
@@ -137,15 +137,15 @@ namespace Splines {
 
   void
   Hermite5_DD( real_type const x, real_type const H, real_type base_DD[6] ) {
-    real_type const t1 = H-x;
-    real_type const t2 = x*t1;
-    real_type const t5 = H*H;
-    real_type const t6 = t5*t5;
-    real_type const t3 = 1/t6;
-    real_type const t4 = 1/H;
-    real_type const t11 = 60*(H-2*x)*t2*t4*t3;
-    real_type const t26 = x*x;
-    real_type const t31 = t4/t5;
+    real_type const t1  { H-x   };
+    real_type const t2  { x*t1  };
+    real_type const t5  { H*H   };
+    real_type const t6  { t5*t5 };
+    real_type const t3  { 1/t6  };
+    real_type const t4  { 1/H   };
+    real_type const t11 { 60*(H-2*x)*t2*t4*t3 };
+    real_type const t26 { x*x   };
+    real_type const t31 { t4/t5 };
     base_DD[0] = -t11;
     base_DD[1] = t11;
     base_DD[2] = 12*t3*t1*(5*x-3*H)*x;
@@ -158,17 +158,17 @@ namespace Splines {
 
   void
   Hermite5_DDD( real_type x, real_type H, real_type base_DDD[6] ) {
-    real_type const t1  = H*H;
-    real_type const t3  = H*x;
-    real_type const t5  = x*x;
-    real_type const t7  = 360*t3-60*t1-360*t5;
-    real_type const t8  = t1*t1;
-    real_type const t9  = 1/t8;
-    real_type const t11 = 1/H;
-    real_type const t10 = t11*t9;
-    real_type const t14 = 180.0*t5;
-    real_type const t22 = 30.0*t5;
-    real_type const t25 = t11/t1;
+    real_type const t1  { H*H };
+    real_type const t3  { H*x };
+    real_type const t5  { x*x };
+    real_type const t7  { 360*t3-60*t1-360*t5 };
+    real_type const t8  { t1*t1    };
+    real_type const t9  { 1/t8     };
+    real_type const t11 { 1/H      };
+    real_type const t10 { t11*t9   };
+    real_type const t14 { 180.0*t5 };
+    real_type const t22 { 30.0*t5  };
+    real_type const t25 { t11/t1   };
     base_DDD[0] = t7*t10;
     base_DDD[1] = -base_DDD[0];
     base_DDD[2] = t9*(192*t3-36*t1-t14);
@@ -182,15 +182,15 @@ namespace Splines {
 
   void
   Hermite5_DDDD( real_type const x, real_type const H, real_type base_DDDD[6] ) {
-    real_type const t3 = 360.0*H-720.0*x;
-    real_type const t4 = H*H;
-    real_type const t5 = t4*t4;
-    real_type const t6 = 1/t5;
-    real_type const t8 = 1/H;
-    real_type const t7 = t8*t6;
-    real_type const t10 = 360*x;
-    real_type const t16 = 60*x;
-    real_type const t19 = t8/t4;
+    real_type const t3  { 360.0*H-720.0*x };
+    real_type const t4  { H*H   };
+    real_type const t5  { t4*t4 };
+    real_type const t6  { 1/t5  };
+    real_type const t8  { 1/H   };
+    real_type const t7  { t8*t6 };
+    real_type const t10 { 360*x };
+    real_type const t16 { 60*x  };
+    real_type const t19 { t8/t4 };
     base_DDDD[0] = t7*t3;
     base_DDDD[1] = -base_DDDD[0];
     base_DDDD[2] = t6*(192*H-t10);
@@ -204,12 +204,12 @@ namespace Splines {
 
   void
   Hermite5_DDDDD( real_type, real_type const H, real_type base_DDDDD[6] ) {
-    real_type const t1  = H*H;
-    real_type const t2  = t1*t1;
-    real_type const t3  = 1/t2;
-    real_type const t4  = 1/H;
-    real_type const t5  = 720.0*t4*t3;
-    real_type const t10 = 60.0*t4/t1;
+    real_type const t1  { H*H         };
+    real_type const t2  { t1*t1       };
+    real_type const t3  { 1/t2        };
+    real_type const t4  { 1/H         };
+    real_type const t5  { 720.0*t4*t3 };
+    real_type const t10 { 60.0*t4/t1  };
     base_DDDDD[0] = -t5;
     base_DDDDD[1] = t5;
     base_DDDDD[2] = -360.0*t3;
@@ -264,9 +264,7 @@ namespace Splines {
     real_type const [], integer,
     integer
   ) {
-    UTILS_ERROR(
-      "HermiteSpline[{}]::build(x,incx,y,incy,n) cannot be used\n", m_name
-    );
+    UTILS_ERROR( "HermiteSpline[{}]::build(x,incx,y,incy,n) cannot be used\n", m_name );
   }
 
   using GC_namespace::GC_type;

@@ -104,7 +104,7 @@ namespace Splines {
   ConstantSpline::build(
     real_type const x[], integer const incx,
     real_type const y[], integer const incy,
-    integer const n
+    integer   const n
   ) {
     reserve( n );
     for ( integer i{0}; i   < n; ++i ) m_X[i] = x[i*incx];
@@ -130,7 +130,7 @@ namespace Splines {
     integer const nseg{ m_npts > 0 ? m_npts - 1 : 0 };
     for ( integer i{0}; i < nseg; ++i )
       fmt::print( s,
-        "segment N. {:4} X:[{},{}] Y:{}\n",
+        "segment N. {:4} X:[{:.5},{:.5}] Y:{:.5}\n",
         i,  m_X[i], m_X[i+1], m_Y[i]
       );
   }
@@ -194,9 +194,7 @@ namespace Splines {
     real_type & x_max_pos,
     real_type & y_max
   ) const {
-    UTILS_ASSERT(
-      m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name
-    );
+    UTILS_ASSERT( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
@@ -232,9 +230,7 @@ namespace Splines {
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT(
-      m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name
-    );
+    UTILS_ASSERT( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     for ( integer i{1}; i < m_npts-1; ++i ) {
       real_type const & P0 = m_Y[i-1];
