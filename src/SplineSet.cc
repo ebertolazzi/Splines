@@ -83,7 +83,6 @@ namespace Splines {
   : m_name(name)
   , m_mem( fmt::format( "SplineSet[{}]::m_mem", name ) )
   , m_mem_p( fmt::format( "SplineSet[{}]::m_mem_p", name ) )
-  , m_mem_splines( fmt::format( "SplineSet[{}]::m_mem_splines", name ) )
   , m_mem_int( fmt::format( "SplineSet[{}]::m_mem_int", name ) )
   {
   }
@@ -94,7 +93,6 @@ namespace Splines {
   SplineSet::~SplineSet() {
     m_mem.free();
     m_mem_p.free();
-    m_mem_splines.free();
     m_mem_int.free();
   }
 
@@ -163,7 +161,7 @@ namespace Splines {
       "SplineSet[{}]::get_spline({}) argument out of range [0,{}]\n",
       m_name, i, m_nspl-1
     );
-    return m_splines[i];
+    return m_splines[i].get();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -243,7 +241,7 @@ namespace Splines {
     m_nspl = nspl;
     m_npts = npts;
     // allocate memory
-    m_splines     = reinterpret_cast<Spline **>(m_mem_splines.realloc( m_nspl ));
+    m_splines.resize( m_nspl );
     m_is_monotone = m_mem_int.realloc( m_nspl );
 
     m_header_to_position.clear();
@@ -324,22 +322,22 @@ namespace Splines {
         break;
       }
       string h{ headers[spl] };
-      Spline * & s{ m_splines[spl] };
+      std::unique_ptr<Spline> & s{ m_splines[spl] };
 
       m_is_monotone[spl] = -1;
       switch ( stype[ spl ] ) {
       case SplineType1D::CONSTANT:
-        s = new ConstantSpline(h);
-        static_cast<ConstantSpline*>(s)->reserve_external( m_npts, m_X, pY );
-        static_cast<ConstantSpline*>(s)->m_npts = m_npts;
-        static_cast<ConstantSpline*>(s)->build();
+        s = std::make_unique<ConstantSpline>(h);
+        static_cast<ConstantSpline*>(s.get())->reserve_external( m_npts, m_X, pY );
+        static_cast<ConstantSpline*>(s.get())->m_npts = m_npts;
+        static_cast<ConstantSpline*>(s.get())->build();
         break;
 
       case SplineType1D::LINEAR:
-        s = new LinearSpline(h);
-        static_cast<LinearSpline*>(s)->reserve_external( m_npts, m_X, pY );
-        static_cast<LinearSpline*>(s)->m_npts = m_npts;
-        static_cast<LinearSpline*>(s)->build();
+        s = std::make_unique<LinearSpline>(h);
+        static_cast<LinearSpline*>(s.get())->reserve_external( m_npts, m_X, pY );
+        static_cast<LinearSpline*>(s.get())->m_npts = m_npts;
+        static_cast<LinearSpline*>(s.get())->build();
         // check monotonicity of data
         { integer flag = 1;
           for ( integer j{1}; j < m_npts; ++j ) {
@@ -351,55 +349,55 @@ namespace Splines {
         break;
 
       case SplineType1D::CUBIC:
-        s = new CubicSpline(h);
-        static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<CubicSpline*>(s)->m_npts = m_npts;
-        static_cast<CubicSpline*>(s)->build();
+        s = std::make_unique<CubicSpline>(h);
+        static_cast<CubicSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
+        static_cast<CubicSpline*>(s.get())->m_npts = m_npts;
+        static_cast<CubicSpline*>(s.get())->build();
         m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::AKIMA:
-        s = new AkimaSpline(h);
-        static_cast<AkimaSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<AkimaSpline*>(s)->m_npts = m_npts;
-        static_cast<AkimaSpline*>(s)->build();
+        s = std::make_unique<AkimaSpline>(h);
+        static_cast<AkimaSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
+        static_cast<AkimaSpline*>(s.get())->m_npts = m_npts;
+        static_cast<AkimaSpline*>(s.get())->build();
         m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::BESSEL:
-        s = new BesselSpline(h);
-        static_cast<BesselSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<BesselSpline*>(s)->m_npts = m_npts;
-        static_cast<BesselSpline*>(s)->build();
+        s = std::make_unique<BesselSpline>(h);
+        static_cast<BesselSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
+        static_cast<BesselSpline*>(s.get())->m_npts = m_npts;
+        static_cast<BesselSpline*>(s.get())->build();
         m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::PCHIP:
-        s = new PchipSpline(h);
-        static_cast<PchipSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<PchipSpline*>(s)->m_npts = m_npts;
-        static_cast<PchipSpline*>(s)->build();
+        s = std::make_unique<PchipSpline>(h);
+        static_cast<PchipSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
+        static_cast<PchipSpline*>(s.get())->m_npts = m_npts;
+        static_cast<PchipSpline*>(s.get())->build();
         m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::HERMITE:
-        s = new HermiteSpline(h);
-        static_cast<CubicSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<CubicSpline*>(s)->m_npts = m_npts;
-        static_cast<CubicSpline*>(s)->build();
+        s = std::make_unique<HermiteSpline>(h);
+        static_cast<CubicSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
+        static_cast<CubicSpline*>(s.get())->m_npts = m_npts;
+        static_cast<CubicSpline*>(s.get())->build();
         m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
         break;
 
       case SplineType1D::QUINTIC:
-        s = new QuinticSpline(h);
-        static_cast<QuinticSpline*>(s)->reserve_external( m_npts, m_X, pY, pYp, pYpp );
-        static_cast<QuinticSpline*>(s)->m_npts = m_npts;
-        static_cast<QuinticSpline*>(s)->build();
+        s = std::make_unique<QuinticSpline>(h);
+        static_cast<QuinticSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp, pYpp );
+        static_cast<QuinticSpline*>(s.get())->m_npts = m_npts;
+        static_cast<QuinticSpline*>(s.get())->build();
         break;
 
       case SplineType1D::SPLINE_SET:
       case SplineType1D::SPLINE_VEC:
-      //default:
+        //default:
         UTILS_ERROR(
           "{} At spline n.{} named {}\n"
           "{} not allowed as spline type\n"
@@ -521,7 +519,7 @@ namespace Splines {
       "{}\nSpline n.{} is not monotone and can't be used as independent",
       msg, spl
     );
-    Spline const * S = m_splines[spl];
+    auto & S{ m_splines[spl] };
     // cerco intervallo intersezione
     real_type const * X{ m_Y[spl] };
     UTILS_ASSERT(
@@ -576,7 +574,7 @@ namespace Splines {
         msg, zeta
       );
     }
-    return S;
+    return S.get();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -702,8 +700,8 @@ namespace Splines {
     real_type const ddt{ -S->DD(x)*(dt*dt2) };
     size_t ii{0};
     for ( integer i{0}; i < m_nspl; ++i, ii += incy ) {
-      S = m_splines[i];
-      vals[ii] = S->DD(x)*dt2 + S->D(x)*ddt;
+      auto & Si{ m_splines[i] };
+      vals[ii] = Si->DD(x)*dt2 + Si->D(x)*ddt;
     }
   }
 
@@ -728,7 +726,7 @@ namespace Splines {
     real_type const dt{ 1/S->D(x) };
     real_type const dt2{ dt*dt };
     real_type const ddt{ -S->DD(x)*(dt*dt2) };
-    Spline const * SPL{ m_splines[spl] };
+    auto & SPL{ m_splines[spl] };
     return SPL->DD(x)*dt2 + SPL->D(x)*ddt;
   }
 
@@ -740,9 +738,7 @@ namespace Splines {
     string_view const indep,
     string_view const name
   ) const {
-    return this->eval2_DD(
-      zeta, this->get_position(indep), this->get_position(name)
-    );
+    return this->eval2_DD( zeta, this->get_position(indep), this->get_position(name) );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -764,8 +760,8 @@ namespace Splines {
     real_type const dddt{ 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) };
     size_t ii{0};
     for ( integer i{0}; i < m_nspl; ++i, ii += incy ) {
-      S = m_splines[i];
-      vals[ii] = S->DDD(x)*dt3 + 3*S->DD(x)*dt*ddt + S->D(x)*dddt;
+      auto & Si{ m_splines[i] };
+      vals[ii] = Si->DDD(x)*dt3 + 3*Si->DD(x)*dt*ddt + Si->D(x)*dddt;
     }
   }
 
@@ -792,7 +788,7 @@ namespace Splines {
     real_type const ddt{ -S->DD(x)*dt3 };
     real_type const dddt{ 3*(ddt*ddt)/dt-S->DDD(x)*(dt*dt3) };
 
-    Spline const * SPL = m_splines[spl];
+    auto & SPL{ m_splines[spl] };
     return SPL->DDD(x)*dt3 + 3*SPL->DD(x)*dt*ddt + SPL->D(x)*dddt;
   }
 

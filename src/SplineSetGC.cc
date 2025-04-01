@@ -280,7 +280,7 @@ namespace Splines {
       );
 
       for ( integer ispl{0}; ispl < ne; ++ispl ) {
-        Spline * S{ m_splines[ispl] };
+        Spline * S{ m_splines[ispl].get() };
         GenericContainer const & item{ gc_boundary(ispl,"SplineSet boundary data") };
         bool is_closed{false};
         item.get_if_exists("closed",is_closed);
@@ -325,7 +325,7 @@ namespace Splines {
     map_type & vals{ gc.set_map() };
     for ( const auto&[fst, snd] : m_header_to_position ) {
       vec_real_type & v{ vals[fst].set_vec_real(snd) };
-      Spline const * p_spl{ m_splines[snd] };
+      Spline const * p_spl{ m_splines[snd].get() };
       for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval(vec[i]);
     }
   }
@@ -485,7 +485,7 @@ namespace Splines {
     map_type & vals{ gc.set_map() };
     for ( const auto&[fst, snd] : m_header_to_position ) {
       vec_real_type & v{ vals[fst].set_vec_real(npts) };
-      Spline const * p_spl{ m_splines[snd] };
+      Spline const * p_spl{ m_splines[snd].get() };
       for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_D(vec[i]);
     }
   }
@@ -644,7 +644,7 @@ namespace Splines {
     map_type & vals{ gc.set_map() };
     for ( const auto&[fst, snd] : m_header_to_position ) {
       vec_real_type & v = vals[fst].set_vec_real(npts);
-      Spline const * p_spl = m_splines[snd];
+      auto & p_spl{ m_splines[snd] };
       for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DD(vec[i]);
     }
   }
@@ -807,7 +807,7 @@ namespace Splines {
     map_type & vals{ gc.set_map() };
     for ( const auto&[fst, snd] : m_header_to_position ) {
       vec_real_type & v{ vals[fst].set_vec_real(npts) };
-      Spline const * p_spl{ m_splines[snd] };
+      Spline const * p_spl{ m_splines[snd].get() };
       for ( integer i{0}; i < npts; ++i ) v[i] = p_spl->eval_DDD(vec[i]);
     }
   }
