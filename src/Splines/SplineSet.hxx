@@ -62,8 +62,9 @@ namespace Splines {
 
     Utils::Malloc<real_type>  m_mem;
     Utils::Malloc<real_type*> m_mem_p;
-    Utils::Malloc<void*>      m_mem_splines;
     Utils::Malloc<int>        m_mem_int;
+
+    vector<std::unique_ptr<Spline>> m_splines;
 
     integer m_npts{0};
     integer m_nspl{0};
@@ -74,9 +75,7 @@ namespace Splines {
     real_type ** m_Ypp{nullptr};
     real_type *  m_Ymin{nullptr};
     real_type *  m_Ymax{nullptr};
-
-    Spline ** m_splines{nullptr};
-    int     * m_is_monotone{nullptr};
+    int       *  m_is_monotone{nullptr};
 
     std::map<string,integer> m_header_to_position;
 
@@ -237,7 +236,7 @@ namespace Splines {
     Spline *
     get_spline( string_view hdr ) const {
       integer idx{ this->get_position(hdr) };
-      return m_splines[idx];
+      return m_splines[idx].get();
     }
 
     ///@}

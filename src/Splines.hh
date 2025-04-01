@@ -427,9 +427,7 @@ namespace Splines {
     //!
     //! spline destructor
     //!
-    virtual
-    ~Spline()
-    {}
+    virtual ~Spline() = default;
 
     ///@}
 
@@ -764,7 +762,7 @@ namespace Splines {
       integer     nintervals,
       string_view header = "x\ty"
     ) const {
-      std::ofstream file(fname);
+      std::ofstream file(fname.data());
       this->dump( file, nintervals, header );
       file.close();
     }
@@ -1456,12 +1454,10 @@ namespace Splines {
       bool fortran_storage = false,
       bool transposed      = false
     ) {
-      bool xyswp = (fortran_storage && transposed) ||
-                   (!fortran_storage && !transposed);
       this->build(
         &x.front(), 1,
         &y.front(), 1,
-        &z.front(), integer(xyswp ? y.size() : x.size()),
+        &z.front(), integer(fortran_storage ? y.size() : x.size()),
         integer(x.size()), integer(y.size()),
         fortran_storage, transposed
       );
