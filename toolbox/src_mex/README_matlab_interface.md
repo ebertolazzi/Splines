@@ -104,5 +104,5 @@ where
 
 Enrico Bertolazzi<br>
 Dipartimento di Ingegneria Industriale<br>
-Universita` degli Studi di Trento<br>
+Università degli Studi di Trento <br>
 email: enrico.bertolazzi@unitn.it

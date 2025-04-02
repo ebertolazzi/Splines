@@ -7,7 +7,7 @@
 #                                                                       #
 #      Enrico Bertolazzi, Francesco Biral and Paolo Bosetti             #
 #      Dipartimento di Ingegneria Industriale                           #
-#      Universita` degli Studi di Trento                                #
+#      Università degli Studi di Trento                                 #
 #      Via Sommarive 9, I-38123, Trento, Italy                          #
 #      email: enrico.bertolazzi@unitn.it                                #
 #             francesco.biral@unitn.it                                  #
