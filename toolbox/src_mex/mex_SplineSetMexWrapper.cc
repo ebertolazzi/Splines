@@ -39,6 +39,7 @@ either expressed or implied, of the FreeBSD Project.
 
 #ifdef __clang__
   #pragma clang diagnostic ignored "-Wexit-time-destructors"
+  #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
 #include <unordered_map>
@@ -209,7 +210,7 @@ namespace Splines {
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
-      Spline const * S = ptr->get_spline( nsp );
+      Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
     }
@@ -239,7 +240,7 @@ namespace Splines {
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
-      Spline const * S = ptr->get_spline( nsp );
+      Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
     }
@@ -269,7 +270,7 @@ namespace Splines {
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
-      Spline const * S = ptr->get_spline( nsp );
+      Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
     }
@@ -299,7 +300,7 @@ namespace Splines {
     real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
 
     for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
-      Spline const * S = ptr->get_spline( nsp );
+      Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
     }

@@ -39,6 +39,7 @@ either expressed or implied, of the FreeBSD Project.
 
 #ifdef __clang__
   #pragma clang diagnostic ignored "-Wexit-time-destructors"
+  #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
 #include <unordered_map>

@@ -39,6 +39,7 @@ either expressed or implied, of the FreeBSD Project.
 
 #ifdef __clang__
   #pragma clang diagnostic ignored "-Wexit-time-destructors"
+  #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
 #include <unordered_map>
@@ -753,7 +754,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->x_begin() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_begin() );
 
     #undef CMD
   }
@@ -774,7 +775,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->y_begin() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->y_begin() );
 
     #undef CMD
   }
@@ -795,7 +796,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->x_end() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_end() );
 
     #undef CMD
   }
@@ -816,7 +817,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->y_end() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->y_end() );
 
     #undef CMD
   }
@@ -837,7 +838,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->x_min() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_min() );
 
     #undef CMD
   }
@@ -858,7 +859,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->y_min() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->y_min() );
 
     #undef CMD
   }
@@ -879,7 +880,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->x_max() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->x_max() );
 
     #undef CMD
   }
@@ -900,7 +901,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
     Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
-    Utils::mex_set_scalar_bool( arg_out_0, ptr->y_max() );
+    Utils::mex_set_scalar_value( arg_out_0, ptr->y_max() );
 
     #undef CMD
   }

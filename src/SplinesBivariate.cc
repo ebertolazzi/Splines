@@ -24,6 +24,7 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
 #include "Splines.hh"
@@ -612,8 +613,8 @@ namespace Splines {
     GenericContainer const & gc_y { gc("ydata",where) };
     GenericContainer const & gc_z { gc("zdata",where) };
 
-    m_nx = gc_x.get_num_elements();
-    m_ny = gc_y.get_num_elements();
+    m_nx = static_cast<integer>(gc_x.get_num_elements());
+    m_ny = static_cast<integer>(gc_y.get_num_elements());
     m_mem.reallocate( (m_nx+1)*(m_ny+1) );
     m_X = m_mem( m_nx );
     m_Y = m_mem( m_ny );

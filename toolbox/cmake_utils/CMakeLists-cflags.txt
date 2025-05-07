@@ -6,27 +6,93 @@ set( CMAKE_VERBOSE_MAKEFILE            TRUE )
 # /Gv Uses the __vectorcall calling convention. (x86 and x64 only)
 # /Gz Uses the __stdcall calling convention (x86 only).
 
-set( CXX_WARN   "-Wall -Wno-float-equal -Wno-padded -Wno-comment ")
-set( CLANG_WARN "-Weverything -Wno-alloca -Wno-cast-align -Wno-cast-qual -Wno-conversion -Wno-c++2a-compat -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-format-nonliteral -Wno-implicit-fallthrough -Wno-documentation -Wno-float-equal -Wno-padded -Wno-reserved-id-macro -Wno-unreachable-code-break -Wno-unused-macros -Wno-switch-enum -Wno-sign-conversion -Wno-signed-enum-bitfield -Wno-weak-vtables ")
-set( VS_WARN    "")
+# https://github.com/SebastianoTaddei/CompilerOptions
+
+set(COMMON_CXX_FLAGS
+  #"-Werror"
+  "-pedantic"
+  "-Wall"
+  "-Wextra"
+  "-Wshadow"
+  "-Wnon-virtual-dtor"
+  "-Wold-style-cast"
+  "-Wcast-align"
+  "-Wunused"
+  "-Woverloaded-virtual"
+  "-Wpedantic"
+  "-Wconversion"
+  "-Wsign-conversion"
+  "-Wdouble-promotion"
+  "-Wformat=2"
+  "-Wimplicit-fallthrough"
+  "-Wreturn-local-addr"
+)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  list(APPEND COMMON_CXX_FLAGS
+    "-Wmisleading-indentation"
+    "-Wduplicated-cond"
+    "-Wduplicated-branches"
+    "-Wlogical-op"
+    "-Wnull-dereference"
+    "-Wuseless-cast"
+  )
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  list(APPEND COMMON_CXX_FLAGS
+    # "-Wlifetime" will come with future versions of clang
+  )
+endif()
+
+string(JOIN " " COMMON_CXX_FLAGS_STR ${COMMON_CXX_FLAGS})
+
+set(MSVC_COMPILE_FLAGS
+  #"/WX" warning --> error 
+  "/permissive"
+  "/W4"
+  "/w14242"
+  "/w14254"
+  "/w14263"
+  "/w14265"
+  "/w14287"
+  "/we4289"
+  "/w14296"
+  "/w14311"
+  "/w14545"
+  "/w14546"
+  "/w14547"
+  "/w14549"
+  "/w14555"
+  "/w14619"
+  "/w14640"
+  "/w14826"
+  "/w14905"
+  "/w14906"
+  "/w14928"
+  "/external:W0"               # Disattiva tutti i warning da headers esterni
+  "/external:anglebrackets"    # Considera <...> come header esterni
+  "/external:templates-compat" # (facoltativo) estende il trattamento agli instanziamenti template
+)
+
+string(JOIN " " MSVC_COMPILE_FLAGS_STR ${MSVC_COMPILE_FLAGS})
+
+set( VS_DEFINE  "/D_WINDOWS /D_SCL_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC" )
+set( VS_FLAGS   "/nologo /std:c++17 /utf-8 /GS /Gy /GF /EHsc /bigobj" )
 
 if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
-  set( CMAKE_CXX_FLAGS         "-std=c++17  ${CXX_WARN}" )
+  set( CMAKE_CXX_FLAGS         "-std=c++17 ${COMMON_CXX_FLAGS_STR}" )
   set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -O2 -g " )
   set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -ggdb " )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-  set( CMAKE_CXX_FLAGS         "-std=c++17 -stdlib=libc++ ${CLANG_WARN}" )
+  set( CMAKE_CXX_FLAGS         "-std=c++17 -stdlib=libc++ ${COMMON_CXX_FLAGS_STR}" )
   set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -Os -g -fcolor-diagnostics " )
   set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -gfull -fcolor-diagnostics " )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-  set( CMAKE_CXX_FLAGS         " ${VS_WARN} /sdl" )
-  set( CMAKE_CXX_FLAGS_RELEASE "/nologo /std:c++17 /utf-8 /GS /Gy /GF /W4 /EHsc /bigobj /D_WINDOWS /D_SCL_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC /O2 /MD /Zo " )
-  set( CMAKE_CXX_FLAGS_DEBUG   "/nologo /std:c++17 /utf-8 /GS /Gy /GF /W4 /EHsc /bigobj /D_WINDOWS /D_SCL_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC /Od /Ob0 /MDd /guard:cf /Zi /DEBUG:FULL " )
+  set( CMAKE_CXX_FLAGS         " ${MSVC_COMPILE_FLAGS_STR} ${VS_DEFINE} /sdl" )
+  set( CMAKE_CXX_FLAGS_RELEASE " ${VS_FLAGS} /O2 /MD /Zo " )
+  set( CMAKE_CXX_FLAGS_DEBUG   " ${VS_FLAGS} /Od /Ob0 /MDd /guard:cf /Zi /DEBUG:FULL " )
 else()
   message( FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID}")
 endif()
-
-message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}")
 
 set( CMAKE_C_FLAGS         "" )
 set( CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} )
