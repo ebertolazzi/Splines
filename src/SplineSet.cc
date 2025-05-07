@@ -23,6 +23,7 @@
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #pragma clang diagnostic ignored "-Wundefined-func-template"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
 #include "Splines.hh"
@@ -251,16 +252,18 @@ namespace Splines {
       switch (stype[spl]) {
       case SplineType1D::QUINTIC:
         mem += npts; // Y, Yp, Ypp
+        [[fallthrough]];
       case SplineType1D::CUBIC:
       case SplineType1D::AKIMA:
       case SplineType1D::BESSEL:
       case SplineType1D::PCHIP:
       case SplineType1D::HERMITE:
         mem += npts; // Y, Yp
+        [[fallthrough]];
       case SplineType1D::CONSTANT:
       case SplineType1D::LINEAR:
         mem += npts;
-      break;
+        break;
       case SplineType1D::SPLINE_SET:
       case SplineType1D::SPLINE_VEC:
       //default:
@@ -299,6 +302,7 @@ namespace Splines {
       switch ( stype[spl] ) {
       case SplineType1D::QUINTIC:
         pYpp = m_mem( m_npts );
+        [[fallthrough]];
       case SplineType1D::CUBIC:
       case SplineType1D::AKIMA:
       case SplineType1D::BESSEL:
@@ -314,6 +318,7 @@ namespace Splines {
           );
           copy_n( data_Yp[spl], npts, pYp );
         }
+        [[fallthrough]];
       case SplineType1D::CONSTANT:
       case SplineType1D::LINEAR:
       case SplineType1D::SPLINE_SET:
