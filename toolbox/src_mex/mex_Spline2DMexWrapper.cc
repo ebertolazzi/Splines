@@ -69,7 +69,7 @@ namespace Splines {
 
     string tname = mxArrayToString(arg_in_1);
 
-    SplineSurf * v = nullptr;
+    SplineSurf * v{ nullptr };
 
     if      ( tname == "bilinear"  ) v = new Splines::BilinearSpline();
     else if ( tname == "bicubic"   ) v = new Splines::BiCubicSpline();
@@ -79,7 +79,7 @@ namespace Splines {
       UTILS_MEX_ASSERT0(
         false,
         CMD ": second argument must be one of the strings:\n"
-        "'linear', 'cubic', 'akima', 'bessel', 'pchip', 'quintic'"
+        "'bilinear', 'bicubic', 'akima', 'biquintic'"
       );
     }
 
@@ -113,39 +113,46 @@ namespace Splines {
   do_build( int nlhs, mxArray       *[],
             int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_3 "Spline2DMexWrapper('build',OBJ,x,y,z)"
+    #define MEX_ERROR_MESSAGE_3 "Spline2DMexWrapper('build',OBJ,[x,y,z or filename])"
     #define CMD MEX_ERROR_MESSAGE_3
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected no output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 5, CMD ": expected 5 input, nrhs = {}\n", nrhs );
-
-    mwSize nx, ny, nnx, nny;
-    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx,       CMD ": error in reading 'x'" ) };
-    real_type const * y{ Utils::mex_vector_pointer( arg_in_3, ny,       CMD ": error in reading 'y'" ) };
-    real_type const * z{ Utils::mex_matrix_pointer( arg_in_4, nnx, nny, CMD ": error in reading 'z'" ) };
-
-    UTILS_MEX_ASSERT(
-      nx == nnx,
-      CMD ": lenght of 'x' ({}) must be the number of row of 'z' ({})\n",
-      nx, nnx
-    );
-
-    UTILS_MEX_ASSERT(
-      ny == nny,
-      CMD "lenght of 'y' ({}) must be the number of column of 'z' ({})\n",
-      ny, nny
-    );
-
-    bool fortran_storage = true;
-    bool transposed      = true;
-
-    integer ldZ{ static_cast<integer>(nx) };
-
+    UTILS_MEX_ASSERT( nrhs == 5 || nrhs == 3, CMD ": expected 5 or 3 input, nrhs = {}\n", nrhs );
+    
     SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
-    ptr->build ( x, 1, y, 1, z,
-                ldZ, static_cast<integer>(nx), static_cast<integer>(ny),
-                fortran_storage, transposed );
+    if ( nrhs == 3 ) {
+      UTILS_MEX_ASSERT0( mxIsChar(arg_in_2), ": expected string for filename" );
+      string file_name{ mxArrayToString(arg_in_2) };
+      ptr->build( file_name );
+    } else {
+
+      mwSize nx, ny, nnx, nny;
+      real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx,       CMD ": error in reading 'x'" ) };
+      real_type const * y{ Utils::mex_vector_pointer( arg_in_3, ny,       CMD ": error in reading 'y'" ) };
+      real_type const * z{ Utils::mex_matrix_pointer( arg_in_4, nnx, nny, CMD ": error in reading 'z'" ) };
+
+      UTILS_MEX_ASSERT(
+        nx == nnx,
+        CMD ": lenght of 'x' ({}) must be the number of row of 'z' ({})\n",
+        nx, nnx
+      );
+
+      UTILS_MEX_ASSERT(
+        ny == nny,
+        CMD "lenght of 'y' ({}) must be the number of column of 'z' ({})\n",
+        ny, nny
+      );
+
+      bool fortran_storage { true };
+      bool transposed      { true };
+
+      integer ldZ{ static_cast<integer>(nx) };
+
+      ptr->build ( x, 1, y, 1, z,
+                   ldZ, static_cast<integer>(nx), static_cast<integer>(ny),
+                   fortran_storage, transposed );
+    }
 
     #undef CMD
   }
@@ -163,7 +170,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_int32( arg_out_0, ptr->num_point_x() );
 
@@ -183,7 +190,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_int32( arg_out_0, ptr->num_point_y() );
 
@@ -204,7 +211,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->x_min() );
 
@@ -225,7 +232,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->x_max() );
 
@@ -246,7 +253,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->y_min() );
 
@@ -267,7 +274,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->y_max() );
 
@@ -279,16 +286,16 @@ namespace Splines {
 
   static
   void
-  do_zMin( int nlhs, mxArray       *plhs[],
-           int nrhs, mxArray const *prhs[] ) {
+  do_z_min( int nlhs, mxArray       *plhs[],
+            int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_10 "Spline2DMexWrapper('zMin',OBJ)"
+    #define MEX_ERROR_MESSAGE_10 "Spline2DMexWrapper('z_min',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_10
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->z_min() );
 
@@ -300,16 +307,16 @@ namespace Splines {
 
   static
   void
-  do_zMax( int nlhs, mxArray       *plhs[],
-           int nrhs, mxArray const *prhs[] ) {
+  do_z_max( int nlhs, mxArray       *plhs[],
+            int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_11 "Spline2DMexWrapper('zMax',OBJ)"
+    #define MEX_ERROR_MESSAGE_11 "Spline2DMexWrapper('z_max',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_11
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->z_max() );
 
@@ -318,37 +325,33 @@ namespace Splines {
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  
+  #define EVALUATE_LOOP( CMD, OP ) \
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs ); \
+    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );  \
+    \
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) }; \
+    \
+    mwSize nx, mx, ny, my; \
+    real_type const * x{ Utils::mex_matrix_pointer( arg_in_2, nx, mx, CMD ": error in reading `x`" ) }; \
+    real_type const * y{ Utils::mex_matrix_pointer( arg_in_3, ny, my, CMD ": error in reading `y`" ) }; \
+    UTILS_MEX_ASSERT( \
+      nx == ny && mx == my, \
+      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}", \
+      nx, ny, mx, my \
+    ); \
+    real_type * z{ Utils::mex_create_matrix_value( arg_out_0, nx, mx ) }; \
+    mwSize nnn{ nx * mx }; \
+    for ( mwSize j{0}; j < nnn; ++j ) z[j] = OP( x[j], y[j] )
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
   static
   void
   do_eval( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_12 "Spline2DMexWrapper('eval',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_12
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = (*ptr)( *x++, *y++ );
-
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_12, ptr->eval );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -357,31 +360,8 @@ namespace Splines {
   void
   do_eval_Dx( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_13 "Spline2DMexWrapper('eval_Dx',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_13
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}\n",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = ptr->Dx( *x++, *y++ );
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_13, ptr->Dx );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -390,31 +370,8 @@ namespace Splines {
   void
   do_eval_Dy( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_14 "Spline2DMexWrapper('eval_Dy',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_14
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = ptr->Dy( *x++, *y++ );
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_14, ptr->Dy );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -423,31 +380,8 @@ namespace Splines {
   void
   do_eval_Dxx( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_15 "Spline2DMexWrapper('eval_Dxx',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_15
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}\n",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = ptr->Dxx( *x++, *y++ );
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_15, ptr->Dxx );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -456,31 +390,8 @@ namespace Splines {
   void
   do_eval_Dxy( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_16 "Spline2DMexWrapper('eval_Dxy',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_16
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}\n",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = ptr->Dxy( *x++, *y++ );
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_16, ptr->Dxy );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -489,31 +400,8 @@ namespace Splines {
   void
   do_eval_Dyy( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_17 "Spline2DMexWrapper('eval_Dyy',OBJ,x,y)"
-    #define CMD MEX_ERROR_MESSAGE_17
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 4, CMD ": expected 4 input, nrhs = {}\n", nrhs );
-
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
-
-    mwSize nx, mx, ny, my;
-    real_type const * x = Utils::mex_matrix_pointer(
-      arg_in_2, nx, mx, CMD ": error in reading `x`"
-    );
-    real_type const * y = Utils::mex_matrix_pointer(
-      arg_in_3, ny, my, CMD ": error in reading `y`"
-    );
-    UTILS_MEX_ASSERT(
-      nx == ny && mx == my,
-      CMD ": size(x) = {} x {} must be equal to size(y) = {} x {}\n",
-      nx, ny, mx, my
-    );
-    real_type * z = Utils::mex_create_matrix_value( arg_out_0, nx, mx );
-    for ( mwSize j{0}; j < mx*nx; ++j )
-      *z++ = ptr->Dyy( *x++, *y++ );
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_17, ptr->Dyy );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -529,7 +417,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_x_closed();
 
     #undef CMD
@@ -548,7 +436,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_x_opened();
 
     #undef CMD
@@ -567,7 +455,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_x_closed() );
 
     #undef CMD
@@ -586,7 +474,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_y_bounded();
 
     #undef CMD
@@ -605,7 +493,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_x_unbounded();
 
     #undef CMD
@@ -624,7 +512,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_x_bounded() );
 
     #undef CMD
@@ -643,7 +531,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_y_closed();
 
     #undef CMD
@@ -662,7 +550,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_y_opened();
 
     #undef CMD
@@ -681,7 +569,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_y_closed() );
 
     #undef CMD
@@ -700,7 +588,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_y_bounded();
 
     #undef CMD
@@ -719,7 +607,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     ptr->make_y_unbounded();
 
     #undef CMD
@@ -738,7 +626,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
     Utils::mex_set_scalar_bool( arg_out_0, ptr->is_y_bounded() );
 
     #undef CMD
@@ -758,8 +646,8 @@ namespace Splines {
     {"x_max",do_x_max},
     {"y_min",do_y_min},
     {"y_max",do_y_max},
-    {"zMin",do_zMin},
-    {"zMax",do_zMax},
+    {"z_min",do_z_min},
+    {"z_max",do_z_max},
     {"eval",do_eval},
     {"eval_Dx",do_eval_Dx},
     {"eval_Dy",do_eval_Dy},

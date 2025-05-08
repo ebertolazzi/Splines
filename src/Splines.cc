@@ -214,7 +214,7 @@ namespace Splines {
       case SplineType1D::SPLINE_VEC: return "SPLINE_SPLINE_VEC";
     }
     return "NO_TYPE";
-  };
+  }
 
   char const *
   to_string( SplineType2D const t ) {
@@ -225,7 +225,7 @@ namespace Splines {
       case SplineType2D::AKIMA2D:   return "SPLINE2D_AKIMA2D";
     }
     return "NO_TYPE";
-  };
+  }
 
   #endif
 
@@ -421,6 +421,15 @@ namespace Splines {
     for ( integer i{0}; i < n; ++i ) m_Y[i] = y[i*incy];
     m_npts = n;
     build();
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  Spline::setup( string const & file_name ) {
+    GenericContainer gc;
+    UTILS_ASSERT( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
+    setup( gc );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

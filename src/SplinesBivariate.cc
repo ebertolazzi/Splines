@@ -79,7 +79,7 @@ namespace Splines {
         );
         for ( integer i{0}; i < m_nx; ++i )
           for ( integer j{0}; j < m_ny; ++j )
-            m_Z[ ipos_C(i,j) ] = z[ ipos_C(j,i,ldZ) ];
+            z_node_ref(i,j) = z[ ipos_C(j,i,ldZ) ];
       } else {
         UTILS_ASSERT(
           ldZ >= m_ny,
@@ -89,7 +89,7 @@ namespace Splines {
         );
         for ( integer i{0}; i < m_nx; ++i )
           for ( integer j{0}; j < m_ny; ++j )
-            m_Z[ ipos_C(i,j) ] = z[ ipos_F(j,i,ldZ) ];
+            z_node_ref(i,j) = z[ ipos_F(j,i,ldZ) ];
       }
     } else {
       if ( fortran_storage ) {
@@ -101,7 +101,7 @@ namespace Splines {
         );
         for ( integer i{0}; i < m_nx; ++i )
           for ( integer j{0}; j < m_ny; ++j )
-            m_Z[ ipos_C(i,j) ] = z[ ipos_C(i,j,ldZ) ];
+            z_node_ref(i,j) = z[ ipos_C(i,j,ldZ) ];
       } else {
         UTILS_ASSERT(
           ldZ >= m_nx,
@@ -111,7 +111,7 @@ namespace Splines {
         );
         for ( integer i{0}; i < m_nx; ++i )
           for ( integer j{0}; j < m_ny; ++j )
-            m_Z[ ipos_C(i,j) ] = z[ ipos_F(i,j,ldZ) ];
+            z_node_ref(i,j) = z[ ipos_F(i,j,ldZ) ];
       }
     }
     m_Z_max = *std::max_element(m_Z,m_Z+m_nx*m_ny);
@@ -143,9 +143,9 @@ namespace Splines {
   //!
   void
   SplineSurf::build(
-    real_type const x[], integer incx,
-    real_type const y[], integer incy,
-    real_type const z[], integer ldZ,
+    real_type const x[], integer const incx,
+    real_type const y[], integer const incy,
+    real_type const z[], integer const ldZ,
     integer   const nx,
     integer   const ny,
     bool      const fortran_storage,
@@ -555,9 +555,8 @@ namespace Splines {
     for ( integer i{1}; i < m_ny; ++i ) s << ", " << m_Y[i];
     s << " ]\nZ = [\n";
     for ( integer j{0}; j < m_ny; ++j ) {
-      s << "  [ " << m_Z[ipos_C(0,j)];
-      for ( integer i{1}; i < m_nx; ++i )
-        s << ", " << m_Z[ipos_C(i,j)];
+      s << "  [ " << z_node(0,j);
+      for ( integer i{1}; i < m_nx; ++i ) s << ", " << z_node(i,j);
       s << " ]\n";
     }
     s << "\n];\n";
@@ -572,7 +571,7 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //!
-  //! Setup a spline surface using a `GenericContainer`
+  //! Set up a spline surface using a `GenericContainer`
   //!
   //! - `gc("fortran_storage")` if true `zdata` is stored by column, otherwise by rows
   //! - `gc("transposed")`      if true `zdata` is stored transposed
@@ -642,29 +641,48 @@ namespace Splines {
     else              { N = m_nx; M = m_ny; }
     integer const LD = fortran_storage ? N : M;
 
-    if ( GC_type::MAT_REAL == gc_z.get_type() ) {
-      mat_real_type const & z = gc_z.get_mat_real();
-      UTILS_ASSERT(
-        static_cast<unsigned>(N) == z.numRows() && static_cast<unsigned>(M) == z.numCols(),
-        "{}, field `z` expected to be of size {} x {}, found: {} x {}\n",
-        where, N, M, z.numRows(), z.numCols()
-      );
-      load_Z( m_Z, LD, fortran_storage, transposed );
-    } else if ( GC_type::VEC_INTEGER == gc_z.get_type() ||
-                GC_type::VEC_LONG    == gc_z.get_type() ||
-                GC_type::VEC_REAL    == gc_z.get_type() ) {
+    if ( GC_type::MAT_REAL    == gc_z.get_type() ||
+         GC_type::MAT_INTEGER == gc_z.get_type() ||
+         GC_type::MAT_LONG    == gc_z.get_type() ) {
 
-      integer nz  = gc_z.get_num_elements();
-      integer nxy = m_nx * m_ny;
+      UTILS_ASSERT(
+        static_cast<unsigned>(N) == gc_z.num_rows() && static_cast<unsigned>(M) == gc_z.num_cols(),
+        "{}, field `zdata` expected to be of size {} x {}, found: {} x {}\n",
+        where, N, M, gc_z.num_rows(), gc_z.num_cols()
+      );
+
+      if ( GC_type::MAT_REAL == gc_z.get_type() ) {
+        load_Z( gc_z.get_mat_real().data(), LD, fortran_storage, transposed );
+      } else {
+        GenericContainer::mat_real_type z_tmp;
+        gc_z.copyto_mat_real( z_tmp );
+        load_Z( z_tmp.data(), LD, fortran_storage, transposed );  
+      }
+
+    } else if ( GC_type::VEC_REAL    == gc_z.get_type() || 
+                GC_type::VEC_INTEGER == gc_z.get_type() || 
+                GC_type::VEC_LONG    == gc_z.get_type() ) {
+
+      integer nz  { static_cast<integer>( gc_z.get_num_elements() ) };
+      integer nxy { m_nx * m_ny };
       UTILS_ASSERT(
         nz == nxy,
-        "{}, field `z` expected to be of size {} = {}x{}, found: `{}`\n",
+        "{}, field `zdata` expected to be of size {} = {}x{}, found: `{}`\n",
         where, nxy, m_nx, m_ny, nz
       );
-      for ( integer i{0}; i < nz ; ++i ) m_Z[i] = gc_z.get_number_at(i);
-      load_Z( m_Z, LD, fortran_storage, transposed );
+
+      for ( integer k{0}; k < nxy; ++k ) {
+        integer i, j;
+        real_type const v{ gc_z.get_number_at( k ) };
+        if ( fortran_storage ) { i = k % N; j = k / N; }
+        else                   { i = k / M; j = k % M; }
+        if ( transposed ) z_node_ref(j,i) = v;
+        else              z_node_ref(i,j) = v;
+      }
+
     } else if ( GC_type::VECTOR == gc_z.get_type() ) {
-      vector_type const & data = gc_z.get_vector();
+
+      vector_type const & data{ gc_z.get_vector() };
       vec_real_type tmp;
       UTILS_ASSERT(
         static_cast<size_t>(M) == data.size(),
@@ -681,22 +699,29 @@ namespace Splines {
           where, j, tmp.size(), N
         );
         if ( transposed ) {
-          for ( integer i{0}; i < N; ++i )
-            m_Z[ ipos_C(j,i) ] = tmp[ i ];
+          for ( integer i{0}; i < N; ++i ) z_node_ref(j,i) = tmp[ i ];
         } else {
-          for ( integer i{0}; i < N; ++i )
-            m_Z[ ipos_C(i,j) ] = tmp[ i ];
+          for ( integer i{0}; i < N; ++i ) z_node_ref(i,j) = tmp[ i ];
         }
       }
-      load_Z( m_Z, m_ny, true, false );
+
     } else {
+
       UTILS_ERROR(
-        "{}, field `z` expected to be of type"
+        "{}, field `zdata` expected to be of type"
         " `mat_real_type` or  `vec_real_type` or `vector_type` found: `{}`\n",
         where, gc_z.get_type_name()
       );
+
     }
 
+  }
+
+  void
+  SplineSurf::setup( string const & file_name ) {
+    GenericContainer gc;
+    UTILS_ASSERT( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
+    setup( gc );
   }
 
 }

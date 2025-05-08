@@ -55,8 +55,8 @@ namespace Splines {
 
   void
   Spline2D::setup( GenericContainer const & gc ) {
-    string const where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
-    string const type{ gc.get_map_string("spline_type",where) };
+    string const   where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
+    string const & type{ gc.get_map_string("spline_type",where) };
     new_spline( string_to_splineType2D( type ) );
     m_spline_2D->setup( gc );
   }

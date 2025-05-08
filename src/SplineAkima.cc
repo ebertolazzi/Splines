@@ -56,64 +56,65 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  static
-  real_type
-  akima_one(
-    real_type const epsi,
-    real_type const di_m2,
-    real_type const di_m1,
-    real_type const di,
-    real_type const di_p1
-  ) {
-    real_type wl  { abs(di_p1 - di) };
-    real_type wr  { abs(di_m1 - di_m2) };
-    real_type den { wl + wr };
-    if ( den <= epsi ) { wl = wr = 0.5; den = 1; } // if epsi == 0
-    real_type const num{ wl * di_m1 + wr * di };
-    return num / den;
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   void
   Akima_build(
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer   const npts
+    real_type       m[],   // work vector dimension N
+    integer         N
   ) {
-  
-    UTILS_ASSERT( npts >= 2, "Akima_build require at least 2 points" );
 
-    if ( npts == 2 ) { // solo 2 punti, niente da fare
+    UTILS_ASSERT( N >= 2, "Akima_build require at least 2 points" );
+
+    if ( N == 2 ) { // solo 2 punti, niente da fare
       Yp[0] = Yp[1] = (Y[1]-Y[0])/(X[1]-X[0]);
-    } else {
-      Malloc_real mem("Akima_build");
-      real_type * m{ mem.malloc( npts+3 ) };
-
-      // calcolo slopes (npts-1) intervals + 4
-      for ( integer i{1}; i < npts; ++i )
-        m[i+1] = (Y[i]-Y[i-1])/(X[i]-X[i-1]);
-
-      // extra slope at the boundary
-      m[1]      = 2*m[2]-m[3];
-      m[0]      = 2*m[1]-m[2];
-      m[npts+1] = 2*m[npts]-m[npts-1];
-      m[npts+2] = 2*m[npts+1]-m[npts];
-
-      // minimum delta slope
-      real_type epsi{0};
-      for ( integer i{0}; i < npts+2; ++i ) {
-        real_type const dm{ std::abs(m[i+1]-m[i]) };
-        if ( dm > epsi ) epsi = dm;
-      }
-      epsi *= 1E-8;
-
-      // 0  1  2  3  4---- n-1 n n+1 n+2
-      //       +  +  +      +  +
-      for ( integer i{0}; i < npts; ++i )
-        Yp[i] = akima_one( epsi, m[i], m[i+1], m[i+2], m[i+3] );
+      return;
     }
+    
+    // 1. Calcola le pendenze m_i = (Y[i+1] - Y[i]) / (X[i+1] - X[i])
+    for ( integer i{0}; i < N-1; ++i ) {
+      UTILS_ASSERT(
+        X[i+1] > X[i],
+        "Akima_build, X must be strictly increasing X[{}] = {}, X[{}] = {}",
+        i, X[i], i+1, X[i+1]
+      );
+      m[i] = (Y[i+1] - Y[i]) / (X[i+1] - X[i]);
+    }
+
+    // 2. Calcolo epsi
+    real_type epsi{0};
+    for ( integer i{0}; i < N-2; ++i ) {
+      real_type const dm{ std::abs(m[i+1]-m[i]) };
+      if ( dm > epsi ) epsi = dm;
+    }
+    epsi *= 1E-8;
+
+    // 3. Calcola le derivate nei punti interni (i = 1..N-2)
+    for ( integer i{1}; i < N-1; ++i ) {
+      // Estrapola le pendenze se necessario (ai bordi)
+      real_type const m_im2 { (i >= 2) ? m[i-2] : 2*m[i-1] - m[i]  }; // m_{i-2}
+      real_type const m_im1 { m[i-1]                               }; // m_{i-1}
+      real_type const m_i   { m[i]                                 }; // m_i
+      real_type const m_ip1 { (i < N-2) ? m[i+1] : 2*m[i] - m[i-1] }; // m_{i+1}
+
+      // Pesatura di Akima (come in MATLAB makima)
+      // https://blogs.mathworks.com/cleve/2019/04/29/makima-piecewise-cubic-interpolation/#d9a97978-0b09-4a1f-a6a5-504d088631d0
+      real_type const w_left  { std::abs( m_ip1 - m_i )   + std::abs( m_ip1 + m_i   ) / 2 };
+      real_type const w_right { std::abs( m_im1 - m_im2 ) + std::abs( m_im1 + m_im2 ) / 2 };
+      real_type const sum_w   { w_left + w_right };
+
+      if ( sum_w > epsi ) {
+        Yp[i] = (w_right * m_im1 + w_left * m_i) / sum_w;
+      } else {
+        Yp[i] = 0.5*(m_im1 + m_i);  // Caso speciale
+      }
+    }
+
+    // 4. Derivate ai bordi (i=0 e i=N-1)
+    // Estrapolazione quadratica
+    Yp[0]   = m[0] + (m[0] - m[1]) * (X[0] - X[1]) / (X[2] - X[0]);
+    Yp[N-1] = m[N-2] + (m[N-2] - m[N-3]) * (X[N-1] - X[N-2]) / (X[N-1] - X[N-3]);
   }
 
   #endif
@@ -128,10 +129,14 @@ namespace Splines {
     Utils::check_NaN( m_Y, msg+" Y ", m_npts, __LINE__, __FILE__ );
     integer ibegin{0};
     integer iend{0};
+
+    Malloc_real m_mem("AkimaSpline::work memory");
+    real_type * m_work{ m_mem.malloc( m_npts ) };
+
     do {
       // cerca intervallo monotono strettamente crescente
       while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
-      Akima_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, iend-ibegin );
+      Akima_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, m_work, iend-ibegin );
       ibegin = iend;
     } while ( iend < m_npts );
 

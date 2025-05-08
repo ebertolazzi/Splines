@@ -251,7 +251,11 @@ namespace Splines {
       Pchip_build( X, Y, Yp, npts );
       break;
     case QuinticSpline_sub_type::AKIMA:
-      Akima_build( X, Y, Yp, npts );
+      {
+        Malloc_real mem("Quintic_build::work memory");
+        Akima_build( X, Y, Yp, mem.malloc(npts), npts );
+        mem.free();
+      }
       break;
     case QuinticSpline_sub_type::BESSEL:
       Bessel_build( X, Y, Yp, npts );

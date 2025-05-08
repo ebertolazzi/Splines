@@ -1,30 +1,12 @@
   %>
   %> MATLAB class wrapper for the underlying C++ class
   %>
-  classdef Spline1D < matlab.mixin.Copyable
+  classdef Spline1D < handle
+  
   properties (SetAccess = private, Hidden = true)
     %> Handle to the underlying C++ class instance
     objectHandle;
     call_delete;
-  end
-
-  methods(Access = protected)
-    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    %> Make a deep copy of a curve object
-    %>
-    %> **Usage**
-    %>
-    %> ```{matlab}
-    %>   B = A.copy();
-    %> ```
-    %>
-    %> where `A` is the curve object to be copied.
-    %>
-    function obj = copyElement( self )
-      obj              = copyElement@matlab.mixin.Copyable(self);
-      spl.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
-      spl.call_delete  = true;
-    end
   end
 
   methods
@@ -54,7 +36,7 @@
     %>
     function self = Spline1D( kind, varargin )
       self.objectHandle = Spline1DMexWrapper( 'new', kind );
-      spl.call_delete   = true;
+      self.call_delete  = true;
       if nargin > 1
         Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
       end
@@ -64,6 +46,7 @@
       if self.call_delete
         Spline1DMexWrapper( 'delete', self.objectHandle );
       end
+      self.call_delete  = false;
       self.objectHandle = 0;
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

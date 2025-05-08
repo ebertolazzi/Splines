@@ -169,7 +169,7 @@ if ( UTILS_ENABLE_TESTS )
 
   set(
     EXELISTCPP
-    test1 test2 test3 test4 test5 test6 test8 test9 test10
+    test01 test02 test03 test04 test05 test06 test08 test09 test10 test11
   )
 
   add_custom_target( "${PROJECT_NAME}_all_tests" ALL )

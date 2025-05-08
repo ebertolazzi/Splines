@@ -66,7 +66,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  ConstantSpline::reserve( integer npts ) {
+  ConstantSpline::reserve( integer const npts ) {
     if ( m_external_alloc && npts <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {
@@ -200,7 +200,7 @@ namespace Splines {
     x_min_pos = x_max_pos = m_X[0];
     y_min = y_max = m_Y[0];
     for ( integer i{1}; i < m_npts-1; ++i ) {
-      real_type const & P1 = m_Y[i];
+      real_type const & P1{ m_Y[i] };
       if ( P1 > y_max ) {
         y_max     = P1;
         x_max_pos = m_X[i];
@@ -233,9 +233,9 @@ namespace Splines {
     UTILS_ASSERT( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     for ( integer i{1}; i < m_npts-1; ++i ) {
-      real_type const & P0 = m_Y[i-1];
-      real_type const & P1 = m_Y[i];
-      real_type const & P2 = m_Y[i+1];
+      real_type const & P0{ m_Y[i-1] };
+      real_type const & P1{ m_Y[i]   };
+      real_type const & P2{ m_Y[i+1] };
       if ( P1 > P0 && P1 > P2 ) {
         y_max.emplace_back(P1);
         x_max_pos.emplace_back(m_X[i]);

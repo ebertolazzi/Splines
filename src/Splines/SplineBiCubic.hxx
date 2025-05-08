@@ -51,6 +51,10 @@ namespace Splines {
 
     void load( integer i, integer j, real_type bili3[4][4] ) const;
 
+    real_type & Dx_node_ref  ( integer i, integer j ) { return m_DX  [ this->ipos_C(i,j) ]; }
+    real_type & Dy_node_ref  ( integer i, integer j ) { return m_DY  [ this->ipos_C(i,j) ]; }
+    real_type & Dxy_node_ref ( integer i, integer j ) { return m_DXY [ this->ipos_C(i,j) ]; }
+
     #endif
 
   public:

@@ -1,4 +1,4 @@
-classdef BaseHermite < matlab.mixin.Copyable
+classdef BaseHermite < handle
 
   methods
     %>

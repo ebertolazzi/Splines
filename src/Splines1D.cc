@@ -34,16 +34,16 @@ namespace Splines {
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   static
-  Spline *
+  std::unique_ptr<Spline>
   new_Spline1D( string_view const _name, SplineType1D const tp ) {
     switch ( tp ) {
-    case SplineType1D::CONSTANT:   return new ConstantSpline(_name);
-    case SplineType1D::LINEAR:     return new LinearSpline(_name);
-    case SplineType1D::CUBIC:      return new CubicSpline(_name);
-    case SplineType1D::AKIMA:      return new AkimaSpline(_name);
-    case SplineType1D::BESSEL:     return new BesselSpline(_name);
-    case SplineType1D::PCHIP:      return new PchipSpline(_name);
-    case SplineType1D::QUINTIC:    return new QuinticSpline(_name);
+    case SplineType1D::CONSTANT:   return std::make_unique<ConstantSpline>(_name);
+    case SplineType1D::LINEAR:     return std::make_unique<LinearSpline>(_name);
+    case SplineType1D::CUBIC:      return std::make_unique<CubicSpline>(_name);
+    case SplineType1D::AKIMA:      return std::make_unique<AkimaSpline>(_name);
+    case SplineType1D::BESSEL:     return std::make_unique<BesselSpline>(_name);
+    case SplineType1D::PCHIP:      return std::make_unique<PchipSpline>(_name);
+    case SplineType1D::QUINTIC:    return std::make_unique<QuinticSpline>(_name);
     case SplineType1D::HERMITE:    break;
     case SplineType1D::SPLINE_SET: break;
     case SplineType1D::SPLINE_VEC: break;
@@ -58,10 +58,8 @@ namespace Splines {
     real_type const y[], integer const incy,
     integer const n
   ) {
-    if ( m_pSpline != nullptr ) delete m_pSpline;
-    m_pSpline = new_Spline1D(m_name,tp);
-    UTILS_ASSERT( m_pSpline != nullptr, "Spline1D[{}]::build, failed\n", m_name );
-    m_pSpline->build( x, incx, y, incy, n );
+    m_spline = new_Spline1D(m_name,tp);
+    m_spline->build( x, incx, y, incy, n );
   }
 
   #endif
@@ -117,9 +115,8 @@ namespace Splines {
        m_name, spl_type
       );
     }
-    if ( m_pSpline != nullptr ) delete m_pSpline;
-    m_pSpline = new_Spline1D( m_name, tp );
-    m_pSpline->build( gc );
+    m_spline = new_Spline1D( m_name, tp );
+    m_spline->build( gc );
   }
 
 }

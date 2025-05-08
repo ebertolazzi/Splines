@@ -41,6 +41,20 @@ LOC = {'northwest','northwest','southeast','northwest','northwest','northwest'};
 
 close all;
 
+% Ottieni la dimensione dello schermo [left bottom width height]
+scrn = get(0, 'ScreenSize');
+
+% Calcola dimensioni all'80%
+width  = round(scrn(3) * 0.8);
+height = round(scrn(4) * 0.8);
+
+% Centra la figura
+left = round((scrn(3) - width) / 2);
+bottom = round((scrn(4) - height) / 2);
+
+% Crea la figura
+figure('Position', [left bottom width height]);
+
 subtype = 'pchip';
 
 for k=1:6
@@ -67,7 +81,8 @@ for k=1:6
 
 end
 
-figure();
+% Crea la figura
+figure('Position', [left bottom width height]);
 
 for k=1:6
   X = XXX{k};

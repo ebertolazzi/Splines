@@ -108,7 +108,7 @@ namespace Splines {
     case GC_type::VEC_REAL:
     case GC_type::VEC_COMPLEX:
       {
-        // leggo vecttore come matrice di una sola colonna
+        // leggo vettore come matrice di una sola colonna
         vec_real_type data;
         gc_ydata.copyto_vec_real( data, (where+"reading `ydata'") );
         UTILS_ASSERT(
@@ -246,28 +246,22 @@ namespace Splines {
     Utils::Malloc<void*> mem( where );
     mem.allocate( 3*m_nspl );
 
-    void ** __headers = mem( m_nspl );
-    void ** __Y       = mem( m_nspl );
-    void ** __Yp      = mem( m_nspl );
+    void ** pp__headers = mem( m_nspl );
+    void ** pp__Y       = mem( m_nspl );
+    void ** pp__Yp      = mem( m_nspl );
 
     for ( integer spl{0}; spl < m_nspl; ++spl ) {
-      __headers[spl] = const_cast<void *>( reinterpret_cast<void const *>(
-        headers[spl].c_str()
-      ) );
-      __Y[spl] = reinterpret_cast<void *>(
-        &Y[spl].front()
-      );
-      __Yp[spl] = reinterpret_cast<void *>(
-        Yp[spl].size() > 0 ? &Yp[spl].front() : nullptr
-      );
+      pp__headers[spl] = const_cast<void *>( reinterpret_cast<void const *>( headers[spl].data() ) );
+      pp__Y[spl]       = reinterpret_cast<void *>( Y[spl].data() );
+      pp__Yp[spl]      = reinterpret_cast<void *>( Yp[spl].empty() ? nullptr : Yp[spl].data() );
     }
 
     this->build(
       m_nspl, m_npts,
-      reinterpret_cast<char const **>(const_cast<void const **>(__headers)),
-      &stype.front(), &X.front(),
-      reinterpret_cast<real_type const **>(const_cast<void const **>(__Y)),
-      reinterpret_cast<real_type const **>(const_cast<void const **>(__Yp))
+      reinterpret_cast<char const **>(const_cast<void const **>(pp__headers)),
+      stype.data(), X.data(),
+      reinterpret_cast<real_type const **>(const_cast<void const **>(pp__Y)),
+      reinterpret_cast<real_type const **>(const_cast<void const **>(pp__Yp))
     );
 
     if ( gc.exists("boundary") ) {
@@ -306,8 +300,8 @@ namespace Splines {
   }
 
   //!
-  //! Evaluate all the splines at `x` and fill
-  //! a map of values in a GenericContainer
+  //! Evaluate all the splines at `x` and
+  //! fill a `map of values` in a GenericContainer
   //!
   void
   SplineSet::eval( real_type const x, GenericContainer & gc ) const {
@@ -318,7 +312,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `x` values contained in vec
-  //! and fill a map of vector in a GenericContainer
+  //! and fill a `map of vector` in a GenericContainer
   //!
   void
   SplineSet::eval( vec_real_type const & vec, GenericContainer & gc ) const {
@@ -368,7 +362,7 @@ namespace Splines {
   }
 
   //!
-  //! Evaluate all the splines at `zeta` and fill a map of values
+  //! Evaluate all the splines at `zeta` and fill a `map of values`
   //! in a GenericContainer and `indep` as independent spline
   //!
   void
@@ -386,7 +380,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `zeta` values contained in vec
-  //! and fill a map of vector in a GenericContainer and `indep`
+  //! and fill a `map of vector` in a GenericContainer and `indep`
   //! as independent spline
   //!
   void
@@ -398,7 +392,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( const auto&[fst, snd] : m_header_to_position )
       vals[fst].set_vec_real(npts);
 
@@ -448,7 +442,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
     for ( integer i{0}; i < npts; ++i ) {
@@ -478,7 +472,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `x` values contained in vec and
-  //! fill a map of vector in a GenericContainer
+  //! fill a `map of vector` in a GenericContainer
   //!
   void
   SplineSet::eval_D( vec_real_type const & vec, GenericContainer & gc ) const {
@@ -528,7 +522,7 @@ namespace Splines {
   }
 
   //!
-  //! Evaluate all the splines at `zeta` and fill a map of values
+  //! Evaluate all the splines at `zeta` and fill a `map of values`
   //! in a GenericContainer and `indep` as independent spline
   //!
   void
@@ -546,7 +540,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `zeta` values contained in vec
-  //! and fill a map of vector in a GenericContainer and `indep`
+  //! and fill a `map of vector` in a GenericContainer and `indep`
   //! as independent spline
   //!
   void
@@ -558,7 +552,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( const auto&[fst, snd] : m_header_to_position )
       vals[fst].set_vec_real(npts);
 
@@ -608,7 +602,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
     for ( integer i{0}; i < npts; ++i ) {
@@ -637,7 +631,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `x` values contained in vec
-  //! and fill a map of vector in a GenericContainer
+  //! and fill a `map of vector` in a GenericContainer
   //!
   void
   SplineSet::eval_DD( vec_real_type const & vec, GenericContainer & gc ) const {
@@ -687,7 +681,7 @@ namespace Splines {
   }
 
   //!
-  //! Evaluate all the splines at `zeta` and fill a map of values
+  //! Evaluate all the splines at `zeta` and fill a `map of values`
   //! in a GenericContainer and `indep` as independent spline
   //!
   void
@@ -705,7 +699,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `zeta` values contained in vec
-  //! and fill a map of vector in a GenericContainer and `indep`
+  //! and fill a `map of vector` in a GenericContainer and `indep`
   //! as independent spline
   //!
   void
@@ -717,7 +711,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( const auto&[fst, snd] : m_header_to_position )
       vals[fst].set_vec_real(npts);
 
@@ -767,7 +761,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( auto const & S : columns ) vals[S].set_vec_real(npts);
 
     for ( integer i{0}; i < npts; ++i ) {
@@ -797,7 +791,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `x` values contained in vec
-  //! and fill a map of vector in a GenericContainer
+  //! and fill a `map of vector` in a GenericContainer
   //!
   void
   SplineSet::eval_DDD(
@@ -850,7 +844,7 @@ namespace Splines {
   }
 
   //!
-  //! Evaluate all the splines at `zeta` and fill a map of values
+  //! Evaluate all the splines at `zeta` and fill a `map of values`
   //! in a GenericContainer and `indep` as independent spline
   //!
   void
@@ -868,7 +862,7 @@ namespace Splines {
 
   //!
   //! Evaluate all the splines at `zeta` values contained in vec
-  //! and fill a map of vector in a GenericContainer and `indep`
+  //! and fill a `map of vector` in a GenericContainer and `indep`
   //! as independent spline
   //!
   void
@@ -880,7 +874,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( const auto&[fst, snd] : m_header_to_position )
       vals[fst].set_vec_real(npts);
 
@@ -930,7 +924,7 @@ namespace Splines {
     integer const npts{ static_cast<integer>(zetas.size()) };
     map_type & vals{ gc.set_map() };
 
-    // preallocation
+    // pre-allocation
     for ( auto const & S : columns )
       vals[S].set_vec_real( npts );
 

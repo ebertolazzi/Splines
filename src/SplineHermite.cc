@@ -157,7 +157,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  Hermite5_DDD( real_type x, real_type H, real_type base_DDD[6] ) {
+  Hermite5_DDD( real_type const x, real_type const H, real_type base_DDD[6] ) {
     real_type const t1  { H*H };
     real_type const t3  { H*x };
     real_type const t5  { x*x };

@@ -191,32 +191,32 @@ namespace Splines {
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+  #define EVALUATE_LOOP( CMD, OP ) \
+    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs ); \
+    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs ); \
+    \
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) }; \
+    \
+    mwSize nx; \
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) }; \
+    \
+    integer dim{ ptr->num_splines() }; \
+    real_type * Y{ Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx ) }; \
+    \
+    for ( integer nsp{0}; nsp < dim; ++nsp ) { \
+      Spline const * S{ ptr->get_spline( nsp ) }; \
+      real_type * y = Y+nsp; \
+      for ( mwSize i{0}; i < nx; ++i ) y[i*dim] = S->OP( x[i] ); \
+    }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   static
   void
   do_eval( int nlhs, mxArray       *plhs[],
            int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_4 "y(x) = SplineSetMexWrapper( 'eval', OBJ, x )"
-    #define CMD MEX_ERROR_MESSAGE_4
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
-
-    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
-
-    mwSize nx;
-    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
-
-    integer dim{ ptr->num_splines() };
-    real_type * Y{ Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx ) };
-
-    for ( integer nsp{0}; nsp < dim; ++nsp ) {
-      Spline const * S{ ptr->get_spline( nsp ) };
-      real_type * y = Y+nsp;
-      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
-    }
-
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_4, eval );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -225,28 +225,8 @@ namespace Splines {
   void
   do_eval_D( int nlhs, mxArray       *plhs[],
              int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_5 "y'(x) = SplineSetMexWrapper( 'eval_D', OBJ, x )"
-    #define CMD MEX_ERROR_MESSAGE_5
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
-
-    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
-
-    mwSize nx;
-    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
-
-    integer dim{ ptr->num_splines() };
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, static_cast<integer>(dim), nx );
-
-    for ( integer nsp{0}; nsp < dim; ++nsp ) {
-      Spline const * S{ ptr->get_spline( nsp ) };
-      real_type * y = Y+nsp;
-      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
-    }
-
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_5, eval_D );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -255,28 +235,8 @@ namespace Splines {
   void
   do_eval_DD( int nlhs, mxArray       *plhs[],
               int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_6 "y''(x) = SplineSetMexWrapper( 'eval_DD', OBJ, x )"
-    #define CMD MEX_ERROR_MESSAGE_6
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
-
-    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
-
-    mwSize nx;
-    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
-
-    integer dim{ ptr->num_splines() };
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx );
-
-    for ( integer nsp{0}; nsp < dim; ++nsp ) {
-      Spline const * S{ ptr->get_spline( nsp ) };
-      real_type * y = Y+nsp;
-      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
-    }
-
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_6, eval_DD );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -285,28 +245,8 @@ namespace Splines {
   void
   do_eval_DDD( int nlhs, mxArray       *plhs[],
                int nrhs, mxArray const *prhs[] ) {
-
     #define MEX_ERROR_MESSAGE_7 "y'''(x) = SplineSetMexWrapper( 'eval_DDD', OBJ, x )"
-    #define CMD MEX_ERROR_MESSAGE_7
-
-    UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
-    UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
-
-    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
-
-    mwSize nx;
-    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
-
-    integer dim{ ptr->num_splines() };
-    real_type * Y{ Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx ) };
-
-    for ( integer nsp{0}; nsp < dim; ++nsp ) {
-      Spline const * S{ ptr->get_spline( nsp ) };
-      real_type * y = Y+nsp;
-      for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
-    }
-
-    #undef CMD
+    EVALUATE_LOOP( MEX_ERROR_MESSAGE_7, eval_DDD );
   }
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

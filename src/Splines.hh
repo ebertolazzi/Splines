@@ -395,9 +395,6 @@ namespace Splines {
 
     void init_last_interval() const;
 
-    Spline( Spline const & ) = delete;
-    Spline const & operator = ( Spline const & ) = delete;
-
     #endif
   
   protected:
@@ -410,6 +407,9 @@ namespace Splines {
     }
 
   public:
+
+    Spline( Spline const & ) = delete;
+    Spline const & operator = ( Spline const & ) = delete;
 
     //! \name Constructors
     ///@{
@@ -687,7 +687,7 @@ namespace Splines {
     build( vector<real_type> const & x, vector<real_type> const & y ) {
       integer N = integer(x.size());
       if ( N > integer(y.size()) ) N = integer(y.size());
-      this->build( &x.front(), 1, &y.front(), 1, N );
+      this->build( x.data(), 1, y.data(), 1, N );
     }
 
     //!
@@ -714,12 +714,7 @@ namespace Splines {
     //! - `.yaml` or `.yml`
     //! - `.toml`
     //!
-    void
-    setup( string const & file_name ) {
-      GenericContainer gc;
-      gc.from_file( file_name );
-      setup( gc );
-    }
+    void setup( string const & file_name );
 
     ///@}
 
@@ -1191,9 +1186,6 @@ namespace Splines {
   //!
   class SplineSurf {
 
-    SplineSurf( SplineSurf const & ) = delete; // block copy constructor
-    SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
-
     Malloc_real m_mem;
 
   protected:
@@ -1250,6 +1242,8 @@ namespace Splines {
     ipos_F( integer i, integer j ) const
     { return this->ipos_F(i,j,m_nx); }
 
+    real_type & z_node_ref( integer i, integer j ) { return m_Z[this->ipos_C(i,j)]; }
+
     virtual void make_spline() = 0;
 
     void
@@ -1263,6 +1257,9 @@ namespace Splines {
     #endif
 
   public:
+
+    SplineSurf( SplineSurf const & ) = delete; // block copy constructor
+    SplineSurf const & operator = ( SplineSurf const & ) = delete; // block copy method
 
     //!
     //! Spline constructor
@@ -1391,9 +1388,7 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type
-    z_node( integer i, integer j ) const
-    { return m_Z[this->ipos_C(i,j)]; }
+    real_type z_node( integer i, integer j ) const { return m_Z[this->ipos_C(i,j)]; }
 
     //!
     //! Return x-minumum spline value.
@@ -1478,9 +1473,9 @@ namespace Splines {
       bool transposed      = false
     ) {
       this->build(
-        &x.front(), 1,
-        &y.front(), 1,
-        &z.front(), integer(fortran_storage ? y.size() : x.size()),
+        x.data(), 1,
+        y.data(), 1,
+        z.data(), integer(fortran_storage ? y.size() : x.size()),
         integer(x.size()), integer(y.size()),
         fortran_storage, transposed
       );
@@ -1517,7 +1512,7 @@ namespace Splines {
       bool fortran_storage = false,
       bool transposed      = false
     ) {
-      this->build( &z.front(), nx, ny, fortran_storage ? nx : ny, fortran_storage, transposed );
+      this->build( z.data(), nx, ny, fortran_storage ? nx : ny, fortran_storage, transposed );
     }
 
     //!
@@ -1535,12 +1530,7 @@ namespace Splines {
     //! - `.yaml` or `.yml`
     //! - `.toml`
     //!
-    void
-    setup( string const & file_name ) {
-      GenericContainer gc;
-      gc.from_file( file_name );
-      setup( gc );
-    }
+    void setup( string const & file_name );
 
     //!
     //! Build a spline using data in `GenericContainer`
@@ -1553,7 +1543,7 @@ namespace Splines {
     //! Build a spline using data in a file `file_name`
     //!
     void
-    build( string_view file_name )
+    build( string const & file_name )
     { setup( file_name ); }
 
     ///@}

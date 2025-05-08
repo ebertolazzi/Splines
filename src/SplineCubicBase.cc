@@ -76,9 +76,9 @@ namespace Splines {
     if ( N > static_cast<integer>(y.size())  ) N = static_cast<integer>(y.size());
     if ( N > static_cast<integer>(yp.size()) ) N = static_cast<integer>(yp.size());
     this->build (
-      &x.front(),  1,
-      &y.front(),  1,
-      &yp.front(), 1,
+      x.data(),  1,
+      y.data(),  1,
+      yp.data(), 1,
       N
     );
   }
@@ -333,8 +333,8 @@ namespace Splines {
       real_type r[2];
       integer const nr{ q.getRootsInOpenRange( 0, H, r ) };
       for ( integer j{0}; j < nr; ++j ) {
-        real_type const rr = r[j];
-        real_type const yy = (((A*rr)+B)*rr+C)*rr+D;
+        real_type const rr{ r[j] };
+        real_type const yy{ (((A*rr)+B)*rr+C)*rr+D };
         if      ( yy > y_max ) { y_max = yy; x_max_pos = X0+rr; i_max_pos = i; }
         else if ( yy < y_min ) { y_min = yy; x_min_pos = X0+rr; i_min_pos = i; }
       }
@@ -354,7 +354,7 @@ namespace Splines {
     vector<real_type> & x_max_pos,
     vector<real_type> & y_max
   ) const {
-    constexpr real_type epsi = 1e-8;
+    constexpr real_type epsi{ 1e-8 };
     i_min_pos.clear();
     i_max_pos.clear();
     x_min_pos.clear();

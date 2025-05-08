@@ -35,7 +35,8 @@ namespace Splines {
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    real_type       m[],   // work vector dimension N
+    integer         N
   );
 
   #endif

@@ -141,8 +141,8 @@ namespace Splines {
     Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
 
     if ( nrhs == 3 ) {
-      UTILS_MEX_ASSERT0( mxIsChar(arg_in_3), "expected string" );
-      string file_name{ mxArrayToString(arg_in_4) };
+      UTILS_MEX_ASSERT0( mxIsChar(arg_in_2), CMD ": expected string for filename" );
+      string file_name{ mxArrayToString(arg_in_2) };
       ptr->build( file_name );
     } else if ( nrhs == 5 ) {
       if ( mxIsChar(arg_in_4) ) {
@@ -248,7 +248,7 @@ namespace Splines {
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
     Utils::mex_set_scalar_int32( arg_out_0, ptr->order()-1 );
 
     #undef CMD
@@ -268,7 +268,7 @@ namespace Splines {
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
     Utils::mex_set_scalar_int32( arg_out_0, ptr->order() );
 
     #undef CMD
@@ -338,19 +338,19 @@ namespace Splines {
 
       arg_out_0 = mxCreateStructMatrix(1,1,6,fieldnames);
 
-      mxArray * mx_i_min_pos;
-      mxArray * mx_x_min_pos;
-      mxArray * mx_y_min;
-      mxArray * mx_i_max_pos;
-      mxArray * mx_x_max_pos;
-      mxArray * mx_y_max;
+      mxArray * mx_i_min_pos { nullptr };
+      mxArray * mx_x_min_pos { nullptr };
+      mxArray * mx_y_min     { nullptr };
+      mxArray * mx_i_max_pos { nullptr };
+      mxArray * mx_x_max_pos { nullptr };
+      mxArray * mx_y_max     { nullptr };
 
-      real_type * ptr_i_min_pos = Utils::mex_create_matrix_value( mx_i_min_pos, i_min_pos.size(), 1 );
-      real_type * ptr_x_min_pos = Utils::mex_create_matrix_value( mx_x_min_pos, x_min_pos.size(), 1 );
-      real_type * ptr_y_min     = Utils::mex_create_matrix_value( mx_y_min,     y_min.size(),     1 );
-      real_type * ptr_i_max_pos = Utils::mex_create_matrix_value( mx_i_max_pos, i_max_pos.size(), 1 );
-      real_type * ptr_x_max_pos = Utils::mex_create_matrix_value( mx_x_max_pos, x_max_pos.size(), 1 );
-      real_type * ptr_y_max     = Utils::mex_create_matrix_value( mx_y_max,     y_max.size(),     1 );
+      real_type * ptr_i_min_pos { Utils::mex_create_matrix_value( mx_i_min_pos, i_min_pos.size(), 1 ) };
+      real_type * ptr_x_min_pos { Utils::mex_create_matrix_value( mx_x_min_pos, x_min_pos.size(), 1 ) };
+      real_type * ptr_y_min     { Utils::mex_create_matrix_value( mx_y_min,     y_min.size(),     1 ) };
+      real_type * ptr_i_max_pos { Utils::mex_create_matrix_value( mx_i_max_pos, i_max_pos.size(), 1 ) };
+      real_type * ptr_x_max_pos { Utils::mex_create_matrix_value( mx_x_max_pos, x_max_pos.size(), 1 ) };
+      real_type * ptr_y_max     { Utils::mex_create_matrix_value( mx_y_max,     y_max.size(),     1 ) };
 
       std::copy( i_min_pos.begin(), i_min_pos.end(), ptr_i_min_pos );
       std::copy( x_min_pos.begin(), x_min_pos.end(), ptr_x_min_pos );
@@ -376,10 +376,10 @@ namespace Splines {
         i_max_pos, x_max_pos, y_max
       );
 
-      Utils::mex_set_scalar_int32  ( arg_out_0, i_min_pos );
+      Utils::mex_set_scalar_int32( arg_out_0, i_min_pos );
       Utils::mex_set_scalar_value( arg_out_1, x_min_pos );
       Utils::mex_set_scalar_value( arg_out_2, y_min     );
-      Utils::mex_set_scalar_int32  ( arg_out_3, i_max_pos );
+      Utils::mex_set_scalar_int32( arg_out_3, i_max_pos );
       Utils::mex_set_scalar_value( arg_out_4, x_max_pos );
       Utils::mex_set_scalar_value( arg_out_5, y_max     );
 
@@ -428,7 +428,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
 
     mwSize nx;
     real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`"  ) };
@@ -454,7 +454,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
 
     mwSize nx;
     real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
@@ -480,7 +480,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
 
     mwSize nx;
     real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
@@ -506,7 +506,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    Spline * ptr = Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 );
+    Spline * ptr{ Utils::mex_convert_mx_to_ptr<Spline>( arg_in_1 ) };
 
     mwSize nx;
     real_type const * x{ Utils::mex_vector_pointer(  arg_in_2, nx, CMD ": error in reading `x`" ) };

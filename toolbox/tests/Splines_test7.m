@@ -17,6 +17,22 @@
 %%                                                                         %%
 %%-------------------------------------------------------------------------%%
 
+close all;
+
+% Ottieni la dimensione dello schermo [left bottom width height]
+scrn = get(0, 'ScreenSize');
+
+% Calcola dimensioni all'80%
+width  = round(scrn(3) * 0.8);
+height = round(scrn(4) * 0.8);
+
+% Centra la figura
+left = round((scrn(3) - width) / 2);
+bottom = round((scrn(4) - height) / 2);
+
+% Crea la figura
+figure('Position', [left bottom width height]);
+
 xx1 = [  0,  1,  3,  4,  6,  7,    9, 10, 12, 13, 15 ];
 yy1 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ];
 
@@ -37,8 +53,6 @@ fmt1 = {'LineWidth',3,'Color',[0.7,0.7,1]};
 fmt2 = {'o','Color','red','MarkerSize',10,'MarkerFaceColor','yellow','MarkerEdgeColor','red'};
 fmt3 = {'-','Color','black','Linewidth',2};
 fmt4 = {'o','Color','blue','MarkerSize',10,'MarkerFaceColor','black','MarkerEdgeColor','black'};
-
-close all;
 
 subtype = 'pchip';
 

@@ -472,7 +472,7 @@ namespace Splines {
   void
   SplineVec::eval( real_type const x, vector<real_type> & vals ) const {
     vals.resize( m_dim );
-    eval( x, &vals.front(), 1 );
+    eval( x, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -480,7 +480,7 @@ namespace Splines {
   void
   SplineVec::eval_D( real_type const x, vector<real_type> & vals ) const {
     vals.resize( m_dim );
-    eval_D( x, &vals.front(), 1 );
+    eval_D( x, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -488,7 +488,7 @@ namespace Splines {
   void
   SplineVec::eval_DD( real_type const x, vector<real_type> & vals ) const {
     vals.resize( m_dim );
-    eval_DD( x, &vals.front(), 1 );
+    eval_DD( x, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -496,7 +496,7 @@ namespace Splines {
   void
   SplineVec::eval_DDD( real_type const x, vector<real_type> & vals ) const {
     vals.resize( m_dim );
-    eval_DDD( x, &vals.front(), 1 );
+    eval_DDD( x, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -553,8 +553,8 @@ namespace Splines {
     GenericContainer    & vals
   ) const {
     mat_real_type   & m  = vals.set_mat_real( static_cast<unsigned>(m_dim), static_cast<unsigned>(x.size()) );
-    real_type       * v  = &m.front();
-    real_type const * px = &x.front();
+    real_type       * v  = m.data();
+    real_type const * px = x.data();
     integer j{static_cast<integer>(x.size())};
     while ( j-- > 0 ) { eval( *px++, v, 1 ); v += m_dim; }
   }
@@ -567,8 +567,8 @@ namespace Splines {
     GenericContainer    & vals
   ) const {
     mat_real_type   & m  = vals.set_mat_real( static_cast<unsigned>(m_dim), static_cast<unsigned>(x.size()) );
-    real_type       * v  = &m.front();
-    real_type const * px = &x.front();
+    real_type       * v  = m.data();
+    real_type const * px = x.data();
     integer j{static_cast<integer>(x.size())};
     while ( j-- > 0 ) { eval_D( *px++, v, 1 ); v += m_dim; }
   }
@@ -581,8 +581,8 @@ namespace Splines {
     GenericContainer    & vals
   ) const {
     mat_real_type   & m  = vals.set_mat_real( static_cast<unsigned>(m_dim), static_cast<unsigned>(x.size()) );
-    real_type       * v  = &m.front();
-    real_type const * px = &x.front();
+    real_type       * v  = m.data();
+    real_type const * px = x.data();
     integer j{static_cast<integer>(x.size())};
     while ( j-- > 0 ) { eval_DD( *px++, v, 1 ); v += m_dim; }
 
@@ -595,9 +595,9 @@ namespace Splines {
     vec_real_type const & x,
     GenericContainer    & vals
   ) const {
-    mat_real_type & m = vals.set_mat_real( static_cast<unsigned>(m_dim), static_cast<unsigned>(x.size()) );
-    real_type       * v  = &m.front();
-    real_type const * px = &x.front();
+    mat_real_type   & m  = vals.set_mat_real( static_cast<unsigned>(m_dim), static_cast<unsigned>(x.size()) );
+    real_type       * v  = m.data();
+    real_type const * px = x.data();
     integer j{static_cast<integer>(x.size())};
     while ( j-- > 0 ) { this->eval_DDD( *px++, v, 1 ); v += m_dim; }
   }

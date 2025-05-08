@@ -17,6 +17,20 @@
 %%                                                                         %%
 %%-------------------------------------------------------------------------%%
 
+% Ottieni la dimensione dello schermo [left bottom width height]
+scrn = get(0, 'ScreenSize');
+
+% Calcola dimensioni all'80%
+width  = round(scrn(3) * 0.8);
+height = round(scrn(4) * 0.8);
+
+% Centra la figura
+left = round((scrn(3) - width) / 2);
+bottom = round((scrn(4) - height) / 2);
+
+% Crea la figura
+figure('Position', [left bottom width height]);
+
 xx0 = [  0,  1,  2,  3,  4,  5,    6,  7,  8,  9, 10 ];
 yy0 = [ 10, 10, 10, 10, 10, 10, 10.5, 15, 50, 60, 85 ];
 
@@ -67,7 +81,7 @@ for k=1:4
         XX, Y3, ...
         XX, Y4, ...
         XX, Y5, ...
-        XX, Y6 );
+        XX, Y6, 'LineWidth', 2 );
 
   legend('data','linear','cubic','akima','bessel','pchip','quintic');
   legend('boxoff');

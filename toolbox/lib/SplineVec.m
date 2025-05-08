@@ -31,30 +31,12 @@
 %>   spl.CatmullRom();
 %> ```
 %>
-classdef SplineVec < matlab.mixin.Copyable
+classdef SplineVec < handle
+
   properties (SetAccess = private, Hidden = true)
     %> Handle to the underlying C++ class instance
     objectHandle;
     call_delete;
-  end
-
-  methods(Access = protected)
-    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    %> Make a deep copy of a curve object
-    %>
-    %> **Usage**
-    %>
-    %> ```{matlab}
-    %>   B = A.copy();
-    %> ```
-    %>
-    %> where `A` is the curve object to be copied.
-    %>
-    function obj = copyElement( self )
-      obj              = copyElement@matlab.mixin.Copyable(self);
-      obj.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
-      obj.call_delete  = true;
-    end
   end
 
   methods
@@ -68,13 +50,14 @@ classdef SplineVec < matlab.mixin.Copyable
     %>
     function self = SplineVec()
       self.objectHandle = SplineVecMexWrapper( 'new' );
-      obj.call_delete   = true;
+      self.call_delete  = true;
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function delete(self)
       if self.call_delete
         SplineVecMexWrapper( 'delete', self.objectHandle );
       end
+      self.call_delete  = false;
       self.objectHandle = 0;
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

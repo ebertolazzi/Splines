@@ -63,7 +63,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  QuinticSplineBase::reserve( integer npts ) {
+  QuinticSplineBase::reserve( integer const npts ) {
     if ( m_external_alloc && npts <= m_npts_reserved ) {
       // nothing to do!, already allocated
     } else {

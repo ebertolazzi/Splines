@@ -50,29 +50,10 @@
 %>
 %> @html_image{exampleSurf.png,width=80%}
 %>
-classdef Spline2D < matlab.mixin.Copyable
+classdef Spline2D < handle
   properties (SetAccess = private, Hidden = true)
     objectHandle; % Handle to the underlying C++ class instance
     call_delete;
-  end
-
-  methods(Access = protected)
-    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    %> Make a deep copy of a curve object
-    %>
-    %> **Usage**
-    %>
-    %> ```{matlab}
-    %>   B = A.copy();
-    %> ```
-    %>
-    %> where `A` is the curve object to be copied.
-    %>
-    function obj = copyElement( self )
-      obj              = copyElement@matlab.mixin.Copyable(self);
-      obj.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
-      obj.call_delete  = true;
-    end
   end
 
   methods
@@ -89,9 +70,9 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     function self = Spline2D( name, varargin )
       self.objectHandle = Spline2DMexWrapper( 'new', name );
-      obj.call_delete   = true;
+      self.call_delete  = true;
       if nargin > 1
-        Spline2DMexWrapper( 'build', self.objectHandle, varargin{1}, varargin{2}, varargin{3} );
+        Spline2DMexWrapper( 'build', self.objectHandle, varargin{:} );
       end
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,6 +80,7 @@ classdef Spline2D < matlab.mixin.Copyable
       if self.call_delete
         Spline2DMexWrapper( 'delete', self.objectHandle );
       end
+      self.call_delete  = false;
       self.objectHandle = 0;
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -108,13 +90,14 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     %> ```{matlab}
     %>   spl.build( X, Y, Z );
+    %>   spl.build( 'file_name.json' );
     %> ```
     %>
     %> `X` and `Y` are vector `Z` is a matrix `nx x ny`
     %>
     %>
-    function build( self, x, y, z )
-      Spline2DMexWrapper( 'build', self.objectHandle, x, y );
+    function build( self, varargin )
+      Spline2DMexWrapper( 'build', self.objectHandle, varargin{:} );
     end
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     %>
@@ -349,6 +332,72 @@ classdef Spline2D < matlab.mixin.Copyable
     %>
     function ok = is_y_bounded( self )
       ok = Spline2DMexWrapper( 'is_y_bounded', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.x_min();
+    %> ```
+    %>
+    function res = x_min( self )
+      res = Spline2DMexWrapper( 'x_min', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.x_max();
+    %> ```
+    %>
+    function res = x_max( self )
+      res = Spline2DMexWrapper( 'x_max', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.y_min();
+    %> ```
+    %>
+    function res = y_min( self )
+      res = Spline2DMexWrapper( 'y_min', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.y_max();
+    %> ```
+    %>
+    function res = y_max( self )
+      res = Spline2DMexWrapper( 'y_max', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.z_min();
+    %> ```
+    %>
+    function res = z_min( self )
+      res = Spline2DMexWrapper( 'z_min', self.objectHandle );
+    end
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    %>
+    %> Get definition domain of the 2D-spline
+    %>
+    %> ```{matlab}
+    %>   res = spl.z_max();
+    %> ```
+    %>
+    function res = z_max( self )
+      res = Spline2DMexWrapper( 'z_max', self.objectHandle );
     end
   end
 end

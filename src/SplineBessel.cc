@@ -87,6 +87,8 @@ namespace Splines {
       Yp[0] = 1.5*m[0]-0.5*m[1];
       Yp[n] = 1.5*m[n-1]-0.5*m[n-2];
     }
+
+    mem.free();
   }
 
   #endif

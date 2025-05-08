@@ -17,6 +17,20 @@
 %%                                                                         %%
 %%-------------------------------------------------------------------------%%
 
+% Ottieni la dimensione dello schermo [left bottom width height]
+scrn = get(0, 'ScreenSize');
+
+% Calcola dimensioni all'80%
+width  = round(scrn(3) * 0.8);
+height = round(scrn(4) * 0.8);
+
+% Centra la figura
+left = round((scrn(3) - width) / 2);
+bottom = round((scrn(4) - height) / 2);
+
+% Crea la figura
+figure('Position', [left bottom width height]);
+
 X = -2:0.01:2;
 Y = -2:0.01:2;
 [XX,YY] = ndgrid(X,Y);
@@ -37,6 +51,31 @@ Z1 = bc.eval(XX,YY);
 Z2 = ak.eval(XX,YY);
 Z3 = bl.eval(XX,YY);
 Z4 = bq.eval(XX,YY);
+
+if any(isnan(Z1(:)))
+  fprintf('Found NaN on bicubic\n');
+end
+if any(isinf(Z1(:)))
+  fprintf('Found Inf on bicubic\n');
+end
+if any(isnan(Z2(:)))
+  fprintf('Found NaN on akima\n');
+end
+if any(isinf(Z2(:)))
+  fprintf('Found Inf on akima\n');
+end
+if any(isnan(Z3(:)))
+  fprintf('Found NaN on bilinear\n');
+end
+if any(isinf(Z3(:)))
+  fprintf('Found Inf on bilinear\n');
+end
+if any(isnan(Z4(:)))
+  fprintf('Found NaN on biquintic\n');
+end
+if any(isinf(Z4(:)))
+  fprintf('Found Inf on biquintic\n');
+end
 
 subplot(2,2,1);
 surf(XX,YY,Z1,'Linestyle',':'), view(145,40), set(gca,'Fontsize',16);

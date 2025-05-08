@@ -35,7 +35,7 @@ namespace Splines {
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
     std::string m_name;
-    Spline * m_pSpline{nullptr};
+    std::unique_ptr<Spline> m_spline;
 
     #endif
 
@@ -73,59 +73,59 @@ namespace Splines {
     //!
     //! \return string with the name of the spline
     //!
-    string_view name() const { return m_pSpline->name(); }
+    string_view name() const { return m_spline->name(); }
 
     //! \return `true` if spline is a closed spline
-    bool is_closed() const { return m_pSpline->is_closed(); }
+    bool is_closed() const { return m_spline->is_closed(); }
 
     //!
     //! Set spline as a closed spline.
     //! When evaluated if parameter is outside the domain
     //! is wrapped cyclically before evalation.
     //!
-    void make_closed() { m_pSpline->make_closed(); }
+    void make_closed() { m_spline->make_closed(); }
 
     //!
     //! Set spline as an opened spline.
     //! When evaluated if parameter is outside the domain
     //! an error is produced.
     //!
-    void make_opened() { m_pSpline->make_opened(); }
+    void make_opened() { m_spline->make_opened(); }
 
     //!
     //! \return `true` if spline cannot extend outside interval of definition
     //!
-    bool is_bounded() const { return m_pSpline->is_bounded(); }
+    bool is_bounded() const { return m_spline->is_bounded(); }
 
     //!
     //! Set spline as unbounded.
     //! When evaluated if parameter is outside the domain
     //! an extrapolated value is used.
     //!
-    void make_unbounded() { m_pSpline->make_unbounded();  }
+    void make_unbounded() { m_spline->make_unbounded();  }
     //!
     //! Set spline as bounded.
     //! When evaluated if parameter is outside the domain
     //! an error is issued.
     //!
-    void make_bounded() { m_pSpline->make_bounded(); }
+    void make_bounded() { m_spline->make_bounded(); }
 
     //!
     //! \return `true` if the spline extend with a constant value
     //!
-    bool is_extended_constant() const { return m_pSpline->is_extended_constant(); }
+    bool is_extended_constant() const { return m_spline->is_extended_constant(); }
     //!
     //! Set spline to extend constant.
     //! When evaluated if parameter is outside the domain
     //! the value returned is the value of the closed border.
     //!
-    void make_extended_constant() { m_pSpline->make_extended_constant(); }
+    void make_extended_constant() { m_spline->make_extended_constant(); }
     //!
     //! Set spline to extend NOT constant.
     //! When evaluated if parameter is outside the domain
     //! teh value returned is extrapolated using the last spline polynomial.
     //!
-    void make_extended_not_constant() { m_pSpline->make_extended_not_constant(); }
+    void make_extended_not_constant() { m_spline->make_extended_not_constant(); }
 
     ///@}
 
@@ -133,57 +133,57 @@ namespace Splines {
     //!
     //! Return the number of support points of the spline.
     //!
-    integer num_points() const { return m_pSpline->num_points(); }
+    integer num_points() const { return m_spline->num_points(); }
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_pSpline->x_node(i); }
+    real_type x_node( integer i ) const { return m_spline->x_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_pSpline->y_node(i); }
+    real_type y_node( integer i ) const { return m_spline->y_node(i); }
 
     //!
     //! Return first node of the spline (x component).
     //!
-    real_type x_begin() const { return m_pSpline->x_begin(); }
+    real_type x_begin() const { return m_spline->x_begin(); }
 
     //!
     //! Return first node of the spline (y component).
     //!
-    real_type y_begin() const { return m_pSpline->y_begin(); }
+    real_type y_begin() const { return m_spline->y_begin(); }
 
     //!
     //! Return last node of the spline (x component).
     //!
-    real_type x_end() const { return m_pSpline->x_end(); }
+    real_type x_end() const { return m_spline->x_end(); }
 
     //!
     //! Return last node of the spline (y component).
     //!
-    real_type y_end() const { return m_pSpline->y_end(); }
+    real_type y_end() const { return m_spline->y_end(); }
 
     //!
     //! Allocate memory for `npts` points.
     //!
-    void reserve( integer npts ) { return m_pSpline->reserve( npts ); }
+    void reserve( integer npts ) { return m_spline->reserve( npts ); }
 
     //!
     //! Add a support point (x,y) to the spline.
     //!
-    void push_back( real_type x, real_type y ) { return m_pSpline->push_back( x, y ); }
+    void push_back( real_type x, real_type y ) { return m_spline->push_back( x, y ); }
     //!
     //! Drop last inserted point of the spline.
     //!
-    void drop_back() { m_pSpline->drop_back(); }
+    void drop_back() { m_spline->drop_back(); }
 
     //!
     //! Build a spline.
     //!
     // must be defined in derived classes
-    void build() { m_pSpline->build(); }
+    void build() { m_spline->build(); }
 
     //!
     //! Build a spline using data in `GenericContainer`
@@ -245,44 +245,44 @@ namespace Splines {
       vector<real_type> const & y
     ) {
       integer n{integer(x.size())};
-      this->build( tp, &x.front(), &y.front(), n );
+      this->build( tp, x.data(), y.data(), n );
     }
 
     //!
     //! Cancel the support points, empty the spline.
     //!
-    void clear() { m_pSpline->clear(); }
+    void clear() { m_spline->clear(); }
 
     //!
     //! Return x-minumum spline value.
     //!
-    real_type x_min() const { return m_pSpline->x_min(); }
+    real_type x_min() const { return m_spline->x_min(); }
 
     //!
     //! Return x-maximum spline value.
     //!
-    real_type x_max() const { return m_pSpline->x_max(); }
+    real_type x_max() const { return m_spline->x_max(); }
 
     //!
     //! Return y-minumum spline value (on the support point of the spline).
     //!
-    real_type y_min() const { return m_pSpline->y_min(); }
+    real_type y_min() const { return m_spline->y_min(); }
 
     //!
     //! Return y-maximum spline value (on the support point of the spline).
     //!
-    real_type y_max() const { return m_pSpline->y_max(); }
+    real_type y_max() const { return m_spline->y_max(); }
 
     ///////////////////////////////////////////////////////////////////////////
     //!
     //! Change X-origin of the spline.
     //!
-    void set_origin( real_type x0 ) const { return m_pSpline->set_origin( x0 ); }
+    void set_origin( real_type x0 ) const { return m_spline->set_origin( x0 ); }
 
     //!
     //! Change X-range of the spline.
     //!
-    void set_range( real_type xmin, real_type xmax ) { return m_pSpline->set_range( xmin, xmax ); }
+    void set_range( real_type xmin, real_type xmax ) { return m_spline->set_range( xmin, xmax ); }
 
     ///////////////////////////////////////////////////////////////////////////
     //!
@@ -294,7 +294,7 @@ namespace Splines {
       integer        nintervals,
       string_view    header = "x\ty"
     ) const {
-      m_pSpline->dump( s, nintervals, header );
+      m_spline->dump( s, nintervals, header );
     }
 
     //!
@@ -306,7 +306,7 @@ namespace Splines {
       integer     nintervals,
       string_view header = "x\ty"
     ) const {
-      m_pSpline->dump( fname, nintervals, header );
+      m_spline->dump( fname, nintervals, header );
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -316,32 +316,32 @@ namespace Splines {
     //!
     //! Evaluate spline value at `x`.
     //!
-    real_type eval( real_type x ) const { return m_pSpline->eval(x); }
+    real_type eval( real_type x ) const { return m_spline->eval(x); }
 
     //!
     //! First derivative at `x`.
     //!
-    real_type D( real_type x ) const { return m_pSpline->D(x); }
+    real_type D( real_type x ) const { return m_spline->D(x); }
 
     //!
     //! Second derivative at `x`.
     //!
-    real_type DD( real_type x ) const { return m_pSpline->DD(x); }
+    real_type DD( real_type x ) const { return m_spline->DD(x); }
 
     //!
     //! Third derivative at `x`.
     //!
-    real_type DDD( real_type x ) const { return m_pSpline->DDD(x); }
+    real_type DDD( real_type x ) const { return m_spline->DDD(x); }
 
     //!
     //! 4th derivative at `x`.
     //!
-    real_type DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+    real_type DDDD( real_type x ) const { return m_spline->DDDD(x); }
 
     //!
     //! 5th derivative at `x`.
     //!
-    real_type DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
+    real_type DDDDD( real_type x ) const { return m_spline->DDDDD(x); }
 
     ///@}
 
@@ -350,22 +350,22 @@ namespace Splines {
     //!
     ///@{
     //! the value of the spline at `x`
-    real_type operator () ( real_type x ) const { return m_pSpline->eval(x); }
+    real_type operator () ( real_type x ) const { return m_spline->eval(x); }
 
     //! the value of the first derivative of the spline at `x`
-    real_type eval_D( real_type x ) const { return m_pSpline->D(x); }
+    real_type eval_D( real_type x ) const { return m_spline->D(x); }
 
     //! the value of the second derivative of the spline at `x`
-    real_type eval_DD( real_type x ) const { return m_pSpline->DD(x); }
+    real_type eval_DD( real_type x ) const { return m_spline->DD(x); }
 
     //! the value of the third derivative of the spline at `x`
-    real_type eval_DDD( real_type x ) const { return m_pSpline->DDD(x); }
+    real_type eval_DDD( real_type x ) const { return m_spline->DDD(x); }
 
     //! the value of the 4-th derivative of the spline at `x`
-    real_type eval_DDDD( real_type x ) const { return m_pSpline->DDDD(x); }
+    real_type eval_DDDD( real_type x ) const { return m_spline->DDDD(x); }
 
     //! the value of the 5-th derivative of the spline at `x`
-    real_type eval_DDDDD( real_type x ) const { return m_pSpline->DDDDD(x); }
+    real_type eval_DDDDD( real_type x ) const { return m_spline->DDDDD(x); }
     ///@}
 
     ///////////////////////////////////////////////////////////////////////////
@@ -378,7 +378,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_eval( integer ni, real_type x ) const { return m_pSpline->id_eval(ni,x); }
+    id_eval( integer ni, real_type x ) const { return m_spline->id_eval(ni,x); }
 
     //!
     //! First derivative at `x`.
@@ -386,7 +386,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_D( integer ni, real_type x ) const { return m_pSpline->id_D(ni,x); }
+    id_D( integer ni, real_type x ) const { return m_spline->id_D(ni,x); }
 
     //!
     //! Second derivative at `x`.
@@ -394,7 +394,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_DD( integer ni, real_type x ) const { return m_pSpline->id_DD(ni,x); }
+    id_DD( integer ni, real_type x ) const { return m_spline->id_DD(ni,x); }
 
     //!
     //! Third derivative at `x`.
@@ -402,7 +402,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_DDD( integer ni, real_type x ) const { return m_pSpline->id_DDD(ni,x); }
+    id_DDD( integer ni, real_type x ) const { return m_spline->id_DDD(ni,x); }
 
     //!
     //! 4th derivative at `x`.
@@ -410,7 +410,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_DDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDD(ni,x); }
+    id_DDDD( integer ni, real_type x ) const { return m_spline->id_DDDD(ni,x); }
 
     //!
     //! 5th derivative at `x`.
@@ -418,7 +418,7 @@ namespace Splines {
     //! \param ni select the component
     //!
     real_type
-    id_DDDDD( integer ni, real_type x ) const { return m_pSpline->id_DDDDD(ni,x); }
+    id_DDDDD( integer ni, real_type x ) const { return m_spline->id_DDDDD(ni,x); }
 
     ///@}
 
@@ -431,51 +431,51 @@ namespace Splines {
       real_type nodes[],
       bool      transpose = false
     ) const {
-      return m_pSpline->coeffs( cfs, nodes, transpose );
+      return m_spline->coeffs( cfs, nodes, transpose );
     }
 
     //!
     //! \return the order of the spline (`degree+1`)
     //!
-    integer order() const { return m_pSpline->order(); }
+    integer order() const { return m_spline->order(); }
 
     //!
     //! Print spline coefficients.
     //!
     void
     write_to_stream( ostream_type & s ) const
-    { return m_pSpline->write_to_stream( s ); }
+    { return m_spline->write_to_stream( s ); }
 
     //!
     //! Return spline typename.
     //!
     char const *
     type_name() const
-    { return m_pSpline->type_name(); }
+    { return m_spline->type_name(); }
 
     //!
     //! Return spline type (as number).
     //!
     SplineType1D
     type() const
-    { return m_pSpline->type(); }
+    { return m_spline->type(); }
 
     //!
     //! String information of the kind and order of the spline
     //!
     string
     info() const
-    { return m_pSpline->info(); }
+    { return m_spline->info(); }
 
     //!
     //! Print information of the kind and order of the spline
     //!
     void
     info( ostream_type & stream ) const
-    { m_pSpline->info( stream ); }
+    { m_spline->info( stream ); }
 
     #ifdef SPLINES_BACK_COMPATIBILITY
-    integer numPoints() const { return m_pSpline->num_points(); }
+    integer numPoints() const { return m_spline->num_points(); }
     real_type xNode( integer i ) const { return this->x_node(i); }
     real_type yNode( integer i ) const { return this->y_node(i); }
     real_type xBegin() const { return this->x_begin(); }

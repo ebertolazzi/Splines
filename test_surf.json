@@ -1,0 +1,11 @@
+{
+  "xdata": [0, 1, 2, 3],
+  "ydata": [4, 5, 6],
+  "zdata": [
+    [1, 2,  3, 4  ],
+    [1, 4,  9, 16 ],
+    [1, 8, 27, 64 ]
+  ],
+  "transposed": false,
+  "fortran_storage": true
+}

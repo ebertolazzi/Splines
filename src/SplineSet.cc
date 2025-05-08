@@ -231,14 +231,8 @@ namespace Splines {
     real_type    const * const data_Yp[]
   ) {
     string msg{ fmt::format("SplineSet[{}]::build(...):", m_name ) };
-    UTILS_ASSERT(
-      nspl > 0,
-      "{} expected positive nspl = {}\n", msg, nspl
-    );
-    UTILS_ASSERT(
-      npts > 1,
-      "{} expected npts = {} greather than 1", msg, npts
-    );
+    UTILS_ASSERT( nspl > 0, "{} expected positive nspl = {}\n", msg, nspl );
+    UTILS_ASSERT( npts > 1, "{} expected npts = {} greater than 1", msg, npts );
     m_nspl = nspl;
     m_npts = npts;
     // allocate memory
@@ -332,72 +326,87 @@ namespace Splines {
       m_is_monotone[spl] = -1;
       switch ( stype[ spl ] ) {
       case SplineType1D::CONSTANT:
-        s = std::make_unique<ConstantSpline>(h);
-        static_cast<ConstantSpline*>(s.get())->reserve_external( m_npts, m_X, pY );
-        static_cast<ConstantSpline*>(s.get())->m_npts = m_npts;
-        static_cast<ConstantSpline*>(s.get())->build();
+        { auto S = std::make_unique<ConstantSpline>(h);
+          S->reserve_external( m_npts, m_X, pY );
+          S->m_npts = m_npts;
+          S->build();
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::LINEAR:
-        s = std::make_unique<LinearSpline>(h);
-        static_cast<LinearSpline*>(s.get())->reserve_external( m_npts, m_X, pY );
-        static_cast<LinearSpline*>(s.get())->m_npts = m_npts;
-        static_cast<LinearSpline*>(s.get())->build();
-        // check monotonicity of data
-        { integer flag = 1;
+        { auto S = std::make_unique<LinearSpline>(h);
+          S->reserve_external( m_npts, m_X, pY );
+          S->m_npts = m_npts;
+          S->build();
+          // check monotonicity of data
+          integer flag{1};
           for ( integer j{1}; j < m_npts; ++j ) {
             if ( pY[j-1] > pY[j] ) { flag = -1; break; } // non monotone data
             if ( Utils::is_zero(pY[j-1]-pY[j]) && m_X[j-1] < m_X[j] ) flag = 0; // non strict monotone
           }
           m_is_monotone[spl] = flag;
+          s = std::move(S);
         }
         break;
 
       case SplineType1D::CUBIC:
-        s = std::make_unique<CubicSpline>(h);
-        static_cast<CubicSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<CubicSpline*>(s.get())->m_npts = m_npts;
-        static_cast<CubicSpline*>(s.get())->build();
-        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+        { auto S = std::make_unique<CubicSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp );
+          S->m_npts = m_npts;
+          S->build();
+          m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::AKIMA:
-        s = std::make_unique<AkimaSpline>(h);
-        static_cast<AkimaSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<AkimaSpline*>(s.get())->m_npts = m_npts;
-        static_cast<AkimaSpline*>(s.get())->build();
-        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+        { auto S = std::make_unique<AkimaSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp );
+          S->m_npts = m_npts;
+          S->build();
+          m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::BESSEL:
-        s = std::make_unique<BesselSpline>(h);
-        static_cast<BesselSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<BesselSpline*>(s.get())->m_npts = m_npts;
-        static_cast<BesselSpline*>(s.get())->build();
-        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+        { auto S = std::make_unique<BesselSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp );
+          S->m_npts = m_npts;
+          S->build();
+          m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::PCHIP:
-        s = std::make_unique<PchipSpline>(h);
-        static_cast<PchipSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<PchipSpline*>(s.get())->m_npts = m_npts;
-        static_cast<PchipSpline*>(s.get())->build();
-        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+        { auto S = std::make_unique<PchipSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp );
+          S->m_npts = m_npts;
+          S->build();
+          m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::HERMITE:
-        s = std::make_unique<HermiteSpline>(h);
-        static_cast<CubicSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp );
-        static_cast<CubicSpline*>(s.get())->m_npts = m_npts;
-        static_cast<CubicSpline*>(s.get())->build();
-        m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+        { auto S = std::make_unique<HermiteSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp );
+          S->m_npts = m_npts;
+          S->build();
+          m_is_monotone[spl] = check_cubic_spline_monotonicity( m_X, pY, pYp, m_npts );
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::QUINTIC:
-        s = std::make_unique<QuinticSpline>(h);
-        static_cast<QuinticSpline*>(s.get())->reserve_external( m_npts, m_X, pY, pYp, pYpp );
-        static_cast<QuinticSpline*>(s.get())->m_npts = m_npts;
-        static_cast<QuinticSpline*>(s.get())->build();
+        { auto S = std::make_unique<QuinticSpline>(h);
+          S->reserve_external( m_npts, m_X, pY, pYp, pYpp );
+          S->m_npts = m_npts;
+          S->build();
+          s = std::move(S);
+        }
         break;
 
       case SplineType1D::SPLINE_SET:
@@ -609,7 +618,7 @@ namespace Splines {
     vector<real_type> & vals
   ) const {
     vals.resize( m_nspl );
-    this->eval2( indep, zeta, &vals.front(), 1 );
+    this->eval2( indep, zeta, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -662,7 +671,7 @@ namespace Splines {
     vector<real_type> & vals
   ) const {
     vals.resize( m_nspl );
-    this->eval2_D( spl, zeta, &vals.front(), 1 );
+    this->eval2_D( spl, zeta, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -719,7 +728,7 @@ namespace Splines {
     vector<real_type> & vals
   ) const {
     vals.resize( m_nspl );
-    this->eval2_DD( indep, zeta, &vals.front(), 1 );
+    this->eval2_DD( indep, zeta, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -779,7 +788,7 @@ namespace Splines {
     vector<real_type> & vals
   ) const {
     vals.resize( m_nspl );
-    this->eval2_DDD( spl, zeta, &vals.front(), 1 );
+    this->eval2_DDD( spl, zeta, vals.data(), 1 );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
