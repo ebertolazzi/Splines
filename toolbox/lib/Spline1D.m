@@ -22,8 +22,8 @@
     %>
     function obj = copyElement( self )
       obj              = copyElement@matlab.mixin.Copyable(self);
-      obj.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
-      obj.call_delete  = true;
+      spl.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
+      spl.call_delete  = true;
     end
   end
 
@@ -54,7 +54,7 @@
     %>
     function self = Spline1D( kind, varargin )
       self.objectHandle = Spline1DMexWrapper( 'new', kind );
-      obj.call_delete   = true;
+      spl.call_delete   = true;
       if nargin > 1
         Spline1DMexWrapper( 'build', self.objectHandle, varargin{:} );
       end
@@ -72,9 +72,11 @@
     %>
     %>
     %> ```{matlab}
-    %>   obj.build( x, y, kind );
+    %>   spl = Spline1D( x, y, kind );
     %>
-    %>   obj.build( x, y, yp ); % build Hermite type spline
+    %>   spl = Spline1D( x, y, yp ); % build Hermite type spline
+    %>
+    %>   spl = Spline1D( file ); % reading data from file (yaml,json or toml)
     %> ```
     %>
     function build( self, varargin )
@@ -88,7 +90,7 @@
     %>
     %>
     %> ```{matlab}
-    %>   [coeffs,nodes] = obj.eval_coeffs();
+    %>   [coeffs,nodes] = spl.eval_coeffs();
     %> ```
     %>
     %> - [out] coeffs matrix which rows are the polynomial coeffs
@@ -105,9 +107,9 @@
     %>
     %> ```{matlab}
     %>  [i_min_pos,x_min_pos,y_min,...
-    %>   i_max_pos,x_max_pos,y_max] = obj.eval_y_min_max();
+    %>   i_max_pos,x_max_pos,y_max] = spl.eval_y_min_max();
     %>
-    %>  SS = obj.eval_y_min_max();
+    %>  SS = spl.eval_y_min_max();
     %> ```
     %>
     %> - [out] i_min_pos where is the minimum (interval)
@@ -132,12 +134,12 @@
     %> Evaluate spline at `x` returning vaues and derivatives
     %>
     %> ```{matlab}
-    %>   p = obj.eval( x );
-    %>   [p,p_D] = obj.eval( x );
-    %>   [p,p_D,p_DD] = obj.eval( x );
-    %>   [p,p_D,p_DD,p_DDD] = obj.eval( x );
-    %>   [p,p_D,p_DD,p_DDD,p_DDDD] = obj.eval( x );
-    %>   [p,p_D],p_DD,p_DDD,p_DDDD,p_DDDDD] = obj.eval( x );
+    %>   p = spl.eval( x );
+    %>   [p,p_D] = spl.eval( x );
+    %>   [p,p_D,p_DD] = spl.eval( x );
+    %>   [p,p_D,p_DD,p_DDD] = spl.eval( x );
+    %>   [p,p_D,p_DD,p_DDD,p_DDDD] = spl.eval( x );
+    %>   [p,p_D],p_DD,p_DDD,p_DDDD,p_DDDDD] = spl.eval( x );
     %> ```
     %>
     function varargout = eval( self, x )
@@ -164,7 +166,7 @@
     %>
     %>
     %> ```{matlab}
-    %>   p_D = obj.eval_D( x );
+    %>   p_D = spl.eval_D( x );
     %> ```
     %>
     function dp = eval_D( self, x )
@@ -175,7 +177,7 @@
     %> Evaluate spline second derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DD = obj.eval_DD( x );
+    %>   p_DD = spl.eval_DD( x );
     %> ```
     %>
     function ddp = eval_DD( self, x )
@@ -186,7 +188,7 @@
     %> Evaluate spline third derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DDD = obj.eval_DDD( x );
+    %>   p_DDD = spl.eval_DDD( x );
     %> ```
     %>
     function dddp = eval_DDD( self, x )
@@ -197,7 +199,7 @@
     %> Evaluate spline 4th derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DDDD = obj.eval_DDDD( x );
+    %>   p_DDDD = spl.eval_DDDD( x );
     %> ```
     %>
     function ddddp = eval_DDDD( self, x )
@@ -208,7 +210,7 @@
     %> Evaluate spline 5th derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DDDDD = obj.eval_DDDDD( x );
+    %>   p_DDDDD = spl.eval_DDDDD( x );
     %> ```
     %>
     function dddddp = eval_DDDDD( self, x )
@@ -219,7 +221,7 @@
     %> Set spline as closed
     %>
     %> ```{matlab}
-    %>   obj.make_closed();
+    %>   spl.make_closed();
     %> ```
     %>
     function make_closed( self )
@@ -230,7 +232,7 @@
     %> Set spline as opened
     %>
     %> ```{matlab}
-    %>   obj.make_opened();
+    %>   spl.make_opened();
     %> ```
     %>
     function make_opened( self )
@@ -241,7 +243,7 @@
     %> Return true if spline is of closed type
     %>
     %> ```{matlab}
-    %>   ok = obj.is_closed();
+    %>   ok = spl.is_closed();
     %> ```
     %>
     function ok = is_closed( self )
@@ -253,7 +255,7 @@
     %> If `x` is outside range an error is produced.
     %>
     %> ```{matlab}
-    %>   obj.make_bounded();
+    %>   spl.make_bounded();
     %> ```
     %>
     function make_bounded( self )
@@ -265,7 +267,7 @@
     %> If `x` is outside range value is extrapolated.
     %>
     %> ```{matlab}
-    %>   obj.make_unbounded();
+    %>   spl.make_unbounded();
     %> ```
     %>
     function make_unbounded( self )
@@ -277,7 +279,7 @@
     %> Return true if can be computed only in the range.
     %>
     %> ```{matlab}
-    %>   ok = obj.is_bounded();
+    %>   ok = spl.is_bounded();
     %> ```
     %>
     function ok = is_bounded( self )
@@ -288,7 +290,7 @@
     %> Set extrapolation outside the range as a constant spline
     %>
     %> ```{matlab}
-    %>   obj.make_extended_constant();
+    %>   spl.make_extended_constant();
     %> ```
     %>
     function make_extended_constant( self )
@@ -299,7 +301,7 @@
     %> Set extrapolation outside the range as a polynomial
     %>
     %> ```{matlab}
-    %>   obj.make_extended_not_constant();
+    %>   spl.make_extended_not_constant();
     %> ```
     %>
     function make_extended_not_constant( self )
@@ -310,7 +312,7 @@
     %> Check if extrapolation outside the range as a polynomial
     %>
     %> ```{matlab}
-    %>   ok = obj.is_extended_constant();
+    %>   ok = spl.is_extended_constant();
     %> ```
     %>
     function ok = is_extended_constant( self )
@@ -321,7 +323,7 @@
     %> Return initial x-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   x = obj.x_begin();
+    %>   x = spl.x_begin();
     %> ```
     %>
     function x = x_begin( self )
@@ -338,7 +340,7 @@
     %> Return final x-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   x = obj.x_end();
+    %>   x = spl.x_end();
     %> ```
     %>
     function x = xEnd( self )
@@ -356,7 +358,7 @@
     %>
     %>
     %> ```{matlab}
-    %>   y = obj.y_begin();
+    %>   y = spl.y_begin();
     %> ```
     %>
     function y = y_begin( self )
@@ -373,7 +375,7 @@
     %> Return final y-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   y = obj.y_end();
+    %>   y = spl.y_end();
     %> ```
     %>
     function y = y_end( self )
@@ -390,7 +392,7 @@
     %> Return minimum x-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   x = obj.x_min();
+    %>   x = spl.x_min();
     %> ```
     %>
     function x = x_min( self )
@@ -407,7 +409,7 @@
     %> Return maximum x-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   x = obj.x_max();
+    %>   x = spl.x_max();
     %> ```
     %>
     function x = x_max( self )
@@ -424,7 +426,7 @@
     %> Return minimum y-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   y = obj.y_min();
+    %>   y = spl.y_min();
     %> ```
     %>
     function y = y_min( self )
@@ -441,7 +443,7 @@
     %> Return maximum y-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   y = obj.y_max();
+    %>   y = spl.y_max();
     %> ```
     %>
     function y = y_max( self )
