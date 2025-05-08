@@ -120,15 +120,9 @@ namespace Splines {
     UTILS_MEX_ASSERT( nrhs == 5, CMD ": expected 5 input, nrhs = {}\n", nrhs );
 
     mwSize nx, ny, nnx, nny;
-    real_type const * x = Utils::mex_vector_pointer(
-      arg_in_2, nx, CMD ": error in reading 'x'"
-    );
-    real_type const * y = Utils::mex_vector_pointer(
-      arg_in_3, ny, CMD ": error in reading 'y'"
-    );
-    real_type const * z = Utils::mex_matrix_pointer(
-      arg_in_4, nnx, nny, CMD ": error in reading 'z'"
-    );
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx,       CMD ": error in reading 'x'" ) };
+    real_type const * y{ Utils::mex_vector_pointer( arg_in_3, ny,       CMD ": error in reading 'y'" ) };
+    real_type const * z{ Utils::mex_matrix_pointer( arg_in_4, nnx, nny, CMD ": error in reading 'z'" ) };
 
     UTILS_MEX_ASSERT(
       nx == nnx,
@@ -145,11 +139,13 @@ namespace Splines {
     bool fortran_storage = true;
     bool transposed      = true;
 
-    integer ldZ = nx;
+    integer ldZ{ static_cast<integer>(nx) };
 
-    SplineSurf * ptr = Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 );
+    SplineSurf * ptr{ Utils::mex_convert_mx_to_ptr<SplineSurf>( arg_in_1 ) };
 
-    ptr->build ( x, 1, y, 1, z, ldZ, nx, ny, fortran_storage, transposed );
+    ptr->build ( x, 1, y, 1, z,
+                ldZ, static_cast<integer>(nx), static_cast<integer>(ny),
+                fortran_storage, transposed );
 
     #undef CMD
   }

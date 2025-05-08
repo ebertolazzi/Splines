@@ -102,7 +102,10 @@ namespace Splines {
 
     mwSize dim, npts;
     real_type const * Y = Utils::mex_matrix_pointer( arg_in_2, dim, npts, CMD ": error in reading 'Y'" );
-    ptr->setup( dim, npts, Y, dim );
+    ptr->setup( static_cast<integer>(dim),
+                static_cast<integer>(npts),
+                Y,
+                static_cast<integer>(dim) );
 
     #undef CMD
   }

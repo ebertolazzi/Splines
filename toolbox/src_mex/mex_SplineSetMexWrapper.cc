@@ -132,7 +132,7 @@ namespace Splines {
 
     } else if ( mxIsCell(arg_in_2) ) {
 
-      mwSize const *dims = mxGetDimensions(arg_in_2);
+      mwSize const *dims{ mxGetDimensions(arg_in_2) };
       UTILS_MEX_ASSERT(
         dims[0] == nspl && dims[1] == 1,
         CMD ": third argument expected to be cell array {} x 1, found {} x {}\n",
@@ -180,7 +180,8 @@ namespace Splines {
       pY.push_back(y+i*nn);
     }
     ptr->build(
-      nspl, n,
+      static_cast<integer>(nspl),
+      static_cast<integer>(n),
       &headers.front(), &types.front(),
       x, &pY.front(), nullptr
     );
@@ -201,15 +202,15 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
 
-    mwSize dim = ptr->num_splines();
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
+    integer dim{ ptr->num_splines() };
+    real_type * Y{ Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx ) };
 
-    for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
+    for ( integer nsp{0}; nsp < dim; ++nsp ) {
       Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval( x[i] );
@@ -231,15 +232,15 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
 
-    mwSize dim = ptr->num_splines();
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
+    integer dim{ ptr->num_splines() };
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, static_cast<integer>(dim), nx );
 
-    for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
+    for ( integer nsp{0}; nsp < dim; ++nsp ) {
       Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_D( x[i] );
@@ -261,15 +262,15 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
 
-    mwSize dim = ptr->num_splines();
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
+    integer dim{ ptr->num_splines() };
+    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx );
 
-    for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
+    for ( integer nsp{0}; nsp < dim; ++nsp ) {
       Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DD( x[i] );
@@ -291,15 +292,15 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 3, CMD ": expected 3 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     mwSize nx;
-    real_type const * x = Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" );
+    real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx, CMD ": error in reading `x`" ) };
 
-    mwSize dim = ptr->num_splines();
-    real_type * Y = Utils::mex_create_matrix_value( arg_out_0, dim, nx );
+    integer dim{ ptr->num_splines() };
+    real_type * Y{ Utils::mex_create_matrix_value( arg_out_0, static_cast<mwSize>(dim), nx ) };
 
-    for ( mwSize nsp = 0; nsp < dim; ++nsp ) {
+    for ( integer nsp{0}; nsp < dim; ++nsp ) {
       Spline const * S{ ptr->get_spline( nsp ) };
       real_type * y = Y+nsp;
       for ( mwSize i{0}; i < nx; ++i, y += dim ) *y = S->eval_DDD( x[i] );
@@ -321,7 +322,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->x_min() );
 
@@ -341,7 +342,7 @@ namespace Splines {
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 input, nrhs = {}\n", nrhs );
 
-    SplineSet * ptr = Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 );
+    SplineSet * ptr{ Utils::mex_convert_mx_to_ptr<SplineSet>( arg_in_1 ) };
 
     Utils::mex_set_scalar_value( arg_out_0, ptr->x_max() );
 

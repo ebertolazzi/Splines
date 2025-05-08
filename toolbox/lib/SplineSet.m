@@ -22,8 +22,8 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     function obj = copyElement( self )
       obj              = copyElement@matlab.mixin.Copyable(self);
-      obj.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
-      obj.call_delete  = true;
+      spl.objectHandle = feval( self.mexName, 'copy', self.objectHandle );
+      spl.call_delete  = true;
     end
   end
 
@@ -56,7 +56,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     function self = SplineSet( varargin )
       self.objectHandle = SplineSetMexWrapper( 'new' );
-      obj.call_delete   = true;
+      spl.call_delete   = true;
       if nargin > 0
         SplineSetMexWrapper( 'build', self.objectHandle, varargin{1}, varargin{2}, varargin{3} );
       end
@@ -74,7 +74,8 @@ classdef SplineSet < matlab.mixin.Copyable
     %>
     %>
     %> ```{matlab}
-    %>   obj = SplineSet( kind, X, Y );
+    %>   spl = SplineSet( kind, X, Y );
+    %>   spl = SplineSet( file );          % reading data from file (yaml,json or toml)
     %> ```
     %>
     function build( self, kinds, x, y )
@@ -85,7 +86,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Evaluate spline at `x`
     %>
     %> ```{matlab}
-    %>   p = obj.eval( x );
+    %>   p = spl.eval( x );
     %> ```
     %>
     function p = eval( self, x )
@@ -96,7 +97,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Evaluate spline derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_D = obj.eval_D( x );
+    %>   p_D = spl.eval_D( x );
     %> ```
     %>
     function dp = eval_D( self, x )
@@ -107,7 +108,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Evaluate spline second derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DD = obj.eval_DD( x );
+    %>   p_DD = spl.eval_DD( x );
     %> ```
     %>
     function ddp = eval_DD( self, x )
@@ -118,7 +119,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Evaluate spline third derivative at `x`
     %>
     %> ```{matlab}
-    %>   p_DDD = obj.eval_DDD( x );
+    %>   p_DDD = spl.eval_DDD( x );
     %> ```
     %>
     function dddp = eval_DDD( self, x )
@@ -129,7 +130,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Return initial t-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   t = obj.tmin();
+    %>   t = spl.tmin();
     %> ```
     %>
     function t = tmin( self, x )
@@ -140,7 +141,7 @@ classdef SplineSet < matlab.mixin.Copyable
     %> Return initial t-coordinate of the spline
     %>
     %> ```{matlab}
-    %>   t = obj.tmax();
+    %>   t = spl.tmax();
     %> ```
     %>
     function t = tmax( self, x )

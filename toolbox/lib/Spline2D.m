@@ -84,6 +84,7 @@ classdef Spline2D < matlab.mixin.Copyable
     %> ```{matlab}
     %>   spl = Spline2D( kind );          % initialize
     %>   spl = Spline2D( kind, X, Y, Z ); % initialize and build
+    %>   spl = Spline2D( file );          % reading data from file (yaml,json or toml)
     %> ```
     %>
     function self = Spline2D( name, varargin )

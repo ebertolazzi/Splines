@@ -637,6 +637,13 @@ namespace Splines {
     { setup(gc); }
 
     //!
+    //! Build a spline using data in a file `file_name`
+    //!
+    void
+    build( string const & file_name )
+    { setup( file_name ); }
+
+    //!
     //! Build a spline.
     //!
     //! \param x    vector of x-coordinates
@@ -697,6 +704,22 @@ namespace Splines {
     //!
     virtual
     void setup( GenericContainer const & gc );
+
+    //!
+    //! Setup a spline using a `GenericContainer` readed from file
+    //!
+    //! - file_name file name of the file with data
+    //!
+    //! - `.json`
+    //! - `.yaml` or `.yml`
+    //! - `.toml`
+    //!
+    void
+    setup( string const & file_name ) {
+      GenericContainer gc;
+      gc.from_file( file_name );
+      setup( gc );
+    }
 
     ///@}
 
@@ -1504,11 +1527,34 @@ namespace Splines {
     setup( GenericContainer const & gc );
 
     //!
+    //! Setup a spline using a `GenericContainer` readed from file
+    //!
+    //! - file_name file name of the file with data
+    //!
+    //! - `.json`
+    //! - `.yaml` or `.yml`
+    //! - `.toml`
+    //!
+    void
+    setup( string const & file_name ) {
+      GenericContainer gc;
+      gc.from_file( file_name );
+      setup( gc );
+    }
+
+    //!
     //! Build a spline using data in `GenericContainer`
     //!
     void
     build( GenericContainer const & gc )
     { setup(gc); }
+
+    //!
+    //! Build a spline using data in a file `file_name`
+    //!
+    void
+    build( string_view file_name )
+    { setup( file_name ); }
 
     ///@}
 

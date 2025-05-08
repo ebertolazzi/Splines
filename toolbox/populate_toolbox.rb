@@ -29,4 +29,22 @@ FileUtils.cp "../license.txt", "license.txt"
 FileUtils.cp "../submodules/GenericContainer/src_matlab_interface/GenericContainerInterface_matlab.cc",
              "./src_mex/GenericContainerInterface_matlab.cc"
 
+FileUtils.cp "../submodules/GenericContainer/src_json_interface/to_json.cc",
+             "./src/to_json.cc"
+FileUtils.cp "../submodules/GenericContainer/src_json_interface/from_json.cc",
+             "./src/from_json.cc"
+FileUtils.cp "../submodules/GenericContainer/src_toml_interface/to_toml.cc",
+             "./src/to_toml.cc"
+FileUtils.cp "../submodules/GenericContainer/src_toml_interface/from_toml.cc",
+             "./src/from_toml.cc"
+
+FileUtils.cp "../submodules/GenericContainer/src_yaml_interface/to_yaml.cc",
+             "./src/to_yaml.cc"
+FileUtils.cp "../submodules/GenericContainer/src_yaml_interface/from_yaml.cc",
+             "./src/from_yaml.cc"
+
+FileUtils.cp_r  "../submodules/GenericContainer/src_toml_interface/toml++/.", "./src/toml++";
+FileUtils.cp_r  "../submodules/GenericContainer/src_json_interface/rapidjson/.", "./src/rapidjson";
+FileUtils.cp_r  "../submodules/GenericContainer/src_yaml_interface/fkYAML/.", "./src/fkYAML";
+
 FileUtils.cp "../license.txt", "license.txt"

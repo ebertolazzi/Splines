@@ -151,11 +151,14 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E 
 
 foreach(MEX ${MEX_LIST})
 
+  message( STATUS "EXTRA_LIBS = ${EXTRA_LIBS}")
+
   matlab_add_mex(
     NAME mex_${MEX}
     SRC src_mex/mex_${MEX}.cc
-    LINK_TO ${EXTRA_LIBS}
+    LINK_TO Matlab::mex Matlab::mx ${EXTRA_LIBS}
     OUTPUT_NAME ${MEX}
+    NO_IMPLICIT_LINK_TO_MATLAB_LIBRARIES
   )
 
   add_custom_command(
