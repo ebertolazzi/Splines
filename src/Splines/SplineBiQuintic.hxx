@@ -33,16 +33,37 @@ namespace Splines {
   protected:
     #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-    Malloc_real mem;
+    Malloc_real m_mem_biquintic{"BiQuinticSplineBase"};
 
     real_type * m_DX{nullptr};
-    real_type * m_DXX{nullptr};
     real_type * m_DY{nullptr};
+
+    real_type * m_DXX{nullptr};
     real_type * m_DYY{nullptr};
     real_type * m_DXY{nullptr};
+
     real_type * m_DXYY{nullptr};
     real_type * m_DXXY{nullptr};
     real_type * m_DXXYY{nullptr};
+
+    using SplineSurf::m_nx;
+    using SplineSurf::m_ny;
+
+    using SplineSurf::m_X;
+    using SplineSurf::m_Y;
+    using SplineSurf::m_Z;
+
+    real_type & Dx_node_ref    ( integer i, integer j ) { return m_DX    [ this->ipos_C(i,j) ]; }
+    real_type & Dy_node_ref    ( integer i, integer j ) { return m_DY    [ this->ipos_C(i,j) ]; }
+
+    real_type & Dxx_node_ref   ( integer i, integer j ) { return m_DXX   [ this->ipos_C(i,j) ]; }
+    real_type & Dyy_node_ref   ( integer i, integer j ) { return m_DYY   [ this->ipos_C(i,j) ]; }
+    real_type & Dxy_node_ref   ( integer i, integer j ) { return m_DXY   [ this->ipos_C(i,j) ]; }
+
+    real_type & Dxyy_node_ref  ( integer i, integer j ) { return m_DXYY  [ this->ipos_C(i,j) ]; }
+    real_type & Dxxy_node_ref  ( integer i, integer j ) { return m_DXXY  [ this->ipos_C(i,j) ]; }
+    real_type & Dxxyy_node_ref ( integer i, integer j ) { return m_DXXYY [ this->ipos_C(i,j) ]; }
+
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
     #endif
@@ -53,11 +74,10 @@ namespace Splines {
     explicit
     BiQuinticSplineBase( string_view name = "Spline" )
     : SplineSurf( name )
-    , mem("BiQuinticSplineBase")
     {}
 
     ~BiQuinticSplineBase() override
-    { mem.free(); }
+    { m_mem_biquintic.free(); }
 
     //!
     //! \name Estimated derivatives at interpolation nodes
@@ -79,14 +99,14 @@ namespace Splines {
     { return m_DY[ this->ipos_C(i,j) ]; }
 
     //!
-    //! Estimated `x` second derivatives at node `(i,j)`
+    //! Estimated second `x` second derivatives at node `(i,j)`
     //!
     real_type
     Dxx_node( integer i, integer j ) const
     { return m_DXX[ this->ipos_C(i,j) ]; }
 
     //!
-    //! Estimated `y` derivatives at node `(i,j)`
+    //! Estimated second`y` derivatives at node `(i,j)`
     //!
     real_type
     Dyy_node( integer i, integer j ) const
@@ -98,6 +118,28 @@ namespace Splines {
     real_type
     Dxy_node( integer i, integer j ) const
     { return m_DXY[ this->ipos_C(i,j) ]; }
+
+    //!
+    //! Estimated `xxy` second derivatives at node `(i,j)`
+    //!
+    real_type
+    Dxxy_node( integer i, integer j ) const
+    { return m_DXXY[ this->ipos_C(i,j) ]; }
+
+    //!
+    //! Estimated `xyy` derivatives at node `(i,j)`
+    //!
+    real_type
+    Dxyy_node( integer i, integer j ) const
+    { return m_DXYY[ this->ipos_C(i,j) ]; }
+
+    //!
+    //! Estimated mixed `xxyy` derivatives at node `(i,j)`
+    //!
+    real_type
+    Dxxyy_node( integer i, integer j ) const
+    { return m_DXXYY[ this->ipos_C(i,j) ]; }
+
     ///@}
 
     //!
@@ -163,7 +205,9 @@ namespace Splines {
   \*/
   //! cubic spline base class
   class BiQuinticSpline : public BiQuinticSplineBase {
+
     void make_spline() override;
+
   public:
 
     //!

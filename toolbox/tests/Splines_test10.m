@@ -42,7 +42,7 @@ for k=1:4
 
   S = Spline2D(type{k});
   S.build('test_surf.json');
-
+  
   x_min = S.x_min();
   x_max = S.x_max();
   y_min = S.y_min();
@@ -69,7 +69,7 @@ for k=1:4
 
   axis tight
 
-  zlim([-1,30]);
+  zlim([-1,70]);
 
   view(60,60);
 

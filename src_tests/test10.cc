@@ -47,11 +47,11 @@ int
 main() {
   cout << "\n\nTEST N.10\n\n";
 
-  constexpr double x[]{0, 5, 10, 15, 20, 25, 30, 40, 50, 70};
-  constexpr double y[]{0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6};
+  constexpr double x[]{ 0,   5,  10,  15,  20, 25,  30,  40,  50, 70 };
+  constexpr double y[]{ 0, 0.2, 0.4, 0.6, 0.8,  1, 1.2, 1.4, 1.6 };
 
-  constexpr int nx = std::size(x);
-  constexpr int ny = std::size(y);
+  constexpr int nx = std::size(x); // 10
+  constexpr int ny = std::size(y); // 9
 
   // data is stored in C-like ordering: the element at graphical position (i,j) (which is at the
   // i * ny + j  1-dimensional position) refers to the function evaluated at j-th x and i-th y
@@ -71,6 +71,13 @@ main() {
   constexpr int ldZ{ nx };
   _p_spline->build(x, 1, y, 1, z, ldZ, nx, ny, false,  false);
   _p_spline->write_to_stream(cout);
+
+  for ( integer j{0}; j < ny; ++j ) {
+    fmt::print( "S(...,y[{}]) ", j  );
+    for ( integer i{0}; i < nx; ++i )
+       fmt::print( " {:8.4}", _p_spline->eval( x[i], y[j] ) );
+    std::cout << '\n';
+  }
 
   cout << "\nALL DONE!\n\n";
 }

@@ -135,7 +135,7 @@ namespace Splines {
 
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
+      for ( ++iend; iend < m_npts && m_X[iend-1] < m_X[iend]; ++iend ) {}
       Akima_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, m_work, iend-ibegin );
       ibegin = iend;
     } while ( iend < m_npts );

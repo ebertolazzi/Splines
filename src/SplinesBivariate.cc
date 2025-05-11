@@ -69,54 +69,55 @@ namespace Splines {
     bool      const fortran_storage,
     bool      const transposed
   ) {
-    if ( transposed ) {
-      if ( fortran_storage ) {
-        UTILS_ASSERT(
-          ldZ >= m_nx,
-          "SplineSurf[{}]::load_Z[transposed+fortran_storage]\n"
-          "ldZ = {} must be >= of nx = {}\n",
-          m_name, ldZ, m_nx
-        );
-        for ( integer i{0}; i < m_nx; ++i )
-          for ( integer j{0}; j < m_ny; ++j )
-            z_node_ref(i,j) = z[ ipos_C(j,i,ldZ) ];
-      } else {
-        UTILS_ASSERT(
-          ldZ >= m_ny,
-          "SplineSurf[{}]::load_Z[transposed]\n"
-          "ldZ = {} must be >= of ny = {}\n",
-          m_name, ldZ, m_ny
-        );
-        for ( integer i{0}; i < m_nx; ++i )
-          for ( integer j{0}; j < m_ny; ++j )
-            z_node_ref(i,j) = z[ ipos_F(j,i,ldZ) ];
-      }
+    // 
+    //  +--------------+
+    //  |              | ny = nr
+    //  |              |
+    //  +--------------+
+    //      nx = nc
+    //
+    integer const nr{ transposed ? m_nx : m_ny };
+    integer const nc{ transposed ? m_ny : m_nx };
+    if ( fortran_storage ) {
+      UTILS_ASSERT(
+        ldZ >= nr,
+        "SplineSurf[{}]::load_Z [fortran storage]\n"
+        "ldZ = {} must be >= of nr, nr x nc = {} x {}\n",
+        m_name, ldZ, nr, nc
+      );
     } else {
-      if ( fortran_storage ) {
-        UTILS_ASSERT(
-          ldZ >= m_ny,
-          "SplineSurf[{}]::load_Z[fortran_storage]\n"
-          "ldZ = {} must be >= of ny = {}\n",
-          m_name, ldZ, m_ny
-        );
-        for ( integer i{0}; i < m_nx; ++i )
-          for ( integer j{0}; j < m_ny; ++j )
-            z_node_ref(i,j) = z[ ipos_C(i,j,ldZ) ];
-      } else {
-        UTILS_ASSERT(
-          ldZ >= m_nx,
-          "SplineSurf[{}]::load_Z\n"
-          "ldZ = {} must be >= of nx = {}\n",
-          m_name, ldZ, m_nx
-        );
-        for ( integer i{0}; i < m_nx; ++i )
-          for ( integer j{0}; j < m_ny; ++j )
-            z_node_ref(i,j) = z[ ipos_F(i,j,ldZ) ];
-      }
+      UTILS_ASSERT(
+        ldZ >= nc,
+        "SplineSurf[{}]::load_Z [C storage]\n"
+        "ldZ = {} must be >= of nc, nr x nc= {} x {}\n",
+        m_name, ldZ, nr, nc
+      );
+    }
+    integer const tf{ (transposed ? 1 : 0) + (fortran_storage ? 2 : 0) };
+    switch ( tf ) {
+      case 0: // NO transpose NO fortran
+        for ( integer ix{0}; ix < m_nx; ++ix )
+          for ( integer iy{0}; iy < m_ny; ++iy )
+            z_node_ref(ix,iy) = z[ ipos_C(iy,ix,ldZ) ];
+      break;
+      case 1: // YES transpose NO fortran
+        for ( integer ix{0}; ix < m_nx; ++ix )
+          for ( integer iy{0}; iy < m_ny; ++iy )
+            z_node_ref(ix,iy) = z[ ipos_C(ix,iy,ldZ) ];
+      break;
+      case 2: // NO transpose YES fortran
+        for ( integer ix{0}; ix < m_nx; ++ix )
+          for ( integer iy{0}; iy < m_ny; ++iy )
+            z_node_ref(ix,iy) = z[ ipos_F(iy,ix,ldZ) ];
+      break;
+      case 3: // YES transpose YES fortran
+        for ( integer ix{0}; ix < m_nx; ++ix )
+          for ( integer iy{0}; iy < m_ny; ++iy )
+            z_node_ref(ix,iy) = z[ ipos_F(ix,iy,ldZ) ];
+      break;
     }
     m_Z_max = *std::max_element(m_Z,m_Z+m_nx*m_ny);
     m_Z_min = *std::min_element(m_Z,m_Z+m_nx*m_ny);
-    make_spline();
   }
 
   #endif
@@ -160,6 +161,7 @@ namespace Splines {
     for ( integer i{0}; i < nx; ++i ) m_X[i] = x[i*incx];
     for ( integer i{0}; i < ny; ++i ) m_Y[i] = y[i*incy];
     load_Z( z, ldZ, fortran_storage, transposed );
+    make_spline();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -203,6 +205,7 @@ namespace Splines {
     for ( integer i{0}; i < nx; ++i ) m_X[i] = static_cast<real_type>(i);
     for ( integer i{0}; i < ny; ++i ) m_Y[i] = static_cast<real_type>(i);
     load_Z( z, ldZ, fortran_storage, transposed );
+    make_spline();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -622,11 +625,8 @@ namespace Splines {
     for ( integer i{0}; i < m_nx; ++i ) m_X[i] = gc_x.get_number_at(i);
     for ( integer i{0}; i < m_ny; ++i ) m_Y[i] = gc_y.get_number_at(i);
 
-    bool fortran_storage { false };
-    bool transposed      { false };
-    gc.get_if_exists("fortran_storage",fortran_storage);
-    gc.get_if_exists("transposed",transposed);
-
+    bool fortran_storage { gc.get_map_bool( "fortran_storage", where ) };
+    bool transposed      { gc.get_map_bool( "transposed",      where ) };
 
     /*
     //     +------+
@@ -636,19 +636,19 @@ namespace Splines {
     */
 
     // cosa mi aspetto in lettura
-    integer N, M;
-    if ( transposed ) { N = m_ny; M = m_nx; }
-    else              { N = m_nx; M = m_ny; }
-    integer const LD = fortran_storage ? N : M;
+    integer NR, NC;
+    if ( transposed ) { NC = m_ny; NR = m_nx; }
+    else              { NC = m_nx; NR = m_ny; }
+    integer const LD{ fortran_storage ? NR : NC };
 
     if ( GC_type::MAT_REAL    == gc_z.get_type() ||
          GC_type::MAT_INTEGER == gc_z.get_type() ||
          GC_type::MAT_LONG    == gc_z.get_type() ) {
 
       UTILS_ASSERT(
-        static_cast<unsigned>(N) == gc_z.num_rows() && static_cast<unsigned>(M) == gc_z.num_cols(),
-        "{}, field `zdata` expected to be of size {} x {}, found: {} x {}\n",
-        where, N, M, gc_z.num_rows(), gc_z.num_cols()
+        static_cast<unsigned>(NR) == gc_z.num_rows() && static_cast<unsigned>(NC) == gc_z.num_cols(),
+        "{}, field `zdata` is a matrix expected to be of size {} x {}, found: {} x {}\n",
+        where, NR, NC, gc_z.num_rows(), gc_z.num_cols()
       );
 
       if ( GC_type::MAT_REAL == gc_z.get_type() ) {
@@ -674,8 +674,8 @@ namespace Splines {
       for ( integer k{0}; k < nxy; ++k ) {
         integer i, j;
         real_type const v{ gc_z.get_number_at( k ) };
-        if ( fortran_storage ) { i = k % N; j = k / N; }
-        else                   { i = k / M; j = k % M; }
+        if ( fortran_storage ) { i = k % NR; j = k / NR; }
+        else                   { j = k % NC; i = k / NC; }
         if ( transposed ) z_node_ref(j,i) = v;
         else              z_node_ref(i,j) = v;
       }
@@ -685,23 +685,23 @@ namespace Splines {
       vector_type const & data{ gc_z.get_vector() };
       vec_real_type tmp;
       UTILS_ASSERT(
-        static_cast<size_t>(M) == data.size(),
+        static_cast<size_t>(NR) == data.size(),
         "{}, field `zdata` (vector of vector) expected of size {} found of size {}\n",
-        where, M, data.size()
+        where, NR, data.size()
       );
-      for ( integer j{0}; j < M; ++j ) {
+      for ( integer j{0}; j < NC; ++j ) {
         GenericContainer const & row{ data[j] };
         string const msg1{ fmt::format( "{}, reading row {}\n", where, j ) };
         row.copyto_vec_real( tmp, msg1 );
         UTILS_ASSERT(
-          static_cast<size_t>(N) == tmp.size(),
+          static_cast<size_t>(NC) == tmp.size(),
           "{}, row {}-th of size {}, expected {}\n",
-          where, j, tmp.size(), N
+          where, j, tmp.size(), NC
         );
         if ( transposed ) {
-          for ( integer i{0}; i < N; ++i ) z_node_ref(j,i) = tmp[ i ];
+          for ( integer i{0}; i < NC; ++i ) z_node_ref(j,i) = tmp[ i ];
         } else {
-          for ( integer i{0}; i < N; ++i ) z_node_ref(i,j) = tmp[ i ];
+          for ( integer i{0}; i < NC; ++i ) z_node_ref(i,j) = tmp[ i ];
         }
       }
 
@@ -715,6 +715,7 @@ namespace Splines {
 
     }
 
+    make_spline();
   }
 
   void

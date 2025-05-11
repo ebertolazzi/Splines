@@ -265,13 +265,13 @@ namespace Splines {
 
   void
   CubicSpline_build(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    real_type       Ypp[],
-    real_type       L[],
-    real_type       D[],
-    real_type       U[],
+    real_type       const X[],
+    real_type       const Y[],
+    real_type             Yp[],
+    real_type             Ypp[],
+    real_type             L[],
+    real_type             D[],
+    real_type             U[],
     integer         const npts,
     CubicSpline_BC  const bc0,
     CubicSpline_BC  const bcn
@@ -465,18 +465,12 @@ namespace Splines {
     integer iend{0};
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
+      for ( ++iend; iend < m_npts && m_X[iend-1] < m_X[iend]; ++iend ) {}
       auto seg_bc0 = CubicSpline_BC::NOT_A_KNOT;
       auto seg_bcn = CubicSpline_BC::NOT_A_KNOT;
       if ( ibegin == 0      ) seg_bc0 = m_bc0;
       if ( iend   == m_npts ) seg_bcn = m_bcn;
-      CubicSpline_build(
-        m_X+ibegin,
-        m_Y+ibegin,
-        m_Yp+ibegin,
-        iend - ibegin,
-        seg_bc0, seg_bcn
-      );
+      CubicSpline_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, iend - ibegin, seg_bc0, seg_bcn );
       ibegin = iend;
     } while ( iend < m_npts );
 

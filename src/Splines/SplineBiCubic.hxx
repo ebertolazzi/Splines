@@ -157,6 +157,7 @@ namespace Splines {
   //! Cubic spline base class
   //!
   class BiCubicSpline : public BiCubicSplineBase {
+
     void make_spline() override;
 
     using BiCubicSplineBase::m_mem_bicubic;

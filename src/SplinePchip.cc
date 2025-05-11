@@ -131,23 +131,20 @@ namespace Splines {
 
     integer const n{ npts - 1 };
 
-    //integer ierr = 0;
-
     // function definition is ok, go on.
-    real_type h1{ X[1] - X[0] };
-    real_type del1{ (Y[1]-Y[0])/h1 };
-    //real_type dsave = del1;
+    real_type h1   { X[1] - X[0]    };
+    real_type del1 { (Y[1]-Y[0])/h1 };
 
     // special case n=2 -- use linear interpolation.
     if ( n == 1 ) { Yp[0] = Yp[1] = del1; return; }
 
-    real_type h2{ X[2] - X[1] };
-    real_type del2{ (Y[2]-Y[1])/h2 };
+    real_type h2   { X[2] - X[1]    };
+    real_type del2 { (Y[2]-Y[1])/h2 };
 
     // Set Yp[0] via non-centered three-point formula, adjusted to be shape-preserving.
-    real_type hsum = h1 + h2;
-    real_type w1   = (h1 + hsum)/hsum;
-    real_type w2   = -h1/hsum;
+    real_type hsum { h1 + h2 };
+    real_type w1   { 1+h1/hsum };
+    real_type w2   { -h1/hsum };
     Yp[0] = w1*del1 + w2*del2;
     real_type dmin, dmax;
     if ( signTest(Yp[0],del1) <= 0 ) {
@@ -173,20 +170,16 @@ namespace Splines {
       switch ( signTest(del1,del2) ) {
       case -1:
         if ( Utils::is_zero(del2) ) break;
-        //if ( signTest(dsave,del2) < 0 ) ++ierr;
-        //dsave = del2;
         break;
       case 0:
-        //++ierr;
-        //dsave = del2;
         break;
       case 1: // use brodlie modification of butland formula.
         w1   = (1+h1/hsum)/3;
         w2   = (1+h2/hsum)/3;
         dmax = max_abs( del1, del2 );
         dmin = min_abs( del1, del2 );
-        real_type const drat1 = del1/dmax;
-        real_type const drat2 = del2/dmax;
+        real_type const drat1{ del1/dmax };
+        real_type const drat2{ del2/dmax };
         Yp[i] = dmin/(w1*drat1 + w2*drat2);
         break;
       }
@@ -205,73 +198,23 @@ namespace Splines {
     // cout << "ierr = " << ierr << '\n';
   }
 
-  #if 0
-  static // non usata per ora
-  void
-  Pchip_build_new(
-    real_type const X[],
-    real_type const Y[],
-    real_type       Yp[],
-    integer         npts
-  ) {
-
-    first_derivative_build( X, Y, Yp, npts );
-
-    integer n = npts > 0 ? npts - 1 : 0;
-
-    // loop through interior points.
-    for ( integer i{1}; i < n ; ++i ) {
-
-      real_type hL = X[i+0] - X[i-1];
-      real_type hR = X[i+1] - X[i+0];
-
-      real_type SL = (Y[i+0]-Y[i-1])/hL;
-      real_type SR = (Y[i+1]-Y[i+0])/hR;
-
-      real_type fp = Yp[i];
-
-      real_type sigma = 0;
-      if ( SL*SR > 0 ) sigma = SR > 0 ? 1 : -1;
-      real_type absSL = SL < 0 ? -SL: SL;
-      real_type absSR = SR < 0 ? -SR: SR;
-      real_type Delta = 3*( absSL < absSR ? absSL : absSR );
-      if ( sigma > 0 ) {
-        if ( fp < 0     ) fp = 0;
-        if ( fp > Delta ) fp = Delta;
-      } else if ( sigma < 0 ) {
-        if ( fp > 0      ) fp = 0;
-        if ( fp < -Delta ) fp = -Delta;
-      } else {
-        fp = 0;
-      }
-      Yp[i] = fp;
-    }
-  }
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
   PchipSpline::build() {
     string msg{ fmt::format("PchipSpline[{}]::build():", m_name ) };
-    UTILS_ASSERT(
-      m_npts > 1,
-      "{} npts = {} not enought points\n",
-      msg, m_npts
-    );
+    UTILS_ASSERT( m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts );
+
     Utils::check_NaN( m_X, msg+" X", m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, msg+" Y", m_npts, __LINE__, __FILE__ );
+
     integer ibegin { 0 };
     integer iend   { 0 };
+
     do {
       // cerca intervallo monotono strettamente crescente
-      while ( ++iend < m_npts && m_X[iend-1] < m_X[iend] ) {}
-      Pchip_build(
-        m_X+ibegin,
-        m_Y+ibegin,
-        m_Yp+ibegin,
-        iend-ibegin
-      );
+      for ( ++iend; iend < m_npts && m_X[iend-1] < m_X[iend]; ++iend ) {}
+      Pchip_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, iend-ibegin );
       ibegin = iend;
     } while ( iend < m_npts );
 

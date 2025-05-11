@@ -33,13 +33,15 @@ bottom = round((scrn(4) - height) / 2);
 % Crea la figura
 figure('Position', [left bottom width height]);
 
-V2 = zeros(10,10);
+V2 = zeros(10,11);
 V2(2:5,2:5) = 3/7; % First step
 V2(6:7,6:7) = [1/4 1/5; 1/5 1/4]; % Middle step
 V2(8:9,8:9) = 1/2; % Last step
+V2(1,1)     = -0.1;
+V2(10,11)   = -0.1;
 V2 = flip(V2,2);
 X2 = 1:1:10;
-Y2 = 1:1:10;
+Y2 = 1:1:11;
 
 type = { 'bilinear', 'bicubic', 'biquintic', 'akima' };
 set(gca,'Fontsize',16);
