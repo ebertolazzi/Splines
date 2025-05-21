@@ -46,7 +46,12 @@ Y2 = 1:1:11;
 type = { 'bilinear', 'bicubic', 'biquintic', 'akima' };
 set(gca,'Fontsize',16);
 
+tic;
+
 for k=1:4
+
+  fprintf('Plot n.%d\n',k);
+
 
   S = Spline2D(type{k});
   S.build(X2,Y2,V2);
@@ -56,17 +61,17 @@ for k=1:4
   y_min = S.y_min();
   y_max = S.y_max();
 
-  X = x_min:0.05:x_max;
+  X = x_min:0.01:x_max;
   Y = y_min:0.01:y_max;
   [XX,YY] = ndgrid(X,Y);
 
   ZZ = S.eval(XX,YY);
 
   if any(isnan(ZZ(:)))
-    fprintf('Trovati NaN sulla superfice');
+    fprintf('Trovati NaN sulla superfice\n');
   end
   if any(isinf(ZZ(:)))
-    fprintf('Trovati Inf sulla superfice');
+    fprintf('Trovati Inf sulla superfice\n');
   end
 
   subplot(2,2,k);
@@ -81,4 +86,6 @@ for k=1:4
   view(60,60);
 
 end
+
+toc
 

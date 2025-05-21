@@ -39,18 +39,25 @@ namespace Splines {
 
   real_type
   BilinearSpline::eval( real_type x, real_type y ) const {
-    integer   const i   { this->search_x( x ) };
-    integer   const j   { this->search_y( y ) };
+    std::pair<integer,real_type> X(0,x), Y(0,y);
+
+    m_search_x.find( X );
+    m_search_y.find( Y );
+
+    integer   const i   { X.first };
+    integer   const j   { Y.first };
     real_type const DX  { m_X[i+1] - m_X[i] };
     real_type const DY  { m_Y[j+1] - m_Y[j] };
-    real_type const u   { (x-m_X[i])/DX };
-    real_type const v   { (y-m_Y[j])/DY };
+    real_type const u   { (X.second-m_X[i])/DX };
+    real_type const v   { (Y.second-m_Y[j])/DY };
     real_type const u1  { 1-u };
     real_type const v1  { 1-v };
-    real_type const Z00 { m_Z[this->ipos_C(i,j)] };
-    real_type const Z01 { m_Z[this->ipos_C(i,j+1)] };
-    real_type const Z10 { m_Z[this->ipos_C(i+1,j)] };
-    real_type const Z11 { m_Z[this->ipos_C(i+1,j+1)] };
+
+    real_type const Z00 { m_Z[ipos_C(i,j)] };
+    real_type const Z01 { m_Z[ipos_C(i,j+1)] };
+    real_type const Z10 { m_Z[ipos_C(i+1,j)] };
+    real_type const Z11 { m_Z[ipos_C(i+1,j+1)] };
+
     return u1 * ( Z00 * v1 + Z01 * v ) +
            u  * ( Z10 * v1 + Z11 * v );
   }
@@ -59,11 +66,18 @@ namespace Splines {
 
   real_type
   BilinearSpline::Dx( real_type x, real_type y ) const {
-    integer   const i   { this->search_x( x ) };
-    integer   const j   { this->search_y( y ) };
+    std::pair<integer,real_type> X(0,x), Y(0,y);
+
+    m_search_x.find( X );
+    m_search_y.find( Y );
+
+    integer   const i   { X.first };
+    integer   const j   { Y.first };
+
     real_type const DX  { m_X[i+1] - m_X[i] };
     real_type const DY  { m_Y[j+1] - m_Y[j] };
-    real_type const v   { (y-m_Y[j])/DY };
+    real_type const v   { (Y.second-m_Y[j])/DY };
+
     real_type const Z00 { m_Z[ipos_C(i,j)] };
     real_type const Z01 { m_Z[ipos_C(i,j+1)] };
     real_type const Z10 { m_Z[ipos_C(i+1,j)] };
@@ -75,11 +89,18 @@ namespace Splines {
 
   real_type
   BilinearSpline::Dy( real_type x, real_type y ) const {
-    integer   const i   { this->search_x( x ) };
-    integer   const j   { this->search_y( y ) };
+    std::pair<integer,real_type> X(0,x), Y(0,y);
+
+    m_search_x.find( X );
+    m_search_y.find( Y );
+
+    integer   const i   { X.first };
+    integer   const j   { Y.first };
+
     real_type const DX  { m_X[i+1] - m_X[i] };
     real_type const DY  { m_Y[j+1] - m_Y[j] };
-    real_type const u   { (x-m_X[i])/DX };
+    real_type const u   { (X.second-m_X[i])/DX };
+
     real_type const Z00 { m_Z[ipos_C(i,j)] };
     real_type const Z01 { m_Z[ipos_C(i,j+1)] };
     real_type const Z10 { m_Z[ipos_C(i+1,j)] };
@@ -91,18 +112,27 @@ namespace Splines {
 
   void
   BilinearSpline::D( real_type x, real_type y, real_type d[3] ) const {
-    integer   const i   { this->search_x( x ) };
-    integer   const j   { this->search_y( y ) };
+    std::pair<integer,real_type> X(0,x), Y(0,y);
+
+    m_search_x.find( X );
+    m_search_y.find( Y );
+
+    integer   const i   { X.first };
+    integer   const j   { Y.first };
+
     real_type const DX  { m_X[i+1] - m_X[i] };
     real_type const DY  { m_Y[j+1] - m_Y[j] };
-    real_type const u   { (x-m_X[i])/DX };
-    real_type const v   { (y-m_Y[j])/DY };
+
+    real_type const u   { (X.second-m_X[i])/DX };
+    real_type const v   { (Y.second-m_Y[j])/DY };
     real_type const u1  { 1-u };
     real_type const v1  { 1-v };
+
     real_type const Z00 { m_Z[this->ipos_C(i,j)] };
     real_type const Z01 { m_Z[this->ipos_C(i,j+1)] };
     real_type const Z10 { m_Z[this->ipos_C(i+1,j)] };
     real_type const Z11 { m_Z[this->ipos_C(i+1,j+1)] };
+
     d[0] = u1 * ( Z00 * v1 + Z01 * v ) + u * ( Z10 * v1 + Z11 * v );
     d[1] = v1 * (Z10-Z00) + v * (Z11-Z01); d[1] /= DX;
     d[2] = u1 * (Z01-Z00) + u * (Z11-Z10); d[2] /= DY;

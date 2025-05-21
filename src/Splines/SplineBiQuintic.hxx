@@ -53,16 +53,16 @@ namespace Splines {
     using SplineSurf::m_Y;
     using SplineSurf::m_Z;
 
-    real_type & Dx_node_ref    ( integer i, integer j ) { return m_DX    [ this->ipos_C(i,j) ]; }
-    real_type & Dy_node_ref    ( integer i, integer j ) { return m_DY    [ this->ipos_C(i,j) ]; }
+    real_type & Dx_node_ref    ( integer i, integer j ) { return m_DX    [ ipos_C(i,j) ]; }
+    real_type & Dy_node_ref    ( integer i, integer j ) { return m_DY    [ ipos_C(i,j) ]; }
 
-    real_type & Dxx_node_ref   ( integer i, integer j ) { return m_DXX   [ this->ipos_C(i,j) ]; }
-    real_type & Dyy_node_ref   ( integer i, integer j ) { return m_DYY   [ this->ipos_C(i,j) ]; }
-    real_type & Dxy_node_ref   ( integer i, integer j ) { return m_DXY   [ this->ipos_C(i,j) ]; }
+    real_type & Dxx_node_ref   ( integer i, integer j ) { return m_DXX   [ ipos_C(i,j) ]; }
+    real_type & Dyy_node_ref   ( integer i, integer j ) { return m_DYY   [ ipos_C(i,j) ]; }
+    real_type & Dxy_node_ref   ( integer i, integer j ) { return m_DXY   [ ipos_C(i,j) ]; }
 
-    real_type & Dxyy_node_ref  ( integer i, integer j ) { return m_DXYY  [ this->ipos_C(i,j) ]; }
-    real_type & Dxxy_node_ref  ( integer i, integer j ) { return m_DXXY  [ this->ipos_C(i,j) ]; }
-    real_type & Dxxyy_node_ref ( integer i, integer j ) { return m_DXXYY [ this->ipos_C(i,j) ]; }
+    real_type & Dxyy_node_ref  ( integer i, integer j ) { return m_DXYY  [ ipos_C(i,j) ]; }
+    real_type & Dxxy_node_ref  ( integer i, integer j ) { return m_DXXY  [ ipos_C(i,j) ]; }
+    real_type & Dxxyy_node_ref ( integer i, integer j ) { return m_DXXYY [ ipos_C(i,j) ]; }
 
     void load( integer i, integer j, real_type bili5[6][6] ) const;
 
@@ -89,56 +89,56 @@ namespace Splines {
     //!
     real_type
     Dx_node( integer i, integer j ) const
-    { return m_DX[ this->ipos_C(i,j) ]; }
+    { return m_DX[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated `y` derivatives at node `(i,j)`
     //!
     real_type
     Dy_node( integer i, integer j ) const
-    { return m_DY[ this->ipos_C(i,j) ]; }
+    { return m_DY[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated second `x` second derivatives at node `(i,j)`
     //!
     real_type
     Dxx_node( integer i, integer j ) const
-    { return m_DXX[ this->ipos_C(i,j) ]; }
+    { return m_DXX[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated second`y` derivatives at node `(i,j)`
     //!
     real_type
     Dyy_node( integer i, integer j ) const
-    { return m_DYY[ this->ipos_C(i,j) ]; }
+    { return m_DYY[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated mixed `xy` derivatives at node `(i,j)`
     //!
     real_type
     Dxy_node( integer i, integer j ) const
-    { return m_DXY[ this->ipos_C(i,j) ]; }
+    { return m_DXY[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated `xxy` second derivatives at node `(i,j)`
     //!
     real_type
     Dxxy_node( integer i, integer j ) const
-    { return m_DXXY[ this->ipos_C(i,j) ]; }
+    { return m_DXXY[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated `xyy` derivatives at node `(i,j)`
     //!
     real_type
     Dxyy_node( integer i, integer j ) const
-    { return m_DXYY[ this->ipos_C(i,j) ]; }
+    { return m_DXYY[ ipos_C(i,j) ]; }
 
     //!
     //! Estimated mixed `xxyy` derivatives at node `(i,j)`
     //!
     real_type
     Dxxyy_node( integer i, integer j ) const
-    { return m_DXXYY[ this->ipos_C(i,j) ]; }
+    { return m_DXXYY[ ipos_C(i,j) ]; }
 
     ///@}
 

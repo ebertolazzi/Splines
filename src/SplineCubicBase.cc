@@ -62,6 +62,7 @@ namespace Splines {
       m_Yp[i] = yp[i*incyp];
     }
     m_npts = n;
+    m_search.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,7 +76,7 @@ namespace Splines {
     integer N{ static_cast<integer>(x.size()) };
     if ( N > static_cast<integer>(y.size())  ) N = static_cast<integer>(y.size());
     if ( N > static_cast<integer>(yp.size()) ) N = static_cast<integer>(yp.size());
-    this->build (
+    this->build(
       x.data(),  1,
       y.data(),  1,
       yp.data(), 1,
@@ -107,7 +108,6 @@ namespace Splines {
       m_Yp = m_mem_cubic( npts );
       m_external_alloc = false;
     }
-    init_last_interval();
     m_npts = 0;
   }
 
@@ -118,14 +118,14 @@ namespace Splines {
     integer const n,
     real_type *&  p_x,
     real_type *&  p_y,
-    real_type *& p_dy
+    real_type *&  p_dy
   ) {
     m_npts_reserved  = n;
     m_X              = p_x;
     m_Y              = p_y;
     m_Yp             = p_dy;
     m_external_alloc = true;
-    init_last_interval();
+    m_npts           = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -149,7 +149,7 @@ namespace Splines {
   real_type
   CubicSplineBase::eval( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -173,7 +173,7 @@ namespace Splines {
   real_type
   CubicSplineBase::D( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_D( res.first, res.second );
   }
 
@@ -197,7 +197,7 @@ namespace Splines {
   real_type
   CubicSplineBase::DD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DD( res.first, res.second );
   }
 
@@ -221,7 +221,7 @@ namespace Splines {
   real_type
   CubicSplineBase::DDD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DDD( res.first, res.second );
   }
 

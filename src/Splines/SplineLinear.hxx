@@ -80,7 +80,7 @@ namespace Splines {
     // --------------------------- VIRTUALS -----------------------------------
 
     void reserve( integer npts ) override;
-    void build() override {}
+    void build() override { m_search.reset(); }
     void clear() override;
 
     integer // order

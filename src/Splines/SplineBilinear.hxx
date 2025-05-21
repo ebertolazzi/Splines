@@ -31,7 +31,7 @@ namespace Splines {
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
 
-    void make_spline() override {}
+    void make_spline() override { m_search_x.reset(); m_search_y.reset(); }
 
     using SplineSurf::m_nx;
     using SplineSurf::m_ny;

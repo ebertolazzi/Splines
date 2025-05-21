@@ -56,6 +56,8 @@ namespace Splines {
     make_derivative_y( m_Z, m_DY );
     make_derivative_xy( m_DX, m_DY, m_DXY );
 
+    m_search_x.reset();
+    m_search_y.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

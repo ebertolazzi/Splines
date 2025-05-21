@@ -466,8 +466,8 @@ namespace Splines {
     do {
       // cerca intervallo monotono strettamente crescente
       for ( ++iend; iend < m_npts && m_X[iend-1] < m_X[iend]; ++iend ) {}
-      auto seg_bc0 = CubicSpline_BC::NOT_A_KNOT;
-      auto seg_bcn = CubicSpline_BC::NOT_A_KNOT;
+      auto seg_bc0{ CubicSpline_BC::NOT_A_KNOT };
+      auto seg_bcn{ CubicSpline_BC::NOT_A_KNOT };
       if ( ibegin == 0      ) seg_bc0 = m_bc0;
       if ( iend   == m_npts ) seg_bcn = m_bcn;
       CubicSpline_build( m_X+ibegin, m_Y+ibegin, m_Yp+ibegin, iend - ibegin, seg_bc0, seg_bcn );
@@ -475,6 +475,7 @@ namespace Splines {
     } while ( iend < m_npts );
 
     Utils::check_NaN( m_Yp, msg+" Yp", m_npts, __LINE__, __FILE__ );
+    m_search.reset();
   }
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS

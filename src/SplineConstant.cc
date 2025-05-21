@@ -60,7 +60,6 @@ namespace Splines {
     m_external_alloc = true;
     m_X              = p_x;
     m_Y              = p_y;
-    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,7 +75,6 @@ namespace Splines {
       m_X              = m_mem_constant( npts );
       m_Y              = m_mem_constant( npts );
     }
-    init_last_interval();
     m_npts = 0;
   }
 
@@ -86,7 +84,7 @@ namespace Splines {
   real_type
   ConstantSpline::eval( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return m_Y[res.first];
   }
 

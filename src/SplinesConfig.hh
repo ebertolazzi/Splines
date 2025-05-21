@@ -39,7 +39,4 @@
 #include "Utils.hh"
 #include "GenericContainer/GenericContainer.hh"
 
-// comment to disable threads support
-#define SPLINES_USE_THREADS 1
-
 #endif

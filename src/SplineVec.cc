@@ -49,7 +49,7 @@ namespace Splines {
   , m_mem( fmt::format( "SplineVec[{}]::m_mem", name ) )
   , m_mem_p( fmt::format( "SplineVec[{}]::m_mem_p", name ) )
   {
-    init_last_interval();
+    m_search.setup( &m_name, &m_npts, &m_X, &m_curve_is_closed, &m_curve_can_extend );
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -59,55 +59,6 @@ namespace Splines {
     m_mem.free();
     m_mem_p.free();
   }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  SplineVec::search( std::pair<integer,real_type> & res ) const {
-    UTILS_ASSERT( m_npts > 0, "in SplineVec[{}]::search(...), npts == 0!", m_name );
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval.find(id);
-    if ( it == m_last_interval.end() ) {
-      it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
-      *it->second = 0;
-    }
-    integer & last_interval{ *it->second };
-    lock.unlock();
-    #else
-    integer & last_interval{ m_last_interval };
-    #endif
-    Utils::search_interval(
-      m_npts,
-      m_X,
-      res.second,
-      last_interval,
-      m_curve_is_closed,
-      m_curve_can_extend
-    );
-    res.first = last_interval;
-  }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-  void
-  SplineVec::init_last_interval() const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval.find(id);
-    if ( it == m_last_interval.end() ) it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
-    integer & last_interval{ *it->second };
-    #else
-    integer & last_interval{ m_last_interval };
-    #endif
-    last_interval = 0;
-  }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -141,12 +92,8 @@ namespace Splines {
   void
   SplineVec::allocate( integer const dim, integer const npts ) {
 
-    UTILS_ASSERT(
-      dim > 0, "SplineVec[{}]::build expected positive dim = {}\n", m_name, dim
-    );
-    UTILS_ASSERT(
-      npts > 1, "SplineVec[{}]::build expected npts = {} greather than 1\n", m_name, npts
-    );
+    UTILS_ASSERT( dim  > 0, "SplineVec[{}]::build expected positive dim = {}\n", m_name, dim );
+    UTILS_ASSERT( npts > 1, "SplineVec[{}]::build expected npts = {} greather than 1\n", m_name, npts );
     m_dim  = dim;
     m_npts = npts;
 
@@ -164,10 +111,6 @@ namespace Splines {
 
     m_mem.must_be_empty( "SplineVec::build, baseValue" );
     m_mem_p.must_be_empty( "SplineVec::build, basePointer" );
-
-    // reset last interval search
-    init_last_interval();
-
   }
 
   #endif
@@ -212,6 +155,7 @@ namespace Splines {
   void
   SplineVec::set_knots( real_type const X[] ) {
     copy_n( X, m_npts, m_X );
+    m_search.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -248,6 +192,7 @@ namespace Splines {
       }
       break;
     }
+    m_search.reset();
   }
 
   #endif
@@ -265,6 +210,7 @@ namespace Splines {
     }
     for ( integer j{1}; j < nn; ++j ) m_X[j] /= acc;
     m_X[nn] = 1;
+    m_search.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -281,6 +227,7 @@ namespace Splines {
     }
     for ( integer j{1}; j < nn; ++j ) m_X[j] /= acc;
     m_X[nn] = 1;
+    m_search.reset();
   }
 
   void
@@ -328,7 +275,7 @@ namespace Splines {
   real_type
   SplineVec::eval( real_type const x, integer const j ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base[4];
     integer const i{res.first};
     Hermite3( res.second-m_X[i], m_X[i+1]-m_X[i], base );
@@ -343,7 +290,7 @@ namespace Splines {
   real_type
   SplineVec::D( real_type const x, integer const j ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_D[4];
     integer const i{res.first};
     Hermite3_D( res.second-m_X[i], m_X[i+1]-m_X[i], base_D );
@@ -358,7 +305,7 @@ namespace Splines {
   real_type
   SplineVec::DD( real_type const x, integer const j ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_DD[4];
     integer const i{res.first};
     Hermite3_DD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DD );
@@ -373,7 +320,7 @@ namespace Splines {
   real_type
   SplineVec::DDD( real_type const x, integer const j ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_DDD[4];
     integer const i{res.first};
     Hermite3_DDD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DDD );
@@ -392,7 +339,7 @@ namespace Splines {
     integer   const inc
   ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base[4];
     integer const i{res.first};
     Hermite3( res.second-m_X[i], m_X[i+1]-m_X[i], base );
@@ -413,7 +360,7 @@ namespace Splines {
     integer   const inc
   ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_D[4];
     integer const i{res.first};
     Hermite3_D( res.second-m_X[i], m_X[i+1]-m_X[i], base_D );
@@ -434,7 +381,7 @@ namespace Splines {
     integer   const inc
   ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_DD[4];
     integer const i{res.first};
     Hermite3_DD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DD );
@@ -455,7 +402,7 @@ namespace Splines {
     integer   const inc
   ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     real_type base_DDD[4];
     integer const i{res.first};
     Hermite3_DDD( res.second-m_X[i], m_X[i+1]-m_X[i], base_DDD );
@@ -632,5 +579,7 @@ namespace Splines {
         for ( integer j{0}; j < m_npts; ++j )
           m_Y[spl][j] = Y(j,spl);
     }
+
+    // manca build Yp
   }
 }

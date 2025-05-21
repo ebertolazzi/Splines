@@ -72,14 +72,14 @@ namespace Splines {
       for ( integer i{0}; i < m_nx; ++i ) Z[i] = z_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z1 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Z1 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Z, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_X, Z, Zp, m, m_nx );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp1 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp1 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Zp, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
@@ -90,14 +90,14 @@ namespace Splines {
       for ( integer j{0}; j < m_ny; ++j ) Z[j] = z_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z2 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Z2 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Z, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_Y, Z, Zp, m, m_ny );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp2 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp2 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Zp, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
@@ -108,14 +108,14 @@ namespace Splines {
       for ( integer i{0}; i < m_nx; ++i ) Z[i] = Dy_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Z, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_X, Z, Zp, m, m_nx );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Zp, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
@@ -133,14 +133,14 @@ namespace Splines {
       for ( integer j{0}; j < m_ny; ++j ) Z[j] = Dx_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z4 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Z4 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Z, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_Y, Z, Zp, m, m_ny );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp4 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp4 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Zp, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
@@ -150,6 +150,9 @@ namespace Splines {
     Utils::check_NaN( m_DX,  "Akima2Dspline::make_spline DX ",  nn, __LINE__, __FILE__ );
     Utils::check_NaN( m_DY,  "Akima2Dspline::make_spline DY ",  nn, __LINE__, __FILE__ );
     Utils::check_NaN( m_DXY, "Akima2Dspline::make_spline DXY ", nn, __LINE__, __FILE__ );
+
+    m_search_x.reset();
+    m_search_y.reset();
   }
 
   void
