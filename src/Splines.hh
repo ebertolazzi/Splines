@@ -1244,8 +1244,6 @@ namespace Splines {
 
     real_type & z_node_ref( integer i, integer j ) { return m_Z[this->ipos_C(i,j)]; }
 
-    virtual void make_spline() = 0;
-
     void
     load_Z(
       real_type const z[],
@@ -1253,6 +1251,12 @@ namespace Splines {
       bool            fortran_storage,
       bool            transposed
     );
+
+    virtual void make_spline() = 0;
+
+    void make_derivative_x  ( real_type const z[], real_type dz[] );
+    void make_derivative_y  ( real_type const z[], real_type dz[] );
+    void make_derivative_xy ( real_type const dx[], real_type const dy[], real_type dxy[] );
 
     #endif
 

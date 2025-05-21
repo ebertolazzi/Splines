@@ -49,61 +49,18 @@ namespace Splines {
     m_DXYY  = m_mem_biquintic( dim );
     m_DXXY  = m_mem_biquintic( dim );
     m_DXXYY = m_mem_biquintic( dim );
+        
+    make_derivative_x( m_Z, m_DX );
+    make_derivative_y( m_Z, m_DY );
+    make_derivative_xy( m_DX, m_DY, m_DXY );
 
-    auto minmod = [] ( real_type a, real_type b ) -> real_type {
-      if ( a*b <= 0 ) return 0;
-      if ( a > 0    ) return std::min(a,b);
-      return std::max(a,b);
-    };
+    make_derivative_x( m_DX, m_DXX );
+    make_derivative_y( m_DY, m_DYY );
 
-    PchipSpline sp;
+    make_derivative_y( m_DXX, m_DXXY );
+    make_derivative_x( m_DYY, m_DXYY );
 
-    // calcolo derivate DX, DY, DXY
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &z_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dx_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &z_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dy_node_ref(i,j) = sp.yp_node(j);
-    }
-
-    // mixed
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dx_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxy_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dxy_node_ref(i,j) = minmod( Dxy_node_ref(i,j), sp.yp_node(j) );
-    }
-
-    // calcolo derivate DXX, DYY, DXXY, DXYY, DXXYY
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dx_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxx_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dyy_node_ref(i,j) = sp.yp_node(j);
-    }
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dxy_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxxy_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dxy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dxyy_node_ref(i,j) = sp.yp_node(j);
-    }
-    // mixed
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dxyy_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxxyy_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dxxy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dxxy_node_ref(i,j) = minmod( Dxxy_node_ref(i,j), sp.yp_node(j) );
-    }
+    make_derivative_xy( m_DXXY, m_DXYY, m_DXXYY );
 
   }
 

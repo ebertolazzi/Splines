@@ -52,31 +52,10 @@ namespace Splines {
     m_DY  = m_mem_bicubic( nn );
     m_DXY = m_mem_bicubic( nn );
 
-    // calcolo derivate
-    PchipSpline sp;
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &z_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dx_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &z_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dy_node_ref(i,j) = sp.yp_node(j);
-    }
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dx_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxy_node_ref(i,j) = sp.yp_node(i);
-    }
+    make_derivative_x( m_Z, m_DX );
+    make_derivative_y( m_Z, m_DY );
+    make_derivative_xy( m_DX, m_DY, m_DXY );
 
-    auto minmod = [] ( real_type a, real_type b ) -> real_type {
-      if ( a*b <= 0 ) return 0;
-      if ( a > 0    ) return std::min(a,b);
-      return std::max(a,b);
-    };
-
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dxy_node_ref(i,j) = minmod( Dxy_node_ref(i,j), sp.yp_node(j) );
-    }
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
