@@ -52,31 +52,12 @@ namespace Splines {
     m_DY  = m_mem_bicubic( nn );
     m_DXY = m_mem_bicubic( nn );
 
-    // calcolo derivate
-    PchipSpline sp;
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &z_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dx_node_ref(i,j) = sp.yp_node(i);
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &z_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dy_node_ref(i,j) = sp.yp_node(j);
-    }
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &Dx_node_ref(0,j), m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) Dxy_node_ref(i,j) = sp.yp_node(i);
-    }
+    make_derivative_x( m_Z, m_DX );
+    make_derivative_y( m_Z, m_DY );
+    make_derivative_xy( m_DX, m_DY, m_DXY );
 
-    auto minmod = [] ( real_type a, real_type b ) -> real_type {
-      if ( a*b <= 0 ) return 0;
-      if ( a > 0    ) return std::min(a,b);
-      return std::max(a,b);
-    };
-
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &Dy_node_ref(i,0), 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) Dxy_node_ref(i,j) = minmod( Dxy_node_ref(i,j), sp.yp_node(j) );
-    }
+    m_search_x.reset();
+    m_search_y.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,23 +66,29 @@ namespace Splines {
   BiCubicSpline::write_to_stream( ostream_type & s ) const {
     fmt::print( "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i{1}; i < m_nx; ++i ) {
+      real_type dx{ m_X[i]-m_X[i-1] };
       for ( integer j{1}; j < m_ny; ++j ) {
-        integer const i00 { this->ipos_C(i-1,j-1) };
-        integer const i10 { this->ipos_C(i,j-1) };
-        integer const i01 { this->ipos_C(i-1,j) };
-        integer const i11 { this->ipos_C(i,j) };
+        integer   const i00 { ipos_C(i-1,j-1) };
+        integer   const i10 { ipos_C(i,j-1) };
+        integer   const i01 { ipos_C(i-1,j) };
+        integer   const i11 { ipos_C(i,j) };
+        real_type const dy  { m_Y[j]-m_Y[j-1] };
         fmt::print( s,
           "patch ({},{})\n"
-          "DX   = {:<12.4}  DY   = {:<12.4}\n"
-          "Z00  = {:<12.4}  Z01  = {:<12.4}  Z10  = {:<12.4}  Z11  = {:<12.4}\n"
-          "Dx00 = {:<12.4}  Dx01 = {:<12.4}  Dx10 = {:<12.4}  Dx11 = {:<12.4}\n"
-          "Dy00 = {:<12.4}  Dy01 = {:<12.4}  Dy10 = {:<12.4}  Dy11 = {:<12.4}\n",
-          i, j,
-          m_X[i]-m_X[i-1],
-          m_Y[j]-m_Y[j-1],
-          m_Z[i00], m_Z[i01], m_Z[i10], m_Z[i11],
-          m_DX[i00], m_DX[i01], m_DX[i10], m_DX[i11],
-          m_DY[i00], m_DY[i01], m_DY[i10], m_DY[i11]
+          "  DX    = {:<12.4}  DY    = {:<12.4}\n"
+          "  Z00   = {:<12.4}  Z10   = {:<12.4}\n"
+          "  Z01   = {:<12.4}  Z11   = {:<12.4}\n"
+          "  Dx00  = {:<12.4}  Dx10  = {:<12.4}\n"
+          "  Dx01  = {:<12.4}  Dx11  = {:<12.4}\n"
+          "  Dy00  = {:<12.4}  Dy10  = {:<12.4}\n"
+          "  Dy01  = {:<12.4}  Dy11  = {:<12.4}\n"
+          "  Dxy00 = {:<12.4}  Dxy10 = {:<12.4}\n"
+          "  Dxy01 = {:<12.4}  Dxy11 = {:<12.4}\n",
+          i, j, dx, dy,
+          m_Z[i00],   m_Z[i10],   m_Z[i01],   m_Z[i11],
+          m_DX[i00],  m_DX[i10],  m_DX[i01],  m_DX[i11],
+          m_DY[i00],  m_DY[i10],  m_DY[i01],  m_DY[i11],
+          m_DXY[i00], m_DXY[i10], m_DXY[i01], m_DXY[i11]
         );
       }
     }

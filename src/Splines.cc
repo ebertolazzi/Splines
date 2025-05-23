@@ -230,6 +230,105 @@ namespace Splines {
   #endif
 
   /*\
+   |   ____                      _     ___       _                       _
+   |  / ___|  ___  __ _ _ __ ___| |__ |_ _|_ __ | |_ ___ _ ____   ____ _| |
+   |  \___ \ / _ \/ _` | '__/ __| '_ \ | || '_ \| __/ _ \ '__\ \ / / _` | |
+   |   ___) |  __/ (_| | | | (__| | | || || | | | ||  __/ |   \ V / (_| | |
+   |  |____/ \___|\__,_|_|  \___|_| |_|___|_| |_|\__\___|_|    \_/ \__,_|_|
+  \*/
+
+  void
+  SearchInterval::find( std::pair<integer,real_type> & res ) const {
+    integer   const & n    { *p_npts };
+    string    const & name { *p_name };
+    real_type const * X    { *p_X    };
+    UTILS_ASSERT( n > 0, "in SearchInterval::find({}), n⁰points == 0!", name );
+
+    integer   & pos { res.first  };
+    real_type & x   { res.second };
+
+    // casi out of bound
+    if ( x > m_x_max ) {
+      if ( *p_curve_is_closed ) { x -= m_x_range * std::floor( (x - m_x_min) / m_x_range ); }
+      else                      { pos = n-2; return; }
+    } else if ( x < m_x_min ) {
+      if ( *p_curve_is_closed ) { x -= m_x_range * std::floor( (x - m_x_min) / m_x_range ); }
+      else                      { pos = 0; return; }
+    }
+
+    // uso table
+    integer i_cell { static_cast<integer>( std::floor( (x - m_x_min) / m_dx) ) };
+    integer k_LO   { m_LO[i_cell]   };
+    integer k_HI   { m_HI[i_cell+1] };
+
+    UTILS_ASSERT(
+      x >= X[k_LO] && x <= X[k_HI],
+      "Spline::SearchInterval, x={}, ipos={}, dx={}, X[{}]={}, X[{}]={}, range=[{},{}]\n",
+      x, i_cell, m_dx, k_LO, X[k_LO], k_HI, X[k_HI], m_x_min, m_x_max
+    );
+
+    // binary search
+    while ( k_HI > k_LO+1 ) {
+      integer k_M{ k_LO + (k_HI-k_LO)/2 };
+      if ( x < X[k_M] ) k_HI = k_M;
+      else              k_LO = k_M;
+    }
+
+    pos = k_LO;
+    if ( Utils::is_zero(X[pos]-X[pos+1]) ) --pos; // caso nodi ripetuti
+
+  }
+
+  void
+  SearchInterval::reset() {
+    integer           n{ *p_npts };
+    real_type const * X{ *p_X    };
+
+    m_x_min   = X[0];
+    m_x_max   = X[n-1];
+    m_x_range = m_x_max - m_x_min;
+    m_dx      = m_x_range/m_table_size;
+
+    //
+    //
+    //       0  1     2     3             4 5 6              7     8
+    //  X    +--+-----+-----+-------------+-+-+--------------+-----+
+    //
+    //       0        2        3        -(3)     6        -(6)     8
+    // TABLE |--------|--------|--------|--------|--------|--------|
+    //                2        -(4)     4        -(7)     7        8
+    //       0        2        -        4                 7        -
+    //
+    //       +--------+                                              [0..2]
+    //                +-------------------+                          [2..4]
+    //                       +------------+                          [3..4]
+    //                       +---------------------------------+     [3..7]
+    //                                        +----------------+     [6..7]
+    //                                        +--------------------+ [6..8]
+    //
+    std::fill_n( m_LO, m_table_size+1, -1 );
+    std::fill_n( m_HI, m_table_size+1, -1 );
+    for ( integer k{0}; k < n; ++k ) {
+      real_type pos  { (X[k] - m_x_min) / m_dx };
+      integer   i_LO { static_cast<integer>( std::ceil(pos+1e-6) )  };
+      m_LO[i_LO] = std::min(k,n-1);
+    }
+    m_LO[0] = 0;
+    for ( integer k{n-1}; k >= 0; --k ) {
+      real_type pos  { (X[k] - m_x_min) / m_dx };
+      integer   i_HI { static_cast<integer>( std::floor(pos-1e-6) ) };
+      if ( i_HI < 0 ) i_HI = 0;
+      if ( m_HI[i_HI] == -1 ) m_HI[i_HI] = k;
+    }
+    m_HI[m_table_size] = n-1;
+
+    for ( integer i{0};            i < m_table_size; ++i ) if ( m_LO[i+1] == -1 ) m_LO[i+1] = m_LO[i];
+    for ( integer i{m_table_size}; i > 0;            --i ) if ( m_HI[i-1] == -1 ) m_HI[i-1] = m_HI[i];
+    m_LO[m_table_size+1] = m_LO[m_table_size]; // replica ultimo nodo
+    m_HI[m_table_size+1] = m_HI[m_table_size]; // replica ultimo nodo
+  }
+
+  /*\
    |   ____        _ _
    |  / ___| _ __ | (_)_ __   ___
    |  \___ \| '_ \| | | '_ \ / _ \
@@ -237,135 +336,6 @@ namespace Splines {
    |  |____/| .__/|_|_|_| |_|\___|
    |        |_|
   \*/
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  void
-  Spline::search( std::pair<integer,real_type> & res ) const {
-    UTILS_ASSERT( m_npts > 0, "in Spline[{}]::search(...), npts == 0!", m_name );
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval.find(id);
-    if ( it == m_last_interval.end() ) {
-      it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
-      *it->second = 0;
-    }
-    integer & last_interval{ *it->second };
-    lock.unlock();
-    #else
-    integer & last_interval = m_last_interval;
-    #endif
-    Utils::search_interval(
-      m_npts,
-      m_X,
-      res.second,
-      last_interval,
-      m_curve_is_closed,
-      m_curve_can_extend
-    );
-    res.first = last_interval;
-  }
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-  void
-  Spline::init_last_interval() const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval.find(id);
-    if ( it == m_last_interval.end() ) it = m_last_interval.insert( {id,std::make_shared<integer>()} ).first;
-    integer & last_interval{ *it->second };
-    #else
-    integer & last_interval{ m_last_interval };
-    #endif
-    last_interval = 0;
-  }
-
-  integer
-  SplineSurf::search_x( real_type & x ) const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_x_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval_x.find(id);
-    if ( it == m_last_interval_x.end() ) {
-      it = m_last_interval_x.insert( {id,std::make_shared<integer>()} ).first;
-      *it->second = 0;
-    }
-    integer & last_interval{ *it->second };
-    lock.unlock();
-    #else
-    integer & last_interval{ m_last_interval_x };
-    #endif
-    Utils::search_interval(
-      m_nx,
-      m_X,
-      x,
-      last_interval,
-      m_x_closed,
-      m_x_can_extend
-    );
-    return last_interval;
-  }
-
-  void
-  SplineSurf::init_last_interval_x() const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_x_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval_x.find(id);
-    if ( it == m_last_interval_x.end() ) it = m_last_interval_x.insert( {id,std::make_shared<integer>()} ).first;
-    integer & last_interval{ *it->second };
-    #else
-    integer & last_interval{ m_last_interval_x };
-    #endif
-    last_interval = 0;
-  }
-
-  integer
-  SplineSurf::search_y( real_type & y ) const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_y_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval_y.find(id);
-    if ( it == m_last_interval_y.end() ) {
-      it = m_last_interval_y.insert( {id,std::make_shared<integer>()} ).first;
-      *it->second = 0;
-    }
-    integer & last_interval{ *it->second };
-    lock.unlock();
-    #else
-    integer & last_interval{ m_last_interval_y };
-    #endif
-    Utils::search_interval(
-      m_ny,
-      m_Y,
-      y,
-      last_interval,
-      m_y_closed,
-      m_y_can_extend
-    );
-    return last_interval;
-  }
-
-  void
-  SplineSurf::init_last_interval_y() const {
-    #ifdef SPLINES_USE_THREADS
-    std::unique_lock<std::mutex> lock(m_last_interval_y_mutex);
-    auto id = std::this_thread::get_id();
-    auto it = m_last_interval_y.find(id);
-    if ( it == m_last_interval_y.end() ) it = m_last_interval_y.insert( {id,std::make_shared<integer>()} ).first;
-    integer & last_interval{ *it->second };
-    #else
-    integer & last_interval{ m_last_interval_y };
-    #endif
-    last_interval = 0;
-  }
-
-  #endif
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   //! Check if cubic spline with this data is monotone, return -1 no, 0 yes, 1 strictly monotone
   integer

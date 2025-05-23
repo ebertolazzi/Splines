@@ -51,14 +51,8 @@ namespace Splines {
     real_type ** m_Y{nullptr};
     real_type ** m_Yp{nullptr};
 
-    #ifdef SPLINES_USE_THREADS
-    mutable std::mutex                                         m_last_interval_mutex;
-    mutable std::map<std::thread::id,std::shared_ptr<integer>> m_last_interval;
-    #else
-    mutable integer m_last_interval;
-    #endif
+    SearchInterval m_search;
 
-    void init_last_interval() const;
     void allocate( integer dim, integer npts );
     void compute_chords();
 
@@ -89,11 +83,6 @@ namespace Splines {
     ~SplineVec();
 
     ///@}
-
-    //!
-    //! Search the segment containing `x`
-    //!
-    void search( std::pair<integer,real_type> & res ) const;
 
     //!
     //! Spline name usd in the constructor
@@ -132,14 +121,14 @@ namespace Splines {
     //! When evaluated if parameter is outside the domain
     //! an extrapolated value is used.
     //!
-    void make_unbounded()   { m_curve_can_extend = true; }
+    void make_unbounded() { m_curve_can_extend = true; }
 
     //!
     //! Set spline as bounded.
     //! When evaluated if parameter is outside the domain
     //! an error is issued.
     //!
-    void make_buonded()     { m_curve_can_extend = false; }
+    void make_buonded() { m_curve_can_extend = false; }
     ///@}
 
     //!
@@ -558,7 +547,7 @@ namespace Splines {
     //!
     void
     build( GenericContainer const & gc )
-    { setup(gc); }
+    { setup( gc ); }
 
     //!
     //! Build a spline using data in `GenericContainer`

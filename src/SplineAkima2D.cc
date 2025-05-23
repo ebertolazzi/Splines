@@ -72,14 +72,14 @@ namespace Splines {
       for ( integer i{0}; i < m_nx; ++i ) Z[i] = z_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z1 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Z1 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Z, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_X, Z, Zp, m, m_nx );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp1 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp1 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Zp, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
@@ -90,14 +90,14 @@ namespace Splines {
       for ( integer j{0}; j < m_ny; ++j ) Z[j] = z_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z2 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Z2 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Z, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_Y, Z, Zp, m, m_ny );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp2 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp2 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Zp, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
@@ -108,14 +108,14 @@ namespace Splines {
       for ( integer i{0}; i < m_nx; ++i ) Z[i] = Dy_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Z, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_X, Z, Zp, m, m_nx );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp3 {} in [0,{})", j, m_ny );
       Utils::check_NaN( Zp, msg, m_nx, __LINE__, __FILE__ );
       #endif
 
@@ -133,14 +133,14 @@ namespace Splines {
       for ( integer j{0}; j < m_ny; ++j ) Z[j] = Dx_node(i,j);
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Z4 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Z4 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Z, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
       Akima_build( m_Y, Z, Zp, m, m_ny );
 
       #ifdef DEBUG_AKIMA
-      msg = fmt::format("Akima2Dspline::make_spline Zp4 {} in [0,{})", i, m_nx );
+      msg = fmt::format( "Akima2Dspline::make_spline Zp4 {} in [0,{})", i, m_nx );
       Utils::check_NaN( Zp, msg, m_ny, __LINE__, __FILE__ );
       #endif
 
@@ -150,29 +150,38 @@ namespace Splines {
     Utils::check_NaN( m_DX,  "Akima2Dspline::make_spline DX ",  nn, __LINE__, __FILE__ );
     Utils::check_NaN( m_DY,  "Akima2Dspline::make_spline DY ",  nn, __LINE__, __FILE__ );
     Utils::check_NaN( m_DXY, "Akima2Dspline::make_spline DXY ", nn, __LINE__, __FILE__ );
+
+    m_search_x.reset();
+    m_search_y.reset();
   }
 
   void
   Akima2Dspline::write_to_stream( ostream_type & s ) const {
     fmt::print( s, "Nx={} Ny={}\n", m_nx, m_ny );
     for ( integer i{1}; i < m_nx; ++i ) {
+      real_type const dx{ m_X[i] - m_X[i-1] };
       for ( integer j{1}; j < m_ny; ++j ) {
-        integer const i00 { ipos_C(i-1,j-1) };
-        integer const i10 { ipos_C(i,j-1) };
-        integer const i01 { ipos_C(i-1,j) };
-        integer const i11 { ipos_C(i,j) };
+        integer   const i00 { ipos_C(i-1,j-1) };
+        integer   const i10 { ipos_C(i,j-1) };
+        integer   const i01 { ipos_C(i-1,j) };
+        integer   const i11 { ipos_C(i,j) };
+        real_type const dy  { m_Y[j] - m_Y[j-1] };
         fmt::print( s,
-          "patch ({},{)\n"
-          "  DX   = {:<12.4}  DY   = {:<12.4}\n"
-          "  Z00  = {:<12.4}  Z01  = {:<12.4}  Z10  = {:<12.4}  Z11  = {:<12.4}\n"
-          "  Dx00 = {:<12.4}  Dx01 = {:<12.4}  Dx10 = {:<12.4}  Dx11 = {:<12.4}\n"
-          "  Dy00 = {:<12.4}  Dy01 = {:<12.4}  Dy10 = {:<12.4}  Dy11 = {:<12.4}\n",
-          i, j,
-          m_X[i] - m_X[i-1],
-          m_Y[j] - m_Y[j-1],
-          m_Z[i00],  m_Z[i01],  m_Z[i10],  m_Z[i11],
-          m_DX[i00], m_DX[i01], m_DX[i10], m_DX[i11],
-          m_DY[i00], m_DY[i01], m_DY[i10], m_DY[i11]
+          "patch ({},{})\n"
+          "  DX    = {:<12.4}  DY    = {:<12.4}\n"
+          "  Z00   = {:<12.4}  Z10   = {:<12.4}\n"
+          "  Z01   = {:<12.4}  Z11   = {:<12.4}\n"
+          "  Dx00  = {:<12.4}  Dx10  = {:<12.4}\n"
+          "  Dx01  = {:<12.4}  Dx11  = {:<12.4}\n"
+          "  Dy00  = {:<12.4}  Dy10  = {:<12.4}\n"
+          "  Dy01  = {:<12.4}  Dy11  = {:<12.4}\n"
+          "  Dxy00 = {:<12.4}  Dxy10 = {:<12.4}\n"
+          "  Dxy01 = {:<12.4}  Dxy11 = {:<12.4}\n",
+          i, j, dx, dy,
+          m_Z[i00],   m_Z[i10],   m_Z[i01],   m_Z[i11],
+          m_DX[i00],  m_DX[i10],  m_DX[i01],  m_DX[i11],
+          m_DY[i00],  m_DY[i10],  m_DY[i01],  m_DY[i11],
+          m_DXY[i00], m_DXY[i10], m_DXY[i01], m_DXY[i11]
         );
       }
     }

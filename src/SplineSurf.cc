@@ -16,7 +16,6 @@
  |      email: enrico.bertolazzi@unitn.it                                   |
  |                                                                          |
 \*--------------------------------------------------------------------------*/
-
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
 #pragma clang diagnostic ignored "-Wc++98-compat"
@@ -29,40 +28,52 @@
 #include "Splines.hh"
 #include "Utils_fmt.hh"
 
-#include <GenericContainer/GenericContainer.hh>
-
-#include <fstream>
-
-#ifdef __clang__
-#pragma clang diagnostic ignored "-Wc++98-compat"
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+using namespace std; // load standard namspace
 #endif
 
-using namespace SplinesLoad;
-using namespace std;
-using namespace GenericContainerNamespace;
-using Splines::real_type;
-using Splines::integer;
+namespace Splines {
 
-int
-main() {
-  cout << "\n\nTEST N.11\n\n";
+  void
+  SplineSurf::make_derivative_x( real_type const z[], real_type dx[] ) {
+    PchipSpline pchip_work;
+    for ( integer j{0}; j < m_ny; ++j ) {
+      pchip_work.build( m_X, 1, z + ipos_C(0,j), m_ny, m_nx );
+      for ( integer i{0}; i < m_nx; ++i ) dx[ipos_C(i,j)] = pchip_work.yp_node(i);
+    }
+  }
 
-  Splines::SplineSurf *_p_spline1 = new BilinearSpline();
-  Splines::SplineSurf *_p_spline2 = new BiCubicSpline();
-  Splines::SplineSurf *_p_spline3 = new BiQuinticSpline();
-  Splines::SplineSurf *_p_spline4 = new Akima2Dspline();
+  void
+  SplineSurf::make_derivative_y( real_type const z[], real_type dy[] ) {
+    PchipSpline pchip_work;
+    for ( integer i{0}; i < m_nx; ++i ) {
+      pchip_work.build( m_Y, 1, z + ipos_C(i,0), 1, m_ny );
+      for ( integer j{0}; j < m_ny; ++j ) dy[ipos_C(i,j)] = pchip_work.yp_node(j);
+    }
+  }
 
-  _p_spline1->build( string("AeroMap_SM.json") );
-  _p_spline1->write_to_stream(cout);
+  void
+  SplineSurf::make_derivative_xy( real_type const dx[], real_type const dy[], real_type dxy[] ) {
+    PchipSpline pchip_work;
 
-  _p_spline2->build( string("AeroMap_SM.json") );
-  _p_spline2->write_to_stream(cout);
+    auto minmod = [] ( real_type a, real_type b ) -> real_type {
+      if ( a*b <= 0 ) return 0;
+      if ( a > 0    ) return std::min(a,b);
+      return std::max(a,b);
+    };
 
-  _p_spline3->build( string("AeroMap_SM.json") );
-  _p_spline3->write_to_stream(cout);
+    for ( integer j{0}; j < m_ny; ++j ) {
+      pchip_work.build( m_X, 1, dy + ipos_C(0,j), m_ny, m_nx );
+      for ( integer i{0}; i < m_nx; ++i ) dxy[ipos_C(i,j)] = pchip_work.yp_node(i);
+    }
 
-  _p_spline4->build( string("AeroMap_SM.json") );
-  _p_spline4->write_to_stream(cout);
+    for ( integer i{0}; i < m_nx; ++i ) {
+      pchip_work.build( m_Y, 1, dx + ipos_C(i,0), 1, m_ny );
+      for ( integer j{0}; j < m_ny; ++j ) {
+        integer const ij{ipos_C(i,j)};
+        dxy[ij] = minmod( dxy[ij], pchip_work.yp_node(j) );
+      }
+    }
+  }
 
-  cout << "\nALL DONE!\n\n";
 }

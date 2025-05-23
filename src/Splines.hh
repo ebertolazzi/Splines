@@ -360,6 +360,62 @@ namespace Splines {
   );
 
   /*\
+   |   ____                      _     ___       _                       _
+   |  / ___|  ___  __ _ _ __ ___| |__ |_ _|_ __ | |_ ___ _ ____   ____ _| |
+   |  \___ \ / _ \/ _` | '__/ __| '_ \ | || '_ \| __/ _ \ '__\ \ / / _` | |
+   |   ___) |  __/ (_| | | | (__| | | || || | | | ||  __/ |   \ V / (_| | |
+   |  |____/ \___|\__,_|_|  \___|_| |_|___|_| |_|\__\___|_|    \_/ \__,_|_|
+  \*/
+
+  //!
+  //! Manage Search intervals
+  //!
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+  class SearchInterval {
+
+    static integer const m_table_size{ 400 };
+
+    string const * p_name{nullptr};
+    integer      * p_npts{nullptr};
+    bool         * p_curve_is_closed{nullptr};
+    bool         * p_curve_can_extend{nullptr};
+
+    real_type ** p_X{nullptr};
+    real_type    m_x_min{0};
+    real_type    m_x_max{0};
+    real_type    m_x_range{0};
+    real_type    m_dx{0};
+    integer      m_LO[m_table_size+2]; // to avoid overflow and replicate last point
+    integer      m_HI[m_table_size+2]; // to avoid overflow and replicate last point
+
+  public:
+
+    SearchInterval( SearchInterval const & ) = delete;
+    SearchInterval const & operator = ( SearchInterval const & ) = delete;
+
+    SearchInterval() {}
+
+    void
+    setup( string const * name, integer * n, real_type ** X, bool * is_closed, bool * can_extend ) {
+      p_name             = name;
+      p_npts             = n;
+      p_X                = X;
+      p_curve_is_closed  = is_closed;
+      p_curve_can_extend = can_extend;
+    }
+
+    //!
+    //! Find interval containing `res.second` using binary search.
+    //! Return result in `res.first` 
+    //!
+    void find( std::pair<integer,real_type> & res ) const;
+
+    void reset();
+
+  };
+  #endif
+
+  /*\
    |   ____        _ _
    |  / ___| _ __ | (_)_ __   ___
    |  \___ \| '_ \| | | '_ \ / _ \
@@ -374,29 +430,18 @@ namespace Splines {
     friend class SplineSet;
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-    string m_name;
-    bool   m_curve_is_closed{false};
-    bool   m_curve_can_extend{true};
-    bool   m_curve_extended_constant{false};
+    string const m_name;
+    bool         m_curve_is_closed{false};
+    bool         m_curve_can_extend{true};
+    bool         m_curve_extended_constant{false};
 
     integer     m_npts{0};
     integer     m_npts_reserved{0};
     real_type * m_X{nullptr}; // allocated in the derived class!
     real_type * m_Y{nullptr}; // allocated in the derived class!
 
-    #ifdef SPLINES_USE_THREADS
-    mutable std::mutex                                         m_last_interval_mutex;
-    mutable std::map<std::thread::id,std::shared_ptr<integer>> m_last_interval;
-    #else
-    mutable integer m_last_interval;
-    #endif
+    SearchInterval m_search;
 
-    void init_last_interval() const;
-
-    #endif
-  
   protected:
 
     void
@@ -418,10 +463,10 @@ namespace Splines {
     //! spline constructor
     //!
     explicit
-    Spline( string_view name = "Spline" )
+    Spline( string_view const name = "Spline" )
     : m_name(name)
     {
-      this->init_last_interval();
+      m_search.setup( &m_name, &m_npts, &m_X, &m_curve_is_closed, &m_curve_can_extend );
     }
 
     //!
@@ -430,11 +475,6 @@ namespace Splines {
     virtual ~Spline() = default;
 
     ///@}
-
-    //!
-    //! Find interval containing `x` using binary search.
-    //!
-    void search( std::pair<integer,real_type> & res ) const;
 
     //!
     //! \name Open/Close
@@ -634,7 +674,7 @@ namespace Splines {
     //!
     void
     build( GenericContainer const & gc )
-    { setup(gc); }
+    { setup( gc ); }
 
     //!
     //! Build a spline using data in a file `file_name`
@@ -685,7 +725,7 @@ namespace Splines {
     inline
     void
     build( vector<real_type> const & x, vector<real_type> const & y ) {
-      integer N = integer(x.size());
+      integer N{ integer(x.size()) };
       if ( N > integer(y.size()) ) N = integer(y.size());
       this->build( x.data(), 1, y.data(), 1, N );
     }
@@ -1208,21 +1248,8 @@ namespace Splines {
     real_type    m_Z_min{0};
     real_type    m_Z_max{0};
 
-    #ifdef SPLINES_USE_THREADS
-    mutable std::mutex                                         m_last_interval_x_mutex;
-    mutable std::mutex                                         m_last_interval_y_mutex;
-    mutable std::map<std::thread::id,std::shared_ptr<integer>> m_last_interval_x;
-    mutable std::map<std::thread::id,std::shared_ptr<integer>> m_last_interval_y;
-    #else
-    mutable integer m_last_interval_x;
-    mutable integer m_last_interval_y;
-    #endif
-
-    integer search_x( real_type & x ) const;
-    integer search_y( real_type & y ) const;
-
-    void init_last_interval_x() const;
-    void init_last_interval_y() const;
+    SearchInterval m_search_x;
+    SearchInterval m_search_y;
 
     static
     integer
@@ -1244,8 +1271,6 @@ namespace Splines {
 
     real_type & z_node_ref( integer i, integer j ) { return m_Z[this->ipos_C(i,j)]; }
 
-    virtual void make_spline() = 0;
-
     void
     load_Z(
       real_type const z[],
@@ -1253,6 +1278,12 @@ namespace Splines {
       bool            fortran_storage,
       bool            transposed
     );
+
+    virtual void make_spline() = 0;
+
+    void make_derivative_x  ( real_type const z[], real_type dz[] );
+    void make_derivative_y  ( real_type const z[], real_type dz[] );
+    void make_derivative_xy ( real_type const dx[], real_type const dy[], real_type dxy[] );
 
     #endif
 
@@ -1266,11 +1297,11 @@ namespace Splines {
     //!
     explicit
     SplineSurf( string_view name = "Spline" )
-    : m_mem("SplineSurf")
+    : m_mem(name.data())
     , m_name(name)
     {
-      this->init_last_interval_x();
-      this->init_last_interval_y();
+      m_search_x.setup( &m_name, &m_nx, &m_X, &m_x_closed, &m_x_can_extend );
+      m_search_y.setup( &m_name, &m_ny, &m_Y, &m_y_closed, &m_y_can_extend );
     }
 
     //!
@@ -1537,7 +1568,7 @@ namespace Splines {
     //!
     void
     build( GenericContainer const & gc )
-    { setup(gc); }
+    { setup( gc ); }
 
     //!
     //! Build a spline using data in a file `file_name`

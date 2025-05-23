@@ -57,7 +57,6 @@ namespace Splines {
     m_Y              = p_y;
     m_Yp             = p_Yp;
     m_Ypp            = p_Ypp;
-    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,7 +74,6 @@ namespace Splines {
       m_Yp             = m_base_quintic( npts );
       m_Ypp            = m_base_quintic( npts );
     }
-    init_last_interval();
     m_npts = 0;
   }
 
@@ -111,7 +109,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::eval( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -136,7 +134,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::D( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_D( res.first, res.second );
   }
 
@@ -161,7 +159,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DD( res.first, res.second );
   }
 
@@ -186,7 +184,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DDD( res.first, res.second );
   }
 
@@ -211,7 +209,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DDDD( res.first, res.second );
   }
 
@@ -236,7 +234,7 @@ namespace Splines {
   real_type
   QuinticSplineBase::DDDDD( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_DDDDD( res.first, res.second );
   }
 
@@ -300,7 +298,6 @@ namespace Splines {
     copy_n( S.m_Yp,  m_npts, m_Yp  );
     copy_n( S.m_Ypp, m_npts, m_Ypp );
     copy_flags( S );
-    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

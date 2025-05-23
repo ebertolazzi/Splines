@@ -71,7 +71,7 @@ namespace Splines {
     //!
     //! Build the spline with the data stored
     //!
-    void build() override {} // nothing to do
+    void build() override { m_search.reset(); }
 
     //!
     //! Build the spline with the data passed as arguments

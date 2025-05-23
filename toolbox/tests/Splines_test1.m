@@ -53,7 +53,12 @@ XXX = { xx1, xx2, xx3, xx4 };
 YYY = { yy1, yy2, yy3, yy4 };
 LOC = {'northwest','northwest','southeast','northwest'};
 
+tiledlayout(2,2);
+
 for k=1:4
+
+  nexttile
+  
   X = XXX{k};
   Y = YYY{k};
 
@@ -72,8 +77,6 @@ for k=1:4
   Y4 = be.eval(XX);
   Y5 = pc.eval(XX);
   Y6 = qu.eval(XX);
-
-  subplot(2,2,k);
 
   plot( X,  Y, 'o', ...
         XX, Y1, ...

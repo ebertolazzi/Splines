@@ -127,30 +127,21 @@ namespace Splines {
       ptr->build( file_name );
     } else {
 
-      mwSize nx, ny, nnx, nny;
-      real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx,       CMD ": error in reading 'x'" ) };
-      real_type const * y{ Utils::mex_vector_pointer( arg_in_3, ny,       CMD ": error in reading 'y'" ) };
-      real_type const * z{ Utils::mex_matrix_pointer( arg_in_4, nnx, nny, CMD ": error in reading 'z'" ) };
+      mwSize nx, ny, nr, nc;
+      real_type const * x{ Utils::mex_vector_pointer( arg_in_2, nx,     CMD ": error in reading 'x'" ) };
+      real_type const * y{ Utils::mex_vector_pointer( arg_in_3, ny,     CMD ": error in reading 'y'" ) };
+      real_type const * z{ Utils::mex_matrix_pointer( arg_in_4, nr, nc, CMD ": error in reading 'z'" ) };
 
-      UTILS_MEX_ASSERT(
-        nx == nnx,
-        CMD ": lenght of 'x' ({}) must be the number of row of 'z' ({})\n",
-        nx, nnx
-      );
-
-      UTILS_MEX_ASSERT(
-        ny == nny,
-        CMD "lenght of 'y' ({}) must be the number of column of 'z' ({})\n",
-        ny, nny
-      );
+      UTILS_MEX_ASSERT( nx == nr, CMD ": lenght of 'x' ({}) must be the number of row of 'z' ({} x {})\n",    nx, nr, nc );
+      UTILS_MEX_ASSERT( ny == nc, CMD ": lenght of 'y' ({}) must be the number of column of 'z' ({} x {})\n", ny, nr, nc );
 
       bool fortran_storage { true };
       bool transposed      { true };
 
-      integer ldZ{ static_cast<integer>(nx) };
+      integer ldZ{ static_cast<integer>(nr) };
 
       ptr->build ( x, 1, y, 1, z,
-                   ldZ, static_cast<integer>(nx), static_cast<integer>(ny),
+                   ldZ, static_cast<integer>(nr), static_cast<integer>(nc),
                    fortran_storage, transposed );
     }
 

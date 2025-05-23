@@ -40,63 +40,30 @@ namespace Splines {
   BiQuinticSpline::make_spline() {
 
     integer const dim{ m_nx*m_ny };
-    mem.reallocate( 8*dim );
-    m_DX    = mem( dim );
-    m_DY    = mem( dim );
-    m_DXY   = mem( dim );
-    m_DXX   = mem( dim );
-    m_DYY   = mem( dim );
-    m_DXYY  = mem( dim );
-    m_DXXY  = mem( dim );
-    m_DXXYY = mem( dim );
+    m_mem_biquintic.reallocate( 8*dim );
+    m_DX    = m_mem_biquintic( dim );
+    m_DY    = m_mem_biquintic( dim );
+    m_DXY   = m_mem_biquintic( dim );
+    m_DXX   = m_mem_biquintic( dim );
+    m_DYY   = m_mem_biquintic( dim );
+    m_DXYY  = m_mem_biquintic( dim );
+    m_DXXY  = m_mem_biquintic( dim );
+    m_DXXYY = m_mem_biquintic( dim );
+        
+    make_derivative_x( m_Z, m_DX );
+    make_derivative_y( m_Z, m_DY );
+    make_derivative_xy( m_DX, m_DY, m_DXY );
 
-    // calcolo derivate
-    QuinticSpline sp, sp1;
-    //
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &m_Z[ this->ipos_C(0,j) ], m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) {
-        integer const ij{ this->ipos_C(i,j) };
-        m_DX[ij]  = sp.yp_node(i);
-        m_DXX[ij] = sp.ypp_node(i);
-      }
-    }
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &m_Z[ this->ipos_C(i,0) ], 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) {
-        integer const ij{ this->ipos_C(i,j) };
-        m_DY[ij]  = sp.yp_node(j);
-        m_DYY[ij] = sp.ypp_node(j);
-      }
-    }
-    // interpolate derivative
-    for ( integer i{0}; i < m_nx; ++i ) {
-      sp.build( m_Y, 1, &m_DX[ this->ipos_C(i,0) ], 1, m_ny );
-      sp1.build( m_Y, 1, &m_DXX[ this->ipos_C(i,0) ], 1, m_ny );
-      for ( integer j{0}; j < m_ny; ++j ) {
-        integer const ij{ this->ipos_C(i,j) };
-        m_DXY[ij]   = sp.yp_node(j);
-        m_DXYY[ij]  = sp.ypp_node(j);
-        m_DXXY[ij]  = sp1.yp_node(j);
-        m_DXXYY[ij] = sp1.ypp_node(j);
-      }
-    }
-    // interpolate derivative again
-    for ( integer j{0}; j < m_ny; ++j ) {
-      sp.build( m_X, 1, &m_DY[ this->ipos_C(0,j) ], m_ny, m_nx );
-      sp1.build( m_X, 1, &m_DYY[ this->ipos_C(0,j) ], m_ny, m_nx );
-      for ( integer i{0}; i < m_nx; ++i ) {
-        integer const ij{ this->ipos_C(i,j) };
-        m_DXY[ij]   += sp.yp_node(i);   m_DXY[ij]   /= 2;
-        m_DXXY[ij]  += sp.ypp_node(i);  m_DXXY[ij]  /= 2;
-        m_DXYY[ij]  += sp1.yp_node(i);  m_DXYY[ij]  /= 2;
-        m_DXXYY[ij] += sp1.ypp_node(i); m_DXXYY[ij] /= 2;
-      }
-    }
+    make_derivative_x( m_DX, m_DXX );
+    make_derivative_y( m_DY, m_DYY );
 
-    //std::fill( DXY.begin(), DXY.end(), 0 );
-    //std::fill( DXX.begin(), DXX.end(), 0 );
-    //std::fill( DYY.begin(), DYY.end(), 0 );
+    make_derivative_y( m_DXX, m_DXXY );
+    make_derivative_x( m_DYY, m_DXYY );
+
+    make_derivative_xy( m_DXXY, m_DXYY, m_DXXYY );
+
+    m_search_x.reset();
+    m_search_y.reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,23 +72,29 @@ namespace Splines {
   BiQuinticSpline::write_to_stream( ostream_type & s ) const {
     fmt::print( s, "Nx = {} Ny = {}\n", m_nx, m_ny );
     for ( integer i{1}; i < m_nx; ++i ) {
+      real_type dx{ m_X[i]-m_X[i-1] };
       for ( integer j{1}; j < m_ny; ++j ) {
-        integer const i00 { this->ipos_C(i-1,j-1) };
-        integer const i10 { this->ipos_C(i,j-1) };
-        integer const i01 { this->ipos_C(i-1,j) };
-        integer const i11 { this->ipos_C(i,j) };
+        integer   const i00 { ipos_C(i-1,j-1) };
+        integer   const i10 { ipos_C(i,j-1) };
+        integer   const i01 { ipos_C(i-1,j) };
+        integer   const i11 { ipos_C(i,j) };
+        real_type const dy  { m_Y[j]-m_Y[j-1] };
         fmt::print( s,
-          "patch({},{})\n"
-          "  DX   = {:<12.4}  DY   = {:<12.4}\n"
-          "  Z00  = {:<12.4}  Z01  = {:<12.4}  Z10  = {:<12.4}  Z11  = {:<12.4}\n"
-          "  Dx00 = {:<12.4}  Dx01 = {:<12.4}  Dx10 = {:<12.4}  Dx10 = {:<12.4}\n"
-          "  Dy00 = {:<12.4}  Dy01 = {:<12.4}  Dy10 = {:<12.4}  Dy11 = {:<12.4}\n",
-          i, j,
-          m_X[i]-m_X[i-1],
-          m_Y[j]-m_Y[j-1],
-          m_Z[i00], m_Z[i01], m_Z[i10], m_Z[i11],
-          m_DX[i00], m_DX[i01], m_DX[i10], m_DX[i11],
-          m_DY[i00], m_DY[i01], m_DY[i10], m_DY[i11]
+          "patch ({},{})\n"
+          "  DX    = {:<12.4}  DY    = {:<12.4}\n"
+          "  Z00   = {:<12.4}  Z10   = {:<12.4}\n"
+          "  Z01   = {:<12.4}  Z11   = {:<12.4}\n"
+          "  Dx00  = {:<12.4}  Dx10  = {:<12.4}\n"
+          "  Dx01  = {:<12.4}  Dx11  = {:<12.4}\n"
+          "  Dy00  = {:<12.4}  Dy10  = {:<12.4}\n"
+          "  Dy01  = {:<12.4}  Dy11  = {:<12.4}\n"
+          "  Dxy00 = {:<12.4}  Dxy10 = {:<12.4}\n"
+          "  Dxy01 = {:<12.4}  Dxy11 = {:<12.4}\n",
+          i, j, dx, dy,
+          m_Z[i00],   m_Z[i10],   m_Z[i01],   m_Z[i11],
+          m_DX[i00],  m_DX[i10],  m_DX[i01],  m_DX[i11],
+          m_DY[i00],  m_DY[i10],  m_DY[i01],  m_DY[i11],
+          m_DXY[i00], m_DXY[i10], m_DXY[i01], m_DXY[i11]
         );
       }
     }

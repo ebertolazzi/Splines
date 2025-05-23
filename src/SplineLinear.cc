@@ -64,7 +64,7 @@ namespace Splines {
   real_type
   LinearSpline::eval( real_type x ) const {
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_eval( res.first, res.second );
   }
 
@@ -86,7 +86,7 @@ namespace Splines {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     std::pair<integer,real_type> res(0,x);
-    this->search( res );
+    m_search.find( res );
     return this->id_D( res.first, res.second );
   }
 
@@ -105,7 +105,6 @@ namespace Splines {
     m_external_alloc = true;
     m_X              = p_x;
     m_Y              = p_y;
-    init_last_interval();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,7 +120,6 @@ namespace Splines {
       m_X              = m_mem_linear( npts );
       m_Y              = m_mem_linear( npts );
     }
-    init_last_interval();
     m_npts = 0;
   }
 

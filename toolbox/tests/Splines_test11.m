@@ -33,18 +33,25 @@ bottom = round((scrn(4) - height) / 2);
 % Crea la figura
 figure('Position', [left bottom width height]);
 
-V2 = zeros(10,10);
+V2 = zeros(10,11);
 V2(2:5,2:5) = 3/7; % First step
 V2(6:7,6:7) = [1/4 1/5; 1/5 1/4]; % Middle step
 V2(8:9,8:9) = 1/2; % Last step
+V2(1,1)     = -0.1;
+V2(10,11)   = -0.1;
 V2 = flip(V2,2);
 X2 = 1:1:10;
-Y2 = 1:1:10;
+Y2 = 1:1:11;
 
 type = { 'bilinear', 'bicubic', 'biquintic', 'akima' };
 set(gca,'Fontsize',16);
 
+tic;
+
 for k=1:4
+
+  fprintf('Plot n.%d\n',k);
+
 
   S = Spline2D(type{k});
   S.build(X2,Y2,V2);
@@ -54,17 +61,17 @@ for k=1:4
   y_min = S.y_min();
   y_max = S.y_max();
 
-  X = x_min:0.05:x_max;
+  X = x_min:0.01:x_max;
   Y = y_min:0.01:y_max;
   [XX,YY] = ndgrid(X,Y);
 
   ZZ = S.eval(XX,YY);
 
   if any(isnan(ZZ(:)))
-    fprintf('Trovati NaN sulla superfice');
+    fprintf('Trovati NaN sulla superfice\n');
   end
   if any(isinf(ZZ(:)))
-    fprintf('Trovati Inf sulla superfice');
+    fprintf('Trovati Inf sulla superfice\n');
   end
 
   subplot(2,2,k);
@@ -79,4 +86,6 @@ for k=1:4
   view(60,60);
 
 end
+
+toc
 
