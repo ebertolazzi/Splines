@@ -99,6 +99,51 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
+  ConstantSpline::D( real_type const x, real_type dd[2] ) const {
+    dd[0] = eval(x);
+    dd[1] = 0;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  ConstantSpline::DD( real_type const x, real_type dd[3] ) const {
+    dd[0] = eval(x);
+    dd[1] = 0;
+    dd[2] = 0;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #ifdef AUTIDIFF_SUPPORT
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  autodiff::dual1st
+  ConstantSpline::eval( autodiff::dual1st const & x ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
+    dual1st res{ eval(val(x)) };
+    res.grad = 0;
+    return res;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  autodiff::dual2nd
+  ConstantSpline::eval( autodiff::dual2nd const & x ) const {
+    using autodiff::dual2nd;
+    using autodiff::detail::val;
+    dual2nd res{ eval(val(x)) };
+    res.grad      = 0;
+    res.grad.grad = 0;
+    return res;
+  }
+  #endif
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
   ConstantSpline::build(
     real_type const x[], integer const incx,
     real_type const y[], integer const incy,

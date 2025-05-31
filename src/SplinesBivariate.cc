@@ -251,7 +251,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::eval( real_type x, real_type y ) const {
+  BiCubicSplineBase::eval( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u[4], v[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -277,7 +277,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::Dx( real_type x, real_type y ) const {
+  BiCubicSplineBase::Dx( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u_D[4], v[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -303,7 +303,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::Dy( real_type x, real_type y ) const {
+  BiCubicSplineBase::Dy( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u[4], v_D[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -329,7 +329,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::Dxy( real_type x, real_type y ) const {
+  BiCubicSplineBase::Dxy( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u_D[4], v_D[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -355,7 +355,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::Dxx( real_type x, real_type y ) const {
+  BiCubicSplineBase::Dxx( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u_DD[4], v[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -381,7 +381,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiCubicSplineBase::Dyy( real_type x, real_type y ) const {
+  BiCubicSplineBase::Dyy( real_type const x, real_type const y ) const {
     real_type bili3[4][4], u[4], v_DD[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -407,7 +407,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiCubicSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
+  BiCubicSplineBase::D( real_type const x, real_type const y, real_type d[3] ) const {
     real_type bili3[4][4], u[4], u_D[4], v[4], v_D[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -438,7 +438,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiCubicSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
+  BiCubicSplineBase::DD( real_type const x, real_type const y, real_type d[6] ) const {
     real_type bili3[4][4], u[4], u_D[4], u_DD[4], v[4], v_D[4], v_DD[4];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -542,7 +542,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::eval( real_type x, real_type y ) const {
+  BiQuinticSplineBase::eval( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u[6], v[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -568,7 +568,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::Dx( real_type x, real_type y ) const {
+  BiQuinticSplineBase::Dx( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u_D[6], v[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -594,7 +594,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::Dy( real_type x, real_type y ) const {
+  BiQuinticSplineBase::Dy( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u[6], v_D[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -620,7 +620,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::Dxy( real_type x, real_type y ) const {
+  BiQuinticSplineBase::Dxy( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u_D[6], v_D[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -646,7 +646,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::Dxx( real_type x, real_type y ) const {
+  BiQuinticSplineBase::Dxx( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u_DD[6], v[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -672,7 +672,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BiQuinticSplineBase::Dyy( real_type x, real_type y ) const {
+  BiQuinticSplineBase::Dyy( real_type const x, real_type const y ) const {
     real_type bili5[6][6], u[6], v_DD[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -698,7 +698,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiQuinticSplineBase::D( real_type x, real_type y, real_type d[3] ) const {
+  BiQuinticSplineBase::D( real_type const x, real_type const y, real_type d[3] ) const {
     real_type bili5[6][6], u[6], u_D[6], v[6], v_D[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);
@@ -728,7 +728,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BiQuinticSplineBase::DD( real_type x, real_type y, real_type d[6] ) const {
+  BiQuinticSplineBase::DD( real_type const x, real_type const y, real_type d[6] ) const {
     real_type bili5[6][6], u[6], u_D[6], u_DD[6], v[6], v_D[6], v_DD[6];
     
     std::pair<integer,real_type> X(0,x), Y(0,y);

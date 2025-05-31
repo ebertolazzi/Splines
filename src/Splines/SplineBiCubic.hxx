@@ -49,15 +49,17 @@ namespace Splines {
     using SplineSurf::m_Y;
     using SplineSurf::m_Z;
 
-    void load( integer i, integer j, real_type bili3[4][4] ) const;
+    void load( integer const i, integer const j, real_type bili3[4][4] ) const;
 
-    real_type & Dx_node_ref  ( integer i, integer j ) { return m_DX  [ this->ipos_C(i,j) ]; }
-    real_type & Dy_node_ref  ( integer i, integer j ) { return m_DY  [ this->ipos_C(i,j) ]; }
-    real_type & Dxy_node_ref ( integer i, integer j ) { return m_DXY [ this->ipos_C(i,j) ]; }
+    real_type & Dx_node_ref  ( integer const i, integer const j ) { return m_DX  [ this->ipos_C(i,j) ]; }
+    real_type & Dy_node_ref  ( integer const i, integer const j ) { return m_DY  [ this->ipos_C(i,j) ]; }
+    real_type & Dxy_node_ref ( integer const i, integer const j ) { return m_DXY [ this->ipos_C(i,j) ]; }
 
     #endif
 
   public:
+
+    using SplineSurf::eval;
 
     //! spline constructor
     explicit
@@ -74,21 +76,21 @@ namespace Splines {
     //! Estimated `x` derivatives at node `(i,j)`
     //!
     real_type
-    Dx_node( integer i, integer j ) const
+    Dx_node( integer const i, integer const j ) const
     { return m_DX[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated `y` derivatives at node `(i,j)`
     //!
     real_type
-    Dy_node( integer i, integer j ) const
+    Dy_node( integer const i, integer const j ) const
     { return m_DY[ this->ipos_C(i,j) ]; }
 
     //!
     //! Estimated mixed `xy` derivatives at node `(i,j)`
     //!
     real_type
-    Dxy_node( integer i, integer j ) const
+    Dxy_node( integer const i, integer const j ) const
     { return m_DXY[ this->ipos_C(i,j) ]; }
 
     ///@}
@@ -100,7 +102,7 @@ namespace Splines {
     //!
     //! Evaluate spline at point \f$ (x,y) \f$
     //!
-    real_type eval( real_type x, real_type y ) const override;
+    real_type eval( real_type const x, real_type const y ) const override;
 
     //!
     //! Evaluate spline with derivative at point \f$ (x,y) \f$
@@ -109,15 +111,15 @@ namespace Splines {
     //! - `d[1]` the value of the spline `x` derivative
     //! - `d[2]` the value of the spline `y` derivative
     //!
-    void D( real_type x, real_type y, real_type d[3] ) const override;
+    void D( real_type const x, real_type const y, real_type d[3] ) const override;
     //!
     //! Evaluate spline `x`  derivative at point \f$ (x,y) \f$
     //!
-    real_type Dx( real_type x, real_type y ) const override;
+    real_type Dx( real_type const x, real_type const y ) const override;
     //!
     //! Evaluate spline `y`  derivative at point \f$ (x,y) \f$
     //!
-    real_type Dy( real_type x, real_type y ) const override;
+    real_type Dy( real_type const x, real_type const y ) const override;
 
     //!
     //! Evaluate spline with derivative at point \f$ (x,y) \f$
@@ -129,19 +131,19 @@ namespace Splines {
     //! - `d[4]` the value of the spline `y` second derivative
     //! - `d[5]` the value of the spline `xy` mixed derivative
     //!
-    void DD( real_type x, real_type y, real_type dd[6] ) const override;
+    void DD( real_type const x, real_type const y, real_type dd[6] ) const override;
     //!
     //! Evaluate spline `x` second derivative at point \f$ (x,y) \f$
     //!
-    real_type Dxx( real_type x, real_type y ) const override;
+    real_type Dxx( real_type const x, real_type const y ) const override;
     //!
     //! Evaluate spline `xy` mixed derivative at point \f$ (x,y) \f$
     //!
-    real_type Dxy( real_type x, real_type y ) const override;
+    real_type Dxy( real_type const x, real_type const y ) const override;
     //!
     //! Evaluate spline `y` second derivative at point \f$ (x,y) \f$
     //!
-    real_type Dyy( real_type x, real_type y ) const override;
+    real_type Dyy( real_type const x, real_type const y ) const override;
     ///@}
   };
 
@@ -166,6 +168,8 @@ namespace Splines {
     using BiCubicSplineBase::m_DXY;
 
   public:
+
+    using BiCubicSplineBase::eval;
 
     //!
     //! Build an empty spline of `BiCubicSpline` type

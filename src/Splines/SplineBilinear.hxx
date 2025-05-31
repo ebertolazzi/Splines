@@ -31,7 +31,7 @@ namespace Splines {
   //! bilinear spline base class
   class BilinearSpline : public SplineSurf {
 
-    void make_spline() override { m_search_x.reset(); m_search_y.reset(); }
+    void make_spline() override { m_search_x.must_reset(); m_search_y.must_reset(); }
 
     using SplineSurf::m_nx;
     using SplineSurf::m_ny;
@@ -41,6 +41,8 @@ namespace Splines {
     using SplineSurf::m_Z;
 
   public:
+
+    using SplineSurf::eval;
 
     //!
     //! Build an empty spline of `BilinearSpline` type
@@ -57,16 +59,33 @@ namespace Splines {
     //!
     ~BilinearSpline() override {}
 
-    real_type eval( real_type x, real_type y ) const override;
+    real_type eval( real_type const x, real_type const y ) const override;
 
-    void D( real_type x, real_type y, real_type d[3] ) const override;
-    real_type Dx( real_type x, real_type y ) const override;
-    real_type Dy( real_type x, real_type y ) const override;
+    void D( real_type const x, real_type const y, real_type d[3] ) const override;
+    real_type Dx( real_type const x, real_type const y ) const override;
+    real_type Dy( real_type const x, real_type const y ) const override;
 
-    void DD( real_type x, real_type y, real_type dd[6] ) const override;
-    real_type Dxx( real_type , real_type ) const override { return 0; }
-    real_type Dxy( real_type , real_type ) const override { return 0; }
-    real_type Dyy( real_type , real_type ) const override { return 0; }
+    void DD( real_type const x, real_type const y, real_type dd[6] ) const override;
+    real_type Dxx( real_type const, real_type const ) const override { return 0; }
+    real_type Dxy( real_type const, real_type const ) const override { return 0; }
+    real_type Dyy( real_type const, real_type const ) const override { return 0; }
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const;
+    autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const;
+
+    template <typename T1, typename T2>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type>
+    eval( T1 const & x, T2 const & y ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type> X{x}, Y{y};
+      return eval( X, Y );
+    }
+    ///@}
+    #endif
 
     void write_to_stream( ostream_type & s ) const override;
     char const * type_name() const override;

@@ -62,11 +62,44 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  LinearSpline::eval( real_type x ) const {
+  LinearSpline::eval( real_type const x ) const {
     std::pair<integer,real_type> res(0,x);
     m_search.find( res );
     return this->id_eval( res.first, res.second );
   }
+
+  #ifdef AUTIDIFF_SUPPORT
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  autodiff::dual1st
+  LinearSpline::eval( autodiff::dual1st const & x ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
+    real_type xv  { val(x)   };
+    dual1st   res { eval(xv) };
+    res.grad = D(xv) * x.grad;
+    return res;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  autodiff::dual2nd
+  LinearSpline::eval( autodiff::dual2nd const & x ) const {
+    using autodiff::dual2nd;
+    using autodiff::detail::val;
+
+    real_type xv  { val(x)      };
+    real_type xg  { val(x.grad) };
+    real_type dfx { D(xv)       };
+    real_type dxx { DD(xv)      };
+    dual2nd   res { eval(xv)    };
+
+    res.grad      = dfx * xg;
+    res.grad.grad = dfx * x.grad.grad + dxx * (xg*xg);
+    return res;
+  }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -81,13 +114,42 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  LinearSpline::D( real_type x ) const {
+  LinearSpline::D( real_type const x ) const {
     if ( m_curve_can_extend && m_curve_extended_constant ) {
       if ( x <= m_X[0] || x >= m_X[m_npts-1] ) return 0;
     }
     std::pair<integer,real_type> res(0,x);
     m_search.find( res );
     return this->id_D( res.first, res.second );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  LinearSpline::D( real_type const x, real_type dd[2] ) const {
+    std::pair<integer,real_type> res(0,x);
+    m_search.find( res );
+    integer   const ni { res.first  };
+    real_type const X  { res.second };
+    real_type DX { m_X[ni+1]-m_X[ni] };
+    real_type s  { (X - m_X[ni])/DX };
+    dd[0] = (1-s) * m_Y[ni] + s * m_Y[ni+1];
+    dd[1] = (m_Y[ni+1]-m_Y[ni])/DX;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  LinearSpline::DD( real_type const x, real_type dd[3] ) const {
+    std::pair<integer,real_type> res(0,x);
+    m_search.find( res );
+    integer   const ni { res.first  };
+    real_type const X  { res.second };
+    real_type DX { m_X[ni+1]-m_X[ni] };
+    real_type s  { (X - m_X[ni])/DX };
+    dd[0] = (1-s) * m_Y[ni] + s * m_Y[ni+1];
+    dd[1] = (m_Y[ni+1]-m_Y[ni])/DX;
+    dd[2] = 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

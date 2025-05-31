@@ -64,6 +64,31 @@ namespace Splines {
 
   #endif
 
+  #ifdef AUTIDIFF_SUPPORT
+  autodiff::dual1st
+  Spline1D::eval( autodiff::dual1st const & x ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
+    real_type dd[2];
+    D( val(x), dd );
+    dual1st res { dd[0] };
+    res.grad = dd[1] * x.grad;
+    return res;
+  }
+
+  autodiff::dual2nd
+  Spline1D::eval( autodiff::dual2nd const & x ) const {
+    using autodiff::dual2nd;
+    using autodiff::detail::val;
+    real_type dd[3], xg{ val(x.grad) };
+    DD( val(x), dd );
+    dual2nd res { dd[0] };
+    res.grad      = dd[1] * xg;
+    res.grad.grad = dd[1] * x.grad.grad + dd[2] * (xg*xg);
+    return res;
+  }
+  #endif
+
   /*
   //    ____  ____   ____                               _
   //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_

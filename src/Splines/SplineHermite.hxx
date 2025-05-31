@@ -56,7 +56,7 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    void build() override { m_search.reset(); }
+    void build() override { m_search.must_reset(); }
 
     // block method!
     void

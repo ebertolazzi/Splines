@@ -257,7 +257,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` at `x`.
     //!
     real_type
-    eval( real_type x, integer spl ) const {
+    eval( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->eval(x);
     }
@@ -266,7 +266,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` first derivative at `x`.
     //!
     real_type
-    D( real_type x, integer spl ) const {
+    D( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->D(x);
     }
@@ -275,7 +275,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` first derivative at `x`.
     //!
     real_type
-    eval_D( real_type x, integer spl ) const {
+    eval_D( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->D(x);
     }
@@ -284,7 +284,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` second derivative at `x`.
     //!
     real_type
-    DD( real_type x, integer spl ) const {
+    DD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DD(x);
     }
@@ -293,7 +293,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` second derivative at `x`.
     //!
     real_type
-    eval_DD( real_type x, integer spl ) const {
+    eval_DD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DD(x);
     }
@@ -302,7 +302,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` third derivative at `x`.
     //!
     real_type
-    DDD( real_type x, integer spl ) const {
+    DDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDD(x);
     }
@@ -311,7 +311,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` third derivative at `x`.
     //!
     real_type
-    eval_DDD( real_type x, integer spl ) const {
+    eval_DDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDD(x);
     }
@@ -320,7 +320,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` 4th derivative at `x`.
     //!
     real_type
-    DDDD( real_type x, integer spl ) const {
+    DDDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDDD(x);
     }
@@ -329,7 +329,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` 4th derivative at `x`.
     //!
     real_type
-    eval_DDDD( real_type x, integer spl ) const {
+    eval_DDDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDDD(x);
     }
@@ -338,7 +338,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` 5th derivative at `x`.
     //!
     real_type
-    DDDDD( real_type x, integer spl ) const {
+    DDDDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDDDD(x);
     }
@@ -347,16 +347,42 @@ namespace Splines {
     //! Evaluate spline n. `spl` 5th derivative at `x`.
     //!
     real_type
-    eval_DDDDD( real_type x, integer spl ) const {
+    eval_DDDDD( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->DDDDD(x);
     }
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st
+    eval( autodiff::dual1st const & x, integer const spl ) const {
+      Spline const * S{ this->get_spline(spl) };
+      return S->eval( x );
+    }
+
+    autodiff::dual2nd
+    eval( autodiff::dual2nd const & x, integer const spl ) const {
+      Spline const * S{ this->get_spline(spl) };
+      return S->eval( x );
+    }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x, integer spl ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> X{x};
+      return eval( X, spl );
+    }
+    ///@}
+    #endif
 
     //!
     //! Evaluate spline `name` at `x`.
     //!
     real_type
-    eval( real_type x, string_view name ) const {
+    eval( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->eval(x);
     }
@@ -365,7 +391,7 @@ namespace Splines {
     //! Evaluate spline `name` first derivative at `x`.
     //!
     real_type
-    eval_D( real_type x, string_view name ) const {
+    eval_D( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->D(x);
     }
@@ -374,7 +400,7 @@ namespace Splines {
     //! Evaluate spline `name` second derivative at `x`.
     //!
     real_type
-    eval_DD( real_type x, string_view name ) const {
+    eval_DD( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DD(x);
     }
@@ -383,7 +409,7 @@ namespace Splines {
     //! Evaluate spline `name` third derivative at `x`.
     //!
     real_type
-    eval_DDD( real_type x, string_view name ) const {
+    eval_DDD( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDD(x);
     }
@@ -392,7 +418,7 @@ namespace Splines {
     //! Evaluate spline `name` 4th derivative at `x`.
     //!
     real_type
-    eval_DDDD( real_type x, string_view name ) const {
+    eval_DDDD( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDDD(x);
     }
@@ -401,12 +427,52 @@ namespace Splines {
     //! Evaluate spline `name` 5th derivative at `x`.
     //!
     real_type
-    eval_DDDDD( real_type x, string_view name ) const {
+    eval_DDDDD( real_type const x, string_view name ) const {
       Spline const * S{ this->get_spline(name) };
       return S->DDDDD(x);
     }
 
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st
+    eval( autodiff::dual1st const & x, string_view name ) const {
+      using autodiff::dual1st;
+      using autodiff::derivative;
+      real_type xv  { val(x)        };
+      dual1st   res { eval(xv,name) };
+      res.grad = eval_D(xv,name) * x.grad;
+      return res;
+    }
+
+    autodiff::dual2nd
+    eval( autodiff::dual2nd const & x, string_view name ) const {
+      using autodiff::dual2nd;
+      using autodiff::derivative;
+
+      real_type xv  { val(x) };
+      real_type xg  { val(x.grad) };
+      real_type dfx { eval_D(xv,name)  };
+      real_type dxx { eval_DD(xv,name) };
+      dual2nd   res { eval(xv,name) };
+
+      res.grad      = dfx * xg;
+      res.grad.grad = dfx * x.grad.grad + dxx * (xg*xg);
+      return res;
+    }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x, string_view name ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> X{x};
+      return eval( X, name );
+    }
+    ///@}
+    #endif
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -418,32 +484,32 @@ namespace Splines {
     //!
     //! Evaluate all the splines at `x`
     //!
-    void eval( real_type x, vector<real_type> & vals ) const;
+    void eval( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the first derivative of all the splines at `x`
     //!
-    void eval_D( real_type x, vector<real_type> & vals ) const;
+    void eval_D( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the second derivative of all the splines at `x`
     //!
-    void eval_DD( real_type x, vector<real_type> & vals ) const;
+    void eval_DD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the third derivative of all the splines at `x`
     //!
-    void eval_DDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the 4th derivative of all the splines at `x`
     //!
-    void eval_DDDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDDD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the 5th derivative of all the splines at `x`
     //!
-    void eval_DDDDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDDDD( real_type const x, vector<real_type> & vals ) const;
 
     ///@}
 
@@ -718,7 +784,7 @@ namespace Splines {
     //! and fill a map of values in a GenericContainer
     //!
     void
-    eval( real_type x, GenericContainer & vals ) const;
+    eval( real_type const x, GenericContainer & vals ) const;
 
     //!
     //! Evaluate all the splines at `x` values contained
@@ -733,7 +799,7 @@ namespace Splines {
     //!
     void
     eval(
-      real_type               x,
+      real_type       const   x,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -897,7 +963,7 @@ namespace Splines {
     //!
     void
     eval_D(
-      real_type               x,
+      real_type       const   x,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;

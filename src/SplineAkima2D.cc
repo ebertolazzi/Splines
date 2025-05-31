@@ -151,8 +151,8 @@ namespace Splines {
     Utils::check_NaN( m_DY,  "Akima2Dspline::make_spline DY ",  nn, __LINE__, __FILE__ );
     Utils::check_NaN( m_DXY, "Akima2Dspline::make_spline DXY ", nn, __LINE__, __FILE__ );
 
-    m_search_x.reset();
-    m_search_y.reset();
+    m_search_x.must_reset();
+    m_search_y.must_reset();
   }
 
   void

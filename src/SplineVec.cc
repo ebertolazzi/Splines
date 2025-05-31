@@ -155,7 +155,7 @@ namespace Splines {
   void
   SplineVec::set_knots( real_type const X[] ) {
     copy_n( X, m_npts, m_X );
-    m_search.reset();
+    m_search.must_reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -192,7 +192,7 @@ namespace Splines {
       }
       break;
     }
-    m_search.reset();
+    m_search.must_reset();
   }
 
   #endif
@@ -210,7 +210,7 @@ namespace Splines {
     }
     for ( integer j{1}; j < nn; ++j ) m_X[j] /= acc;
     m_X[nn] = 1;
-    m_search.reset();
+    m_search.must_reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -227,7 +227,7 @@ namespace Splines {
     }
     for ( integer j{1}; j < nn; ++j ) m_X[j] /= acc;
     m_X[nn] = 1;
-    m_search.reset();
+    m_search.must_reset();
   }
 
   void

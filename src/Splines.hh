@@ -115,17 +115,17 @@ namespace Splines {
 
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-  void Hermite3( real_type x, real_type H, real_type base[4] );
-  void Hermite3_D( real_type x, real_type H, real_type base_D[4] );
-  void Hermite3_DD( real_type x, real_type H, real_type base_DD[4] );
-  void Hermite3_DDD( real_type x, real_type H, real_type base_DDD[4] );
+  void Hermite3     ( real_type const x, real_type const H, real_type base[4] );
+  void Hermite3_D   ( real_type const x, real_type const H, real_type base_D[4] );
+  void Hermite3_DD  ( real_type const x, real_type const H, real_type base_DD[4] );
+  void Hermite3_DDD ( real_type const x, real_type const H, real_type base_DDD[4] );
 
-  void Hermite5( real_type x, real_type H, real_type base[6] );
-  void Hermite5_D( real_type x, real_type H, real_type base_D[6] );
-  void Hermite5_DD( real_type x, real_type H, real_type base_DD[6] );
-  void Hermite5_DDD( real_type x, real_type H, real_type base_DDD[6] );
-  void Hermite5_DDDD( real_type x, real_type H, real_type base_DDDD[6] );
-  void Hermite5_DDDDD( real_type x, real_type H, real_type base_DDDDD[6] );
+  void Hermite5       ( real_type const x, real_type const H, real_type base[6] );
+  void Hermite5_D     ( real_type const x, real_type const H, real_type base_D[6] );
+  void Hermite5_DD    ( real_type const x, real_type const H, real_type base_DD[6] );
+  void Hermite5_DDD   ( real_type const x, real_type const H, real_type base_DDD[6] );
+  void Hermite5_DDDD  ( real_type const x, real_type const H, real_type base_DDDD[6] );
+  void Hermite5_DDDDD ( real_type const x, real_type const H, real_type base_DDDDD[6] );
 
   #endif
 
@@ -143,15 +143,15 @@ namespace Splines {
   inline
   void
   Hermite3_to_poly(
-    real_type   H,
-    real_type   P0,
-    real_type   P1,
-    real_type   DP0,
-    real_type   DP1,
-    real_type & A,
-    real_type & B,
-    real_type & C,
-    real_type & D
+    real_type const H,
+    real_type const P0,
+    real_type const P1,
+    real_type const DP0,
+    real_type const DP1,
+    real_type     & A,
+    real_type     & B,
+    real_type     & C,
+    real_type     & D
   ) {
     real_type H2{ H*H };
     real_type P10{ P1-P0 };
@@ -179,19 +179,19 @@ namespace Splines {
   inline
   void
   Hermite5_to_poly(
-    real_type   h,
-    real_type   P0,
-    real_type   P1,
-    real_type   DP0,
-    real_type   DP1,
-    real_type   DDP0,
-    real_type   DDP1,
-    real_type & A,
-    real_type & B,
-    real_type & C,
-    real_type & D,
-    real_type & E,
-    real_type & F
+    real_type const h,
+    real_type const P0,
+    real_type const P1,
+    real_type const DP0,
+    real_type const DP1,
+    real_type const DDP0,
+    real_type const DDP1,
+    real_type     & A,
+    real_type     & B,
+    real_type     & C,
+    real_type     & D,
+    real_type     & E,
+    real_type     & F
   ) {
     real_type h2{ h*h };
     real_type h3{ h*h2 };
@@ -260,10 +260,10 @@ namespace Splines {
   //!
   void
   uniform(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
+    integer   const ld_pnts,
     real_type       t[]
   );
 
@@ -278,10 +278,10 @@ namespace Splines {
   //!
   void
   chordal(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
+    integer   const ld_pnts,
     real_type       t[]
   );
 
@@ -297,11 +297,11 @@ namespace Splines {
   //!
   void
   centripetal(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
-    real_type       alpha,
+    integer   const ld_pnts,
+    real_type const alpha,
     real_type       t[]
   );
 
@@ -316,10 +316,10 @@ namespace Splines {
   //!
   void
   universal(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
+    integer   const ld_pnts,
     real_type       t[]
   );
 
@@ -334,10 +334,10 @@ namespace Splines {
   //!
   void
   FoleyNielsen(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
+    integer   const ld_pnts,
     real_type       t[]
   );
 
@@ -352,10 +352,10 @@ namespace Splines {
   //!
   void
   FangHung(
-    integer         dim,
-    integer         npts,
+    integer   const dim,
+    integer   const npts,
     real_type const pnts[],
-    integer         ld_pnts,
+    integer   const ld_pnts,
     real_type       t[]
   );
 
@@ -380,13 +380,16 @@ namespace Splines {
     bool         * p_curve_is_closed{nullptr};
     bool         * p_curve_can_extend{nullptr};
 
-    real_type ** p_X{nullptr};
-    real_type    m_x_min{0};
-    real_type    m_x_max{0};
-    real_type    m_x_range{0};
-    real_type    m_dx{0};
-    integer      m_LO[m_table_size+2]; // to avoid overflow and replicate last point
-    integer      m_HI[m_table_size+2]; // to avoid overflow and replicate last point
+    mutable real_type ** p_X{nullptr};
+    mutable real_type    m_x_min{0};
+    mutable real_type    m_x_max{0};
+    mutable real_type    m_x_range{0};
+    mutable real_type    m_dx{0};
+    mutable integer      m_LO[m_table_size+2]; // to avoid overflow and replicate last point
+    mutable integer      m_HI[m_table_size+2]; // to avoid overflow and replicate last point
+    mutable bool         m_must_reset{ true };
+    mutable std::mutex   m_mutex;
+    void reset() const;
 
   public:
 
@@ -402,6 +405,7 @@ namespace Splines {
       p_X                = X;
       p_curve_is_closed  = is_closed;
       p_curve_can_extend = can_extend;
+      m_must_reset       = true;
     }
 
     //!
@@ -409,9 +413,7 @@ namespace Splines {
     //! Return result in `res.first` 
     //!
     void find( std::pair<integer,real_type> & res ) const;
-
-    void reset();
-
+    void must_reset() { m_must_reset = true; }
   };
   #endif
 
@@ -712,7 +714,7 @@ namespace Splines {
     build(
       real_type const x[],
       real_type const y[],
-      integer         n
+      integer   const n
     )
     { this->build( x, 1, y, 1, n ); }
 
@@ -764,17 +766,17 @@ namespace Splines {
     //!
     //! Allocate memory for `npts` points
     //!
-    virtual void reserve( integer npts ) = 0;
+    virtual void reserve( integer const npts ) = 0;
 
     //!
     //! Add a support point (x,y) to the spline.
     //!
-    void push_back( real_type x, real_type y );
+    void push_back( real_type const x, real_type const y );
 
     //!
     //! Drop last inserted point of the spline.
     //!
-    void drop_back() { if ( m_npts > 0 ) --m_npts; }
+    void drop_back() { if ( m_npts > 0 ) --m_npts; m_search.must_reset(); }
 
     //!
     //! Delete the support points, empty the spline.
@@ -789,12 +791,12 @@ namespace Splines {
     //!
     //! change X-origin of the spline
     //!
-    void set_origin( real_type x0 ) const;
+    void set_origin( real_type const x0 ) const;
 
     //!
     //! change X-range of the spline
     //!
-    void set_range( real_type xmin, real_type xmax );
+    void set_range( real_type const xmin, real_type const xmax );
 
     ///@}
 
@@ -807,7 +809,7 @@ namespace Splines {
     void
     dump(
       ostream_type & s,
-      integer        nintervals,
+      integer const  nintervals,
       string_view    header = "x\ty"
     ) const;
 
@@ -816,9 +818,9 @@ namespace Splines {
     //!
     void
     dump(
-      string_view fname,
-      integer     nintervals,
-      string_view header = "x\ty"
+      string_view   fname,
+      integer const nintervals,
+      string_view   header = "x\ty"
     ) const {
       std::ofstream file(fname.data());
       this->dump( file, nintervals, header );
@@ -838,32 +840,37 @@ namespace Splines {
     //!
     //! Evaluate spline value
     //!
-    virtual real_type eval( real_type x ) const = 0;
+    virtual real_type         eval( real_type         const   x ) const = 0;
+    virtual autodiff::dual1st eval( autodiff::dual1st const & x ) const = 0;
+    virtual autodiff::dual2nd eval( autodiff::dual2nd const & x ) const = 0;
 
     //!
     //! First derivative
     //!
-    virtual real_type D( real_type x ) const = 0;
+    virtual real_type D( real_type const x ) const = 0;
 
     //!
     //! Second derivative
     //!
-    virtual real_type DD( real_type x ) const = 0;
+    virtual real_type DD( real_type const x ) const = 0;
 
     //!
     //! Third derivative
     //!
-    virtual real_type DDD( real_type x ) const = 0;
+    virtual real_type DDD( real_type const x ) const = 0;
 
     //!
     //! 4th derivative
     //!
-    virtual real_type DDDD( real_type ) const { return real_type(0); }
+    virtual real_type DDDD( real_type const ) const { return real_type(0); }
 
     //!
     //! 5th derivative
     //!
-    virtual real_type DDDDD( real_type ) const { return real_type(0); }
+    virtual real_type DDDDD( real_type const ) const { return real_type(0); }
+
+    virtual void D  ( real_type const x, real_type dd[2] ) const = 0;
+    virtual void DD ( real_type const x, real_type dd[3] ) const = 0;
 
     ///@}
 
@@ -874,27 +881,27 @@ namespace Splines {
     //!
     //! Alias for `real_type eval( real_type x )`
     //!
-    real_type operator () ( real_type x ) const { return this->eval(x); }
+    real_type operator () ( real_type const x ) const { return this->eval(x); }
     //!
     //! Alias for `real_type D( real_type x )`
     //!
-    real_type eval_D( real_type x ) const { return this->D(x); }
+    real_type eval_D( real_type const x ) const { return this->D(x); }
     //!
     //! Alias for `real_type DD( real_type x )`
     //!
-    real_type eval_DD( real_type x ) const { return this->DD(x); }
+    real_type eval_DD( real_type const x ) const { return this->DD(x); }
     //!
     //! Alias for `real_type DDD( real_type x )`
     //!
-    real_type eval_DDD( real_type x ) const { return this->DDD(x); }
+    real_type eval_DDD( real_type const x ) const { return this->DDD(x); }
     //!
     //! Alias for `real_type DDDD( real_type x )`
     //!
-    real_type eval_DDDD( real_type x ) const { return this->DDDD(x); }
+    real_type eval_DDDD( real_type const x ) const { return this->DDDD(x); }
     //!
     //! Alias for `real_type DDDD( real_type x )`
     //!
-    real_type eval_DDDDD( real_type x ) const { return this->DDDDD(x); }
+    real_type eval_DDDDD( real_type const x ) const { return this->DDDDD(x); }
     ///@}
 
     //!
@@ -905,32 +912,32 @@ namespace Splines {
     //!
     //! Evaluate spline value
     //!
-    virtual real_type id_eval( integer ni, real_type x ) const = 0;
+    virtual real_type id_eval( integer const ni, real_type const x ) const = 0;
 
     //!
     //! First derivative
     //!
-    virtual real_type id_D( integer ni, real_type x ) const = 0;
+    virtual real_type id_D( integer const ni, real_type const x ) const = 0;
 
     //!
     //! Second derivative
     //!
-    virtual real_type id_DD( integer ni, real_type x ) const = 0;
+    virtual real_type id_DD( integer const ni, real_type const x ) const = 0;
 
     //!
     //! Third derivative
     //!
-    virtual real_type id_DDD( integer ni, real_type x ) const = 0;
+    virtual real_type id_DDD( integer const ni, real_type const x ) const = 0;
 
     //!
     //! 4th derivative
     //!
-    virtual real_type id_DDDD( integer, real_type ) const { return real_type(0); }
+    virtual real_type id_DDDD( integer const, real_type const) const { return real_type(0); }
 
     //!
     //! 5th derivative
     //!
-    virtual real_type id_DDDDD( integer, real_type ) const { return real_type(0); }
+    virtual real_type id_DDDDD( integer const, real_type const) const { return real_type(0); }
 
     ///@}
 
@@ -992,17 +999,17 @@ namespace Splines {
   //!
   //! compute curvature of a planar curve
   //!
-  real_type curvature( real_type s, Spline const & X, Spline const & Y );
+  real_type curvature( real_type const s, Spline const & X, Spline const & Y );
 
   //!
   //! compute curvature derivative of a planar curve
   //!
-  real_type curvature_D( real_type s, Spline const & X, Spline const & Y );
+  real_type curvature_D( real_type const s, Spline const & X, Spline const & Y );
 
   //!
   //! compute curvature second derivative of a planar curve
   //!
-  real_type curvature_DD( real_type s, Spline const & X, Spline const & Y );
+  real_type curvature_DD( real_type const s, Spline const & X, Spline const & Y );
 
   /*\
    |    ____      _     _        ____        _ _              ____
@@ -1099,24 +1106,41 @@ namespace Splines {
     //! \name Evaluation
     //!
     ///@{
-    real_type eval( real_type x ) const override;
-    real_type D( real_type x ) const override;
-    real_type DD( real_type x ) const override;
-    real_type DDD( real_type x ) const override;
-    real_type DDDD( real_type ) const override { return 0; }
-    real_type DDDDD( real_type ) const override { return 0; }
+    real_type eval  ( real_type const x ) const override;
+    real_type D     ( real_type const x ) const override;
+    real_type DD    ( real_type const x ) const override;
+    real_type DDD   ( real_type const x ) const override;
+    real_type DDDD  ( real_type const   ) const override { return 0; }
+    real_type DDDDD ( real_type const   ) const override { return 0; }
+
+    void D  ( real_type const x, real_type dd[2] ) const override;
+    void DD ( real_type const x, real_type dd[3] ) const override;
+
     ///@}
 
     //!
     //! \name Evaluation when segment is known
     ///@{
-    real_type id_eval( integer ni, real_type x ) const override;
-    real_type id_D( integer ni, real_type x ) const override;
-    real_type id_DD( integer ni, real_type x ) const override;
-    real_type id_DDD( integer ni, real_type x ) const override;
-    real_type id_DDDD( integer, real_type ) const override { return 0; }
-    real_type id_DDDDD( integer, real_type ) const override { return 0; }
+    real_type id_eval  ( integer const ni, real_type const x ) const override;
+    real_type id_D     ( integer const ni, real_type const x ) const override;
+    real_type id_DD    ( integer const ni, real_type const x ) const override;
+    real_type id_DDD   ( integer const ni, real_type const x ) const override;
+    real_type id_DDDD  ( integer const   , real_type const   ) const override { return 0; }
+    real_type id_DDDDD ( integer const   , real_type const   ) const override { return 0; }
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
+    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x ) const { return eval( autodiff::detail::to_dual(x) ); }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    operator () ( T const & x ) const { return eval( autodiff::detail::to_dual(x) ); }
+    #endif
 
     void write_to_stream( ostream_type & s ) const override;
 
@@ -1140,9 +1164,9 @@ namespace Splines {
     //!
     void
     build(
-      real_type const x[],  integer incx,
-      real_type const y[],  integer incy,
-      real_type const yp[], integer incyp,
+      real_type const x[],  integer const incx,
+      real_type const y[],  integer const incy,
+      real_type const yp[], integer const incyp,
       integer n
     );
 
@@ -1253,28 +1277,28 @@ namespace Splines {
 
     static
     integer
-    ipos_C( integer i, integer j, integer ldZ )
+    ipos_C( integer const i, integer const j, integer const ldZ )
     { return i*ldZ + j; }
 
     static
     integer
-    ipos_F( integer i, integer j, integer ldZ )
+    ipos_F( integer const i, integer const j, integer const ldZ )
     { return i + ldZ*j; }
 
     integer
-    ipos_C( integer i, integer j ) const
+    ipos_C( integer const i, integer const j ) const
     { return this->ipos_C(i,j,m_ny); }
 
     integer
-    ipos_F( integer i, integer j ) const
+    ipos_F( integer const i, integer const j ) const
     { return this->ipos_F(i,j,m_nx); }
 
-    real_type & z_node_ref( integer i, integer j ) { return m_Z[this->ipos_C(i,j)]; }
+    real_type & z_node_ref( integer const i, integer const j ) { return m_Z[this->ipos_C(i,j)]; }
 
     void
     load_Z(
       real_type const z[],
-      integer         ldZ,
+      integer   const ldZ,
       bool            fortran_storage,
       bool            transposed
     );
@@ -1476,10 +1500,10 @@ namespace Splines {
     //!
     void
     build(
-      real_type const x[], integer incx,
-      real_type const y[], integer incy,
-      real_type const z[], integer ldZ,
-      integer nx, integer ny,
+      real_type const x[], integer const incx,
+      real_type const y[], integer const incy,
+      real_type const z[], integer const ldZ,
+      integer const nx, integer const ny,
       bool fortran_storage = false,
       bool transposed      = false
     );
@@ -1538,8 +1562,8 @@ namespace Splines {
     void
     build(
       vector<real_type> const & z,
-      integer                   nx,
-      integer                   ny,
+      integer           const   nx,
+      integer           const   ny,
       bool fortran_storage = false,
       bool transposed      = false
     ) {
@@ -1589,7 +1613,19 @@ namespace Splines {
     //!
     virtual
     real_type
-    eval( real_type x, real_type y ) const = 0;
+    eval( real_type const x, real_type const y ) const = 0;
+
+    #ifdef AUTIDIFF_SUPPORT
+    autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const;
+    autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const;
+
+    template <typename T1, typename T2>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type>
+    eval( T1 const & x, T2 const & y ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type> X{x}, Y{y};
+      return eval( X, Y );
+    }
+    #endif
 
     //!
     //! Value and first derivatives at point \f$ (x,y) \f$:
@@ -1600,7 +1636,7 @@ namespace Splines {
     //!
     virtual
     void
-    D( real_type x, real_type y, real_type d[3] ) const = 0;
+    D( real_type const x, real_type const y, real_type d[3] ) const = 0;
 
     //!
     //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
@@ -1608,7 +1644,7 @@ namespace Splines {
     //!
     virtual
     real_type
-    Dx( real_type x, real_type y ) const = 0;
+    Dx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
@@ -1616,7 +1652,7 @@ namespace Splines {
     //!
     virtual
     real_type
-    Dy( real_type x, real_type y ) const = 0;
+    Dy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Value, first and second derivatives at point \f$ (x,y) \f$:
@@ -1630,7 +1666,7 @@ namespace Splines {
     //!
     virtual
     void
-    DD( real_type x, real_type y, real_type dd[6] ) const = 0;
+    DD( real_type const x, real_type const y, real_type dd[6] ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
@@ -1638,14 +1674,14 @@ namespace Splines {
     //!
     virtual
     real_type
-    Dxx( real_type x, real_type y ) const = 0;
+    Dxx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
     virtual
     real_type
-    Dxy( real_type x, real_type y ) const = 0;
+    Dxy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
@@ -1653,48 +1689,48 @@ namespace Splines {
     //!
     virtual
     real_type
-    Dyy( real_type x, real_type y ) const = 0;
+    Dyy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
     real_type
-    operator () ( real_type x, real_type y ) const
+    operator () ( real_type const x, real_type const y ) const
     { return this->eval(x,y); }
 
     //!
     //! Alias for `Dx(x,y)`
     //!
     real_type
-    eval_D_1( real_type x, real_type y ) const
+    eval_D_1( real_type const x, real_type const y ) const
     { return this->Dx(x,y); }
 
     //!
     //! Alias for `Dy(x,y)`
     //!
     real_type
-    eval_D_2( real_type x, real_type y ) const
+    eval_D_2( real_type const x, real_type const y ) const
     { return this->Dy(x,y); }
 
     //!
     //! Alias for `Dxx(x,y)`
     //!
     real_type
-    eval_D_1_1( real_type x, real_type y ) const
+    eval_D_1_1( real_type const x, real_type const y ) const
     { return this->Dxx(x,y); }
 
     //!
     //! Alias for `Dxy(x,y)`
     //!
     real_type
-    eval_D_1_2( real_type x, real_type y ) const
+    eval_D_1_2( real_type const x, real_type const y ) const
     { return this->Dxy(x,y); }
 
     //!
     //! Alias for `Dyy(x,y)`
     //!
     real_type
-    eval_D_2_2( real_type x, real_type y ) const
+    eval_D_2_2( real_type const x, real_type const y ) const
     { return this->Dyy(x,y); }
 
     ///@}

@@ -62,7 +62,7 @@ namespace Splines {
       m_Yp[i] = yp[i*incyp];
     }
     m_npts = n;
-    m_search.reset();
+    m_search.must_reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -171,10 +171,27 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::D( real_type x ) const {
+  CubicSplineBase::D( real_type const x ) const {
     std::pair<integer,real_type> res(0,x);
     m_search.find( res );
     return this->id_D( res.first, res.second );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  CubicSplineBase::D( real_type const x, real_type dd[2] ) const {
+    std::pair<integer,real_type> res(0,x);
+    m_search.find( res );
+    integer   const ni { res.first  };
+    real_type const X  { res.second };
+    real_type base[4], base_D[4];
+    real_type dx{ X - m_X[ni] };
+    real_type DX{ m_X[ni+1]-m_X[ni] };
+    Hermite3   ( dx, DX, base   );
+    Hermite3_D ( dx, DX, base_D );
+    dd[0]= base[0]   * m_Y[ni] + base[1]   * m_Y[ni+1] + base[2]   * m_Yp[ni] + base[3]   * m_Yp[ni+1];
+    dd[1]= base_D[0] * m_Y[ni] + base_D[1] * m_Y[ni+1] + base_D[2] * m_Yp[ni] + base_D[3] * m_Yp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -195,10 +212,29 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DD( real_type x ) const {
+  CubicSplineBase::DD( real_type const x ) const {
     std::pair<integer,real_type> res(0,x);
     m_search.find( res );
     return this->id_DD( res.first, res.second );
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  void
+  CubicSplineBase::DD( real_type const x, real_type dd[3] ) const {
+    std::pair<integer,real_type> res(0,x);
+    m_search.find( res );
+    integer   const ni { res.first  };
+    real_type const X  { res.second };
+    real_type base[4], base_D[4], base_DD[4];
+    real_type dx{ X - m_X[ni] };
+    real_type DX{ m_X[ni+1]-m_X[ni] };
+    Hermite3    ( dx, DX, base    );
+    Hermite3_D  ( dx, DX, base_D  );
+    Hermite3_DD ( dx, DX, base_DD );
+    dd[0]= base[0]    * m_Y[ni] + base[1]    * m_Y[ni+1] + base[2]    * m_Yp[ni] + base[3]    * m_Yp[ni+1];
+    dd[1]= base_D[0]  * m_Y[ni] + base_D[1]  * m_Y[ni+1] + base_D[2]  * m_Yp[ni] + base_D[3]  * m_Yp[ni+1];
+    dd[2]= base_DD[0] * m_Y[ni] + base_DD[1] * m_Y[ni+1] + base_DD[2] * m_Yp[ni] + base_DD[3] * m_Yp[ni+1];
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -219,11 +255,39 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  CubicSplineBase::DDD( real_type x ) const {
+  CubicSplineBase::DDD( real_type const x ) const {
     std::pair<integer,real_type> res(0,x);
     m_search.find( res );
     return this->id_DDD( res.first, res.second );
   }
+
+
+  #ifdef AUTIDIFF_SUPPORT
+  autodiff::dual1st
+  CubicSplineBase::eval( autodiff::dual1st const & x ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
+    real_type dd[2];
+    D( val(x), dd );
+    dual1st res { dd[0] };
+    res.grad = dd[1] * x.grad;
+    return res;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  autodiff::dual2nd
+  CubicSplineBase::eval( autodiff::dual2nd const & x ) const {
+    using autodiff::dual2nd;
+    using autodiff::detail::val;
+    real_type dd[3], xg{ val(x.grad) };
+    DD( val(x), dd );
+    dual2nd res { dd[0] };
+    res.grad      = dd[1] * xg;
+    res.grad.grad = dd[1] * x.grad.grad + dd[2] * (xg*xg);
+    return res;
+  }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

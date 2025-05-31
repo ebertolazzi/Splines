@@ -316,56 +316,76 @@ namespace Splines {
     //!
     //! Evaluate spline value at `x`.
     //!
-    real_type eval( real_type x ) const { return m_spline->eval(x); }
+    real_type eval( real_type const x ) const { return m_spline->eval(x); }
 
     //!
     //! First derivative at `x`.
     //!
-    real_type D( real_type x ) const { return m_spline->D(x); }
+    real_type D( real_type const x ) const { return m_spline->D(x); }
 
     //!
     //! Second derivative at `x`.
     //!
-    real_type DD( real_type x ) const { return m_spline->DD(x); }
+    real_type DD( real_type const x ) const { return m_spline->DD(x); }
 
     //!
     //! Third derivative at `x`.
     //!
-    real_type DDD( real_type x ) const { return m_spline->DDD(x); }
+    real_type DDD( real_type const x ) const { return m_spline->DDD(x); }
 
     //!
     //! 4th derivative at `x`.
     //!
-    real_type DDDD( real_type x ) const { return m_spline->DDDD(x); }
+    real_type DDDD( real_type const x ) const { return m_spline->DDDD(x); }
 
     //!
     //! 5th derivative at `x`.
     //!
-    real_type DDDDD( real_type x ) const { return m_spline->DDDDD(x); }
+    real_type DDDDD( real_type const x ) const { return m_spline->DDDDD(x); }
+
+    void D  ( real_type const x, real_type dd[2] ) const { m_spline->D(x,dd); }
+    void DD ( real_type const x, real_type dd[2] ) const { m_spline->DD(x,dd); }
 
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st eval( autodiff::dual1st const & x ) const;
+    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const;
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> X{x};
+      return eval( X );
+    }
+    ///@}
+    #endif
 
     //!
     //! \name Evaluation Aliases
     //!
     ///@{
     //! the value of the spline at `x`
-    real_type operator () ( real_type x ) const { return m_spline->eval(x); }
+    real_type operator () ( real_type const x ) const { return m_spline->eval(x); }
 
     //! the value of the first derivative of the spline at `x`
-    real_type eval_D( real_type x ) const { return m_spline->D(x); }
+    real_type eval_D( real_type const x ) const { return m_spline->D(x); }
 
     //! the value of the second derivative of the spline at `x`
-    real_type eval_DD( real_type x ) const { return m_spline->DD(x); }
+    real_type eval_DD( real_type const x ) const { return m_spline->DD(x); }
 
     //! the value of the third derivative of the spline at `x`
-    real_type eval_DDD( real_type x ) const { return m_spline->DDD(x); }
+    real_type eval_DDD( real_type const x ) const { return m_spline->DDD(x); }
 
     //! the value of the 4-th derivative of the spline at `x`
-    real_type eval_DDDD( real_type x ) const { return m_spline->DDDD(x); }
+    real_type eval_DDDD( real_type const x ) const { return m_spline->DDDD(x); }
 
     //! the value of the 5-th derivative of the spline at `x`
-    real_type eval_DDDDD( real_type x ) const { return m_spline->DDDDD(x); }
+    real_type eval_DDDDD( real_type const x ) const { return m_spline->DDDDD(x); }
     ///@}
 
     ///////////////////////////////////////////////////////////////////////////
@@ -377,48 +397,42 @@ namespace Splines {
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_eval( integer ni, real_type x ) const { return m_spline->id_eval(ni,x); }
+    real_type id_eval( integer const ni, real_type const x ) const { return m_spline->id_eval(ni,x); }
 
     //!
     //! First derivative at `x`.
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_D( integer ni, real_type x ) const { return m_spline->id_D(ni,x); }
+    real_type id_D( integer const ni, real_type const x ) const { return m_spline->id_D(ni,x); }
 
     //!
     //! Second derivative at `x`.
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_DD( integer ni, real_type x ) const { return m_spline->id_DD(ni,x); }
+    real_type id_DD( integer const ni, real_type const x ) const { return m_spline->id_DD(ni,x); }
 
     //!
     //! Third derivative at `x`.
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_DDD( integer ni, real_type x ) const { return m_spline->id_DDD(ni,x); }
+    real_type id_DDD( integer const ni, real_type const x ) const { return m_spline->id_DDD(ni,x); }
 
     //!
     //! 4th derivative at `x`.
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_DDDD( integer ni, real_type x ) const { return m_spline->id_DDDD(ni,x); }
+    real_type id_DDDD( integer const ni, real_type const x ) const { return m_spline->id_DDDD(ni,x); }
 
     //!
     //! 5th derivative at `x`.
     //! \param x  value at which spline is evaluated
     //! \param ni select the component
     //!
-    real_type
-    id_DDDDD( integer ni, real_type x ) const { return m_spline->id_DDDDD(ni,x); }
+    real_type id_DDDDD( integer const ni, real_type const x ) const { return m_spline->id_DDDDD(ni,x); }
 
     ///@}
 
@@ -449,30 +463,22 @@ namespace Splines {
     //!
     //! Return spline typename.
     //!
-    char const *
-    type_name() const
-    { return m_spline->type_name(); }
+    char const * type_name() const { return m_spline->type_name(); }
 
     //!
     //! Return spline type (as number).
     //!
-    SplineType1D
-    type() const
-    { return m_spline->type(); }
+    SplineType1D type() const { return m_spline->type(); }
 
     //!
     //! String information of the kind and order of the spline
     //!
-    string
-    info() const
-    { return m_spline->info(); }
+    string info() const { return m_spline->info(); }
 
     //!
     //! Print information of the kind and order of the spline
     //!
-    void
-    info( ostream_type & stream ) const
-    { m_spline->info( stream ); }
+    void info( ostream_type & stream ) const { m_spline->info( stream ); }
 
     #ifdef SPLINES_BACK_COMPATIBILITY
     integer numPoints() const { return m_spline->num_points(); }

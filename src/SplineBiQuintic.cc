@@ -33,7 +33,38 @@ using namespace std; // load standard namspace
 #endif
 
 namespace Splines {
+#ifdef AUTIDIFF_SUPPORT
+  //!
+  //! \name Autodiff
+  //!
+  autodiff::dual1st
+  BiQuinticSplineBase::eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
 
+    real_type dd[3];
+    D( val(x), val(y), dd );
+
+    dual1st res{ dd[0] };
+    res.grad = dd[1] * x.grad + dd[2] * y.grad;
+
+    return res;
+  }
+
+  autodiff::dual2nd
+  BiQuinticSplineBase::eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const {
+    using autodiff::dual2nd;
+    using autodiff::derivative;
+
+    real_type dd[6], dx{ val(x.grad) }, dy{ val(y.grad) }, ddx{ x.grad.grad }, ddy{ y.grad.grad };
+    DD( val(x), val(y), dd );
+
+    dual2nd res{ dd[0] };
+    res.grad = dd[1] * dx + dd[2] * dy;
+    res.grad.grad = dd[3]*dx*dx + 2*dx*dy*dd[4]+ dy*dy*dd[5] + ddx*dd[1] + ddy*dd[2];
+    return res;
+  }
+  #endif
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -62,8 +93,8 @@ namespace Splines {
 
     make_derivative_xy( m_DXXY, m_DXYY, m_DXXYY );
 
-    m_search_x.reset();
-    m_search_y.reset();
+    m_search_x.must_reset();
+    m_search_y.must_reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

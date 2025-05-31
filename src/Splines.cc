@@ -239,6 +239,12 @@ namespace Splines {
 
   void
   SearchInterval::find( std::pair<integer,real_type> & res ) const {
+
+    {
+      std::lock_guard<std::mutex> lock(m_mutex);
+      if ( m_must_reset ) this->reset();
+    }
+
     integer   const & n    { *p_npts };
     string    const & name { *p_name };
     real_type const * X    { *p_X    };
@@ -247,6 +253,7 @@ namespace Splines {
     integer   & pos { res.first  };
     real_type & x   { res.second };
 
+    #if 1
     // casi out of bound
     if ( x > m_x_max ) {
       if ( *p_curve_is_closed ) { x -= m_x_range * std::floor( (x - m_x_min) / m_x_range ); }
@@ -266,6 +273,10 @@ namespace Splines {
       "Spline::SearchInterval, x={}, ipos={}, dx={}, X[{}]={}, X[{}]={}, range=[{},{}]\n",
       x, i_cell, m_dx, k_LO, X[k_LO], k_HI, X[k_HI], m_x_min, m_x_max
     );
+    #else
+    integer k_LO = 0;
+    integer k_HI = n;
+    #endif
 
     // binary search
     while ( k_HI > k_LO+1 ) {
@@ -280,7 +291,7 @@ namespace Splines {
   }
 
   void
-  SearchInterval::reset() {
+  SearchInterval::reset() const {
     integer           n{ *p_npts };
     real_type const * X{ *p_X    };
 
@@ -326,6 +337,8 @@ namespace Splines {
     for ( integer i{m_table_size}; i > 0;            --i ) if ( m_HI[i-1] == -1 ) m_HI[i-1] = m_HI[i];
     m_LO[m_table_size+1] = m_LO[m_table_size]; // replica ultimo nodo
     m_HI[m_table_size+1] = m_HI[m_table_size]; // replica ultimo nodo
+
+    m_must_reset = false;
   }
 
   /*\
@@ -447,6 +460,7 @@ namespace Splines {
     m_X[m_npts] = x;
     m_Y[m_npts] = y;
     ++m_npts;
+    m_search.must_reset();
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -29,34 +29,62 @@
 #include "Splines.hh"
 #include "Utils_fmt.hh"
 
-namespace Splines {
+#include <GenericContainer/GenericContainer.hh>
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+#include <fstream>
 
-  void
-  Spline2D::new_spline( SplineType2D const tp ) {
-    if ( m_spline_2D == nullptr ) {
-      delete m_spline_2D;
-      m_spline_2D = nullptr;
-    }
-    switch ( tp ) {
-    case SplineType2D::BILINEAR:  m_spline_2D = new BilinearSpline(m_name);  break;
-    case SplineType2D::BICUBIC:   m_spline_2D = new BiCubicSpline(m_name);   break;
-    case SplineType2D::BIQUINTIC: m_spline_2D = new BiQuinticSpline(m_name); break;
-    case SplineType2D::AKIMA2D:   m_spline_2D = new Akima2Dspline(m_name);   break;
-//    default:
-//      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
-    }
-  }
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
 
-  #endif
+using namespace SplinesLoad;
+using namespace std;
+using namespace GenericContainerNamespace;
+using Splines::real_type;
+using Splines::integer;
 
-  void
-  Spline2D::setup( GenericContainer const & gc ) {
-    string const   where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
-    string const & type{ gc.get_map_string("spline_type",where) };
-    new_spline( string_to_splineType2D( type ) );
-    m_spline_2D->setup( gc );
-  }
 
+// monotone
+static real_type xx[] = { 0, 0.9, 2.1, 3, 4.5 };
+static real_type yy[] = { 0, 1, 1.1, 2.0, 2.1 };
+
+static integer npt = 5;
+
+template <typename Tspline>
+static
+void
+do_test( string const & msg ) {
+  using namespace autodiff::detail;
+
+  Tspline S;
+  S.build( xx, yy, npt );
+  
+  autodiff::dual2nd t{ 1.1 };
+  t.grad = 1;
+  autodiff::dual2nd ttt{ t*t-t/2 };
+  autodiff::dual2nd v{ S( ttt ) };
+  
+  fmt::print( "t = {}  t' = {}\n", ttt, ttt.grad );
+  fmt::print( "{}  S({})   = {}\n",    msg, ttt, v );
+  fmt::print( "{}  S'({})  = {}:{}\n", msg, ttt, val(ttt.grad)*S.D( val(ttt) ), v.grad );
+  fmt::print( "{}  S''({}) = {}:{}\n\n", msg, ttt, val(ttt.grad.grad)*S.D( val(ttt) )
+                                                  +val(ttt.grad*ttt.grad)*S.DD( val(ttt) ),  v.grad.grad );
+  //fmt::print( "S''({}) = {}:{}\n", t, S.DD( tt ), v.grad.grad );
+
+}
+
+
+int
+main() {
+  cout << "\n\nTEST N.12\n\n";
+
+  do_test<LinearSpline>("LinearSpline");
+  do_test<ConstantSpline>("ConstantSpline");
+  do_test<AkimaSpline>("AkimaSpline");
+  do_test<CubicSpline>("CubicSpline");
+  do_test<BesselSpline>("BesselSpline");
+  do_test<PchipSpline>("PchipSpline");
+  do_test<QuinticSpline>("QuinticSpline");
+
+  cout << "\nALL DONE!\n\n";
 }

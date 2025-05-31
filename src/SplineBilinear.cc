@@ -38,7 +38,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BilinearSpline::eval( real_type x, real_type y ) const {
+  BilinearSpline::eval( real_type const x, real_type const y ) const {
     std::pair<integer,real_type> X(0,x), Y(0,y);
 
     m_search_x.find( X );
@@ -65,7 +65,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BilinearSpline::Dx( real_type x, real_type y ) const {
+  BilinearSpline::Dx( real_type const x, real_type const y ) const {
     std::pair<integer,real_type> X(0,x), Y(0,y);
 
     m_search_x.find( X );
@@ -88,7 +88,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   real_type
-  BilinearSpline::Dy( real_type x, real_type y ) const {
+  BilinearSpline::Dy( real_type const x, real_type const y ) const {
     std::pair<integer,real_type> X(0,x), Y(0,y);
 
     m_search_x.find( X );
@@ -111,7 +111,7 @@ namespace Splines {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
-  BilinearSpline::D( real_type x, real_type y, real_type d[3] ) const {
+  BilinearSpline::D( real_type const x, real_type const y, real_type d[3] ) const {
     std::pair<integer,real_type> X(0,x), Y(0,y);
 
     m_search_x.find( X );
@@ -145,6 +145,41 @@ namespace Splines {
     this->D( x, y, dd );
     dd[3] = dd[4] = dd[5] = 0; // second derivative are 0
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #ifdef AUTIDIFF_SUPPORT
+  //!
+  //! \name Autodiff
+  //!
+  autodiff::dual1st
+  BilinearSpline::eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const {
+    using autodiff::dual1st;
+    using autodiff::detail::val;
+
+    real_type dd[3];
+    D( val(x), val(y), dd );
+
+    dual1st res{ dd[0] };
+    res.grad = dd[1] * x.grad + dd[2] * y.grad;
+
+    return res;
+  }
+
+  autodiff::dual2nd
+  BilinearSpline::eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const {
+    using autodiff::dual2nd;
+    using autodiff::derivative;
+
+    real_type dd[6];
+    DD( val(x), val(y), dd );
+
+    dual2nd res{ dd[0] };
+    res.grad = dd[1] * x.grad + dd[2] * y.grad;
+    //res.grad.grad = dd[3]*dx*dx + 2*dx*dy*dd[4]+ dy*dy*dd[5] + ddx*dd[1] + ddy*dd[2]; sempre 0
+    return res;
+  }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

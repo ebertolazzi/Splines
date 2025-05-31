@@ -115,7 +115,7 @@ namespace Splines {
     } while ( iend < m_npts );
 
     Utils::check_NaN( m_Yp, msg+" Yp", m_npts, __LINE__, __FILE__ );
-    m_search.reset();
+    m_search.must_reset();
   }
 
   using GC_namespace::GC_type;

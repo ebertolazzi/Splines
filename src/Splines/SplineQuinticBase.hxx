@@ -148,23 +148,38 @@ namespace Splines {
     //! \name Evaluation Aliases
     //!
     ///@{
-    real_type eval( real_type x ) const override;
-    real_type D( real_type x ) const override;
-    real_type DD( real_type x ) const override;
-    real_type DDD( real_type x ) const override;
-    real_type DDDD( real_type x ) const override;
-    real_type DDDDD( real_type x ) const override;
+    real_type eval  ( real_type const x ) const override;
+    real_type D     ( real_type const x ) const override;
+    real_type DD    ( real_type const x ) const override;
+    real_type DDD   ( real_type const x ) const override;
+    real_type DDDD  ( real_type const x ) const override;
+    real_type DDDDD ( real_type const x ) const override;
+    void D  ( real_type const x, real_type dd[2] ) const override;
+    void DD ( real_type const x, real_type dd[3] ) const override;
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
+    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x ) const { return eval( autodiff::detail::to_dual(x) ); }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    operator () ( T const & x ) const { return eval( autodiff::detail::to_dual(x) ); }
+    #endif
 
     //!
     //! \name Evaluation when segment is known
     ///@{
-    real_type id_eval( integer ni, real_type x ) const override;
-    real_type id_D( integer ni, real_type x ) const override;
-    real_type id_DD( integer ni, real_type x ) const override;
-    real_type id_DDD( integer ni, real_type x ) const override;
-    real_type id_DDDD( integer ni, real_type x ) const override;
-    real_type id_DDDDD( integer ni, real_type x ) const override;
+    real_type id_eval  ( integer const ni, real_type const x ) const override;
+    real_type id_D     ( integer const ni, real_type const x ) const override;
+    real_type id_DD    ( integer const ni, real_type const x ) const override;
+    real_type id_DDD   ( integer const ni, real_type const x ) const override;
+    real_type id_DDDD  ( integer const ni, real_type const x ) const override;
+    real_type id_DDDDD ( integer const ni, real_type const x ) const override;
     ///@}
 
     void reserve( integer npts ) override;

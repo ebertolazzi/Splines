@@ -249,8 +249,8 @@ namespace Splines {
       real_type const x[], integer incx,
       real_type const y[], integer incy,
       real_type const z[], integer ldZ,
-      integer         nx,
-      integer         ny,
+      integer   const nx,
+      integer   const ny,
       bool            fortran_storage = false,
       bool            transposed      = false
     ) {
@@ -301,9 +301,9 @@ namespace Splines {
     build(
       SplineType2D    tp,
       real_type const z[],
-      integer         ldZ,
-      integer         nx,
-      integer         ny,
+      integer   const ldZ,
+      integer   const nx,
+      integer   const ny,
       bool            fortran_storage = false,
       bool            transposed      = false
     ) {
@@ -329,8 +329,8 @@ namespace Splines {
     build(
       SplineType2D              tp,
       vector<real_type> const & z,
-      integer                   nx,
-      integer                   ny,
+      integer           const   nx,
+      integer           const   ny,
       bool fortran_storage = false,
       bool transposed      = false
     ) {
@@ -369,15 +369,27 @@ namespace Splines {
     //! Evaluate spline value at `(x,y)`.
     //!
     real_type
-    operator () ( real_type x, real_type y ) const
+    operator () ( real_type const x, real_type const y ) const
     { return m_spline_2D->eval( x, y ); }
 
     //!
     //! Evaluate spline value at `(x,y)`.
     //!
     real_type
-    eval( real_type x, real_type y ) const
+    eval( real_type const x, real_type const y ) const
     { return m_spline_2D->eval( x, y ); }
+
+    #ifdef AUTIDIFF_SUPPORT
+    autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const { return m_spline_2D->eval( x, y ); }
+    autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const { return m_spline_2D->eval( x, y ); }
+
+    template <typename T1, typename T2>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type>
+    eval( T1 const & x, T2 const & y ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T1,T2>::value,real_type> X{x}, Y{y};
+      return m_spline_2D->eval( X, Y );
+    }
+    #endif
 
     ///@}
 
@@ -391,7 +403,7 @@ namespace Splines {
     //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
     //!
     void
-    D( real_type x, real_type y, real_type d[3] ) const
+    D( real_type const x, real_type const y, real_type d[3] ) const
     { return m_spline_2D->D( x, y, d ); }
 
     //!
@@ -399,7 +411,7 @@ namespace Splines {
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
     real_type
-    Dx( real_type x, real_type y ) const
+    Dx( real_type const x, real_type const y ) const
     { return m_spline_2D->Dx( x, y ); }
 
     //!
@@ -407,7 +419,7 @@ namespace Splines {
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
     real_type
-    Dy( real_type x, real_type y ) const
+    Dy( real_type const x, real_type const y ) const
     { return m_spline_2D->Dy( x, y ); }
 
     //!
@@ -415,7 +427,7 @@ namespace Splines {
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
     real_type
-    eval_D_1( real_type x, real_type y ) const
+    eval_D_1( real_type const x, real_type const y ) const
     { return this->Dx(x,y); }
 
     //!
@@ -423,7 +435,7 @@ namespace Splines {
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
     real_type
-    eval_D_2( real_type x, real_type y ) const
+    eval_D_2( real_type const x, real_type const y ) const
     { return this->Dy(x,y); }
 
     ///@}
@@ -443,7 +455,7 @@ namespace Splines {
     //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
     //!
     void
-    DD( real_type x, real_type y, real_type dd[6] ) const
+    DD( real_type const x, real_type const y, real_type dd[6] ) const
     { return m_spline_2D->DD( x, y, dd ); }
 
     //!
@@ -451,14 +463,14 @@ namespace Splines {
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
     real_type
-    Dxx( real_type x, real_type y ) const
+    Dxx( real_type const x, real_type const y ) const
     { return m_spline_2D->Dxx( x, y ); }
 
     //!
     //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
     real_type
-    Dxy( real_type x, real_type y ) const
+    Dxy( real_type const x, real_type const y ) const
     { return m_spline_2D->Dxy( x, y ); }
 
     //!
@@ -466,7 +478,7 @@ namespace Splines {
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
     real_type
-    Dyy( real_type x, real_type y ) const
+    Dyy( real_type const x, real_type const y ) const
     { return m_spline_2D->Dyy( x, y ); }
 
     //!
@@ -474,14 +486,14 @@ namespace Splines {
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
     real_type
-    eval_D_1_1( real_type x, real_type y ) const
+    eval_D_1_1( real_type const x, real_type const y ) const
     { return this->Dxx(x,y); }
 
     //!
     //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
     real_type
-    eval_D_1_2( real_type x, real_type y ) const
+    eval_D_1_2( real_type const x, real_type const y ) const
     { return this->Dxy(x,y); }
 
     //!
@@ -489,7 +501,7 @@ namespace Splines {
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
     real_type
-    eval_D_2_2( real_type x, real_type y ) const
+    eval_D_2_2( real_type const x, real_type const y ) const
     { return this->Dyy(x,y); }
     ///@}
 
