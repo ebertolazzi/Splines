@@ -32,6 +32,7 @@
 
 #include <limits>
 #include <cmath>
+#include <set>
 
 namespace Splines {
 
@@ -556,6 +557,9 @@ namespace Splines {
 
     string const where{ fmt::format("SplineVec[{}]::setup( gc ):", m_name ) };
 
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
     GenericContainer const & data{ gc("data",where) };
 
     mat_real_type Y;
@@ -579,6 +583,15 @@ namespace Splines {
         for ( integer j{0}; j < m_npts; ++j )
           m_Y[spl][j] = Y(j,spl);
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
 
     // manca build Yp
   }

@@ -28,6 +28,7 @@
 
 #include "Splines.hh"
 #include "Utils_fmt.hh"
+#include <set>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namespace
@@ -284,9 +285,13 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("HermiteSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x  { gc("xdata",where) };
-    GenericContainer const & gc_y  { gc("ydata",where) };
-    GenericContainer const & gc_yp { gc("ypdata",where) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
+    GenericContainer const & gc_x  { gc("xdata",where)  }; keywords.erase("xdata");
+    GenericContainer const & gc_y  { gc("ydata",where)  }; keywords.erase("ydata");
+    GenericContainer const & gc_yp { gc("ypdata",where) }; keywords.erase("ypdata");
 
     vec_real_type x, y, yp;
     {
@@ -301,6 +306,16 @@ namespace Splines {
       string const ff{ fmt::format( "{}, field `ypdata'", where ) };
       gc_yp.copyto_vec_real( yp, ff );
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
+
     this->build( x, y, yp );
   }
 

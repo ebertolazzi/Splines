@@ -32,6 +32,7 @@
 
 #include <limits>
 #include <cmath>
+#include <set>
 
 namespace Splines {
 

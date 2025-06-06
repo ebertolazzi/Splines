@@ -30,6 +30,7 @@
 
 #include <cmath>
 #include <limits> // std::numeric_limits
+#include <set>
 
 #ifdef SPLINES_OS_OSX
   #define UNW_LOCAL_ONLY
@@ -643,6 +644,10 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("Spline[{}]::setup( gc ):", m_name ) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
     GenericContainer const & gc_x{ gc("xdata",where) };
     GenericContainer const & gc_y{ gc("ydata",where) };
 
@@ -655,6 +660,15 @@ namespace Splines {
       string const ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff );
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
     build( x, y );
   }
 

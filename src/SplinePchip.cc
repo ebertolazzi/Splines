@@ -29,6 +29,7 @@
 #include "Utils_fmt.hh"
 
 #include <cmath>
+#include <set>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
@@ -235,8 +236,12 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("PchipSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where) };
-    GenericContainer const & gc_y{ gc("ydata",where) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
+    GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
+    GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");
 
     vec_real_type x, y;
     {
@@ -247,6 +252,16 @@ namespace Splines {
       string const ff{ fmt::format( "{}, field `ydata'", where ) };
       gc_y.copyto_vec_real ( y, ff );
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
+
     this->build( x, y );
   }
 

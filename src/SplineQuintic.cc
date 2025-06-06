@@ -30,6 +30,7 @@
 #include "Utils_fmt.hh"
 
 #include <cmath>
+#include <set>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
@@ -301,8 +302,12 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("QuinticSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where) };
-    GenericContainer const & gc_y{ gc("ydata",where) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
+    GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
+    GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");
 
     vec_real_type x, y;
     {
@@ -315,6 +320,7 @@ namespace Splines {
     }
     if ( gc.exists("spline_sub_type") ) {
       string_view st{ gc.get_map_string("spline_sub_type",where) };
+      keywords.erase("spline_sub_type");
       if      ( st == "cubic"  ) m_q_sub_type = QuinticSpline_sub_type::CUBIC;
       else if ( st == "pchip"  ) m_q_sub_type = QuinticSpline_sub_type::PCHIP;
       else if ( st == "akima"  ) m_q_sub_type = QuinticSpline_sub_type::AKIMA;
@@ -325,6 +331,16 @@ namespace Splines {
     } else {
       UTILS_WARNING( false, "{}, missing field `spline_sub_type` using `cubic` as default value\n", where );
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
+
     this->build( x, y );
   }
 

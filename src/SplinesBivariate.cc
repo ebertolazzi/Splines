@@ -32,6 +32,7 @@
 
 #include <cmath>
 #include <iomanip>
+#include <set>
 
 namespace Splines {
 
@@ -825,9 +826,13 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("SplineSurf[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x { gc("xdata",where) };
-    GenericContainer const & gc_y { gc("ydata",where) };
-    GenericContainer const & gc_z { gc("zdata",where) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
+    GenericContainer const & gc_x { gc("xdata",where) }; keywords.erase("xdata");
+    GenericContainer const & gc_y { gc("ydata",where) }; keywords.erase("ydata");
+    GenericContainer const & gc_z { gc("zdata",where) }; keywords.erase("zdata");
 
     m_nx = static_cast<integer>(gc_x.get_num_elements());
     m_ny = static_cast<integer>(gc_y.get_num_elements());
@@ -839,8 +844,8 @@ namespace Splines {
     for ( integer i{0}; i < m_nx; ++i ) m_X[i] = gc_x.get_number_at(i);
     for ( integer j{0}; j < m_ny; ++j ) m_Y[j] = gc_y.get_number_at(j);
 
-    bool fortran_storage { gc.get_map_bool( "fortran_storage", where ) };
-    bool transposed      { gc.get_map_bool( "transposed",      where ) };
+    bool fortran_storage { gc.get_map_bool( "fortran_storage", where ) }; keywords.erase("fortran_storage");
+    bool transposed      { gc.get_map_bool( "transposed",      where ) }; keywords.erase("transposed");
 
     /*
     //     +------+
@@ -928,6 +933,15 @@ namespace Splines {
       );
 
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
 
     make_spline();
   }

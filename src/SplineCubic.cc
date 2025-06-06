@@ -28,6 +28,7 @@
 
 #include "Splines.hh"
 #include "Utils_fmt.hh"
+#include <set>
 
 /*\
  |   ####  #    # #####  #  ####
@@ -507,8 +508,14 @@ namespace Splines {
     //
     */
     string const where{ fmt::format("CubicSpline[{}]::setup( gc ):", m_name ) };
-    GenericContainer const & gc_x{ gc("xdata",where) };
-    GenericContainer const & gc_y{ gc("ydata",where) };
+
+    std::set<std::string> keywords;
+    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+
+    GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
+    GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");
+    keywords.erase("xdata");
+    keywords.erase("ydata");
 
     vec_real_type x, y;
     {
@@ -520,6 +527,7 @@ namespace Splines {
       gc_y.copyto_vec_real ( y, ff );
     }
     if ( gc.exists("bc_begin") ) {
+      keywords.erase("bc_begin");
       string_view bc{ gc.get_map_string("bc_begin",where) };
       if      ( bc == "extrapolate" ) m_bc0 = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bc0 = CubicSpline_BC::NATURAL;
@@ -535,6 +543,7 @@ namespace Splines {
     }
 
     if ( gc.exists("bc_end") ) {
+      keywords.erase("bc_end");
       string_view bc{ gc.get_map_string("bc_end",where) };
       if      ( bc == "extrapolate" ) m_bcn = CubicSpline_BC::EXTRAPOLATE;
       else if ( bc == "natural"     ) m_bcn = CubicSpline_BC::NATURAL;
@@ -546,6 +555,15 @@ namespace Splines {
     } else {
       UTILS_WARNING( false, "{}, missing field `bc_begin` using `extrapolate` as default value\n", where );
     }
+
+    UTILS_WARNING(
+      keywords.empty(), "{}: unused keys\n{}\n", where,
+      [&keywords]()->string {
+        string res;
+        for ( auto const & it : keywords ) { res += it; res += ' '; };
+        return res;
+      }()
+    );
     this->build( x, y );
   }
 
