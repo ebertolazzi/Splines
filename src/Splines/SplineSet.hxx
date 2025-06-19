@@ -56,9 +56,7 @@ namespace Splines {
 
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-    string const m_name;
+  string const m_name;
 
     Utils::Malloc<real_type>  m_mem;
     Utils::Malloc<real_type*> m_mem_p;
@@ -78,8 +76,6 @@ namespace Splines {
     int       *  m_is_monotone{nullptr};
 
     std::map<string,integer> m_header_to_position;
-
-    #endif
 
   private:
 
@@ -519,62 +515,34 @@ namespace Splines {
     //!
     //! Evaluate all the splines at `x`
     //!
-    void
-    eval(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the first derivative of all the splines at `x`
     //!
-    void
-    eval_D(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval_D( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the second derivative of all the splines at `x`
     //!
-    void
-    eval_DD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval_DD( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the third derivative of all the splines at `x`
     //!
-    void
-    eval_DDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval_DDD( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the 4th derivative of all the splines at `x`
     //!
     void
-    eval_DDDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    eval_DDDD( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the 5th derivative of all the splines at `x`
     //!
     void
-    eval_DDDDD(
-      real_type x,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    eval_DDDDD( real_type const x, real_type vals[], integer const incy = 1 ) const;
 
     ///@}
 
@@ -584,45 +552,25 @@ namespace Splines {
     //!
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2(
-      integer             spl,
-      real_type           zeta,
-      vector<real_type> & vals
-    ) const;
+    void eval2( integer const spl, real_type const zeta, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the first derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_D(
-      integer             spl,
-      real_type           zeta,
-      vector<real_type> & vals
-    ) const;
+    void eval2_D( integer const spl, real_type const zeta, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the second derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_DD(
-      integer             spl,
-      real_type           zeta,
-      vector<real_type> & vals
-    ) const;
+    void eval2_DD( integer const spl, real_type const zeta, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the third derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_DDD(
-      integer             spl,
-      real_type           zeta,
-      vector<real_type> & vals
-    ) const;
+    void eval2_DDD( integer const spl, real_type const zeta, vector<real_type> & vals ) const;
 
     ///@}
 
@@ -632,49 +580,25 @@ namespace Splines {
     //!
     //! Evaluate all the splines at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval2( integer const spl, real_type const zeta, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the fist derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_D(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval2_D( integer const spl, real_type const zeta, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the second derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_DD(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval2_DD( integer const spl, real_type const zeta, real_type vals[], integer const incy = 1 ) const;
 
     //!
     //! Evaluate the 3rd derivative of all the splines
     //! at `zeta` using spline[spl] as independent
     //!
-    void
-    eval2_DDD(
-      integer   spl,
-      real_type zeta,
-      real_type vals[],
-      integer   incy = 1
-    ) const;
+    void eval2_DDD( integer const spl, real_type const zeta, real_type vals[], integer const incy = 1 ) const;
 
     ///@}
 
@@ -685,47 +609,67 @@ namespace Splines {
     //! Evaluate the spline `name` at `zeta` using
     //! spline `indep` as independent
     //!
-    real_type
-    eval2(
-      real_type   zeta,
-      string_view indep,
-      string_view name
-    ) const;
+    real_type eval2( real_type const zeta, string_view const indep, string_view const name ) const;
 
     //!
     //! Evaluate first derivative of the spline `name`
     //! at `zeta` using spline `indep` as independent
     //!
-    real_type
-    eval2_D(
-      real_type   zeta,
-      string_view indep,
-      string_view name
-    ) const;
+    real_type eval2_D( real_type const zeta, string_view const indep, string_view const name ) const;
 
     //!
     //! Evaluate second derivative of the spline `name`
     //! at `zeta` using spline `indep` as independent
     //!
-    real_type
-    eval2_DD(
-      real_type   zeta,
-      string_view indep,
-      string_view name
-    ) const;
+    real_type eval2_DD( real_type const zeta, string_view const indep, string_view const name ) const;
 
     //!
     //! Evaluate third derivative of the spline `name`
     //! at `zeta` using spline `indep` as independent
     //!
-    real_type
-    eval2_DDD(
-      real_type   zeta,
-      string_view indep,
-      string_view name
-    ) const;
+    real_type eval2_DDD( real_type const zeta, string_view const indep, string_view const name ) const;
 
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st
+    eval2( autodiff::dual1st const & zeta, string_view const indep, string_view const name ) const {
+      using autodiff::dual1st;
+      using autodiff::derivative;
+      real_type zv  { val(zeta)            };
+      dual1st   res { eval2(zv,indep,name) };
+      res.grad = eval2_D(zv,indep,name) * zeta.grad;
+      return res;
+    }
+
+    autodiff::dual2nd
+    eval2( autodiff::dual2nd const & zeta, string_view const indep, string_view const name ) const {
+      using autodiff::dual2nd;
+      using autodiff::derivative;
+
+      real_type zv  { val(zeta) };
+      real_type zg  { val(zeta.grad) };
+      real_type dfx { eval2_D(zv,indep,name) };
+      real_type dxx { eval2_DD(zv,indep,name) };
+      dual2nd   res { eval2(zv,indep,name) };
+
+      res.grad      = dfx * zg;
+      res.grad.grad = dfx * zeta.grad.grad + dxx * (zg*zg);
+      return res;
+    }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval2( T const & zeta, string_view const indep, string_view const name ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> Z{zeta};
+      return eval2( Z, indep, name );
+    }
+    ///@}
+    #endif
 
     //! \name Evaluate using another spline as independent
     ///@{
@@ -734,12 +678,7 @@ namespace Splines {
     //! Evaluate the spline `spl` at `zeta` using
     //! spline `indep` as independent
     //!
-    real_type
-    eval2(
-      real_type zeta,
-      integer   indep,
-      integer   spl
-    ) const;
+    real_type eval2( real_type const zeta, integer  const indep, integer const spl ) const;
 
     //!
     //! Evaluate first derivative of the spline `spl`
@@ -775,6 +714,46 @@ namespace Splines {
     ) const;
 
     ///@}
+
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st
+    eval2( autodiff::dual1st const & zeta, integer const indep, integer const spl ) const {
+      using autodiff::dual1st;
+      using autodiff::derivative;
+      real_type zv  { val(zeta) };
+      dual1st   res { eval2(zv,indep,spl) };
+      res.grad = eval2_D(zv,indep,spl) * zeta.grad;
+      return res;
+    }
+
+    autodiff::dual2nd
+    eval2( autodiff::dual2nd const & zeta, integer const indep, integer const spl ) const {
+      using autodiff::dual2nd;
+      using autodiff::derivative;
+
+      real_type zv  { val(zeta) };
+      real_type zg  { val(zeta.grad) };
+      real_type dfx { eval2_D(zv,indep,spl) };
+      real_type dxx { eval2_DD(zv,indep,spl) };
+      dual2nd   res { eval2(zv,indep,spl) };
+
+      res.grad      = dfx * zg;
+      res.grad.grad = dfx * zeta.grad.grad + dxx * (zg*zg);
+      return res;
+    }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval2( T const & zeta, integer const indep, integer const spl ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> Z{zeta};
+      return eval2( Z, indep, spl );
+    }
+    ///@}
+    #endif
 
     //! \name Evaluate onto a vector
     ///@{

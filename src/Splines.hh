@@ -735,8 +735,7 @@ namespace Splines {
     //!
     //! Build a spline using internal stored data
     //!
-    virtual
-    void build() = 0;
+    virtual void build() = 0;
 
     //!
     //! Setup a spline using a `GenericContainer`
@@ -744,8 +743,7 @@ namespace Splines {
     //! - gc("xdata") vector with the `x` coordinate of the data
     //! - gc("ydata") vector with the `y` coordinate of the data
     //!
-    virtual
-    void setup( GenericContainer const & gc );
+    virtual void setup( GenericContainer const & gc );
 
     //!
     //! Setup a spline using a `GenericContainer` readed from file
@@ -1611,9 +1609,7 @@ namespace Splines {
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
-    virtual
-    real_type
-    eval( real_type const x, real_type const y ) const = 0;
+    virtual real_type eval( real_type const x, real_type const y ) const = 0;
 
     #ifdef AUTIDIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const;
@@ -1634,25 +1630,19 @@ namespace Splines {
     //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
     //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
     //!
-    virtual
-    void
-    D( real_type const x, real_type const y, real_type d[3] ) const = 0;
+    virtual void D( real_type const x, real_type const y, real_type d[3] ) const = 0;
 
     //!
     //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
-    virtual
-    real_type
-    Dx( real_type const x, real_type const y ) const = 0;
+    virtual real_type Dx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_y(x,y) \f$.
     //!
-    virtual
-    real_type
-    Dy( real_type const x, real_type const y ) const = 0;
+    virtual real_type Dy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Value, first and second derivatives at point \f$ (x,y) \f$:
@@ -1664,74 +1654,54 @@ namespace Splines {
     //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
     //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
     //!
-    virtual
-    void
-    DD( real_type const x, real_type const y, real_type dd[6] ) const = 0;
+    virtual void DD( real_type const x, real_type const y, real_type dd[6] ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
-    virtual
-    real_type
-    Dxx( real_type const x, real_type const y ) const = 0;
+    virtual real_type Dxx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
-    virtual
-    real_type
-    Dxy( real_type const x, real_type const y ) const = 0;
+    virtual real_type Dxy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_{yy}(x,y) \f$.
     //!
-    virtual
-    real_type
-    Dyy( real_type const x, real_type const y ) const = 0;
+    virtual real_type Dyy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
-    real_type
-    operator () ( real_type const x, real_type const y ) const
-    { return this->eval(x,y); }
+    real_type operator () ( real_type const x, real_type const y ) const { return this->eval(x,y); }
 
     //!
     //! Alias for `Dx(x,y)`
     //!
-    real_type
-    eval_D_1( real_type const x, real_type const y ) const
-    { return this->Dx(x,y); }
+    real_type eval_D_1( real_type const x, real_type const y ) const { return this->Dx(x,y); }
 
     //!
     //! Alias for `Dy(x,y)`
     //!
-    real_type
-    eval_D_2( real_type const x, real_type const y ) const
-    { return this->Dy(x,y); }
+    real_type eval_D_2( real_type const x, real_type const y ) const { return this->Dy(x,y); }
 
     //!
     //! Alias for `Dxx(x,y)`
     //!
-    real_type
-    eval_D_1_1( real_type const x, real_type const y ) const
-    { return this->Dxx(x,y); }
+    real_type eval_D_1_1( real_type const x, real_type const y ) const { return this->Dxx(x,y); }
 
     //!
     //! Alias for `Dxy(x,y)`
     //!
-    real_type
-    eval_D_1_2( real_type const x, real_type const y ) const
-    { return this->Dxy(x,y); }
+    real_type eval_D_1_2( real_type const x, real_type const y ) const { return this->Dxy(x,y); }
 
     //!
     //! Alias for `Dyy(x,y)`
     //!
-    real_type
-    eval_D_2_2( real_type const x, real_type const y ) const
-    { return this->Dyy(x,y); }
+    real_type eval_D_2_2( real_type const x, real_type const y ) const { return this->Dyy(x,y); }
 
     ///@}
 

@@ -45,7 +45,7 @@ namespace Splines {
   #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   integer
-  SplineSet::BinarySearch::search( string_view const id ) const {\
+  SplineSet::BinarySearch::search( string_view const id ) const {
     size_t U{ data.size() };
     size_t L{ 0 };
     while ( U-L > 1 ) {

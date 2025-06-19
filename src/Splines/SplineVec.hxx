@@ -35,8 +35,6 @@ namespace Splines {
 
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
     string const m_name;
 
     Utils::Malloc<real_type>  m_mem;
@@ -55,8 +53,6 @@ namespace Splines {
 
     void allocate( integer dim, integer npts );
     void compute_chords();
-
-    #endif
 
   public:
 
@@ -189,65 +185,65 @@ namespace Splines {
     //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
-    eval( real_type x, integer i ) const;
+    eval( real_type const x, integer const i ) const;
 
     //!
     //! Evaluate spline value at `x` component `i`-th.
     //!
     real_type
-    operator () ( real_type x, integer i ) const
+    operator () ( real_type const x, integer const i ) const
     { return this->eval( x, i ); }
 
     //!
     //! First derivative value at `x` component `i`-th.
     //!
     real_type
-    D( real_type x, integer i ) const;
+    D( real_type const x, integer const i ) const;
 
     //!
     //! First derivative value at `x` component `i`-th.
     //!
     real_type
-    eval_D( real_type x, integer i ) const
+    eval_D( real_type const x, integer const i ) const
     { return this->D(x,i); }
 
     //!
     //! Second derivative value at `x` component `i`-th.
     //!
     real_type
-    DD( real_type x, integer i ) const;
+    DD( real_type const x, integer const i ) const;
 
     //!
     //! Second derivative value at `x` component `i`-th.
     //!
     real_type
-    eval_DD( real_type x, integer i ) const
+    eval_DD( real_type const x, integer const i ) const
     { return this->DD(x,i); }
 
     //!
     //! Third derivative value at `x` component `i`-th.
     //!
     real_type
-    DDD( real_type x, integer i ) const;
+    DDD( real_type const x, integer const i ) const;
 
     //!
     //! Third derivative value at `x` component `i`-th.
     //!
     real_type
-    eval_DDD( real_type x, integer i ) const
+    eval_DDD( real_type const x, integer const i ) const
     { return this->DDD(x,i); }
 
     //!
     //! 4th derivative value at `x` component `i`-th.
     //!
     real_type
-    DDDD( real_type x, integer i ) const;
+    DDDD( real_type const x, integer const i ) const;
 
     //!
     //! 4th derivative value at `x` component `i`-th.
     //!
     real_type
-    eval_DDDD( real_type x, integer i ) const
+    eval_DDDD( real_type const x, integer const i ) const
     { return this->DDDD(x,i); }
 
     //!
@@ -260,11 +256,51 @@ namespace Splines {
     //! 5th derivative value at `x` component `i`-th.
     //!
     real_type
-    eval_DDDDD( real_type x, integer i ) const
+    eval_DDDDD( real_type const x, integer const i ) const
     { return this->DDDDD(x,i); }
 
     ///@}
 
+    #ifdef AUTIDIFF_SUPPORT
+    //!
+    //! \name Autodiff
+    //!
+    ///@{
+    autodiff::dual1st
+    eval( autodiff::dual1st const & x, integer const i ) const {
+      using autodiff::dual1st;
+      using autodiff::derivative;
+      real_type xv  { val(x) };
+      dual1st   res { eval(xv,i) };
+      res.grad = eval_D(xv,i) * x.grad;
+      return res;
+    }
+
+    autodiff::dual2nd
+    eval( autodiff::dual2nd const & x, integer const i ) const {
+      using autodiff::dual2nd;
+      using autodiff::derivative;
+
+      real_type xv  { val(x) };
+      real_type xg  { val(x.grad) };
+      real_type dfx { eval_D(xv,i) };
+      real_type dxx { eval_DD(xv,i) };
+      dual2nd   res { eval(xv,i) };
+
+      res.grad      = dfx * xg;
+      res.grad.grad = dfx * x.grad.grad + dxx * (xg*xg);
+      return res;
+    }
+
+    template <typename T>
+    autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type>
+    eval( T const & x, integer const i ) const {
+      autodiff::HigherOrderDual<autodiff::detail::DualOrder<T>::value,real_type> X{x};
+      return eval( X, i );
+    }
+    ///@}
+    #endif
+    
     //!
     //! \name Evaluate all the splines in a vector.
     //!
@@ -274,67 +310,37 @@ namespace Splines {
     //! Evaluate all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval( real_type const x, real_type vals[], integer const inc ) const;
 
     //!
     //! Evaluate the fist derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval_D(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval_D( real_type const x, real_type vals[], integer const inc ) const;
 
     //!
     //! Evaluate the second derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval_DD(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval_DD( real_type const x, real_type vals[], integer const inc ) const;
 
     //!
     //! Evaluate the third derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval_DDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval_DDD( real_type const x, real_type vals[], integer const inc ) const;
 
     //!
     //! Evaluate the 4th derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval_DDDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval_DDDD( real_type const x, real_type vals[], integer const inc ) const;
 
     //!
     //! Evaluate the 5th derivative of all the splines at `x` and
     //! store values in `vals` with stride `inc`.
     //!
-    void
-    eval_DDDDD(
-      real_type x,
-      real_type vals[],
-      integer   inc
-    ) const;
+    void eval_DDDDD( real_type const x, real_type vals[], integer const inc ) const;
     ///@}
 
     //!
@@ -346,37 +352,37 @@ namespace Splines {
     //! Evaluate all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval( real_type x, vector<real_type> & vals ) const;
+    void eval( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the fist derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval_D( real_type x, vector<real_type> & vals ) const;
+    void eval_D( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the second derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval_DD( real_type x, vector<real_type> & vals ) const;
+    void eval_DD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the third derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval_DDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the 4th derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval_DDDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDDD( real_type const x, vector<real_type> & vals ) const;
 
     //!
     //! Evaluate the 5th derivative of all the splines at `x` and
     //! store values in `vals`.
     //!
-    void eval_DDDDD( real_type x, vector<real_type> & vals ) const;
+    void eval_DDDDD( real_type const x, vector<real_type> & vals ) const;
     ///@}
 
     //!
@@ -388,42 +394,42 @@ namespace Splines {
     //! Evaluate at `x` and fill a `GenericContainer`
     //!
     void
-    eval( real_type x, GenericContainer & vals ) const
+    eval( real_type const x, GenericContainer & vals ) const
     { eval( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate first derivatives at `x` and fill a `GenericContainer`
     //!
     void
-    eval_D( real_type x, GenericContainer & vals ) const
+    eval_D( real_type const x, GenericContainer & vals ) const
     { eval_D( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate second derivatives at `x` and fill a `GenericContainer`
     //!
     void
-    eval_DD( real_type x, GenericContainer & vals ) const
+    eval_DD( real_type const x, GenericContainer & vals ) const
     { eval_DD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate third derivatives at `x` and fill a `GenericContainer`
     //!
     void
-    eval_DDD( real_type x, GenericContainer & vals ) const
+    eval_DDD( real_type const x, GenericContainer & vals ) const
     { eval_DDD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate 4th derivatives at `x` and fill a `GenericContainer`
     //!
     void
-    eval_DDDD( real_type x, GenericContainer & vals ) const
+    eval_DDDD( real_type const x, GenericContainer & vals ) const
     { eval_DDDD( x, vals.set_vec_real(m_dim) ); }
 
     //!
     //! Evaluate 5th derivatives at `x` and fill a `GenericContainer`
     //!
     void
-    eval_DDDDD( real_type x, GenericContainer & vals ) const
+    eval_DDDDD( real_type const x, GenericContainer & vals ) const
     { eval_DDDDD( x, vals.set_vec_real(m_dim) ); }
     ///@}
 
