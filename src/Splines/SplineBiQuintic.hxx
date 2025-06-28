@@ -196,7 +196,7 @@ namespace Splines {
 
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!

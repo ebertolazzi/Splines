@@ -70,7 +70,7 @@ namespace Splines {
     real_type Dxy( real_type const, real_type const ) const override { return 0; }
     real_type Dyy( real_type const, real_type const ) const override { return 0; }
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!

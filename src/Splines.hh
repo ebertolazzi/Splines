@@ -58,13 +58,11 @@ namespace Splines {
   typedef double real_type; //!< Floating point type for splines
   typedef int    integer;   //!< Signed integer type for splines
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using Malloc_real  = Utils::Malloc<real_type>;
   using ostream_type = basic_ostream<char>;
   using istream_type = basic_istream<char>;
 
   void backtrace( ostream_type & );
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -92,12 +90,10 @@ namespace Splines {
     AKIMA2D   = 3
   };
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   extern SplineType1D string_to_splineType1D( string_view n );
   extern SplineType2D string_to_splineType2D( string_view n );
   extern char const * to_string( SplineType2D t );
   extern char const * to_string( SplineType1D t );
-  #endif
 
   using GC_namespace::GenericContainer;
   using GC_namespace::vec_real_type;
@@ -214,8 +210,6 @@ namespace Splines {
   //  |____/|_|_|_|_| |_|\___|\__,_|_|
   */
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   real_type
   bilinear3(
     real_type const p[4],
@@ -237,8 +231,6 @@ namespace Splines {
     real_type const Yp[],
     integer         npts
   );
-
-  #endif
 
   /*\
    |  ____                                _        _          _   _
@@ -370,7 +362,6 @@ namespace Splines {
   //!
   //! Manage Search intervals
   //!
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   class SearchInterval {
 
     static integer const m_table_size{ 400 };
@@ -410,12 +401,11 @@ namespace Splines {
 
     //!
     //! Find interval containing `res.second` using binary search.
-    //! Return result in `res.first` 
+    //! Return result in `res.first`
     //!
     void find( std::pair<integer,real_type> & res ) const;
     void must_reset() { m_must_reset = true; }
   };
-  #endif
 
   /*\
    |   ____        _ _
@@ -565,12 +555,12 @@ namespace Splines {
     //!
     //! the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_X[i]; }
+    real_type x_node( integer const i ) const { return m_X[i]; }
 
     //!
     //! the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_Y[i]; }
+    real_type y_node( integer const i ) const { return m_Y[i]; }
 
     //!
     //! first node of the spline (x component).
@@ -699,7 +689,7 @@ namespace Splines {
     build(
       real_type const x[], integer incx,
       real_type const y[], integer incy,
-      integer n
+      integer   const n
     );
 
     //!
@@ -724,7 +714,6 @@ namespace Splines {
     //! \param x vector of x-coordinates
     //! \param y vector of y-coordinates
     //!
-    inline
     void
     build( vector<real_type> const & x, vector<real_type> const & y ) {
       integer N{ integer(x.size()) };
@@ -1023,17 +1012,13 @@ namespace Splines {
   class CubicSplineBase : public Spline {
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     Malloc_real m_mem_cubic;
     real_type * m_Yp{nullptr};
     bool        m_external_alloc{false};
-    #endif
 
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
-    #endif
 
     //!
     //! \name Contructors/Destructors
@@ -1127,7 +1112,7 @@ namespace Splines {
     real_type id_DDDDD ( integer const   , real_type const   ) const override { return 0; }
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
     autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
 
@@ -1182,7 +1167,7 @@ namespace Splines {
       real_type const x[],
       real_type const y[],
       real_type const yp[],
-      integer n
+      integer   const n
     ) {
       this->build( x, 1, y, 1, yp, 1, n );
     }
@@ -1252,8 +1237,6 @@ namespace Splines {
 
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
     string const m_name;
     bool         m_x_closed{false};
     bool         m_y_closed{false};
@@ -1291,7 +1274,9 @@ namespace Splines {
     ipos_F( integer const i, integer const j ) const
     { return this->ipos_F(i,j,m_nx); }
 
-    real_type & z_node_ref( integer const i, integer const j ) { return m_Z[this->ipos_C(i,j)]; }
+    real_type &
+    z_node_ref( integer const i, integer const j )
+    { return m_Z[this->ipos_C(i,j)]; }
 
     void
     load_Z(
@@ -1306,8 +1291,6 @@ namespace Splines {
     void make_derivative_x  ( real_type const z[], real_type dz[] );
     void make_derivative_y  ( real_type const z[], real_type dz[] );
     void make_derivative_xy ( real_type const dx[], real_type const dy[], real_type dxy[] );
-
-    #endif
 
   public:
 
@@ -1431,17 +1414,17 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_X[i]; }
+    real_type x_node( integer const i ) const { return m_X[i]; }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_Y[i]; }
+    real_type y_node( integer const i ) const { return m_Y[i]; }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type z_node( integer i, integer j ) const { return m_Z[this->ipos_C(i,j)]; }
+    real_type z_node( integer const i, integer const j ) const { return m_Z[this->ipos_C(i,j)]; }
 
     //!
     //! Return x-minumum spline value.
@@ -1501,7 +1484,7 @@ namespace Splines {
       real_type const x[], integer const incx,
       real_type const y[], integer const incy,
       real_type const z[], integer const ldZ,
-      integer const nx, integer const ny,
+      integer   const nx,  integer const ny,
       bool fortran_storage = false,
       bool transposed      = false
     );
@@ -1611,7 +1594,7 @@ namespace Splines {
     //!
     virtual real_type eval( real_type const x, real_type const y ) const = 0;
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const;
     autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const;
 

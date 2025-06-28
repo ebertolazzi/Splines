@@ -29,16 +29,12 @@
 
 namespace Splines {
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   using QuinticSpline_sub_type = enum class QuinticSpline_sub_type : integer {
     CUBIC  = 0,
     PCHIP  = 1,
     AKIMA  = 2,
     BESSEL = 3
   };
-
-  #endif
 
   //! Quintic spline class
   class QuinticSpline : public QuinticSplineBase {
@@ -50,10 +46,8 @@ namespace Splines {
     //!
     ///@{
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using QuinticSplineBase::build;
     using QuinticSplineBase::reserve;
-    #endif
 
     //!
     //! Build an empty spline of `QuinticSpline` type

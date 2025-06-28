@@ -83,7 +83,7 @@ namespace Splines {
     //! find `x` value such that the monotone spline
     //! `(spline[spl])(x)` intersect the value `zeta`
     //!
-    Spline const * intersect( integer spl, real_type zeta, real_type & x ) const;
+    Spline const * intersect( integer const spl, real_type const zeta, real_type & x ) const;
 
   public:
 
@@ -119,7 +119,7 @@ namespace Splines {
     //!
     //! \return string with the name of the i-th spline of the set
     //!
-    string_view header( integer i ) const { return m_splines[i]->name(); }
+    string_view header( integer const i ) const { return m_splines[i]->name(); }
 
     // vectorial values
     //!
@@ -139,7 +139,7 @@ namespace Splines {
     //! \return +1 = strict monotone, 0 weak monotone, -1 non monotone
     //!
     int
-    is_monotone( integer i ) const
+    is_monotone( integer const i ) const
     { return m_is_monotone[i]; }
 
     //!
@@ -166,17 +166,17 @@ namespace Splines {
     //!
     //! Return the vector of values of x-nodes.
     //!
-    real_type const * y_nodes( integer i ) const;
+    real_type const * y_nodes( integer const i ) const;
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer npt ) const { return m_X[npt]; }
+    real_type x_node( integer const npt ) const { return m_X[npt]; }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer npt, integer spl ) const { return m_Y[spl][npt]; }
+    real_type y_node( integer const npt, integer const spl ) const { return m_Y[spl][npt]; }
 
     //!
     //! Return x-minumum spline value.
@@ -191,12 +191,12 @@ namespace Splines {
     //!
     //! Return y-minumum spline value.
     //!
-    real_type y_min( integer spl ) const { return m_Ymin[spl]; }
+    real_type y_min( integer const spl ) const { return m_Ymin[spl]; }
 
     //!
     //! Return y-maximum spline value.
     //!
-    real_type y_max( integer spl ) const { return m_Ymax[spl]; }
+    real_type y_max( integer const spl ) const { return m_Ymax[spl]; }
 
     //!
     //! Return y-minumum spline value.
@@ -224,7 +224,7 @@ namespace Splines {
     //!
     //! Return pointer to the `i`-th spline.
     //!
-    Spline * get_spline( integer i ) const;
+    Spline * get_spline( integer const i ) const;
 
     //!
     //! Return pointer to the `i`-th spline.
@@ -244,7 +244,7 @@ namespace Splines {
     //! Evaluate spline n. `spl` at `x`.
     //!
     real_type
-    operator () ( real_type x, integer spl ) const {
+    operator () ( real_type const x, integer const spl ) const {
       Spline const * S{ this->get_spline(spl) };
       return S->eval(x);
     }
@@ -348,7 +348,7 @@ namespace Splines {
       return S->DDDDD(x);
     }
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!
@@ -430,7 +430,7 @@ namespace Splines {
 
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!
@@ -631,7 +631,7 @@ namespace Splines {
 
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!
@@ -686,9 +686,9 @@ namespace Splines {
     //!
     real_type
     eval2_D(
-      real_type zeta,
-      integer   indep,
-      integer   spl
+      real_type const zeta,
+      integer   const indep,
+      integer   const spl
     ) const;
 
     //!
@@ -697,9 +697,9 @@ namespace Splines {
     //!
     real_type
     eval2_DD(
-      real_type zeta,
-      integer   indep,
-      integer   spl
+      real_type const zeta,
+      integer   const indep,
+      integer   const spl
     ) const;
 
     //!
@@ -708,14 +708,14 @@ namespace Splines {
     //!
     real_type
     eval2_DDD(
-      real_type zeta,
-      integer   indep,
-      integer   spl
+      real_type const zeta,
+      integer   const indep,
+      integer   const spl
     ) const;
 
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!
@@ -807,8 +807,8 @@ namespace Splines {
     //!
     void
     eval2(
-      real_type          zeta,
-      integer            indep,
+      real_type const    zeta,
+      integer   const    indep,
       GenericContainer & vals
     ) const;
 
@@ -820,7 +820,7 @@ namespace Splines {
     void
     eval2(
       vec_real_type const & zetas,
-      integer               indep,
+      integer       const   indep,
       GenericContainer    & vals
     ) const;
 
@@ -831,8 +831,8 @@ namespace Splines {
     //!
     void
     eval2(
-      real_type               zeta,
-      integer                 indep,
+      real_type       const   zeta,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -845,7 +845,7 @@ namespace Splines {
     void
     eval2(
       vec_real_type   const & zetas,
-      integer                 indep,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -861,7 +861,7 @@ namespace Splines {
     //!
     void
     eval2(
-      real_type          zeta,
+      real_type const    zeta,
       string_view        indep,
       GenericContainer & vals
     ) const {
@@ -889,7 +889,7 @@ namespace Splines {
     //!
     void
     eval2(
-      real_type               zeta,
+      real_type       const   zeta,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -904,7 +904,7 @@ namespace Splines {
     //!
     void
     eval2(
-      vec_real_type const   & zetas,
+      vec_real_type   const & zetas,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -922,7 +922,7 @@ namespace Splines {
     //!
     void
     eval_D(
-      real_type          x,
+      real_type const    x,
       GenericContainer & vals
     ) const;
 
@@ -954,7 +954,7 @@ namespace Splines {
     //!
     void
     eval_D(
-      vec_real_type const   & vec,
+      vec_real_type   const & vec,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -971,8 +971,8 @@ namespace Splines {
     //!
     void
     eval2_D(
-      real_type          zeta,
-      integer            indep,
+      real_type const    zeta,
+      integer   const    indep,
       GenericContainer & vals
     ) const;
 
@@ -984,7 +984,7 @@ namespace Splines {
     void
     eval2_D(
       vec_real_type const & zetas,
-      integer               indep,
+      integer       const   indep,
       GenericContainer    & vals
     ) const;
 
@@ -995,8 +995,8 @@ namespace Splines {
     //!
     void
     eval2_D(
-      real_type               zeta,
-      integer                 indep,
+      real_type       const   zeta,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1009,7 +1009,7 @@ namespace Splines {
     void
     eval2_D(
       vec_real_type   const & zetas,
-      integer                 indep,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1025,7 +1025,7 @@ namespace Splines {
     //!
     void
     eval2_D(
-      real_type          zeta,
+      real_type  const   zeta,
       string_view        indep,
       GenericContainer & vals
     ) const {
@@ -1053,7 +1053,7 @@ namespace Splines {
     //!
     void
     eval2_D(
-      real_type               zeta,
+      real_type       const   zeta,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1068,7 +1068,7 @@ namespace Splines {
     //!
     void
     eval2_D(
-      vec_real_type const   & zetas,
+      vec_real_type   const & zetas,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1087,7 +1087,7 @@ namespace Splines {
     //!
     void
     eval_DD(
-      real_type          x,
+      real_type const    x,
       GenericContainer & vals
     ) const;
 
@@ -1107,7 +1107,7 @@ namespace Splines {
     //!
     void
     eval_DD(
-      real_type               x,
+      real_type       const   x,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1129,8 +1129,8 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      real_type          zeta,
-      integer            indep,
+      real_type const    zeta,
+      integer   const    indep,
       GenericContainer & vals
     ) const;
 
@@ -1142,7 +1142,7 @@ namespace Splines {
     void
     eval2_DD(
       vec_real_type const & zetas,
-      integer               indep,
+      integer       const   indep,
       GenericContainer    & vals
     ) const;
 
@@ -1153,8 +1153,8 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      real_type               zeta,
-      integer                 indep,
+      real_type       const   zeta,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1167,7 +1167,7 @@ namespace Splines {
     void
     eval2_DD(
       vec_real_type   const & zetas,
-      integer                 indep,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1183,7 +1183,7 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      real_type          zeta,
+      real_type const    zeta,
       string_view        indep,
       GenericContainer & vals
     ) const {
@@ -1211,7 +1211,7 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      real_type               zeta,
+      real_type       const   zeta,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1226,7 +1226,7 @@ namespace Splines {
     //!
     void
     eval2_DD(
-      vec_real_type const   & zetas,
+      vec_real_type   const & zetas,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1244,7 +1244,7 @@ namespace Splines {
     //!
     void
     eval_DDD(
-      real_type          x,
+      real_type const    x,
       GenericContainer & vals
     ) const;
 
@@ -1264,7 +1264,7 @@ namespace Splines {
     //!
     void
     eval_DDD(
-      real_type               x,
+      real_type       const   x,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1290,8 +1290,8 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      real_type          zeta,
-      integer            indep,
+      real_type const    zeta,
+      integer   const    indep,
       GenericContainer & vals
     ) const;
 
@@ -1303,7 +1303,7 @@ namespace Splines {
     void
     eval2_DDD(
       vec_real_type const & zetas,
-      integer               indep,
+      integer       const   indep,
       GenericContainer    & vals
     ) const;
 
@@ -1314,8 +1314,8 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      real_type               zeta,
-      integer                 indep,
+      real_type       const   zeta,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1328,7 +1328,7 @@ namespace Splines {
     void
     eval2_DDD(
       vec_real_type   const & zetas,
-      integer                 indep,
+      integer         const   indep,
       vec_string_type const & columns,
       GenericContainer      & vals
     ) const;
@@ -1343,7 +1343,7 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      real_type          zeta,
+      real_type const    zeta,
       string_view        indep,
       GenericContainer & vals
     ) const {
@@ -1371,7 +1371,7 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      real_type               zeta,
+      real_type       const   zeta,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1386,7 +1386,7 @@ namespace Splines {
     //!
     void
     eval2_DDD(
-      vec_real_type const   & zetas,
+      vec_real_type   const & zetas,
       string_view             indep,
       vec_string_type const & columns,
       GenericContainer      & vals
@@ -1413,8 +1413,8 @@ namespace Splines {
     //!
     void
     build(
-      integer                    nspl,
-      integer                    npts,
+      integer              const nspl,
+      integer              const npts,
       char         const * const headers[],
       SplineType1D const         stype[],
       real_type    const         X[],
@@ -1427,7 +1427,7 @@ namespace Splines {
     //!
     void
     deep_copy_to( SplineSet & S ) const;
-  
+
     //!
     //! Build a spline using data in `GenericContainer`
     //!
@@ -1462,7 +1462,7 @@ namespace Splines {
     //! Dump values of the spline on a stream for plotting
     //!
     void
-    dump_table( ostream_type & s, integer num_points ) const;
+    dump_table( ostream_type & s, integer const num_points ) const;
 
     #ifdef SPLINES_BACK_COMPATIBILITY
     int isMonotone( integer i ) const { return m_is_monotone[i]; }

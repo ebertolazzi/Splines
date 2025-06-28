@@ -51,7 +51,7 @@ namespace Splines {
 
     SearchInterval m_search;
 
-    void allocate( integer dim, integer npts );
+    void allocate( integer const dim, integer const npts );
     void compute_chords();
 
   public:
@@ -150,18 +150,18 @@ namespace Splines {
     //!
     //! Return the npt-th node of the spline (x component).
     //!
-    real_type x_node( integer npt ) const { return m_X[npt]; }
+    real_type x_node( integer const npt ) const { return m_X[npt]; }
 
     //!
     //! Return the vector of values of y-nodes, component `j`
     //!
-    real_type const * y_nodes( integer j ) const { return m_Y[j]; }
+    real_type const * y_nodes( integer const j ) const { return m_Y[j]; }
 
     //!
     //! Return the npt-th node of the spline (`j` component of y).
     //!
     real_type
-    y_node( integer npt, integer j ) const
+    y_node( integer const npt, integer const j ) const
     { return m_Y[j][npt]; }
 
     //!
@@ -250,7 +250,7 @@ namespace Splines {
     //! 5th derivative value at `x` component `i`-th.
     //!
     real_type
-    DDDDD( real_type x, integer i ) const;
+    DDDDD( real_type const x, integer const i ) const;
 
     //!
     //! 5th derivative value at `x` component `i`-th.
@@ -261,7 +261,7 @@ namespace Splines {
 
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! \name Autodiff
     //!
@@ -300,7 +300,7 @@ namespace Splines {
     }
     ///@}
     #endif
-    
+
     //!
     //! \name Evaluate all the splines in a vector.
     //!
@@ -496,8 +496,8 @@ namespace Splines {
     //!
     void
     setup(
-      integer                 dim,
-      integer                 npts,
+      integer const           dim,
+      integer const           npts,
       real_type const * const Y[]
     );
 
@@ -511,17 +511,17 @@ namespace Splines {
     //!
     void
     setup(
-      integer         dim,
-      integer         npts,
+      integer   const dim,
+      integer   const npts,
       real_type const Y[],
-      integer         ldY
+      integer   const ldY
     );
 
     //!
     //! Copy to SplineVec `S`
     //!
     void deep_copy_to( SplineVec & S ) const;
-  
+
     //!
     //! Set the knots of the spline.
     //!
@@ -559,18 +559,18 @@ namespace Splines {
     //! Build a spline using data in `GenericContainer`
     //!
     void setup( GenericContainer const & gc );
-  
+
     ///@}
 
     //!
     //! Compute spline curvature at `x`.
     //!
-    real_type curvature( real_type x ) const;
+    real_type curvature( real_type const x ) const;
 
     //!
     //! Compute spline curvature derivative at `x`.
     //!
-    real_type curvature_D( real_type x ) const;
+    real_type curvature_D( real_type const x ) const;
 
     //!
     //! Return spline type (as number).
@@ -593,7 +593,7 @@ namespace Splines {
     //! Dump values of the spline on a stream for plotting
     //!
     void
-    dump_table( ostream_type & s, integer num_points ) const;
+    dump_table( ostream_type & s, integer const num_points ) const;
 
     #ifdef SPLINES_BACK_COMPATIBILITY
     integer numPoints() const { return m_npts; }

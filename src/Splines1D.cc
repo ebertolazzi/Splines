@@ -65,7 +65,7 @@ namespace Splines {
 
   #endif
 
-  #ifdef AUTIDIFF_SUPPORT
+  #ifdef AUTODIFF_SUPPORT
   autodiff::dual1st
   Spline1D::eval( autodiff::dual1st const & x ) const {
     using autodiff::dual1st;

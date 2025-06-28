@@ -33,7 +33,7 @@ using namespace std; // load standard namspace
 #endif
 
 namespace Splines {
-#ifdef AUTIDIFF_SUPPORT
+#ifdef AUTODIFF_SUPPORT
   //!
   //! \name Autodiff
   //!
@@ -80,7 +80,7 @@ namespace Splines {
     m_DXYY  = m_mem_biquintic( dim );
     m_DXXY  = m_mem_biquintic( dim );
     m_DXXYY = m_mem_biquintic( dim );
-        
+
     make_derivative_x( m_Z, m_DX );
     make_derivative_y( m_Z, m_DY );
     make_derivative_xy( m_DX, m_DY, m_DXY );

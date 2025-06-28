@@ -37,9 +37,7 @@ namespace Splines {
 
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
-    #endif
 
     //!
     //! Build an empty spline of `LinearSpline` type
@@ -57,9 +55,9 @@ namespace Splines {
     //! Use externally allocated memory for `npts` points
     void
     reserve_external(
-      integer      n,
-      real_type *& p_x,
-      real_type *& p_y
+      integer const n,
+      real_type * & p_x,
+      real_type * & p_y
     );
 
     // --------------------------- VIRTUALS -----------------------------------
@@ -82,7 +80,7 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
     autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
 
@@ -95,7 +93,7 @@ namespace Splines {
     operator () ( T const & x ) const { return eval( autodiff::detail::to_dual(x) ); }
     #endif
 
-    void reserve( integer npts ) override;
+    void reserve( integer const npts ) override;
     void build() override { m_search.must_reset(); }
     void clear() override;
 
@@ -142,4 +140,4 @@ namespace Splines {
 
 }
 
-// EOF: SplineLinbear.hxx
+// EOF: SplineLinear.hxx

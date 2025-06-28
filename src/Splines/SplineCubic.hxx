@@ -28,8 +28,6 @@
 
 namespace Splines {
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   using CubicSpline_BC = enum class CubicSpline_BC : integer {
     EXTRAPOLATE      = 0,
     NATURAL          = 1,
@@ -61,8 +59,6 @@ namespace Splines {
     CubicSpline_BC  bcn
   );
 
-  #endif
-
   //!
   //! Cubic Spline Management Class
   //!
@@ -76,10 +72,8 @@ namespace Splines {
     //!
     ///@{
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
-    #endif
 
     //!
     //! Build an empty spline of `CubicSpline` type

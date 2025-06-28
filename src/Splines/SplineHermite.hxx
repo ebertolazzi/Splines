@@ -32,10 +32,8 @@ namespace Splines {
   class HermiteSpline : public CubicSplineBase {
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
-    #endif
 
     //!
     //! Build an empty spline of `HermiteSpline` type

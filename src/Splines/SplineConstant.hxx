@@ -57,7 +57,7 @@ namespace Splines {
     //! Use externally allocated memory for `npts` points
     void
     reserve_external(
-      integer       n,
+      integer const n,
       real_type * & p_x,
       real_type * & p_y
     );
@@ -86,7 +86,7 @@ namespace Splines {
     build(
       real_type const x[], integer incx,
       real_type const y[], integer incy,
-      integer n
+      integer   const n
     ) override;
     ///@}
 
@@ -114,7 +114,7 @@ namespace Splines {
     real_type id_DDD  ( integer const   , real_type const   ) const override { return 0; }
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
     autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
 
@@ -133,7 +133,7 @@ namespace Splines {
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    void reserve( integer npts ) override;
+    void reserve( integer const npts ) override;
 
     void clear() override;
 

@@ -34,14 +34,10 @@ namespace Splines {
   class QuinticSplineBase : public Spline {
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
     Malloc_real m_base_quintic;
     real_type * m_Yp{nullptr};
     real_type * m_Ypp{nullptr};
     bool        m_external_alloc{false};
-
-    #endif
 
   public:
 
@@ -50,9 +46,7 @@ namespace Splines {
     //!
     ///@{
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
-    #endif
 
     //!
     //! Build an empty spline of `QuinticSplineBase` type
@@ -92,12 +86,12 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type yp_node( integer i ) const { return m_Yp[i]; }
+    real_type yp_node( integer const i ) const { return m_Yp[i]; }
 
     //!
     //! Return the i-th node of the spline (y'' component).
     //!
-    real_type ypp_node( integer i ) const { return m_Ypp[i]; }
+    real_type ypp_node( integer const i ) const { return m_Ypp[i]; }
 
     void
     y_min_max(
@@ -128,14 +122,14 @@ namespace Splines {
     //!
     //! Change X-range of the spline
     //!
-    void set_range( real_type xmin, real_type xmax );
+    void set_range( real_type const xmin, real_type const xmax );
 
     //!
     //! Use externally allocated memory for `npts` points
     //!
     void
     reserve_external(
-      integer       n,
+      integer const n,
       real_type * & p_x,
       real_type * & p_y,
       real_type * & p_Yp,
@@ -158,7 +152,7 @@ namespace Splines {
     void DD ( real_type const x, real_type dd[3] ) const override;
     ///@}
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
     autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
 

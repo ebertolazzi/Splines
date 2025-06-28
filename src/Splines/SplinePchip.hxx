@@ -27,22 +27,21 @@
 \*/
 
 namespace Splines {
+
   void
   Pchip_build(
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    integer   const npts
   );
 
   //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
   class PchipSpline : public CubicSplineBase {
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
-    #endif
 
     //!
     //! Build an empty spline of `PchipSpline` type

@@ -44,6 +44,6 @@
 #include <thread>
 #include <mutex>
 
-#define AUTIDIFF_SUPPORT
+#define AUTODIFF_SUPPORT
 
 #endif

@@ -69,7 +69,7 @@ namespace Splines {
     return this->id_eval( res.first, res.second );
   }
 
-  #ifdef AUTIDIFF_SUPPORT
+  #ifdef AUTODIFF_SUPPORT
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

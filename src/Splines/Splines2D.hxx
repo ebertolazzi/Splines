@@ -34,14 +34,10 @@ namespace Splines {
   class Spline2D {
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
     std::string  m_name;
     SplineSurf * m_spline_2D{nullptr};
 
     void new_spline( SplineType2D tp );
-
-    #endif
 
   public:
 
@@ -165,17 +161,17 @@ namespace Splines {
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer i ) const { return m_spline_2D->x_node(i); }
+    real_type x_node( integer const i ) const { return m_spline_2D->x_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer i ) const { return m_spline_2D->y_node(i); }
+    real_type y_node( integer const i ) const { return m_spline_2D->y_node(i); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type z_node( integer i, integer j ) const { return m_spline_2D->z_node(i,j); }
+    real_type z_node( integer const i, integer const j ) const { return m_spline_2D->z_node(i,j); }
 
     ///@}
 
@@ -379,7 +375,7 @@ namespace Splines {
     eval( real_type const x, real_type const y ) const
     { return m_spline_2D->eval( x, y ); }
 
-    #ifdef AUTIDIFF_SUPPORT
+    #ifdef AUTODIFF_SUPPORT
     autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const { return m_spline_2D->eval( x, y ); }
     autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const { return m_spline_2D->eval( x, y ); }
 

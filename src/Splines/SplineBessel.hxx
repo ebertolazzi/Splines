@@ -28,17 +28,13 @@
 
 namespace Splines {
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   Bessel_build(
     real_type const X[],
     real_type const Y[],
     real_type       Yp[],
-    integer         npts
+    integer   const npts
   );
-
-  #endif
 
   //!
   //! Bessel spline class
@@ -46,10 +42,8 @@ namespace Splines {
   class BesselSpline : public CubicSplineBase {
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
-    #endif
 
     //!
     //! Build an empty spline of `BesselSpline` type
