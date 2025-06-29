@@ -32,8 +32,6 @@
 
 namespace Splines {
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   static
   std::unique_ptr<Spline>
   new_Spline1D( string_view const _name, SplineType1D const tp ) {
@@ -62,8 +60,6 @@ namespace Splines {
     m_spline = new_Spline1D(m_name,tp);
     m_spline->build( x, incx, y, incy, n );
   }
-
-  #endif
 
   #ifdef AUTODIFF_SUPPORT
   autodiff::dual1st
@@ -125,10 +121,7 @@ namespace Splines {
     */
     string const where{ fmt::format("Spline1D[{}]::setup( gc ):", m_name ) };
 
-    std::set<std::string> keywords;
-    for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
-
-    string_view spl_type{ gc.get_map_string("spline_type",where) }; keywords.erase("spline_type");
+    string_view spl_type{ gc.get_map_string("spline_type",where) };
 
     SplineType1D tp;
     if      ( spl_type == "constant" ) tp = SplineType1D::CONSTANT;
@@ -146,17 +139,6 @@ namespace Splines {
       );
     }
     m_spline = new_Spline1D( m_name, tp );
-
-    UTILS_WARNING(
-      keywords.empty(), "{}: unused keys\n{}\n", where,
-      [&keywords]()->string {
-        string res;
-        for ( auto const & it : keywords ) { res += it; res += ' '; };
-        return res;
-      }()
-    );
-
     m_spline->build( gc );
   }
-
 }

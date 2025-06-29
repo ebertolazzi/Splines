@@ -104,7 +104,7 @@ do_test( string const & msg ) {
 
 int
 main() {
-  cout << "\n\nTEST N.12\n\n";
+  cout << "\n\nTEST N.13\n\n";
 
   do_test<BiQuinticSpline>("BiQuinticSpline");
   do_test<BiCubicSpline>("BiCubicSpline");

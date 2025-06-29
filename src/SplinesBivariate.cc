@@ -36,8 +36,6 @@
 
 namespace Splines {
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   SplineSurf::~SplineSurf()
@@ -125,8 +123,6 @@ namespace Splines {
     m_Z_max = *std::max_element(m_Z,m_Z+m_nx*m_ny);
     m_Z_min = *std::min_element(m_Z,m_Z+m_nx*m_ny);
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //!
@@ -216,8 +212,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   BiCubicSplineBase::load(
     integer const i,
@@ -246,8 +240,6 @@ namespace Splines {
     bili3[3][0] = m_DX[i2];  bili3[3][1] = m_DX[i3];
     bili3[3][2] = m_DXY[i2]; bili3[3][3] = m_DXY[i3];
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -473,8 +465,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   BiQuinticSplineBase::load(
     integer const i,
@@ -537,8 +527,6 @@ namespace Splines {
     bili5[4][4] = m_DXXYY[i00]; bili5[4][5] = m_DXXYY[i01];
     bili5[5][4] = m_DXXYY[i10]; bili5[5][5] = m_DXXYY[i11];
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -763,8 +751,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   SplineSurf::dump_data( ostream_type & s ) const {
     s << "X = [ " << m_X[0];
@@ -779,8 +765,6 @@ namespace Splines {
     }
     s << "\n];\n";
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

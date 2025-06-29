@@ -45,15 +45,11 @@
  |  #     # #    # # #    # #    #
 \*/
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 namespace Splines {
 
   using std::abs;
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -118,8 +114,6 @@ namespace Splines {
     Yp[N-1] = m[N-2] + (m[N-2] - m[N-3]) * (X[N-1] - X[N-2]) / (X[N-1] - X[N-3]);
   }
 
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -145,10 +139,8 @@ namespace Splines {
     m_search.must_reset();
   }
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -163,6 +155,7 @@ namespace Splines {
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+    keywords.erase("spline_type");
 
     GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
     GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");

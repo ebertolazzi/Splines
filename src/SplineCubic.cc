@@ -39,13 +39,9 @@
  |   ####   ####  #####  #  ####
 \*/
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 namespace Splines {
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -452,8 +448,6 @@ namespace Splines {
     CubicSpline_build( X, Y, Yp, Z, L, D, U, npts, bc0, bcn );
   }
 
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -479,10 +473,8 @@ namespace Splines {
     m_search.must_reset();
   }
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
   using GC_namespace::GC_type;
   using GC_namespace::vec_real_type;
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -511,11 +503,10 @@ namespace Splines {
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+    keywords.erase("spline_type");
 
     GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
     GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");
-    keywords.erase("xdata");
-    keywords.erase("ydata");
 
     vec_real_type x, y;
     {
@@ -553,7 +544,7 @@ namespace Splines {
         UTILS_ERROR( "{} unknow final bc: {}\n", where, bc );
       }
     } else {
-      UTILS_WARNING( false, "{}, missing field `bc_begin` using `extrapolate` as default value\n", where );
+      UTILS_WARNING( false, "{}, missing field `bc_end` using `extrapolate` as default value\n", where );
     }
 
     UTILS_WARNING(

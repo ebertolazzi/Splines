@@ -42,8 +42,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   integer
   SplineSet::BinarySearch::search( string_view const id ) const {
     size_t U{ data.size() };
@@ -75,8 +73,6 @@ namespace Splines {
     }
     data[pos] = DATA_TYPE(id,position);
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

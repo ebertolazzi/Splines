@@ -39,15 +39,11 @@
  |                                   |_|
 \*/
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   void
   Bessel_build(
@@ -92,8 +88,6 @@ namespace Splines {
     mem.free();
   }
 
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -135,6 +129,7 @@ namespace Splines {
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+    keywords.erase("spline_type");
 
     GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
     GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");

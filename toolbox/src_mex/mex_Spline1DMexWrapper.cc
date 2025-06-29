@@ -71,21 +71,33 @@ namespace Splines {
 
     // the first argument must be a string
     string tname = mxArrayToString(arg_in_1);
+    
+    Spline * ptr{ nullptr };
 
-    if      ( tname == "linear"  ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::LinearSpline()  );
-    else if ( tname == "cubic"   ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::CubicSpline()   );
-    else if ( tname == "akima"   ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::AkimaSpline()   );
-    else if ( tname == "bessel"  ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::BesselSpline()  );
-    else if ( tname == "pchip"   ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::PchipSpline()   );
-    else if ( tname == "hermite" ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::HermiteSpline() );
-    else if ( tname == "quintic" ) arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( new Splines::QuinticSpline() );
+    if      ( tname == "linear"         ) ptr = new Splines::LinearSpline();
+    else if ( tname == "cubic"          ) ptr = new Splines::CubicSpline();
+    else if ( tname == "akima"          ) ptr = new Splines::AkimaSpline();
+    else if ( tname == "bessel"         ) ptr = new Splines::BesselSpline();
+    else if ( tname == "pchip"          ) ptr = new Splines::PchipSpline();
+    else if ( tname == "hermite"        ) ptr = new Splines::HermiteSpline();
+    else if ( tname == "quintic"       ||
+              tname == "quintic_pchip" ||
+              tname == "quintic_akima" ||
+              tname == "quintic_bessel" ) ptr = new Splines::QuinticSpline();
     else {
       UTILS_MEX_ASSERT0(
         false,
         CMD ": second argument must be one of the strings:\n"
-        "'linear', 'cubic', 'akima', 'bessel', 'hermite', 'pchip', 'quintic'"
+        "'linear', 'cubic', 'akima', 'bessel', 'hermite', 'pchip', 'quintic', 'quintic_pchip', 'quintic_akima', 'quintic_bessel'"
       );
     }
+
+    if      ( tname == "quintic"        ) static_cast<QuinticSpline*>(ptr)->set_quintic_type( QuinticSpline_sub_type::CUBIC  );
+    else if ( tname == "quintic_pchip"  ) static_cast<QuinticSpline*>(ptr)->set_quintic_type( QuinticSpline_sub_type::PCHIP  );
+    else if ( tname == "quintic_akima"  ) static_cast<QuinticSpline*>(ptr)->set_quintic_type( QuinticSpline_sub_type::AKIMA  );
+    else if ( tname == "quintic_bessel" ) static_cast<QuinticSpline*>(ptr)->set_quintic_type( QuinticSpline_sub_type::BESSEL );
+
+    arg_out_0 = Utils::mex_convert_ptr_to_mx<Spline>( ptr );
 
     #undef CMD
   }
@@ -1001,9 +1013,9 @@ MEX_ERROR_MESSAGE_30 "\n" \
       mxGetString( arg_in_0, cmd, 256 );
       cmd_to_fun.at(cmd)( nlhs, plhs, nrhs, prhs );
     } catch ( exception const & e ) {
-      mexErrMsgTxt( fmt::format( "SplineSetMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( fmt::format( "Spline1DMexWrapper Error: {}", e.what() ).c_str() );
     } catch (...) {
-      mexErrMsgTxt("SplineSetMexWrapper failed\n");
+      mexErrMsgTxt("Spline1DMexWrapper failed\n");
     }
 
   }

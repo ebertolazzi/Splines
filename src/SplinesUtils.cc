@@ -33,8 +33,6 @@ namespace Splines {
 
   using std::abs;
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   /*
   //    __ _       _ _             _ _  __  __
   //   / _(_)_ __ (_) |_ ___    __| (_)/ _|/ _| ___ _ __ ___ _ __   ___ ___
@@ -530,7 +528,5 @@ namespace Splines {
     }
 
   }
-
-  #endif
 
 }

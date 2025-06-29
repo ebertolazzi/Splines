@@ -163,12 +163,12 @@ namespace Splines {
     //!
     //! Allocate memory for `npts` points.
     //!
-    void reserve( integer const npts ) { return m_spline->reserve( npts ); }
+    void reserve( integer const npts ) { m_spline->reserve( npts ); }
 
     //!
     //! Add a support point (x,y) to the spline.
     //!
-    void push_back( real_type const x, real_type const y ) { return m_spline->push_back( x, y ); }
+    void push_back( real_type const x, real_type const y ) { m_spline->push_back( x, y ); }
     //!
     //! Drop last inserted point of the spline.
     //!
@@ -272,12 +272,12 @@ namespace Splines {
     //!
     //! Change X-origin of the spline.
     //!
-    void set_origin( real_type const x0 ) const { return m_spline->set_origin( x0 ); }
+    void set_origin( real_type const x0 ) const { m_spline->set_origin( x0 ); }
 
     //!
     //! Change X-range of the spline.
     //!
-    void set_range( real_type const xmin, real_type const xmax ) { return m_spline->set_range( xmin, xmax ); }
+    void set_range( real_type const xmin, real_type const xmax ) { m_spline->set_range( xmin, xmax ); }
 
     ///////////////////////////////////////////////////////////////////////////
     //!

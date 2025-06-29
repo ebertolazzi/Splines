@@ -28,6 +28,9 @@ endif()
 
 find_package( Matlab REQUIRED )
 
+# Aggiunge le directory di include di MATLAB
+include_directories(${Matlab_INCLUDE_DIRS})
+
 message( STATUS "Matlab_ROOT_DIR = ${Matlab_ROOT_DIR}" )
 message( STATUS "PROJECT_NAME    = ${PROJECT_NAME}" )
 
@@ -128,6 +131,7 @@ set(
   MEX_LIST
   BaseHermiteMexWrapper
   Spline1DMexWrapper
+  Spline1DblendMexWrapper
   Spline2DMexWrapper
   SplineSetMexWrapper
   SplineVecMexWrapper

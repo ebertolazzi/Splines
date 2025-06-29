@@ -36,8 +36,6 @@ namespace Splines {
   //  |_| |_|_| |_|_|\__\___|  \__,_|_|_| |_|  \___|_|  \___|_| |_|\___\___|
   */
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   /*\
    |  Given
    |  DL = (y[k]-y[k-1])/hL; hL = x[k]-x[k-1];
@@ -238,8 +236,6 @@ namespace Splines {
     real_type       Ypp[],
     integer         npts
   );
-
-  #endif
 
 }
 

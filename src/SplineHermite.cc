@@ -30,13 +30,9 @@
 #include "Utils_fmt.hh"
 #include <set>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namespace
-#endif
 
 namespace Splines {
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   /*\
    |   _   _                     _ _
@@ -253,8 +249,6 @@ namespace Splines {
            p[5] * ( M[5][0]*q[0] + M[5][1]*q[1] + M[5][2]*q[2] + M[5][3]*q[3] + M[5][4]*q[4] + M[5][5]*q[5]);
   }
 
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -288,6 +282,7 @@ namespace Splines {
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+    keywords.erase("spline_type");
 
     GenericContainer const & gc_x  { gc("xdata",where)  }; keywords.erase("xdata");
     GenericContainer const & gc_y  { gc("ydata",where)  }; keywords.erase("ydata");

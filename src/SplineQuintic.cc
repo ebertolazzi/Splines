@@ -32,13 +32,9 @@
 #include <cmath>
 #include <set>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
-#endif
 
 namespace Splines {
-
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -265,8 +261,6 @@ namespace Splines {
     QuinticSpline_Ypp_build( X, Y, Yp, Ypp, npts );
   }
 
-  #endif
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   void
@@ -305,6 +299,7 @@ namespace Splines {
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
+    keywords.erase("spline_type");
 
     GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
     GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");

@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
  |                                                                          |
- |  Copyright (C) 2016                                                      |
+ |  Copyright (C) 2025                                                      |
  |                                                                          |
  |         , __                 , __                                        |
  |        /|/  \               /|/  \                                       |
@@ -28,31 +28,64 @@
 
 #include "Splines.hh"
 #include "Utils_fmt.hh"
+#include <set>
 
 namespace Splines {
 
+  /*
+  //    ____  ____   ____                               _
+  //   / ___|/ ___| / ___| _   _ _ __  _ __   ___  _ __| |_
+  //  | |  _| |     \___ \| | | | '_ \| '_ \ / _ \| '__| __|
+  //  | |_| | |___   ___) | |_| | |_) | |_) | (_) | |  | |_
+  //   \____|\____| |____/ \__,_| .__/| .__/ \___/|_|   \__|
+  //                            |_|   |_|
+  */
+
+  using GC_namespace::GC_type;
+  using GC_namespace::vec_real_type;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  //!
+  //! Setup a spline using a `GenericContainer`
+  //!
+  //! - gc("spline_type")
+  //!   - "constant"
+  //!   - "linear"
+  //!   - "cubic"
+  //!   - "akima"
+  //!   - "bessel"
+  //!   - "pchip"
+  //!   - "quintic"
+  //!
   void
-  Spline2D::new_spline( SplineType2D const tp ) {
-    if ( m_spline_2D == nullptr ) {
-      delete m_spline_2D;
-      m_spline_2D = nullptr;
-    }
-    switch ( tp ) {
-    case SplineType2D::BILINEAR:  m_spline_2D = new BilinearSpline(m_name);  break;
-    case SplineType2D::BICUBIC:   m_spline_2D = new BiCubicSpline(m_name);   break;
-    case SplineType2D::BIQUINTIC: m_spline_2D = new BiQuinticSpline(m_name); break;
-    case SplineType2D::AKIMA2D:   m_spline_2D = new Akima2Dspline(m_name);   break;
-//    default:
-//      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
-    }
+  Spline1Dblend::setup( GenericContainer const & gc ) {
+    /*
+    // gc["xdata"]
+    // gc["ydata"]
+    //
+    */
+    string const where{ "Spline1Dblend[{}]::setup( gc )" };
+    GenericContainer const & gc_spline0{ gc("spline0",where) };
+    GenericContainer const & gc_spline1{ gc("spline1",where) };
+    m_spline0.setup( gc_spline0 );
+    m_spline1.setup( gc_spline1 );
+    check_compatibility();
   }
 
   void
-  Spline2D::setup( GenericContainer const & gc ) {
-    string const   where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
-    string const & type{ gc.get_map_string("spline_type",where) };
-    new_spline( string_to_splineType2D( type ) );
-    m_spline_2D->setup( gc );
+  Spline1Dblend::check_compatibility() const {
+    // check compatibility
+    UTILS_ASSERT(
+      m_spline0.x_min() == m_spline1.x_min(),
+      "Spline1Dblend must have the same initial-x, x_min0={}, x_min1={}, difference={}\n",
+      m_spline0.x_min(), m_spline1.x_min(), m_spline0.x_min()-m_spline1.x_min()
+    );
+    UTILS_ASSERT(
+      m_spline0.x_max() == m_spline1.x_max(),
+      "Spline1Dblend must have the same final-x, x_max0={}, x_max1={}, difference={}\n",
+      m_spline0.x_max(), m_spline1.x_max(), m_spline0.x_max()-m_spline1.x_max()
+    );
   }
 
 }

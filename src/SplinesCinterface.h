@@ -26,10 +26,8 @@
 #ifndef SPLINES_C_INTERFACE_H
 #define SPLINES_C_INTERFACE_H
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 #ifdef __cplusplus
 extern "C" {
-#endif
 #endif
 
   /*!
@@ -129,10 +127,8 @@ extern "C" {
 
   /* @} */
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 #ifdef __cplusplus
 }
-#endif
 #endif
 
 #endif

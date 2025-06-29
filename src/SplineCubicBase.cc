@@ -32,7 +32,6 @@
 
 #include <iomanip>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 using namespace std; // load standard namspace
 
 namespace Splines {
@@ -287,7 +286,6 @@ namespace Splines {
     res.grad.grad = dd[1] * x.grad.grad + dd[2] * (xg*xg);
     return res;
   }
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

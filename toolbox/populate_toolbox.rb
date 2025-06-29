@@ -12,6 +12,8 @@ FileUtils.cp_r  "../submodules/quarticRootsFlocke/src/.",   "./src";
 FileUtils.cp_r  "../submodules/UtilsLite/src/.",            "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/src/.",     "./src";
 FileUtils.cp_r  "../submodules/GenericContainer/include/.", "./src";
+FileUtils.cp    "../submodules/GenericContainer/src_matlab_interface/GenericContainerInterface_matlab.cc", "./src";
+
 # elimino dipendenze da Eigen
 FileUtils.rm_rf "./src/Eigen";
 FileUtils.rm_rf "./src/Utils_Poly.cc";

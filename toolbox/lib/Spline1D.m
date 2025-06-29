@@ -24,15 +24,18 @@
     %>
     %> Kind is a string and can be any of
     %>
-    %> |     kind     |   meaning                                                |
-    %> | :----------- | :------------------------------------------------------- |
-    %> | 'linear'     | linear spline (only continuous)                          |
-    %> | 'cubic'      | cubic spline (\f$ C^2 \f$ function)                      |
-    %> | 'akima'      | Akima non oscillatory spline (\f$ C^1 \f$ function)      |
-    %> | 'bessel'     | bessel non oscillatory spline (\f$ C^1 \f$ function)     |
-    %> | 'pchip'      | Monotone \f$ C^1 \f$ function                            |
-    %> | 'hermite'    | Hermite spline (set \f$ p_k \f$ and \f$ p'_k \f$)        |
-    %> | 'quintic'    | Quintic spline (\f$ C^3 \f$ function)                    |
+    %> |     kind         |   meaning                                                |
+    %> | :-----------     | :------------------------------------------------------- |
+    %> | 'linear'         | linear spline (only continuous)                          |
+    %> | 'cubic'          | cubic spline (\f$ C^2 \f$ function)                      |
+    %> | 'akima'          | Akima non oscillatory spline (\f$ C^1 \f$ function)      |
+    %> | 'bessel'         | bessel non oscillatory spline (\f$ C^1 \f$ function)     |
+    %> | 'pchip'          | Monotone \f$ C^1 \f$ function                            |
+    %> | 'hermite'        | Hermite spline (set \f$ p_k \f$ and \f$ p'_k \f$)        |
+    %> | 'quintic'        | Quintic spline (\f$ C^3 \f$ function)                    |
+    %> | 'quintic_pchip'  | Quintic spline (\f$ C^2 \f$ function)                    |
+    %> | 'quintic_akima'  | Quintic spline (\f$ C^2 \f$ function)                    |
+    %> | 'quintic_bessel' | Quintic spline (\f$ C^2 \f$ function)                    |
     %>
     function self = Spline1D( kind, varargin )
       self.objectHandle = Spline1DMexWrapper( 'new', kind );

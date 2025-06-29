@@ -170,8 +170,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   SplineType1D
   string_to_splineType1D( string_view nin ) {
     string n{nin};
@@ -227,8 +225,6 @@ namespace Splines {
     }
     return "NO_TYPE";
   }
-
-  #endif
 
   /*\
    |   ____                      _     ___       _                       _
@@ -648,8 +644,9 @@ namespace Splines {
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map(where) ) { keywords.insert(pair.first); }
 
-    GenericContainer const & gc_x{ gc("xdata",where) };
-    GenericContainer const & gc_y{ gc("ydata",where) };
+    GenericContainer const & gc_x{ gc("xdata",where) }; keywords.erase("xdata");
+    GenericContainer const & gc_y{ gc("ydata",where) }; keywords.erase("ydata");
+    keywords.erase("spline_type");
 
     vec_real_type x, y;
     {

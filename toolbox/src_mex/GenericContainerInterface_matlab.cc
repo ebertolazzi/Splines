@@ -30,10 +30,10 @@ namespace GC_namespace {
     if ( mxGetNumberOfElements(mx) == 1 ) {
       gc = mxIsLogicalScalarTrue(mx);
     } else {
-      mxLogical const * pr = mxGetLogicals(mx);
-      mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-      vector_type & vec = gc.set_vector( total_num_of_elements );
-      for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+      mxLogical const * pr{ mxGetLogicals(mx) };
+      unsigned total_num_of_elements{ static_cast<unsigned>(mxGetNumberOfElements(mx)) };
+      vector_type & vec { gc.set_vector( total_num_of_elements ) };
+      for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
         vec[idx] = *pr++;
     }
   }
@@ -42,31 +42,34 @@ namespace GC_namespace {
   static
   void
   mx_to_vec_int( mxArray const * mx, GenericContainer & gc ) {
-    mwSize const * dims = mxGetDimensions(mx);
-    T * pr = static_cast<T*>(mxGetData(mx));
+    mwSize const * dims{ mxGetDimensions(mx) };
+    T * pr{ static_cast<T*>(mxGetData(mx)) };
     if ( mxGetNumberOfElements(mx) == 1 ) {
       gc.set_int( int_type(*pr) );
     } else {
-      mwSize number_of_dimensions = mxGetNumberOfDimensions(mx);
+      unsigned total_num_of_elements { static_cast<unsigned>(mxGetNumberOfElements(mx)) };
+      unsigned number_of_dimensions  { static_cast<unsigned>(mxGetNumberOfDimensions(mx)) };
       switch ( number_of_dimensions ) {
       case 1:
-        { mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_int_type & vec = gc.set_vec_int( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+        { vec_int_type & vec{ gc.set_vec_int( total_num_of_elements ) };
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
             vec[idx] = int_type(*pr++);
         }
         break;
       case 2:
-        if ( dims[0] == 1 ) {
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_int_type & vec = gc.set_vec_int( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
-            vec[idx] = int_type(*pr++);
-        } else {
-          mat_int_type & mat = gc.set_mat_int( dims[0], dims[1] );
-          for ( mwSize j = 0; j < dims[1]; ++j )
-            for ( mwSize i = 0; i < dims[0]; ++i )
-              mat(i,j) = int_type(*pr++);
+        {
+          unsigned nx{ static_cast<unsigned>(dims[0]) };
+          unsigned ny{ static_cast<unsigned>(dims[1]) };
+          if ( nx == 1 ) {
+            vec_int_type & vec = gc.set_vec_int( total_num_of_elements );
+            for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
+              vec[idx] = int_type(*pr++);
+          } else {
+            mat_int_type & mat{ gc.set_mat_int( nx, ny ) };
+            for ( unsigned j{0}; j < ny; ++j )
+              for ( unsigned i{0}; i < nx; ++i )
+                mat(i,j) = int_type(*pr++);
+          }
         }
         break;
       default:
@@ -80,31 +83,34 @@ namespace GC_namespace {
   static
   void
   mx_to_vec_long( mxArray const * mx, GenericContainer & gc ) {
-    mwSize const * dims = mxGetDimensions(mx);
-    T * pr = static_cast<T*>(mxGetData(mx));
+    mwSize const * dims{ mxGetDimensions(mx) };
+    T * pr{ static_cast<T*>(mxGetData(mx)) };
     if ( mxGetNumberOfElements(mx) == 1 ) {
       gc.set_long( long_type(*pr) );
     } else {
-      mwSize number_of_dimensions = mxGetNumberOfDimensions(mx);
+      unsigned number_of_dimensions  { static_cast<unsigned>(mxGetNumberOfDimensions(mx)) };
+      unsigned total_num_of_elements { static_cast<unsigned>(mxGetNumberOfElements(mx)) };
       switch ( number_of_dimensions ) {
       case 1:
-        { mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_long_type & vec = gc.set_vec_long( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+        { vec_long_type & vec{ gc.set_vec_long( total_num_of_elements ) };
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
             vec[idx] = long_type(*pr++);
         }
         break;
       case 2:
-        if ( dims[0] == 1 ) {
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_long_type & vec = gc.set_vec_long( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
-            vec[idx] = long_type(*pr++);
-        } else {
-          mat_long_type & mat = gc.set_mat_long( dims[0], dims[1] );
-          for ( mwSize j = 0; j < dims[1]; ++j )
-            for ( mwSize i = 0; i < dims[0]; ++i )
-              mat(i,j) = long_type(*pr++);
+        {
+          unsigned nx{ static_cast<unsigned>(dims[0]) };
+          unsigned ny{ static_cast<unsigned>(dims[1]) };
+          if ( nx == 1 ) {
+            vec_long_type & vec{ gc.set_vec_long( total_num_of_elements ) };
+            for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
+              vec[idx] = long_type(*pr++);
+          } else {
+            mat_long_type & mat{ gc.set_mat_long( nx, ny ) };
+            for ( unsigned j{0}; j < ny; ++j )
+              for ( unsigned i{0}; i < nx; ++i )
+                mat(i,j) = long_type(*pr++);
+          }
         }
         break;
       default:
@@ -125,26 +131,28 @@ namespace GC_namespace {
     if ( mxGetNumberOfElements(mx) == 1 ) {
       gc = real_type(*pr);
     } else {
-      mwSize number_of_dimensions = mxGetNumberOfDimensions(mx);
+      unsigned total_num_of_elements{ static_cast<unsigned>(mxGetNumberOfElements(mx)) };
+      unsigned number_of_dimensions  { static_cast<unsigned>(mxGetNumberOfDimensions(mx)) };
       switch ( number_of_dimensions ) {
       case 1:
-        { mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_real_type & vec = gc.set_vec_real( total_num_of_elements );
+        { vec_real_type & vec{ gc.set_vec_real( total_num_of_elements ) };
           for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
             vec[idx] = real_type(*pr++);
         }
         break;
       case 2:
-        if ( dims[0] == 1 ) {
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_real_type & vec = gc.set_vec_real( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
-            vec[idx] = real_type(*pr++);
-        } else {
-          mat_real_type & mat = gc.set_mat_real( dims[0], dims[1] );
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
-            mat[idx] = real_type(*pr++);
+        {
+          unsigned nx{ static_cast<unsigned>(dims[0]) };
+          unsigned ny{ static_cast<unsigned>(dims[1]) };
+          if ( nx == 1 ) {
+            vec_real_type & vec{ gc.set_vec_real( total_num_of_elements ) };
+            for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
+              vec[idx] = real_type(*pr++);
+          } else {
+            mat_real_type & mat = gc.set_mat_real( nx, ny );
+            for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
+              mat[idx] = real_type(*pr++);
+          }
         }
         break;
       default:
@@ -153,6 +161,57 @@ namespace GC_namespace {
       }
     }
   }
+  
+  #if MX_HAS_INTERLEAVED_COMPLEX
+
+  template <typename T>
+  static
+  void
+  mx_to_vec_complex(mxArray const* mx, GenericContainer& gc) {
+    mwSize const* dims = mxGetDimensions(mx);
+
+    // Dati complessi interleaved
+    mxComplexDouble const* data = reinterpret_cast<mxComplexDouble const*>(mxGetData(mx));
+
+    if (mxGetNumberOfElements(mx) == 1) {
+      gc = complex_type(real_type(data[0].real), real_type(data[0].imag));
+    } else {
+      unsigned number_of_dimensions  { static_cast<unsigned>(mxGetNumberOfDimensions(mx)) };
+      unsigned total_num_of_elements { static_cast<unsigned>(mxGetNumberOfElements(mx)) };
+
+      switch (number_of_dimensions) {
+        case 1: {
+          vec_complex_type& vec = gc.set_vec_complex(total_num_of_elements);
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx) {
+            vec[idx] = complex_type(real_type(data[idx].real), real_type(data[idx].imag));
+          }
+          break;
+        }
+        case 2:
+          {
+            unsigned nx{ static_cast<unsigned>(dims[0]) };
+            unsigned ny{ static_cast<unsigned>(dims[1]) };
+            if ( nx == 1) {
+              vec_complex_type& vec = gc.set_vec_complex(total_num_of_elements);
+              for ( unsigned idx{0}; idx < total_num_of_elements; ++idx) {
+                vec[idx] = complex_type(real_type(data[idx].real), real_type(data[idx].imag));
+              }
+            } else {
+              mat_complex_type & mat{ gc.set_mat_complex( nx, ny ) };
+              for ( unsigned idx{0}; idx < total_num_of_elements; ++idx) {
+                mat[idx] = complex_type(real_type(data[idx].real), real_type(data[idx].imag));
+              }
+            }
+          }
+          break;
+        default:
+          mexPrintf("number_of_dimensions = %d\n", number_of_dimensions);
+          break;
+      }
+    }
+  }
+
+  #else
 
   // ===========================================================================
 
@@ -160,32 +219,30 @@ namespace GC_namespace {
   static
   void
   mx_to_vec_complex( mxArray const * mx, GenericContainer & gc ) {
-    mwSize const * dims = mxGetDimensions(mx);
-    T * pr = static_cast<T*>(mxGetData(mx));
-    T * pi = static_cast<T*>(mxGetImagData(mx));
+    mwSize const * dims{ mxGetDimensions(mx) };
+    T * pr{ static_cast<T*>(mxGetData(mx)) };
+    T * pi{ static_cast<T*>(mxGetImagData(mx)) };
 
     if ( mxGetNumberOfElements(mx) == 1 ) {
       gc = complex_type(real_type(*pr),real_type(*pi));
     } else {
-      mwSize number_of_dimensions = mxGetNumberOfDimensions(mx);
+      unsigned number_of_dimensions  { static_cast<unsigned>(mxGetNumberOfDimensions(mx)) };
+      unsigned total_num_of_elements { static_cast<unsigned>(mxGetNumberOfElements(mx)) };
       switch ( number_of_dimensions ) {
       case 1:
-        { mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_complex_type & vec = gc.set_vec_complex( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+        { vec_complex_type & vec{ gc.set_vec_complex( total_num_of_elements ) };
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
             vec[idx] = complex_type(real_type(*pr++),real_type(*pi++));
         }
         break;
       case 2:
-        if ( dims[0] == 1 ) {
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          vec_complex_type & vec = gc.set_vec_complex( total_num_of_elements );
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+        if ( nx == 1 ) {
+          vec_complex_type & vec{ gc.set_vec_complex( total_num_of_elements ) };
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
             vec[idx] = complex_type(real_type(*pr++),real_type(*pi++));
         } else {
-          mat_complex_type & mat = gc.set_mat_complex( dims[0], dims[1] );
-          mwSize total_num_of_elements = mxGetNumberOfElements(mx);
-          for ( mwSize idx = 0; idx < total_num_of_elements; ++idx )
+          mat_complex_type & mat{ gc.set_mat_complex( nx, ny ) };
+          for ( unsigned idx{0}; idx < total_num_of_elements; ++idx )
             mat[idx] = complex_type(real_type(*pr++),real_type(*pi++));
         }
         break;
@@ -196,14 +253,16 @@ namespace GC_namespace {
     }
   }
 
+  #endif
+
   // ===========================================================================
 
   static
   void
   mx_to_vector( mxArray const * mx, GenericContainer & gc ) {
-    unsigned ne = mxGetNumberOfElements(mx);
+    unsigned ne{ static_cast<unsigned>( mxGetNumberOfElements(mx) ) };
     gc.set_vector(ne);
-    for ( unsigned idx = 0; idx < ne; ++idx ) {
+    for ( unsigned idx{0}; idx < ne; ++idx ) {
       GenericContainer & gc1 = gc[idx];
       mxArray const * cell = mxGetCell(mx, idx);
       mxArray_to_GenericContainer( cell, gc1 );
@@ -216,19 +275,19 @@ namespace GC_namespace {
   void
   mx_to_map( mxArray const * mx, GenericContainer & gc ) {
     gc.set_map();
-    unsigned numFields = mxGetNumberOfFields(mx);
-    for ( unsigned ifield = 0; ifield < numFields; ++ifield ) {
-      char const * field_name = mxGetFieldNameByNumber(mx,ifield);
+    int numFields{ static_cast<int>( mxGetNumberOfFields(mx) ) };
+    for ( int ifield{0}; ifield < numFields; ++ifield ) {
+      char const * field_name{ static_cast<char const *>( mxGetFieldNameByNumber(mx,ifield) ) };
       GenericContainer & gc1 = gc[field_name];
-      unsigned nr = mxGetM(mx);
-      unsigned nc = mxGetN(mx);
+      unsigned nr{ static_cast<unsigned>( mxGetM(mx) ) };
+      unsigned nc{ static_cast<unsigned>( mxGetN(mx) ) };
       if ( nc == 1 && nr == 1 ) {
         mxArray const * mxField = mxGetFieldByNumber(mx,0,ifield);
         mxArray_to_GenericContainer( mxField, gc1 );
       } else {
         gc1.set_vector(nr*nc);
-        for ( unsigned i = 0; i < nr*nc; ++i ) {
-          mxArray const * mxField = mxGetFieldByNumber(mx,i,ifield);
+        for ( unsigned i{0}; i < nr*nc; ++i ) {
+          mxArray const * mxField{ mxGetFieldByNumber(mx,i,ifield) };
           mxArray_to_GenericContainer( mxField, gc1[i] );
         }
       }
@@ -248,17 +307,27 @@ namespace GC_namespace {
     vec_int_type & jc = gc["jc"].set_vec_int( nc+1 );
     vec_int_type & ir = gc["ir"].set_vec_int( nnz );
 
-    for ( unsigned i = 0; i <= nc; ++i ) jc[i] = jcs[i];
-    for ( unsigned i = 0; i < nnz; ++i ) ir[i] = irs[i];
+    for ( unsigned i{0}; i <= nc; ++i ) jc[i] = jcs[i];
+    for ( unsigned i{0}; i < nnz; ++i ) ir[i] = irs[i];
 
     real_type * sr = mxGetPr(mx);
     if ( mxIsComplex( mx ) ) {
-      real_type * si = mxGetPi(mx);
-      vec_complex_type & val = gc["values"].set_vec_complex( nnz );
-      for ( unsigned i = 0; i < nnz; ++i ) val[i] = complex_type(sr[i],si[i]);
+      #if MX_HAS_INTERLEAVED_COMPLEX
+        mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
+        vec_complex_type& val = gc["values"].set_vec_complex(nnz);
+        for ( unsigned i{0}; i < nnz; ++i ) {
+          val[i] = complex_type(data[i].real, data[i].imag);
+        }
+      #else
+        real_type* si = mxGetPi(mx);
+        vec_complex_type& val = gc["values"].set_vec_complex(nnz);
+        for ( unsigned i{0}; i < nnz; ++i ) {
+          val[i] = complex_type(sr[i], si[i]);
+        }
+      #endif
     } else {
       vec_real_type & val = gc["values"].set_vec_real( nnz );
-      for ( unsigned i = 0; i < nnz; ++i ) val[i] = sr[i];
+      for ( unsigned i{0}; i < nnz; ++i ) val[i] = sr[i];
     }
   }
 
@@ -359,11 +428,18 @@ namespace GC_namespace {
   }
 
   void
-  to_mxArray( complex_type const & val, mxArray * & mx ) {
-    mwSize dims[2] = {1,1};
-    mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
+  to_mxArray(complex_type const& val, mxArray*& mx) {
+    mwSize dims[2] = {1, 1};
+    mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
+  
+  #if MX_HAS_INTERLEAVED_COMPLEX
+    mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
+    data[0].real = val.real();
+    data[0].imag = val.imag();
+  #else
     *mxGetPr(mx) = val.real();
     *mxGetPi(mx) = val.imag();
+  #endif
   }
 
   void
@@ -404,16 +480,26 @@ namespace GC_namespace {
     for ( mwSize i = 0; i < dims[0]; ++i ) ptr[i] = val[i];
   }
 
+
   void
-  to_mxArray( vec_complex_type const & val, mxArray * & mx ) {
+  to_mxArray(vec_complex_type const& val, mxArray*& mx) {
     mwSize dims[2] = { mwSize(val.size()), 1 };
-    mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
-    real_type * ptr = mxGetPr(mx);
-    real_type * pti = mxGetPi(mx);
-    for ( mwSize i = 0; i < dims[0]; ++i ) {
+    mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
+
+  #if MX_HAS_INTERLEAVED_COMPLEX
+    mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
+    for (mwSize i = 0; i < dims[0]; ++i) {
+      data[i].real = val[i].real();
+      data[i].imag = val[i].imag();
+    }
+  #else
+    real_type* ptr = mxGetPr(mx);
+    real_type* pti = mxGetPi(mx);
+    for (mwSize i = 0; i < dims[0]; ++i) {
       ptr[i] = val[i].real();
       pti[i] = val[i].imag();
     }
+  #endif
   }
 
   void
@@ -430,8 +516,8 @@ namespace GC_namespace {
     mx = mxCreateNumericArray(2,dims,mxINT32_CLASS,mxREAL);
     int32_t * ptr = static_cast<int32_t*>(mxGetData(mx));
     mwSize k = 0;
-    for ( mwSize j = 0; j < dims[1]; ++j )
-      for ( mwSize i = 0; i < dims[0]; ++i )
+    for ( mwSize j{0}; j < dims[1]; ++j )
+      for ( mwSize i{0}; i < dims[0]; ++i )
         ptr[k++] = val(i,j);
   }
 
@@ -441,8 +527,8 @@ namespace GC_namespace {
     mx = mxCreateNumericArray(2,dims,mxINT64_CLASS,mxREAL);
     int64_t * ptr = static_cast<int64_t*>(mxGetData(mx));
     mwSize k = 0;
-    for ( mwSize j = 0; j < dims[1]; ++j )
-      for ( mwSize i = 0; i < dims[0]; ++i )
+    for ( mwSize j{0}; j < dims[1]; ++j )
+      for ( mwSize i{0}; i < dims[0]; ++i )
         ptr[k++] = val(i,j);
   }
 
@@ -452,26 +538,40 @@ namespace GC_namespace {
     mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxREAL);
     real_type * ptr = mxGetPr(mx);
     mwSize k = 0;
-    for ( mwSize j = 0; j < dims[1]; ++j )
-      for ( mwSize i = 0; i < dims[0]; ++i )
+    for ( mwSize j{0}; j < dims[1]; ++j )
+      for ( mwSize i{0}; i < dims[0]; ++i )
         ptr[k++] = val(i,j);
   }
 
   void
-  to_mxArray( mat_complex_type const & val, mxArray * & mx ) {
+  to_mxArray(mat_complex_type const& val, mxArray*& mx) {
     mwSize dims[2] = { mwSize(val.num_rows()), mwSize(val.num_cols()) };
-    mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
-    real_type * ptr = mxGetPr(mx);
-    real_type * pti = mxGetPi(mx);
+    mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
+  
+  #if MX_HAS_INTERLEAVED_COMPLEX
+    mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
     mwSize k = 0;
-    for ( mwSize j = 0; j < dims[1]; ++j ) {
-      for ( mwSize i = 0; i < dims[0]; ++i ) {
-        complex_type const & vij{ val(i,j) };
+    for ( mwSize j{0}; j < dims[1]; ++j ) {
+      for ( mwSize i{0}; i < dims[0]; ++i ) {
+        complex_type const & vij{ val(i, j) };
+        data[k].real = vij.real();
+        data[k].imag = vij.imag();
+        ++k;
+      }
+    }
+  #else
+    real_type* ptr = mxGetPr(mx);
+    real_type* pti = mxGetPi(mx);
+    mwSize k = 0;
+    for ( mwSize j{0}; j < dims[1]; ++j ) {
+      for ( mwSize i{0}; i < dims[0]; ++i ) {
+        complex_type const & vij{ val(i, j) };
         ptr[k] = vij.real();
         pti[k] = vij.imag();
         ++k;
       }
     }
+  #endif
   }
 
   // ===========================================================================
@@ -505,11 +605,18 @@ namespace GC_namespace {
       break;
     case GC_type::COMPLEX:
       {
-        mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
+        mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
         real_type re, im;
-        gc.get_complex_number(re,im);
+        gc.get_complex_number(re, im);
+      
+      #if MX_HAS_INTERLEAVED_COMPLEX
+        mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
+        data[0].real = re;
+        data[0].imag = im;
+      #else
         *mxGetPr(mx) = re;
         *mxGetPi(mx) = im;
+      #endif
       }
       break;
     case GC_type::STRING:
@@ -550,18 +657,30 @@ namespace GC_namespace {
     case GC_type::VEC_COMPLEX:
       {
         dims[1] = gc.get_num_elements();
-        mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
-        real_type * ptr = mxGetPr(mx);
-        real_type * pti = mxGetPi(mx);
-        for ( mwSize i = 0; i < dims[1]; ++i )
-          gc.get_complex_number_at(i,ptr[i],pti[i]);
+        mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
+      
+      #if MX_HAS_INTERLEAVED_COMPLEX
+        mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
+        for (mwSize i{0}; i < dims[1]; ++i) {
+          real_type re, im;
+          gc.get_complex_number_at(i, re, im);
+          data[i].real = re;
+          data[i].imag = im;
+        }
+      #else
+        real_type* ptr = mxGetPr(mx);
+        real_type* pti = mxGetPi(mx);
+        for (mwSize i = 0; i < dims[1]; ++i) {
+          gc.get_complex_number_at(i, ptr[i], pti[i]);
+        }
+      #endif
       }
       break;
     case GC_type::VEC_STRING:
       {
         dims[1] = gc.get_num_elements();
         mx = mxCreateCellMatrix(dims[0], dims[1]);
-        for( mwSize i = 0; i < dims[1]; ++i )
+        for( mwSize i{0}; i < dims[1]; ++i )
           mxSetCell(mx,i,mxCreateString( gc.get_string_at(i,where).data()));
       }
       break;
@@ -605,18 +724,32 @@ namespace GC_namespace {
       {
         dims[0] = gc.num_rows();
         dims[1] = gc.num_cols();
-        mx = mxCreateNumericArray(2,dims,mxDOUBLE_CLASS,mxCOMPLEX);
-        real_type * ptr = mxGetPr(mx);
-        real_type * pti = mxGetPi(mx);
+        mx = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxCOMPLEX);
+      
+      #if MX_HAS_INTERLEAVED_COMPLEX
+        mxComplexDouble* data = reinterpret_cast<mxComplexDouble*>(mxGetData(mx));
         mwSize k = 0;
         for ( mwSize j{0}; j < dims[1]; ++j ) {
           for ( mwSize i{0}; i < dims[0]; ++i ) {
-            complex_type val = gc.get_complex_at(i,j,where);
+            complex_type val = gc.get_complex_at(i, j, where);
+            data[k].real = val.real();
+            data[k].imag = val.imag();
+            ++k;
+          }
+        }
+      #else
+        real_type* ptr = mxGetPr(mx);
+        real_type* pti = mxGetPi(mx);
+        mwSize k = 0;
+        for ( mwSize j{0}; j < dims[1]; ++j ) {
+          for ( mwSize i{0}; i < dims[0]; ++i ) {
+            complex_type val = gc.get_complex_at(i, j, where);
             ptr[k] = val.real();
             pti[k] = val.imag();
             ++k;
           }
         }
+      #endif
       }
       break;
     case GC_type::VECTOR:

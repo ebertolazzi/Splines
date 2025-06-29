@@ -37,9 +37,7 @@ namespace Splines {
 
   public:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
     using Spline::build;
-    #endif
 
     //!
     //! Build an empty spline of `ConstantSpline` type

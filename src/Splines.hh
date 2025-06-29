@@ -109,12 +109,49 @@ namespace Splines {
   //  |_| |_|\___|_|  |_| |_| |_|_|\__\___|
   */
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
+  #ifdef AUTODIFF_SUPPORT
+  template <typename T>
+  inline
+  void
+  Hermite3( T const & x, real_type const H, T base[4] ) {
+    T const X{x/H};
+    base[1] = X*X*(3-2*X);
+    base[0] = 1-base[1];
+    base[2] = x*(X*(X-2)+1);
+    base[3] = x*X*(X-1);
+  }
+  #endif
 
   void Hermite3     ( real_type const x, real_type const H, real_type base[4] );
   void Hermite3_D   ( real_type const x, real_type const H, real_type base_D[4] );
   void Hermite3_DD  ( real_type const x, real_type const H, real_type base_DD[4] );
   void Hermite3_DDD ( real_type const x, real_type const H, real_type base_DDD[4] );
+
+  #ifdef AUTODIFF_SUPPORT
+  template <typename T>
+  inline
+  void
+  Hermite5( T const & x, real_type const H, T base[6] ) {
+    auto const t1  { H*H   };
+    auto const t4  { x*x   };
+    auto const t7  { H-x   };
+    auto const t8  { t7*t7 };
+    auto const t9  { t8*t7 };
+    auto const t11 { t1*t1 };
+    auto const t2  { 1/t11 };
+    auto const t3  { 1/H   };
+    auto const t13 { t3*t2 };
+    auto const t14 { t4*x  };
+    auto const t17 { t4*t4 };
+    base[0] = t13*t9*(3.0*x*H+t1+6.0*t4);
+    base[1] = t13*(-15.0*H*t17+6.0*t17*x+10.0*t1*t14);
+    base[2] = t2*t9*x*(H+3*x);
+    base[3] = t2*(3*x-4*H)*t7*t14;
+    real_type const t36 = t3/t1/2;
+    base[4] = t36*t9*t4;
+    base[5] = t36*t8*t14;
+  }
+  #endif
 
   void Hermite5       ( real_type const x, real_type const H, real_type base[6] );
   void Hermite5_D     ( real_type const x, real_type const H, real_type base_D[6] );
@@ -122,8 +159,6 @@ namespace Splines {
   void Hermite5_DDD   ( real_type const x, real_type const H, real_type base_DDD[6] );
   void Hermite5_DDDD  ( real_type const x, real_type const H, real_type base_DDDD[6] );
   void Hermite5_DDDDD ( real_type const x, real_type const H, real_type base_DDDDD[6] );
-
-  #endif
 
   //!
   //! Convert polynomial defined using Hermite base
@@ -824,12 +859,14 @@ namespace Splines {
     //! \name Evaluation
     ///@{
 
+    #ifdef AUTODIFF_SUPPORT
     //!
     //! Evaluate spline value
     //!
     virtual real_type         eval( real_type         const   x ) const = 0;
     virtual autodiff::dual1st eval( autodiff::dual1st const & x ) const = 0;
     virtual autodiff::dual2nd eval( autodiff::dual2nd const & x ) const = 0;
+    #endif
 
     //!
     //! First derivative
@@ -1753,7 +1790,8 @@ namespace Splines {
 #include "Splines/Splines1D.hxx"
 #include "Splines/Splines2D.hxx"
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+#include "Splines/Splines1Dblend.hxx"
+#include "Splines/Splines2Dblend.hxx"
 
 namespace SplinesLoad {
 
@@ -1780,8 +1818,6 @@ namespace SplinesLoad {
   using Splines::SplineType1D;
   using Splines::SplineType2D;
 }
-
-#endif
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

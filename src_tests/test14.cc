@@ -29,30 +29,51 @@
 #include "Splines.hh"
 #include "Utils_fmt.hh"
 
-namespace Splines {
+#include <GenericContainer/GenericContainer.hh>
 
-  void
-  Spline2D::new_spline( SplineType2D const tp ) {
-    if ( m_spline_2D == nullptr ) {
-      delete m_spline_2D;
-      m_spline_2D = nullptr;
-    }
-    switch ( tp ) {
-    case SplineType2D::BILINEAR:  m_spline_2D = new BilinearSpline(m_name);  break;
-    case SplineType2D::BICUBIC:   m_spline_2D = new BiCubicSpline(m_name);   break;
-    case SplineType2D::BIQUINTIC: m_spline_2D = new BiQuinticSpline(m_name); break;
-    case SplineType2D::AKIMA2D:   m_spline_2D = new Akima2Dspline(m_name);   break;
-//    default:
-//      UTILS_ERROR( "new_spline, type `{}` unknown\n", tp );
-    }
-  }
+#include <fstream>
 
-  void
-  Spline2D::setup( GenericContainer const & gc ) {
-    string const   where{ fmt::format("Spline2D[{}]::setup( gc ):", m_name ) };
-    string const & type{ gc.get_map_string("spline_type",where) };
-    new_spline( string_to_splineType2D( type ) );
-    m_spline_2D->setup( gc );
-  }
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
 
+using namespace SplinesLoad;
+using namespace std;
+using namespace GenericContainerNamespace;
+using Splines::real_type;
+using Splines::integer;
+
+constexpr double x[]{ 0,   5,  10,  15,  20, 25,  30,  40,  50, 70 };
+constexpr double y[]{ 0, 0.2, 0.4, 0.6, 0.8,  1, 1.2, 1.4, 1.6 };
+
+constexpr int nx = std::size(x);
+constexpr int ny = std::size(y);
+
+int
+main() {
+  cout << "\n\nTEST N.14\n\n";
+  
+  GC::GenericContainer gc;
+
+  GC::GenericContainer & S0{ gc["spline0"] };
+  GC::GenericContainer & S1{ gc["spline1"] };
+  
+  GC::vec_real_type & V0x = S0["xdata"].set_vec_real(nx); std::copy_n( x, nx, V0x.data() );
+  GC::vec_real_type & V0y = S0["ydata"].set_vec_real(nx); std::copy_n( y, nx, V0y.data() );
+  GC::vec_real_type & V1x = S1["xdata"].set_vec_real(nx); std::copy_n( x, nx, V1x.data() );
+  GC::vec_real_type & V1y = S1["ydata"].set_vec_real(nx); std::copy_n( y, nx, V1y.data() );
+  
+  S0["spline_type"]     = "cubic";
+  S0["bc_begin"]        = "natural";
+  S0["bc_end"]          = "natural";
+  S1["spline_type"]     = "quintic";
+  S1["spline_sub_type"] = "pchip";
+  S1["bc_begin"]        = "natural";
+  S1["bc_end"]          = "natural";
+  
+  Splines::Spline1Dblend S("pippo");
+  
+  S.build( gc );
+
+  cout << "\nALL DONE!\n\n";
 }

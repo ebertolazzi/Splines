@@ -88,8 +88,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   SplineVec::allocate( integer const dim, integer const npts ) {
 
@@ -113,8 +111,6 @@ namespace Splines {
     m_mem.must_be_empty( "SplineVec::build, baseValue" );
     m_mem_p.must_be_empty( "SplineVec::build, basePointer" );
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -161,8 +157,6 @@ namespace Splines {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   void
   SplineVec::compute_chords() {
     integer const nn{ m_npts-1 };
@@ -195,8 +189,6 @@ namespace Splines {
     }
     m_search.must_reset();
   }
-
-  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   void

@@ -34,8 +34,6 @@ namespace Splines {
   class BiCubicSplineBase : public SplineSurf {
   protected:
 
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
     Malloc_real m_mem_bicubic;
 
     real_type * m_DX{nullptr};
@@ -54,8 +52,6 @@ namespace Splines {
     real_type & Dx_node_ref  ( integer const i, integer const j ) { return m_DX  [ this->ipos_C(i,j) ]; }
     real_type & Dy_node_ref  ( integer const i, integer const j ) { return m_DY  [ this->ipos_C(i,j) ]; }
     real_type & Dxy_node_ref ( integer const i, integer const j ) { return m_DXY [ this->ipos_C(i,j) ]; }
-
-    #endif
 
   public:
 

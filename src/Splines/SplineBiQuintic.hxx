@@ -31,7 +31,6 @@ namespace Splines {
   //! Bi-quintic spline base class
   class BiQuinticSplineBase : public SplineSurf {
   protected:
-    #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
     Malloc_real m_mem_biquintic{"BiQuinticSplineBase"};
 
@@ -65,8 +64,6 @@ namespace Splines {
     real_type & Dxxyy_node_ref ( integer const i, integer const j ) { return m_DXXYY [ ipos_C(i,j) ]; }
 
     void load( integer const i, integer const j, real_type bili5[6][6] ) const;
-
-    #endif
 
   public:
 
