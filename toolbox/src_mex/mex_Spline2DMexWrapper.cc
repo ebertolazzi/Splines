@@ -55,7 +55,7 @@ namespace Splines {
   do_new( int nlhs, mxArray       *plhs[],
           int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_1 "Spline1DMexWrapper( 'new', kind )"
+    #define MEX_ERROR_MESSAGE_1 "Spline2DMexWrapper( 'new', kind )"
     #define CMD MEX_ERROR_MESSAGE_1
 
     UTILS_MEX_ASSERT( nrhs == 2, CMD ": expected 2 inputs, nrhs = {}\n", nrhs );
@@ -95,7 +95,7 @@ namespace Splines {
   do_delete( int nlhs, mxArray       *[],
              int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_2 "Spline1DMexWrapper( 'delete', OBJ )"
+    #define MEX_ERROR_MESSAGE_2 "Spline2DMexWrapper( 'delete', OBJ )"
     #define CMD MEX_ERROR_MESSAGE_2
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -402,7 +402,7 @@ namespace Splines {
   do_make_x_closed( int nlhs, mxArray       *[],
                     int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_18 "Spline1DMexWrapper('make_x_closed',OBJ)"
+    #define MEX_ERROR_MESSAGE_18 "Spline2DMexWrapper('make_x_closed',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_18
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -421,7 +421,7 @@ namespace Splines {
   do_make_x_opened( int nlhs, mxArray       *[],
                     int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_19 "Spline1DMexWrapper('make_x_opened',OBJ)"
+    #define MEX_ERROR_MESSAGE_19 "Spline2DMexWrapper('make_x_opened',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_19
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -440,7 +440,7 @@ namespace Splines {
   do_is_x_closed( int nlhs, mxArray       *plhs[],
                   int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_20 "Spline1DMexWrapper('is_x_closed',OBJ)"
+    #define MEX_ERROR_MESSAGE_20 "Spline2DMexWrapper('is_x_closed',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_20
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
@@ -459,7 +459,7 @@ namespace Splines {
   do_make_x_bounded( int nlhs, mxArray       *[],
                      int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_21 "Spline1DMexWrapper('make_x_bounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_21 "Spline2DMexWrapper('make_x_bounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_21
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -478,7 +478,7 @@ namespace Splines {
   do_make_x_unbounded( int nlhs, mxArray       *[],
                        int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_22 "Spline1DMexWrapper('make_x_unbounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_22 "Spline2DMexWrapper('make_x_unbounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_22
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -497,7 +497,7 @@ namespace Splines {
   do_is_x_bounded( int nlhs, mxArray       *plhs[],
                    int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_23 "Spline1DMexWrapper('is_x_bounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_23 "Spline2DMexWrapper('is_x_bounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_23
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
@@ -516,7 +516,7 @@ namespace Splines {
   do_make_y_closed( int nlhs, mxArray       *[],
                     int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_24 "Spline1DMexWrapper('make_y_closed',OBJ)"
+    #define MEX_ERROR_MESSAGE_24 "Spline2DMexWrapper('make_y_closed',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_24
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -535,7 +535,7 @@ namespace Splines {
   do_make_y_opened( int nlhs, mxArray       *[],
                     int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_25 "Spline1DMexWrapper('make_y_opened',OBJ)"
+    #define MEX_ERROR_MESSAGE_25 "Spline2DMexWrapper('make_y_opened',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_25
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -554,7 +554,7 @@ namespace Splines {
   do_is_y_closed( int nlhs, mxArray       *plhs[],
                   int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_26 "Spline1DMexWrapper('is_y_closed',OBJ)"
+    #define MEX_ERROR_MESSAGE_26 "Spline2DMexWrapper('is_y_closed',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_26
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );
@@ -573,7 +573,7 @@ namespace Splines {
   do_make_y_bounded( int nlhs, mxArray       *[],
                      int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_27 "Spline1DMexWrapper('make_y_bounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_27 "Spline2DMexWrapper('make_y_bounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_27
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -592,7 +592,7 @@ namespace Splines {
   do_make_y_unbounded( int nlhs, mxArray       *[],
                        int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_28 "Spline1DMexWrapper('make_y_unbounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_28 "Spline2DMexWrapper('make_y_unbounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_28
 
     UTILS_MEX_ASSERT( nlhs == 0, CMD ": expected 0 output, nlhs = {}\n", nlhs );
@@ -611,7 +611,7 @@ namespace Splines {
   do_is_y_bounded( int nlhs, mxArray       *plhs[],
                    int nrhs, mxArray const *prhs[] ) {
 
-    #define MEX_ERROR_MESSAGE_29 "Spline1DMexWrapper('is_y_bounded',OBJ)"
+    #define MEX_ERROR_MESSAGE_29 "Spline2DMexWrapper('is_y_bounded',OBJ)"
     #define CMD MEX_ERROR_MESSAGE_29
 
     UTILS_MEX_ASSERT( nlhs == 1, CMD ": expected 1 output, nlhs = {}\n", nlhs );

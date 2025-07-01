@@ -133,6 +133,7 @@ set(
   Spline1DMexWrapper
   Spline1DblendMexWrapper
   Spline2DMexWrapper
+  Spline2DblendMexWrapper
   SplineSetMexWrapper
   SplineVecMexWrapper
 )

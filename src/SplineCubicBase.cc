@@ -286,6 +286,7 @@ namespace Splines {
     res.grad.grad = dd[1] * x.grad.grad + dd[2] * (xg*xg);
     return res;
   }
+  #endif
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -493,5 +494,3 @@ namespace Splines {
     }
   }
 }
-
-#endif
