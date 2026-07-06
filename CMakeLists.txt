@@ -89,6 +89,7 @@ set( SPLINES_GC_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../GC" CACHE PATH "Local 
 set( SPLINES_UTILSLITE_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../UtilsLite" CACHE PATH "Local UtilsLite checkout" )
 set( SPLINES_QUARTIC_ROOTS_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../quarticRootsFlocke" CACHE PATH "Local quarticRootsFlocke checkout" )
 set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Eigen" CACHE PATH "Local Eigen checkout" )
+set( SPLINES_JSON_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../json" CACHE PATH "Local nlohmann_json checkout" )
 set( SPLINES_EIGEN_VERSION "5.0.0" CACHE STRING "Eigen version to fetch" )
 
 # Default install layout requested for this project:
@@ -111,20 +112,6 @@ if ( APPLE )
   set( CMAKE_OSX_ARCHITECTURES ${ARCHITECTURE} )
 endif()
 
-#   ___                          _                 _
-#  |   \ ___ _ __  ___ _ _  __| |___ _ _  __ ___(_)___ ___
-#  | |) / -_) '_ \/ -_) ' \/ _` / -_) ' \/ _/ -_)_(_-</ -_)
-#  |___/\___| .__/\___|_||_\__,_\___|_||_\__\___(_)__/\___|
-#            |_|
-#
-FetchContent_Declare(
-  nlohmann_json
-  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
-  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
-FetchContent_MakeAvailable( nlohmann_json )
-set( SPLINES_NLOHMANN_JSON_SOURCE "FetchContent: v3.11.3" )
-
 # ============================================================================
 # Dependency helpers
 # ============================================================================
@@ -136,25 +123,60 @@ function( splines_use_local_or_fetch NAME LOCAL_DIR )
     BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
   )
 
+  string( TOUPPER "${NAME}" _name_upper )
+  string( TOLOWER "${NAME}" _name_lower )
+  if ( FETCHCONTENT_BASE_DIR )
+    set( _fetchcontent_base_dir "${FETCHCONTENT_BASE_DIR}" )
+  else()
+    set( _fetchcontent_base_dir "${CMAKE_BINARY_DIR}/_deps" )
+  endif()
+  set( _dependency_install_stub "${_fetchcontent_base_dir}/${_name_lower}-build/cmake_install.cmake" )
+  set( _saved_skip_install_rules "${CMAKE_SKIP_INSTALL_RULES}" )
+  set( CMAKE_SKIP_INSTALL_RULES ON )
+
   if ( EXISTS "${_local_abs}/CMakeLists.txt" )
     message( STATUS "Using local ${NAME}: ${_local_abs}" )
-    add_subdirectory(
-      "${_local_abs}"
-      "${CMAKE_BINARY_DIR}/_deps/${NAME}-local-build"
-      EXCLUDE_FROM_ALL
-    )
+    set( "FETCHCONTENT_SOURCE_DIR_${_name_upper}" "${_local_abs}" CACHE PATH "Local ${NAME} checkout" FORCE )
+    FetchContent_MakeAvailable( ${NAME} )
     set( "${NAME}_SOURCE" "local: ${_local_abs}" PARENT_SCOPE )
     set( "${NAME}_SOURCE_DIR" "${_local_abs}" PARENT_SCOPE )
   else()
     message( STATUS "Fetching ${NAME}" )
     FetchContent_MakeAvailable( ${NAME} )
     set( "${NAME}_SOURCE" "FetchContent" PARENT_SCOPE )
-    string( TOLOWER "${NAME}" lower_name )
-    if ( DEFINED "${lower_name}_SOURCE_DIR" )
-      set( "${NAME}_SOURCE_DIR" "${${lower_name}_SOURCE_DIR}" PARENT_SCOPE )
+    string( TOLOWER "${NAME}" _name_lower )
+    if ( DEFINED "${_name_lower}_SOURCE_DIR" )
+      set( "${NAME}_SOURCE_DIR" "${${_name_lower}_SOURCE_DIR}" PARENT_SCOPE )
     endif()
   endif()
+
+  file( MAKE_DIRECTORY "${_fetchcontent_base_dir}/${_name_lower}-build" )
+  if ( NOT EXISTS "${_dependency_install_stub}" )
+    file(
+      WRITE "${_dependency_install_stub}"
+      "# Install disabled for dependency ${NAME} inside Splines.\n"
+    )
+  endif()
+
+  set( CMAKE_SKIP_INSTALL_RULES "${_saved_skip_install_rules}" )
 endfunction()
+
+#   ___                          _                 _
+#  |   \ ___ _ __  ___ _ _  __| |___ _ _  __ ___(_)___ ___
+#  | |) / -_) '_ \/ -_) ' \/ _` / -_) ' \/ _/ -_)_(_-</ -_)
+#  |___/\___| .__/\___|_||_\__,_\___|_||_\__\___(_)__/\___|
+#            |_|
+#
+FetchContent_Declare(
+  nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG        v3.11.3
+  GIT_SHALLOW    TRUE
+)
+splines_use_local_or_fetch( nlohmann_json "${SPLINES_JSON_LOCAL_DIR}" )
+set( SPLINES_NLOHMANN_JSON_SOURCE "${nlohmann_json_SOURCE}" )
+
+
 
 # ============================================================================
 # Eigen
@@ -204,6 +226,7 @@ endif()
 # ============================================================================
 # GenericContainer
 # ============================================================================
+set( GENERIC_CONTAINER_INSTALL OFF CACHE BOOL "Disable GenericContainer install rules inside Splines" FORCE )
 FetchContent_Declare(
   GenericContainer
   GIT_REPOSITORY https://github.com/ebertolazzi/GenericContainer.git
@@ -232,6 +255,7 @@ endif()
 # UtilsLite and quarticRootsFlocke share the same vendored cmake_utils option
 # to gate their own internal test suites -- turn it off so ctest here only
 # runs Splines' own test00..test18.
+set( UTILS_INSTALL_LOCAL OFF CACHE BOOL "Disable dependency-local install rules inside Splines" FORCE )
 set( UTILS_ENABLE_TESTS OFF CACHE BOOL "Disable dependency test suites" FORCE )
 
 # ============================================================================
@@ -239,8 +263,9 @@ set( UTILS_ENABLE_TESTS OFF CACHE BOOL "Disable dependency test suites" FORCE )
 # ============================================================================
 FetchContent_Declare(
   UtilsLite
-  GIT_REPOSITORY https://github.com/pbosetti/UtilsLite.git
+  GIT_REPOSITORY https://github.com/ebertolazzi/UtilsLite.git
   GIT_TAG        main
+  GIT_SHALLOW    TRUE
 )
 splines_use_local_or_fetch( UtilsLite "${SPLINES_UTILSLITE_LOCAL_DIR}" )
 set( UTILS utils::UtilsLite_Static )
@@ -265,6 +290,7 @@ FetchContent_Declare(
   quarticRootsFlocke
   GIT_REPOSITORY https://github.com/ebertolazzi/quarticRootsFlocke.git
   GIT_TAG        main
+  GIT_SHALLOW    TRUE
 )
 splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DIR}" )
 set( ROOTS utils_quarticRootsFlocke_Static )
