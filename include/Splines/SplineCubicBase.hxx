@@ -64,12 +64,12 @@ namespace Splines
     //!
     //! Return the pointer of values of yp-nodes.
     //!
-    real_type const * yp_nodes() const { return m_Yp; }
+    [[nodiscard]] real_type const * yp_nodes() const noexcept { return m_Yp; }
 
     //!
     //! Return the i-th node of the spline (y' component).
     //!
-    real_type yp_node( integer i ) const { return m_Yp[i]; }
+    [[nodiscard]] real_type yp_node( integer i ) const noexcept { return m_Yp[i]; }
 
     //!
     //! Change X-range of the spline.
@@ -112,36 +112,36 @@ namespace Splines
     //!
     ///@{
 
-    real_type eval( real_type const x ) const override
+    [[nodiscard]] real_type eval( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
       return this->id_eval( res.first, res.second );
     }
 
-    real_type D( real_type const x ) const override
+    [[nodiscard]] real_type D( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
       return this->id_D( res.first, res.second );
     }
 
-    real_type DD( real_type const x ) const override
+    [[nodiscard]] real_type DD( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
       return this->id_DD( res.first, res.second );
     }
 
-    real_type DDD( real_type const x ) const override
+    [[nodiscard]] real_type DDD( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
       return this->id_DDD( res.first, res.second );
     }
 
-    real_type DDDD( real_type const ) const override { return 0; }
-    real_type DDDDD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type DDDD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type DDDDD( real_type const ) const override { return 0; }
 
     void D( real_type const x, real_type dd[2] ) const override;
 
@@ -152,16 +152,16 @@ namespace Splines
     //!
     //! \name Evaluation when segment is known
     ///@{
-    real_type id_eval( integer const ni, real_type const x ) const override;
+    [[nodiscard]] real_type id_eval( integer const ni, real_type const x ) const override;
 
-    real_type id_D( integer const ni, real_type const x ) const override;
+    [[nodiscard]] real_type id_D( integer const ni, real_type const x ) const override;
 
-    real_type id_DD( integer const ni, real_type const x ) const override;
+    [[nodiscard]] real_type id_DD( integer const ni, real_type const x ) const override;
 
-    real_type id_DDD( integer const ni, real_type const x ) const override;
+    [[nodiscard]] real_type id_DDD( integer const ni, real_type const x ) const override;
 
-    real_type id_DDDD( integer const, real_type const ) const override { return 0; }
-    real_type id_DDDDD( integer const, real_type const ) const override { return 0; }
+    [[nodiscard]] real_type id_DDDD( integer const, real_type const ) const override { return 0; }
+    [[nodiscard]] real_type id_DDDDD( integer const, real_type const ) const override { return 0; }
     ///@}
 
 #ifdef AUTODIFF_SUPPORT
@@ -169,8 +169,8 @@ namespace Splines
     //! \name Autodiff
     //!
     ///@{
-    autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
-    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
+    [[nodiscard]] autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
+    [[nodiscard]] autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
     ///@}
 #endif
 
@@ -178,19 +178,19 @@ namespace Splines
     void export_csv( ostream_type & s ) const;
     void export_csv( string_view fname ) const
     {
-      std::ofstream file( fname.data() );
+      std::ofstream file{ std::string{ fname } };
       this->export_csv( file );
     }
     void export_json( ostream_type & s ) const;
     void export_json( string_view fname ) const
     {
-      std::ofstream file( fname.data() );
+      std::ofstream file{ std::string{ fname } };
       this->export_json( file );
     }
     void export_yaml( ostream_type & s ) const;
     void export_yaml( string_view fname ) const
     {
-      std::ofstream file( fname.data() );
+      std::ofstream file{ std::string{ fname } };
       this->export_yaml( file );
     }
 
@@ -256,24 +256,24 @@ namespace Splines
     integer  // order
     coeffs( real_type cfs[], real_type nodes[], bool transpose = false ) const override;
 
-    integer order() const override { return 4; }
+    [[nodiscard]] integer order() const override { return 4; }
 
-    bool is_monotone() const { return check_cubic_spline_monotonicity( m_X, m_Y, m_Yp, m_npts ); }
+    [[nodiscard]] bool is_monotone() const { return check_cubic_spline_monotonicity( m_X, m_Y, m_Yp, m_npts ); }
 
 #ifdef SPLINES_BACK_COMPATIBILITY
-    void      copySpline( CubicSplineBase const & S ) { this->copy_spline( S ); }
-    integer   numPoints() const { return m_npts; }
-    real_type xNode( integer i ) const { return m_X[i]; }
-    real_type yNode( integer i ) const { return m_Y[i]; }
-    real_type ypNode( integer i ) const { return this->yp_node( i ); }
-    real_type xBegin() const { return m_X[0]; }
-    real_type yBegin() const { return m_Y[0]; }
-    real_type xEnd() const { return m_X[m_npts - 1]; }
-    real_type yEnd() const { return m_Y[m_npts - 1]; }
-    real_type xMin() const { return m_X[0]; }
-    real_type xMax() const { return m_X[m_npts - 1]; }
-    real_type yMin() const { return y_min(); }
-    real_type yMax() const { return y_max(); }
+    void                       copySpline( CubicSplineBase const & S ) { this->copy_spline( S ); }
+    [[nodiscard]] integer      numPoints() const noexcept { return m_npts; }
+    [[nodiscard]] real_type    xNode( integer i ) const noexcept { return m_X[i]; }
+    [[nodiscard]] real_type    yNode( integer i ) const noexcept { return m_Y[i]; }
+    [[nodiscard]] real_type    ypNode( integer i ) const noexcept { return this->yp_node( i ); }
+    [[nodiscard]] real_type    xBegin() const noexcept { return m_X[0]; }
+    [[nodiscard]] real_type    yBegin() const noexcept { return m_Y[0]; }
+    [[nodiscard]] real_type    xEnd() const noexcept { return m_X[m_npts - 1]; }
+    [[nodiscard]] real_type    yEnd() const noexcept { return m_Y[m_npts - 1]; }
+    [[nodiscard]] real_type    xMin() const noexcept { return m_X[0]; }
+    [[nodiscard]] real_type    xMax() const noexcept { return m_X[m_npts - 1]; }
+    [[nodiscard]] real_type    yMin() const { return y_min(); }
+    [[nodiscard]] real_type    yMax() const { return y_max(); }
 #endif
   };
 

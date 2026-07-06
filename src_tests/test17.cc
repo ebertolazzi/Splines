@@ -2,7 +2,8 @@
  * Test export_csv/export_json/export_yaml for cubic and quintic spline bases.
  */
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
+#include "GenericContainer/GenericContainerInterface_nlohmann.hh"
 
 #include <cstdio>
 #include <cmath>
@@ -79,6 +80,21 @@ namespace
     if ( cond ) return;
     ++failures;
     std::cerr << "FAIL: " << msg << '\n';
+  }
+
+  bool
+  parse_json( std::string const & text, GenericContainer & gc )
+  {
+    try
+    {
+      gc = nlohmann::json::parse( text ).get<GenericContainer>();
+      return true;
+    }
+    catch ( std::exception const & e )
+    {
+      std::cout << "[FAIL] JSON parse: " << e.what() << "\n";
+      return false;
+    }
   }
 
   void
@@ -222,9 +238,9 @@ namespace
     }
 
     GenericContainer gc_json, gc_yaml;
-    check_true( gc_json.from_json( json.str() ), "Cubic JSON parse" );
+    check_true( parse_json( json.str(), gc_json ), "Cubic JSON parse" );
     check_true( gc_yaml.from_yaml( yaml.str() ), "Cubic YAML parse" );
-    check_true( gc_json.compare_content( gc_yaml, "cubic export" ).empty(), "Cubic JSON/YAML content equality" );
+    check_true( nlohmann::json( gc_json ) == nlohmann::json( gc_yaml ), "Cubic JSON/YAML content equality" );
 
     auto const & map = gc_json.get_map();
     check_true( map.at( "name" ).get_string() == "cubic_export", "Cubic JSON name" );
@@ -324,9 +340,9 @@ namespace
     }
 
     GenericContainer gc_json, gc_yaml;
-    check_true( gc_json.from_json( json.str() ), "Quintic JSON parse" );
+    check_true( parse_json( json.str(), gc_json ), "Quintic JSON parse" );
     check_true( gc_yaml.from_yaml( yaml.str() ), "Quintic YAML parse" );
-    check_true( gc_json.compare_content( gc_yaml, "quintic export" ).empty(), "Quintic JSON/YAML content equality" );
+    check_true( nlohmann::json( gc_json ) == nlohmann::json( gc_yaml ), "Quintic JSON/YAML content equality" );
 
     auto const & map = gc_json.get_map();
     check_true( map.at( "name" ).get_string() == "quintic_export", "Quintic JSON name" );

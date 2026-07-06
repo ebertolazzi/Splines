@@ -151,7 +151,7 @@ namespace Splines
    *
    * \see Hermite3, Hermite3_D, Hermite3_DD, Hermite3_DDD for basis function details
    */
-  class SplineVec
+  class SplineVec final
   {
   protected:
     /// Spline identifier name for error reporting and debugging
@@ -275,7 +275,7 @@ namespace Splines
      * Automatically frees all memory allocated by the custom allocators.
      * No manual cleanup is required.
      */
-    virtual ~SplineVec()
+    ~SplineVec()
     {
       m_mem.free();
       m_mem_p.free();
@@ -289,7 +289,7 @@ namespace Splines
      *
      * \return String view of the spline name set in the constructor
      */
-    string_view name() const { return m_name; }
+    [[nodiscard]] string_view name() const noexcept { return m_name; }
 
     //!
     //! \name Curve Topology Control
@@ -305,7 +305,7 @@ namespace Splines
      * When a curve is closed, evaluation at parameter values outside [t₀, tₙ]
      * wraps around cyclically: t → t mod (tₙ - t₀)
      */
-    bool is_closed() const { return m_curve_is_closed; }
+    [[nodiscard]] bool is_closed() const noexcept { return m_curve_is_closed; }
 
     /**
      * \brief Set the curve as closed (periodic)
@@ -333,7 +333,7 @@ namespace Splines
      *
      * \return true if evaluation can extend beyond the knot range
      */
-    bool can_extend() const { return m_curve_can_extend; }
+    [[nodiscard]] bool can_extend() const noexcept { return m_curve_can_extend; }
 
     /**
      * \brief Enable extrapolation beyond knot range
@@ -365,14 +365,14 @@ namespace Splines
      *
      * \return Number of knots/control points defining the spline
      */
-    integer num_points() const { return m_npts; }
+    [[nodiscard]] integer num_points() const noexcept { return m_npts; }
 
     /**
      * \brief Get the spatial dimension
      *
      * \return Number of components in the vector-valued function
      */
-    integer dimension() const { return m_dim; }
+    [[nodiscard]] integer dimension() const noexcept { return m_dim; }
 
     /**
      * \brief Get pointer to knot vector
@@ -381,7 +381,7 @@ namespace Splines
      *
      * \note The returned pointer is valid until the spline is modified or destroyed
      */
-    real_type const * x_nodes() const { return m_X; }
+    [[nodiscard]] real_type const * x_nodes() const noexcept { return m_X; }
 
     /**
      * \brief Get a specific knot value
@@ -389,7 +389,7 @@ namespace Splines
      * \param[in] npt Knot index (must be in [0, m_npts-1])
      * \return Parameter value at the specified knot
      */
-    real_type x_node( integer const npt ) const { return m_X[npt]; }
+    [[nodiscard]] real_type x_node( integer const npt ) const noexcept { return m_X[npt]; }
 
     /**
      * \brief Get pointer to point coordinates for a specific dimension
@@ -397,7 +397,7 @@ namespace Splines
      * \param[in] j Dimension index (must be in [0, m_dim-1])
      * \return Pointer to array of m_npts coordinate values for dimension j
      */
-    real_type const * y_nodes( integer const j ) const { return m_Y[j]; }
+    [[nodiscard]] real_type const * y_nodes( integer const j ) const noexcept { return m_Y[j]; }
 
     /**
      * \brief Get a specific point coordinate
@@ -406,21 +406,21 @@ namespace Splines
      * \param[in] j   Dimension index (must be in [0, m_dim-1])
      * \return Coordinate value: Y_j[npt]
      */
-    real_type y_node( integer const npt, integer const j ) const { return m_Y[j][npt]; }
+    [[nodiscard]] real_type y_node( integer const npt, integer const j ) const noexcept { return m_Y[j][npt]; }
 
     /**
      * \brief Get minimum parameter value
      *
      * \return First knot value (lower bound of parameter domain)
      */
-    real_type x_min() const { return m_X[0]; }
+    [[nodiscard]] real_type x_min() const noexcept { return m_X[0]; }
 
     /**
      * \brief Get maximum parameter value
      *
      * \return Last knot value (upper bound of parameter domain)
      */
-    real_type x_max() const { return m_X[m_npts - 1]; }
+    [[nodiscard]] real_type x_max() const noexcept { return m_X[m_npts - 1]; }
 
     ///@}
 
@@ -452,7 +452,7 @@ namespace Splines
      *
      * \see operator(), eval_D(), eval_DD()
      */
-    real_type eval( real_type const x, integer const i ) const;
+    [[nodiscard]] real_type eval( real_type const x, integer const i ) const;
 
     /**
      * \brief Function call operator for single component evaluation
@@ -463,7 +463,7 @@ namespace Splines
      * \param[in] i Component index
      * \return curve(x)[i]
      */
-    real_type operator()( real_type const x, integer const i ) const { return this->eval( x, i ); }
+    [[nodiscard]] real_type operator()( real_type const x, integer const i ) const { return this->eval( x, i ); }
 
     /**
      * \brief Evaluate first derivative of a single component at parameter x
@@ -489,7 +489,7 @@ namespace Splines
      *
      * \see eval(), DD(), DDD()
      */
-    real_type D( real_type const x, integer const i ) const;
+    [[nodiscard]] real_type D( real_type const x, integer const i ) const;
 
     /**
      * \brief Evaluate first derivative of a single component
@@ -497,7 +497,7 @@ namespace Splines
      * \copydetails D()
      * This is an alias for D() method.
      */
-    real_type eval_D( real_type const x, integer const i ) const { return this->D( x, i ); }
+    [[nodiscard]] real_type eval_D( real_type const x, integer const i ) const { return this->D( x, i ); }
 
     /**
      * \brief Evaluate second derivative of a single component at parameter x
@@ -523,7 +523,7 @@ namespace Splines
      *
      * \see eval(), D(), DDD()
      */
-    real_type DD( real_type const x, integer const i ) const;
+    [[nodiscard]] real_type DD( real_type const x, integer const i ) const;
 
     /**
      * \brief Evaluate second derivative of a single component
@@ -531,7 +531,7 @@ namespace Splines
      * \copydetails DD()
      * This is an alias for DD() method.
      */
-    real_type eval_DD( real_type const x, integer const i ) const { return this->DD( x, i ); }
+    [[nodiscard]] real_type eval_DD( real_type const x, integer const i ) const { return this->DD( x, i ); }
 
     /**
      * \brief Evaluate third derivative of a single component at parameter x
@@ -557,7 +557,7 @@ namespace Splines
      *
      * \see eval(), D(), DD()
      */
-    real_type DDD( real_type const x, integer const i ) const;
+    [[nodiscard]] real_type DDD( real_type const x, integer const i ) const;
 
     /**
      * \brief Evaluate third derivative of a single component
@@ -565,7 +565,7 @@ namespace Splines
      * \copydetails DDD()
      * This is an alias for DDD() method.
      */
-    real_type eval_DDD( real_type const x, integer const i ) const { return this->DDD( x, i ); }
+    [[nodiscard]] real_type eval_DDD( real_type const x, integer const i ) const { return this->DDD( x, i ); }
 
     /**
      * \brief Evaluate fourth derivative of a single component at parameter x
@@ -584,7 +584,7 @@ namespace Splines
      * \note This method exists for interface completeness with higher-order spline
      *       classes.
      */
-    real_type DDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
+    [[nodiscard]] real_type DDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
     {
       // Hermite3 (cubic) spline has zero 4th derivative
       return 0.0;
@@ -596,7 +596,7 @@ namespace Splines
      * \copydetails DDDD()
      * This is an alias for DDDD() method.
      */
-    real_type eval_DDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
+    [[nodiscard]] real_type eval_DDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
     { return this->DDDD( x, i ); }
 
     /**
@@ -616,7 +616,7 @@ namespace Splines
      * \note This method exists for interface completeness with higher-order spline
      *       classes.
      */
-    real_type DDDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
+    [[nodiscard]] real_type DDDDD( [[maybe_unused]] real_type const x, [[maybe_unused]] integer const i ) const
     {
       // Hermite3 (cubic) spline has zero 5th derivative
       return 0.0;
@@ -628,7 +628,7 @@ namespace Splines
      * \copydetails DDDDD()
      * This is an alias for DDDDD() method.
      */
-    real_type eval_DDDDD( real_type const x, integer const i ) const { return this->DDDDD( x, i ); }
+    [[nodiscard]] real_type eval_DDDDD( real_type const x, integer const i ) const { return this->DDDDD( x, i ); }
 
     ///@}
 

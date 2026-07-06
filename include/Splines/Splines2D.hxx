@@ -49,7 +49,7 @@ namespace Splines
   //! The Z matrix can be stored in different memory layouts (row-major or column-major)
   //! and can optionally be transposed. See the build() methods for detailed storage descriptions.
   //!
-  class Spline2D
+  class Spline2D final
   {
   protected:
     std::string  m_name;                 ///< Name identifier for the spline surface
@@ -89,7 +89,7 @@ namespace Splines
     explicit Spline2D( string_view name = "Spline2D" ) : m_name( name ) {}
 
     //! \brief Destructor. Safely deletes the internal spline object.
-    virtual ~Spline2D()
+    ~Spline2D()
     {
       if ( m_spline_2D != nullptr )
       {
@@ -105,7 +105,7 @@ namespace Splines
     ///@{
 
     //! \brief Returns true if the surface is closed (periodic) in the x-direction.
-    bool is_x_closed() const { return m_spline_2D->is_x_closed(); }
+    [[nodiscard]] bool is_x_closed() const { return m_spline_2D->is_x_closed(); }
 
     //! \brief Makes the surface closed (periodic) in the x-direction.
     void make_x_closed() { m_spline_2D->make_x_closed(); }
@@ -114,7 +114,7 @@ namespace Splines
     void make_x_opened() { m_spline_2D->make_x_opened(); }
 
     //! \brief Returns true if the surface is closed (periodic) in the y-direction.
-    bool is_y_closed() const { return m_spline_2D->is_y_closed(); }
+    [[nodiscard]] bool is_y_closed() const { return m_spline_2D->is_y_closed(); }
 
     //! \brief Makes the surface closed (periodic) in the y-direction.
     void make_y_closed() { m_spline_2D->make_y_closed(); }
@@ -124,7 +124,7 @@ namespace Splines
 
     //! \brief Returns true if x-values are bounded (no extrapolation).
     //! If false, the spline will extrapolate for x outside the defined range.
-    bool is_x_bounded() const { return m_spline_2D->is_x_bounded(); }
+    [[nodiscard]] bool is_x_bounded() const { return m_spline_2D->is_x_bounded(); }
 
     //! \brief Allows extrapolation in the x‑direction (unbounded).
     void make_x_unbounded() { m_spline_2D->make_x_unbounded(); }
@@ -134,7 +134,7 @@ namespace Splines
 
     //! \brief Returns true if y-values are bounded (no extrapolation).
     //! If false, the spline will extrapolate for y outside the defined range.
-    bool is_y_bounded() const { return m_spline_2D->is_y_bounded(); }
+    [[nodiscard]] bool is_y_bounded() const { return m_spline_2D->is_y_bounded(); }
 
     //! \brief Allows extrapolation in the y‑direction (unbounded).
     void make_y_unbounded() { m_spline_2D->make_y_unbounded(); }
@@ -149,26 +149,26 @@ namespace Splines
     ///@{
 
     //! \brief Returns the name of the spline surface.
-    string_view name() const { return m_spline_2D->name(); }
+    [[nodiscard]] string_view name() const { return m_spline_2D->name(); }
 
     //! \brief Returns the number of grid points in the x-direction.
-    integer num_point_x() const { return m_spline_2D->num_point_x(); }
+    [[nodiscard]] integer num_point_x() const { return m_spline_2D->num_point_x(); }
 
     //! \brief Returns the number of grid points in the y-direction.
-    integer num_point_y() const { return m_spline_2D->num_point_y(); }
+    [[nodiscard]] integer num_point_y() const { return m_spline_2D->num_point_y(); }
 
     //! \brief Returns the x-coordinate of the i-th grid node.
     //! \param[in] i Index of the node in the x-direction (0‑based).
-    real_type x_node( integer const i ) const { return m_spline_2D->x_node( i ); }
+    [[nodiscard]] real_type x_node( integer const i ) const { return m_spline_2D->x_node( i ); }
 
     //! \brief Returns the y-coordinate of the i-th grid node.
     //! \param[in] i Index of the node in the y-direction (0‑based).
-    real_type y_node( integer const i ) const { return m_spline_2D->y_node( i ); }
+    [[nodiscard]] real_type y_node( integer const i ) const { return m_spline_2D->y_node( i ); }
 
     //! \brief Returns the z-value at grid node (i, j).
     //! \param[in] i Index in the x-direction (0‑based).
     //! \param[in] j Index in the y-direction (0‑based).
-    real_type z_node( integer const i, integer const j ) const { return m_spline_2D->z_node( i, j ); }
+    [[nodiscard]] real_type z_node( integer const i, integer const j ) const { return m_spline_2D->z_node( i, j ); }
 
     ///@}
 
@@ -180,22 +180,22 @@ namespace Splines
     ///@{
 
     //! \brief Minimum x-coordinate of the spline domain.
-    real_type x_min() const { return m_spline_2D->x_min(); }
+    [[nodiscard]] real_type x_min() const { return m_spline_2D->x_min(); }
 
     //! \brief Maximum x-coordinate of the spline domain.
-    real_type x_max() const { return m_spline_2D->x_max(); }
+    [[nodiscard]] real_type x_max() const { return m_spline_2D->x_max(); }
 
     //! \brief Minimum y-coordinate of the spline domain.
-    real_type y_min() const { return m_spline_2D->y_min(); }
+    [[nodiscard]] real_type y_min() const { return m_spline_2D->y_min(); }
 
     //! \brief Maximum y-coordinate of the spline domain.
-    real_type y_max() const { return m_spline_2D->y_max(); }
+    [[nodiscard]] real_type y_max() const { return m_spline_2D->y_max(); }
 
     //! \brief Minimum z-value over all grid points.
-    real_type z_min() const { return m_spline_2D->z_min(); }
+    [[nodiscard]] real_type z_min() const { return m_spline_2D->z_min(); }
 
     //! \brief Maximum z-value over all grid points.
-    real_type z_max() const { return m_spline_2D->z_max(); }
+    [[nodiscard]] real_type z_max() const { return m_spline_2D->z_max(); }
 
     ///@}
 

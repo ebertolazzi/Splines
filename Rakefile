@@ -1,66 +1,158 @@
-if File.exist?(File.expand_path('./cmake_utils/Rakefile_common.rb', File.dirname(__FILE__))) then
-  require_relative "./cmake_utils/Rakefile_common.rb"
+%w(colorize fileutils rake/clean).each do |gem|
+  begin
+    require gem
+  rescue LoadError
+    warn "Install the #{gem} gem:\n $ (sudo) gem install #{gem}".magenta
+    exit 1
+  end
+end
+require 'shellwords'
+
+# avoid to remove file "core" (in Eigen inclusion)
+CLEAN.clear_exclude.exclude { |fn| fn.pathmap("%f").downcase == "core" }
+
+#
+# Check for a configuration file on a upper directory.
+# This permits to use a unique configuration file for
+# large projects.
+# On a local project use the default in this file.
+#
+if File.exist?(File.expand_path('../Rakefile_configure.rb', File.dirname(__FILE__))) then
+  # found in the root of the local project
+  require_relative '../Rakefile_configure.rb'
+elsif File.exist?(File.expand_path('../../Rakefile_configure.rb', File.dirname(__FILE__))) then
+  # found in the upper project
+  require_relative '../../Rakefile_configure.rb'
 else
-  require_relative "../Rakefile_common.rb"
+  #-------------------------
+  COMPILE_DEBUG      = false
+  COMPILE_DYNAMIC    = false
+  COMPILE_EXECUTABLE = true
+  #-------------------------
+end
+
+#    ___  ____
+#   / _ \/ ___|
+#  | | | \___ \
+#  | |_| |___) |
+#   \___/|____/
+#
+case RUBY_PLATFORM
+when /darwin/
+  OS = :mac
+when /linux|cygwin/ # cygwin compile as a linux system
+  OS = :linux
+when /msys/
+  # msys2 envirorment to compile with MINGW
+  OS = :mingw
+else # assume windows
+  OS = :win
+end
+def build_type
+  COMPILE_DEBUG ? 'Debug' : 'Release'
+end
+
+def install_prefix
+  File.expand_path('lib', __dir__)
+end
+
+def project_root
+  File.expand_path(__dir__)
+end
+
+def native_build_command(action)
+  case OS
+  when :mac, :linux, :mingw
+    ['bash', File.expand_path('build.sh', __dir__), action, build_type, '-p', install_prefix]
+  when :win
+    ['pwsh', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', File.expand_path('build.ps1', __dir__), action, build_type, '-p', install_prefix]
+  else
+    raise "Unsupported platform #{OS}"
+  end
+end
+
+desc "default task --> build"
+task :default => :build
+
+desc "git submodule reset"
+task :git_submodules do
+  #sh "git clean -d -x -f"
+  sh "git reset --hard"
+  sh "git submodule update --init --recursive"
+  sh "git submodule sync --recursive"
+  sh "git submodule foreach --recursive git reset --hard"
+  sh "git submodule foreach --recursive git clean -d -x -f"
+  # estrae i sottomoduli alla corretta versione!
+  sh "git submodule update --checkout --recursive"
+end
+
+desc "git clean reset"
+task :git_clean do
+  sh "git reset --hard"
+  sh "git clean -d -x -f"
+end
+
+#   ____  _   _ _   _
+#  |  _ \| | | | \ | |
+#  | |_) | | | |  \| |
+#  |  _ <| |_| | |\  |
+#  |_| \_\\___/|_| \_|
+#
+desc "build and run all tests"
+task :run do
+  puts "Run tests".green
+  yellow_sh(*native_build_command('test'))
+end
+
+desc "run tests"
+task :test do
+  puts "Test".green
+  yellow_sh(*native_build_command('test'))
+end
+
+#   ____  _   _ ___ _     ____
+#  | __ )| | | |_ _| |   |  _ \
+#  |  _ \| | | || || |   | | | |
+#  | |_) | |_| || || |___| |_| |
+#  |____/ \___/|___|_____|____/
+#
+desc "build"
+task :build do
+  puts "Build".green
+  yellow_sh(*native_build_command('install'))
+end
+
+desc "clean"
+task :clean do
+  case OS
+  when :mac
+    puts "Clean (osx)".green
+    Rake::Task[:clean_osx].invoke
+  when :linux
+    puts "Clean (linux)".green
+    Rake::Task[:clean_linux].invoke
+  when :win
+    puts "Clean (windows)".green
+    Rake::Task[:clean_win].invoke
+  when :mingw
+    puts "Clean (mingw)".green
+    Rake::Task[:clean_mingw].invoke
+  else
+    raise "Unsupported platform #{OS}"
+  end
+end
+
+desc "default task --> build"
+task :default => :build
+
+def yellow_sh(*cmd)
+  puts cmd.map { |part| Shellwords.escape(part) }.join(' ').yellow
+  Dir.chdir(project_root) { sh(*cmd) }
 end
 
 CLEAN.include   ["./**/*.o", "./**/*.obj", "./bin/**/example*", "./build"]
 CLEAN.clear_exclude.exclude { |fn| fn.pathmap("%f").downcase == "core" }
 CLOBBER.include []
-
-desc "compile for Visual Studio"
-task :build_win do
-  # check architecture
-  case `where cl.exe`.chop
-  when /(x64|amd64)\\cl\.exe/
-    VS_ARCH = 'x64'
-  when /(bin|x86|amd32)\\cl\.exe/
-    VS_ARCH = 'x86'
-  else
-    raise RuntimeError, "Cannot determine architecture for Visual Studio".red
-  end
-
-  FileUtils.rm_rf   "build"
-  FileUtils.mkdir_p "build"
-  FileUtils.cd      "build"
-
-  puts "run CMAKE for SPLINES".yellow
-  sh "cmake -G Ninja -DBITS:VAR=#{VS_ARCH} " + cmd_cmake_build() + ' ..'
-
-  puts "compile with CMAKE for SPLINES".yellow
-  if COMPILE_DEBUG then
-    sh 'cmake --build . --config Debug --target install '+PARALLEL
-  else
-    sh 'cmake  --build . --config Release  --target install '+PARALLEL
-  end
-
-  FileUtils.cd '..'
-end
-
-
-desc "compile for OSX/LINUX/MINGW"
-task :build_common do
-
-  FileUtils.rm_rf   "build"
-  FileUtils.mkdir_p "build"
-  FileUtils.cd      "build"
-
-  puts "run CMAKE for SPLINES".yellow
-  sh "cmake -G Ninja " + cmd_cmake_build() + ' ..'
-
-  puts "compile with CMAKE for SPLINES".yellow
-  if COMPILE_DEBUG then
-    sh 'cmake --build . --config Debug --target install '+PARALLEL
-  else
-    sh 'cmake --build . --config Release  --target install '+PARALLEL
-  end
-
-  FileUtils.cd '..'
-end
-
-task :build_linux => :build_common do end
-task :build_osx   => :build_common do end
-task :build_mingw => :build_common do end
 
 task :clean_common do
   FileUtils.rm_rf 'build'
@@ -75,9 +167,6 @@ task :clean_win   => :clean_common do end
 
 desc 'pack for OSX/LINUX/MINGW/WINDOWS'
 task :cpack do
-  FileUtils.cd "build"
-  puts "run CPACK for SPLINES".yellow
-  sh 'cpack -C CPackConfig.cmake'
-  sh 'cpack -C CPackSourceConfig.cmake'
-  FileUtils.cd ".."
+  puts "Package".green
+  yellow_sh(*native_build_command('package'))
 end

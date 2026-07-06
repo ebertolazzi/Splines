@@ -17,7 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 #include "Utils_fmt.hh"
 #include "Utils_eigen.hh"
 #include "Utils_autodiff.hh"

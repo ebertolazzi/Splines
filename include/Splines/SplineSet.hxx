@@ -103,7 +103,7 @@ namespace Splines
     {
     public:
       /// Data type stored in the search structure: (name, index) pair
-      typedef std::pair<std::string, integer> DATA_TYPE;
+      using DATA_TYPE = std::pair<std::string, integer>;
 
     private:
       /// Sorted vector of (name, index) pairs
@@ -786,7 +786,7 @@ namespace Splines
           case -1: res += " is NOT monotone\n"; break;
           case 0: res += " is monotone\n"; break;
           case 1: res += " is strictly monotone\n"; break;
-          default: UTILS_ERROR( "SplineSet::info classification: {} not in range {-2,-1,0,1}\n", m_is_monotone[i] );
+          default: UTILS_ERROR( "SplineSet::info classification: {} not in range {{-2,-1,0,1}}\n", m_is_monotone[i] );
         }
         res += m_splines[i]->info();
       }

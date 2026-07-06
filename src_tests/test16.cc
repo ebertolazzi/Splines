@@ -1,5 +1,5 @@
-#include "Splines.hh"
-#include "SplinesCinterface.h"
+#include "Splines/Splines.hh"
+#include "Splines/SplinesCinterface.h"
 
 #include <cmath>
 #include <cstring>

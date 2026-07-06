@@ -17,52 +17,40 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-/*\
- |   ____      _     _      ____        _ _
- |  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___
- |  | |_) / __| '_ \| | '_ \___ \| '_ \| | | '_ \ / _ \
- |  |  __/ (__| | | | | |_) |__) | |_) | | | | | |  __/
- |  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
- |                    |_|        |_|
-\*/
+#pragma once
 
-#ifndef SPLINE_PCHIP_HH
-#define SPLINE_PCHIP_HH
+#ifndef SPLINES_CONFIG_HH
+#define SPLINES_CONFIG_HH
 
-namespace Splines
-{
-
-  //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
-  class PchipSpline : public CubicSplineBase
-  {
-  public:
-    using CubicSplineBase::build;
-    using CubicSplineBase::reserve;
-
-    //!
-    //! Build an empty spline of `PchipSpline` type
-    //!
-    //! \param name the name of the spline
-    //!
-    explicit PchipSpline( string_view name = "PchipSpline" ) : CubicSplineBase( name ) {}
-
-    //!
-    //! Spline destructor.
-    //!
-    ~PchipSpline() override {}
-
-    //! Return spline type (as number)
-    SplineType1D type() const override { return SplineType1D::PCHIP; }
-
-    // --------------------------- VIRTUALS -----------------------------------
-
-    //! Build a Monotone spline from previously inserted points
-    void build() override;
-    void setup( GenericContainer const & gc ) override;
-  };
-
-}  // namespace Splines
-
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wpoison-system-directories"
+#pragma clang diagnostic ignored "-Wsign-compare"
 #endif
 
-// EOF: SplinePchip.hxx
+// Uncomment this if you want to enable debugging
+// #define DEBUG
+
+#include "Utils.hh"
+#include "Utils_autodiff.hh"
+#include "GenericContainer/GenericContainer.hh"
+#include "PolynomialRoots.hh"
+
+#include <algorithm>
+#include <thread>
+#include <mutex>
+#include <set>
+#include <functional>
+#include <span>
+#include <type_traits>
+#include <utility>
+
+#define AUTODIFF_SUPPORT
+
+#endif

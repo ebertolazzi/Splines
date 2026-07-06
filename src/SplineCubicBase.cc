@@ -27,7 +27,8 @@
 \*/
 
 #define AUTODIFF_SUPPORT
-#include "Splines.hh"
+#include "Splines/Splines.hh"
+#include "GenericContainer/GenericContainerInterface_nlohmann.hh"
 
 namespace Splines
 {
@@ -258,7 +259,7 @@ namespace Splines
         }
       }
       if ( i + 1 >= m_npts ) continue;
-      if ( abs( DP1 ) > ( m_X[i + 1] - m_X[i - 1] ) * epsi ) continue;
+      if ( std::abs( DP1 ) > ( m_X[i + 1] - m_X[i - 1] ) * epsi ) continue;
       real_type const & X2  = m_X[i + 1];
       real_type const & P2  = m_Y[i + 1];
       real_type const & DP2 = m_Yp[i + 1];
@@ -427,7 +428,8 @@ namespace Splines
   {
     GenericContainer gc;
     fill_cubic_export_data( *this, gc );
-    gc.to_json( s );
+    nlohmann::json const json = gc;
+    s << json.dump( 2 ) << '\n';
   }
 
   void CubicSplineBase::export_yaml( ostream_type & s ) const

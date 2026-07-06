@@ -22,7 +22,7 @@
 #pragma clang diagnostic ignored "-Wpoison-system-directories"
 #endif
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 #include "Utils_fmt.hh"
 
 #include <GenericContainer/GenericContainer.hh>

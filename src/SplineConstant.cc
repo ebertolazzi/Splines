@@ -26,7 +26,7 @@
  |                                                    |_|
 \*/
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 
 namespace Splines
 {

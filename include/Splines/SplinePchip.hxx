@@ -17,68 +17,52 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#pragma once
+/*\
+ |   ____      _     _      ____        _ _
+ |  |  _ \ ___| |__ (_)_ __/ ___| _ __ | (_)_ __   ___
+ |  | |_) / __| '_ \| | '_ \___ \| '_ \| | | '_ \ / _ \
+ |  |  __/ (__| | | | | |_) |__) | |_) | | | | | |  __/
+ |  |_|   \___|_| |_|_| .__/____/| .__/|_|_|_| |_|\___|
+ |                    |_|        |_|
+\*/
 
-#ifndef SPLINE_BICUBIC_HXX
-#define SPLINE_BICUBIC_HXX
+#ifndef SPLINE_PCHIP_HH
+#define SPLINE_PCHIP_HH
 
 namespace Splines
 {
 
-  /*\
-   |   ____  _  ____      _     _      ____        _ _
-   |  | __ )(_)/ ___|   _| |__ (_) ___/ ___| _ __ | (_)_ __   ___
-   |  |  _ \| | |  | | | | '_ \| |/ __\___ \| '_ \| | | '_ \ / _ \
-   |  | |_) | | |__| |_| | |_) | | (__ ___) | |_) | | | | | |  __/
-   |  |____/|_|\____\__,_|_.__/|_|\___|____/| .__/|_|_|_| |_|\___|
-   |                                        |_|
-  \*/
-  //!
-  //! Cubic spline base class
-  //!
-  class BiCubicSpline : public BiCubicSplineBase
+  //! Pchip (Piecewise Cubic Hermite Interpolating Polynomial) spline class
+  class PchipSpline final : public CubicSplineBase
   {
-    using BiCubicSplineBase::mDX;
-    using BiCubicSplineBase::mDXY;
-    using BiCubicSplineBase::mDY;
-
-    void make_spline() override;
-
   public:
-    using BiCubicSplineBase::eval;
+    using CubicSplineBase::build;
+    using CubicSplineBase::reserve;
 
     //!
-    //! Build an empty spline of `BiCubicSpline` type
-    //!
-    //! \param type spline type
-    //! \param name the name of the spline
-    //!
-    explicit BiCubicSpline( Spline_sub_type sub_type = Spline_sub_type::PCHIP, string_view name = "BiCubicSpline" )
-      : BiCubicSplineBase( sub_type, name )
-    {
-    }
-
-    //!
-    //! Build an empty spline of `BiCubicSpline` type
+    //! Build an empty spline of `PchipSpline` type
     //!
     //! \param name the name of the spline
     //!
-    explicit BiCubicSpline( string_view name ) : BiCubicSplineBase( Spline_sub_type::PCHIP, name ) {}
+    explicit PchipSpline( string_view name = "PchipSpline" ) : CubicSplineBase( name ) {}
 
     //!
     //! Spline destructor.
     //!
-    ~BiCubicSpline() override {}
+    ~PchipSpline() override {}
 
-    void write_to_stream( ostream_type & s ) const override;
+    //! Return spline type (as number)
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::PCHIP; }
 
-    char const * type_name() const override { return "BiCubic"; }
+    // --------------------------- VIRTUALS -----------------------------------
+
+    //! Build a Monotone spline from previously inserted points
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
   };
 
 }  // namespace Splines
 
 #endif
 
-//
-// EOF: SplineBiCubic.hxx
-//
+// EOF: SplinePchip.hxx

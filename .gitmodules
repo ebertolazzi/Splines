@@ -1,12 +1,6 @@
 [submodule "submodules/quarticRootsFlocke"]
 	path = submodules/quarticRootsFlocke
 	url  = https://github.com/ebertolazzi/quarticRootsFlocke.git
-[submodule "submodules/GenericContainer"]
-	path = submodules/GenericContainer
-	url  = https://github.com/ebertolazzi/GenericContainer.git
-[submodule "cmake_utils"]
-	path = cmake_utils
-	url  = https://github.com/ebertolazzi/cmake_utils.git
 [submodule "submodules/UtilsLite"]
 	path = submodules/UtilsLite
 	url = git@github.com:ebertolazzi/UtilsLite.git

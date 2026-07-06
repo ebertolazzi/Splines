@@ -19,37 +19,61 @@
 
 #pragma once
 
-#ifndef SPLINES_CONFIG_HH
-#define SPLINES_CONFIG_HH
+#ifndef SPLINE_AKIMA_HXX
+#define SPLINE_AKIMA_HXX
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
+/*\
+ |      _    _    _                   ____        _ _
+ |     / \  | | _(_)_ __ ___   __ _  / ___| _ __ | (_)_ __   ___
+ |    / _ \ | |/ / | '_ ` _ \ / _` | \___ \| '_ \| | | '_ \ / _ \
+ |   / ___ \|   <| | | | | | | (_| |  ___) | |_) | | | | | |  __/
+ |  /_/   \_\_|\_\_|_| |_| |_|\__,_| |____/| .__/|_|_|_| |_|\___|
+ |                                         |_|
+\*/
+
+namespace Splines
+{
+
+  //!
+  //! Smooth Curve Fitting Based on Local Procedures
+  //!
+  //! *Reference*
+  //!
+  //! - *Hiroshi Akima*, Journal of the ACM, Vol.17, No. 4, 589-602, 1970.
+  //!
+  class AkimaSpline final : public CubicSplineBase
+  {
+  public:
+    using CubicSplineBase::build;
+    using CubicSplineBase::reserve;
+
+    //!
+    //! Build an empty spline of `AkimaSpline` type
+    //!
+    //! \param name the name of the spline
+    //!
+    explicit AkimaSpline( string_view name = "AkimaSpline" ) : CubicSplineBase( name ) {}
+
+    //!
+    //! Spline destructor.
+    //!
+    ~AkimaSpline() override {}
+
+    //!
+    //! Return spline type (as number).
+    //!
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::AKIMA; }
+
+    // --------------------------- VIRTUALS -----------------------------------
+
+    void build() override;
+    void setup( GenericContainer const & gc ) override;
+  };
+
+}  // namespace Splines
+
 #endif
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#pragma clang diagnostic ignored "-Wc++98-compat"
-#pragma clang diagnostic ignored "-Wpoison-system-directories"
-#pragma clang diagnostic ignored "-Wsign-compare"
-#endif
 
-// Uncomment this if you want to enable debugging
-// #define DEBUG
-
-#include "Utils.hh"
-#include "Utils_autodiff.hh"
-#include "GenericContainer/GenericContainer.hh"
-#include "PolynomialRoots.hh"
-
-#include <algorithm>
-#include <thread>
-#include <mutex>
-#include <set>
-#include <functional>
-#include <type_traits>
-#include <utility>
-
-#define AUTODIFF_SUPPORT
-
-#endif
+//
+// EOF: SplineAkima.hxx
+//

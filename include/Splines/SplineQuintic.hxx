@@ -17,58 +17,66 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#ifndef SPLINE_HERMITE_HXX
-#define SPLINE_HERMITE_HXX
+/*\
+ |    ___        _       _   _      ____        _ _
+ |   / _ \ _   _(_)_ __ | |_(_) ___/ ___| _ __ | (_)_ __   ___
+ |  | | | | | | | | '_ \| __| |/ __\___ \| '_ \| | | '_ \ / _ \
+ |  | |_| | |_| | | | | | |_| | (__ ___) | |_) | | | | | |  __/
+ |   \__\_\\__,_|_|_| |_|\__|_|\___|____/| .__/|_|_|_| |_|\___|
+ |                                       |_|
+ |
+\*/
 
 namespace Splines
 {
 
-  /*\
-   |    _   _                     _ _       ____        _ _
-   |   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
-   |   | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \___ \| '_ \| | | '_ \ / _ \
-   |   |  _  |  __/ |  | | | | | | | ||  __/___) | |_) | | | | | |  __/
-   |   |_| |_|\___|_|  |_| |_| |_|_|\__\___|____/| .__/|_|_|_| |_|\___|
-   |                                             |_|
-  \*/
-
-  //! Hermite Spline Management Class
-  class HermiteSpline : public CubicSplineBase
+  //! Quintic spline class
+  class QuinticSpline final : public QuinticSplineBase
   {
+    using QuinticSplineBase::m_sub_type;
+
   public:
-    using CubicSplineBase::build;
-    using CubicSplineBase::reserve;
+    //!
+    //! \name Constructors
+    //!
+    ///@{
+
+    using QuinticSplineBase::build;
+    using QuinticSplineBase::reserve;
 
     //!
-    //! Build an empty spline of `HermiteSpline` type
+    //! Build an empty spline of `QuinticSpline` type
+    //!
+    //! \param type spline type
+    //! \param name the name of the spline
+    //!
+    explicit QuinticSpline( Spline_sub_type type = Spline_sub_type::PCHIP, string_view name = "Spline" )
+      : QuinticSplineBase( type, name )
+    {
+    }
+
+    //!
+    //! Build an empty spline of `QuinticSpline` type
     //!
     //! \param name the name of the spline
     //!
-    HermiteSpline( string_view name = "HermiteSpline" ) : CubicSplineBase( name ) {}
+    explicit QuinticSpline( string_view name ) : QuinticSplineBase( Spline_sub_type::PCHIP, name ) {}
 
     //!
     //! Spline destructor.
     //!
-    ~HermiteSpline() override {}
+    ~QuinticSpline() override = default;
 
-    //! Return spline type (as number)
-    SplineType1D type() const override { return SplineType1D::HERMITE; }
+    ///@}
 
     // --------------------------- VIRTUALS -----------------------------------
+    //! Build a Monotone quintic spline from previously inserted points
+    void build() override;
 
-    void build() override { m_search.must_reset(); }
-
-    //!
-    //!
-    //! Setup a spline using a `GenericContainer`
-    //!
-    //! - gc("xdata")  vector with the `x` coordinate of the data
-    //! - gc("ydata")  vector with the `y` coordinate of the data
-    //! - gc("ypdata") vector with the `y` derivative of the data
-    //!
+    //! Build a Monotone quintic spline from data from `gc`
     void setup( GenericContainer const & gc ) override;
   };
 
 }  // namespace Splines
 
-#endif  // SPLINE_HERMITE_HXX
+// EOF: SplineQuintic.hxx

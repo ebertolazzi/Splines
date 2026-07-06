@@ -19,7 +19,7 @@
 
 // test09.cc
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 #include <iostream>
 #include <vector>
 #include <cmath>

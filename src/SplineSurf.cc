@@ -17,7 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 
 namespace Splines
 {
@@ -271,8 +271,8 @@ namespace Splines
       bool          trans = transposed == fortran_storage;
       integer const NR    = trans ? m_ny : m_nx;
       integer const NC    = trans ? m_nx : m_ny;
-      integer       nr    = M.num_rows();
-      integer       nc    = M.num_cols();
+      integer const nr    = static_cast<integer>( M.num_rows() );
+      integer const nc    = static_cast<integer>( M.num_cols() );
       UTILS_ASSERT(
         NR == nr && NC == nc,
         "{}, field `zdata` is a matrix expected to be of size {} x {}, found: {} x {}\n",

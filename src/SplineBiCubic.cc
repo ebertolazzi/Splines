@@ -18,7 +18,7 @@
 \*--------------------------------------------------------------------------*/
 
 #define AUTODIFF_SUPPORT
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 
 namespace Splines
 {
@@ -44,18 +44,19 @@ namespace Splines
     VanLeerSpline vl;
     PchipSpline   pc;
 
-    CubicSplineBase * S;
+    CubicSplineBase * spline{ &pc };
     switch ( m_sub_type )
     {
-      case Spline_sub_type::CUBIC: S = &cs; break;
-      case Spline_sub_type::AKIMA: S = &ak; break;
-      case Spline_sub_type::VANLEER: S = &vl; break;
-      case Spline_sub_type::PCHIP: S = &pc; break;
+      case Spline_sub_type::CUBIC: spline = &cs; break;
+      case Spline_sub_type::AKIMA: spline = &ak; break;
+      case Spline_sub_type::VANLEER: spline = &vl; break;
+      case Spline_sub_type::PCHIP: spline = &pc; break;
+      default: UTILS_ERROR( "Unknown Spline_sub_type value\n" );
     }
 
-    make_derivative_x( S, mZ, mDX );
-    make_derivative_y( S, mZ, mDY );
-    make_derivative_xy( S, mDX, mDY, mDXY );
+    make_derivative_x( spline, mZ, mDX );
+    make_derivative_y( spline, mZ, mDY );
+    make_derivative_xy( spline, mDX, mDY, mDXY );
 
     m_search_x.must_reset();
     m_search_y.must_reset();

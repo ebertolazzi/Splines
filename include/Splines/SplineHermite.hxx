@@ -17,55 +17,58 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#pragma once
-
-#ifndef SPLINE_VANLEER_HXX
-#define SPLINE_VANLEER_HXX
-
-/*\
- |  __     __          _                   ____        _ _
- |  \ \   / /_ _ _ __ | |    ___  ___ _ __/ ___| _ __ | (_)_ __   ___
- |   \ \ / / _` | '_ \| |   / _ \/ _ \ '__\___ \| '_ \| | | '_ \ / _ \
- |    \ V / (_| | | | | |__|  __/  __/ |   ___) | |_) | | | | | |  __/
- |     \_/ \__,_|_| |_|_____\___|\___|_|  |____/| .__/|_|_|_| |_|\___|
- |                                              |_|
-\*/
+#ifndef SPLINE_HERMITE_HXX
+#define SPLINE_HERMITE_HXX
 
 namespace Splines
 {
 
-  //!
-  //! Van Leer spline class
-  //!
-  class VanLeerSpline : public CubicSplineBase
+  /*\
+   |    _   _                     _ _       ____        _ _
+   |   | | | | ___ _ __ _ __ ___ (_) |_ ___/ ___| _ __ | (_)_ __   ___
+   |   | |_| |/ _ \ '__| '_ ` _ \| | __/ _ \___ \| '_ \| | | '_ \ / _ \
+   |   |  _  |  __/ |  | | | | | | | ||  __/___) | |_) | | | | | |  __/
+   |   |_| |_|\___|_|  |_| |_| |_|_|\__\___|____/| .__/|_|_|_| |_|\___|
+   |                                             |_|
+  \*/
+
+  //! Hermite Spline Management Class
+  class HermiteSpline final : public CubicSplineBase
   {
   public:
     using CubicSplineBase::build;
     using CubicSplineBase::reserve;
 
     //!
-    //! Build an empty spline of `VanLeerSpline` type
+    //! Build an empty spline of `HermiteSpline` type
     //!
     //! \param name the name of the spline
     //!
-    explicit VanLeerSpline( string_view name = "VanLeerSpline" ) : CubicSplineBase( name ) {}
+    HermiteSpline( string_view name = "HermiteSpline" ) : CubicSplineBase( name ) {}
 
     //!
-    //! spline destructor
+    //! Spline destructor.
     //!
-    ~VanLeerSpline() override {}
+    ~HermiteSpline() override {}
 
-    //!
     //! Return spline type (as number)
-    //!
-    SplineType1D type() const override { return SplineType1D::VANLEER; }
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::HERMITE; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    void build() override;
+    void build() override { m_search.must_reset(); }
+
+    //!
+    //!
+    //! Setup a spline using a `GenericContainer`
+    //!
+    //! - gc("xdata")  vector with the `x` coordinate of the data
+    //! - gc("ydata")  vector with the `y` coordinate of the data
+    //! - gc("ypdata") vector with the `y` derivative of the data
+    //!
     void setup( GenericContainer const & gc ) override;
   };
 
 }  // namespace Splines
 
-#endif
+#endif  // SPLINE_HERMITE_HXX

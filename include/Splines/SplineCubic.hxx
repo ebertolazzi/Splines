@@ -111,7 +111,7 @@ namespace Splines
    * real_type y = spline.eval(x_query);
    * @endcode
    */
-  class CubicSpline : public CubicSplineBase
+  class CubicSpline final : public CubicSplineBase
   {
   private:
     CubicSpline_BC m_bc0 = CubicSpline_BC::EXTRAPOLATE;  ///< Boundary condition iniziale
@@ -225,7 +225,7 @@ namespace Splines
      *
      * @return SplineType1D::CUBIC
      */
-    SplineType1D type() const override { return SplineType1D::CUBIC; }
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::CUBIC; }
 
 #ifdef SPLINES_BACK_COMPATIBILITY
     /// @deprecated Usa set_initial_BC invece

@@ -27,7 +27,8 @@
 \*/
 
 #define AUTODIFF_SUPPORT
-#include "Splines.hh"
+#include "Splines/Splines.hh"
+#include "GenericContainer/GenericContainerInterface_nlohmann.hh"
 
 namespace Splines
 {
@@ -323,7 +324,8 @@ namespace Splines
   {
     GenericContainer gc;
     fill_quintic_export_data( *this, gc );
-    gc.to_json( s );
+    nlohmann::json const json = gc;
+    s << json.dump( 2 ) << '\n';
   }
 
   void QuinticSplineBase::export_yaml( ostream_type & s ) const

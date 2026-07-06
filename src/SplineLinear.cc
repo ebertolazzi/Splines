@@ -27,7 +27,7 @@
 \*/
 
 #define AUTODIFF_SUPPORT
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 
 namespace Splines
 {

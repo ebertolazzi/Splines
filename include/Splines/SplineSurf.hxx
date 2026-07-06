@@ -198,7 +198,7 @@ namespace Splines
     //!
     //! Return `true` if the surface is assumed closed in the `x` direction.
     //!
-    bool is_x_closed() const { return m_x_closed; }
+    [[nodiscard]] bool is_x_closed() const noexcept { return m_x_closed; }
 
     //!
     //! Setup the surface as closed in the `x` direction.
@@ -213,7 +213,7 @@ namespace Splines
     //!
     //! Return `true` if the surface is assumed closed in the `y` direction.
     //!
-    bool is_y_closed() const { return m_y_closed; }
+    [[nodiscard]] bool is_y_closed() const noexcept { return m_y_closed; }
 
     //!
     //! Setup the surface as closed in the `y` direction.
@@ -230,7 +230,7 @@ namespace Splines
     //! If false the spline is estrapolated for `x` values
     //! outside the range.
     //!
-    bool is_x_bounded() const { return !m_x_can_extend; }
+    [[nodiscard]] bool is_x_bounded() const noexcept { return !m_x_can_extend; }
 
     //!
     //! Make the spline surface unbounded in the `x` direction.
@@ -247,7 +247,7 @@ namespace Splines
     //! If false the spline is extrapolated for `y` values
     //! outside the range.
     //!
-    bool is_y_bounded() const { return !m_y_can_extend; }
+    [[nodiscard]] bool is_y_bounded() const noexcept { return !m_y_can_extend; }
 
     //!
     //! Make the spline surface unbounded in the `y` direction
@@ -274,62 +274,62 @@ namespace Splines
     //!
     //! \return string with the name of the spline
     //!
-    string_view name() const { return m_name; }
+    [[nodiscard]] string_view name() const noexcept { return m_name; }
 
     //!
     //! Return the number of support points of the spline along x direction.
     //!
-    integer num_point_x() const { return m_nx; }
+    [[nodiscard]] integer num_point_x() const noexcept { return m_nx; }
 
     //!
     //! Return the number of support points of the spline along y direction.
     //!
-    integer num_point_y() const { return m_ny; }
+    [[nodiscard]] integer num_point_y() const noexcept { return m_ny; }
 
     //!
     //! Return the i-th node of the spline (x component).
     //!
-    real_type x_node( integer const i ) const { return mX.coeff( i ); }
+    [[nodiscard]] real_type x_node( integer const i ) const { return mX.coeff( i ); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type y_node( integer const i ) const { return mY.coeff( i ); }
+    [[nodiscard]] real_type y_node( integer const i ) const { return mY.coeff( i ); }
 
     //!
     //! Return the i-th node of the spline (y component).
     //!
-    real_type z_node( integer const i, integer const j ) const { return mZ.coeff( i, j ); }
+    [[nodiscard]] real_type z_node( integer const i, integer const j ) const { return mZ.coeff( i, j ); }
 
     //!
     //! Return x-minumum spline value.
     //!
-    real_type x_min() const { return mX.coeff( 0 ); }
+    [[nodiscard]] real_type x_min() const { return mX.coeff( 0 ); }
 
     //!
     //! Return x-maximum spline value.
     //!
-    real_type x_max() const { return mX.coeff( mX.size() - 1 ); }
+    [[nodiscard]] real_type x_max() const { return mX.coeff( mX.size() - 1 ); }
 
     //!
     //! Return y-minumum spline value.
     //!
-    real_type y_min() const { return mY.coeff( 0 ); }
+    [[nodiscard]] real_type y_min() const { return mY.coeff( 0 ); }
 
     //!
     //! Return y-maximum spline value.
     //!
-    real_type y_max() const { return mY.coeff( mY.size() - 1 ); }
+    [[nodiscard]] real_type y_max() const { return mY.coeff( mY.size() - 1 ); }
 
     //!
     //! Return z-minumum spline value.
     //!
-    real_type z_min() const { return m_Z_min; }
+    [[nodiscard]] real_type z_min() const noexcept { return m_Z_min; }
 
     //!
     //! Return z-maximum spline value.
     //!
-    real_type z_max() const { return m_Z_max; }
+    [[nodiscard]] real_type z_max() const noexcept { return m_Z_max; }
 
     ///@}
 
@@ -586,16 +586,16 @@ namespace Splines
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
-    virtual real_type eval( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type eval( real_type const x, real_type const y ) const = 0;
 
 #ifdef AUTODIFF_SUPPORT
     // Metodi base per dual1st e dual2nd
-    virtual autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const = 0;
-    virtual autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const = 0;
+    [[nodiscard]] virtual autodiff::dual1st eval( autodiff::dual1st const & x, autodiff::dual1st const & y ) const = 0;
+    [[nodiscard]] virtual autodiff::dual2nd eval( autodiff::dual2nd const & x, autodiff::dual2nd const & y ) const = 0;
 
     // Template per due parametri (x, y) - per SplineSurf
     // Promuove automaticamente a double, dual1st o dual2nd in base ai tipi di input
-    template <typename T1, typename T2> auto eval( T1 const & x, T2 const & y ) const
+    template <typename T1, typename T2> [[nodiscard]] auto eval( T1 const & x, T2 const & y ) const
     {
       if constexpr ( std::is_arithmetic<T1>::value && std::is_arithmetic<T2>::value )
       {
@@ -631,7 +631,8 @@ namespace Splines
     }
 
     // Operator() per due parametri
-    template <typename T1, typename T2> auto operator()( T1 const & x, T2 const & y ) const -> decltype( eval( x, y ) )
+    template <typename T1, typename T2>
+    [[nodiscard]] auto operator()( T1 const & x, T2 const & y ) const -> decltype( eval( x, y ) )
     { return this->eval( x, y ); }
 #endif
 
@@ -648,13 +649,13 @@ namespace Splines
     //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_x(x,y) \f$.
     //!
-    virtual real_type Dx( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type Dx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! First derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_y(x,y) \f$.
     //!
-    virtual real_type Dy( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type Dy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Value, first and second derivatives at point \f$ (x,y) \f$:
@@ -672,48 +673,48 @@ namespace Splines
     //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_{xx}(x,y) \f$.
     //!
-    virtual real_type Dxx( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type Dxx( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Mixed second derivatives: \f$ S_{xy}(x,y) \f$.
     //!
-    virtual real_type Dxy( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type Dxy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ y \f$ at point \f$ (x,y) \f$
     //! of the spline: \f$ S_{yy}(x,y) \f$.
     //!
-    virtual real_type Dyy( real_type const x, real_type const y ) const = 0;
+    [[nodiscard]] virtual real_type Dyy( real_type const x, real_type const y ) const = 0;
 
     //!
     //! Evaluate spline value at point \f$ (x,y) \f$.
     //!
-    real_type operator()( real_type const x, real_type const y ) const { return this->eval( x, y ); }
+    [[nodiscard]] real_type operator()( real_type const x, real_type const y ) const { return this->eval( x, y ); }
 
     //!
     //! Alias for `Dx(x,y)`
     //!
-    real_type eval_D_1( real_type const x, real_type const y ) const { return this->Dx( x, y ); }
+    [[nodiscard]] real_type eval_D_1( real_type const x, real_type const y ) const { return this->Dx( x, y ); }
 
     //!
     //! Alias for `Dy(x,y)`
     //!
-    real_type eval_D_2( real_type const x, real_type const y ) const { return this->Dy( x, y ); }
+    [[nodiscard]] real_type eval_D_2( real_type const x, real_type const y ) const { return this->Dy( x, y ); }
 
     //!
     //! Alias for `Dxx(x,y)`
     //!
-    real_type eval_D_1_1( real_type const x, real_type const y ) const { return this->Dxx( x, y ); }
+    [[nodiscard]] real_type eval_D_1_1( real_type const x, real_type const y ) const { return this->Dxx( x, y ); }
 
     //!
     //! Alias for `Dxy(x,y)`
     //!
-    real_type eval_D_1_2( real_type const x, real_type const y ) const { return this->Dxy( x, y ); }
+    [[nodiscard]] real_type eval_D_1_2( real_type const x, real_type const y ) const { return this->Dxy( x, y ); }
 
     //!
     //! Alias for `Dyy(x,y)`
     //!
-    real_type eval_D_2_2( real_type const x, real_type const y ) const { return this->Dyy( x, y ); }
+    [[nodiscard]] real_type eval_D_2_2( real_type const x, real_type const y ) const { return this->Dyy( x, y ); }
 
     ///@}
 
@@ -725,12 +726,12 @@ namespace Splines
     //!
     //! Return spline type as a string pointer.
     //!
-    virtual char const * type_name() const = 0;
+    [[nodiscard]] virtual char const * type_name() const = 0;
 
     //!
     //! String information of the kind and order of the spline
     //!
-    virtual string info() const { return fmt::format( "Bivariate spline [{}] of type = {}", name(), type_name() ); }
+    [[nodiscard]] virtual string info() const { return fmt::format( "Bivariate spline [{}] of type = {}", name(), type_name() ); }
 
     //!
     //! Print information of the kind and order of the spline
@@ -757,18 +758,18 @@ namespace Splines
     }
 
 #ifdef SPLINES_BACK_COMPATIBILITY
-    integer   numPointX() const { return m_nx; }
-    integer   numPointY() const { return m_ny; }
-    real_type xNode( integer i ) const { return m_X[i]; }
-    real_type yNode( integer i ) const { return m_Y[i]; }
-    real_type zNode( integer i, integer j ) const { return z_node( i, j ); }
-    real_type xMin() const { return this->x_min(); }
-    real_type xMax() const { return this->x_max(); }
-    real_type yMin() const { return this->y_min(); }
-    real_type yMax() const { return this->y_max(); }
-    real_type zMin() const { return m_Z_min; }
-    real_type zMax() const { return m_Z_max; }
-    void      writeToStream( ostream_type & s ) const { write_to_stream( s ); }
+    [[nodiscard]] integer   numPointX() const noexcept { return m_nx; }
+    [[nodiscard]] integer   numPointY() const noexcept { return m_ny; }
+    [[nodiscard]] real_type xNode( integer i ) const { return m_X[i]; }
+    [[nodiscard]] real_type yNode( integer i ) const { return m_Y[i]; }
+    [[nodiscard]] real_type zNode( integer i, integer j ) const { return z_node( i, j ); }
+    [[nodiscard]] real_type xMin() const { return this->x_min(); }
+    [[nodiscard]] real_type xMax() const { return this->x_max(); }
+    [[nodiscard]] real_type yMin() const { return this->y_min(); }
+    [[nodiscard]] real_type yMax() const { return this->y_max(); }
+    [[nodiscard]] real_type zMin() const noexcept { return m_Z_min; }
+    [[nodiscard]] real_type zMax() const noexcept { return m_Z_max; }
+    void                    writeToStream( ostream_type & s ) const { write_to_stream( s ); }
 #endif
   };
 

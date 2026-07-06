@@ -43,7 +43,7 @@ namespace Splines
    |                                               |_|
   \*/
   //! cubic spline base class
-  class BiQuinticSpline : public BiQuinticSplineBase
+  class BiQuinticSpline final : public BiQuinticSplineBase
   {
     void make_spline() override;
 
@@ -73,7 +73,7 @@ namespace Splines
 
     void write_to_stream( ostream_type & s ) const override;
 
-    char const * type_name() const override { return "BiQuintic"; }
+    [[nodiscard]] char const * type_name() const override { return "BiQuintic"; }
   };
 
 }  // namespace Splines

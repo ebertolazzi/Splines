@@ -36,7 +36,7 @@
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 #include "Utils_fmt.hh"
 #include <GenericContainer/GenericContainer.hh>
 #include <fstream>
@@ -71,28 +71,56 @@ namespace Color
   constexpr fmt::color VALUE        = fmt::color::light_green;
 }  // namespace Color
 
+template <typename... Args> string format_message( fmt::string_view format, Args &&... args )
+{
+  return fmt::vformat( format, fmt::make_format_args( args... ) );
+}
+
 template <typename... Args> void print_header( fmt::string_view format, Args &&... args )
 {
   fmt::print(
     fg( Color::HEADER ) | fmt::emphasis::bold,
     "╔══════════════════════════════════════════════════════════╗\n" );
-  fmt::print( fg( Color::HEADER ) | fmt::emphasis::bold, "║ {:^56} ║\n", fmt::format( format, args... ) );
+  fmt::print(
+    fg( Color::HEADER ) | fmt::emphasis::bold,
+    "║ {:^56} ║\n",
+    format_message( format, std::forward<Args>( args )... ) );
   fmt::print(
     fg( Color::HEADER ) | fmt::emphasis::bold,
     "╚══════════════════════════════════════════════════════════╝\n" );
 }
 
 template <typename... Args> void print_success( fmt::string_view format, Args &&... args )
-{ fmt::print( fg( Color::SUCCESS ) | fmt::emphasis::bold, "✓ {}\n", fmt::format( format, args... ) ); }
+{
+  fmt::print(
+    fg( Color::SUCCESS ) | fmt::emphasis::bold,
+    "✓ {}\n",
+    format_message( format, std::forward<Args>( args )... ) );
+}
 
 template <typename... Args> void print_error( fmt::string_view format, Args &&... args )
-{ fmt::print( fg( Color::ERROR ) | fmt::emphasis::bold, "✗ {}\n", fmt::format( format, args... ) ); }
+{
+  fmt::print(
+    fg( Color::ERROR ) | fmt::emphasis::bold,
+    "✗ {}\n",
+    format_message( format, std::forward<Args>( args )... ) );
+}
 
 template <typename... Args> void print_warning( fmt::string_view format, Args &&... args )
-{ fmt::print( fg( Color::WARNING ) | fmt::emphasis::bold, "⚠ {}\n", fmt::format( format, args... ) ); }
+{
+  fmt::print(
+    fg( Color::WARNING ) | fmt::emphasis::bold,
+    "⚠ {}\n",
+    format_message( format, std::forward<Args>( args )... ) );
+}
 
 template <typename... Args> void print_info( fmt::string_view format, Args &&... args )
-{ fmt::print( fg( Color::INFO ), "➤ {}\n", fmt::format( format, args... ) ); }
+{
+  fmt::print(
+    fg( Color::INFO ),
+    "➤ {}\n",
+    format_message( format, std::forward<Args>( args )... ) );
+}
 
 // ============================================================================
 // Test data definition

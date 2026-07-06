@@ -17,7 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#include "Splines.hh"
+#include "Splines/Splines.hh"
 
 //!
 //! Namespace of Splines library

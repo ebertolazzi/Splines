@@ -32,7 +32,7 @@ namespace Splines
   using std::copy_n;
 
   //! Picewise constants spline class
-  class ConstantSpline : public Spline
+  class ConstantSpline final : public Spline
   {
     Malloc_real m_mem_constant;
     bool        m_external_alloc = false;
@@ -83,16 +83,16 @@ namespace Splines
     //! \name Evaluate
     //!
     ///@{
-    real_type eval( real_type const x ) const override
+    [[nodiscard]] real_type eval( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
       return m_Y[res.first];
     }
 
-    real_type D( real_type const ) const override { return 0; }
-    real_type DD( real_type const ) const override { return 0; }
-    real_type DDD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type D( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type DD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type DDD( real_type const ) const override { return 0; }
 
     void D( real_type const x, real_type dd[2] ) const override
     {
@@ -113,16 +113,16 @@ namespace Splines
     //! \name Evaluation when segment is known
     //!
     ///@{
-    real_type id_eval( integer const ni, [[maybe_unused]] real_type const x ) const override { return m_Y[ni]; }
-    real_type id_D( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override { return 0; }
-    real_type id_DD( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override
+    [[nodiscard]] real_type id_eval( integer const ni, [[maybe_unused]] real_type const x ) const override { return m_Y[ni]; }
+    [[nodiscard]] real_type id_D( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override { return 0; }
+    [[nodiscard]] real_type id_DD( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override
     { return 0; }
-    real_type id_DDD( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override
+    [[nodiscard]] real_type id_DDD( [[maybe_unused]] integer const ni, [[maybe_unused]] real_type const x ) const override
     { return 0; }
     ///@}
 
 #ifdef AUTODIFF_SUPPORT
-    autodiff::dual1st eval( autodiff::dual1st const & x ) const override
+    [[nodiscard]] autodiff::dual1st eval( autodiff::dual1st const & x ) const override
     {
       autodiff::dual1st res;
       res.val  = eval( x.val );
@@ -132,7 +132,7 @@ namespace Splines
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override
+    [[nodiscard]] autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override
     {
       autodiff::dual2nd res;
       res.val.val   = eval( x.val.val );
@@ -145,7 +145,7 @@ namespace Splines
 
     void write_to_stream( ostream_type & s ) const override;
 
-    SplineType1D type() const override { return SplineType1D::CONSTANT; }
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::CONSTANT; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -169,7 +169,7 @@ namespace Splines
       return 1;
     }
 
-    integer order() const override { return 1; }
+    [[nodiscard]] integer order() const override { return 1; }
 
     void setup( GenericContainer const & gc ) override;
 

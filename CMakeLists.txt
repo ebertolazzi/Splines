@@ -1,189 +1,635 @@
 ############################################################################
 #                                                                          #
-#  file: CMakeLists.txt                                                    #
-#  Copyright (C) 2016                                                      #
-#      Enrico Bertolazzi                                                   #
-#      Dipartimento di Ingegneria Industriale                              #
-#      Università degli Studi di Trento                                    #
-#      email: enrico.bertolazzi@unitn.it                                   #
+#  Splines -- modern, idiomatic CMake build.                              #
+#                                                                          #
+#  Self-contained: no dependency on the external `cmake_utils` grab-bag   #
+#  of .cmake fragments (it isn't even a proper CMake subproject -- it has #
+#  no CMakeLists.txt of its own -- and its Clang flags hardcode           #
+#  `-stdlib=libc++`, which breaks on Linux unless libc++-dev happens to   #
+#  be installed). Structure mirrors GenericContainer's CMakeLists.txt,    #
+#  which this project itself depends on.                                 #
 #                                                                          #
 ############################################################################
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required( VERSION 3.25 )
 
-project( Splines )
-
-if (IS_DIRECTORY "${PROJECT_SOURCE_DIR}/cmake_utils")
-  set( HOME "${PROJECT_SOURCE_DIR}/cmake_utils/" )
-else()
-  if (IS_DIRECTORY "${PROJECT_SOURCE_DIR}/../cmake_utils")
-    set( HOME "${PROJECT_SOURCE_DIR}/../cmake_utils/" )
-  else()
-    set( HOME "${PROJECT_SOURCE_DIR}/../../cmake_utils/" )
+# Estrai la versione da Git tag (se disponibile)
+find_package(Git QUIET)
+if(Git_FOUND)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=0
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+  if(GIT_VERSION MATCHES "^v")
+    string(SUBSTRING ${GIT_VERSION} 1 -1 GIT_VERSION)
   endif()
 endif()
-
-
-include( "${HOME}/CMakeLists-common.txt" )
+if(NOT GIT_VERSION)
+  set(GIT_VERSION "0.0.0")
+endif()
 
 project(
-  ${PROJECT_NAME}
-  VERSION ${UTILS_PROJECT_VERSION}
+  Splines
+  VERSION ${GIT_VERSION}
+  DESCRIPTION "A C++ library for univariate and bivariate spline interpolation"
   HOMEPAGE_URL "https://ebertolazzi.github.io/Clothoids/"
+  LANGUAGES CXX C
 )
 
-if (APPLE)
-  #set( CMAKE_OSX_DEPLOYMENT_TARGET "13.3" )
+# ============================================================================
+# Determinazione del suffisso per la piattaforma (come in GenericContainer)
+# ============================================================================
+if ( APPLE )
+  set( SPLINES_PLATFORM_SUFFIX osx )
+elseif ( WIN32 )
+  if ( MINGW )
+    if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+      set( SPLINES_PLATFORM_SUFFIX mingw64 )
+    else()
+      set( SPLINES_PLATFORM_SUFFIX mingw32 )
+    endif()
+  elseif ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    set( SPLINES_PLATFORM_SUFFIX win64 )
+  else()
+    set( SPLINES_PLATFORM_SUFFIX win32 )
+  endif()
+elseif ( UNIX )
+  set( SPLINES_PLATFORM_SUFFIX linux )
+else()
+  string( TOLOWER "${CMAKE_SYSTEM_NAME}" SPLINES_PLATFORM_SUFFIX )
+endif()
+
+# ============================================================================
+# Opzioni e impostazioni di base
+# ============================================================================
+
+# Default to a Release build when the generator uses a single configuration
+# and the user hasn't picked one (multi-config generators like Ninja
+# Multi-Config or Visual Studio ignore CMAKE_BUILD_TYPE entirely).
+if ( NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES )
+  set( CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE )
+  set_property( CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel" )
+endif()
+
+# Standalone vs. consumed-as-a-dependency: tests only make sense standalone,
+# and installing shouldn't be forced on a project that FetchContent's us.
+option( BUILD_SHARED_LIBS "Build Splines as a shared library" OFF )
+option( BUILD_TESTING "Build the Splines test executables" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_BUILD_BENCHMARKS "Build the micro-benchmarks" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_STRICT_WARNINGS "Compile the Splines target with narrowing/conversion warnings" OFF )
+option( SPLINES_COLLECT_DEPENDENCIES "Copy all dependencies into lib3rd/ after build" ${PROJECT_IS_TOP_LEVEL} )
+
+# Local sibling checkout paths.  When these directories exist, they are used
+# directly; otherwise the dependency is downloaded with FetchContent.
+set( SPLINES_GC_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../GC" CACHE PATH "Local GenericContainer checkout" )
+set( SPLINES_UTILSLITE_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../UtilsLite" CACHE PATH "Local UtilsLite checkout" )
+set( SPLINES_QUARTIC_ROOTS_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../quarticRootsFlocke" CACHE PATH "Local quarticRootsFlocke checkout" )
+set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Eigen" CACHE PATH "Local Eigen checkout" )
+set( SPLINES_EIGEN_VERSION "5.0.0" CACHE STRING "Eigen version to fetch" )
+
+# Default install layout requested for this project:
+#   ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
+#   ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib
+if ( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
+  set( CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/lib" CACHE PATH "Install prefix" FORCE )
+endif()
+set( CMAKE_INSTALL_INCLUDEDIR "include" CACHE PATH "Install include directory" FORCE )
+set( CMAKE_INSTALL_LIBDIR "lib" CACHE PATH "Install library directory" FORCE )
+
+# NOTA: non impostiamo più CMAKE_*_OUTPUT_DIRECTORY globalmente;
+#       le directory di output verranno assegnate per singolo target.
+
+include( GNUInstallDirs )
+include( FetchContent )
+
+if ( APPLE )
   execute_process( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
   set( CMAKE_OSX_ARCHITECTURES ${ARCHITECTURE} )
 endif()
 
-include( "${HOME}/CMakeLists-cflags.txt" )
-include( "${HOME}/CMakeLists-utilities.txt" )
-
-# Evaluating the suffix to append to target built by this CMake file
-utils_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
-if( UTILS_BUILD_SHARED )
-  utils_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
-endif()
-
-if( EXISTS "${CMAKE_CURRENT_LIST_DIR}/../CMakeLists-customize.txt" )
-  include(${CMAKE_CURRENT_LIST_DIR}/../CMakeLists-customize.txt)
-endif()
-
-if( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang" )
-  add_compile_options( "$<$<COMPILE_LANGUAGE:C,CXX>:-Wno-poison-system-directories>" )
-  add_compile_options( "$<$<COMPILE_LANGUAGE:C,CXX>:-Wno-switch-default>" )
-  add_compile_options( "$<$<COMPILE_LANGUAGE:C,CXX>:-Wno-exit-time-destructors>" )
-endif()
-
-message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}" )
-message( STATUS "BASE SUFFIXES = ${ARTIFACTS_STATIC_SUFFIX} ${ARTIFACTS_DYNAMIC_SUFFIX}" )
-
-#   ___
-#  / __| ___ _  _ _ _ __ ___ ___
-#  \__ \/ _ \ || | '_/ _/ -_|_-<
-#  |___/\___/\_,_|_| \__\___/__/
+#   ___                          _                 _
+#  |   \ ___ _ __  ___ _ _  __| |___ _ _  __ ___(_)___ ___
+#  | |) / -_) '_ \/ -_) ' \/ _` / -_) ' \/ _/ -_)_(_-</ -_)
+#  |___/\___| .__/\___|_||_\__,_\___|_||_\__\___(_)__/\___|
+#            |_|
 #
-set( SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src" )
-
-set( SOURCES )
-file( GLOB S ${SOURCE_DIR}/*.cc ${SOURCE_DIR}/**/*.cc )
-foreach(F ${S})
-  # build relative path respect to source directory
-  file( RELATIVE_PATH RF ${SOURCE_DIR} "${F}" )
-  list( APPEND SOURCES ${RF} )
-endforeach(F ${S})
-list(FILTER SOURCES EXCLUDE REGEX ".*hsl_fake.cc$")
-
-#   _  _             _
-#  | || |___ __ _ __| |___ _ _ ___
-#  | __ / -_) _` / _` / -_) '_(_-<
-#  |_||_\___\__,_\__,_\___|_| /__/
-#
-set( PUBLIC_HEADERS )
-file(
-  GLOB S
-  ${SOURCE_DIR}/*.h*
-  ${SOURCE_DIR}/*/*.h*
+FetchContent_Declare(
+  nlohmann_json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
-foreach (F ${S})
-  # build relative path respect to source directory
-  file( RELATIVE_PATH RF ${SOURCE_DIR} "${F}" )
-  list( APPEND PUBLIC_HEADERS ${RF} )
-endforeach(F ${S})
+FetchContent_MakeAvailable( nlohmann_json )
+set( SPLINES_NLOHMANN_JSON_SOURCE "FetchContent: v3.11.3" )
 
-set( PRIVATE_HEADERS )
-# no private headers
+# ============================================================================
+# Dependency helpers
+# ============================================================================
+function( splines_use_local_or_fetch NAME LOCAL_DIR )
+  get_filename_component(
+    _local_abs
+    "${LOCAL_DIR}"
+    ABSOLUTE
+    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+  )
 
-list(FILTER PUBLIC_HEADERS EXCLUDE REGEX ".*.tmpl$")
-list(FILTER PRIVATE_HEADERS EXCLUDE REGEX ".*.tmpl$")
+  if ( EXISTS "${_local_abs}/CMakeLists.txt" )
+    message( STATUS "Using local ${NAME}: ${_local_abs}" )
+    add_subdirectory(
+      "${_local_abs}"
+      "${CMAKE_BINARY_DIR}/_deps/${NAME}-local-build"
+      EXCLUDE_FROM_ALL
+    )
+    set( "${NAME}_SOURCE" "local: ${_local_abs}" PARENT_SCOPE )
+    set( "${NAME}_SOURCE_DIR" "${_local_abs}" PARENT_SCOPE )
+  else()
+    message( STATUS "Fetching ${NAME}" )
+    FetchContent_MakeAvailable( ${NAME} )
+    set( "${NAME}_SOURCE" "FetchContent" PARENT_SCOPE )
+    string( TOLOWER "${NAME}" lower_name )
+    if ( DEFINED "${lower_name}_SOURCE_DIR" )
+      set( "${NAME}_SOURCE_DIR" "${${lower_name}_SOURCE_DIR}" PARENT_SCOPE )
+    endif()
+  endif()
+endfunction()
 
-# extra include directory for compilation
-include_directories( ./lib3rd/include )
+# ============================================================================
+# Eigen
+# ============================================================================
+set( SPLINES_EIGEN_SOURCE "FetchContent" )
 
-#       _                           _                 _
-#    __| | ___ _ __   ___ _ __   __| | ___ _ __   ___(_) ___  ___
-#   / _` |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| |/ _ \/ __|
-#  | (_| |  __/ |_) |  __/ | | | (_| |  __/ | | | (__| |  __/\__ \
-#   \__,_|\___| .__/ \___|_| |_|\__,_|\___|_| |_|\___|_|\___||___/
-#             |_|
-#
-set(DEPEND_TARGETS)
+if ( NOT TARGET Eigen3::Eigen )
+  get_filename_component(
+    SPLINES_EIGEN_LOCAL_DIR_ABS
+    "${SPLINES_EIGEN_LOCAL_DIR}"
+    ABSOLUTE
+    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+  )
 
-# DEPENDENCIES (TRY TO USE ALREADY COMPILED SUBMODULE IN LARGE PROJECT)
-utils_add_library_or_submodule( "quarticRootsFlocke" ROOTS )
-utils_add_library_or_submodule( "UtilsLite" UTILS )
-utils_add_library_or_submodule( "GenericContainer" GC "GC" )
+  if ( EXISTS "${SPLINES_EIGEN_LOCAL_DIR_ABS}/Eigen/Core" )
+    message( STATUS "Using local Eigen checkout: ${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+    set( SPLINES_EIGEN_SOURCE "local: ${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+    set( SPLINES_EIGEN_SOURCE_DIR "${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+    add_library( Eigen3::Eigen INTERFACE IMPORTED GLOBAL )
+    target_include_directories( Eigen3::Eigen SYSTEM INTERFACE "${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+  else()
+    message( STATUS "Fetching Eigen ${SPLINES_EIGEN_VERSION}" )
+    set( SPLINES_EIGEN_SOURCE "FetchContent: ${SPLINES_EIGEN_VERSION}" )
+    FetchContent_Declare(
+      eigen3
+      URL "https://gitlab.com/libeigen/eigen/-/archive/${SPLINES_EIGEN_VERSION}/eigen-${SPLINES_EIGEN_VERSION}.tar.gz"
+      SOURCE_SUBDIR cmake
+      DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+    FetchContent_MakeAvailable( eigen3 )
+    set( SPLINES_EIGEN_SOURCE_DIR "${eigen3_SOURCE_DIR}" )
+
+    if ( NOT TARGET Eigen3::Eigen )
+      add_library( Eigen3::Eigen INTERFACE IMPORTED GLOBAL )
+      target_include_directories( Eigen3::Eigen SYSTEM INTERFACE "${eigen3_SOURCE_DIR}" )
+    endif()
+  endif()
+else()
+  message( STATUS "Using existing Eigen3::Eigen target" )
+  set( SPLINES_EIGEN_SOURCE "existing target: Eigen3::Eigen" )
+  get_target_property( _eigen_inc Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES )
+  if ( _eigen_inc )
+    list( GET _eigen_inc 0 SPLINES_EIGEN_SOURCE_DIR )
+  endif()
+endif()
+
+# ============================================================================
+# GenericContainer
+# ============================================================================
+FetchContent_Declare(
+  GenericContainer
+  GIT_REPOSITORY https://github.com/ebertolazzi/GenericContainer.git
+  GIT_TAG        main
+  GIT_SHALLOW    TRUE
+)
+splines_use_local_or_fetch( GenericContainer "${SPLINES_GC_LOCAL_DIR}" )
+set( GC GenericContainer::Yaml )
+
+# Patch per Clang: forzare -stdlib=libc++
+if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+  foreach( _gc_target GenericContainer GenericContainerYaml )
+    if ( TARGET ${_gc_target} )
+      get_target_property( _gc_type ${_gc_target} TYPE )
+      if ( _gc_type STREQUAL "INTERFACE_LIBRARY" )
+        target_compile_options( ${_gc_target} INTERFACE -stdlib=libc++ )
+        target_link_options( ${_gc_target} INTERFACE -stdlib=libc++ )
+      else()
+        target_compile_options( ${_gc_target} PUBLIC -stdlib=libc++ )
+        target_link_options( ${_gc_target} PUBLIC -stdlib=libc++ )
+      endif()
+    endif()
+  endforeach()
+endif()
+
+# UtilsLite and quarticRootsFlocke share the same vendored cmake_utils option
+# to gate their own internal test suites -- turn it off so ctest here only
+# runs Splines' own test00..test18.
+set( UTILS_ENABLE_TESTS OFF CACHE BOOL "Disable dependency test suites" FORCE )
+
+# ============================================================================
+# UtilsLite
+# ============================================================================
+FetchContent_Declare(
+  UtilsLite
+  GIT_REPOSITORY https://github.com/pbosetti/UtilsLite.git
+  GIT_TAG        main
+)
+splines_use_local_or_fetch( UtilsLite "${SPLINES_UTILSLITE_LOCAL_DIR}" )
+set( UTILS utils::UtilsLite_Static )
+
+# Treat UtilsLite's headers as SYSTEM includes for anything that links it.
+foreach( _utils_tgt utils_UtilsLite_Static utils_UtilsLite )
+  if ( TARGET ${_utils_tgt} )
+    get_target_property( _utils_inc ${_utils_tgt} INTERFACE_INCLUDE_DIRECTORIES )
+    if ( _utils_inc )
+      set_target_properties(
+        ${_utils_tgt} PROPERTIES
+        INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${_utils_inc}"
+      )
+    endif()
+  endif()
+endforeach()
+
+# ============================================================================
+# quarticRootsFlocke
+# ============================================================================
+FetchContent_Declare(
+  quarticRootsFlocke
+  GIT_REPOSITORY https://github.com/ebertolazzi/quarticRootsFlocke.git
+  GIT_TAG        main
+)
+splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DIR}" )
+set( ROOTS utils_quarticRootsFlocke_Static )
+
+set( SPLINES_DEPENDENCIES Eigen3::Eigen )
 
 message( STATUS "----------------------------------------------------------------" )
 message( STATUS "UTILS = ${UTILS}" )
 message( STATUS "ROOTS = ${ROOTS}" )
-message( STATUS "GC    = ${GC}" )
+message( STATUS "GC    = ${GC} Eigen3::Eigen" )
 message( STATUS "----------------------------------------------------------------" )
 
-add_definitions( -DSPLINES_NO_COMPATIBILITY )
+# ============================================================================
+# Funzione per impostare le directory di output per un target
+# ============================================================================
+function( splines_set_target_output_dirs TARGET_NAME LIB_DIR )
+  set_target_properties( ${TARGET_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+  )
+endfunction()
 
-#   _____                  _
-#  |_   _|_ _ _ _ __ _ ___| |_ ___
-#    | |/ _` | '_/ _` / -_)  _(_-<
-#    |_|\__,_|_| \__, \___|\__/__/
-#                |___/
+# ============================================================================
+# Funzione per impostare le directory di output per le dipendenze
+# (gestisce alias target)
+# ============================================================================
+function( splines_set_dependency_output_dirs LIB_DIR )
+  foreach( tgt IN LISTS ARGN )
+    get_target_property( real_tgt ${tgt} ALIASED_TARGET )
+    if( NOT real_tgt )
+      set( real_tgt ${tgt} )
+    endif()
+    if( TARGET ${real_tgt} )
+      get_target_property( tgt_type ${real_tgt} TYPE )
+      if( NOT tgt_type STREQUAL "INTERFACE_LIBRARY" )
+        set_target_properties( ${real_tgt} PROPERTIES
+          ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}"
+          LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}"
+          RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+        )
+      endif()
+    endif()
+  endforeach()
+endfunction()
+
+#   _     _ _
+#  | |   (_) |__  _ __ __ _ _ __ _   _
+#  | |   | | '_ \| '__/ _` | '__| | | |
+#  | |___| | |_) | | | (_| | |  | |_| |
+#  |_____|_|_.__/|_|  \__,_|_|   \__, |
+#                                |___/
 #
-# define target
-utils_setup_target(
-  ${PROJECT_NAME}
-  TRUE # build static
-  "${SOURCE_DIR}"
-  "${SOURCES}"
-  "${SOURCE_DIR}"
-  "${PUBLIC_HEADERS}"
+add_library(
+  Splines
+  src/SplineAkima.cc
+  src/SplineBiCubic.cc
+  src/SplineBiCubicBase.cc
+  src/SplineBilinear.cc
+  src/SplineBiQuintic.cc
+  src/SplineBiQuinticBase.cc
+  src/SplineBuild.cc
+  src/SplineConstant.cc
+  src/SplineCubic.cc
+  src/SplineCubicBase.cc
+  src/SplineHermite.cc
+  src/SplineLinear.cc
+  src/SplineParametrization.cc
+  src/SplinePchip.cc
+  src/SplineQuintic.cc
+  src/SplineQuinticBase.cc
+  src/Splines.cc
+  src/Splines1D.cc
+  src/SplinesCinterface.cc
+  src/SplineSet.cc
+  src/SplineSurf.cc
+  src/SplineUtils.cc
+  src/SplineVanLeer.cc
+  src/SplineVec.cc
 )
-if ( UTILS_BUILD_SHARED )
-  utils_setup_target(
-    ${PROJECT_NAME}
-    FALSE # build dynamic
-    "${SOURCE_DIR}"
-    "${SOURCES}"
-    "${SOURCE_DIR}"
-    "${PUBLIC_HEADERS}"
+add_library( Splines::Splines ALIAS Splines )
+
+# Imposta le directory di output per Splines (vanno in lib/lib)
+splines_set_target_output_dirs( Splines lib/lib )
+
+target_compile_features( Splines PUBLIC cxx_std_20 )
+target_compile_definitions( Splines PUBLIC SPLINES_NO_COMPATIBILITY )
+target_compile_definitions( Splines PUBLIC _USE_MATH_DEFINES )
+target_include_directories(
+  Splines PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+)
+target_link_libraries( Splines PUBLIC ${ROOTS} ${GC} ${UTILS} nlohmann_json::nlohmann_json )
+
+set_target_properties(
+  Splines PROPERTIES
+  VERSION     ${PROJECT_VERSION}
+  SOVERSION   ${PROJECT_VERSION_MAJOR}
+  EXPORT_NAME Splines
+)
+
+if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
+  target_compile_options( Splines PRIVATE -Wall -Wextra )
+  if ( SPLINES_STRICT_WARNINGS )
+    target_compile_options(
+      Splines PRIVATE
+      -Wconversion -Wsign-conversion -Wshadow -Wdouble-promotion
+    )
+  endif()
+endif()
+
+if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+  target_compile_options( Splines PUBLIC -stdlib=libc++ )
+  target_link_options( Splines PUBLIC -stdlib=libc++ )
+endif()
+
+if ( MSVC )
+  target_compile_options( Splines PUBLIC /utf-8 /bigobj )
+endif()
+
+message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}" )
+
+# ============================================================================
+# Imposta le directory di output per le dipendenze (vanno in lib3rd/lib)
+# ============================================================================
+splines_set_dependency_output_dirs( lib3rd/lib
+  GenericContainer
+  Lua
+  ${UTILS}
+  ${ROOTS}
+)
+
+# ============================================================================
+# Creazione dell'alias con suffisso OS (come in GenericContainer)
+# ============================================================================
+function( splines_add_platform_library_alias TARGET_NAME BASE_NAME )
+  set( ALIAS_BASE "lib${BASE_NAME}_${SPLINES_PLATFORM_SUFFIX}" )
+  set( LEGACY_ALIAS_BASE "${ALIAS_BASE}" )
+
+  if ( NOT BUILD_SHARED_LIBS )
+    string( APPEND ALIAS_BASE "_static" )
+  endif()
+
+  if ( BUILD_SHARED_LIBS )
+    set( LINK_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+    set( ALIAS_FILENAME "${ALIAS_BASE}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+  else()
+    set( LINK_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+    set( ALIAS_FILENAME "${ALIAS_BASE}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+    set( LEGACY_ALIAS_FILENAME "${LEGACY_ALIAS_BASE}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+  endif()
+
+  if ( WIN32 )
+    if ( BUILD_SHARED_LIBS )
+      add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "$<TARGET_FILE:${TARGET_NAME}>"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        VERBATIM
+      )
+    else()
+      add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -f
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${LEGACY_ALIAS_FILENAME}"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "$<TARGET_FILE:${TARGET_NAME}>"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        VERBATIM
+      )
+      install(
+        CODE
+        "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${LEGACY_ALIAS_FILENAME}\")"
+      )
+    endif()
+    install(
+      FILES "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+  else()
+    if ( BUILD_SHARED_LIBS )
+      add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                "${LINK_FILENAME}"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        VERBATIM
+      )
+    else()
+      add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${LEGACY_ALIAS_FILENAME}"
+        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                "${LINK_FILENAME}"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+        VERBATIM
+      )
+    endif()
+    if ( BUILD_SHARED_LIBS )
+      install(
+        CODE
+        "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\")
+        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")
+        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+                \"${LINK_FILENAME}\"
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")"
+      )
+    else()
+      install(
+        CODE
+        "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\")
+        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${LEGACY_ALIAS_FILENAME}\")
+        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")
+        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+                \"${LINK_FILENAME}\"
+                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")"
+      )
+    endif()
+  endif()
+endfunction()
+
+# Crea alias per Splines (in lib/lib)
+splines_add_platform_library_alias( Splines Splines )
+
+# ============================================================================
+# Raccolta delle dipendenze in lib3rd/ (solo header, le librerie sono già in lib3rd/lib)
+# ============================================================================
+if ( SPLINES_COLLECT_DEPENDENCIES )
+  file( MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include" )
+  file( MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib" )
+
+  add_custom_target( collect_dependencies ALL )
+
+  function( copy_header_only_dependency TARGET_NAME DEST_SUBDIR )
+    get_target_property( _inc_dirs ${TARGET_NAME} INTERFACE_INCLUDE_DIRECTORIES )
+    if ( _inc_dirs )
+      list( GET _inc_dirs 0 _first_inc )
+      add_custom_command(
+        TARGET collect_dependencies POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${_first_inc}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/${DEST_SUBDIR}"
+        COMMENT "Copying headers for ${TARGET_NAME} to lib3rd/include/${DEST_SUBDIR}"
+      )
+    else()
+      if ( DEFINED SPLINES_EIGEN_SOURCE_DIR )
+        add_custom_command(
+          TARGET collect_dependencies POST_BUILD
+          COMMAND ${CMAKE_COMMAND} -E copy_directory
+                  "${SPLINES_EIGEN_SOURCE_DIR}"
+                  "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/${DEST_SUBDIR}"
+          COMMENT "Copying headers for ${TARGET_NAME} from ${SPLINES_EIGEN_SOURCE_DIR}"
+        )
+      endif()
+    endif()
+  endfunction()
+
+  # Header di Eigen
+  copy_header_only_dependency( Eigen3::Eigen Eigen )
+
+  # Header di nlohmann_json
+  copy_header_only_dependency( nlohmann_json::nlohmann_json nlohmann )
+
+  # Header di GenericContainer
+  if ( TARGET GenericContainer )
+    get_target_property( _gc_inc GenericContainer INTERFACE_INCLUDE_DIRECTORIES )
+    if ( _gc_inc )
+      list( GET _gc_inc 0 _gc_inc_dir )
+      add_custom_command(
+        TARGET collect_dependencies POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${_gc_inc_dir}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/GenericContainer"
+        COMMENT "Copying GenericContainer headers"
+      )
+    endif()
+  endif()
+
+  # Header di UtilsLite
+  if ( TARGET ${UTILS} )
+    get_target_property( _utils_inc ${UTILS} INTERFACE_INCLUDE_DIRECTORIES )
+    if ( _utils_inc )
+      list( GET _utils_inc 0 _utils_inc_dir )
+      add_custom_command(
+        TARGET collect_dependencies POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${_utils_inc_dir}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/UtilsLite"
+        COMMENT "Copying UtilsLite headers"
+      )
+    endif()
+  endif()
+
+  # Header di quarticRootsFlocke
+  if ( TARGET ${ROOTS} )
+    get_target_property( _roots_inc ${ROOTS} INTERFACE_INCLUDE_DIRECTORIES )
+    if ( _roots_inc )
+      list( GET _roots_inc 0 _roots_inc_dir )
+      add_custom_command(
+        TARGET collect_dependencies POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${_roots_inc_dir}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/quarticRootsFlocke"
+        COMMENT "Copying quarticRootsFlocke headers"
+      )
+    endif()
+  endif()
+
+  add_dependencies( collect_dependencies
+    Eigen3::Eigen
+    GenericContainer
+    ${UTILS}
+    ${ROOTS}
+    nlohmann_json::nlohmann_json
   )
-  target_link_libraries( ${UTILS_NAMESPACE}_${PROJECT_NAME} ${ROOTS} ${GC} ${UTILS} )
 endif()
 
-if ( DEPEND_TARGETS )
-  add_dependencies( ${UTILS_NAMESPACE}_${PROJECT_NAME}_Static ${DEPEND_TARGETS} )
-endif()
-
-#   _____       _
-#  |_   _|__ __| |_ ___
-#    | |/ -_|_-<  _(_-<
-#    |_|\___/__/\__/__/
+#   _____         _
+#  |_   _|__  ___| |_ ___
+#    | |/ _ \/ __| __/ __|
+#    | |  __/\__ \ |_\__ \
+#    |_|\___||___/\__|___/
 #
-if ( UTILS_ENABLE_TESTS )
-
-  enable_testing()
-
-  set( EXELISTBIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin" )
-  set( EXELISTCPP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src_tests" )
-
-  set(
-    EXELISTCPP
-    test00 test01 test02 test03 test04 test05 test06 test07 test08 test09 test10 test11 test12 test13 test14 test15 test16 test17
+include( CTest )
+if ( BUILD_TESTING AND PROJECT_IS_TOP_LEVEL )
+  file(
+    GLOB SPLINES_TEST_SOURCES
+    CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src_tests/test*.cc"
   )
-
+  list( SORT SPLINES_TEST_SOURCES )
   add_custom_target( "${PROJECT_NAME}_all_tests" ALL )
-
-  set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
-  set( LIBS ${UTILS_NAMESPACE}_${PROJECT_NAME}_Static ${UTILS} ${ROOTS} ${GC} ${CMAKE_DL_LIBS} )
-  foreach( S ${EXELISTCPP} )
-    add_executable( ${S} ${CMAKE_CURRENT_SOURCE_DIR}/src_tests/${S}.cc )
-    target_link_libraries( ${S} ${LIBS} )
-    set_target_properties( ${S} PROPERTIES SUFFIX ".exe" )
-    add_test( NAME "${S}" COMMAND ./bin/${S}.exe WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
+  foreach( TEST_SOURCE ${SPLINES_TEST_SOURCES} )
+    get_filename_component( S "${TEST_SOURCE}" NAME_WE )
+    add_executable( ${S} "${TEST_SOURCE}" )
+    target_link_libraries( ${S} PRIVATE Splines::Splines ${CMAKE_DL_LIBS} )
+    set_target_properties(
+      ${S} PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+    )
+    add_test( NAME "${S}" COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/bin/${S}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
     add_dependencies( "${PROJECT_NAME}_all_tests" ${S} )
   endforeach()
+endif()
 
+#   ___                _                         _
+#  | _ ) ___ _ _  __ | |_  _ __  __ _ _ _ | |__ ___
+#  | _ \/ -_) ' \/ _|| ' \| '  \/ _` | '_|| / /(_-<
+#  |___/\___|_||_\__||_||_|_|_|_\__,_|_|  |_\_\/__/
+#
+if ( SPLINES_BUILD_BENCHMARKS AND PROJECT_IS_TOP_LEVEL )
+  add_executable( bench_eval "${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/bench_eval.cc" )
+  target_link_libraries( bench_eval PRIVATE Splines::Splines )
+  set_target_properties(
+    bench_eval PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+  )
 endif()
 
 #   ___         _        _ _
@@ -191,23 +637,36 @@ endif()
 #   | || ' \(_-<  _/ _` | | |
 #  |___|_||_/__/\__\__,_|_|_|
 #
-install(
-  TARGETS ${TARGETS_TO_BE_INSTALLED}
-  # EXPORT (da definire)
-  LIBRARY DESTINATION ${INSTALL_PREFIX}/dll
-  ARCHIVE DESTINATION ${INSTALL_PREFIX}/lib
-  RUNTIME DESTINATION ${INSTALL_PREFIX}/bin
-  PUBLIC_HEADER DESTINATION ${PROJECT_PUBLIC_HEADER_DESTINATION}
-)
+if ( SPLINES_INSTALL )
+  install(
+    TARGETS Splines
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  )
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  )
 
-#   ___         _
-#  | _ \__ _ __| |____ _ __ _ ___
-#  |  _/ _` / _| / / _` / _` / -_)
-#  |_| \__,_\__|_\_\__,_\__, \___|
-#                       |___/
-#
+  set( CPACK_PACKAGE_NAME "${PROJECT_NAME}" )
+  set( CPACK_PACKAGE_VERSION "${PROJECT_VERSION}" )
+  set( CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}" )
+  set( CPACK_GENERATOR "TGZ;ZIP" )
+  set( CPACK_SOURCE_GENERATOR "TGZ;ZIP" )
+  set( CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR}/;/\\\\.git/;/build.*/" )
+  include( CPack )
+endif()
 
-# do not work
-#include( ./cmake_utils/CMakeLists-cpack.txt )
-
-utils_final_messages()
+# ============================================================================
+# Riepilogo delle dipendenze
+# ============================================================================
+message( STATUS "" )
+message( STATUS "Splines dependency summary:" )
+message( STATUS "  Eigen             : ${SPLINES_EIGEN_SOURCE}" )
+message( STATUS "  GenericContainer  : ${GenericContainer_SOURCE}" )
+message( STATUS "  UtilsLite         : ${UtilsLite_SOURCE}" )
+message( STATUS "  quarticRootsFlocke: ${quarticRootsFlocke_SOURCE}" )
+message( STATUS "  nlohmann_json     : ${SPLINES_NLOHMANN_JSON_SOURCE}" )
+message( STATUS "" )

@@ -30,7 +30,7 @@ namespace Splines
 {
 
   //! Linear spline class
-  class LinearSpline : public Spline
+  class LinearSpline final : public Spline
   {
     Malloc_real m_mem_linear;
     bool        m_external_alloc = false;
@@ -67,7 +67,7 @@ namespace Splines
 
     // --------------------------- VIRTUALS -----------------------------------
 
-    real_type eval( real_type const x ) const override
+    [[nodiscard]] real_type eval( real_type const x ) const override
     {
       std::pair<integer, real_type> res( 0, x );
       m_search.find( res );
@@ -76,9 +76,9 @@ namespace Splines
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    real_type D( real_type const x ) const override;
-    real_type DD( real_type const ) const override { return 0; }
-    real_type DDD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type D( real_type const x ) const override;
+    [[nodiscard]] real_type DD( real_type const ) const override { return 0; }
+    [[nodiscard]] real_type DDD( real_type const ) const override { return 0; }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -88,17 +88,17 @@ namespace Splines
 
     void DD( real_type const x, real_type dd[3] ) const override;
 
-    real_type id_eval( integer const ni, real_type const x ) const override;
+    [[nodiscard]] real_type id_eval( integer const ni, real_type const x ) const override;
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    real_type id_D( integer const i, real_type const x ) const override;
-    real_type id_DD( integer const, real_type const ) const override { return 0; }
-    real_type id_DDD( integer const, real_type const ) const override { return 0; }
+    [[nodiscard]] real_type id_D( integer const i, real_type const x ) const override;
+    [[nodiscard]] real_type id_DD( integer const, real_type const ) const override { return 0; }
+    [[nodiscard]] real_type id_DDD( integer const, real_type const ) const override { return 0; }
 
     void write_to_stream( ostream_type & s ) const override;
 
-    SplineType1D type() const override { return SplineType1D::LINEAR; }
+    [[nodiscard]] SplineType1D type() const override { return SplineType1D::LINEAR; }
 
     // --------------------------- VIRTUALS -----------------------------------
 
@@ -107,8 +107,8 @@ namespace Splines
     //! \name Autodiff
     //!
     ///@{
-    autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
-    autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
+    [[nodiscard]] autodiff::dual1st eval( autodiff::dual1st const & x ) const override;
+    [[nodiscard]] autodiff::dual2nd eval( autodiff::dual2nd const & x ) const override;
     ///@}
 #endif
 
@@ -121,7 +121,7 @@ namespace Splines
     integer  // order
     coeffs( real_type cfs[], real_type nodes[], bool const transpose ) const override;
 
-    integer order() const override { return 2; }
+    [[nodiscard]] integer order() const override { return 2; }
 
     void setup( GenericContainer const & gc ) override;
 
