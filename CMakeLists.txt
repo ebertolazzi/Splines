@@ -81,7 +81,15 @@ option( BUILD_TESTING "Build the Splines test executables" ${PROJECT_IS_TOP_LEVE
 option( SPLINES_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_BUILD_BENCHMARKS "Build the micro-benchmarks" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_STRICT_WARNINGS "Compile the Splines target with narrowing/conversion warnings" OFF )
-option( SPLINES_COLLECT_DEPENDENCIES "Copy all dependencies into lib3rd/ after build" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_UPDATE_3RDPARTY "Refresh lib3rd/include from resolved dependencies at configure time" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_COLLECT_DEPENDENCIES "Deprecated alias for SPLINES_UPDATE_3RDPARTY" ${SPLINES_UPDATE_3RDPARTY} )
+if ( SPLINES_COLLECT_DEPENDENCIES )
+  set(
+    SPLINES_UPDATE_3RDPARTY ON
+    CACHE BOOL "Refresh lib3rd/include from resolved dependencies at configure time"
+    FORCE
+  )
+endif()
 
 # Local sibling checkout paths.  When these directories exist, they are used
 # directly; otherwise the dependency is downloaded with FetchContent.
@@ -106,6 +114,7 @@ set( CMAKE_INSTALL_LIBDIR "lib" CACHE PATH "Install library directory" FORCE )
 
 include( GNUInstallDirs )
 include( FetchContent )
+include( "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Update3rdParties.cmake" )
 
 if ( APPLE )
   execute_process( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
@@ -264,7 +273,7 @@ set( UTILS_ENABLE_TESTS OFF CACHE BOOL "Disable dependency test suites" FORCE )
 FetchContent_Declare(
   UtilsLite
   GIT_REPOSITORY https://github.com/ebertolazzi/UtilsLite.git
-  GIT_TAG        main
+  GIT_TAG        Utils2.0
   GIT_SHALLOW    TRUE
 )
 splines_use_local_or_fetch( UtilsLite "${SPLINES_UTILSLITE_LOCAL_DIR}" )
@@ -296,6 +305,17 @@ splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DI
 set( ROOTS utils_quarticRootsFlocke_Static )
 
 set( SPLINES_DEPENDENCIES Eigen3::Eigen )
+
+if ( SPLINES_UPDATE_3RDPARTY )
+  splines_update_3rdparties(
+    DESTINATION            "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include"
+    EIGEN_ROOT             "${SPLINES_EIGEN_SOURCE_DIR}"
+    JSON_ROOT              "${nlohmann_json_SOURCE_DIR}"
+    GENERIC_CONTAINER_ROOT "${GenericContainer_SOURCE_DIR}"
+    UTILSLITE_ROOT         "${UtilsLite_SOURCE_DIR}"
+    QUARTIC_ROOTS_ROOT     "${quarticRootsFlocke_SOURCE_DIR}"
+  )
+endif()
 
 message( STATUS "----------------------------------------------------------------" )
 message( STATUS "UTILS = ${UTILS}" )
@@ -522,99 +542,6 @@ endfunction()
 
 # Crea alias per Splines (in lib/lib)
 splines_add_platform_library_alias( Splines Splines )
-
-# ============================================================================
-# Raccolta delle dipendenze in lib3rd/ (solo header, le librerie sono già in lib3rd/lib)
-# ============================================================================
-if ( SPLINES_COLLECT_DEPENDENCIES )
-  file( MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include" )
-  file( MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/lib" )
-
-  add_custom_target( collect_dependencies ALL )
-
-  function( copy_header_only_dependency TARGET_NAME DEST_SUBDIR )
-    get_target_property( _inc_dirs ${TARGET_NAME} INTERFACE_INCLUDE_DIRECTORIES )
-    if ( _inc_dirs )
-      list( GET _inc_dirs 0 _first_inc )
-      add_custom_command(
-        TARGET collect_dependencies POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${_first_inc}"
-                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/${DEST_SUBDIR}"
-        COMMENT "Copying headers for ${TARGET_NAME} to lib3rd/include/${DEST_SUBDIR}"
-      )
-    else()
-      if ( DEFINED SPLINES_EIGEN_SOURCE_DIR )
-        add_custom_command(
-          TARGET collect_dependencies POST_BUILD
-          COMMAND ${CMAKE_COMMAND} -E copy_directory
-                  "${SPLINES_EIGEN_SOURCE_DIR}"
-                  "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/${DEST_SUBDIR}"
-          COMMENT "Copying headers for ${TARGET_NAME} from ${SPLINES_EIGEN_SOURCE_DIR}"
-        )
-      endif()
-    endif()
-  endfunction()
-
-  # Header di Eigen
-  copy_header_only_dependency( Eigen3::Eigen Eigen )
-
-  # Header di nlohmann_json
-  copy_header_only_dependency( nlohmann_json::nlohmann_json nlohmann )
-
-  # Header di GenericContainer
-  if ( TARGET GenericContainer )
-    get_target_property( _gc_inc GenericContainer INTERFACE_INCLUDE_DIRECTORIES )
-    if ( _gc_inc )
-      list( GET _gc_inc 0 _gc_inc_dir )
-      add_custom_command(
-        TARGET collect_dependencies POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${_gc_inc_dir}"
-                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/GenericContainer"
-        COMMENT "Copying GenericContainer headers"
-      )
-    endif()
-  endif()
-
-  # Header di UtilsLite
-  if ( TARGET ${UTILS} )
-    get_target_property( _utils_inc ${UTILS} INTERFACE_INCLUDE_DIRECTORIES )
-    if ( _utils_inc )
-      list( GET _utils_inc 0 _utils_inc_dir )
-      add_custom_command(
-        TARGET collect_dependencies POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${_utils_inc_dir}"
-                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/UtilsLite"
-        COMMENT "Copying UtilsLite headers"
-      )
-    endif()
-  endif()
-
-  # Header di quarticRootsFlocke
-  if ( TARGET ${ROOTS} )
-    get_target_property( _roots_inc ${ROOTS} INTERFACE_INCLUDE_DIRECTORIES )
-    if ( _roots_inc )
-      list( GET _roots_inc 0 _roots_inc_dir )
-      add_custom_command(
-        TARGET collect_dependencies POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${_roots_inc_dir}"
-                "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include/quarticRootsFlocke"
-        COMMENT "Copying quarticRootsFlocke headers"
-      )
-    endif()
-  endif()
-
-  add_dependencies( collect_dependencies
-    Eigen3::Eigen
-    GenericContainer
-    ${UTILS}
-    ${ROOTS}
-    nlohmann_json::nlohmann_json
-  )
-endif()
 
 #   _____         _
 #  |_   _|__  ___| |_ ___

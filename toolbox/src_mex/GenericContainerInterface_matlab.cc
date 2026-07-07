@@ -318,7 +318,7 @@ namespace GC_namespace
 
     for ( size_t i{ 0 }; i <= nc; ++i )
     {
-      GC_ASSERT(
+      GC_assert(
         jcs[i] <= static_cast<mwIndex>( std::numeric_limits<int_type>::max() ),
         "mxSparse_to_GenericContainer: jc index overflow"
       );
@@ -326,7 +326,7 @@ namespace GC_namespace
     }
     for ( mwIndex i{ 0 }; i < nnz; ++i )
     {
-      GC_ASSERT(
+      GC_assert(
         irs[i] <= static_cast<mwIndex>( std::numeric_limits<int_type>::max() ),
         "mxSparse_to_GenericContainer: ir index overflow"
       );
@@ -531,53 +531,53 @@ namespace GC_namespace
 
   void to_mxArray( mat_int_type const & val, mxArray *& mx )
   {
-    unsigned const nr = val.num_rows();
-    unsigned const nc = val.num_cols();
-    mwSize        dims[2] = { mwSize( nr ), mwSize( nc ) };
-    mx                    = mxCreateNumericArray( 2, dims, mxINT32_CLASS, mxREAL );
-    int32_t * ptr         = static_cast<int32_t *>( mxGetData( mx ) );
-    mwSize    k           = 0;
-    for ( unsigned j{ 0 }; j < nc; ++j )
-      for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
+    mwSize const nr = static_cast<mwSize>( val.num_rows() );
+    mwSize const nc = static_cast<mwSize>( val.num_cols() );
+    mwSize      dims[2] = { nr, nc };
+    mx                  = mxCreateNumericArray( 2, dims, mxINT32_CLASS, mxREAL );
+    int32_t * ptr       = static_cast<int32_t *>( mxGetData( mx ) );
+    mwSize    k         = 0;
+    for ( mwSize j{ 0 }; j < nc; ++j )
+      for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
   }
 
   void to_mxArray( mat_long_type const & val, mxArray *& mx )
   {
-    unsigned const nr = val.num_rows();
-    unsigned const nc = val.num_cols();
-    mwSize        dims[2] = { mwSize( nr ), mwSize( nc ) };
-    mx                    = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
-    int64_t * ptr         = static_cast<int64_t *>( mxGetData( mx ) );
-    mwSize    k           = 0;
-    for ( unsigned j{ 0 }; j < nc; ++j )
-      for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
+    mwSize const nr = static_cast<mwSize>( val.num_rows() );
+    mwSize const nc = static_cast<mwSize>( val.num_cols() );
+    mwSize      dims[2] = { nr, nc };
+    mx                  = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
+    int64_t * ptr       = static_cast<int64_t *>( mxGetData( mx ) );
+    mwSize    k         = 0;
+    for ( mwSize j{ 0 }; j < nc; ++j )
+      for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
   }
 
   void to_mxArray( mat_real_type const & val, mxArray *& mx )
   {
-    unsigned const nr = val.num_rows();
-    unsigned const nc = val.num_cols();
-    mwSize        dims[2] = { mwSize( nr ), mwSize( nc ) };
-    mx                    = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
-    real_type * ptr       = mxGetPr( mx );
-    mwSize      k         = 0;
-    for ( unsigned j{ 0 }; j < nc; ++j )
-      for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
+    mwSize const nr = static_cast<mwSize>( val.num_rows() );
+    mwSize const nc = static_cast<mwSize>( val.num_cols() );
+    mwSize      dims[2] = { nr, nc };
+    mx                  = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
+    real_type * ptr     = mxGetPr( mx );
+    mwSize      k       = 0;
+    for ( mwSize j{ 0 }; j < nc; ++j )
+      for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = val( i, j );
   }
 
   void to_mxArray( mat_complex_type const & val, mxArray *& mx )
   {
-    unsigned const nr = val.num_rows();
-    unsigned const nc = val.num_cols();
-    mwSize        dims[2] = { mwSize( nr ), mwSize( nc ) };
-    mx                    = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
+    mwSize const nr = static_cast<mwSize>( val.num_rows() );
+    mwSize const nc = static_cast<mwSize>( val.num_cols() );
+    mwSize      dims[2] = { nr, nc };
+    mx                  = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
 
 #if MX_HAS_INTERLEAVED_COMPLEX
     mxComplexDouble * data = reinterpret_cast<mxComplexDouble *>( mxGetData( mx ) );
     mwSize            k    = 0;
-    for ( unsigned j{ 0 }; j < nc; ++j )
+    for ( mwSize j{ 0 }; j < nc; ++j )
     {
-      for ( unsigned i{ 0 }; i < nr; ++i )
+      for ( mwSize i{ 0 }; i < nr; ++i )
       {
         complex_type const & vij{ val( i, j ) };
         data[k].real = vij.real();
@@ -589,9 +589,9 @@ namespace GC_namespace
     real_type * ptr = mxGetPr( mx );
     real_type * pti = mxGetPi( mx );
     mwSize      k   = 0;
-    for ( unsigned j{ 0 }; j < nc; ++j )
+    for ( mwSize j{ 0 }; j < nc; ++j )
     {
-      for ( unsigned i{ 0 }; i < nr; ++i )
+      for ( mwSize i{ 0 }; i < nr; ++i )
       {
         complex_type const & vij{ val( i, j ) };
         ptr[k] = vij.real();
@@ -647,49 +647,49 @@ namespace GC_namespace
       case GC_type::STRING: mx = mxCreateString( gc.get_string().data() ); break;
       case GC_type::VEC_BOOL:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateNumericArray( 2, dims, mxLOGICAL_CLASS, mxREAL );
-        mxLogical * ptr       = static_cast<mxLogical *>( mxGetData( mx ) );
-        for ( unsigned i = 0; i < nelems; ++i ) ptr[i] = gc.get_bool_at( i, where );
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateNumericArray( 2, dims, mxLOGICAL_CLASS, mxREAL );
+        mxLogical * ptr     = static_cast<mxLogical *>( mxGetData( mx ) );
+        for ( mwSize i = 0; i < nelems; ++i ) ptr[i] = gc.get_bool_at( i, where );
       }
       break;
       case GC_type::VEC_INTEGER:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
-        int64_t * ptr         = static_cast<int64_t *>( mxGetData( mx ) );
-        for ( unsigned i = 0; i < nelems; ++i ) ptr[i] = static_cast<int64_t>( gc.get_int_at( i, where ) );
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
+        int64_t * ptr       = static_cast<int64_t *>( mxGetData( mx ) );
+        for ( mwSize i = 0; i < nelems; ++i ) ptr[i] = static_cast<int64_t>( gc.get_int_at( i, where ) );
       }
       break;
       case GC_type::VEC_LONG:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
-        int64_t * ptr         = static_cast<int64_t *>( mxGetData( mx ) );
-        for ( unsigned i = 0; i < nelems; ++i ) ptr[i] = static_cast<int64_t>( gc.get_long_at( i, where ) );
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
+        int64_t * ptr       = static_cast<int64_t *>( mxGetData( mx ) );
+        for ( mwSize i = 0; i < nelems; ++i ) ptr[i] = static_cast<int64_t>( gc.get_long_at( i, where ) );
       }
       break;
       case GC_type::VEC_REAL:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
-        real_type * ptr       = mxGetPr( mx );
-        for ( unsigned i = 0; i < nelems; ++i ) ptr[i] = gc.get_real_at( i, where );
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
+        real_type * ptr     = mxGetPr( mx );
+        for ( mwSize i = 0; i < nelems; ++i ) ptr[i] = gc.get_real_at( i, where );
       }
       break;
       case GC_type::VEC_COMPLEX:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
 
 #if MX_HAS_INTERLEAVED_COMPLEX
         mxComplexDouble * data = reinterpret_cast<mxComplexDouble *>( mxGetData( mx ) );
-        for ( unsigned i{ 0 }; i < nelems; ++i )
+        for ( mwSize i{ 0 }; i < nelems; ++i )
         {
           real_type re, im;
           gc.get_complex_number_at( i, re, im );
@@ -699,72 +699,72 @@ namespace GC_namespace
 #else
         real_type * ptr = mxGetPr( mx );
         real_type * pti = mxGetPi( mx );
-        for ( unsigned i = 0; i < nelems; ++i ) { gc.get_complex_number_at( i, ptr[i], pti[i] ); }
+        for ( mwSize i = 0; i < nelems; ++i ) { gc.get_complex_number_at( i, ptr[i], pti[i] ); }
 #endif
       }
       break;
       case GC_type::VEC_STRING:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateCellMatrix( dims[0], dims[1] );
-        for ( unsigned i{ 0 }; i < nelems; ++i )
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateCellMatrix( dims[0], dims[1] );
+        for ( mwSize i{ 0 }; i < nelems; ++i )
           mxSetCell( mx, i, mxCreateString( gc.get_string_at( i, where ).data() ) );
       }
       break;
       case GC_type::MAT_INTEGER:
       {
-        unsigned const nr = gc.num_rows();
-        unsigned const nc = gc.num_cols();
-        dims[0]           = mwSize( nr );
-        dims[1]           = mwSize( nc );
-        mx                = mxCreateNumericArray( 2, dims, mxINT32_CLASS, mxREAL );
-        int_type * ptr    = static_cast<int_type *>( mxGetData( mx ) );
-        mwSize     k      = 0;
-        for ( unsigned j{ 0 }; j < nc; ++j )
-          for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_int_at( i, j, where );
+        mwSize const nr = static_cast<mwSize>( gc.num_rows() );
+        mwSize const nc = static_cast<mwSize>( gc.num_cols() );
+        dims[0]         = nr;
+        dims[1]         = nc;
+        mx              = mxCreateNumericArray( 2, dims, mxINT32_CLASS, mxREAL );
+        int_type * ptr  = static_cast<int_type *>( mxGetData( mx ) );
+        mwSize     k    = 0;
+        for ( mwSize j{ 0 }; j < nc; ++j )
+          for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_int_at( i, j, where );
       }
       break;
       case GC_type::MAT_LONG:
       {
-        unsigned const nr = gc.num_rows();
-        unsigned const nc = gc.num_cols();
-        dims[0]           = mwSize( nr );
-        dims[1]           = mwSize( nc );
-        mx                = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
-        long_type * ptr   = static_cast<long_type *>( mxGetData( mx ) );
-        mwSize      k     = 0;
-        for ( unsigned j{ 0 }; j < nc; ++j )
-          for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_long_at( i, j, where );
+        mwSize const nr = static_cast<mwSize>( gc.num_rows() );
+        mwSize const nc = static_cast<mwSize>( gc.num_cols() );
+        dims[0]         = nr;
+        dims[1]         = nc;
+        mx              = mxCreateNumericArray( 2, dims, mxINT64_CLASS, mxREAL );
+        long_type * ptr = static_cast<long_type *>( mxGetData( mx ) );
+        mwSize      k   = 0;
+        for ( mwSize j{ 0 }; j < nc; ++j )
+          for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_long_at( i, j, where );
       }
       break;
       case GC_type::MAT_REAL:
       {
-        unsigned const nr = gc.num_rows();
-        unsigned const nc = gc.num_cols();
-        dims[0]           = mwSize( nr );
-        dims[1]           = mwSize( nc );
-        mx                = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
-        real_type * ptr   = mxGetPr( mx );
-        mwSize      k     = 0;
-        for ( unsigned j{ 0 }; j < nc; ++j )
-          for ( unsigned i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_real_at( i, j, where );
+        mwSize const nr = static_cast<mwSize>( gc.num_rows() );
+        mwSize const nc = static_cast<mwSize>( gc.num_cols() );
+        dims[0]         = nr;
+        dims[1]         = nc;
+        mx              = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
+        real_type * ptr = mxGetPr( mx );
+        mwSize      k   = 0;
+        for ( mwSize j{ 0 }; j < nc; ++j )
+          for ( mwSize i{ 0 }; i < nr; ++i ) ptr[k++] = gc.get_real_at( i, j, where );
       }
       break;
       case GC_type::MAT_COMPLEX:
       {
-        unsigned const nr = gc.num_rows();
-        unsigned const nc = gc.num_cols();
-        dims[0]           = mwSize( nr );
-        dims[1]           = mwSize( nc );
-        mx                = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
+        mwSize const nr = static_cast<mwSize>( gc.num_rows() );
+        mwSize const nc = static_cast<mwSize>( gc.num_cols() );
+        dims[0]         = nr;
+        dims[1]         = nc;
+        mx              = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxCOMPLEX );
 
 #if MX_HAS_INTERLEAVED_COMPLEX
         mxComplexDouble * data = reinterpret_cast<mxComplexDouble *>( mxGetData( mx ) );
         mwSize            k    = 0;
-        for ( unsigned j{ 0 }; j < nc; ++j )
+        for ( mwSize j{ 0 }; j < nc; ++j )
         {
-          for ( unsigned i{ 0 }; i < nr; ++i )
+          for ( mwSize i{ 0 }; i < nr; ++i )
           {
             complex_type val = gc.get_complex_at( i, j, where );
             data[k].real     = val.real();
@@ -776,9 +776,9 @@ namespace GC_namespace
         real_type * ptr = mxGetPr( mx );
         real_type * pti = mxGetPi( mx );
         mwSize      k   = 0;
-        for ( unsigned j{ 0 }; j < nc; ++j )
+        for ( mwSize j{ 0 }; j < nc; ++j )
         {
-          for ( unsigned i{ 0 }; i < nr; ++i )
+          for ( mwSize i{ 0 }; i < nr; ++i )
           {
             complex_type val = gc.get_complex_at( i, j, where );
             ptr[k]           = val.real();
@@ -791,10 +791,10 @@ namespace GC_namespace
       break;
       case GC_type::VECTOR:
       {
-        unsigned const nelems = gc.get_num_elements();
-        dims[1]               = mwSize( nelems );
-        mx                    = mxCreateCellMatrix( dims[0], dims[1] );
-        for ( unsigned i = 0; i < nelems; ++i )
+        mwSize const nelems = static_cast<mwSize>( gc.get_num_elements() );
+        dims[1]             = nelems;
+        mx                  = mxCreateCellMatrix( dims[0], dims[1] );
+        for ( mwSize i = 0; i < nelems; ++i )
         {
           mxArray * mxi = nullptr;
           GenericContainer_to_mxArray( gc[i], mxi );
@@ -806,7 +806,7 @@ namespace GC_namespace
       {
         map_type const &     mappa = gc.get_map();
         vector<char const *> fieldnames;
-        GC_ASSERT(
+        GC_assert(
           mappa.size() <= static_cast<size_t>( std::numeric_limits<int>::max() ),
           "GenericContainer_to_mxArray: too many fields for MATLAB struct"
         );

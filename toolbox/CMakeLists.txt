@@ -16,16 +16,57 @@
 
 cmake_minimum_required( VERSION 3.14 )
 
-project( Splines )
+option( UTILS_GIT_VERSION   "Get version from GIT command"           ON )
+option( UTILS_ENABLE_TESTS  "Enable compilation of testing targets"  ON )
+option( UTILS_BUILD_SHARED  "Enable shared option compilation"       ON )
+option( UTILS_INSTALL_LOCAL "Enable installation on local directory" ON )
+option( UTILS_TWEAK_VERSION_IS_TIMESTAMP "Sets tweak version to timestamp" OFF )
 
-include(./cmake_utils/CMakeLists-common.txt)
+set( TARGETS_TO_BE_INSTALLED )
+set( CMAKE_INSTALL_MESSAGE         NEVER )
+set( CMAKE_EXPORT_COMPILE_COMMANDS TRUE )
+set( CMAKE_VERBOSE_MAKEFILE        FALSE )
+set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE )
+set( CMAKE_CXX_STANDARD_REQUIRED ON )
+set( CMAKE_CXX_STANDARD 17 )
+set( CMAKE_INSTALL_RPATH $ORIGIN )
+set( CMAKE_BUILD_WITH_INSTALL_RPATH ON )
 
-# Fix the version warning by providing a default version
-if(NOT EB_PROJECT_VERSION)
-    set(EB_PROJECT_VERSION "1.1.5")
+if( NOT UNIX )
+  set( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
 endif()
 
-project( ${PROJECT_NAME} VERSION ${EB_PROJECT_VERSION} )
+add_compile_definitions(_USE_MATH_DEFINES)
+
+set(
+  UTILS_CURRENT_VERSION "1.0"
+  CACHE STRING "Default project version, if not taken from git"
+)
+
+if ( UTILS_GIT_VERSION AND NOT WIN32 )
+  execute_process(
+    COMMAND git describe --tags --abbrev=0
+    OUTPUT_VARIABLE UTILS_PROJECT_VERSION
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+endif()
+
+if ( NOT UTILS_PROJECT_VERSION )
+  set( UTILS_BUILD_TIMESTAMP "0" )
+  if( UTILS_TWEAK_VERSION_IS_TIMESTAMP )
+    string(TIMESTAMP UTILS_BUILD_TIMESTAMP "%y%m%d%H")
+  endif()
+  set( UTILS_PROJECT_VERSION "${UTILS_CURRENT_VERSION}.${UTILS_BUILD_TIMESTAMP}" )
+endif()
+
+project( Splines VERSION ${UTILS_PROJECT_VERSION} )
+
+if ( UTILS_INSTALL_LOCAL )
+  set( CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY} )
+endif()
+
+message("${PROJECT_NAME} current version = v${UTILS_PROJECT_VERSION}")
 
 if ( NOT DEFINED CMAKE_BUILD_TYPE )
   set( CMAKE_BUILD_TYPE Release )
@@ -66,13 +107,140 @@ if ( (UNIX OR LINUX) AND NOT APPLE )
   set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -static-libgcc -Wl,--no-undefined" )
 endif()
 
-include(./cmake_utils/CMakeLists-cflags.txt)
-include(./cmake_utils/CMakeLists-utilities.txt)
+set(COMMON_CXX_FLAGS
+  "-pedantic"
+  "-Wall"
+  "-Wextra"
+  "-Wshadow"
+  "-Wnon-virtual-dtor"
+  "-Wold-style-cast"
+  "-Wcast-align"
+  "-Wunused"
+  "-Woverloaded-virtual"
+  "-Wpedantic"
+  "-Wconversion"
+  "-Wsign-conversion"
+  "-Wdouble-promotion"
+  "-Wformat=2"
+  "-Wimplicit-fallthrough"
+  "-Wreturn-local-addr"
+)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  list(APPEND COMMON_CXX_FLAGS
+    "-Wmisleading-indentation"
+    "-Wduplicated-cond"
+    "-Wduplicated-branches"
+    "-Wlogical-op"
+    "-Wnull-dereference"
+    "-Wuseless-cast"
+  )
+endif()
+
+string(JOIN " " COMMON_CXX_FLAGS_STR ${COMMON_CXX_FLAGS})
+
+set(MSVC_COMPILE_FLAGS
+  "/permissive"
+  "/W4"
+  "/w14242"
+  "/w14254"
+  "/w14263"
+  "/w14265"
+  "/w14287"
+  "/we4289"
+  "/w14296"
+  "/w14311"
+  "/w14545"
+  "/w14546"
+  "/w14547"
+  "/w14549"
+  "/w14555"
+  "/w14619"
+  "/w14640"
+  "/w14826"
+  "/w14905"
+  "/w14906"
+  "/w14928"
+  "/external:W0"
+  "/external:anglebrackets"
+  "/external:templates-compat"
+)
+
+string(JOIN " " MSVC_COMPILE_FLAGS_STR ${MSVC_COMPILE_FLAGS})
+
+set( VS_DEFINE  "/D_WINDOWS /D_SCL_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC" )
+set( VS_FLAGS   "/nologo /std:c++17 /utf-8 /GS /Gy /GF /EHsc /bigobj" )
+
+if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
+  set( CMAKE_CXX_FLAGS         "-std=c++17 ${COMMON_CXX_FLAGS_STR}" )
+  set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -O2 -g " )
+  set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -ggdb " )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+  set( CMAKE_CXX_FLAGS         "-std=c++17 -stdlib=libc++ ${COMMON_CXX_FLAGS_STR}" )
+  set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -Os -g -fcolor-diagnostics " )
+  set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -gfull -fcolor-diagnostics " )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+  set( CMAKE_CXX_FLAGS         " ${MSVC_COMPILE_FLAGS_STR} ${VS_DEFINE} /sdl" )
+  set( CMAKE_CXX_FLAGS_RELEASE " ${VS_FLAGS} /O2 /MD /Zo " )
+  set( CMAKE_CXX_FLAGS_DEBUG   " ${VS_FLAGS} /Od /Ob0 /MDd /guard:cf /Zi /DEBUG:FULL " )
+else()
+  message( FATAL_ERROR "Unsupported compiler ${CMAKE_CXX_COMPILER_ID}" )
+endif()
+
+set( CMAKE_C_FLAGS         "" )
+set( CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} )
+set( CMAKE_C_FLAGS_DEBUG   ${CMAKE_CXX_FLAGS_DEBUG} )
+
+function(toolbox_artifacts_suffix VAR_NAME BUILD_STATIC)
+  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(suffix "_debug")
+  else()
+    set(suffix "")
+  endif()
+  if ( ${BUILD_STATIC} )
+    set(suffix "_static${suffix}")
+  endif()
+  if(APPLE)
+    set( ${VAR_NAME} _osx${suffix} PARENT_SCOPE )
+  elseif(MINGW)
+    set( ${VAR_NAME} _mingw${suffix} PARENT_SCOPE )
+  elseif(UNIX)
+    set( ${VAR_NAME} _linux${suffix} PARENT_SCOPE )
+  else()
+    set( ${VAR_NAME} "_win_${BITS}${suffix}" PARENT_SCOPE )
+  endif()
+endfunction()
+
+function(toolbox_final_messages)
+  message(STATUS "C compiler                  = ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER}")
+  message(STATUS "C++ compiler                = ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER}")
+  message(STATUS "CMAKE_CXX_FLAGS_RELEASE     = ${CMAKE_CXX_FLAGS_RELEASE}")
+  message(STATUS "CMAKE_CXX_FLAGS             = ${CMAKE_CXX_FLAGS}")
+  message(STATUS "CMAKE_C_FLAGS_RELEASE       = ${CMAKE_C_FLAGS_RELEASE}")
+  message(STATUS "CMAKE_C_FLAGS               = ${CMAKE_C_FLAGS}")
+  message(STATUS "CMAKE_SYSTEM_NAME           = ${CMAKE_SYSTEM_NAME}")
+  message(STATUS "CMAKE_SYSTEM_PROCESSOR      = ${CMAKE_SYSTEM_PROCESSOR}")
+  if(APPLE)
+    message( STATUS "CMAKE_OSX_SYSROOT           = ${CMAKE_OSX_SYSROOT}" )
+    message( STATUS "CMAKE_OSX_ARCHITECTURES     = ${CMAKE_OSX_ARCHITECTURES}" )
+    message( STATUS "CMAKE_OSX_DEPLOYMENT_TARGET = ${CMAKE_OSX_DEPLOYMENT_TARGET}" )
+  endif()
+  message(STATUS "SOURCES = ${SOURCES}")
+  message(STATUS "HEADERS = ${HEADERS}")
+  message(STATUS "TARGETS_TO_BE_INSTALLED  = ${TARGETS_TO_BE_INSTALLED}")
+  message(STATUS "CMAKE_HOME_DIRECTORY     = ${CMAKE_HOME_DIRECTORY}")
+  message(STATUS "CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+  message(STATUS "CMAKE_INSTALL_PREFIX     = ${CMAKE_INSTALL_PREFIX}")
+  message(STATUS "UTILS_GIT_VERSION   = ${UTILS_GIT_VERSION}")
+  message(STATUS "UTILS_ENABLE_TESTS  = ${UTILS_ENABLE_TESTS}")
+  message(STATUS "UTILS_BUILD_SHARED  = ${UTILS_BUILD_SHARED}")
+  message(STATUS "UTILS_INSTALL_LOCAL = ${UTILS_INSTALL_LOCAL}")
+endfunction()
 
 # Evaluating the suffix to append to target built by this CMake file
-utils_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
+toolbox_artifacts_suffix(ARTIFACTS_STATIC_SUFFIX TRUE)
 if( UTILS_BUILD_SHARED )
-  utils_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
+  toolbox_artifacts_suffix(ARTIFACTS_DYNAMIC_SUFFIX FALSE)
 endif()
 
 message( STATUS "Compiler used: ${CMAKE_CXX_COMPILER_ID}" )
@@ -103,6 +271,8 @@ foreach(F ${S})
   file( RELATIVE_PATH RF ${CMAKE_CURRENT_SOURCE_DIR} "${F}" )
   list( APPEND SOURCES ${RF} )
 endforeach(F ${S})
+
+list(FILTER SOURCES EXCLUDE REGEX "Utils_nonlinear_system_tests\\.cc$")
 
 #   _  _             _
 #  | || |___ __ _ __| |___ _ _ ___
@@ -138,7 +308,7 @@ endforeach(F ${S})
 list(FILTER PRECOMPILED_HEADERS EXCLUDE REGEX "\.DS")
 
 # extra include directory for compilation
-include_directories( src src_lib src/Utils )
+include_directories( src src/Splines src_lib src/Utils src/Utils/3rd )
 
 message( STATUS "SOURCES = ${SOURCES}" )
 
@@ -149,13 +319,13 @@ message( STATUS "SOURCES = ${SOURCES}" )
 #                |___/
 #
 
-utils_final_messages()
+toolbox_final_messages()
 
 add_library( Splines STATIC ${SOURCES} )
 
-# Set C++17 for the main library
+# GenericContainer now requires C++20.
 set_target_properties(Splines PROPERTIES
-    CXX_STANDARD 17
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 )
@@ -187,8 +357,8 @@ set( EXTRA_LIBS ${EXTRA_LIBS} Splines )
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
-# Set C++ standard to 17 for C++ files only
-set (CMAKE_CXX_STANDARD 17)
+# Set C++ standard to 20 for C++ files only
+set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 
@@ -236,7 +406,7 @@ function(add_mex_target MEX_NAME)
     set_target_properties(mex_${MEX_NAME} PROPERTIES
         PREFIX ""
         OUTPUT_NAME "${MEX_NAME}${MEX_SUFFIX}"  # Nome completo con suffisso
-        CXX_STANDARD 17
+        CXX_STANDARD 20
         CXX_STANDARD_REQUIRED ON
         CXX_EXTENSIONS OFF
         BUNDLE TRUE
@@ -247,8 +417,10 @@ function(add_mex_target MEX_NAME)
         PRIVATE 
         ${Matlab_INCLUDE_DIRS}
         src 
+        src/Splines
         src_lib 
         src/Utils
+        src/Utils/3rd
     )
     
     # Aggiungi le definizioni di compilazione per MEX

@@ -62,7 +62,8 @@ current segment instead of re-searching, ~3-4x faster than the scalar loop.
 ## Building
 
 Requires **CMake ≥ 3.25** and a **C++20** compiler (Clang, GCC, or MSVC).
-All dependencies are fetched automatically via `FetchContent`:
+Dependencies are resolved from sibling checkouts when available, otherwise
+they are fetched automatically via `FetchContent`:
 [nlohmann/json](https://github.com/nlohmann/json),
 [GenericContainer](https://github.com/pbosetti/GenericContainer),
 [UtilsLite](https://github.com/pbosetti/UtilsLite), and
@@ -95,6 +96,11 @@ Useful configure-time options:
 | `SPLINES_INSTALL` | `ON` (top-level) | Generate install/package rules |
 | `SPLINES_BUILD_BENCHMARKS` | `ON` (top-level) | Build `bin/bench_eval` (micro-benchmark, run manually) |
 | `SPLINES_STRICT_WARNINGS` | `OFF` | Compile the Splines target with `-Wconversion`/`-Wsign-conversion`/`-Wshadow`/`-Wdouble-promotion` (GCC/Clang) |
+| `SPLINES_UPDATE_3RDPARTY` | `ON` (top-level) | Refresh `lib3rd/include` from the resolved dependency trees at configure time |
+
+`lib3rd/lib` still receives the compiled third-party libraries as part of the
+normal build; `lib3rd/include` is now managed by `cmake/Update3rdParties.cmake`
+instead of a post-build `collect_dependencies` target.
 
 ## Using it from your own CMake project
 
