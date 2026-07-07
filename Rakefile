@@ -74,18 +74,6 @@ end
 desc "default task --> build"
 task :default => :build
 
-desc "git submodule reset"
-task :git_submodules do
-  #sh "git clean -d -x -f"
-  sh "git reset --hard"
-  sh "git submodule update --init --recursive"
-  sh "git submodule sync --recursive"
-  sh "git submodule foreach --recursive git reset --hard"
-  sh "git submodule foreach --recursive git clean -d -x -f"
-  # estrae i sottomoduli alla corretta versione!
-  sh "git submodule update --checkout --recursive"
-end
-
 desc "git clean reset"
 task :git_clean do
   sh "git reset --hard"

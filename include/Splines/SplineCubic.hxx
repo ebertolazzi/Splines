@@ -65,7 +65,7 @@ namespace Splines
    * @note Il sistema tridiagonale viene risolto usando l'algoritmo di Thomas
    * @note Per condizioni NOT_A_KNOT viene usata una correzione iterativa (Sherman-Morrison)
    *
-   * @throw UTILS_ASSERT Se npts < 2
+   * @throw SPLINE_assert Se npts < 2
    *
    * @par Dettagli matematici
    * La spline cubica su [X[i], X[i+1]] è definita come:
@@ -179,8 +179,8 @@ namespace Splines
      * 3. Costruisce una spline cubica per ogni segmento
      * 4. Applica le boundary conditions appropriate
      *
-     * @throw UTILS_ASSERT Se npts < 2
-     * @throw UTILS_ASSERT Se i dati contengono NaN
+     * @throw SPLINE_assert Se npts < 2
+     * @throw SPLINE_assert Se i dati contengono NaN
      *
      * @note La spline viene costruita anche per dati non monotoni,
      *       dividendoli automaticamente in segmenti monotoni
@@ -203,7 +203,7 @@ namespace Splines
      *                 "parabolic", "not_a_knot")
      * - `"bc_end"`: boundary condition finale (stessi valori di bc_begin)
      *
-     * @throw UTILS_ERROR Se i campi richiesti mancano o hanno formato errato
+     * @throw SPLINE_error Se i campi richiesti mancano o hanno formato errato
      * @warning Emette warning se campi opzionali mancano (usa default)
      * @warning Emette warning se ci sono campi non riconosciuti
      *

@@ -49,26 +49,26 @@ namespace Splines
     void check_compatibility() const
     {
       // check compatibility
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_surf0.x_min() == m_surf1.x_min(),
         "Spline2Dblend must have the same initial-x, x_min0={}, x_min1={}, difference={}\n",
         m_surf0.x_min(),
         m_surf1.x_min(),
         m_surf0.x_min() - m_surf1.x_min() );
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_surf0.x_max() == m_surf1.x_max(),
         "Spline2Dblend must have the same final-x, x_max0={}, x_max1={}, difference={}\n",
         m_surf0.x_max(),
         m_surf1.x_max(),
         m_surf0.x_max() - m_surf1.x_max() );
       // check compatibility
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_surf0.y_min() == m_surf1.y_min(),
         "Spline2Dblend must have the same initial-y, y_min0={}, y_min1={}, difference={}\n",
         m_surf0.y_min(),
         m_surf1.y_min(),
         m_surf0.y_min() - m_surf1.y_min() );
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_surf0.y_max() == m_surf1.y_max(),
         "Spline2Dblend must have the same final-y, y_max0={}, y_max1={}, difference={}\n",
         m_surf0.y_max(),
@@ -85,7 +85,7 @@ namespace Splines
     //!
     //! \param name the name of the spline
     //!
-    explicit Spline2Dblend( string_view n ) : m_surf0( fmt::format( "{}_0", n ) ), m_surf1( fmt::format( "{}_1", n ) )
+    explicit Spline2Dblend( string_view n ) : m_surf0( std::format( "{}_0", n ) ), m_surf1( std::format( "{}_1", n ) )
     {
     }
 

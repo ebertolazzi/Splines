@@ -24,7 +24,7 @@ namespace Splines
 
   void SplineSet::setup( GenericContainer const & gc )
   {
-    string const where = fmt::format( "SplineSet[{}]::setup( gc ): ", m_name );
+    string const where = std::format( "SplineSet[{}]::setup( gc ): ", m_name );
 
     // ===================================================================
     // FASE 1: Raccolta e tracciamento delle chiavi disponibili
@@ -62,7 +62,7 @@ namespace Splines
     m_nspl = static_cast<integer>( spline_type_vec.size() );
 
     // Validazione: almeno una spline richiesta
-    UTILS_ASSERT( m_nspl > 0, "{} expected at least one spline, got nspl = {}\n", where, m_nspl );
+    SPLINE_assert( m_nspl > 0, "{} expected at least one spline, got nspl = {}\n", where, m_nspl );
 
     // Conversione da stringhe a enum SplineType1D
     stype.resize( m_nspl );
@@ -86,7 +86,7 @@ namespace Splines
       gc_headers.copyto_vec_string( headers, ( where + ", reading 'headers'" ) );
 
       // Validazione: numero di headers deve corrispondere al numero di spline
-      UTILS_ASSERT(
+      SPLINE_assert(
         headers.size() == static_cast<size_t>( m_nspl ),
         "{} field 'headers' expected to be of size {} found of size {}\n",
         where,
@@ -96,12 +96,12 @@ namespace Splines
       // Validazione: nessun header può essere vuoto o null
       for ( integer spl = 0; spl < m_nspl; ++spl )
       {
-        UTILS_ASSERT( !headers[spl].empty(), "{} header[{}] cannot be empty\n", where, spl );
+        SPLINE_assert( !headers[spl].empty(), "{} header[{}] cannot be empty\n", where, spl );
       }
     }
     else if ( GC_type::MAP != gc_ydata.get_type() )
     {
-      UTILS_ERROR( "{} missing required field 'headers'\n", where );
+      SPLINE_error( "{} missing required field 'headers'\n", where );
     }
 
     // ===================================================================
@@ -111,12 +111,12 @@ namespace Splines
     m_npts = static_cast<integer>( X.size() );
 
     // Validazione: almeno 2 punti necessari per una spline
-    UTILS_ASSERT( m_npts > 1, "{} expected at least 2 points, got npts = {}\n", where, m_npts );
+    SPLINE_assert( m_npts > 1, "{} expected at least 2 points, got npts = {}\n", where, m_npts );
 
     // Validazione: X deve essere strettamente crescente
     for ( integer i = 1; i < m_npts; ++i )
     {
-      UTILS_ASSERT(
+      SPLINE_assert(
         X[i] > X[i - 1],
         "{} xdata must be strictly increasing: X[{}] = {} <= X[{}] = {}\n",
         where,
@@ -148,7 +148,7 @@ namespace Splines
         gc_ydata.copyto_vec_real( data, ( where + "reading 'ydata'" ) );
 
         // Deve esserci esattamente una spline
-        UTILS_ASSERT(
+        SPLINE_assert(
           m_nspl == 1,
           "{} number of splines [{}] is incompatible with ydata as vector (expected 1 spline)\n",
           where,
@@ -156,7 +156,7 @@ namespace Splines
 
         // Numero di punti deve corrispondere (o n-1 per CONSTANT)
         integer expected_npts = ( stype[0] == SplineType1D::CONSTANT ) ? m_npts - 1 : m_npts;
-        UTILS_ASSERT(
+        SPLINE_assert(
           static_cast<size_t>( expected_npts ) == data.size(),
           "{} number of points [{}] differs from ydata size [{}] for spline type '{}'\n",
           where,
@@ -180,7 +180,7 @@ namespace Splines
         gc_ydata.copyto_mat_real( data, ( where + "reading 'ydata'" ) );
 
         // Numero colonne deve corrispondere al numero di spline
-        UTILS_ASSERT(
+        SPLINE_assert(
           static_cast<size_t>( m_nspl ) == data.num_cols(),
           "{} number of splines [{}] differs from ydata columns [{}]\n",
           where,
@@ -188,7 +188,7 @@ namespace Splines
           data.num_cols() );
 
         // Numero righe deve corrispondere al numero di punti
-        UTILS_ASSERT(
+        SPLINE_assert(
           static_cast<size_t>( m_npts ) == data.num_rows(),
           "{} number of points [{}] differs from ydata rows [{}]\n",
           where,
@@ -208,7 +208,7 @@ namespace Splines
         vector_type const & data = gc_ydata.get_vector();
 
         // Dimensione del vettore deve corrispondere al numero di spline
-        UTILS_ASSERT(
+        SPLINE_assert(
           static_cast<size_t>( m_nspl ) == data.size(),
           "{} field 'ydata' expected of size {} found of size {}\n",
           where,
@@ -227,7 +227,7 @@ namespace Splines
           datai.copyto_vec_real( Y[spl], msg1 );
 
           // Validazione dimensione per questa spline
-          UTILS_ASSERT(
+          SPLINE_assert(
             static_cast<size_t>( expected_npts ) == Y[spl].size(),
             "{} column {} of 'ydata' of type '{}' expected of size {} found of size {}\n",
             where,
@@ -247,7 +247,7 @@ namespace Splines
         map_type const & data = gc_ydata.get_map();
 
         // Dimensione mappa deve corrispondere al numero di spline
-        UTILS_ASSERT(
+        SPLINE_assert(
           data.size() == static_cast<size_t>( m_nspl ),
           "{} field 'ydata' expected of size {} found of size {}\n",
           where,
@@ -264,14 +264,14 @@ namespace Splines
           for ( auto const & [name, container] : data )
           {
             headers.emplace_back( name );
-            UTILS_ASSERT( !name.empty(), "{} spline name cannot be empty in ydata map\n", where );
+            SPLINE_assert( !name.empty(), "{} spline name cannot be empty in ydata map\n", where );
 
             integer expected_npts = m_npts;
             if ( stype[spl] == SplineType1D::CONSTANT ) { --expected_npts; }
 
             container.copyto_vec_real( Y[spl], msg1 );
 
-            UTILS_ASSERT(
+            SPLINE_assert(
               static_cast<size_t>( expected_npts ) == Y[spl].size(),
               "{} column '{}' of 'ydata' of type '{}' expected of size {} found of size {}\n",
               where,
@@ -290,15 +290,15 @@ namespace Splines
             string const & name = headers[spl];
             auto const     it   = data.find( name );
 
-            UTILS_ASSERT( !name.empty(), "{} header[{}] cannot be empty\n", where, spl );
-            UTILS_ASSERT( it != data.end(), "{} column '{}' listed in 'headers' was not found in 'ydata'\n", where, name );
+            SPLINE_assert( !name.empty(), "{} header[{}] cannot be empty\n", where, spl );
+            SPLINE_assert( it != data.end(), "{} column '{}' listed in 'headers' was not found in 'ydata'\n", where, name );
 
             integer expected_npts = m_npts;
             if ( stype[spl] == SplineType1D::CONSTANT ) { --expected_npts; }
 
             it->second.copyto_vec_real( Y[spl], msg1 );
 
-            UTILS_ASSERT(
+            SPLINE_assert(
               static_cast<size_t>( expected_npts ) == Y[spl].size(),
               "{} column '{}' of 'ydata' of type '{}' expected of size {} found of size {}\n",
               where,
@@ -315,7 +315,7 @@ namespace Splines
       // CASO DEFAULT: Tipo non supportato
       // ---------------------------------------------------------------
       default:
-        UTILS_ERROR(
+        SPLINE_assert( false, 
           "{} field 'ydata' expected to be of type:\n"
           "  - vec_[int/long/real]_type (single spline)\n"
           "  - mat_[int/long/real]_type (matrix of splines)\n"
@@ -336,7 +336,7 @@ namespace Splines
       keywords.erase( "ypdata" );
 
       // Le derivate devono essere fornite come MAP (nome → valori)
-      UTILS_ASSERT(
+      SPLINE_assert(
         GC_type::MAP == gc_ypdata.get_type(),
         "{} field 'ypdata' expected to be of type 'map_type' found: '{}'\n",
         where,
@@ -358,7 +358,7 @@ namespace Splines
       {
         // Cerca la posizione corrispondente negli headers
         auto it_pos = h_to_pos.find( name );
-        UTILS_ASSERT(
+        SPLINE_assert(
           it_pos != h_to_pos.end(),
           "{} column '{}' of 'ypdata' does not match any spline name in headers\n",
           where,
@@ -374,7 +374,7 @@ namespace Splines
 
         // FIXED: Confronta con Yp[spl].size() invece di Y[spl].size()
         // FIXED: Typo "or type" → "of type"
-        UTILS_ASSERT(
+        SPLINE_assert(
           static_cast<size_t>( expected_npts ) == Yp[spl].size(),
           "{} column '{}' of 'ypdata' of type '{}' expected of size {} found of size {}\n",
           where,
@@ -441,7 +441,7 @@ namespace Splines
 
       // Validazione: una configurazione boundary per ogni spline
       // FIXED: Ordine corretto dei parametri nel messaggio
-      UTILS_ASSERT(
+      SPLINE_assert(
         ne == m_nspl,
         "{} field 'boundary' expected a generic vector of size: {} but is of size: {}\n",
         where,
@@ -520,7 +520,7 @@ namespace Splines
             string{},
             []( string acc, string const & key ) { return acc.empty() ? key : acc + " " + key; } ) };
 
-          UTILS_WARNING( false, "{} spline N.{} of {} has unused boundary keys: {}\n", where, ispl, ne, unused_keys );
+          SPLINE_warning( false, "{} spline N.{} of {} has unused boundary keys: {}\n", where, ispl, ne, unused_keys );
         }
       }
     }
@@ -537,7 +537,7 @@ namespace Splines
         string{},
         []( string acc, string const & key ) { return acc.empty() ? key : acc + " " + key; } ) };
 
-      UTILS_WARNING( false, "{} unused configuration keys: {}\n", where, unused_keys );
+      SPLINE_warning( false, "{} unused configuration keys: {}\n", where, unused_keys );
     }
   }
 
@@ -550,15 +550,15 @@ namespace Splines
     real_type const * const Y[],
     real_type const * const Yp[] )
   {
-    string const msg = fmt::format( "SplineSet[{}]::build(...):", m_name );
+    string const msg = std::format( "SplineSet[{}]::build(...):", m_name );
 
     // Validazione input
-    UTILS_ASSERT( nspl > 0, "{} expected positive nspl = {}\n", msg, nspl );
-    UTILS_ASSERT( npts > 1, "{} expected npts = {} greater than 1", msg, npts );
-    UTILS_ASSERT( headers != nullptr, "{} headers array is null\n", msg );
-    UTILS_ASSERT( stype != nullptr, "{} stype array is null\n", msg );
-    UTILS_ASSERT( X != nullptr, "{} X array is null\n", msg );
-    UTILS_ASSERT( Y != nullptr, "{} Y array is null\n", msg );
+    SPLINE_assert( nspl > 0, "{} expected positive nspl = {}\n", msg, nspl );
+    SPLINE_assert( npts > 1, "{} expected npts = {} greater than 1", msg, npts );
+    SPLINE_assert( headers != nullptr, "{} headers array is null\n", msg );
+    SPLINE_assert( stype != nullptr, "{} stype array is null\n", msg );
+    SPLINE_assert( X != nullptr, "{} X array is null\n", msg );
+    SPLINE_assert( Y != nullptr, "{} Y array is null\n", msg );
 
     m_nspl = nspl;
     m_npts = npts;
@@ -575,7 +575,7 @@ namespace Splines
 
     for ( integer spl = 0; spl < nspl; ++spl )
     {
-      UTILS_ASSERT( headers[spl] != nullptr, "{} headers[{}] array is null\n", msg, spl );
+      SPLINE_assert( headers[spl] != nullptr, "{} headers[{}] array is null\n", msg, spl );
 
       switch ( stype[spl] )
       {
@@ -605,7 +605,7 @@ namespace Splines
         // Tipi non supportati
         case SplineType1D::SPLINE_SET:
         case SplineType1D::SPLINE_VEC:
-          UTILS_ERROR(
+          SPLINE_error(
             "{} At spline n.{} named {} cannot be done for type = {}\n",
             msg,
             spl,
@@ -636,7 +636,7 @@ namespace Splines
     // ===================================================================
     for ( integer spl = 0; spl < nspl; ++spl )
     {
-      UTILS_ASSERT( Y[spl] != nullptr, "{} Y[{}] array is null\n", msg, spl );
+      SPLINE_assert( Y[spl] != nullptr, "{} Y[{}] array is null\n", msg, spl );
 
       // Riferimenti ai puntatori per questa spline
       real_type *& pY   = m_Y[spl];
@@ -690,7 +690,7 @@ namespace Splines
           // Per HERMITE le derivate devono essere fornite dall'utente
           if ( stype[spl] == SplineType1D::HERMITE )
           {
-            UTILS_ASSERT(
+            SPLINE_assert(
               Yp != nullptr && Yp[spl] != nullptr,
               "{} At spline n.{} named {}\n"
               "expect to find derivative values",
@@ -859,7 +859,7 @@ namespace Splines
 
         case SplineType1D::SPLINE_SET:
         case SplineType1D::SPLINE_VEC:
-          UTILS_ERROR(
+          SPLINE_error(
             "{} At spline n.{} named {}\n"
             "{} not allowed as spline type\n"
             "in SplineSet::build for {}-th spline\n",

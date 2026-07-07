@@ -1212,7 +1212,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "BaseHermite Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "BaseHermite Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {

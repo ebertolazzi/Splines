@@ -44,9 +44,9 @@ namespace Splines
   class BiCubicSplineBase : public SplineSurf
   {
   protected:
-    MatC mDX;
-    MatC mDY;
-    MatC mDXY;
+    EigenMatrix mDX;
+    EigenMatrix mDY;
+    EigenMatrix mDXY;
 
     Spline_sub_type m_sub_type;
 

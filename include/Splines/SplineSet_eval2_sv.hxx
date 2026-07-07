@@ -10,8 +10,8 @@
  * \param[out] x Computed x-value such that spline[spl](x) = zeta
  * \param[out] vals Vector to store all spline values at computed x
  *
- * \throw UTILS_ASSERT if spline `spl` is not monotone
- * \throw UTILS_ASSERT if zeta is outside range of spline `spl`
+ * \throw SPLINE_assert if spline `spl` is not monotone
+ * \throw SPLINE_assert if zeta is outside range of spline `spl`
  */
 void eval2( integer const spl, real_type const zeta, real_type & x, vector<real_type> & vals ) const
 {
@@ -71,8 +71,8 @@ void eval2_DDD( integer const spl, real_type const zeta, real_type & x, vector<r
  * \param[in] zeta Target value of the independent spline
  * \param[out] vals Vector to store all spline values at computed x
  *
- * \throw UTILS_ASSERT if spline `spl` is not monotone
- * \throw UTILS_ASSERT if zeta is outside range of spline `spl`
+ * \throw SPLINE_assert if spline `spl` is not monotone
+ * \throw SPLINE_assert if zeta is outside range of spline `spl`
  */
 void eval2( integer const spl, real_type const zeta, vector<real_type> & vals ) const
 {

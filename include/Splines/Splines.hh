@@ -71,9 +71,8 @@ namespace Splines
   using ostream_type = basic_ostream<char>;
   using istream_type = basic_istream<char>;
 
-  using Vec  = Eigen::Array<real_type, Eigen::Dynamic, 1>;
-  using Mat  = Eigen::Array<real_type, Eigen::Dynamic, Eigen::Dynamic>;
-  using MatC = Eigen::Array<real_type, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+  using EigenVector = Eigen::Array<real_type, Eigen::Dynamic, 1>;
+  using EigenMatrix = Eigen::Array<real_type, Eigen::Dynamic, Eigen::Dynamic>;
 
   using Vec2   = Eigen::Matrix<real_type, 2, 1>;
   using Vec4   = Eigen::Matrix<real_type, 4, 1>;
@@ -82,6 +81,24 @@ namespace Splines
   using Mat4x4 = Eigen::Matrix<real_type, 4, 4>;
   using Mat6x6 = Eigen::Matrix<real_type, 6, 6>;
 
+  using VectorStride = Eigen::InnerStride<Eigen::Dynamic>;
+  using MatrixStride = Eigen::Stride<Eigen::Dynamic, Eigen::Dynamic>;
+
+  using MapVector        = Eigen::Map<EigenVector>;
+  using MapVectorC       = Eigen::Map<EigenVector const>;
+  using StridedMapVector = Eigen::Map<EigenVector, 0, VectorStride>;
+  using StridedMapVectorC = Eigen::Map<EigenVector const, 0, VectorStride>;
+
+  using MapMatrix        = Eigen::Map<EigenMatrix>;
+  using MapMatrixC       = Eigen::Map<EigenMatrix const>;
+  using StridedMapMatrix = Eigen::Map<EigenMatrix, 0, MatrixStride>;
+  using StridedMapMatrixC = Eigen::Map<EigenMatrix const, 0, MatrixStride>;
+
+  using RefVector  = Eigen::Ref<EigenVector, 0, VectorStride>;
+  using RefVectorC = Eigen::Ref<EigenVector const, 0, VectorStride>;
+  using RefMatrix  = Eigen::Ref<EigenMatrix, 0, MatrixStride>;
+  using RefMatrixC = Eigen::Ref<EigenMatrix const, 0, MatrixStride>;
+
   using GC_namespace::GC_type;
   using GC_namespace::map_type;
   using GC_namespace::mat_real_type;
@@ -89,6 +106,40 @@ namespace Splines
   using GC_namespace::vec_real_type;
   using GC_namespace::vec_string_type;
   using GC_namespace::vector_type;
+
+  template <typename... Args> inline void print( std::format_string<Args...> fmt, Args &&... args ) { std::cout << std::format( fmt, std::forward<Args>( args )... ); }
+
+  template <typename... Args> inline void eprint( std::format_string<Args...> fmt, Args &&... args ) { std::cerr << std::format( fmt, std::forward<Args>( args )... ); }
+
+  template <typename... Args> [[noreturn]] inline void SPLINE_error( std::format_string<Args...> fmt, Args &&... args )
+  { throw std::runtime_error( std::format( fmt, std::forward<Args>( args )... ) ); }
+
+  [[noreturn]] inline void SPLINE_error( std::string const & last_error ) { throw std::runtime_error( last_error ); }
+
+  template <typename... Args> inline void SPLINE_assert( bool cond, char const last_error[] )
+  {
+    if ( !cond ) SPLINE_error( std::string(last_error) );
+  }
+
+  template <typename... Args> inline void SPLINE_assert( bool cond, std::string const & last_error )
+  {
+    if ( !cond ) SPLINE_error( last_error );
+  }
+
+  template <typename... Args> inline void SPLINE_assert( bool cond, std::format_string<Args...> fmt, Args &&... args )
+  {
+    if ( !cond ) SPLINE_error( fmt, std::forward<Args>( args )... );
+  }
+
+  template <typename... Args> inline void SPLINE_warning( bool cond, std::string const & warn )
+  {
+    if ( !cond ) std::cout << warn;
+  }
+
+  template <typename... Args> inline void SPLINE_warning( bool cond, std::format_string<Args...> fmt, Args &&... args )
+  {
+    if ( !cond ) print( fmt, std::forward<Args>( args )... );
+  }
 
   void backtrace( ostream_type & );
 
@@ -873,7 +924,7 @@ namespace Splines
     {
       i_min_pos = i_max_pos = 0;
       x_min_pos = y_min = x_max_pos = y_max = 0;
-      UTILS_ERROR( "In spline: {} y_min_max not implemented\n", info() );
+      SPLINE_error( "In spline: {} y_min_max not implemented\n", info() );
     }
 
     //!
@@ -901,7 +952,7 @@ namespace Splines
       x_max_pos.clear();
       y_min.clear();
       y_max.clear();
-      UTILS_ERROR( "In spline: {} y_min_max not implemented\n", info() );
+      SPLINE_error( "In spline: {} y_min_max not implemented\n", info() );
     }
     ///@}
 
@@ -1006,7 +1057,7 @@ namespace Splines
     void setup( string const & file_name )
     {
       GenericContainer gc;
-      UTILS_ASSERT( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
+      SPLINE_assert( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
       setup( gc );
     }
 
@@ -1263,9 +1314,9 @@ namespace Splines
     //!
     [[nodiscard]] string info() const
     {
-      string res = fmt::format( "Spline `{}` of type: {} of order: {}", m_name, type_name(), order() );
+      string res = std::format( "Spline `{}` of type: {} of order: {}", m_name, type_name(), order() );
       if ( m_npts > 0 )
-        res += fmt::format( "\nx_min={:.5} x_max={:.5} y_min={:.5} y_max={:.5}", x_min(), x_max(), y_min(), y_max() );
+        res += std::format( "\nx_min={:.5} x_max={:.5} y_min={:.5} y_max={:.5}", x_min(), x_max(), y_min(), y_max() );
       return res;
     }
 
@@ -1294,7 +1345,7 @@ namespace Splines
     template <typename PointEval>
     void eval_batch( std::span<real_type const> x, std::span<real_type> y, PointEval f ) const
     {
-      UTILS_ASSERT(
+      SPLINE_assert(
         y.size() >= x.size(),
         "Spline[{}]::batch eval: output span ({}) smaller than input ({})",
         m_name, y.size(), x.size()

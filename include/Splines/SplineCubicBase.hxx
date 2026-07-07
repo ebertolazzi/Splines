@@ -49,7 +49,7 @@ namespace Splines
     //! Spline constructor.
     //!
     explicit CubicSplineBase( string_view name = "CubicSplineBase" )
-      : Spline( name ), m_mem_cubic( fmt::format( "CubicSplineBase[{}]::m_mem_cubic", name ) )
+      : Spline( name ), m_mem_cubic( std::format( "CubicSplineBase[{}]::m_mem_cubic", name ) )
     {
     }
 

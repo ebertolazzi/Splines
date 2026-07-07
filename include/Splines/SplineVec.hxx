@@ -196,7 +196,7 @@ namespace Splines
      * \param[in] dim  Number of spatial dimensions (must be > 0)
      * \param[in] npts Number of interpolation points (must be > 1)
      *
-     * \throw UTILS_ASSERT if dim ≤ 0 or npts ≤ 1
+     * \throw SPLINE_assert if dim ≤ 0 or npts ≤ 1
      *
      * \par Memory Allocation Strategy:
      * - Single allocation for all knots and values: (2*dim + 1)*npts real_type values
@@ -265,8 +265,8 @@ namespace Splines
      */
     explicit SplineVec( string_view name = "SplineVec" )
       : m_name( name )
-      , m_mem( fmt::format( "SplineVec[{}]::m_mem", name ) )
-      , m_mem_p( fmt::format( "SplineVec[{}]::m_mem_p", name ) )
+      , m_mem( std::format( "SplineVec[{}]::m_mem", name ) )
+      , m_mem_p( std::format( "SplineVec[{}]::m_mem_p", name ) )
     { m_search.setup( &m_name, &m_npts, &m_X, &m_curve_is_closed, &m_curve_can_extend ); }
 
     /**
@@ -1234,7 +1234,7 @@ namespace Splines
      * - Guaranteed C¹ continuity
      * - No overshoot or oscillations for well-behaved data
      *
-     * \throw UTILS_ASSERT if number of points < 2
+     * \throw SPLINE_assert if number of points < 2
      *
      * \par Reference:
      * Catmull, E., & Rom, R. (1974). "A class of local interpolating splines."
@@ -1269,7 +1269,7 @@ namespace Splines
      * - If "transposed" is true: matrix is dim × npts (columns are points)
      * - If "transposed" is false or absent: matrix is npts × dim (rows are points)
      *
-     * \throw UTILS_ASSERT if required data is missing or malformed
+     * \throw SPLINE_assert if required data is missing or malformed
      */
     void setup( GenericContainer const & gc );
 
@@ -1294,7 +1294,7 @@ namespace Splines
      * \note This method assumes at least 2D spline. For higher dimensions,
      *       only the first two components are considered (projection onto xy-plane).
      *
-     * \throw UTILS_ASSERT if spline dimension < 2
+     * \throw SPLINE_assert if spline dimension < 2
      *
      * \see curvature_D() for curvature derivative
      */
@@ -1318,7 +1318,7 @@ namespace Splines
      * \note This method assumes at least 2D spline. For higher dimensions,
      *       only the first two components are considered.
      *
-     * \throw UTILS_ASSERT if spline dimension < 2
+     * \throw SPLINE_assert if spline dimension < 2
      *
      * \see curvature() for curvature value
      */
@@ -1346,7 +1346,7 @@ namespace Splines
      * \par Example Output:
      * "SplineVec[my_curve] n.points=10 dim=3"
      */
-    string info() const { return fmt::format( "SplineVec[{}] n.points={}  dim={}", name(), m_npts, m_dim ); }
+    string info() const { return std::format( "SplineVec[{}] n.points={}  dim={}", name(), m_npts, m_dim ); }
 
     /**
      * \brief Print spline information to output stream

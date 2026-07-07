@@ -76,7 +76,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "Spline2DblendMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "Spline2DblendMexWrapper Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {
@@ -124,7 +124,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "Spline2DblendMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "Spline2DblendMexWrapper Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {
@@ -324,7 +324,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "Spline2DMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "Spline2DMexWrapper Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {

@@ -33,8 +33,8 @@ namespace Splines
 
   void SplineVec::allocate( integer const dim, integer const npts )
   {
-    UTILS_ASSERT( dim > 0, "SplineVec[{}]::build expected positive dim = {}\n", m_name, dim );
-    UTILS_ASSERT( npts > 1, "SplineVec[{}]::build expected npts = {} greather than 1\n", m_name, npts );
+    SPLINE_assert( dim > 0, "SplineVec[{}]::build expected positive dim = {}\n", m_name, dim );
+    SPLINE_assert( npts > 1, "SplineVec[{}]::build expected npts = {} greather than 1\n", m_name, npts );
     m_dim  = dim;
     m_npts = npts;
 
@@ -463,7 +463,7 @@ namespace Splines
 
   void SplineVec::catmull_rom()
   {
-    UTILS_ASSERT( m_npts >= 2, "catmull_rom, npts={} must be >= 2\n", m_npts );
+    SPLINE_assert( m_npts >= 2, "catmull_rom, npts={} must be >= 2\n", m_npts );
 
     integer const n = m_npts - 1;
     integer const d = m_dim;
@@ -498,7 +498,7 @@ namespace Splines
 
   void SplineVec::setup( GenericContainer const & gc )
   {
-    string const where = fmt::format( "SplineVec[{}]::setup( gc ):", m_name );
+    string const where = std::format( "SplineVec[{}]::setup( gc ):", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) { keywords.insert( pair.first ); }
@@ -530,7 +530,7 @@ namespace Splines
         for ( integer j = 0; j < m_npts; ++j ) m_Y[spl][j] = Y( j, spl );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,
@@ -548,7 +548,7 @@ namespace Splines
 
   real_type SplineVec::curvature( real_type x ) const
   {
-    UTILS_ASSERT( m_dim == 2, "SplineVec::curvature(x={}) defined only for dim=2 found {}", x, m_dim );
+    SPLINE_assert( m_dim == 2, "SplineVec::curvature(x={}) defined only for dim=2 found {}", x, m_dim );
     real_type D[2], DD[2];
     this->eval_D( x, D, 1 );
     this->eval_DD( x, DD, 1 );
@@ -566,7 +566,7 @@ namespace Splines
 
   real_type SplineVec::curvature_D( real_type x ) const
   {
-    UTILS_ASSERT( m_dim == 2, "SplineVec::curvature(x={}) defined only for dim=2 found {}", x, m_dim );
+    SPLINE_assert( m_dim == 2, "SplineVec::curvature(x={}) defined only for dim=2 found {}", x, m_dim );
     real_type D[2], DD[2], DDD[2];
     this->eval_D( x, D, 1 );
     this->eval_DD( x, DD, 1 );

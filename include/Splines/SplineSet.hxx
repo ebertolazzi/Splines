@@ -289,9 +289,9 @@ namespace Splines
      * \param[out] x Computed x-value such that spline[spl](x) = zeta
      * \return Pointer to the spline used as independent variable
      *
-     * \throw UTILS_ASSERT if spline index is invalid
-     * \throw UTILS_ASSERT if spline is not monotone
-     * \throw UTILS_ASSERT if zeta is outside spline range
+     * \throw SPLINE_assert if spline index is invalid
+     * \throw SPLINE_assert if spline is not monotone
+     * \throw SPLINE_assert if zeta is outside spline range
      *
      * \par Algorithm:
      * 1. Verify spline is monotone
@@ -304,9 +304,9 @@ namespace Splines
      */
     Spline const * intersect( integer const spl, real_type const zeta, real_type & x ) const
     {
-      string msg = fmt::format( "SplineSet[{}]::intersect(...):", m_name );
-      UTILS_ASSERT( spl >= 0 && spl < m_nspl, "{}\nSpline n.{} is not in SplineSet", msg, spl );
-      UTILS_ASSERT(
+      string msg = std::format( "SplineSet[{}]::intersect(...):", m_name );
+      SPLINE_assert( spl >= 0 && spl < m_nspl, "{}\nSpline n.{} is not in SplineSet", msg, spl );
+      SPLINE_assert(
         m_is_monotone[spl] > 0,
         "{}\nSpline n.{} is not monotone and can't be used as independent",
         msg,
@@ -314,7 +314,7 @@ namespace Splines
       Spline * S = m_splines[spl].get();
       // cerco intervallo intersezione
       real_type const * Y = m_Y[spl];
-      UTILS_ASSERT(
+      SPLINE_assert(
         zeta >= Y[0] && zeta <= Y[m_npts - 1],
         "{} evaluation at zeta = {} is out of range: [{},{}]\n",
         msg,
@@ -365,9 +365,9 @@ namespace Splines
      */
     explicit SplineSet( string_view name = "SplineSet" )
       : m_name( name )
-      , m_mem( fmt::format( "SplineSet[{}]::m_mem", name ) )
-      , m_mem_p( fmt::format( "SplineSet[{}]::m_mem_p", name ) )
-      , m_mem_int( fmt::format( "SplineSet[{}]::m_mem_int", name ) )
+      , m_mem( std::format( "SplineSet[{}]::m_mem", name ) )
+      , m_mem_p( std::format( "SplineSet[{}]::m_mem_p", name ) )
+      , m_mem_int( std::format( "SplineSet[{}]::m_mem_int", name ) )
     {
     }
 
@@ -403,7 +403,7 @@ namespace Splines
      * \param[in] i Index of the spline (0 ≤ i < m_nspl)
      * \return Name of the i-th spline
      *
-     * \throw UTILS_ASSERT if i is out of bounds
+     * \throw SPLINE_assert if i is out of bounds
      */
     string_view header( integer const i ) const { return m_splines[i]->name(); }
 
@@ -436,7 +436,7 @@ namespace Splines
     string name_list() const
     {
       string tmp = "[ ";
-      for ( integer i = 0; i < m_nspl; ++i ) tmp += fmt::format( "'{}' ", m_splines[i]->name() );
+      for ( integer i = 0; i < m_nspl; ++i ) tmp += std::format( "'{}' ", m_splines[i]->name() );
       tmp += "]";
       return tmp;
     }
@@ -475,12 +475,12 @@ namespace Splines
      * \param[in] hdr Name of the spline to find
      * \return Index of the spline (0 ≤ index < m_nspl)
      *
-     * \throw UTILS_ASSERT if spline name not found
+     * \throw SPLINE_assert if spline name not found
      */
     integer get_position( string_view hdr ) const
     {
       integer const pos = m_header_to_position.at( hdr.data() );
-      UTILS_ASSERT(
+      SPLINE_assert(
         pos >= 0 && pos < m_nspl,
         "SplineSet[{}]::get_position(\"{}\") not found!\n"
         "available keys: {}\n",
@@ -503,11 +503,11 @@ namespace Splines
      * \param[in] i Index of the spline
      * \return Constant pointer to array of y-values for spline i (size = m_npts)
      *
-     * \throw UTILS_ASSERT if i is out of bounds
+     * \throw SPLINE_assert if i is out of bounds
      */
     real_type const * y_nodes( integer const i ) const
     {
-      UTILS_ASSERT(
+      SPLINE_assert(
         i >= 0 && i < m_nspl,
         "SplineSet[{}]::y_nodes({}) argument out of range [0,{}]\n",
         m_name,
@@ -569,7 +569,7 @@ namespace Splines
      * \param[in] spl Name of the spline
      * \return Minimum y-value of the specified spline
      *
-     * \throw UTILS_ASSERT if spline name not found
+     * \throw SPLINE_assert if spline name not found
      */
     real_type y_min( string_view spl ) const
     {
@@ -583,7 +583,7 @@ namespace Splines
      * \param[in] spl Name of the spline
      * \return Maximum y-value of the specified spline
      *
-     * \throw UTILS_ASSERT if spline name not found
+     * \throw SPLINE_assert if spline name not found
      */
     real_type y_max( string_view spl ) const
     {
@@ -602,13 +602,13 @@ namespace Splines
      * \param[in] i Index of the spline (0 ≤ i < m_nspl)
      * \return Pointer to the i-th spline (non-const)
      *
-     * \throw UTILS_ASSERT if i is out of bounds
+     * \throw SPLINE_assert if i is out of bounds
      *
      * \note The returned pointer remains valid until the SplineSet is modified.
      */
     Spline * get_spline( integer const i ) const
     {
-      UTILS_ASSERT(
+      SPLINE_assert(
         i >= 0 && i < m_nspl,
         "SplineSet[{}]::get_spline({}) argument out of range [0,{}]\n",
         m_name,
@@ -623,7 +623,7 @@ namespace Splines
      * \param[in] hdr Name of the spline
      * \return Pointer to the requested spline (non-const)
      *
-     * \throw UTILS_ASSERT if spline name not found
+     * \throw SPLINE_assert if spline name not found
      */
     Spline * get_spline( string_view hdr ) const
     {
@@ -775,18 +775,18 @@ namespace Splines
      */
     string info() const
     {
-      string res = fmt::format( "SplineSet[{}] n.points={} n.splines={}", name(), m_npts, m_nspl );
+      string res = std::format( "SplineSet[{}] n.points={} n.splines={}", name(), m_npts, m_nspl );
 
       for ( integer i = 0; i < m_nspl; ++i )
       {
-        res += fmt::format( "\nSpline n.{} ", i );
+        res += std::format( "\nSpline n.{} ", i );
         switch ( m_is_monotone[i] )
         {
           case -2: res += " with NON monotone data\n"; break;
           case -1: res += " is NOT monotone\n"; break;
           case 0: res += " is monotone\n"; break;
           case 1: res += " is strictly monotone\n"; break;
-          default: UTILS_ERROR( "SplineSet::info classification: {} not in range {{-2,-1,0,1}}\n", m_is_monotone[i] );
+          default: SPLINE_error( "SplineSet::info classification: {} not in range {{-2,-1,0,1}}\n", m_is_monotone[i] );
         }
         res += m_splines[i]->info();
       }

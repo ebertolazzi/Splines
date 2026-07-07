@@ -348,7 +348,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "SplineSetMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "SplineSetMexWrapper Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {

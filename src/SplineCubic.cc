@@ -33,24 +33,24 @@ namespace Splines
     CubicSpline_BC const bc0,
     CubicSpline_BC const bcn )
   {
-    UTILS_ASSERT( npts >= 2, "CubicSpline_build, npts={} must be >= 2\n", npts );
+    SPLINE_assert( npts >= 2, "CubicSpline_build, npts={} must be >= 2\n", npts );
 
     integer const n = npts - 1;  ///< Numero di segmenti
     integer const m = npts;      ///< Numero di punti
 
     // Mappiamo gli array C-style come vettori Eigen (zero-copy)
-    Eigen::Map<const Vec> X_vec( X, npts );
-    Eigen::Map<const Vec> Y_vec( Y, npts );
+    MapVectorC X_vec( X, npts );
+    MapVectorC Y_vec( Y, npts );
 
     // --- 1. Allocazione vettori per il sistema tridiagonale ---
-    Vec sub( n );    ///< Diagonale inferiore (coefficienti a_i)
-    Vec diag( m );   ///< Diagonale principale (coefficienti b_i)
-    Vec super( n );  ///< Diagonale superiore (coefficienti c_i)
-    Vec rhs( m );    ///< Termine noto (derivate seconde Z)
+    EigenVector sub( n );    ///< Diagonale inferiore (coefficienti a_i)
+    EigenVector diag( m );   ///< Diagonale principale (coefficienti b_i)
+    EigenVector super( n );  ///< Diagonale superiore (coefficienti c_i)
+    EigenVector rhs( m );    ///< Termine noto (derivate seconde Z)
 
     // Pre-calcolo delle differenze (vectorizzato con Eigen)
-    Vec DX = X_vec.tail( n ) - X_vec.head( n );  ///< h_i = X[i+1] - X[i]
-    Vec DY = Y_vec.tail( n ) - Y_vec.head( n );  ///< ΔY_i = Y[i+1] - Y[i]
+    EigenVector DX = X_vec.tail( n ) - X_vec.head( n );  ///< h_i = X[i+1] - X[i]
+    EigenVector DY = Y_vec.tail( n ) - Y_vec.head( n );  ///< ΔY_i = Y[i+1] - Y[i]
 
     // --- 2. Costruzione del corpo centrale del sistema (i = 1 ... n-1) ---
     for ( integer i = 1; i < n; ++i )
@@ -204,7 +204,7 @@ namespace Splines
     solver.factorize( sub, diag, super );
 
     // Prima risoluzione (senza correzione per elementi extra-diagonali)
-    Vec Z( m );  ///< Vettore delle derivate seconde
+    EigenVector Z( m );  ///< Vettore delle derivate seconde
     solver.solve( sub, diag, rhs, Z );
 
     // --- 6. Correzione per condizioni NOT_A_KNOT ---
@@ -235,7 +235,7 @@ namespace Splines
      */
 
     // Calcolo per i = 0 ... n-1 (vectorizzato)
-    Vec slopes = DY.array() / DX.array();  // (Y[i+1] - Y[i]) / h_i
+    EigenVector slopes = DY.array() / DX.array();  // (Y[i+1] - Y[i]) / h_i
 
     for ( integer i = 0; i < n; ++i ) { Yp[i] = slopes( i ) - DX( i ) * ( 2.0 * Z( i ) + Z( i + 1 ) ) / 6.0; }
 
@@ -252,10 +252,10 @@ namespace Splines
 
   void CubicSpline::build()
   {
-    string msg = fmt::format( "CubicSpline[{}]::build():", m_name );
+    string msg = std::format( "CubicSpline[{}]::build():", m_name );
 
     // Validazione input
-    UTILS_ASSERT( m_npts > 1, "{} npts={} not enough points\n", msg, m_npts );
+    SPLINE_assert( m_npts > 1, "{} npts={} not enough points\n", msg, m_npts );
 
     Utils::check_NaN( m_X, msg + " X", m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, msg + " Y", m_npts, __LINE__, __FILE__ );
@@ -301,7 +301,7 @@ namespace Splines
 
   void CubicSpline::setup( GenericContainer const & gc )
   {
-    string const where = fmt::format( "CubicSpline[{}]::setup( gc ):", m_name );
+    string const where = std::format( "CubicSpline[{}]::setup( gc ):", m_name );
 
     // Raccoglie tutte le chiavi presenti per identificare campi non usati
     std::set<std::string> keywords;
@@ -317,11 +317,11 @@ namespace Splines
 
     vec_real_type x, y;
     {
-      string const ff = fmt::format( "{}, field `xdata'", where );
+      string const ff = std::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ydata'", where );
+      string const ff = std::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff );
     }
 
@@ -341,12 +341,12 @@ namespace Splines
         m_bc0 = CubicSpline_BC::NOT_A_KNOT;
       else
       {
-        UTILS_ERROR( "{} unknown initial bc: {}\n", where, bc );
+        SPLINE_error( "{} unknown initial bc: {}\n", where, bc );
       }
     }
     else
     {
-      UTILS_WARNING( false, "{}, missing field `bc_begin` using `extrapolate` as default value\n", where );
+      SPLINE_warning( false, "{}, missing field `bc_begin` using `extrapolate` as default value\n", where );
     }
 
     // Parsing boundary condition finale (opzionale)
@@ -365,16 +365,16 @@ namespace Splines
         m_bcn = CubicSpline_BC::NOT_A_KNOT;
       else
       {
-        UTILS_ERROR( "{} unknown final bc: {}\n", where, bc );
+        SPLINE_error( "{} unknown final bc: {}\n", where, bc );
       }
     }
     else
     {
-      UTILS_WARNING( false, "{}, missing field `bc_end` using `extrapolate` as default value\n", where );
+      SPLINE_warning( false, "{}, missing field `bc_end` using `extrapolate` as default value\n", where );
     }
 
     // Warning per campi non riconosciuti
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,

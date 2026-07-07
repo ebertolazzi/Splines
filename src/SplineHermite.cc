@@ -38,7 +38,7 @@ namespace Splines
     // gc["ydata"]
     //
     */
-    string const where = fmt::format( "HermiteSpline[{}]::setup( gc ):", m_name );
+    string const where = std::format( "HermiteSpline[{}]::setup( gc ):", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) { keywords.insert( pair.first ); }
@@ -53,19 +53,19 @@ namespace Splines
 
     vec_real_type x, y, yp;
     {
-      string const ff = fmt::format( "{}, field `xdata'", where );
+      string const ff = std::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ydata'", where );
+      string const ff = std::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ypdata'", where );
+      string const ff = std::format( "{}, field `ypdata'", where );
       gc_yp.copyto_vec_real( yp, ff );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,

@@ -46,7 +46,7 @@ namespace Splines
     //! \param name the name of the spline
     //!
     explicit ConstantSpline( string_view name = "ConstantSpline" )
-      : Spline( name ), m_mem_constant( fmt::format( "ConstantSpline[{}]", name ) )
+      : Spline( name ), m_mem_constant( std::format( "ConstantSpline[{}]", name ) )
     {
     }
 

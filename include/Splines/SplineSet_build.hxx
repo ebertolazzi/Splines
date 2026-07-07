@@ -27,8 +27,8 @@
  * - HERMITE: Hermite spline (requires Yp)
  * - QUINTIC: Quintic spline
  *
- * \throw UTILS_ASSERT if nspl ≤ 0 or npts ≤ 1
- * \throw UTILS_ERROR for unsupported spline types
+ * \throw SPLINE_assert if nspl ≤ 0 or npts ≤ 1
+ * \throw SPLINE_error for unsupported spline types
  *
  * \note For HERMITE splines, Yp must be provided.
  * \note Automatically checks monotonicity for applicable spline types.

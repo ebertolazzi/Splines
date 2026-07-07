@@ -45,7 +45,7 @@ namespace Splines
     if ( n == "hermite" ) return SplineType1D::HERMITE;
     if ( n == "spline_set" ) return SplineType1D::SPLINE_SET;
     if ( n == "spline_vec" ) return SplineType1D::SPLINE_VEC;
-    throw std::runtime_error( fmt::format( "string_to_splineType1D({}) unknown type\n", n ) );
+    throw std::runtime_error( std::format( "string_to_splineType1D({}) unknown type\n", n ) );
   }
 
   string to_string( Spline_sub_type t )
@@ -76,7 +76,7 @@ namespace Splines
     if ( n == "biquintic_vanleer" ) return SplineType2D::BIQUINTIC_VANLEER;
     if ( n == "biquintic_pchip" ) return SplineType2D::BIQUINTIC_PCHIP;
 
-    throw std::runtime_error( fmt::format( "string_to_splineType2D({}) unknown type\n", n ) );
+    throw std::runtime_error( std::format( "string_to_splineType2D({}) unknown type\n", n ) );
   }
 
   char const * to_string( SplineType1D const t )
@@ -133,7 +133,7 @@ namespace Splines
     // gc["ydata"]
     //
     */
-    string const where = fmt::format( "Spline[{}]::setup( gc ):", m_name );
+    string const where = std::format( "Spline[{}]::setup( gc ):", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) { keywords.insert( pair.first ); }
@@ -146,15 +146,15 @@ namespace Splines
 
     vec_real_type x, y;
     {
-      string const ff = fmt::format( "{}, field `xdata'", where );
+      string const ff = std::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ydata'", where );
+      string const ff = std::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,
@@ -175,7 +175,7 @@ namespace Splines
   {
     if ( m_npts > 0 )
     {
-      UTILS_ASSERT(
+      SPLINE_assert(
         x >= m_X[m_npts - 1],  // ammetto punti doppi
         "Spline[{}]::push_back, non monotone insert at insert N.{}"
         "\nX[{}] = {:.5}\nX[{}] = {:>5}\n",
@@ -190,8 +190,8 @@ namespace Splines
     {
       // Versione "Fall-back" se devi per forza usare il buffer temporaneo
       integer const saved_npts = m_npts;
-      Vec           Xsaved( m_npts );
-      Vec           Ysaved( m_npts );
+      EigenVector   Xsaved( m_npts );
+      EigenVector   Ysaved( m_npts );
 
       // memcpy è più veloce di copy_n per array raw
       std::memcpy( Xsaved.data(), m_X, m_npts * sizeof( real_type ) );
@@ -211,14 +211,14 @@ namespace Splines
 
   void Spline::set_range( real_type xmin, real_type xmax )
   {
-    UTILS_ASSERT( xmax > xmin, "Spline[{}]::set_range({},{}) bad range ", m_name, xmin, xmax );
-    UTILS_ASSERT( m_npts > 1, "Spline[{}]::set_range: empty spline or only one point", m_name );
+    SPLINE_assert( xmax > xmin, "Spline[{}]::set_range({},{}) bad range ", m_name, xmin, xmax );
+    SPLINE_assert( m_npts > 1, "Spline[{}]::set_range: empty spline or only one point", m_name );
 
     // Calcolo range attuale (delta)
     real_type const dx_old = m_X[m_npts - 1] - m_X[0];
 
     // Opzionale: Protezione divisione per zero se la spline è collassata su un punto
-    // UTILS_ASSERT( std::abs(dx_old) > epsilon, ... );
+    // SPLINE_assert( std::abs(dx_old) > epsilon, ... );
 
     real_type const S  = ( xmax - xmin ) / dx_old;
     real_type const Tx = xmin - S * m_X[0];
@@ -226,7 +226,7 @@ namespace Splines
     // EIGEN IMPLEMENTATION
     // Usiamo Eigen::Array invece di Matrix perché l'operazione è element-wise (scalare)
     // Map crea una vista sui dati esistenti senza copiare memoria.
-    Eigen::Map<Vec> map_X{ m_X, m_npts };
+    MapVector map_X{ m_X, m_npts };
 
     // Operazione in-place: x[i] = x[i] * S + Tx
     // Eigen utilizzerà istruzioni vettoriali (es. vfmadd su AVX2)

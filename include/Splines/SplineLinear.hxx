@@ -44,7 +44,7 @@ namespace Splines
     //! \param name the name of the spline
     //!
     explicit LinearSpline( string_view name = "LinearSpline" )
-      : Spline( name ), m_mem_linear( fmt::format( "LinearSpline[{}]", name ) )
+      : Spline( name ), m_mem_linear( std::format( "LinearSpline[{}]", name ) )
     {
       m_curve_extended_constant = true;  // by default linear spline extend constant
     }

@@ -128,7 +128,7 @@ namespace Splines
     if ( std::abs( recS - 1.0 ) < 1e-12 ) return;
 
     // 4. Applica il fattore di scala usando Eigen (SIMD)
-    Eigen::Map<Vec> map_vals{ m_X, m_npts };
+    MapVector map_vals{ m_X, m_npts };
     map_vals -= m_X[0];
     map_vals *= recS;
     map_vals += xmin;
@@ -144,7 +144,7 @@ namespace Splines
     real_type & x_max_pos,
     real_type & y_max ) const
   {
-    UTILS_ASSERT( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
@@ -211,7 +211,7 @@ namespace Splines
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "CubicSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     if ( m_Yp[0] >= 0 )
     {
@@ -488,7 +488,7 @@ namespace Splines
   integer  // order
   CubicSplineBase::coeffs( real_type cfs[], real_type nodes[], bool transpose ) const
   {
-    UTILS_ASSERT( m_npts >= 2, "CubicSplineBase::coeffs, npts={} must be >= 2\n", m_npts );
+    SPLINE_assert( m_npts >= 2, "CubicSplineBase::coeffs, npts={} must be >= 2\n", m_npts );
 
     integer const n = m_npts - 1;
     for ( integer i = 0; i < n; ++i )

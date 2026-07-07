@@ -58,7 +58,7 @@ namespace Splines
     //! \param name the name of the spline
     //!
     explicit QuinticSplineBase( Spline_sub_type type = Spline_sub_type::PCHIP, string_view name = "QuinticSplineBase" )
-      : Spline( name ), m_base_quintic( fmt::format( "QuinticSplineBase[{}]", name ) ), m_sub_type( type )
+      : Spline( name ), m_base_quintic( std::format( "QuinticSplineBase[{}]", name ) ), m_sub_type( type )
     {
     }
 

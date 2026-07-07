@@ -38,16 +38,16 @@ namespace Splines
   class BiQuinticSplineBase : public SplineSurf
   {
   protected:
-    MatC mDX;
-    MatC mDY;
+    EigenMatrix mDX;
+    EigenMatrix mDY;
 
-    MatC mDXX;
-    MatC mDYY;
-    MatC mDXY;
+    EigenMatrix mDXX;
+    EigenMatrix mDYY;
+    EigenMatrix mDXY;
 
-    MatC mDXYY;
-    MatC mDXXY;
-    MatC mDXXYY;
+    EigenMatrix mDXYY;
+    EigenMatrix mDXXY;
+    EigenMatrix mDXXYY;
 
     Spline_sub_type m_sub_type;
 

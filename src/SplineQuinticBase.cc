@@ -109,7 +109,7 @@ namespace Splines
     real_type & x_max_pos,
     real_type & y_max ) const
   {
-    UTILS_ASSERT( m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
@@ -178,7 +178,7 @@ namespace Splines
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT( m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "QuinticSplineBase[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     if ( m_Yp[0] >= 0 )
     {
@@ -337,7 +337,7 @@ namespace Splines
 
   void QuinticSplineBase::set_range( real_type const xmin, real_type const xmax )
   {
-    UTILS_ASSERT( m_npts > 0, "QuinticSplineBase[{}]::set_range, empty spline", m_name );
+    SPLINE_assert( m_npts > 0, "QuinticSplineBase[{}]::set_range, empty spline", m_name );
     real_type const L    = m_X[m_npts - 1] - m_X[0];
     real_type const newL = xmax - xmin;
     for ( integer i = 0; i < m_npts; ++i )
@@ -484,7 +484,7 @@ namespace Splines
   integer  // order
   QuinticSplineBase::coeffs( real_type cfs[], real_type nodes[], bool transpose ) const
   {
-    UTILS_ASSERT( m_npts >= 2, "QuinticSplineBase, npts={} must be >= 2\n", m_npts );
+    SPLINE_assert( m_npts >= 2, "QuinticSplineBase, npts={} must be >= 2\n", m_npts );
 
     integer const n = m_npts - 1;
 

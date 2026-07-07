@@ -51,7 +51,7 @@ namespace Splines
       case Spline_sub_type::AKIMA: spline = &ak; break;
       case Spline_sub_type::VANLEER: spline = &vl; break;
       case Spline_sub_type::PCHIP: spline = &pc; break;
-      default: UTILS_ERROR( "Unknown Spline_sub_type value\n" );
+      default: SPLINE_error( "Unknown Spline_sub_type value\n" );
     }
 
     make_derivative_x( spline, mZ, mDX );

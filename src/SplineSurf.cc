@@ -40,13 +40,12 @@ namespace Splines
     //  +--------------+
     //      nx = nc
     //
-    using StrideType = Eigen::OuterStride<Eigen::Dynamic>;
     integer const tf = ( transposed ? 1 : 0 ) + ( fortran_storage ? 2 : 0 );
     switch ( tf )
     {
       case 0:  // NO transpose NO fortran
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           ldZ >= m_ny,
           "SplineSurf::load_Z( z, ldZ={}, fortran_storage={}, transposed={}) with nx={} and ny={} bad leading dimension",
           ldZ,
@@ -54,14 +53,14 @@ namespace Splines
           transposed,
           m_nx,
           m_ny );
-        Eigen::Map<const MatC, 0, StrideType> ZZ( z, m_nx, m_ny, StrideType( ldZ ) );
+        StridedMapMatrixC ZZ( z, m_nx, m_ny, MatrixStride( 1, ldZ ) );
         load_Z( ZZ, false );
       }
       break;
 
       case 1:  // YES transpose NO fortran
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           ldZ >= m_nx,
           "SplineSurf::load_Z( z, ldZ={}, fortran_storage={}, transposed={}) with nx={} and ny={} bad leading dimension",
           ldZ,
@@ -69,14 +68,14 @@ namespace Splines
           transposed,
           m_nx,
           m_ny );
-        Eigen::Map<const MatC, 0, StrideType> ZZ( z, m_ny, m_nx, StrideType( ldZ ) );
+        StridedMapMatrixC ZZ( z, m_ny, m_nx, MatrixStride( 1, ldZ ) );
         load_Z( ZZ, true );
       }
       break;
 
       case 2:  // NO transpose YES fortran
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           ldZ >= m_nx,
           "SplineSurf::load_Z( z, ldZ={}, fortran_storage={}, transposed={}) with nx={} and ny={} bad leading dimension",
           ldZ,
@@ -84,14 +83,14 @@ namespace Splines
           transposed,
           m_nx,
           m_ny );
-        Eigen::Map<const Mat, 0, StrideType> ZZ( z, m_nx, m_ny, StrideType( ldZ ) );
+        StridedMapMatrixC ZZ( z, m_nx, m_ny, MatrixStride( ldZ, 1 ) );
         load_Z( ZZ, false );
       }
       break;
 
       case 3:  // YES transpose YES fortran
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           ldZ >= m_ny,
           "SplineSurf::load_Z( z, ldZ={}, fortran_storage={}, transposed={}) with nx={} and ny={} bad leading dimension",
           ldZ,
@@ -99,7 +98,7 @@ namespace Splines
           transposed,
           m_nx,
           m_ny );
-        Eigen::Map<const Mat, 0, StrideType> ZZ( z, m_ny, m_nx, StrideType( ldZ ) );
+        StridedMapMatrixC ZZ( z, m_ny, m_nx, MatrixStride( ldZ, 1 ) );
         load_Z( ZZ, true );
       }
       break;
@@ -156,17 +155,15 @@ namespace Splines
     // Definiamo una "vista" sui dati di input che salta 'incx' elementi
     // Eigen userà istruzioni AVX/SSE per copiare se possibile.
 
-    using Stride = Eigen::InnerStride<Eigen::Dynamic>;
-
     if ( incx == 1 )
-      mX = Eigen::Map<const Vec>( x, nx );
+      mX = MapVectorC( x, nx );
     else
-      mX = Eigen::Map<const Vec, 0, Stride>( x, nx, Stride( incx ) );
+      mX = StridedMapVectorC( x, nx, VectorStride( incx ) );
 
     if ( incy == 1 )
-      mY = Eigen::Map<const Vec>( y, ny );
+      mY = MapVectorC( y, ny );
     else
-      mY = Eigen::Map<const Vec, 0, Stride>( y, ny, Stride( incy ) );
+      mY = StridedMapVectorC( y, ny, VectorStride( incy ) );
 
     // -----------------------------------------------------------
     // OTTIMIZZAZIONE 2: Mapping intelligente di Z
@@ -182,10 +179,7 @@ namespace Splines
     {
       // Fortran = Column Major.
       // ldZ è la distanza tra l'inizio di due colonne consecutive.
-      using StrideType = Eigen::OuterStride<Eigen::Dynamic>;
-      using MapType    = Eigen::Map<const Mat, 0, StrideType>;
-
-      MapType mapZ( z, nr, nc, StrideType( ldZ ) );  // Assumo nx righe, ny colonne logiche
+      StridedMapMatrixC mapZ( z, nr, nc, MatrixStride( ldZ, 1 ) );  // Assumo nx righe, ny colonne logiche
 
       // Chiama il tuo load_Z generico (che accetta Eigen::Ref)
       load_Z( mapZ, transposed );
@@ -194,10 +188,7 @@ namespace Splines
     {
       // C = Row Major.
       // ldZ è la distanza tra l'inizio di due righe consecutive.
-      using StrideType = Eigen::OuterStride<Eigen::Dynamic>;
-      using MapType    = Eigen::Map<const MatC, 0, StrideType>;
-
-      MapType mapZ( z, nr, nc, StrideType( ldZ ) );  // Assumo nx righe, ny colonne logiche
+      StridedMapMatrixC mapZ( z, nr, nc, MatrixStride( 1, ldZ ) );  // Assumo nx righe, ny colonne logiche
 
       // Chiama il tuo load_Z generico (che accetta Eigen::Ref)
       load_Z( mapZ, transposed );
@@ -229,7 +220,7 @@ namespace Splines
     // gc["zdata"]
     //
     */
-    string const where = fmt::format( "SplineSurf[{}]::setup( gc ):", m_name );
+    string const where = std::format( "SplineSurf[{}]::setup( gc ):", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) keywords.insert( pair.first );
@@ -273,7 +264,7 @@ namespace Splines
       integer const NC    = trans ? m_nx : m_ny;
       integer const nr    = static_cast<integer>( M.num_rows() );
       integer const nc    = static_cast<integer>( M.num_cols() );
-      UTILS_ASSERT(
+      SPLINE_assert(
         NR == nr && NC == nc,
         "{}, field `zdata` is a matrix expected to be of size {} x {}, found: {} x {}\n",
         where,
@@ -285,14 +276,14 @@ namespace Splines
       if ( GC_type::MAT_REAL == M.get_type() )
       {
         auto &                mat = M.get_mat_real();  // è in fortran storage!
-        Eigen::Map<const Mat> Z( mat.data(), NR, NC );
+        MapMatrixC Z( mat.data(), NR, NC );
         load_Z( Z, trans );
       }
       else
       {
         GenericContainer::mat_real_type z_tmp;
         M.copyto_mat_real( z_tmp );  // è in fortran storage!
-        Eigen::Map<Mat> Z( z_tmp.data(), NR, NC );
+        MapMatrix Z( z_tmp.data(), NR, NC );
         load_Z( Z, trans );
       }
     };
@@ -312,7 +303,7 @@ namespace Splines
       integer NC  = transposed ? m_nx : m_ny;
       integer nz  = static_cast<integer>( gc_z.get_num_elements() );
       integer nxy = m_nx * m_ny;
-      UTILS_ASSERT(
+      SPLINE_assert(
         nz == nxy,
         "{}, field `zdata` expected to be of size {} = {}x{}, found: `{}`\n",
         where,
@@ -358,7 +349,7 @@ namespace Splines
       GenericContainer mat;
       mat.load( gc_z );
       mat.collapse();
-      UTILS_ASSERT(
+      SPLINE_assert(
         GC_type::MAT_REAL == mat.get_type() || GC_type::MAT_INTEGER == mat.get_type() ||
           GC_type::MAT_LONG == mat.get_type(),
         "{}, field `zdata` cannot be converted to a matrix\n",
@@ -367,13 +358,13 @@ namespace Splines
     }
     else
     {
-      UTILS_ERROR(
+      SPLINE_error(
         "{}, field `zdata` expected to be of type `mat_real_type` or  `vec_real_type` or `vector_type` found: `{}`\n",
         where,
         gc_z.get_type_name() );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,

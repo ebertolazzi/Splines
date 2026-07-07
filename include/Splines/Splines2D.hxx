@@ -334,7 +334,7 @@ namespace Splines
     //! \param[in] gc The GenericContainer holding the spline configuration.
     void setup( GenericContainer const & gc )
     {
-      string const   where = fmt::format( "Spline2D[{}]::setup( gc ):", m_name );
+      string const   where = std::format( "Spline2D[{}]::setup( gc ):", m_name );
       string const & type  = gc.get_map_string( "spline_type", where );
       new_spline( string_to_splineType2D( type ) );
       m_spline_2D->setup( gc );

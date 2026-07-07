@@ -60,7 +60,7 @@ namespace Splines
     // gc["ydata"]
     //
     */
-    string const where = fmt::format( "Spline1D[{}]::setup( gc ):", m_name );
+    string const where = std::format( "Spline1D[{}]::setup( gc ):", m_name );
 
     string_view spl_type = gc.get_map_string( "spline_type", where );
 
@@ -87,7 +87,7 @@ namespace Splines
       tp = SplineType1D::QUINTIC_PCHIP;
     else
     {
-      UTILS_ERROR(
+      SPLINE_error(
         "Spline1D::setup[{}] unknown type {}, not in "
         "[constant,linear,cubic,akima,vanleer,pchip,quintic]\n",
         m_name,

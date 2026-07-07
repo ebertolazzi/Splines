@@ -271,10 +271,10 @@ void test_json_string_constructors()
   //                                      { 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0 },
   //                                      { 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0 } };
 
-  Splines::Vec x_nodes( 7 );
-  Splines::Vec y_nodes( 8 );
-  Splines::Mat z_original_t( 8, 7 );
-  Splines::Mat z_original( 7, 8 );
+  Splines::EigenVector x_nodes( 7 );
+  Splines::EigenVector y_nodes( 8 );
+  Splines::EigenMatrix z_original_t( 8, 7 );
+  Splines::EigenMatrix z_original( 7, 8 );
 
   x_nodes << -0.0523599, -0.01309, -0.0043633, 0.0261799, 0.0392699, 0.1047198, 0.1745329;
   y_nodes << 0.0, 0.1745329, 0.3490659, 0.5235988, 0.6981317, 0.8726646, 1.0471976, 1.2217305;

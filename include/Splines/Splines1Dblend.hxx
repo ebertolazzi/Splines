@@ -44,13 +44,13 @@ namespace Splines
     void check_compatibility() const
     {
       // check compatibility
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_spline0.x_min() == m_spline1.x_min(),
         "Spline1Dblend must have the same initial-x, x_min0={}, x_min1={}, difference={}\n",
         m_spline0.x_min(),
         m_spline1.x_min(),
         m_spline0.x_min() - m_spline1.x_min() );
-      UTILS_ASSERT(
+      SPLINE_assert(
         m_spline0.x_max() == m_spline1.x_max(),
         "Spline1Dblend must have the same final-x, x_max0={}, x_max1={}, difference={}\n",
         m_spline0.x_max(),
@@ -70,7 +70,7 @@ namespace Splines
     //!
     //! \param n the name of the spline
     //!
-    Spline1Dblend( string_view n ) : m_spline0( fmt::format( "{}_0", n ) ), m_spline1( fmt::format( "{}_1", n ) ) {}
+    Spline1Dblend( string_view n ) : m_spline0( std::format( "{}_0", n ) ), m_spline1( std::format( "{}_1", n ) ) {}
 
     //!
     //! Spline destructor.

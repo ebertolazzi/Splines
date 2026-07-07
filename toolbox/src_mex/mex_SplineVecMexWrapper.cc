@@ -413,7 +413,7 @@ namespace Splines
     }
     catch ( exception const & e )
     {
-      mexErrMsgTxt( fmt::format( "SplineVecMexWrapper Error: {}", e.what() ).c_str() );
+      mexErrMsgTxt( std::format( "SplineVecMexWrapper Error: {}", e.what() ).c_str() );
     }
     catch ( ... )
     {

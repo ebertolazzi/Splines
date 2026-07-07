@@ -72,7 +72,7 @@ namespace Splines
     // gc["ydata"]
     //
     */
-    string const where = fmt::format( "ConstantSpline[{}]::setup( gc ):", m_name );
+    string const where = std::format( "ConstantSpline[{}]::setup( gc ):", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) { keywords.insert( pair.first ); }
@@ -85,15 +85,15 @@ namespace Splines
 
     vec_real_type x, y;
     {
-      string const ff = fmt::format( "{}, field `xdata'", where );
+      string const ff = std::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ydata'", where );
+      string const ff = std::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,
@@ -120,7 +120,7 @@ namespace Splines
     real_type & x_max_pos,
     real_type & y_max ) const
   {
-    UTILS_ASSERT( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min alongh the nodes
     i_min_pos = i_max_pos = 0;
     x_min_pos = x_max_pos = m_X[0];
@@ -157,7 +157,7 @@ namespace Splines
     x_max_pos.clear();
     y_min.clear();
     y_max.clear();
-    UTILS_ASSERT( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
+    SPLINE_assert( m_npts > 0, "ConstantSpline[{}]::y_min_max() empty spline!", m_name );
     // find max min along the nodes
     for ( integer i = 1; i < m_npts - 1; ++i )
     {

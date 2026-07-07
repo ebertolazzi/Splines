@@ -33,14 +33,14 @@ namespace Splines
 
   void AkimaSpline::build()
   {
-    string const msg = fmt::format( "AkimaSpline[{}]::build():", m_name );
-    UTILS_ASSERT( m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts );
+    string const msg = std::format( "AkimaSpline[{}]::build():", m_name );
+    SPLINE_assert( m_npts > 1, "{} npts = {} not enought points\n", msg, m_npts );
     Utils::check_NaN( m_X, msg + " X ", m_npts, __LINE__, __FILE__ );
     Utils::check_NaN( m_Y, msg + " Y ", m_npts, __LINE__, __FILE__ );
     integer ibegin = 0;
     integer iend   = 0;
 
-    Vec work( m_npts );
+    EigenVector work( m_npts );
 
     do
     {
@@ -61,7 +61,7 @@ namespace Splines
     // gc["ydata"]
     //
     */
-    string const where = fmt::format( "AkimaSpline[{}]::setup():", m_name );
+    string const where = std::format( "AkimaSpline[{}]::setup():", m_name );
 
     std::set<std::string> keywords;
     for ( auto const & pair : gc.get_map( where ) ) { keywords.insert( pair.first ); }
@@ -74,15 +74,15 @@ namespace Splines
 
     vec_real_type x, y;
     {
-      string const ff = fmt::format( "{}, field `xdata'", where );
+      string const ff = std::format( "{}, field `xdata'", where );
       gc_x.copyto_vec_real( x, ff );
     }
     {
-      string const ff = fmt::format( "{}, field `ydata'", where );
+      string const ff = std::format( "{}, field `ydata'", where );
       gc_y.copyto_vec_real( y, ff );
     }
 
-    UTILS_WARNING(
+    SPLINE_warning(
       keywords.empty(),
       "{}: unused keys\n{}\n",
       where,

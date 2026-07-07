@@ -74,7 +74,7 @@ namespace Splines
 
   void VanLeer_build( real_type const X[], real_type const Y[], real_type Yp[], integer const npts )
   {
-    UTILS_ASSERT( npts >= 2, "VanLeer_build: npts={} >= 2 required\n", npts );
+    SPLINE_assert( npts >= 2, "VanLeer_build: npts={} >= 2 required\n", npts );
 
     if ( npts == 2 )
     {  // only 2 points, linear interpolation
@@ -149,7 +149,7 @@ namespace Splines
 
   void Pchip_build( real_type const X[], real_type const Y[], real_type Yp[], integer const npts )
   {
-    UTILS_ASSERT( npts >= 2, "Pchip_build: npts must be >= 2" );
+    SPLINE_assert( npts >= 2, "Pchip_build: npts must be >= 2" );
 
     integer const n = npts - 1;
 
@@ -240,7 +240,7 @@ namespace Splines
     real_type             Ypp[],
     integer const         npts )
   {
-    UTILS_ASSERT( npts >= 2, "Quintic_build, npts={} must be >= 2\n", npts );
+    SPLINE_assert( npts >= 2, "Quintic_build, npts={} must be >= 2\n", npts );
 
     // ========================================================================
     // PHASE 1: First derivative estimation
@@ -253,12 +253,12 @@ namespace Splines
       case Spline_sub_type::PCHIP: Pchip_build( X, Y, Yp, npts ); break;
       case Spline_sub_type::AKIMA:
       {
-        Vec work( npts );
+        EigenVector work( npts );
         Akima_build( X, Y, Yp, work.data(), npts );
       }
       break;
       case Spline_sub_type::VANLEER: VanLeer_build( X, Y, Yp, npts ); break;
-      default: UTILS_ERROR( "Unknown QuinticSpline_sub_type value\n" );
+      default: SPLINE_error( "Unknown QuinticSpline_sub_type value\n" );
     }
 
     // ========================================================================
@@ -287,7 +287,7 @@ namespace Splines
     for ( integer i = 0; i < n; ++i )
     {
       h[i] = X[i + 1] - X[i];
-      UTILS_ASSERT( h[i] > 0, "X must be strictly increasing" );
+      SPLINE_assert( h[i] > 0, "X must be strictly increasing" );
 
       inv_h[i] = 1.0 / h[i];
       h2[i]    = h[i] * h[i];
@@ -305,12 +305,12 @@ namespace Splines
     real_type * system_data = mem_system.malloc( 3 * npts - 2 );
 
     // Direct mapping to allocated arrays (zero overhead)
-    Eigen::Map<Vec> a{ system_data, npts - 1 };
-    Eigen::Map<Vec> b{ system_data + npts - 1, npts };
-    Eigen::Map<Vec> c{ system_data + 2 * npts - 1, npts - 1 };
+    MapVector a{ system_data, npts - 1 };
+    MapVector b{ system_data + npts - 1, npts };
+    MapVector c{ system_data + 2 * npts - 1, npts - 1 };
 
     // d maps directly to Ypp (zero-copy!)
-    Eigen::Map<Vec> d{ Ypp, npts };
+    MapVector d{ Ypp, npts };
 
     // ========================================================================
     // LEFT BOUNDARY (i=0)
@@ -378,7 +378,7 @@ namespace Splines
 
   void WENO5_build( real_type const X[], real_type const Y[], real_type Yp[], integer const npts )
   {
-    UTILS_ASSERT( npts >= 2, "WENO_build requires at least 2 points" );
+    SPLINE_assert( npts >= 2, "WENO_build requires at least 2 points" );
 
     constexpr real_type eps = 1e-12;
 
@@ -463,7 +463,7 @@ namespace Splines
 
   void WENO5_build2( real_type const X[], real_type const Y[], real_type Ypp[], integer const npts )
   {
-    UTILS_ASSERT( npts >= 2, "Need at least 2 points" );
+    SPLINE_assert( npts >= 2, "Need at least 2 points" );
 
     constexpr real_type eps = 1e-12;
 
@@ -557,7 +557,7 @@ namespace Splines
     real_type             Ypp[],
     integer const         npts )
   {
-    UTILS_ASSERT( npts >= 2, "Quintic_build2, npts={} must be >= 2\n", npts );
+    SPLINE_assert( npts >= 2, "Quintic_build2, npts={} must be >= 2\n", npts );
 
     // ========================================================================
     // PHASE 1: First derivative estimation
@@ -570,12 +570,12 @@ namespace Splines
       case Spline_sub_type::PCHIP: Pchip_build( X, Y, Yp, npts ); break;
       case Spline_sub_type::AKIMA:
       {
-        Vec work( npts );
+        EigenVector work( npts );
         Akima_build( X, Y, Yp, work.data(), npts );
       }
       break;
       case Spline_sub_type::VANLEER: VanLeer_build( X, Y, Yp, npts ); break;
-      default: UTILS_ERROR( "Unknown QuinticSpline_sub_type value\n" );
+      default: SPLINE_error( "Unknown QuinticSpline_sub_type value\n" );
     }
     // WENO5_build2( X, Y, Ypp, npts );
     WENO5_build( X, Yp, Ypp, npts );

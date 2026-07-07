@@ -51,9 +51,9 @@ namespace Splines
 
     real_type * m_X_ptr = nullptr;
     real_type * m_Y_ptr = nullptr;
-    Vec         mX;
-    Vec         mY;
-    MatC        mZ;
+    EigenVector mX;
+    EigenVector mY;
+    EigenMatrix mZ;
 
     real_type m_Z_min = 0;
     real_type m_Z_max = 0;
@@ -88,11 +88,11 @@ namespace Splines
 
     real_type & z_node_ref( integer const i, integer const j ) { return mZ.coeffRef( i, j ); }
 
-    template <typename Derived> void load_Z( const Eigen::ArrayBase<Derived> & Z, bool transposed )
+    void load_Z( RefMatrixC Z, bool transposed )
     {
       if ( transposed )
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           Z.rows() >= m_ny && Z.cols() >= m_nx,
           "SplineSurf::load_Z( Z, transposed={} ) bad dimension found {} x {} expected {} x {}",
           transposed,
@@ -105,7 +105,7 @@ namespace Splines
       }
       else
       {
-        UTILS_ASSERT(
+        SPLINE_assert(
           Z.rows() >= m_nx && Z.cols() >= m_ny,
           "SplineSurf::load_Z( Z, transposed={} ) bad dimension found {} x {} expected {} x {}",
           transposed,
@@ -124,8 +124,7 @@ namespace Splines
 
     virtual void make_spline() = 0;
 
-    template <typename Derived>
-    void make_derivative_x( CubicSplineBase * S, Eigen::ArrayBase<Derived> const & Z, Eigen::ArrayBase<Derived> & DX )
+    void make_derivative_x( CubicSplineBase * S, RefMatrixC Z, RefMatrix DX )
     {
       for ( integer j = 0; j < m_ny; ++j )
       {
@@ -134,8 +133,7 @@ namespace Splines
       }
     }
 
-    template <typename Derived>
-    void make_derivative_y( CubicSplineBase * S, Eigen::ArrayBase<Derived> const & Z, Eigen::ArrayBase<Derived> & DY )
+    void make_derivative_y( CubicSplineBase * S, RefMatrixC Z, RefMatrix DY )
     {
       for ( integer i = 0; i < m_nx; ++i )
       {
@@ -144,11 +142,7 @@ namespace Splines
       }
     }
 
-    template <typename Derived> void make_derivative_xy(
-      CubicSplineBase *                 S,
-      Eigen::ArrayBase<Derived> const & DX,
-      Eigen::ArrayBase<Derived> const & DY,
-      Eigen::ArrayBase<Derived> &       DXY )
+    void make_derivative_xy( CubicSplineBase * S, RefMatrixC DX, RefMatrixC DY, RefMatrix DXY )
     {
       auto minmod = []( real_type a, real_type b ) -> real_type
       {
@@ -460,11 +454,7 @@ namespace Splines
     //!                        by row Z(i,j) = z[i*ny+j] as C-matrix
     //! \param transposed      if true matrix Z is stored transposed
     //!
-    template <typename Derived> void build(
-      Eigen::Ref<const Vec>             x,
-      Eigen::Ref<const Vec>             y,
-      Eigen::ArrayBase<Derived> const & Z,
-      bool const                        transposed )
+    void build( RefVectorC x, RefVectorC y, RefMatrixC Z, bool const transposed )
     {
       resize( x.size(), y.size() );
       mX = x;
@@ -494,7 +484,7 @@ namespace Splines
       integer nx  = static_cast<integer>( x.size() );
       integer ny  = static_cast<integer>( y.size() );
       size_t  nz  = static_cast<size_t>( nx ) * static_cast<size_t>( ny );
-      UTILS_ASSERT(
+      SPLINE_assert(
         z.size() == nz,
         "SplineSurf::build( x, y, z, ... ) bad z size found {} expected {} = {} x {}",
         z.size(),
@@ -534,7 +524,7 @@ namespace Splines
       bool                      transposed      = false )
     {
       size_t nz = static_cast<size_t>( nx ) * static_cast<size_t>( ny );
-      UTILS_ASSERT(
+      SPLINE_assert(
         z.size() == nz,
         "SplineSurf::build( z, nx, ny, ... ) bad z size found {} expected {} = {} x {}",
         z.size(),
@@ -562,7 +552,7 @@ namespace Splines
     void setup( string const & file_name )
     {
       GenericContainer gc;
-      UTILS_ASSERT( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
+      SPLINE_assert( gc.from_file( file_name ), "Spline::setup( '{}' ) failed to read\n", file_name );
       setup( gc );
     }
 
@@ -731,7 +721,7 @@ namespace Splines
     //!
     //! String information of the kind and order of the spline
     //!
-    [[nodiscard]] virtual string info() const { return fmt::format( "Bivariate spline [{}] of type = {}", name(), type_name() ); }
+    [[nodiscard]] virtual string info() const { return std::format( "Bivariate spline [{}] of type = {}", name(), type_name() ); }
 
     //!
     //! Print information of the kind and order of the spline

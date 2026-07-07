@@ -5,7 +5,7 @@
  * \param[in] name Name of the spline
  * \return Value of spline `name` at parameter `x`
  *
- * \throw UTILS_ASSERT if spline name not found
+ * \throw SPLINE_assert if spline name not found
  */
 real_type eval( real_type const x, string_view name ) const
 {

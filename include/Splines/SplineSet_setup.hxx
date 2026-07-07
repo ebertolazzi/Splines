@@ -26,8 +26,8 @@
  * - "extend"/"can_extend": bool - Allow extrapolation beyond data range
  * - "extend_constant": bool - Use constant extrapolation (vs linear)
  *
- * \throw UTILS_ASSERT if required fields missing or data dimensions inconsistent
- * \throw UTILS_ERROR if unsupported data types provided
+ * \throw SPLINE_assert if required fields missing or data dimensions inconsistent
+ * \throw SPLINE_error if unsupported data types provided
  *
  * \note CONSTANT splines use n-1 points (interval-based values)
  * \note Warns about unused configuration keys to catch typos
