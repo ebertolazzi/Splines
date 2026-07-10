@@ -239,7 +239,7 @@ set( GENERIC_CONTAINER_INSTALL OFF CACHE BOOL "Disable GenericContainer install 
 FetchContent_Declare(
   GenericContainer
   GIT_REPOSITORY https://github.com/ebertolazzi/GenericContainer.git
-  GIT_TAG        main
+  GIT_TAG        GC2.0
   GIT_SHALLOW    TRUE
 )
 splines_use_local_or_fetch( GenericContainer "${SPLINES_GC_LOCAL_DIR}" )
@@ -298,7 +298,7 @@ endforeach()
 FetchContent_Declare(
   quarticRootsFlocke
   GIT_REPOSITORY https://github.com/ebertolazzi/quarticRootsFlocke.git
-  GIT_TAG        main
+  GIT_TAG        1.2.0
   GIT_SHALLOW    TRUE
 )
 splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DIR}" )
