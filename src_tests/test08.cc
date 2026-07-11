@@ -36,7 +36,7 @@
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "Utils_fmt.hh"
 #include <GenericContainer/GenericContainer.hh>
 #include <fstream>

@@ -21,7 +21,7 @@
 // FILE: SplineParametrization.cc
 //
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 
 namespace Splines
 {

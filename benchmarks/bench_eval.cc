@@ -17,7 +17,7 @@
  |         defaults: 1000 knots, 2,000,000 queries, best of 5
 \*/
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 
 #include <algorithm>
 #include <chrono>

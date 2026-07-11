@@ -10,7 +10,7 @@ bicubic, and biquintic surfaces, all built from raw arrays, `nlohmann::json`,
 YAML/JSON via `GenericContainer`, or a plain C interface for non-C++ hosts.
 
 ```cpp
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 
 std::vector<double> x = { 0, 1, 2, 3, 4 };
 std::vector<double> y = { 0, 1, 4, 9, 16 };

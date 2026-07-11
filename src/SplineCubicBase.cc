@@ -27,7 +27,7 @@
 \*/
 
 #define AUTODIFF_SUPPORT
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "GenericContainer/GenericContainerInterface_nlohmann.hh"
 
 namespace Splines

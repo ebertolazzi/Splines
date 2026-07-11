@@ -2,7 +2,7 @@
  * Test export_csv/export_json/export_yaml for cubic and quintic spline bases.
  */
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "GenericContainer/GenericContainerInterface_nlohmann.hh"
 
 #include <cstdio>

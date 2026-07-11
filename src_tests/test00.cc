@@ -26,7 +26,7 @@
 #pragma clang diagnostic ignored "-Wundefined-func-template"
 #endif
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "Utils_fmt.hh"
 
 #include <fstream>

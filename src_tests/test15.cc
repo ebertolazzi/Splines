@@ -17,7 +17,7 @@
  |                                                                          |
 \*--------------------------------------------------------------------------*/
 
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "Utils_fmt.hh"
 
 #include <cmath>

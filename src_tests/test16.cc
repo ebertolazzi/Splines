@@ -1,4 +1,4 @@
-#include "Splines/Splines.hh"
+#include "Splines.hh"
 #include "Splines/SplinesCinterface.h"
 
 #include <cmath>
