@@ -448,21 +448,37 @@ splines_set_dependency_output_dirs( lib3rd/lib
 # Creazione dell'alias con suffisso OS (come in GenericContainer)
 # ============================================================================
 function( splines_add_platform_library_alias TARGET_NAME BASE_NAME )
-  set( ALIAS_BASE "lib${BASE_NAME}_${SPLINES_PLATFORM_SUFFIX}" )
-  set( LEGACY_ALIAS_BASE "${ALIAS_BASE}" )
-
-  if ( NOT BUILD_SHARED_LIBS )
-    string( APPEND ALIAS_BASE "_static" )
-  endif()
-
   if ( BUILD_SHARED_LIBS )
-    set( LINK_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
-    set( ALIAS_FILENAME "${ALIAS_BASE}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+    set( TARGET_OUTPUT_NAME "${BASE_NAME}_${SPLINES_PLATFORM_SUFFIX}" )
+
+    if ( WIN32 )
+      set( TARGET_REAL_RUNTIME "${CMAKE_SHARED_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+      set( TARGET_LINK_RUNTIME "${CMAKE_SHARED_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+      set( TARGET_REAL_IMPORT  "${CMAKE_IMPORT_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_IMPORT_LIBRARY_SUFFIX}" )
+      set( TARGET_LINK_IMPORT  "${CMAKE_IMPORT_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_IMPORT_LIBRARY_SUFFIX}" )
+    else()
+      set( TARGET_REAL_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+      set( TARGET_LINK_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" )
+    endif()
   else()
-    set( LINK_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
-    set( ALIAS_FILENAME "${ALIAS_BASE}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
-    set( LEGACY_ALIAS_FILENAME "${LEGACY_ALIAS_BASE}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+    set( TARGET_OUTPUT_NAME "${BASE_NAME}_${SPLINES_PLATFORM_SUFFIX}_static" )
+
+    if ( WIN32 )
+      set( TARGET_REAL_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+      set( TARGET_LINK_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+    else()
+      set( TARGET_REAL_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+      set( TARGET_LINK_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${BASE_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+    endif()
   endif()
+
+  set_target_properties(
+    ${TARGET_NAME} PROPERTIES
+    OUTPUT_NAME         "${TARGET_OUTPUT_NAME}"
+    ARCHIVE_OUTPUT_NAME "${TARGET_OUTPUT_NAME}"
+    LIBRARY_OUTPUT_NAME "${TARGET_OUTPUT_NAME}"
+    RUNTIME_OUTPUT_NAME "${TARGET_OUTPUT_NAME}"
+  )
 
   if ( WIN32 )
     if ( BUILD_SHARED_LIBS )
@@ -470,73 +486,74 @@ function( splines_add_platform_library_alias TARGET_NAME BASE_NAME )
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "$<TARGET_FILE:${TARGET_NAME}>"
-                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_RUNTIME}"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "$<TARGET_LINKER_FILE:${TARGET_NAME}>"
+                "$<TARGET_LINKER_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_IMPORT}"
         VERBATIM
       )
+
+      if ( SPLINES_INSTALL )
+        install(
+          FILES "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_RUNTIME}"
+          DESTINATION ${CMAKE_INSTALL_BINDIR}
+        )
+        install(
+          FILES "$<TARGET_LINKER_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_IMPORT}"
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        )
+      endif()
     else()
       add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rm -f
-                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${LEGACY_ALIAS_FILENAME}"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "$<TARGET_FILE:${TARGET_NAME}>"
-                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
+                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_FILENAME}"
         VERBATIM
       )
-      install(
-        CODE
-        "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${LEGACY_ALIAS_FILENAME}\")"
-      )
+
+      if ( SPLINES_INSTALL )
+        install(
+          FILES "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_FILENAME}"
+          DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        )
+      endif()
     endif()
+    return()
+  endif()
+
+  # Remove stale outputs before linking/archiving. This prevents the old layout
+  # (platform-suffixed symlink -> generic real library) from producing a
+  # symlink cycle when switching to the new layout.
+  add_custom_command(
+    TARGET ${TARGET_NAME} PRE_LINK
+    COMMAND ${CMAKE_COMMAND} -E rm -f
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_FILENAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -f
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_REAL_FILENAME}"
+    VERBATIM
+  )
+
+  add_custom_command(
+    TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E rm -f
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_FILENAME}"
+    COMMAND ${CMAKE_COMMAND} -E create_symlink
+            "${TARGET_REAL_FILENAME}"
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_LINK_FILENAME}"
+    VERBATIM
+  )
+
+  if ( SPLINES_INSTALL )
     install(
-      FILES "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      CODE
+      "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\")
+      execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
+              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${TARGET_LINK_FILENAME}\")
+      execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+              \"${TARGET_REAL_FILENAME}\"
+              \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${TARGET_LINK_FILENAME}\")"
     )
-  else()
-    if ( BUILD_SHARED_LIBS )
-      add_custom_command(
-        TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
-        COMMAND ${CMAKE_COMMAND} -E create_symlink
-                "${LINK_FILENAME}"
-                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
-        VERBATIM
-      )
-    else()
-      add_custom_command(
-        TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${LEGACY_ALIAS_FILENAME}"
-        COMMAND ${CMAKE_COMMAND} -E rm -f "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
-        COMMAND ${CMAKE_COMMAND} -E create_symlink
-                "${LINK_FILENAME}"
-                "$<TARGET_FILE_DIR:${TARGET_NAME}>/${ALIAS_FILENAME}"
-        VERBATIM
-      )
-    endif()
-    if ( BUILD_SHARED_LIBS )
-      install(
-        CODE
-        "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\")
-        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")
-        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
-                \"${LINK_FILENAME}\"
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")"
-      )
-    else()
-      install(
-        CODE
-        "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\")
-        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${LEGACY_ALIAS_FILENAME}\")
-        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E rm -f
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")
-        execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
-                \"${LINK_FILENAME}\"
-                \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${ALIAS_FILENAME}\")"
-      )
-    endif()
   endif()
 endfunction()
 
