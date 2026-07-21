@@ -140,6 +140,7 @@ option( SPLINES_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_BUILD_BENCHMARKS "Build the micro-benchmarks" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_STRICT_WARNINGS "Compile the Splines target with narrowing/conversion warnings" OFF )
 option( SPLINES_UPDATE_3RDPARTY "Refresh lib3rd/include from resolved dependencies at configure time" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_POPULATE_TOOLBOX "Populate toolbox/src from resolved dependencies at configure time" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_COLLECT_DEPENDENCIES "Deprecated alias for SPLINES_UPDATE_3RDPARTY" ${SPLINES_UPDATE_3RDPARTY} )
 if ( SPLINES_COLLECT_DEPENDENCIES )
   set(
@@ -161,7 +162,7 @@ set( SPLINES_UTILSLITE_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../UtilsLite" CACH
 set( SPLINES_QUARTIC_ROOTS_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../quarticRootsFlocke" CACHE PATH "Local quarticRootsFlocke checkout" )
 set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Eigen" CACHE PATH "Local Eigen checkout" )
 set( SPLINES_JSON_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../json" CACHE PATH "Local nlohmann_json checkout" )
-set( SPLINES_EIGEN_VERSION "5.0.0" CACHE STRING "Eigen version to fetch" )
+set( SPLINES_EIGEN_VERSION "5.0.1" CACHE STRING "Eigen version to fetch" )
 
 # Default install layout requested for this project:
 #   ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
@@ -423,6 +424,21 @@ if ( SPLINES_UPDATE_3RDPARTY )
   splines_update_3rdparties(
     DESTINATION            "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include"
     EIGEN_ROOT             "${SPLINES_EIGEN_SOURCE_DIR}"
+    JSON_ROOT              "${nlohmann_json_SOURCE_DIR}"
+    GENERIC_CONTAINER_ROOT "${GenericContainer_SOURCE_DIR}"
+    UTILSLITE_ROOT         "${UtilsLite_SOURCE_DIR}"
+    QUARTIC_ROOTS_ROOT     "${quarticRootsFlocke_SOURCE_DIR}"
+  )
+endif()
+
+# Populate the self-contained MATLAB toolbox from the same dependency roots
+# used by the native build.  The roots may point either to sibling checkouts or
+# to repositories downloaded by FetchContent, so no Ruby script or fixed
+# workspace layout is required.
+if ( SPLINES_POPULATE_TOOLBOX )
+  splines_populate_toolbox(
+    DESTINATION            "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/src"
+    SPLINES_ROOT           "${CMAKE_CURRENT_SOURCE_DIR}"
     JSON_ROOT              "${nlohmann_json_SOURCE_DIR}"
     GENERIC_CONTAINER_ROOT "${GenericContainer_SOURCE_DIR}"
     UTILSLITE_ROOT         "${UtilsLite_SOURCE_DIR}"

@@ -52,7 +52,6 @@ Online doc at: http://ebertolazzi.github.io/Splines</param.description>
 % **/*.bak
 %
 .DS_Store
-populate_toolbox.rb
 setup.m</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
     <param.examples />

@@ -1,25 +1,25 @@
-# Splines
+# Splines MATLAB toolbox
 
-To compile the mex files:
+From the repository root, configure the main project first. This resolves each
+dependency from a sibling checkout or FetchContent and populates `toolbox/src`:
 
-```
-mkdir build
-cd build
-cmake ..
-make
-```
-
-using ninja
-
-
-```
-mkdir build
-cd build
-cmake -G ninja ..
-ninja
+```sh
+cmake -S . -B build/toolbox-dependencies \
+  -DSPLINES_POPULATE_TOOLBOX=ON \
+  -DSPLINES_UPDATE_3RDPARTY=OFF \
+  -DSPLINES_INSTALL=OFF \
+  -DBUILD_TESTING=OFF
 ```
 
-or use the interface supported by cmake you prefer.
+Then configure and build the MEX targets:
+
+```sh
+cmake -S toolbox -B toolbox/build
+cmake --build toolbox/build --parallel
+```
+
+As a convenience, `ruby toolbox/build.rb` runs both CMake stages and starts
+from a clean `toolbox/build` directory.
 
 To check the library in MATLAB run
 
@@ -27,4 +27,4 @@ To check the library in MATLAB run
 splines_setup
 ```
 
-before to use it.
+before using it.

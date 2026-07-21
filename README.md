@@ -97,10 +97,13 @@ Useful configure-time options:
 | `SPLINES_BUILD_BENCHMARKS` | `ON` (top-level) | Build `bin/bench_eval` (micro-benchmark, run manually) |
 | `SPLINES_STRICT_WARNINGS` | `OFF` | Compile the Splines target with `-Wconversion`/`-Wsign-conversion`/`-Wshadow`/`-Wdouble-promotion` (GCC/Clang) |
 | `SPLINES_UPDATE_3RDPARTY` | `ON` (top-level) | Refresh `lib3rd/include` from the resolved dependency trees at configure time |
+| `SPLINES_POPULATE_TOOLBOX` | `ON` (top-level) | Rebuild `toolbox/src` from local or FetchContent dependency trees at configure time |
 
 `lib3rd/lib` still receives the compiled third-party libraries as part of the
 normal build; `lib3rd/include` is now managed by `cmake/Update3rdParties.cmake`
 instead of a post-build `collect_dependencies` target.
+The same module prepares the self-contained MATLAB source bundle under
+`toolbox/src`; no separate source-copy script is required.
 
 ## Using it from your own CMake project
 

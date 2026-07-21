@@ -2,7 +2,7 @@
 #                                                                          #
 #  file: cmake/Update3rdParties.cmake                                      #
 #                                                                          #
-#  Refresh the vendored third-party headers under lib3rd/include.          #
+#  Refresh third-party headers and stage MATLAB toolbox sources.          #
 #                                                                          #
 #  This replaces the old collect_dependencies post-build target with a     #
 #  deterministic configure-time sync based on the dependency roots that    #
@@ -75,6 +75,116 @@ function(_splines_copy_eigen_tree ROOT DST)
   if(EXISTS "${ROOT}/unsupported")
     file(COPY "${ROOT}/unsupported" DESTINATION "${DST}")
   endif()
+endfunction()
+
+function(_splines_require_directory PATH LABEL)
+  if(NOT IS_DIRECTORY "${PATH}")
+    message(FATAL_ERROR "${LABEL} not found: ${PATH}")
+  endif()
+endfunction()
+
+function(_splines_copy_complete_tree SRC DST LABEL)
+  _splines_require_directory("${SRC}" "${LABEL}")
+  file(MAKE_DIRECTORY "${DST}")
+  file(COPY "${SRC}/" DESTINATION "${DST}")
+endfunction()
+
+function(_splines_replace_literal PATH OLD_VALUE NEW_VALUE)
+  if(NOT EXISTS "${PATH}")
+    message(FATAL_ERROR "Cannot patch missing toolbox source: ${PATH}")
+  endif()
+
+  file(READ "${PATH}" _contents)
+  string(REPLACE "${OLD_VALUE}" "${NEW_VALUE}" _updated "${_contents}")
+  if(NOT _updated STREQUAL _contents)
+    file(WRITE "${PATH}" "${_updated}")
+  endif()
+endfunction()
+
+# Build the source bundle consumed by toolbox/CMakeLists.txt.  The operation
+# intentionally mirrors the former Ruby population behavior, but uses
+# dependency roots already resolved by the top-level CMake build.  It therefore
+# works with both local sibling checkouts and FetchContent downloads.
+function(splines_populate_toolbox)
+  set(_options)
+  set(_one_value_args
+    DESTINATION
+    SPLINES_ROOT
+    JSON_ROOT
+    GENERIC_CONTAINER_ROOT
+    UTILSLITE_ROOT
+    QUARTIC_ROOTS_ROOT
+  )
+  cmake_parse_arguments(SPLINES_TOOLBOX "${_options}" "${_one_value_args}" "" ${ARGN})
+
+  if(NOT SPLINES_TOOLBOX_DESTINATION)
+    message(FATAL_ERROR "splines_populate_toolbox requires DESTINATION")
+  endif()
+
+  set(_dst "${SPLINES_TOOLBOX_DESTINATION}")
+  get_filename_component(_toolbox_root "${_dst}" DIRECTORY)
+  set(_src_mex_dir "${_toolbox_root}/src_mex")
+
+  message(STATUS "==============================================================")
+  message(STATUS "Populating MATLAB toolbox sources in ${_dst}")
+  message(STATUS "==============================================================")
+
+  _splines_reset_dir("${_dst}")
+  file(MAKE_DIRECTORY "${_src_mex_dir}" "${_toolbox_root}/bin")
+
+  # Remove stale MEX binaries just as the former Ruby population step did.
+  file(GLOB _mex_outputs "${_toolbox_root}/bin/*.mex*")
+  if(_mex_outputs)
+    file(REMOVE ${_mex_outputs})
+  endif()
+
+  # Copy in the same order as the old script.  Later trees may intentionally
+  # replace files with the same relative path from an earlier tree.
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_SPLINES_ROOT}/src" "${_dst}" "Splines sources")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_SPLINES_ROOT}/include" "${_dst}" "Splines headers")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_QUARTIC_ROOTS_ROOT}/src" "${_dst}" "quarticRootsFlocke sources")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_UTILSLITE_ROOT}/src" "${_dst}" "UtilsLite sources")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_GENERIC_CONTAINER_ROOT}/src" "${_dst}" "GenericContainer sources")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_GENERIC_CONTAINER_ROOT}/include" "${_dst}" "GenericContainer headers")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_JSON_ROOT}/include" "${_dst}" "nlohmann_json headers")
+
+  set(
+    _gc_matlab_interface
+    "${SPLINES_TOOLBOX_GENERIC_CONTAINER_ROOT}/matlab/GenericContainerInterface_matlab.cc"
+  )
+  if(NOT EXISTS "${_gc_matlab_interface}")
+    message(FATAL_ERROR "GenericContainer MATLAB interface not found: ${_gc_matlab_interface}")
+  endif()
+  file(COPY "${_gc_matlab_interface}" DESTINATION "${_dst}")
+  file(COPY "${_gc_matlab_interface}" DESTINATION "${_src_mex_dir}")
+
+  foreach(_interface_file
+    "${_dst}/GenericContainerInterface_matlab.cc"
+    "${_src_mex_dir}/GenericContainerInterface_matlab.cc"
+  )
+    _splines_replace_literal("${_interface_file}" "GC_ASSERT(" "GC_assert(")
+  endforeach()
+
+  # MATLAB's bundle does not use the top-level Eigen copies, and these legacy
+  # UtilsLite translation units must not be compiled into the toolbox library.
+  file(REMOVE_RECURSE "${_dst}/Eigen" "${_dst}/unsupported")
+  foreach(_legacy_source
+    Utils_Poly.cc
+    Utils_GG2D.cc
+    Utils_HJPatternSearch.cc
+    Utils_NelderMead.cc
+    Utils_nonlinear_system_tests.cc
+  )
+    file(REMOVE "${_dst}/${_legacy_source}")
+  endforeach()
+
+  if(NOT EXISTS "${SPLINES_TOOLBOX_SPLINES_ROOT}/license.txt")
+    message(FATAL_ERROR "Splines license not found: ${SPLINES_TOOLBOX_SPLINES_ROOT}/license.txt")
+  endif()
+  file(COPY "${SPLINES_TOOLBOX_SPLINES_ROOT}/license.txt" DESTINATION "${_toolbox_root}")
+
+  message(STATUS "MATLAB toolbox sources populated without Ruby")
+  message(STATUS "==============================================================")
 endfunction()
 
 function(splines_update_3rdparties)

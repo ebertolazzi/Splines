@@ -428,6 +428,10 @@ function(add_mex_target MEX_NAME)
         MATLAB_MEX_FILE
         MATLAB_DEFAULT_RELEASE=R2018a
         _USE_MATH_DEFINES
+        # Compatibility with current UtilsLite, where the historical MEX
+        # assertion macros were replaced by Utils::mex_assert().
+        UTILS_MEX_ASSERT=Utils::mex_assert
+        UTILS_MEX_ASSERT0=Utils::mex_assert
     )
     
     # Link delle librerie
