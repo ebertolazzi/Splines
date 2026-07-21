@@ -161,7 +161,6 @@ set( SPLINES_GC_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../GC" CACHE PATH "Local 
 set( SPLINES_UTILSLITE_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../UtilsLite" CACHE PATH "Local UtilsLite checkout" )
 set( SPLINES_QUARTIC_ROOTS_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../quarticRootsFlocke" CACHE PATH "Local quarticRootsFlocke checkout" )
 set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Eigen" CACHE PATH "Local Eigen checkout" )
-set( SPLINES_JSON_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../json" CACHE PATH "Local nlohmann_json checkout" )
 set( SPLINES_EIGEN_VERSION "5.0.1" CACHE STRING "Eigen version to fetch" )
 
 # Default install layout requested for this project:
@@ -262,17 +261,74 @@ endfunction()
 #
 # nlohmann/json dependency.
 #
-# Splines links against the canonical nlohmann_json::nlohmann_json target.
-# The local-or-FetchContent helper lets a developer use a sibling checkout
-# while CI or clean builds can download the pinned release automatically.
-FetchContent_Declare(
-  nlohmann_json
-  GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG        v3.11.3
-  GIT_SHALLOW    TRUE
-)
-splines_use_local_or_fetch( nlohmann_json "${SPLINES_JSON_LOCAL_DIR}" )
-set( SPLINES_NLOHMANN_JSON_SOURCE "${nlohmann_json_SOURCE}" )
+# Splines links against the canonical nlohmann_json::nlohmann_json target and
+# also needs a concrete include directory when staging lib3rd and toolbox/src.
+# Prefer the vendored single header so normal builds require no JSON download;
+# keep find_package() and the lightweight upstream include.zip as fallbacks.
+function( splines_find_nlohmann_include_dir TARGET_NAME OUTPUT_VARIABLE )
+  get_target_property( _include_dirs ${TARGET_NAME} INTERFACE_INCLUDE_DIRECTORIES )
+  foreach( _include_dir IN LISTS _include_dirs )
+    string( REGEX REPLACE "^\\$<BUILD_INTERFACE:(.*)>$" "\\1" _candidate "${_include_dir}" )
+    if ( EXISTS "${_candidate}/nlohmann/json.hpp" )
+      set( ${OUTPUT_VARIABLE} "${_candidate}" PARENT_SCOPE )
+      return()
+    endif()
+  endforeach()
+  set( ${OUTPUT_VARIABLE} "" PARENT_SCOPE )
+endfunction()
+
+function( splines_ensure_nlohmann_json )
+  if ( TARGET nlohmann_json::nlohmann_json )
+    splines_find_nlohmann_include_dir(
+      nlohmann_json::nlohmann_json
+      _nlohmann_include_dir
+    )
+    set( SPLINES_NLOHMANN_JSON_SOURCE "existing target: nlohmann_json::nlohmann_json" PARENT_SCOPE )
+    set( SPLINES_NLOHMANN_JSON_INCLUDE_DIR "${_nlohmann_include_dir}" PARENT_SCOPE )
+    return()
+  endif()
+
+  set( _vendored_include_dir "${CMAKE_CURRENT_SOURCE_DIR}/third_party" )
+  if ( EXISTS "${_vendored_include_dir}/nlohmann/json.hpp" )
+    add_library( nlohmann_json INTERFACE )
+    add_library( nlohmann_json::nlohmann_json ALIAS nlohmann_json )
+    target_include_directories(
+      nlohmann_json SYSTEM INTERFACE
+      "$<BUILD_INTERFACE:${_vendored_include_dir}>"
+    )
+    set( SPLINES_NLOHMANN_JSON_SOURCE "vendored: third_party/nlohmann/json.hpp" PARENT_SCOPE )
+    set( SPLINES_NLOHMANN_JSON_INCLUDE_DIR "${_vendored_include_dir}" PARENT_SCOPE )
+    return()
+  endif()
+
+  find_package( nlohmann_json 3 QUIET )
+  if ( TARGET nlohmann_json::nlohmann_json )
+    splines_find_nlohmann_include_dir(
+      nlohmann_json::nlohmann_json
+      _nlohmann_include_dir
+    )
+    set( SPLINES_NLOHMANN_JSON_SOURCE "find_package" PARENT_SCOPE )
+    set( SPLINES_NLOHMANN_JSON_INCLUDE_DIR "${_nlohmann_include_dir}" PARENT_SCOPE )
+    return()
+  endif()
+
+  FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/include.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+  )
+  FetchContent_MakeAvailable( nlohmann_json )
+  add_library( nlohmann_json INTERFACE )
+  add_library( nlohmann_json::nlohmann_json ALIAS nlohmann_json )
+  target_include_directories(
+    nlohmann_json SYSTEM INTERFACE
+    "$<BUILD_INTERFACE:${nlohmann_json_SOURCE_DIR}/include>"
+  )
+  set( SPLINES_NLOHMANN_JSON_SOURCE "FetchContent: include.zip v3.11.3" PARENT_SCOPE )
+  set( SPLINES_NLOHMANN_JSON_INCLUDE_DIR "${nlohmann_json_SOURCE_DIR}/include" PARENT_SCOPE )
+endfunction()
+
+splines_ensure_nlohmann_json()
 
 
 
@@ -424,7 +480,7 @@ if ( SPLINES_UPDATE_3RDPARTY )
   splines_update_3rdparties(
     DESTINATION            "${CMAKE_CURRENT_SOURCE_DIR}/lib3rd/include"
     EIGEN_ROOT             "${SPLINES_EIGEN_SOURCE_DIR}"
-    JSON_ROOT              "${nlohmann_json_SOURCE_DIR}"
+    JSON_INCLUDE_DIR       "${SPLINES_NLOHMANN_JSON_INCLUDE_DIR}"
     GENERIC_CONTAINER_ROOT "${GenericContainer_SOURCE_DIR}"
     UTILSLITE_ROOT         "${UtilsLite_SOURCE_DIR}"
     QUARTIC_ROOTS_ROOT     "${quarticRootsFlocke_SOURCE_DIR}"
@@ -439,7 +495,7 @@ if ( SPLINES_POPULATE_TOOLBOX )
   splines_populate_toolbox(
     DESTINATION            "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/src"
     SPLINES_ROOT           "${CMAKE_CURRENT_SOURCE_DIR}"
-    JSON_ROOT              "${nlohmann_json_SOURCE_DIR}"
+    JSON_INCLUDE_DIR       "${SPLINES_NLOHMANN_JSON_INCLUDE_DIR}"
     GENERIC_CONTAINER_ROOT "${GenericContainer_SOURCE_DIR}"
     UTILSLITE_ROOT         "${UtilsLite_SOURCE_DIR}"
     QUARTIC_ROOTS_ROOT     "${quarticRootsFlocke_SOURCE_DIR}"

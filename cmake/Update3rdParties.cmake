@@ -110,7 +110,7 @@ function(splines_populate_toolbox)
   set(_one_value_args
     DESTINATION
     SPLINES_ROOT
-    JSON_ROOT
+    JSON_INCLUDE_DIR
     GENERIC_CONTAINER_ROOT
     UTILSLITE_ROOT
     QUARTIC_ROOTS_ROOT
@@ -146,7 +146,7 @@ function(splines_populate_toolbox)
   _splines_copy_complete_tree("${SPLINES_TOOLBOX_UTILSLITE_ROOT}/src" "${_dst}" "UtilsLite sources")
   _splines_copy_complete_tree("${SPLINES_TOOLBOX_GENERIC_CONTAINER_ROOT}/src" "${_dst}" "GenericContainer sources")
   _splines_copy_complete_tree("${SPLINES_TOOLBOX_GENERIC_CONTAINER_ROOT}/include" "${_dst}" "GenericContainer headers")
-  _splines_copy_complete_tree("${SPLINES_TOOLBOX_JSON_ROOT}/include" "${_dst}" "nlohmann_json headers")
+  _splines_copy_complete_tree("${SPLINES_TOOLBOX_JSON_INCLUDE_DIR}" "${_dst}" "nlohmann_json headers")
 
   set(
     _gc_matlab_interface
@@ -192,7 +192,7 @@ function(splines_update_3rdparties)
   set(_one_value_args
     DESTINATION
     EIGEN_ROOT
-    JSON_ROOT
+    JSON_INCLUDE_DIR
     GENERIC_CONTAINER_ROOT
     UTILSLITE_ROOT
     QUARTIC_ROOTS_ROOT
@@ -214,11 +214,11 @@ function(splines_update_3rdparties)
   message(STATUS "Vendoring Eigen headers from ${SPLINES_3RD_EIGEN_ROOT}")
   _splines_copy_eigen_tree("${SPLINES_3RD_EIGEN_ROOT}" "${_dst}")
 
-  if(EXISTS "${SPLINES_3RD_JSON_ROOT}/include")
-    message(STATUS "Vendoring nlohmann_json headers from ${SPLINES_3RD_JSON_ROOT}/include")
-    _splines_copy_header_tree("${SPLINES_3RD_JSON_ROOT}/include" "${_dst}")
+  if(EXISTS "${SPLINES_3RD_JSON_INCLUDE_DIR}/nlohmann/json.hpp")
+    message(STATUS "Vendoring nlohmann_json headers from ${SPLINES_3RD_JSON_INCLUDE_DIR}")
+    _splines_copy_header_tree("${SPLINES_3RD_JSON_INCLUDE_DIR}" "${_dst}")
   else()
-    message(FATAL_ERROR "nlohmann_json headers not found under ${SPLINES_3RD_JSON_ROOT}")
+    message(FATAL_ERROR "nlohmann_json headers not found under ${SPLINES_3RD_JSON_INCLUDE_DIR}")
   endif()
 
   if(EXISTS "${SPLINES_3RD_GENERIC_CONTAINER_ROOT}/include")
