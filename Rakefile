@@ -41,6 +41,7 @@ PROJECT_ROOT = File.expand_path(__dir__)
 BUILD_DIR    = File.join(PROJECT_ROOT, 'build')
 INSTALL_DIR  = File.join(PROJECT_ROOT, 'lib')
 BIN_DIR      = File.join(PROJECT_ROOT, 'bin')
+ALLOW_NETWORK_FETCH = ENV.fetch('NETWORK_FETCH', 'ON').match?(/\A(1|on|true|yes)\z/i)
 
 CMAKE_BUILD_PARALLEL_ARGS = begin
   if OS == :win
@@ -80,7 +81,13 @@ def configure_args(enable_tests: false)
     "-DBUILD_SHARED_LIBS:BOOL=#{cmake_bool(COMPILE_DYNAMIC)}",
     "-DBUILD_TESTING:BOOL=#{cmake_bool(enable_tests)}",
     '-DSPLINES_BUILD_BENCHMARKS:BOOL=OFF',
-    '-DSPLINES_INSTALL:BOOL=ON'
+    '-DSPLINES_INSTALL:BOOL=ON',
+    '-DSPLINES_UPDATE_3RDPARTY:BOOL=OFF',
+    '-DSPLINES_COLLECT_DEPENDENCIES:BOOL=OFF',
+    '-DSPLINES_POPULATE_TOOLBOX:BOOL=OFF',
+    "-DSPLINES_ALLOW_NETWORK_FETCH:BOOL=#{cmake_bool(ALLOW_NETWORK_FETCH)}",
+    "-DGENERIC_CONTAINER_ALLOW_NETWORK_FETCH:BOOL=#{cmake_bool(ALLOW_NETWORK_FETCH)}",
+    '-DUTILS_UPDATE_3RDPARTY:BOOL=OFF'
   ]
 end
 

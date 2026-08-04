@@ -139,8 +139,9 @@ option( BUILD_TESTING "Build the Splines test executables" ${PROJECT_IS_TOP_LEVE
 option( SPLINES_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_BUILD_BENCHMARKS "Build the micro-benchmarks" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_STRICT_WARNINGS "Compile the Splines target with narrowing/conversion warnings" OFF )
-option( SPLINES_UPDATE_3RDPARTY "Refresh lib3rd/include from resolved dependencies at configure time" ${PROJECT_IS_TOP_LEVEL} )
-option( SPLINES_POPULATE_TOOLBOX "Populate toolbox/src from resolved dependencies at configure time" ${PROJECT_IS_TOP_LEVEL} )
+option( SPLINES_UPDATE_3RDPARTY "Refresh lib3rd/include from resolved dependencies at configure time" OFF )
+option( SPLINES_POPULATE_TOOLBOX "Populate toolbox/src from resolved dependencies at configure time" OFF )
+option( SPLINES_ALLOW_NETWORK_FETCH "Allow FetchContent network fallbacks for missing local dependencies" OFF )
 option( SPLINES_COLLECT_DEPENDENCIES "Deprecated alias for SPLINES_UPDATE_3RDPARTY" ${SPLINES_UPDATE_3RDPARTY} )
 if ( SPLINES_COLLECT_DEPENDENCIES )
   set(
@@ -211,8 +212,11 @@ endif()
 set( SPLINES_GC_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../GC" CACHE PATH "Local GenericContainer checkout" )
 set( SPLINES_UTILSLITE_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../UtilsLite" CACHE PATH "Local UtilsLite checkout" )
 set( SPLINES_QUARTIC_ROOTS_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../quarticRootsFlocke" CACHE PATH "Local quarticRootsFlocke checkout" )
-set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Eigen" CACHE PATH "Local Eigen checkout" )
+set( SPLINES_EIGEN_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../eigen" CACHE PATH "Local Eigen checkout" )
 set( SPLINES_EIGEN_VERSION "5.0.1" CACHE STRING "Eigen version to fetch" )
+set( SPLINES_GC_REF "GC2.0" CACHE STRING "GenericContainer branch/tag to fetch" )
+set( SPLINES_UTILSLITE_REF "Utils2.0" CACHE STRING "UtilsLite branch/tag to fetch" )
+set( SPLINES_QUARTIC_ROOTS_REF "1.2.0" CACHE STRING "quarticRootsFlocke branch/tag to fetch" )
 
 # Default install layout requested for this project:
 #   ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
@@ -235,12 +239,64 @@ include( GNUInstallDirs )
 include( FetchContent )
 include( "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Update3rdParties.cmake" )
 
+# A sibling checkout is compatible when either its current branch has the
+# requested name or HEAD is exactly the commit selected by the requested tag
+# or ref. The latter is the normal state of a checkout opened directly at a
+# release tag, where Git reports a detached HEAD.
+function( splines_checkout_matches_ref LOCAL_DIR EXPECTED_REF OUT_MATCH OUT_STATE )
+  set( _matches FALSE )
+  set( _state "not a Git checkout" )
+
+  if ( GIT_EXECUTABLE )
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" -C "${LOCAL_DIR}" symbolic-ref --quiet --short HEAD
+      RESULT_VARIABLE _branch_result
+      OUTPUT_VARIABLE _branch
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if ( _branch_result EQUAL 0 )
+      set( _state "branch ${_branch}" )
+      if ( _branch STREQUAL EXPECTED_REF )
+        set( _matches TRUE )
+      endif()
+    else()
+      set( _state "detached HEAD" )
+    endif()
+
+    if ( NOT _matches )
+      execute_process(
+        COMMAND "${GIT_EXECUTABLE}" -C "${LOCAL_DIR}" rev-parse HEAD
+        RESULT_VARIABLE _head_result
+        OUTPUT_VARIABLE _head_commit
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+      )
+      execute_process(
+        COMMAND "${GIT_EXECUTABLE}" -C "${LOCAL_DIR}" rev-parse "${EXPECTED_REF}^{commit}"
+        RESULT_VARIABLE _ref_result
+        OUTPUT_VARIABLE _ref_commit
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+      )
+      if ( _head_result EQUAL 0 AND _ref_result EQUAL 0 AND _head_commit STREQUAL _ref_commit )
+        set( _matches TRUE )
+        set( _state "HEAD at ref ${EXPECTED_REF}" )
+      endif()
+    endif()
+  endif()
+
+  set( ${OUT_MATCH} ${_matches} PARENT_SCOPE )
+  set( ${OUT_STATE} "${_state}" PARENT_SCOPE )
+endfunction()
+
 # ============================================================================
 # Dependency helper: prefer a local checkout, otherwise use FetchContent
 # ============================================================================
-# splines_use_local_or_fetch(NAME LOCAL_DIR) centralizes the policy used for
+# splines_use_local_or_fetch(NAME LOCAL_DIR EXPECTED_REF) centralizes the policy used for
 # third-party dependencies:
-#   1. If LOCAL_DIR contains a CMake project, force FetchContent to use it.
+#   1. If LOCAL_DIR contains a CMake project on EXPECTED_REF, force
+#      FetchContent to use it.
 #   2. Otherwise, let FetchContent populate the dependency from the declaration.
 #   3. Record *_SOURCE and *_SOURCE_DIR variables for the final summary and for
 #      optional third-party header collection.
@@ -248,7 +304,7 @@ include( "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Update3rdParties.cmake" )
 # The helper temporarily disables install rules while adding dependencies.  This
 # prevents dependency install() commands from being injected into Splines'
 # install target and keeps this project responsible for its own install layout.
-function( splines_use_local_or_fetch NAME LOCAL_DIR )
+function( splines_use_local_or_fetch NAME LOCAL_DIR EXPECTED_REF )
   # Normalize the user-provided local dependency path relative to this project.
   # This allows cache values such as ../UtilsLite to work independently of the
   # directory from which CMake was invoked.
@@ -272,18 +328,34 @@ function( splines_use_local_or_fetch NAME LOCAL_DIR )
   set( _saved_skip_install_rules "${CMAKE_SKIP_INSTALL_RULES}" )
   set( CMAKE_SKIP_INSTALL_RULES ON )
 
-  # A local checkout wins over downloading.  Setting FETCHCONTENT_SOURCE_DIR_* in
-  # the cache is the documented FetchContent override mechanism.
-  if ( EXISTS "${_local_abs}/CMakeLists.txt" )
-    message( STATUS "Using local ${NAME}: ${_local_abs}" )
+  set( _local_matches FALSE )
+  set( _local_git_state "not checked" )
+  if ( EXISTS "${_local_abs}/CMakeLists.txt" AND GIT_EXECUTABLE )
+    splines_checkout_matches_ref( "${_local_abs}" "${EXPECTED_REF}" _local_matches _local_git_state )
+  endif()
+
+  if ( _local_matches )
+    message( STATUS "Splines: ${NAME} -> local ${_local_abs} (${_local_git_state}, requested '${EXPECTED_REF}')" )
     set( "FETCHCONTENT_SOURCE_DIR_${_name_upper}" "${_local_abs}" CACHE PATH "Local ${NAME} checkout" FORCE )
     FetchContent_MakeAvailable( ${NAME} )
-    set( "${NAME}_SOURCE" "local: ${_local_abs}" PARENT_SCOPE )
+    set( "${NAME}_SOURCE" "local: ${_local_abs} [${_local_git_state}]" PARENT_SCOPE )
     set( "${NAME}_SOURCE_DIR" "${_local_abs}" PARENT_SCOPE )
   else()
-    message( STATUS "Fetching ${NAME}" )
+    unset( "FETCHCONTENT_SOURCE_DIR_${_name_upper}" CACHE )
+    if ( EXISTS "${_local_abs}/CMakeLists.txt" )
+      message( STATUS "Splines: ${NAME} -> ignoring local ${_local_abs} (${_local_git_state}, requested '${EXPECTED_REF}')" )
+      set( _local_problem "${_local_git_state} does not match requested ref '${EXPECTED_REF}'" )
+    else()
+      set( _local_problem "checkout not found at ${_local_abs}" )
+    endif()
+    if ( NOT SPLINES_ALLOW_NETWORK_FETCH )
+      message( FATAL_ERROR
+        "Cannot use local ${NAME}: ${_local_problem}. "
+        "Enable SPLINES_ALLOW_NETWORK_FETCH to fetch '${EXPECTED_REF}'." )
+    endif()
+    message( STATUS "Splines: ${NAME} -> FetchContent (requested '${EXPECTED_REF}')" )
     FetchContent_MakeAvailable( ${NAME} )
-    set( "${NAME}_SOURCE" "FetchContent" PARENT_SCOPE )
+    set( "${NAME}_SOURCE" "FetchContent: ${EXPECTED_REF}" PARENT_SCOPE )
     string( TOLOWER "${NAME}" _name_lower )
     if ( DEFINED "${_name_lower}_SOURCE_DIR" )
       set( "${NAME}_SOURCE_DIR" "${${_name_lower}_SOURCE_DIR}" PARENT_SCOPE )
@@ -363,6 +435,12 @@ function( splines_ensure_nlohmann_json )
     return()
   endif()
 
+  if ( NOT SPLINES_ALLOW_NETWORK_FETCH )
+    message( FATAL_ERROR
+      "nlohmann/json was not found in third_party or through find_package. "
+      "Install it locally or explicitly enable SPLINES_ALLOW_NETWORK_FETCH." )
+  endif()
+  message( STATUS "Splines: fetching nlohmann/json (explicitly enabled)" )
   FetchContent_Declare(
     nlohmann_json
     URL https://github.com/nlohmann/json/releases/download/v3.11.3/include.zip
@@ -403,14 +481,34 @@ if ( NOT TARGET Eigen3::Eigen )
     BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
   )
 
-  if ( EXISTS "${SPLINES_EIGEN_LOCAL_DIR_ABS}/Eigen/Core" )
-    message( STATUS "Using local Eigen checkout: ${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
-    set( SPLINES_EIGEN_SOURCE "local: ${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+  set( _splines_eigen_local_matches FALSE )
+  set( _splines_eigen_git_state "not checked" )
+  if ( EXISTS "${SPLINES_EIGEN_LOCAL_DIR_ABS}/Eigen/Core" AND GIT_EXECUTABLE )
+    splines_checkout_matches_ref(
+      "${SPLINES_EIGEN_LOCAL_DIR_ABS}" "${SPLINES_EIGEN_VERSION}"
+      _splines_eigen_local_matches _splines_eigen_git_state
+    )
+  endif()
+
+  if ( _splines_eigen_local_matches )
+    message( STATUS "Splines: Eigen -> local ${SPLINES_EIGEN_LOCAL_DIR_ABS} (${_splines_eigen_git_state}, requested '${SPLINES_EIGEN_VERSION}')" )
+    set( SPLINES_EIGEN_SOURCE "local: ${SPLINES_EIGEN_LOCAL_DIR_ABS} [${_splines_eigen_git_state}]" )
     set( SPLINES_EIGEN_SOURCE_DIR "${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
     add_library( Eigen3::Eigen INTERFACE IMPORTED GLOBAL )
     target_include_directories( Eigen3::Eigen SYSTEM INTERFACE "${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
   else()
-    message( STATUS "Fetching Eigen ${SPLINES_EIGEN_VERSION}" )
+    if ( EXISTS "${SPLINES_EIGEN_LOCAL_DIR_ABS}/Eigen/Core" )
+      message( STATUS "Splines: Eigen -> ignoring local ${SPLINES_EIGEN_LOCAL_DIR_ABS} (${_splines_eigen_git_state}, requested '${SPLINES_EIGEN_VERSION}')" )
+      set( _splines_eigen_problem "${_splines_eigen_git_state} does not match requested ref '${SPLINES_EIGEN_VERSION}'" )
+    else()
+      set( _splines_eigen_problem "checkout not found at ${SPLINES_EIGEN_LOCAL_DIR_ABS}" )
+    endif()
+    if ( NOT SPLINES_ALLOW_NETWORK_FETCH )
+      message( FATAL_ERROR
+        "Cannot use local Eigen: ${_splines_eigen_problem}. "
+        "Enable SPLINES_ALLOW_NETWORK_FETCH to fetch '${SPLINES_EIGEN_VERSION}'." )
+    endif()
+    message( STATUS "Splines: fetching Eigen ${SPLINES_EIGEN_VERSION} (explicitly enabled)" )
     set( SPLINES_EIGEN_SOURCE "FetchContent: ${SPLINES_EIGEN_VERSION}" )
     FetchContent_Declare(
       eigen3
@@ -446,10 +544,10 @@ set( GENERIC_CONTAINER_INSTALL OFF CACHE BOOL "Disable GenericContainer install 
 FetchContent_Declare(
   GenericContainer
   GIT_REPOSITORY https://github.com/ebertolazzi/GenericContainer.git
-  GIT_TAG        GC2.0
+  GIT_TAG        ${SPLINES_GC_REF}
   GIT_SHALLOW    TRUE
 )
-splines_use_local_or_fetch( GenericContainer "${SPLINES_GC_LOCAL_DIR}" )
+splines_use_local_or_fetch( GenericContainer "${SPLINES_GC_LOCAL_DIR}" "${SPLINES_GC_REF}" )
 set( GC GenericContainer::Yaml )
 
 # Clang standard-library propagation for GenericContainer.
@@ -488,10 +586,10 @@ set( UTILS_ENABLE_TESTS OFF CACHE BOOL "Disable dependency test suites" FORCE )
 FetchContent_Declare(
   UtilsLite
   GIT_REPOSITORY https://github.com/ebertolazzi/UtilsLite.git
-  GIT_TAG        Utils2.0
+  GIT_TAG        ${SPLINES_UTILSLITE_REF}
   GIT_SHALLOW    TRUE
 )
-splines_use_local_or_fetch( UtilsLite "${SPLINES_UTILSLITE_LOCAL_DIR}" )
+splines_use_local_or_fetch( UtilsLite "${SPLINES_UTILSLITE_LOCAL_DIR}" "${SPLINES_UTILSLITE_REF}" )
 set( UTILS utils::UtilsLite_Static )
 
 # Treat UtilsLite's headers as SYSTEM includes for anything that links it.
@@ -519,10 +617,10 @@ endforeach()
 FetchContent_Declare(
   quarticRootsFlocke
   GIT_REPOSITORY https://github.com/ebertolazzi/quarticRootsFlocke.git
-  GIT_TAG        1.2.0
+  GIT_TAG        ${SPLINES_QUARTIC_ROOTS_REF}
   GIT_SHALLOW    TRUE
 )
-splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DIR}" )
+splines_use_local_or_fetch( quarticRootsFlocke "${SPLINES_QUARTIC_ROOTS_LOCAL_DIR}" "${SPLINES_QUARTIC_ROOTS_REF}" )
 set( ROOTS utils_quarticRootsFlocke_Static )
 
 set( SPLINES_DEPENDENCIES Eigen3::Eigen )
