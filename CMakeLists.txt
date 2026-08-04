@@ -150,6 +150,57 @@ if ( SPLINES_COLLECT_DEPENDENCIES )
   )
 endif()
 
+# CheckIPOSupported is needed by the IPO/LTO probing below.
+include( CheckIPOSupported )
+
+# ============================================================================
+# Compilation and optimization options
+# ============================================================================
+# Native CPU tuning is enabled for ordinary single-architecture builds, but
+# disabled by default for Apple universal binaries: -march=native cannot
+# describe both arm64 and x86_64 slices in the same artifact.
+set( SPLINES_APPLE_MULTI_ARCH FALSE )
+if ( APPLE AND CMAKE_OSX_ARCHITECTURES )
+  list( LENGTH CMAKE_OSX_ARCHITECTURES SPLINES_OSX_ARCHITECTURE_COUNT )
+  if ( SPLINES_OSX_ARCHITECTURE_COUNT GREATER 1 )
+    set( SPLINES_APPLE_MULTI_ARCH TRUE )
+  endif()
+endif()
+
+set( SPLINES_USE_NATIVE_ARCH_DEFAULT ON )
+if ( SPLINES_APPLE_MULTI_ARCH )
+  set( SPLINES_USE_NATIVE_ARCH_DEFAULT OFF )
+endif()
+
+option(
+  SPLINES_USE_NATIVE_ARCH
+  "Optimize Release builds for the current CPU architecture"
+  ${SPLINES_USE_NATIVE_ARCH_DEFAULT}
+)
+option( SPLINES_ENABLE_LTO "Enable interprocedural optimization / LTO" ON )
+option( SPLINES_UNROLL_LOOPS "Enable explicit loop unrolling in Release builds" OFF )
+option(
+  SPLINES_ENABLE_FAST_MATH
+  "Enable aggressive floating-point optimizations; may change IEEE-754 semantics"
+  OFF
+)
+
+# Probe IPO/LTO support once and reuse the result for every Splines target.
+set( SPLINES_IPO_SUPPORTED FALSE )
+set( SPLINES_IPO_STATUS "disabled" )
+if ( SPLINES_ENABLE_LTO )
+  check_ipo_supported(
+    RESULT SPLINES_IPO_SUPPORTED
+    OUTPUT SPLINES_IPO_ERROR
+    LANGUAGES CXX
+  )
+  if ( SPLINES_IPO_SUPPORTED )
+    set( SPLINES_IPO_STATUS "enabled" )
+  else()
+    set( SPLINES_IPO_STATUS "not supported: ${SPLINES_IPO_ERROR}" )
+  endif()
+endif()
+
 # Local sibling checkout paths.  When these directories exist, they are used
 # directly; otherwise the dependency is downloaded with FetchContent.
 #
@@ -563,6 +614,104 @@ endfunction()
 # The source list is explicit rather than globbed so accidental files do not
 # silently become part of the ABI.  The public alias Splines::Splines is the
 # target that downstream CMake projects should link against.
+
+# ----------------------------------------------------------------------------
+# Common target configuration
+# ----------------------------------------------------------------------------
+# Apply the same diagnostics, definitions and optimization policy to each
+# Splines target.  Flags are target-local (PRIVATE) so they do not leak into
+# consumers that link this project.
+function( splines_configure_target TARGET_NAME )
+  target_compile_options(
+    ${TARGET_NAME}
+    PRIVATE
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wextra>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wpedantic>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wshadow>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wnon-virtual-dtor>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Woverloaded-virtual>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wcast-align>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wunused>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wformat=2>
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wimplicit-fallthrough>
+      $<$<CXX_COMPILER_ID:GNU>:-Wduplicated-cond>
+      $<$<CXX_COMPILER_ID:GNU>:-Wduplicated-branches>
+      $<$<CXX_COMPILER_ID:GNU>:-Wlogical-op>
+      $<$<CXX_COMPILER_ID:GNU>:-Wnull-dereference>
+      $<$<CXX_COMPILER_ID:GNU>:-Wmisleading-indentation>
+      $<$<CXX_COMPILER_ID:MSVC>:/W4>
+      $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+      $<$<CXX_COMPILER_ID:MSVC>:/bigobj>
+  )
+
+  target_compile_options(
+    ${TARGET_NAME}
+    PRIVATE
+      $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O3>
+      $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2>
+      $<$<AND:$<CONFIG:RelWithDebInfo>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2>
+      $<$<AND:$<CONFIG:RelWithDebInfo>,$<CXX_COMPILER_ID:MSVC>>:/O2>
+  )
+
+  target_compile_definitions(
+    ${TARGET_NAME}
+    PRIVATE
+      $<$<CONFIG:Release>:NDEBUG>
+      $<$<CONFIG:Release>:EIGEN_NO_DEBUG>
+  )
+
+  if ( SPLINES_USE_NATIVE_ARCH )
+    if ( SPLINES_APPLE_MULTI_ARCH )
+      message( STATUS
+        "Skipping native CPU flags for ${TARGET_NAME}: Apple universal build uses "
+        "CMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}"
+      )
+    else()
+      target_compile_options(
+        ${TARGET_NAME}
+        PRIVATE
+          $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-march=native>
+          $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-mtune=native>
+          $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:IntelLLVM>>:-xHost>
+          $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/arch:AVX2>
+      )
+    endif()
+  endif()
+
+  if ( SPLINES_UNROLL_LOOPS )
+    target_compile_options(
+      ${TARGET_NAME}
+      PRIVATE
+        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-funroll-loops>
+    )
+  endif()
+
+  # Deliberately OFF by default because it permits reassociation and other
+  # transformations that weaken strict IEEE-754 behavior.
+  if ( SPLINES_ENABLE_FAST_MATH )
+    target_compile_options(
+      ${TARGET_NAME}
+      PRIVATE
+        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-ffast-math>
+        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/fp:fast>
+    )
+  endif()
+
+  if ( SPLINES_IPO_SUPPORTED )
+    set_property( TARGET ${TARGET_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
+    set_property( TARGET ${TARGET_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ON )
+  endif()
+
+  if ( APPLE AND UTILS_BUILD_FAT )
+    set_target_properties(
+      ${TARGET_NAME}
+      PROPERTIES
+        OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}"
+    )
+  endif()
+endfunction()
+
 add_library(
   Splines
   src/SplineAkima.cc
@@ -626,14 +775,12 @@ set_target_properties(
 
 # Baseline warning policy for the project target.  Strict warning groups remain
 # opt-in because they may be too noisy for some compiler/library combinations.
-if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-  target_compile_options( Splines PRIVATE -Wall -Wextra )
-  if ( SPLINES_STRICT_WARNINGS )
-    target_compile_options(
-      Splines PRIVATE
-      -Wconversion -Wsign-conversion -Wshadow -Wdouble-promotion
-    )
-  endif()
+splines_configure_target( Splines )
+if ( SPLINES_STRICT_WARNINGS )
+  target_compile_options(
+    Splines PRIVATE
+    -Wconversion -Wsign-conversion -Wshadow -Wdouble-promotion
+  )
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
@@ -886,4 +1033,46 @@ message( STATUS "  GenericContainer  : ${GenericContainer_SOURCE}" )
 message( STATUS "  UtilsLite         : ${UtilsLite_SOURCE}" )
 message( STATUS "  quarticRootsFlocke: ${quarticRootsFlocke_SOURCE}" )
 message( STATUS "  nlohmann_json     : ${SPLINES_NLOHMANN_JSON_SOURCE}" )
+message( STATUS "  Compiler          : ${CMAKE_CXX_COMPILER_ID}" )
+message( STATUS "  Build shared      : ${BUILD_SHARED_LIBS}" )
+message( STATUS "  Native arch       : ${SPLINES_USE_NATIVE_ARCH}" )
+message( STATUS "  Apple multi-arch  : ${SPLINES_APPLE_MULTI_ARCH}" )
+message( STATUS "  LTO requested     : ${SPLINES_ENABLE_LTO}" )
+message( STATUS "  LTO status        : ${SPLINES_IPO_STATUS}" )
+message( STATUS "  Loop unrolling    : ${SPLINES_UNROLL_LOOPS}" )
+message( STATUS "  Fast math         : ${SPLINES_ENABLE_FAST_MATH}" )
+
+set( SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS )
+if ( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
+  list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:-O3" "RelWithDebInfo:-O2" )
+elseif ( CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" )
+  list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:/O2" "RelWithDebInfo:/O2" )
+endif()
+if ( SPLINES_USE_NATIVE_ARCH )
+  if ( SPLINES_APPLE_MULTI_ARCH )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "native-arch:disabled-for-Apple-universal-build" )
+  elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:-march=native" "Release:-mtune=native" )
+  elseif ( CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM" )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:-xHost" )
+  elseif ( CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:/arch:AVX2" )
+  endif()
+endif()
+if ( SPLINES_UNROLL_LOOPS AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
+  list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:-funroll-loops" )
+endif()
+if ( SPLINES_ENABLE_FAST_MATH )
+  if ( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:-ffast-math" )
+  elseif ( CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" )
+    list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:/fp:fast" )
+  endif()
+endif()
+if ( SPLINES_IPO_SUPPORTED )
+  list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release/RelWithDebInfo:IPO/LTO" )
+endif()
+list( APPEND SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS "Release:NDEBUG" "Release:EIGEN_NO_DEBUG" )
+list( JOIN SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS " " SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS_TEXT )
+message( STATUS "  Optimization flags: ${SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS_TEXT}" )
 message( STATUS "" )
