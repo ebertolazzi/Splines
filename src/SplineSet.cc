@@ -113,12 +113,12 @@ namespace Splines
     // Validazione: almeno 2 punti necessari per una spline
     SPLINE_assert( m_npts > 1, "{} expected at least 2 points, got npts = {}\n", where, m_npts );
 
-    // Validazione: X deve essere strettamente crescente
+    // Validazione: X deve essere monotona crescente
     for ( integer i = 1; i < m_npts; ++i )
     {
       SPLINE_assert(
-        X[i] > X[i - 1],
-        "{} xdata must be strictly increasing: X[{}] = {} <= X[{}] = {}\n",
+        X[i] >= X[i - 1],
+        "{} xdata must be monotone increasing: X[{}] = {} <= X[{}] = {}\n",
         where,
         i - 1,
         X[i - 1],
