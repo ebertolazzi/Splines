@@ -114,7 +114,7 @@ namespace Splines
     //! - `d[1]` the value of the spline `x` derivative
     //! - `d[2]` the value of the spline `y` derivative
     //!
-    void D( real_type const x, real_type const y, real_type d[3] ) const override;
+    void D( real_type const x, real_type const y, std::span<real_type,3> d ) const override;
 
     //!
     //! Evaluate spline with derivative at point \f$ (x,y) \f$
@@ -126,7 +126,7 @@ namespace Splines
     //! - `d[4]` the value of the spline `xy` mixed derivative
     //! - `d[5]` the value of the spline `y` second derivative
     //!
-    void DD( real_type const x, real_type const y, real_type dd[6] ) const override;
+    void DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const override;
 
     //!
     //! Evaluate spline `x`  derivative at point \f$ (x,y) \f$

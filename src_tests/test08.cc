@@ -671,7 +671,7 @@ void test_comprehensive_file_operations()
   {
     // Create a spline
     auto          spline = make_unique<BiCubicSpline>( Spline_sub_type::CUBIC );
-    constexpr int ldZ    = nx;
+    constexpr int ldZ    = ny; // C-style ordering: leading dimension is ny (see z_data comment above)
     spline->build( x_grid, 1, y_grid, 1, z_data, ldZ, nx, ny, false, false );
 
     string save_filename = "test_spline_output.txt";

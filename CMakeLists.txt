@@ -139,6 +139,15 @@ option( BUILD_TESTING "Build the Splines test executables" ${PROJECT_IS_TOP_LEVE
 option( SPLINES_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_BUILD_BENCHMARKS "Build the micro-benchmarks" ${PROJECT_IS_TOP_LEVEL} )
 option( SPLINES_STRICT_WARNINGS "Compile the Splines target with narrowing/conversion warnings" OFF )
+# For a numeric geometry library, sanitizers are the fastest way to catch UB
+# (out-of-range spans, signed overflow, divide-by-zero) that plain warnings
+# miss. Only meaningful in Debug builds; the `rake debug` task wires this up
+# automatically.
+option(
+  SPLINES_ENABLE_SANITIZERS
+  "Build Debug configuration with AddressSanitizer + UndefinedBehaviorSanitizer"
+  OFF
+)
 option( SPLINES_UPDATE_3RDPARTY "Refresh lib3rd/include from resolved dependencies at configure time" OFF )
 option( SPLINES_POPULATE_TOOLBOX "Populate toolbox/src from resolved dependencies at configure time" OFF )
 option( SPLINES_ALLOW_NETWORK_FETCH "Allow FetchContent network fallbacks for missing local dependencies" OFF )
@@ -168,10 +177,7 @@ if ( APPLE AND CMAKE_OSX_ARCHITECTURES )
   endif()
 endif()
 
-set( SPLINES_USE_NATIVE_ARCH_DEFAULT ON )
-if ( SPLINES_APPLE_MULTI_ARCH )
-  set( SPLINES_USE_NATIVE_ARCH_DEFAULT OFF )
-endif()
+set( SPLINES_USE_NATIVE_ARCH_DEFAULT OFF )
 
 option(
   SPLINES_USE_NATIVE_ARCH
@@ -886,6 +892,22 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
   target_link_options( Splines PUBLIC -stdlib=libc++ )
 endif()
 
+# Sanitizers are propagated PUBLIC (compile and link) so that every executable
+# linking against Splines -- in particular the test suite built by `rake
+# debug` -- is compiled and linked consistently; mixing sanitized and
+# non-sanitized translation units in the same binary is undefined behavior.
+if ( SPLINES_ENABLE_SANITIZERS )
+  target_compile_options(
+    Splines PUBLIC
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fsanitize=address,undefined>
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fno-omit-frame-pointer>
+  )
+  target_link_options(
+    Splines PUBLIC
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fsanitize=address,undefined>
+  )
+endif()
+
 # MSVC-specific options: /utf-8 avoids source encoding ambiguity, while /bigobj
 # raises the object section limit for template-heavy translation units.
 if ( MSVC )
@@ -1139,6 +1161,7 @@ message( STATUS "  LTO requested     : ${SPLINES_ENABLE_LTO}" )
 message( STATUS "  LTO status        : ${SPLINES_IPO_STATUS}" )
 message( STATUS "  Loop unrolling    : ${SPLINES_UNROLL_LOOPS}" )
 message( STATUS "  Fast math         : ${SPLINES_ENABLE_FAST_MATH}" )
+message( STATUS "  Sanitizers        : ${SPLINES_ENABLE_SANITIZERS}" )
 
 set( SPLINES_EFFECTIVE_OPTIMIZATION_FLAGS )
 if ( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )

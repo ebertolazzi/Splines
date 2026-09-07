@@ -143,9 +143,9 @@ namespace Splines
     [[nodiscard]] real_type DDDD( real_type const ) const override { return 0; }
     [[nodiscard]] real_type DDDDD( real_type const ) const override { return 0; }
 
-    void D( real_type const x, real_type dd[2] ) const override;
+    void D( real_type const x, std::span<real_type,2> dd ) const override;
 
-    void DD( real_type const x, real_type dd[3] ) const override;
+    void DD( real_type const x, std::span<real_type,3> dd ) const override;
 
     ///@}
 

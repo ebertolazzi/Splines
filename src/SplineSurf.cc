@@ -257,9 +257,14 @@ namespace Splines
 
     // integer const LD = fortran_storage ? NR : NC;
 
-    auto read_mat = [this, &transposed, &fortran_storage, &where]( GenericContainer const & M ) -> void
+    auto read_mat = [this, &transposed, &where]( GenericContainer const & M ) -> void
     {
-      bool          trans = transposed == fortran_storage;
+      // NOTE: `fortran_storage` only disambiguates the memory layout of a *flat*
+      // zdata array (see the VEC_REAL branch below); once zdata is already a
+      // properly shaped 2D container (a JSON/YAML nested array or a native
+      // matrix) there is no flattening ambiguity left, so only `transposed`
+      // determines the expected shape/orientation, matching the VEC_REAL branch.
+      bool          trans = transposed;
       integer const NR    = trans ? m_ny : m_nx;
       integer const NC    = trans ? m_nx : m_ny;
       integer const nr    = static_cast<integer>( M.num_rows() );

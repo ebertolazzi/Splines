@@ -81,7 +81,7 @@ namespace Splines
   }
 
   //! Compute value and first derivatives at (x,y)
-  void BilinearSpline::D( real_type const x, real_type const y, real_type d[3] ) const
+  void BilinearSpline::D( real_type const x, real_type const y, std::span<real_type,3> d ) const
   {
     auto [i, j, dx, dy, DX, DY] = find_patch( x, y );
 
@@ -118,9 +118,9 @@ namespace Splines
   }
 
   //! Compute value and all derivatives up to second order at (x,y)
-  void BilinearSpline::DD( real_type const x, real_type const y, real_type dd[6] ) const
+  void BilinearSpline::DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const
   {
-    this->D( x, y, dd );
+    this->D( x, y, dd.first<3>() );
 
     auto [i, j, dx, dy, DX, DY] = find_patch( x, y );
 

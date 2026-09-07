@@ -372,7 +372,7 @@ namespace Splines
     //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
     //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
     //!
-    void D( real_type const x, real_type const y, real_type const s, real_type d[3] ) const
+    void D( real_type const x, real_type const y, real_type const s, std::span<real_type,3> d ) const
     {
       real_type d0[3], d1[3];
       m_surf0.D( x, y, d0 );
@@ -424,7 +424,7 @@ namespace Splines
     //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
     //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
     //!
-    void DD( real_type const x, real_type const y, real_type const s, real_type dd[6] ) const
+    void DD( real_type const x, real_type const y, real_type const s, std::span<real_type,6> dd ) const
     {
       real_type dd0[6], dd1[6];
       m_surf0.DD( x, y, dd0 );

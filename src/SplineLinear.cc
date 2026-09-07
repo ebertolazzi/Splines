@@ -46,7 +46,7 @@ namespace Splines
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void LinearSpline::D( real_type const x, real_type dd[2] ) const
+  void LinearSpline::D( real_type const x, std::span<real_type,2> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );
@@ -60,7 +60,7 @@ namespace Splines
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  void LinearSpline::DD( real_type const x, real_type dd[3] ) const
+  void LinearSpline::DD( real_type const x, std::span<real_type,3> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );

@@ -347,7 +347,7 @@ namespace Splines
     }
   }
 
-  void QuinticSplineBase::D( real_type const x, real_type dd[2] ) const
+  void QuinticSplineBase::D( real_type const x, std::span<real_type,2> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );
@@ -366,7 +366,7 @@ namespace Splines
             base_D[4] * m_Ypp[ni] + base_D[5] * m_Ypp[ni + 1];
   }
 
-  void QuinticSplineBase::DD( real_type const x, real_type dd[3] ) const
+  void QuinticSplineBase::DD( real_type const x, std::span<real_type,3> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );

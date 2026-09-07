@@ -137,7 +137,16 @@ namespace Splines
     {
       for ( integer i = 0; i < m_nx; ++i )
       {
-        S->build( mX, Z.row( i ) );
+        // `mY` and not `mX`: a row of Z runs along y, so the 1D spline that
+        // produces the y-derivatives must be built on the y abscissas.  Built on
+        // mX the derivatives came out scaled by the ratio of the two grid steps
+        // -- 7620x on a Mach (step 0.2) by altitude (step 1524 m) table -- and
+        // the surface oscillated by orders of magnitude between the nodes while
+        // still interpolating them exactly.  Invisible whenever the two axes
+        // happen to be similarly spaced, and `build(x,y)` takes min(|x|,|y|)
+        // points, so with nx != ny it silently truncated or read past the end
+        // instead of failing.  \see test19.
+        S->build( mY, Z.row( i ) );
         for ( integer j = 0; j < m_ny; ++j ) DY( i, j ) = S->yp_node( j );
       }
     }
@@ -633,7 +642,7 @@ namespace Splines
     //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
     //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
     //!
-    virtual void D( real_type const x, real_type const y, real_type d[3] ) const = 0;
+    virtual void D( real_type const x, real_type const y, std::span<real_type,3> d ) const = 0;
 
     //!
     //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
@@ -657,7 +666,7 @@ namespace Splines
     //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
     //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
     //!
-    virtual void DD( real_type const x, real_type const y, real_type dd[6] ) const = 0;
+    virtual void DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
