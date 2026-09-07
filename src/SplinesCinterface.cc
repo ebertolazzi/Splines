@@ -42,6 +42,7 @@
 using namespace SplinesLoad;
 
 #include <map>
+#include <memory>
 #include <mutex>
 #include <string>
 
@@ -145,10 +146,8 @@ namespace
 
 extern "C"
 {
-  typedef std::map<std::string, Spline *> MAP_SPLINE;
-
-  static std::map<std::string, Spline *> spline_stored;
-  static Spline *                        head = nullptr;
+  static std::map<std::string, std::unique_ptr<Spline>> spline_stored;
+  static Spline *                                        head = nullptr;  // non-owning
 
   int SPLINE_new( char const id[], char const type[] )
   {
@@ -159,16 +158,15 @@ extern "C"
 
         if ( auto const it = spline_stored.find( id ); it != spline_stored.end() )
         {
-          if ( head == it->second ) head = nullptr;
-          delete it->second;
+          if ( head == it->second.get() ) head = nullptr;
           spline_stored.erase( it );
         }
 
-        Spline * spline = make_spline( Splines::string_to_splineType1D( type ) );
-        if ( spline == nullptr ) return -1;
+        std::unique_ptr<Spline> spline( make_spline( Splines::string_to_splineType1D( type ) ) );
+        if ( !spline ) return -1;
 
-        head             = spline;
-        spline_stored[id] = spline;
+        head              = spline.get();
+        spline_stored[id] = std::move( spline );
         return 0;
       } );
   }
@@ -181,7 +179,7 @@ extern "C"
         if ( id == nullptr ) return -1;
         if ( auto const it = spline_stored.find( id ); it != spline_stored.end() )
         {
-          head = it->second;
+          head = it->second.get();
           return 0;
         }
         return -1;
@@ -196,8 +194,7 @@ extern "C"
         if ( id == nullptr ) return -1;
         if ( auto const it = spline_stored.find( id ); it != spline_stored.end() )
         {
-          if ( head == it->second ) head = nullptr;
-          delete it->second;
+          if ( head == it->second.get() ) head = nullptr;
           spline_stored.erase( it );
           return 0;
         }
@@ -237,7 +234,7 @@ extern "C"
       {
         if ( id == nullptr ) return nullptr;
         if ( auto const it = spline_stored.find( id ); it != spline_stored.end() )
-          return static_cast<void *>( it->second );
+          return static_cast<void *>( it->second.get() );
         return nullptr;
       } );
   }

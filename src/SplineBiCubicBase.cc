@@ -61,7 +61,7 @@ namespace Splines
     return u.dot( bili3 * v );
   }
 
-  void BiCubicSplineBase::D( real_type const x, real_type const y, real_type d[3] ) const
+  void BiCubicSplineBase::D( real_type const x, real_type const y, std::span<real_type,3> d ) const
   {
     Mat4x4 M;
     Vec4   u, u_D, v, v_D;
@@ -83,7 +83,7 @@ namespace Splines
     d[2] = u.dot( M * v_D );
   }
 
-  void BiCubicSplineBase::DD( real_type const x, real_type const y, real_type dd[6] ) const
+  void BiCubicSplineBase::DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const
   {
     Mat4x4 M;
     Vec4   u, u_D, u_DD, v, v_D, v_DD;

@@ -633,7 +633,7 @@ namespace Splines
     //! - d[1] derivative respect to \f$ x \f$ of the spline: \f$ S_x(x,y) \f$
     //! - d[2] derivative respect to \f$ y \f$ of the spline: \f$ S_y(x,y) \f$
     //!
-    virtual void D( real_type const x, real_type const y, real_type d[3] ) const = 0;
+    virtual void D( real_type const x, real_type const y, std::span<real_type,3> d ) const = 0;
 
     //!
     //! First derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$
@@ -657,7 +657,7 @@ namespace Splines
     //! - dd[4] mixed second derivative: \f$ S_{xy}(x,y) \f$
     //! - dd[5] second derivative respect to \f$ y \f$ of the spline: \f$ S_{yy}(x,y) \f$
     //!
-    virtual void DD( real_type const x, real_type const y, real_type dd[6] ) const = 0;
+    virtual void DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const = 0;
 
     //!
     //! Second derivatives respect to \f$ x \f$ at point \f$ (x,y) \f$

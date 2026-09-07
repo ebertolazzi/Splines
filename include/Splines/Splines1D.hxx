@@ -323,8 +323,8 @@ namespace Splines
     //!
     [[nodiscard]] real_type DDDDD( real_type const x ) const { return m_spline->DDDDD( x ); }
 
-    void D( real_type const x, real_type dd[2] ) const { m_spline->D( x, dd ); }
-    void DD( real_type const x, real_type dd[2] ) const { m_spline->DD( x, dd ); }
+    void D( real_type const x, std::span<real_type,2> dd ) const { m_spline->D( x, dd ); }
+    void DD( real_type const x, std::span<real_type,3> dd ) const { m_spline->DD( x, dd ); }
 
     ///@}
 

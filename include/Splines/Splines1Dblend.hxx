@@ -281,20 +281,20 @@ namespace Splines
     real_type DDDDD( real_type const x, real_type const s ) const
     { return ( 1 - s ) * m_spline0.DDDDD( x ) + s * m_spline1.DDDDD( x ); }
 
-    void D( real_type const x, real_type const s, real_type dd[2] ) const
+    void D( real_type const x, real_type const s, std::span<real_type,2> dd ) const
     {
       real_type d0[2], d1[2];
-      m_spline0.D( x, d0 );
-      m_spline1.D( x, d1 );
+      m_spline0.D( x, std::span<real_type,2>( d0 ) );
+      m_spline1.D( x, std::span<real_type,2>( d1 ) );
       dd[0] = ( 1 - s ) * d0[0] + s * d1[0];
       dd[1] = ( 1 - s ) * d0[1] + s * d1[1];
     }
 
-    void DD( real_type const x, real_type const s, real_type dd[3] ) const
+    void DD( real_type const x, real_type const s, std::span<real_type,3> dd ) const
     {
       real_type d0[3], d1[3];
-      m_spline0.DD( x, d0 );
-      m_spline1.DD( x, d1 );
+      m_spline0.DD( x, std::span<real_type,3>( d0 ) );
+      m_spline1.DD( x, std::span<real_type,3>( d1 ) );
       dd[0] = ( 1 - s ) * d0[0] + s * d1[0];
       dd[1] = ( 1 - s ) * d0[1] + s * d1[1];
       dd[2] = ( 1 - s ) * d0[2] + s * d1[2];

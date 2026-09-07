@@ -1192,8 +1192,8 @@ namespace Splines
     //!
     [[nodiscard]] virtual real_type DDDDD( real_type const ) const { return real_type( 0 ); }
 
-    virtual void D( real_type const x, real_type dd[2] ) const  = 0;
-    virtual void DD( real_type const x, real_type dd[3] ) const = 0;
+    virtual void D( real_type const x, std::span<real_type,2> dd ) const  = 0;
+    virtual void DD( real_type const x, std::span<real_type,3> dd ) const = 0;
 
     //!
     //! \name Batch evaluation

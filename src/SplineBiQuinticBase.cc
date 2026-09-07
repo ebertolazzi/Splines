@@ -72,7 +72,7 @@ namespace Splines
     return u.dot( M * v );
   }
 
-  void BiQuinticSplineBase::D( real_type const x, real_type const y, real_type d[3] ) const
+  void BiQuinticSplineBase::D( real_type const x, real_type const y, std::span<real_type,3> d ) const
   {
     Mat6x6 M;
     Vec6   u, u_D, v, v_D;
@@ -126,7 +126,7 @@ namespace Splines
     return u.dot( M * v_D );
   }
 
-  void BiQuinticSplineBase::DD( real_type const x, real_type const y, real_type dd[6] ) const
+  void BiQuinticSplineBase::DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const
   {
     Mat6x6 M;
     Vec6   u, u_D, u_DD, v, v_D, v_DD;

@@ -52,31 +52,26 @@ namespace Splines
   class Spline2D final
   {
   protected:
-    std::string  m_name;                 ///< Name identifier for the spline surface
-    SplineSurf * m_spline_2D = nullptr;  ///< Pointer to the actual spline implementation
+    std::string                  m_name;        ///< Name identifier for the spline surface
+    std::unique_ptr<SplineSurf>  m_spline_2D;   ///< Owns the actual spline implementation
 
     //! \brief Internal method to create a new spline of the specified type
     //! \param[in] tp The type of spline surface to create (e.g., bilinear, bicubic, biquintic)
     void new_spline( SplineType2D tp )
     {
-      if ( m_spline_2D != nullptr )
-      {
-        delete m_spline_2D;
-        m_spline_2D = nullptr;
-      }
       switch ( tp )
       {
-        case SplineType2D::BILINEAR: m_spline_2D = new BilinearSpline( m_name ); break;
-        case SplineType2D::BICUBIC_CUBIC: m_spline_2D = new BiCubicSpline( Spline_sub_type::CUBIC, m_name ); break;
-        case SplineType2D::BICUBIC_AKIMA: m_spline_2D = new BiCubicSpline( Spline_sub_type::AKIMA, m_name ); break;
-        case SplineType2D::BICUBIC_VANLEER: m_spline_2D = new BiCubicSpline( Spline_sub_type::VANLEER, m_name ); break;
-        case SplineType2D::BICUBIC_PCHIP: m_spline_2D = new BiCubicSpline( Spline_sub_type::PCHIP, m_name ); break;
-        case SplineType2D::BIQUINTIC_CUBIC: m_spline_2D = new BiQuinticSpline( Spline_sub_type::CUBIC, m_name ); break;
-        case SplineType2D::BIQUINTIC_AKIMA: m_spline_2D = new BiQuinticSpline( Spline_sub_type::AKIMA, m_name ); break;
+        case SplineType2D::BILINEAR: m_spline_2D = std::make_unique<BilinearSpline>( m_name ); break;
+        case SplineType2D::BICUBIC_CUBIC: m_spline_2D = std::make_unique<BiCubicSpline>( Spline_sub_type::CUBIC, m_name ); break;
+        case SplineType2D::BICUBIC_AKIMA: m_spline_2D = std::make_unique<BiCubicSpline>( Spline_sub_type::AKIMA, m_name ); break;
+        case SplineType2D::BICUBIC_VANLEER: m_spline_2D = std::make_unique<BiCubicSpline>( Spline_sub_type::VANLEER, m_name ); break;
+        case SplineType2D::BICUBIC_PCHIP: m_spline_2D = std::make_unique<BiCubicSpline>( Spline_sub_type::PCHIP, m_name ); break;
+        case SplineType2D::BIQUINTIC_CUBIC: m_spline_2D = std::make_unique<BiQuinticSpline>( Spline_sub_type::CUBIC, m_name ); break;
+        case SplineType2D::BIQUINTIC_AKIMA: m_spline_2D = std::make_unique<BiQuinticSpline>( Spline_sub_type::AKIMA, m_name ); break;
         case SplineType2D::BIQUINTIC_VANLEER:
-          m_spline_2D = new BiQuinticSpline( Spline_sub_type::VANLEER, m_name );
+          m_spline_2D = std::make_unique<BiQuinticSpline>( Spline_sub_type::VANLEER, m_name );
           break;
-        case SplineType2D::BIQUINTIC_PCHIP: m_spline_2D = new BiQuinticSpline( Spline_sub_type::PCHIP, m_name ); break;
+        case SplineType2D::BIQUINTIC_PCHIP: m_spline_2D = std::make_unique<BiQuinticSpline>( Spline_sub_type::PCHIP, m_name ); break;
       }
     }
 
@@ -84,19 +79,18 @@ namespace Splines
     //! \name Constructors and Destructor
     ///@{
 
+    Spline2D( Spline2D const & )                   = delete;
+    Spline2D const & operator=( Spline2D const & ) = delete;
+
+    Spline2D( Spline2D && )             = default;
+    Spline2D & operator=( Spline2D && ) = default;
+
     //! \brief Constructs an empty spline surface with the given name.
     //! \param[in] name Optional name identifier for the spline (default: "Spline2D")
     explicit Spline2D( string_view name = "Spline2D" ) : m_name( name ) {}
 
-    //! \brief Destructor. Safely deletes the internal spline object.
-    ~Spline2D()
-    {
-      if ( m_spline_2D != nullptr )
-      {
-        delete m_spline_2D;
-        m_spline_2D = nullptr;
-      }
-    }
+    //! \brief Destructor. The owned spline implementation is freed automatically.
+    ~Spline2D() = default;
 
     ///@}
 
@@ -395,7 +389,7 @@ namespace Splines
     //!                - d[0] = S(x, y)
     //!                - d[1] = ∂S/∂x (x, y)
     //!                - d[2] = ∂S/∂y (x, y)
-    void D( real_type const x, real_type const y, real_type d[3] ) const { return m_spline_2D->D( x, y, d ); }
+    void D( real_type const x, real_type const y, std::span<real_type,3> d ) const { return m_spline_2D->D( x, y, d ); }
 
     //! \brief Returns ∂S/∂x at (x, y).
     real_type Dx( real_type const x, real_type const y ) const { return m_spline_2D->Dx( x, y ); }
@@ -425,7 +419,7 @@ namespace Splines
     //!                 - dd[3] = ∂²S/∂x²
     //!                 - dd[4] = ∂²S/∂x∂y
     //!                 - dd[5] = ∂²S/∂y²
-    void DD( real_type const x, real_type const y, real_type dd[6] ) const { return m_spline_2D->DD( x, y, dd ); }
+    void DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const { return m_spline_2D->DD( x, y, dd ); }
 
     //! \brief Returns ∂²S/∂x² at (x, y).
     real_type Dxx( real_type const x, real_type const y ) const { return m_spline_2D->Dxx( x, y ); }

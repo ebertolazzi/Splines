@@ -71,10 +71,10 @@ namespace Splines
     [[nodiscard]] real_type Dy( real_type const x, real_type const y ) const override;
 
     //! Compute value and first derivatives at (x,y)
-    void D( real_type const x, real_type const y, real_type d[3] ) const override;
+    void D( real_type const x, real_type const y, std::span<real_type,3> d ) const override;
 
     //! Compute value and all derivatives up to second order at (x,y)
-    void DD( real_type const x, real_type const y, real_type dd[6] ) const override;
+    void DD( real_type const x, real_type const y, std::span<real_type,6> dd ) const override;
 
     //! Second derivatives
     [[nodiscard]] real_type Dxx( real_type const, real_type const ) const override { return 0; }

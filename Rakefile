@@ -68,13 +68,17 @@ def yellow_sh(*cmd)
   sh(*cmd)
 end
 
-def configure_args(enable_tests: false)
+def debug_build_dir
+  File.join(PROJECT_ROOT, 'build-debug')
+end
+
+def configure_args(enable_tests: false, build_dir: BUILD_DIR, build_type_override: nil, enable_sanitizers: false)
   [
     'cmake',
     '-G', 'Ninja',
     '-S', PROJECT_ROOT,
-    '-B', BUILD_DIR,
-    "-DCMAKE_BUILD_TYPE:STRING=#{build_configuration}",
+    '-B', build_dir,
+    "-DCMAKE_BUILD_TYPE:STRING=#{build_type_override || build_configuration}",
     "-DCMAKE_INSTALL_PREFIX:PATH=#{INSTALL_DIR}",
     '-DCMAKE_INSTALL_LIBDIR:PATH=lib',
     '-DCMAKE_INSTALL_INCLUDEDIR:PATH=include',
@@ -87,22 +91,28 @@ def configure_args(enable_tests: false)
     '-DSPLINES_POPULATE_TOOLBOX:BOOL=OFF',
     "-DSPLINES_ALLOW_NETWORK_FETCH:BOOL=#{cmake_bool(ALLOW_NETWORK_FETCH)}",
     "-DGENERIC_CONTAINER_ALLOW_NETWORK_FETCH:BOOL=#{cmake_bool(ALLOW_NETWORK_FETCH)}",
-    '-DUTILS_UPDATE_3RDPARTY:BOOL=OFF'
+    '-DUTILS_UPDATE_3RDPARTY:BOOL=OFF',
+    "-DSPLINES_ENABLE_SANITIZERS:BOOL=#{cmake_bool(enable_sanitizers)}"
   ]
 end
 
-def cmake_build_args(target)
+def cmake_build_args(target, build_dir: BUILD_DIR, config: build_configuration)
   [
-    'cmake', '--build', BUILD_DIR,
-    '--config', build_configuration,
+    'cmake', '--build', build_dir,
+    '--config', config,
     '--target', target,
     *CMAKE_BUILD_PARALLEL_ARGS
   ]
 end
 
-def configure(enable_tests: false)
-  FileUtils.mkdir_p(BUILD_DIR)
-  yellow_sh(*configure_args(enable_tests: enable_tests))
+def configure(enable_tests: false, build_dir: BUILD_DIR, build_type_override: nil, enable_sanitizers: false)
+  FileUtils.mkdir_p(build_dir)
+  yellow_sh(*configure_args(
+    enable_tests: enable_tests,
+    build_dir: build_dir,
+    build_type_override: build_type_override,
+    enable_sanitizers: enable_sanitizers
+  ))
 end
 
 desc 'default task: build library only'
@@ -132,9 +142,27 @@ end
 desc 'alias for run'
 task test: :run
 
+desc 'debug build with AddressSanitizer + UndefinedBehaviorSanitizer, then run all tests'
+task :debug do
+  dbg_dir = debug_build_dir
+  puts "Debug build with sanitizers (#{OS})".green
+  configure(
+    enable_tests: true,
+    build_dir: dbg_dir,
+    build_type_override: 'Debug',
+    enable_sanitizers: true
+  )
+  yellow_sh(*cmake_build_args('Splines_all_tests', build_dir: dbg_dir, config: 'Debug'))
+  yellow_sh('ctest', '--test-dir', dbg_dir, '--build-config', 'Debug', '--output-on-failure')
+end
+
+desc 'alias for debug (compile with AddressSanitizer/UndefinedBehaviorSanitizer and run tests)'
+task sanitizer: :debug
+
 desc 'remove generated files'
 task :clean do
   FileUtils.rm_rf(BUILD_DIR)
+  FileUtils.rm_rf(debug_build_dir)
   FileUtils.rm_rf(INSTALL_DIR)
   FileUtils.rm_rf(BIN_DIR)
   FileUtils.rm_rf(File.join(PROJECT_ROOT, 'lib3rd'))
@@ -151,5 +179,5 @@ task :cpack do
   yellow_sh('cmake', '--build', BUILD_DIR, '--config', build_configuration, '--target', 'package')
 end
 
-CLEAN.include './**/*.o', './**/*.obj', './bin/**/example*', './build'
+CLEAN.include './**/*.o', './**/*.obj', './bin/**/example*', './build', './build-debug'
 CLOBBER.include

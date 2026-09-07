@@ -216,9 +216,9 @@ namespace Splines
       return this->id_DDDDD( res.first, res.second );
     }
 
-    void D( real_type const x, real_type dd[2] ) const override;
+    void D( real_type const x, std::span<real_type,2> dd ) const override;
 
-    void DD( real_type const x, real_type dd[3] ) const override;
+    void DD( real_type const x, std::span<real_type,3> dd ) const override;
 
     ///@}
 

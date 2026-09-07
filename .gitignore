@@ -92,3 +92,4 @@ doc_quintic/*.out
 doc_quintic/*.toc
 doc_quintic/*.pdf
 json.hpp
+build-debug

@@ -293,7 +293,7 @@ namespace Splines
     }
   }
 
-  void CubicSplineBase::D( real_type const x, real_type dd[2] ) const
+  void CubicSplineBase::D( real_type const x, std::span<real_type,2> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );
@@ -308,7 +308,7 @@ namespace Splines
     dd[1] = base_D[0] * m_Y[ni] + base_D[1] * m_Y[ni + 1] + base_D[2] * m_Yp[ni] + base_D[3] * m_Yp[ni + 1];
   }
 
-  void CubicSplineBase::DD( real_type const x, real_type dd[3] ) const
+  void CubicSplineBase::DD( real_type const x, std::span<real_type,3> dd ) const
   {
     std::pair<integer, real_type> res( 0, x );
     m_search.find( res );
