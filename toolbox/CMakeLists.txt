@@ -163,20 +163,19 @@ set(MSVC_COMPILE_FLAGS
   "/w14928"
   "/external:W0"
   "/external:anglebrackets"
-  "/external:templates-compat"
 )
 
 string(JOIN " " MSVC_COMPILE_FLAGS_STR ${MSVC_COMPILE_FLAGS})
 
 set( VS_DEFINE  "/D_WINDOWS /D_SCL_SECURE_NO_WARNINGS /DHAVE_STRING_H /DNO_GETTIMEOFDAY /DYAML_DECLARE_STATIC /DPCRE_STATIC" )
-set( VS_FLAGS   "/nologo /std:c++17 /utf-8 /GS /Gy /GF /EHsc /bigobj" )
+set( VS_FLAGS   "/nologo /std:c++20 /utf-8 /GS /Gy /GF /EHsc /bigobj" )
 
 if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
-  set( CMAKE_CXX_FLAGS         "-std=c++17 ${COMMON_CXX_FLAGS_STR}" )
+  set( CMAKE_CXX_FLAGS         "-std=c++20 ${COMMON_CXX_FLAGS_STR}" )
   set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -O2 -g " )
   set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -ggdb " )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-  set( CMAKE_CXX_FLAGS         "-std=c++17 -stdlib=libc++ ${COMMON_CXX_FLAGS_STR}" )
+  set( CMAKE_CXX_FLAGS         "-std=c++20 -stdlib=libc++ ${COMMON_CXX_FLAGS_STR}" )
   set( CMAKE_CXX_FLAGS_RELEASE "-fPIC -Os -g -fcolor-diagnostics " )
   set( CMAKE_CXX_FLAGS_DEBUG   "-fPIC -O0 -gfull -fcolor-diagnostics " )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
