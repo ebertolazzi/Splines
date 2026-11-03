@@ -163,7 +163,7 @@ namespace Splines
       Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3 * A, 2 * B, C );
       real_type     r[2];
-      integer const nr = q.getRootsInOpenRange( 0, H, r );
+      integer const nr = q.get_roots_in_open_range( 0, H, r );
       for ( integer j = 0; j < nr; ++j )
       {
         real_type const rr = r[j];
@@ -239,7 +239,7 @@ namespace Splines
       Hermite3_to_poly( H, P0, P1, DP0, DP1, A, B, C, D );
       q.setup( 3 * A, 2 * B, C );
       real_type     r[2];
-      integer const nr = q.getRootsInOpenRange( 0, H, r );
+      integer const nr = q.get_roots_in_open_range( 0, H, r );
       for ( integer j = 0; j < nr; ++j )
       {
         real_type const rr  = r[j];

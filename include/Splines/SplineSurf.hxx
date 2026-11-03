@@ -465,7 +465,9 @@ namespace Splines
     //!
     void build( RefVectorC x, RefVectorC y, RefMatrixC Z, bool const transposed )
     {
-      resize( x.size(), y.size() );
+      // Eigen's Index is 64 bit also where `integer` is 32 bit: the sizes here
+      // are spline dimensions, so the cast is explicit rather than implicit.
+      resize( static_cast<integer>(x.size()), static_cast<integer>(y.size()) );
       mX = x;
       mY = y;
       load_Z( Z, transposed );
