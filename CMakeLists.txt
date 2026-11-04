@@ -202,7 +202,17 @@ option(
   "Optimize Release builds for the current CPU architecture"
   ${SPLINES_USE_NATIVE_ARCH_DEFAULT}
 )
-option( SPLINES_ENABLE_LTO "Enable interprocedural optimization / LTO" ON )
+# LTO spento per default (come in GenericContainer e Regularized).
+#
+# Su MSVC l'IPO di CMake significa /GL sugli oggetti, e un solo oggetto con
+# /GL dentro un .lib costringe il linker di CHI USA la libreria a ricominciare
+# da capo con /LTCG.  Il costo lo paga ogni link di PINS e di ogni problema
+# generato da XOptima, per un guadagno marginale: PINS compila senza LTO,
+# quindi l'ottimizzazione interprocedurale si ferma comunque al confine di
+# questa libreria.
+#
+# Chi vuole LTO lo riattiva con -DSPLINES_ENABLE_LTO=ON.
+option( SPLINES_ENABLE_LTO "Enable interprocedural optimization / LTO" OFF )
 option( SPLINES_UNROLL_LOOPS "Enable explicit loop unrolling in Release builds" OFF )
 option(
   SPLINES_ENABLE_FAST_MATH
