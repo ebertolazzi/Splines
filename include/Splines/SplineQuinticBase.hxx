@@ -143,6 +143,10 @@ namespace Splines
         case Spline_sub_type::AKIMA: return SplineType1D::QUINTIC_AKIMA;
         case Spline_sub_type::VANLEER: return SplineType1D::QUINTIC_VANLEER;
         case Spline_sub_type::PCHIP: return SplineType1D::QUINTIC_PCHIP;
+        // The four cases above cover every enumerator, but the underlying
+        // type can hold other values, so without this branch control can
+        // reach the end of a function that must return (MSVC C4715).
+        default: SPLINE_error( "Unknown Spline_sub_type value\n" );
       }
     }
 
