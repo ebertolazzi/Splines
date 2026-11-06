@@ -770,7 +770,18 @@ function( splines_configure_target TARGET_NAME )
       $<$<CXX_COMPILER_ID:GNU>:-Wduplicated-cond>
       $<$<CXX_COMPILER_ID:GNU>:-Wduplicated-branches>
       $<$<CXX_COMPILER_ID:GNU>:-Wlogical-op>
-      $<$<CXX_COMPILER_ID:GNU>:-Wnull-dereference>
+      # -Wnull-dereference NON e' attivo con GCC.
+      #
+      # Con Eigen e -O3 e' una sorgente di falsi positivi: GCC segnala
+      # "potential null pointer dereference" dentro _mm_loadu_pd
+      # (emmintrin.h) al termine di catene di inlining lunghe decine di
+      # livelli attraverso Eigen, e nelle initial_points() dove un
+      # Vector::resize(n) e' seguito da x0(0) = ... — GCC non riesce a
+      # dedurre che dopo la resize il puntatore non e' nullo.  Il risultato
+      # sono centinaia di righe di diagnostica senza un solo difetto vero.
+      #
+      # Resta attivo con Clang, che su questo codice non ha il problema.
+      $<$<CXX_COMPILER_ID:Clang,AppleClang>:-Wnull-dereference>
       $<$<CXX_COMPILER_ID:GNU>:-Wmisleading-indentation>
       $<$<CXX_COMPILER_ID:MSVC>:/W4>
       # Vendored third-party headers (fmt, Eigen, autodiff, TinyAD, ...) come
