@@ -1014,6 +1014,14 @@ function( splines_add_platform_library_alias TARGET_NAME BASE_NAME )
     endif()
   else()
     set( TARGET_OUTPUT_NAME "${BASE_NAME}_${SPLINES_PLATFORM_SUFFIX}_static" )
+  # Con MSVC CMAKE_STATIC_LIBRARY_PREFIX e' vuoto, quindi senza questo il file
+  # si chiamerebbe <nome>_win64_static.lib mentre il resto della famiglia
+  # (UtilsLite, GenericContainer, embedFiglet, Regularized, CyclicReduction)
+  # produce lib<nome>_win64_static.lib.  Si aggiunge "lib" solo dove CMake non
+  # lo mette da solo, cosi' il nome e' lo stesso su tutte le piattaforme.
+    if ( WIN32 AND NOT CMAKE_STATIC_LIBRARY_PREFIX )
+      set( TARGET_OUTPUT_NAME "lib${TARGET_OUTPUT_NAME}" )
+    endif()
 
     if ( WIN32 )
       set( TARGET_REAL_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}${TARGET_OUTPUT_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}" )
