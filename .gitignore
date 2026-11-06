@@ -93,3 +93,8 @@ doc_quintic/*.toc
 doc_quintic/*.pdf
 json.hpp
 build-debug
+
+# Output dei test eseguiti dalla radice del repo (test17 e simili)
+/test*.csv
+/test*.json
+/test*.yaml
