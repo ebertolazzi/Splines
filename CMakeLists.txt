@@ -294,6 +294,32 @@ function( splines_checkout_matches_ref LOCAL_DIR EXPECTED_REF OUT_MATCH OUT_STAT
   set( _state "not a Git checkout" )
 
   if ( GIT_EXECUTABLE )
+    # Caso vendorizzato: la dipendenza non ha un .git proprio ma sta dentro lo
+    # stesso work tree di questo progetto (p.es. sources/submodules/GC dentro
+    # il repo di PINS). Li' `git -C` risponde con il branch del repo che la
+    # contiene, che non sara' mai uguale a un tag tipo 'GC2.0': senza questo
+    # controllo il checkout locale veniva scartato e si scaricava da GitHub.
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_CURRENT_SOURCE_DIR}" rev-parse --show-toplevel
+      RESULT_VARIABLE _self_root_result
+      OUTPUT_VARIABLE _self_root
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" -C "${LOCAL_DIR}" rev-parse --show-toplevel
+      RESULT_VARIABLE _local_root_result
+      OUTPUT_VARIABLE _local_root
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if ( _self_root_result EQUAL 0 AND _local_root_result EQUAL 0 AND
+         _self_root STREQUAL _local_root )
+      set( ${OUT_MATCH} TRUE PARENT_SCOPE )
+      set( ${OUT_STATE} "shared Git worktree" PARENT_SCOPE )
+      return()
+    endif()
+
     execute_process(
       COMMAND "${GIT_EXECUTABLE}" -C "${LOCAL_DIR}" symbolic-ref --quiet --short HEAD
       RESULT_VARIABLE _branch_result
