@@ -668,6 +668,11 @@ set( UTILS utils::UtilsLite_Static )
 #
 # This suppresses warnings from vendored or external dependency headers while
 # preserving warnings for Splines' own sources.
+# NON su MSVC: li' SYSTEM diventa /external:I, e con cl 19.38 basta questo a
+# far esplodere il back-end ("fatal error C1001", compiler file p2/main.c) su
+# header pesanti di Eigen e UtilsLite.  Stessa scelta gia' fatta in
+# PINSBuild.cmake; su Windows i warning di terze parti si tolgono dai flag.
+if ( NOT MSVC )
 foreach( _utils_tgt utils_UtilsLite_Static utils_UtilsLite )
   if ( TARGET ${_utils_tgt} )
     get_target_property( _utils_inc ${_utils_tgt} INTERFACE_INCLUDE_DIRECTORIES )
@@ -679,6 +684,7 @@ foreach( _utils_tgt utils_UtilsLite_Static utils_UtilsLite )
     endif()
   endif()
 endforeach()
+endif()
 
 # ============================================================================
 # quarticRootsFlocke dependency
