@@ -11,7 +11,8 @@
 #                                                                          #
 ############################################################################
 
-cmake_minimum_required( VERSION 3.25 )
+cmake_minimum_required(VERSION 3.28)
+include("${CMAKE_CURRENT_LIST_DIR}/CMakeLists_compiler.txt")
 
 # --------------------------------------------------------------------------
 # Apple FAT/universal build setup
@@ -84,6 +85,7 @@ project(
   HOMEPAGE_URL "https://ebertolazzi.github.io/Clothoids/"
   LANGUAGES CXX C
 )
+pins_configure_compiler()
 
 # MSVC: CMake seeds CMAKE_C_FLAGS/CMAKE_CXX_FLAGS with /W3, while the targets
 # below ask for /W4.  cl.exe then prints "command line warning D9025:
@@ -833,7 +835,6 @@ function( splines_configure_target TARGET_NAME )
       # so /W4 only reports this project's own code.
       $<$<CXX_COMPILER_ID:MSVC>:/external:anglebrackets>
       $<$<CXX_COMPILER_ID:MSVC>:/external:W0>
-      $<$<CXX_COMPILER_ID:MSVC>:/permissive->
       $<$<CXX_COMPILER_ID:MSVC>:/bigobj>
   )
 

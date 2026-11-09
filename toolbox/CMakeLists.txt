@@ -14,7 +14,7 @@
 #             paolo.bosetti@unitn.it                                    #
 #-----------------------------------------------------------------------#
 
-cmake_minimum_required( VERSION 3.14 )
+cmake_minimum_required(VERSION 3.28)
 
 option( UTILS_GIT_VERSION   "Get version from GIT command"           ON )
 option( UTILS_ENABLE_TESTS  "Enable compilation of testing targets"  ON )
@@ -140,10 +140,8 @@ endif()
 string(JOIN " " COMMON_CXX_FLAGS_STR ${COMMON_CXX_FLAGS})
 
 set(MSVC_COMPILE_FLAGS
-  # Niente /permissive: /std:c++20 attiva da solo /permissive-, mentre il
-  # vecchio /permissive esplicito lo annullava e rimetteva il compilatore in
-  # modalita' non conforme, dove la libreria standard C++20 di MSVC non e'
-  # supportata (ICE nei suoi header, p.es. <chrono>).
+  # Keep MSVC explicitly in standard-conforming mode.
+  "/permissive-"
   "/W4"
   "/w14242"
   "/w14254"
