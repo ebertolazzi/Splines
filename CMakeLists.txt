@@ -934,6 +934,10 @@ add_library(
 )
 add_library( Splines::Splines ALIAS Splines )
 
+# PINS links this static archive into shared libraries; compile its objects as
+# position-independent code for safe reuse by shared consumers.
+set_target_properties( Splines PROPERTIES POSITION_INDEPENDENT_CODE ON )
+
 # Place the main project artifact in lib/lib, matching the repository's local
 # build/install convention.
 splines_set_target_output_dirs( Splines lib/lib )
