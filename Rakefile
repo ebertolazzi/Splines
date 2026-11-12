@@ -34,8 +34,9 @@ end
 # vale "x86_64-pc-msys", "x64-mingw-ucrt" o "x86_64-w64-mingw32", e in qualche
 # installazione contiene "linux", nel qual caso il ramo /linux|cygwin/ scattava
 # per primo e la build si dichiarava Linux pur usando il toolchain MinGW.
-# MSYSTEM e' esportata da MSYS2 in ogni sua shell, quindi la si guarda prima.
-OS = if !ENV['MSYSTEM'].to_s.empty? then :mingw
+# MSYSTEM e' esportata da MSYS2 in ogni sua shell, quindi la si guarda prima;
+# MSYSTEM=MSYS e' la shell POSIX e NON va trattata come MinGW.
+OS = if %w(UCRT64 MINGW64 MINGW32 CLANG64 CLANG32 CLANGARM64).include?(ENV['MSYSTEM'].to_s.upcase) then :mingw
      else
        case RUBY_PLATFORM
        when /darwin/ then :mac
