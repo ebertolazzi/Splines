@@ -13,6 +13,18 @@ require 'rake/clean'
 require 'etc'
 require 'shellwords'
 
+# Maximum number of parallel compile jobs. GCC/MSVC can need a couple of GB per
+# C++20 translation unit, and an over-subscribed build is a classic source of
+# compiler crashes. PINS_MAX_CORE (or JOBS) caps it; 16 by default.
+def pins_jobs
+  cap = ENV['PINS_MAX_CORE'].to_i
+  cap = 16 if cap <= 0
+  n = ENV['JOBS'].to_i
+  n = Etc.nprocessors if n <= 0
+  [n, cap].min
+end
+
+
 # Avoid removing files named "core" from vendored headers.
 CLEAN.clear_exclude.exclude { |fn| fn.pathmap('%f').downcase == 'core' }
 
@@ -56,7 +68,7 @@ CMAKE_BUILD_PARALLEL_ARGS = begin
   if OS == :win
     ['--parallel']
   else
-    ['--parallel', Etc.nprocessors.to_s]
+    ['--parallel', pins_jobs.to_s]
   end
 end
 
